@@ -146,7 +146,7 @@ export default function HomePage() {
       </header>
 
       {/* Quick Actions - Bottom Left (offset on lg to avoid GalaxyNavigation, hidden during tour) */}
-      <div className={`absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 lg:left-6 lg:ml-60 md:right-auto z-30 flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 items-stretch md:items-center transition-all duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <div className={`absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 lg:left-80 md:right-auto z-30 flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 items-stretch md:items-center transition-all duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         <Link
           href="/work"
           className="ripple-button group w-full md:w-auto md:min-w-[200px] rounded-xl bg-white/40 backdrop-blur-xl border-[3px] border-white/80 text-white font-bold hover:bg-white/50 hover:border-white transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:scale-105 pointer-events-auto flex items-center justify-center gap-3 px-6 py-4 md:px-8"
