@@ -87,7 +87,7 @@ export function GalaxyGuide() {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="fixed bottom-4 right-4 md:bottom-52 md:right-10 z-50 group flex items-center gap-3 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:bg-white/20 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]"
+                    className="fixed bottom-20 right-4 md:bottom-64 md:right-10 z-50 group flex items-center gap-3 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:bg-white/20 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]"
                 >
                     <div className="relative">
                         <div className="absolute inset-0 bg-indigo-500 rounded-full blur-md opacity-50 animate-pulse" />
@@ -110,7 +110,7 @@ export function GalaxyGuide() {
                     className="fixed bottom-4 right-4 left-4 md:left-auto md:bottom-10 md:right-10 z-50 md:w-[400px] h-[70vh] md:h-[500px] flex flex-col rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]"
                 >
                     {/* Header */}
-                    <div className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-indigo-900/40 to-purple-900/40 backdrop-blur-xl">
+                    <div className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-xl">
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg relative overflow-hidden">
                                 <div className="absolute inset-0 bg-white/20 animate-pulse" />
@@ -133,7 +133,7 @@ export function GalaxyGuide() {
                     </div>
 
                     {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent bg-black/40 backdrop-blur-md">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent bg-black/90 backdrop-blur-md">
                         {/* Suggested Prompts */}
                         {showSuggestions && messages.length === 1 && (
                             <div className="flex flex-wrap gap-2 mb-4">
