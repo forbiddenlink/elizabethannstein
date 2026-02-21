@@ -160,7 +160,7 @@ export function GalaxyNavigation() {
 
               {/* Tour Options Menu */}
               {showTourMenu && (
-                <div className="mt-2 space-y-1 animate-fade-in">
+                <div className="mt-2 space-y-1 animate-fade-in max-h-[60vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
                   {/* Default Galaxy Tour */}
                   <button
                     onClick={() => {
