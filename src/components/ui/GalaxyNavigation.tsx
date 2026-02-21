@@ -160,7 +160,7 @@ export function GalaxyNavigation() {
 
               {/* Tour Options Menu */}
               {showTourMenu && (
-                <div className="absolute left-[calc(100%+0.5rem)] top-0 w-64 space-y-1 animate-fade-in max-h-[360px] overflow-y-auto overflow-x-hidden bg-black/80 backdrop-blur-xl rounded-xl p-2 border border-white/10 shadow-2xl" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent' }}>
+                <div className="absolute left-full top-0 ml-2 w-64 space-y-1 animate-fade-in max-h-[360px] overflow-y-auto overflow-x-hidden bg-black/80 backdrop-blur-xl rounded-xl p-2 border border-white/10 shadow-2xl" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent' }}>
                   {/* Default Galaxy Tour */}
                   <button
                     onClick={() => {
