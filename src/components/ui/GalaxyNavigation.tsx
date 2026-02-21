@@ -20,7 +20,7 @@ export function GalaxyNavigation() {
   return (
     <div className="fixed left-6 top-[380px] z-40 hidden lg:block">
       {/* Animated border container */}
-      <div className="relative rounded-2xl p-[1px] overflow-hidden">
+      <div className="relative rounded-2xl p-[1px] overflow-visible">
         {/* Animated gradient border */}
         <div
           className="absolute inset-0 rounded-2xl opacity-50"
@@ -160,7 +160,7 @@ export function GalaxyNavigation() {
 
               {/* Tour Options Menu */}
               {showTourMenu && (
-                <div className="mt-2 space-y-1 animate-fade-in max-h-[60vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                <div className="mt-2 space-y-1 animate-fade-in max-h-[50vh] overflow-y-auto overflow-x-hidden" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent' }}>
                   {/* Default Galaxy Tour */}
                   <button
                     onClick={() => {
