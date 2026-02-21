@@ -39,6 +39,7 @@ const MorphingShape = dynamic(() => import('@/components/ui/MorphingShape').then
 
 export default function HomePage() {
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
+  const hasEntered = useViewStore((state) => state.hasEntered)
 
   return (
     <main className="relative w-full h-screen overflow-hidden bg-black">
