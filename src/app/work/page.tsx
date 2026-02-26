@@ -6,13 +6,13 @@ import { WorkPageClient } from '@/components/work/WorkPageClient'
 
 export const metadata: Metadata = {
   title: 'Projects & Work - Elizabeth Stein Portfolio',
-  description: 'Full-stack development, AI integration, and design systems work across 40+ projects with 1,200+ automated tests.',
+  description: 'Full-stack development, AI integration, and design systems work across 40+ projects with 1,200+ automated tests. Browse the portfolio.',
   alternates: {
     canonical: '/work',
   },
   openGraph: {
     title: 'Projects & Work - Elizabeth Stein Portfolio',
-    description: 'Full-stack development, AI integration, and design systems work across 40+ projects with 1,200+ automated tests.',
+    description: 'Full-stack development, AI integration, and design systems work across 40+ projects with 1,200+ automated tests. Browse the portfolio.',
     url: '/work',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
