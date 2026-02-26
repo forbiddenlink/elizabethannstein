@@ -5,28 +5,28 @@ import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import Image from 'next/image'
 
 // Map project IDs to their screenshot paths
-// Screenshots should be 1280x720 PNG files in public/screenshots/
+// Screenshots should be 1280x720 files in public/screenshots/
 const PROJECT_SCREENSHOTS: Record<string, string> = {
   'flo-labs': '/screenshots/flo-labs.png',
-  'caipo-ai': '/screenshots/caipo-ai.png',
-  'finance-quest': '/screenshots/finance-quest.png',
+  'caipo-ai': '/screenshots/caipo-ai.webp',
+  'finance-quest': '/screenshots/finance-quest.webp',
   'portfolio-pro': '/screenshots/portfolio-pro.png',
   'stancestream': '/screenshots/stance-stream.png',
-  'explainthiscode': '/screenshots/explain-this-code.png',
+  'explainthiscode': '/screenshots/explain-this-code.webp',
   'moodchanger-ai': '/screenshots/moodchanger-ai.png',
   'hephaestus': '/screenshots/hephaestus.png',
-  'robocollective-ai': '/screenshots/robocollective-ai.png',
+  'robocollective-ai': '/screenshots/robocollective-ai.webp',
   'tubedigest': '/screenshots/tubedigest.png',
-  'contradictme': '/screenshots/contradictme.png',
+  'contradictme': '/screenshots/contradictme.webp',
   'create-surveys': '/screenshots/create-surveys.png',
-  'reprise': '/screenshots/reprise.png',
+  'reprise': '/screenshots/reprise.webp',
   'componentcompass': '/screenshots/componentcompass.png',
   'security-trainer': '/screenshots/security-trainer.png',
   'goodstuff-foodtruck': '/screenshots/goodstuff-foodtruck.png',
   'pollyglot': '/screenshots/pollyglot.png',
   'guts-and-glory': '/screenshots/guts-and-glory.png',
-  'plant-therapy': '/screenshots/plant-therapy.png',
-  'timeslip-search': '/screenshots/timeslip-search.png',
+  'plant-therapy': '/screenshots/plant-therapy.webp',
+  'timeslip-search': '/screenshots/timeslip-search.webp',
 }
 
 interface ProjectCaseStudyProps {
