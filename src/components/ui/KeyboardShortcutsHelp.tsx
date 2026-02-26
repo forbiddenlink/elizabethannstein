@@ -27,7 +27,8 @@ export function KeyboardShortcutsHelp() {
         className="fixed bottom-4 right-4 z-40 min-w-[44px] min-h-[44px] w-11 h-11 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 flex items-center justify-center text-white/70 hover:text-white text-sm font-bold"
         aria-label="Show keyboard shortcuts"
       >
-        ?
+        <span aria-hidden="true">?</span>
+        <span className="sr-only">Show keyboard shortcuts</span>
       </button>
     )
   }

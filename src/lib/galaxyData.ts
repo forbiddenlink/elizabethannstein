@@ -381,7 +381,6 @@ export const galaxies: Galaxy[] = [
         brightness: 1.9,
         size: 'large',
         galaxy: 'ai',
-        links: { live: 'https://storyvision.vercel.app' },
         featured: true,
         dateRange: '2025',
         challenge: 'Transforming long-form text content into cohesive visual narratives while maintaining character and style consistency across hundreds of generated images.',
