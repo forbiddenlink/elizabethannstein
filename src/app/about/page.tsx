@@ -305,7 +305,12 @@ export default function AboutPage() {
       {/* Footer */}
       <footer className="border-t border-white/[var(--border-opacity-default)] py-8 relative z-10 bg-black/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-white/[var(--text-opacity-muted)] text-sm">
-          <p>© {new Date().getFullYear()} Elizabeth Stein. Built with Next.js, React, Three.js, and a lot of coffee.</p>
+          <div className="flex items-center gap-4">
+            <p>&copy; {new Date().getFullYear()} Elizabeth Stein.</p>
+            <Link href="/privacy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
           <div className="flex items-center gap-4">
             <a
               href="https://github.com/forbiddenlink"

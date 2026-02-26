@@ -9,10 +9,10 @@ export const CONTACT = {
 export const SITE = {
   name: 'Elizabeth Stein',
   title: 'Full-Stack Developer & AI Integration Specialist',
-  fullTitle: 'Elizabeth Stein | Full-Stack Developer & AI Integration Specialist',
+  fullTitle: 'Elizabeth Stein | Full-Stack & AI Developer',
   description: 'Full-stack development, AI integration, design systems, and enterprise-scale applications. Explore 60 projects across 6 galaxies with 1,200+ automated tests.',
   shortDescription: 'Full-stack development, AI integration, design systems, and enterprise-scale applications.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethstein.com',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
   keywords: [
     'Full-Stack Developer',
     'AI Integration',

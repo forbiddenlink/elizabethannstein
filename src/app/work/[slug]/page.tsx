@@ -72,6 +72,10 @@ export default async function ProjectPage({
 
   return (
     <div className="min-h-screen bg-black text-white relative">
+      {/* Skip Link for Accessibility */}
+      <a href="#project-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium">
+        Skip to main content
+      </a>
       <StarryBackground />
 
       {/* Navigation Header */}
@@ -109,7 +113,7 @@ export default async function ProjectPage({
       </header>
 
       {/* Main Content with top padding for fixed header */}
-      <div className="pt-32 pb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
+      <main id="project-content" className="pt-32 pb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
         <ProjectCaseStudy project={project} />
 
         {/* Navigation Footer */}
@@ -145,14 +149,17 @@ export default async function ProjectPage({
             </TiltCard>
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 mt-24 relative z-10 bg-black/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-white/40 mb-6 font-mono text-sm">
-            © {new Date().getFullYear()} Elizabeth Stein.
+          <p className="text-white/40 mb-4 font-mono text-sm">
+            &copy; {new Date().getFullYear()} Elizabeth Stein.
           </p>
+          <Link href="/privacy" className="text-white/40 hover:text-white/70 transition-colors text-sm">
+            Privacy Policy
+          </Link>
         </div>
       </footer>
     </div>

@@ -160,7 +160,7 @@ export function Entrance() {
 
                         {/* Main title with letter animation */}
                         <div className="space-y-4">
-                            <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter">
+                            <div className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter" aria-hidden="true">
                                 <div className="overflow-hidden flex items-center justify-center gap-4">
                                     {/* Decorative star icon */}
                                     <motion.div
@@ -191,7 +191,7 @@ export function Entrance() {
                                         ))}
                                     </span>
                                 </div>
-                            </h1>
+                            </div>
 
                             {/* Enhanced gradient line under name */}
                             <motion.div

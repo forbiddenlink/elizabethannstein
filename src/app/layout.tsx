@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   title: SITE.fullTitle,
   description: SITE.description,
   metadataBase: new URL(SITE.url),
+  alternates: {
+    canonical: '/',
+  },
   // icons: {
   //   icon: '/favicon.svg',
   //   shortcut: '/favicon.svg',
@@ -83,6 +86,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="">
       <head>
+        <meta charSet="UTF-8" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
