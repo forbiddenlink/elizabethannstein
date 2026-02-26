@@ -4,15 +4,16 @@ import { Code2, Palette, Cpu, Sparkles, Github, Linkedin } from 'lucide-react'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 
 export const metadata: Metadata = {
-  title: 'About | Elizabeth Stein',
+  title: 'About Me - Elizabeth Stein Portfolio',
   description: 'Full-stack engineer and UX-minded builder specializing in modern web experiences, AI integration, and thoughtful design systems.',
   alternates: {
     canonical: '/about',
   },
   openGraph: {
-    title: 'About | Elizabeth Stein',
+    title: 'About Me - Elizabeth Stein Portfolio',
     description: 'Full-stack engineer and UX-minded builder specializing in modern web experiences, AI integration, and thoughtful design systems.',
     url: '/about',
+    images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
 }
 
@@ -284,18 +285,18 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/[var(--text-opacity-tertiary)] hover:text-white transition-colors"
-                aria-label="GitHub Profile"
               >
-                <Github className="w-6 h-6" />
+                <Github className="w-6 h-6" aria-hidden="true" />
+                <span className="sr-only">GitHub Profile</span>
               </a>
               <a
                 href="https://linkedin.com/in/imkindageeky"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/[var(--text-opacity-tertiary)] hover:text-white transition-colors"
-                aria-label="LinkedIn Profile"
               >
-                <Linkedin className="w-6 h-6" />
+                <Linkedin className="w-6 h-6" aria-hidden="true" />
+                <span className="sr-only">LinkedIn Profile</span>
               </a>
             </div>
           </section>
@@ -317,18 +318,18 @@ export default function AboutPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"
-              aria-label="GitHub"
             >
-              <Github className="w-5 h-5" />
+              <Github className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">GitHub</span>
             </a>
             <a
               href="https://linkedin.com/in/imkindageeky"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"
-              aria-label="LinkedIn"
             >
-              <Linkedin className="w-5 h-5" />
+              <Linkedin className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">LinkedIn</span>
             </a>
           </div>
         </div>

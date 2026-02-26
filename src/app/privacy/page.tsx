@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: 'Privacy Policy | Elizabeth Stein',
     description: 'Privacy policy for elizabethannstein.com. Learn how this portfolio site handles your data.',
     url: '/privacy',
+    images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
 }
 
@@ -168,18 +169,18 @@ export default function PrivacyPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"
-              aria-label="GitHub"
             >
-              <Github className="w-5 h-5" />
+              <Github className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">GitHub</span>
             </a>
             <a
               href="https://linkedin.com/in/imkindageeky"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"
-              aria-label="LinkedIn"
             >
-              <Linkedin className="w-5 h-5" />
+              <Linkedin className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">LinkedIn</span>
             </a>
           </div>
         </div>

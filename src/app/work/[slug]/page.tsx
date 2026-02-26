@@ -13,6 +13,38 @@ export async function generateStaticParams() {
   }))
 }
 
+function normalizeDescription(desc: string, tags?: string[]): string {
+  const MIN_LENGTH = 120
+  const MAX_LENGTH = 160
+
+  if (desc.length >= MIN_LENGTH && desc.length <= MAX_LENGTH) {
+    return desc
+  }
+
+  if (desc.length > MAX_LENGTH) {
+    return desc.slice(0, MAX_LENGTH - 3).trimEnd() + '...'
+  }
+
+  // Too short - append tech info
+  let result = desc
+  if (tags && tags.length > 0) {
+    const tagStr = ` Built with ${tags.slice(0, 3).join(', ')}.`
+    if (result.length + tagStr.length <= MAX_LENGTH) {
+      result += tagStr
+    }
+  }
+
+  // Still too short - add generic suffix
+  if (result.length < MIN_LENGTH) {
+    const suffix = ' View project details and implementation.'
+    if (result.length + suffix.length <= MAX_LENGTH) {
+      result += suffix
+    }
+  }
+
+  return result
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -25,15 +57,17 @@ export async function generateMetadata({
     return {}
   }
 
+  const metaDescription = normalizeDescription(project.description, project.tags)
+
   return {
-    title: `${project.title} | Elizabeth Stein`,
-    description: project.description,
+    title: `${project.title} - Project by Elizabeth Stein`,
+    description: metaDescription,
     alternates: {
       canonical: `/work/${project.id}`,
     },
     openGraph: {
       title: project.title,
-      description: project.description,
+      description: metaDescription,
       url: `/work/${project.id}`,
       images: [
         {
@@ -47,7 +81,7 @@ export async function generateMetadata({
     twitter: {
       card: 'summary_large_image',
       title: project.title,
-      description: project.description,
+      description: metaDescription,
       images: [`/api/og/${project.id}`],
     },
   }

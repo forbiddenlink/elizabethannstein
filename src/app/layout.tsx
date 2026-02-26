@@ -85,14 +85,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="">
-      <head>
-        <meta charSet="UTF-8" />
+      <body className={` bg-black text-white antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body className={` bg-black text-white antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
         <SmoothScroll />
         <WarpTransition />
         <NebulaCursor />

@@ -181,6 +181,11 @@ export default function HomePage() {
             <kbd className="text-white/60 text-xs bg-white/10 px-1.5 py-0.5 rounded">H</kbd>
             <span className="drop-shadow-md">Home</span>
           </p>
+          <div className="pt-2 border-t border-white/10 mt-2">
+            <Link href="/privacy" className="text-white/40 hover:text-white/70 transition-colors text-xs">
+              Privacy Policy
+            </Link>
+          </div>
         </nav>
       </FadeIn>
       {/* Entrance Overlay - MUST BE LAST to sit on top of everything until dismissed */}
