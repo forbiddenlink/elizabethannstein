@@ -27,6 +27,8 @@ const PROJECT_SCREENSHOTS: Record<string, string> = {
   'guts-and-glory': '/screenshots/guts-and-glory.png',
   'plant-therapy': '/screenshots/plant-therapy.webp',
   'timeslip-search': '/screenshots/timeslip-search.webp',
+  'mythos': '/screenshots/mythos.webp',
+  'quantum-forge': '/screenshots/quantum-forge.webp',
 }
 
 interface ProjectCaseStudyProps {
@@ -154,9 +156,10 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <Image
                 src={screenshotPath}
                 alt={`${project.title} application interface`}
-                fill
+                width={1280}
+                height={800}
                 priority
-                className="object-cover object-top"
+                className="object-cover object-top w-full h-full absolute inset-0"
                 sizes="(max-width: 768px) 100vw, 896px"
               />
             ) : (
