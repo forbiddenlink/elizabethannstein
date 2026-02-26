@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { galaxies, allProjects } from '@/lib/galaxyData'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethstein.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com'
 
   // Static routes
   const routes = [
