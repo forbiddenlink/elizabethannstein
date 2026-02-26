@@ -153,7 +153,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             {screenshotPath ? (
               <Image
                 src={screenshotPath}
-                alt={`Screenshot of ${project.title}`}
+                alt={`${project.title} application interface`}
                 fill
                 priority
                 className="object-cover object-top"

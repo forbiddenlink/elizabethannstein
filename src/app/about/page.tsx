@@ -308,6 +308,10 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-white/[var(--text-opacity-muted)] text-sm">
           <div className="flex items-center gap-4">
             <p>&copy; {new Date().getFullYear()} Elizabeth Stein.</p>
+            <Link href="/contact" className="hover:text-white transition-colors">
+              Contact
+            </Link>
+            <span className="text-white/30">·</span>
             <Link href="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
