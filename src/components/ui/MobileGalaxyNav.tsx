@@ -7,7 +7,7 @@ import { useViewStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
 // Touch target minimum size (44x44px for accessibility)
-const TOUCH_TARGET_SIZE = 'min-h-[44px] min-w-[44px]'
+const TOUCH_TARGET_SIZE = 'min-h-11 min-w-11'
 
 export function MobileGalaxyNav() {
   const view = useViewStore((state) => state.view)
@@ -67,7 +67,7 @@ export function MobileGalaxyNav() {
                   'flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200',
                   TOUCH_TARGET_SIZE,
                   activeTab === 'tours'
-                    ? 'bg-gradient-to-r from-indigo-500/30 to-purple-500/30 text-indigo-300 shadow-lg'
+                    ? 'bg-linear-to-r from-indigo-500/30 to-purple-500/30 text-indigo-300 shadow-lg'
                     : 'text-white/60 active:bg-white/10'
                 )}
               >

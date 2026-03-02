@@ -17,7 +17,7 @@ export default function NotFound() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="text-[12rem] font-bold leading-none bg-gradient-to-b from-white to-white/10 bg-clip-text text-transparent select-none"
+                        className="text-[12rem] font-bold leading-none bg-linear-to-b from-white to-white/10 bg-clip-text text-transparent select-none"
                     >
                         404
                     </motion.h1>
@@ -64,7 +64,7 @@ export default function NotFound() {
                 >
                     <Link
                         href="/"
-                        className="group relative inline-flex items-center gap-2 min-h-[44px] px-8 py-4 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+                        className="group relative inline-flex items-center gap-2 min-h-11 px-8 py-4 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
                     >
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform text-purple-400" />
                         <span>Return to Mission Control</span>
@@ -74,7 +74,7 @@ export default function NotFound() {
             </div>
 
             {/* Decorative Planet */}
-            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-gradient-to-br from-purple-900/40 to-blue-900/10 rounded-full blur-3xl opacity-50" />
+            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-linear-to-br from-purple-900/40 to-blue-900/10 rounded-full blur-3xl opacity-50" />
         </div>
     )
 }

@@ -62,7 +62,7 @@ function StarParticles() {
 }
 
 // Animated letter component
-function AnimatedLetter({ char, index, total }: { char: string; index: number; total: number }) {
+function AnimatedLetter({ char, index, total }: Readonly<{ char: string; index: number; total: number }>) {
     return (
         <motion.span
             className="inline-block"
@@ -167,10 +167,10 @@ export function Entrance() {
                                         initial={{ opacity: 0, scale: 0, rotate: -180 }}
                                         animate={{ opacity: 1, scale: 1, rotate: 0 }}
                                         transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                                        className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex-shrink-0"
+                                        className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 shrink-0"
                                     >
-                                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400 to-indigo-600 animate-pulse" />
-                                        <div className="absolute inset-1 rounded-full bg-gradient-to-br from-fuchsia-300 to-purple-500" />
+                                        <div className="absolute inset-0 rounded-full bg-linear-to-br from-purple-400 to-indigo-600 animate-pulse" />
+                                        <div className="absolute inset-1 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
                                         <div className="absolute inset-[6px] rounded-full bg-white/80" />
                                         <motion.div
                                             className="absolute inset-0 rounded-full border-2 border-purple-400/50"
@@ -178,14 +178,14 @@ export function Entrance() {
                                             transition={{ duration: 2, repeat: Infinity }}
                                         />
                                     </motion.div>
-                                    <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                                    <span className="bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
                                         {firstName.split('').map((char, i) => (
                                             <AnimatedLetter key={i} char={char} index={i} total={firstName.length} />
                                         ))}
                                     </span>
                                 </div>
                                 <div className="overflow-hidden">
-                                    <span className="bg-gradient-to-r from-purple-200 via-white to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                                    <span className="bg-linear-to-r from-purple-200 via-white to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
                                         {lastName.split('').map((char, i) => (
                                             <AnimatedLetter key={i} char={char} index={firstName.length + i} total={lastName.length} />
                                         ))}
@@ -198,7 +198,7 @@ export function Entrance() {
                                 initial={{ scaleX: 0, opacity: 0 }}
                                 animate={{ scaleX: 1, opacity: 1 }}
                                 transition={{ duration: 1, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                                className="h-[3px] w-full max-w-lg mx-auto bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+                                className="h-[3px] w-full max-w-lg mx-auto bg-linear-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_20px_rgba(168,85,247,0.5)]"
                             />
                         </div>
 
@@ -226,7 +226,7 @@ export function Entrance() {
                             transition={{ duration: 0.5, delay: 1.8 }}
                             onClick={handleEnter}
                             disabled={isEntering}
-                            className="group relative mt-4 px-14 py-6 md:px-16 md:py-7 bg-gradient-to-r from-indigo-600/30 to-purple-600/30 border-2 border-indigo-500/40 hover:border-indigo-400/60 rounded-full backdrop-blur-xl overflow-hidden transition-all duration-500 shadow-2xl shadow-indigo-500/20"
+                            className="group relative mt-4 px-14 py-6 md:px-16 md:py-7 bg-linear-to-r from-indigo-600/30 to-purple-600/30 border-2 border-indigo-500/40 hover:border-indigo-400/60 rounded-full backdrop-blur-xl overflow-hidden transition-all duration-500 shadow-2xl shadow-indigo-500/20"
                         >
                             {/* Animated border glow */}
                             <motion.div
@@ -279,7 +279,7 @@ export function Entrance() {
                         <motion.div
                             animate={{ y: [0, -5, 0] }}
                             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                            className="w-[1px] h-12 bg-gradient-to-b from-transparent to-white/30"
+                            className="w-[1px] h-12 bg-linear-to-b from-transparent to-white/30"
                         />
                         <span className="text-[10px] tracking-[0.4em] text-white/30 uppercase">
                             Click to enter

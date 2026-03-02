@@ -4,7 +4,6 @@ import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { NebulaCursor } from '@/components/ui/NebulaCursor'
 import { WarpTransition } from '@/components/ui/WarpTransition'
-// import { StarryBackground } from '@/components/ui/StarryBackground'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { SITE, CONTACT } from '@/lib/constants'
 import '@/app/globals.css'
@@ -30,11 +29,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
-  // icons: {
-  //   icon: '/favicon.svg',
-  //   shortcut: '/favicon.svg',
-  //   apple: '/favicon.svg',
-  // },
   keywords: [...SITE.keywords],
   authors: [{ name: SITE.name }],
   creator: SITE.name,
@@ -84,8 +78,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="">
-      <body className={` bg-black text-white antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en">
+      <body className={`bg-black text-white antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

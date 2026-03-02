@@ -36,6 +36,11 @@ const SpotlightCursor = dynamic(() => import('@/components/ui/SpotlightCursor').
 const ParticleTrail = dynamic(() => import('@/components/ui/ParticleTrail').then(m => ({ default: m.ParticleTrail })), { ssr: false })
 const MorphingShape = dynamic(() => import('@/components/ui/MorphingShape').then(m => ({ default: m.MorphingShape })), { ssr: false })
 
+function getVisibilityClasses(isJourneyMode: boolean, hasEntered: boolean): string {
+  if (isJourneyMode) return 'opacity-0 pointer-events-none'
+  if (hasEntered) return 'opacity-100 translate-y-0'
+  return 'opacity-0 translate-y-4'
+}
 
 export default function HomePage() {
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
@@ -119,12 +124,12 @@ export default function HomePage() {
         <div className="glass-card rounded-2xl p-4 md:p-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 tracking-tight leading-tight drop-shadow-2xl flex items-center gap-3 md:gap-4">
             {/* Star icon */}
-            <span className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex-shrink-0 inline-flex items-center justify-center">
-              <span className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400 to-indigo-600 animate-pulse" />
-              <span className="absolute inset-1 rounded-full bg-gradient-to-br from-fuchsia-300 to-purple-500" />
-              <span className="absolute inset-[5px] rounded-full bg-white/80" />
+            <span className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 shrink-0 inline-flex items-center justify-center">
+              <span className="absolute inset-0 rounded-full bg-linear-to-br from-purple-400 to-indigo-600 animate-pulse" />
+              <span className="absolute inset-1 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
+              <span className="absolute inset-1.25 rounded-full bg-white/80" />
             </span>
-            <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
               <AnimatedText type="chars" stagger={0.05}>
                 Elizabeth Stein
               </AnimatedText>
@@ -136,7 +141,7 @@ export default function HomePage() {
             </p>
             <Link
               href="/about"
-              className="pointer-events-auto inline-flex items-center min-h-[44px] px-2 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 rounded"
+              className="pointer-events-auto inline-flex items-center min-h-11 px-2 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 rounded"
             >
               More about me →
             </Link>
@@ -146,10 +151,10 @@ export default function HomePage() {
       </header>
 
       {/* Quick Actions - Bottom Left (offset on lg to avoid GalaxyNavigation, hidden during tour) */}
-      <div className={`absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 lg:left-80 md:right-auto z-30 flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 items-stretch md:items-center transition-all duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <div className={`absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 lg:left-80 md:right-auto z-30 flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 items-stretch md:items-center transition-all duration-500 ${getVisibilityClasses(isJourneyMode, hasEntered)}`}>
         <Link
           href="/work"
-          className="ripple-button group w-full md:w-auto md:min-w-[200px] rounded-xl bg-white/40 backdrop-blur-xl border-[3px] border-white/80 text-white font-bold hover:bg-white/50 hover:border-white transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:scale-105 pointer-events-auto flex items-center justify-center gap-3 px-6 py-4 md:px-8"
+          className="ripple-button group w-full md:w-auto md:min-w-50 rounded-xl bg-white/40 backdrop-blur-xl border-[3px] border-white/80 text-white font-bold hover:bg-white/50 hover:border-white transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:scale-105 pointer-events-auto flex items-center justify-center gap-3 px-6 py-4 md:px-8"
         >
           <span className="whitespace-nowrap leading-none">View all work</span>
           <span className="inline-block transition-transform group-hover:translate-x-1 leading-none">→</span>

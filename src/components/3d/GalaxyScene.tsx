@@ -283,7 +283,7 @@ export default function GalaxyScene() {
 
   // Static fallback for browsers without WebGL support
   const WebGLFallback = (
-    <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-black via-indigo-950 to-black">
+    <div className="w-full h-full flex items-center justify-center bg-linear-to-b from-black via-indigo-950 to-black">
       <div className="text-center p-8 max-w-lg">
         <div className="text-6xl mb-4">*</div>
         <h2 className="text-2xl font-bold text-white mb-4">Welcome to My Portfolio</h2>

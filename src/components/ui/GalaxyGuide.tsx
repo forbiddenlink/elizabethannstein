@@ -7,9 +7,13 @@ import { cn } from '@/lib/utils'
 import { useViewStore } from '@/lib/store'
 
 interface Message {
+    id: string
     role: 'user' | 'assistant'
     content: string
 }
+
+let messageId = 0
+function nextId() { return `msg-${++messageId}` }
 
 export function GalaxyGuide() {
     // ALL hooks must be called before any early returns to follow React's rules of hooks
@@ -17,7 +21,7 @@ export function GalaxyGuide() {
     const view = useViewStore((state) => state.view)
     const [isOpen, setIsOpen] = useState(false)
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'assistant', content: "Greetings! I am your Galaxy Guide. How can I assist you in navigating Elizabeth's universe of code today?" }
+        { id: nextId(), role: 'assistant', content: "Greetings! I am your Galaxy Guide. How can I assist you in navigating Elizabeth's universe of code today?" }
     ])
     const [showSuggestions, setShowSuggestions] = useState(true)
 
@@ -56,7 +60,7 @@ export function GalaxyGuide() {
         const userMsg = inputValue.trim()
         setInputValue('')
         setShowSuggestions(false)
-        setMessages(prev => [...prev, { role: 'user', content: userMsg }])
+        setMessages(prev => [...prev, { id: nextId(), role: 'user', content: userMsg }])
         setIsLoading(true)
 
         try {
@@ -72,10 +76,10 @@ export function GalaxyGuide() {
 
             const data = await response.json()
 
-            setMessages(prev => [...prev, { role: 'assistant', content: data.content }])
+            setMessages(prev => [...prev, { id: nextId(), role: 'assistant', content: data.content }])
         } catch (error) {
             console.error(error)
-            setMessages(prev => [...prev, { role: 'assistant', content: "I apologize, but I'm encountering some interference in the communication link. Please try again." }])
+            setMessages(prev => [...prev, { id: nextId(), role: 'assistant', content: "I apologize, but I'm encountering some interference in the communication link. Please try again." }])
         } finally {
             setIsLoading(false)
         }
@@ -87,6 +91,7 @@ export function GalaxyGuide() {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
+                    aria-label="Open Galaxy Guide"
                     className="fixed bottom-20 right-4 md:bottom-64 md:right-10 z-50 group flex items-center gap-3 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:bg-white/20 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]"
                 >
                     <div className="relative">
@@ -107,12 +112,12 @@ export function GalaxyGuide() {
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="fixed bottom-4 right-4 left-4 md:left-auto md:bottom-10 md:right-10 z-50 md:w-[400px] h-[70vh] md:h-[500px] flex flex-col rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]"
+                    className="fixed bottom-4 right-4 left-4 md:left-auto md:bottom-10 md:right-10 z-50 md:w-100 h-[70vh] md:h-125 flex flex-col rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]"
                 >
                     {/* Header */}
-                    <div className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-xl">
+                    <div className="flex items-center justify-between p-4 border-b border-white/10 bg-linear-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-xl">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg relative overflow-hidden">
+                            <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg relative overflow-hidden">
                                 <div className="absolute inset-0 bg-white/20 animate-pulse" />
                                 <Bot className="w-5 h-5 text-white relative z-10" />
                             </div>
@@ -127,6 +132,7 @@ export function GalaxyGuide() {
                         <button
                             onClick={() => setIsOpen(false)}
                             className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+                            aria-label="Close galaxy guide"
                         >
                             <X className="w-5 h-5" />
                         </button>
@@ -137,9 +143,9 @@ export function GalaxyGuide() {
                         {/* Suggested Prompts */}
                         {showSuggestions && messages.length === 1 && (
                             <div className="flex flex-wrap gap-2 mb-4">
-                                {suggestedPrompts.map((prompt, idx) => (
+                                {suggestedPrompts.map((prompt) => (
                                     <button
-                                        key={idx}
+                                        key={prompt}
                                         onClick={() => {
                                             setInputValue(prompt)
                                             setShowSuggestions(false)
@@ -151,17 +157,17 @@ export function GalaxyGuide() {
                                 ))}
                             </div>
                         )}
-                        {messages.map((msg, idx) => (
+                        {messages.map((msg) => (
                             <div
-                                key={idx}
+                                key={msg.id}
                                 className={cn(
                                     "flex gap-3 max-w-[85%]",
                                     msg.role === 'user' ? "ml-auto flex-row-reverse" : ""
                                 )}
                             >
                                 <div className={cn(
-                                    "w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-lg mt-1",
-                                    msg.role === 'user' ? "bg-white/10" : "bg-gradient-to-br from-indigo-500 to-purple-600"
+                                    "w-8 h-8 rounded-full shrink-0 flex items-center justify-center shadow-lg mt-1",
+                                    msg.role === 'user' ? "bg-white/10" : "bg-linear-to-br from-indigo-500 to-purple-600"
                                 )}>
                                     {msg.role === 'user' ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
                                 </div>
@@ -177,7 +183,7 @@ export function GalaxyGuide() {
                         ))}
                         {isLoading && (
                             <div className="flex gap-3 max-w-[85%]">
-                                <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg mt-1">
+                                <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center bg-linear-to-br from-indigo-500 to-purple-600 shadow-lg mt-1">
                                     <Bot className="w-4 h-4 text-white" />
                                 </div>
                                 <div className="p-3.5 rounded-2xl bg-indigo-950/40 text-indigo-50 rounded-tl-sm backdrop-blur-sm border border-indigo-500/20 flex items-center gap-2">
@@ -204,6 +210,7 @@ export function GalaxyGuide() {
                                 type="submit"
                                 disabled={!inputValue.trim() || isLoading}
                                 className="absolute right-2 p-1.5 rounded-lg bg-indigo-600 text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-500 transition-colors"
+                                aria-label="Send message"
                             >
                                 <Send className="w-4 h-4" />
                             </button>

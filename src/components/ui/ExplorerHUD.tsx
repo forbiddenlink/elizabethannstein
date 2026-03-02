@@ -6,7 +6,7 @@ import { galaxies, getGalaxyById } from '@/lib/galaxyData'
 import { useScanTarget } from '@/components/3d/ScanSystem'
 
 // Touch target minimum size (44x44px for accessibility)
-const TOUCH_TARGET_SIZE = 'min-h-[44px] min-w-[44px]'
+const TOUCH_TARGET_SIZE = 'min-h-11 min-w-11'
 
 // Detect touch device
 function useIsTouchDevice() {

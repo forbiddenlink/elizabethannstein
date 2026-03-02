@@ -20,7 +20,7 @@ export function StarryBackground() {
                     <ambientLight intensity={0.5} />
                 </Suspense>
             </Canvas>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80" />
+            <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/20 to-black/80" />
         </div>
     )
 }

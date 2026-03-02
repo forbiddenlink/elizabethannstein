@@ -122,7 +122,7 @@ export function LoadingProgress({ onComplete }: LoadingProgressProps) {
       <div className="w-64 max-w-full">
         <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mb-4">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            className="h-full rounded-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3, ease: 'easeOut' }}

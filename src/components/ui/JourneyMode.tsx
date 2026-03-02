@@ -210,7 +210,7 @@ export function JourneyCameraController() {
 }
 
 // Touch target minimum size (44x44px for accessibility)
-const TOUCH_TARGET_SIZE = 'min-h-[44px] min-w-[44px]'
+const TOUCH_TARGET_SIZE = 'min-h-11 min-w-11'
 
 // Detect mobile device
 function useIsMobile() {
@@ -290,7 +290,7 @@ export function JourneyOverlay() {
               <div className="flex items-center gap-3 p-4">
                 {/* Tour badge or galaxy indicator */}
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
                   style={{
                     backgroundColor: `${currentStop.galaxyColor}20`,
                     border: `2px solid ${currentStop.galaxyColor}50`

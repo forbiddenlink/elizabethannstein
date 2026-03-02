@@ -204,6 +204,7 @@ export function MinimapNavigator() {
           onClick={() => setIsExpanded(!isExpanded)}
           className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-black/70 rounded-lg border border-white/10 transition-colors"
           title={isExpanded ? 'Minimize' : 'Expand'}
+          aria-label={isExpanded ? 'Minimize minimap' : 'Expand minimap'}
         >
           {isExpanded ? (
             <Minimize2 className="w-4 h-4 text-white" />

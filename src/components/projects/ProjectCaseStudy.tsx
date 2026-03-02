@@ -1,6 +1,7 @@
 import type { Project } from '@/lib/types'
 import { formatDateRange } from '@/lib/utils'
-import { ExternalLink, Github } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
+import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import Image from 'next/image'
 
@@ -32,7 +33,37 @@ const PROJECT_SCREENSHOTS: Record<string, string> = {
 }
 
 interface ProjectCaseStudyProps {
-  project: Project
+  readonly project: Project
+}
+
+function getChallengeText(project: Project): string {
+  if (project.challenge) return project.challenge
+  if (project.metrics?.files) {
+    const teamPart = project.metrics.team ? ` across a team of ${project.metrics.team} developers` : ''
+    return `Building and maintaining a large-scale application with ${project.metrics.files.toLocaleString()} files${teamPart}.`
+  }
+  return 'Building a production-ready application that delivers real value while maintaining code quality and user experience.'
+}
+
+function getSolutionText(project: Project): string {
+  if (project.solution) return project.solution
+  if (project.tags.includes('AI')) {
+    const techStack = project.tags.filter(t => ['Next.js', 'React', 'TypeScript', 'Supabase', 'OpenAI', 'Claude'].includes(t)).join(', ') || 'modern web technologies'
+    return `Built with ${techStack}, integrating AI capabilities for enhanced functionality.`
+  }
+  return `Architected with ${project.tags.slice(0, 3).join(', ')}, focusing on performance, accessibility, and maintainability.`
+}
+
+function getImpactText(project: Project): string {
+  if (project.impact) return project.impact
+  if (project.metrics?.tests) {
+    const userPart = project.metrics.users ? `Serving ${project.metrics.users}.` : 'Production-ready and deployed.'
+    return `${project.metrics.tests} automated tests ensuring reliability. ${userPart}`
+  }
+  if (project.links?.live) {
+    return 'Successfully deployed to production and actively maintained. Built with modern best practices for performance and accessibility.'
+  }
+  return `Completed as a learning project, demonstrating proficiency in ${project.tags.slice(0, 2).join(' and ')}.`
 }
 
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
@@ -44,7 +75,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
       <header className="mb-12">
         <div className="flex items-start justify-between gap-6 mb-6">
           <div className="flex-1">
-            <h1 className="text-5xl md:text-6xl font-bold mb-3 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent leading-tight">{project.title}</h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-3 bg-linear-to-r from-white to-white/80 bg-clip-text text-transparent leading-tight">{project.title}</h1>
             {project.company && (
               <p className="text-2xl text-white/70 font-medium">{project.company}</p>
             )}
@@ -67,7 +98,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* Description */}
       <div className="mb-12">
-        <h2 className="text-3xl font-semibold mb-6 bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">Overview</h2>
+        <h2 className="text-3xl font-semibold mb-6 bg-linear-to-r from-white to-white/70 bg-clip-text text-transparent">Overview</h2>
         <p className="text-xl leading-relaxed text-white/90 font-light mb-6">
           {project.description}
         </p>
@@ -80,10 +111,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <span>Challenge</span>
             </h3>
             <p className="text-white/70 leading-relaxed">
-              {project.challenge || (project.metrics?.files ?
-                `Building and maintaining a large-scale application with ${project.metrics.files.toLocaleString()} files${project.metrics.team ? ` across a team of ${project.metrics.team} developers` : ''}.` :
-                `Building a production-ready application that delivers real value while maintaining code quality and user experience.`
-              )}
+              {getChallengeText(project)}
             </p>
           </div>
 
@@ -93,25 +121,17 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <span>Solution</span>
             </h3>
             <p className="text-white/70 leading-relaxed">
-              {project.solution || (project.tags.includes('AI') ?
-                `Built with ${project.tags.filter(t => ['Next.js', 'React', 'TypeScript', 'Supabase', 'OpenAI', 'Claude'].includes(t)).join(', ') || 'modern web technologies'}, integrating AI capabilities for enhanced functionality.` :
-                `Architected with ${project.tags.slice(0, 3).join(', ')}, focusing on performance, accessibility, and maintainability.`
-              )}
+              {getSolutionText(project)}
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:border-white/30" style={{ boxShadow: `0 0 30px ${project.color}20` }}>
+          <div className="bg-linear-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:border-white/30" style={{ boxShadow: `0 0 30px ${project.color}20` }}>
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
               <span className="text-2xl">📈</span>
               <span>Impact</span>
             </h3>
             <p className="text-white/70 leading-relaxed">
-              {project.impact || (project.metrics?.tests ?
-                `${project.metrics.tests} automated tests ensuring reliability. ${project.metrics.users ? `Serving ${project.metrics.users}.` : 'Production-ready and deployed.'}` :
-                project.links?.live ?
-                  `Successfully deployed to production and actively maintained. Built with modern best practices for performance and accessibility.` :
-                  `Completed as a learning project, demonstrating proficiency in ${project.tags.slice(0, 2).join(' and ')}.`
-              )}
+              {getImpactText(project)}
             </p>
           </div>
         </div>
@@ -138,7 +158,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-8 py-4 border-2 border-white/30 rounded-xl hover:bg-white/10 hover:border-white/50 hover:scale-105 transition-all duration-200 font-semibold backdrop-blur-sm"
             >
-              <Github className="w-5 h-5" />
+              <GitHubIcon className="w-5 h-5" />
               <span>Source Code</span>
             </a>
           )}
@@ -147,7 +167,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* Live Preview with Screenshot or Generative Schematic */}
       <div className="mb-16">
-        <h2 className="text-3xl font-semibold mb-8 bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-semibold mb-8 bg-linear-to-r from-white to-white/70 bg-clip-text text-transparent">
           {screenshotPath ? 'Live Preview' : 'System Architecture'}
         </h2>
         <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/40 backdrop-blur-sm relative group">
@@ -163,7 +183,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 sizes="(max-width: 768px) 100vw, 896px"
               />
             ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-black to-gray-900">
+              <div className="absolute inset-0 bg-linear-to-br from-black to-gray-900">
                 <GenerativeHero name={project.title} color={project.color} />
               </div>
             )}
@@ -242,15 +262,15 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   )
 }
 
-function MetricCard({ label, value, color }: { label: string; value: string; color?: string }) {
+function MetricCard({ label, value, color }: Readonly<{ label: string; value: string; color?: string }>) {
   return (
     <div
-      className="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 hover:border-white/30 hover:from-white/15 hover:to-white/10 transition-all duration-200"
+      className="bg-linear-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 hover:border-white/30 hover:from-white/15 hover:to-white/10 transition-all duration-200"
       style={{
         boxShadow: color ? `0 0 20px ${color}15` : undefined,
       }}
     >
-      <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">{value}</div>
+      <div className="text-3xl font-bold mb-2 bg-linear-to-r from-white to-white/80 bg-clip-text text-transparent">{value}</div>
       <div className="text-sm text-white/60 font-medium uppercase tracking-wider">{label}</div>
     </div>
   )

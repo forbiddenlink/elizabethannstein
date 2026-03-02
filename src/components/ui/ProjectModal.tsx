@@ -96,12 +96,12 @@ export function ProjectModal() {
         }}
       >
         {/* Glass morphism inner glow */}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none z-10" />
+        <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none z-10" />
 
         {/* Generative Modal Background/Header */}
         <div className="absolute inset-x-0 top-0 h-64 overflow-hidden rounded-t-3xl opacity-20 mask-image-linear-to-b">
           <GenerativeHero name={project.title} color={project.color} />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
+          <div className="absolute inset-0 bg-linear-to-b from-transparent to-black" />
         </div>
 
         {/* Animated border glow with project color */}

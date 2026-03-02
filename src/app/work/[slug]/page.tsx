@@ -2,10 +2,11 @@ import { allProjects, getProjectById } from '@/lib/galaxyData'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import Link from 'next/link' // Check if Link is imported, if not use a tag or import it. The original file uses 'a' tags. Better to use Link.
+import Link from 'next/link'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { SITE } from '@/lib/constants'
 
 export async function generateStaticParams() {
   return allProjects.map((project) => ({
@@ -14,42 +15,26 @@ export async function generateStaticParams() {
 }
 
 function normalizeDescription(desc: string, tags?: string[]): string {
-  const MIN_LENGTH = 120
-  const MAX_LENGTH = 160
+  const MIN = 120
+  const MAX = 160
 
-  if (desc.length >= MIN_LENGTH && desc.length <= MAX_LENGTH) {
-    return desc
-  }
+  if (desc.length > MAX) return desc.slice(0, MAX - 3).trimEnd() + '...'
+  if (desc.length >= MIN) return desc
 
-  if (desc.length > MAX_LENGTH) {
-    return desc.slice(0, MAX_LENGTH - 3).trimEnd() + '...'
-  }
+  const techSuffix = tags?.length ? ` Built with ${tags.slice(0, 3).join(', ')}.` : ''
+  const result = desc + techSuffix
+  if (result.length > MAX) return desc
+  if (result.length >= MIN) return result
 
-  // Too short - append tech info
-  let result = desc
-  if (tags && tags.length > 0) {
-    const tagStr = ` Built with ${tags.slice(0, 3).join(', ')}.`
-    if (result.length + tagStr.length <= MAX_LENGTH) {
-      result += tagStr
-    }
-  }
-
-  // Still too short - add generic suffix
-  if (result.length < MIN_LENGTH) {
-    const suffix = ' View project details and implementation.'
-    if (result.length + suffix.length <= MAX_LENGTH) {
-      result += suffix
-    }
-  }
-
-  return result
+  const full = result + ' View project details and implementation.'
+  return full.length <= MAX ? full : result
 }
 
 export async function generateMetadata({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ slug: string }>
-}): Promise<Metadata> {
+}>): Promise<Metadata> {
   const { slug } = await params
   const project = getProjectById(slug)
 
@@ -89,9 +74,9 @@ export async function generateMetadata({
 
 export default async function ProjectPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ slug: string }>
-}) {
+}>) {
   const { slug } = await params
   const project = getProjectById(slug)
 
@@ -104,41 +89,62 @@ export default async function ProjectPage({
   const nextProject = allProjects[(currentIndex + 1) % allProjects.length]
   const prevProject = allProjects[(currentIndex - 1 + allProjects.length) % allProjects.length]
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    description: project.description,
+    url: `${SITE.url}/work/${project.id}`,
+    author: {
+      '@type': 'Person',
+      name: SITE.name,
+      url: SITE.url,
+    },
+    ...(project.dateRange && { dateCreated: project.dateRange }),
+    ...(project.tags && { keywords: project.tags.join(', ') }),
+    ...(project.links?.live && { mainEntityOfPage: project.links.live }),
+    ...(project.links?.github && { codeRepository: project.links.github }),
+  }
+
   return (
     <div className="min-h-screen bg-black text-white relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Skip Link for Accessibility */}
-      <a href="#project-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium">
+      <a href="#project-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium">
         Skip to main content
       </a>
       <StarryBackground />
 
       {/* Navigation Header */}
       <header className="fixed top-0 left-0 right-0 z-50 animate-in slide-in-from-top-4 duration-500">
-        <div className="mx-auto px-6 py-4 flex items-center justify-between backdrop-blur-md bg-black/40 border-b border-white/10">
+        <div className="mx-auto px-6 py-4 flex items-center justify-between backdrop-blur-md bg-black/40 border-b border-white/(--border-opacity-default)">
           <Link
             href="/"
-            className="flex items-center gap-3 group min-h-[44px] min-w-[44px] p-2"
+            className="flex items-center gap-3 group min-h-11 min-w-11 p-2"
           >
             {/* Star icon */}
-            <span className="relative w-7 h-7 flex-shrink-0 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400 to-indigo-600" />
-              <span className="absolute inset-0.5 rounded-full bg-gradient-to-br from-fuchsia-300 to-purple-500" />
-              <span className="absolute inset-[4px] rounded-full bg-white/80" />
+            <span className="relative w-7 h-7 shrink-0 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <span className="absolute inset-0 rounded-full bg-linear-to-br from-purple-400 to-indigo-600" />
+              <span className="absolute inset-0.5 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
+              <span className="absolute inset-1 rounded-full bg-white/80" />
             </span>
-            <span className="text-2xl font-bold bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent group-hover:from-purple-200 group-hover:via-white group-hover:to-purple-200 transition-all duration-300">
+            <span className="text-base sm:text-2xl font-bold bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent group-hover:from-purple-200 group-hover:via-white group-hover:to-purple-200 transition-all duration-300">
               Elizabeth Stein
             </span>
           </Link>
-          <nav className="flex items-center gap-8">
+          <nav className="flex items-center gap-3 sm:gap-8">
             <Link
               href="/work"
-              className="text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium hover:scale-105 min-h-[44px] px-4 py-3 inline-flex items-center"
+              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium hover:scale-105 min-h-11 px-4 py-3 inline-flex items-center rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
             >
               ← All Projects
             </Link>
             <Link
               href="/about"
-              className="px-4 py-3 min-h-[44px] inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm font-medium hover:scale-105"
+              className="px-4 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
             >
               About
             </Link>
@@ -186,12 +192,12 @@ export default async function ProjectPage({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-12 mt-24 relative z-10 bg-black/20 backdrop-blur-sm">
+      <footer className="border-t border-white/(--border-opacity-default) py-12 mt-24 relative z-10 bg-black/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-white/40 mb-4 font-mono text-sm">
+          <p className="text-white/(--text-opacity-muted) mb-4 font-mono text-sm">
             &copy; {new Date().getFullYear()} Elizabeth Stein.
           </p>
-          <Link href="/privacy" className="text-white/40 hover:text-white/70 transition-colors text-sm">
+          <Link href="/privacy" className="text-white/(--text-opacity-muted) hover:text-white/(--text-opacity-secondary) transition-colors text-sm">
             Privacy Policy
           </Link>
         </div>

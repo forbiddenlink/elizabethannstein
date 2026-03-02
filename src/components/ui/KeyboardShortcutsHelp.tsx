@@ -24,7 +24,7 @@ export function KeyboardShortcutsHelp() {
     return (
       <button
         onClick={() => setIsVisible(true)}
-        className="fixed bottom-4 right-4 z-40 min-w-[44px] min-h-[44px] w-11 h-11 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 flex items-center justify-center text-white/70 hover:text-white text-sm font-bold"
+        className="fixed bottom-4 right-4 z-40 min-w-11 min-h-11 w-11 h-11 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 flex items-center justify-center text-white/70 hover:text-white text-sm font-bold"
         aria-label="Show keyboard shortcuts"
       >
         <span aria-hidden="true">?</span>
@@ -45,10 +45,10 @@ export function KeyboardShortcutsHelp() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative bg-gradient-to-br from-black/90 to-black/70 border border-white/20 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+        <div className="relative bg-linear-to-br from-black/90 to-black/70 border border-white/20 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
         <button
           onClick={() => setIsVisible(false)}
-          className="absolute top-4 right-4 p-2 min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200"
+          className="absolute top-4 right-4 p-2 min-w-11 min-h-11 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200"
           aria-label="Close"
         >
           <X className="w-5 h-5" />

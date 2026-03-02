@@ -3,10 +3,11 @@
 import Link from 'next/link'
 import { useViewStore } from '@/lib/store'
 import { getProjectById } from '@/lib/galaxyData'
-import { ExternalLink, Github, X, FileText } from 'lucide-react'
+import { ExternalLink, X, FileText } from 'lucide-react'
+import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { KineticTitle } from './KineticTitle'
 
-export function HolographicProjectPanel({ show }: { show: boolean }) {
+export function HolographicProjectPanel({ show }: Readonly<{ show: boolean }>) {
   const selectedProject = useViewStore((state) => state.selectedProject)
   const reset = useViewStore((state) => state.reset)
   const project = selectedProject ? getProjectById(selectedProject) : null
@@ -25,7 +26,7 @@ export function HolographicProjectPanel({ show }: { show: boolean }) {
       >
         {/* Scanline effect */}
         <div className="absolute inset-0 pointer-events-none opacity-10">
-          <div className="h-full w-full bg-gradient-to-b from-transparent via-white to-transparent animate-pulse" style={{ backgroundSize: '100% 4px' }} />
+          <div className="h-full w-full bg-linear-to-b from-transparent via-white to-transparent animate-pulse" style={{ backgroundSize: '100% 4px' }} />
         </div>
 
         {/* Close button */}
@@ -123,7 +124,7 @@ export function HolographicProjectPanel({ show }: { show: boolean }) {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-white/10 transition-all duration-200 border-white/30 text-white/70 hover:text-white"
               >
-                <Github className="w-4 h-4" />
+                <GitHubIcon className="w-4 h-4" />
                 <span className="font-mono text-sm">SOURCE</span>
               </a>
             )}

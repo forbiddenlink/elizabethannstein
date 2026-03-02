@@ -1,11 +1,11 @@
 # 🌌 Galaxy Portfolio
 
-Elizabeth Stein's interactive 3D portfolio - an Awwwards-quality experience showcasing 60+ projects across 6 galaxies with planetary exploration.
+Elizabeth Stein's interactive 3D portfolio - an Awwwards-quality experience showcasing 68 projects across 6 galaxies with planetary exploration.
 
 ## ✨ Features
 
 ### 🚀 3D Galaxy Experience
-- **Interactive Solar System**: Navigate 60+ projects represented as realistic planets
+- **Interactive Solar System**: Navigate 68 projects represented as realistic planets
 - **Planetary Exploration**: Land on planets and walk around in first-person mode (WASD controls)
 - **Cinematic Animations**: GSAP-powered camera transitions and landing sequences
 - **Procedural Planets**: GLSL shaders with realistic atmospheres, clouds, and ring systems
@@ -34,17 +34,17 @@ Elizabeth Stein's interactive 3D portfolio - an Awwwards-quality experience show
 
 ```bash
 # Install dependencies
-npm install  # or: pnpm install, bun install
+pnpm install
 
 # Copy environment template
 cp .env.example .env.local
 
 # Run development server
-npm run dev
+pnpm dev
 
 # Build for production
-npm run build
-npm run start
+pnpm build
+pnpm start
 ```
 
 Visit [http://localhost:3000](http://localhost:3000)
@@ -58,61 +58,59 @@ Visit [http://localhost:3000](http://localhost:3000)
 - **State**: Zustand
 - **Fonts**: Space Grotesk, JetBrains Mono (Google Fonts)
 
-## 🌟 What's Built
-
-- ✅ Full 3D galaxy visualization with realistic planet shaders
-- ✅ First-person planetary exploration mode with WASD controls
-- ✅ Command Palette with search and quick actions
-- ✅ Keyboard navigation and shortcuts
-- ✅ Deep linking support (`/?p=[project-id]`)
-- ✅ `/work` list view (SSG, crawlable)
-- ✅ `/work/[slug]` case study pages (SSG with OG images)
-- ✅ Sitemap + robots.txt generation
-- ✅ JSON-LD structured data for SEO
-- ✅ Contact section with email/LinkedIn/GitHub
-- ✅ Resume download button
-- ✅ Google Analytics integration
-- ✅ Error boundaries for WebGL fallback
-- ✅ PWA manifest
-
 ## 📁 Project Structure
 
 ```
 src/
 ├── app/
-│   ├── layout.tsx              # Root layout + SEO + Error Boundary
+│   ├── layout.tsx              # Root layout + SEO + JSON-LD
 │   ├── page.tsx                # 3D Galaxy homepage
-│   ├── globals.css             # Tailwind + custom styles
+│   ├── globals.css             # Tailwind v4 + design tokens
+│   ├── loading.tsx             # Loading state
+│   ├── not-found.tsx           # 404 page
 │   ├── sitemap.ts              # Auto-generated sitemap
 │   ├── robots.ts               # SEO robots config
 │   ├── manifest.ts             # PWA manifest
+│   ├── opengraph-image.tsx     # Dynamic OG image generation
+│   ├── about/
+│   │   └── page.tsx            # About page with JSON-LD
+│   ├── contact/
+│   │   └── page.tsx            # Contact page
+│   ├── privacy/
+│   │   └── page.tsx            # Privacy policy
 │   └── work/
-│       ├── page.tsx            # SSG list view
+│       ├── page.tsx            # SSG project list view
 │       └── [slug]/
-│           └── page.tsx        # SSG case studies with OG images
+│           └── page.tsx        # SSG case studies
 ├── components/
 │   ├── 3d/
 │   │   ├── GalaxyScene.tsx           # Main 3D container
 │   │   ├── RealisticPlanet.tsx       # Procedural planet shaders
 │   │   ├── PlanetSurfaceExplorer.tsx # First-person exploration
-│   │   ├── SpaceshipLanding.tsx      # Cinematic landing animation
-│   │   └── CameraController.tsx      # GSAP camera transitions
+│   │   ├── NebulaBackground.tsx      # Nebula particle effects
+│   │   └── WebGPUCanvas.tsx          # WebGPU-ready renderer
 │   ├── ui/
 │   │   ├── CommandPalette.tsx        # CMD+K quick actions
 │   │   ├── KeyboardNavigation.tsx    # Arrow key controls
 │   │   ├── ProjectModal.tsx          # Project detail modal
 │   │   ├── ContactSection.tsx        # Email/social links
+│   │   ├── SocialIcons.tsx           # Custom SVG social icons
 │   │   ├── ResumeDownload.tsx        # Resume PDF download
 │   │   ├── ExplorationOverlay.tsx    # Planetary exploration UI
+│   │   ├── GalaxyGuide.tsx           # AI chat assistant
 │   │   └── HolographicProjectPanel.tsx
 │   ├── projects/
 │   │   └── ProjectCaseStudy.tsx      # Shared case study component
+│   ├── work/
+│   │   └── WorkPageClient.tsx        # Client-side work page
 │   ├── Analytics.tsx                 # Google Analytics
 │   └── ErrorBoundary.tsx             # WebGL fallback
 └── lib/
     ├── types.ts                # TypeScript interfaces
-    ├── galaxyData.ts           # Single source of truth (60+ projects)
+    ├── galaxyData.ts           # Single source of truth (68 projects)
+    ├── constants.ts            # Design tokens and constants
     ├── store.ts                # Zustand state management
+    ├── easings.ts              # Animation easing functions
     └── utils.ts                # Helper functions
 ```
 
@@ -124,10 +122,13 @@ Create `.env.local`:
 
 ```env
 # Required
-NEXT_PUBLIC_SITE_URL=https://elizabethstein.com
+NEXT_PUBLIC_SITE_URL=https://elizabethannstein.com
 
 # Optional - Google Analytics
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# Optional - Galaxy Guide AI chat
+MINMAX_API_KEY=your-key-here
 ```
 
 ### Customization
@@ -167,20 +168,14 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 - **CMD/CTRL + K**: Open command palette
 - **?**: Show keyboard shortcuts help
 
-## 🎮 Exploration Mode
-
-Use Command Palette (CMD+K) → "🚀 Explore [Project]" to:
-- Watch cinematic landing animation
-- Walk around planet surface with **WASD controls**
-- **Mouse**: Look around (pointer lock)
-- View holographic project details
-- Leave footprint trails
-
 ## 🔗 Routes
 
 - `/` - 3D Galaxy experience (lazy-loaded)
 - `/work` - Project list view (SSG, fast path)
 - `/work/[slug]` - Individual project pages (SSG)
+- `/about` - About page with structured data
+- `/contact` - Contact information
+- `/privacy` - Privacy policy
 - `/sitemap.xml` - Auto-generated sitemap
 - `/robots.txt` - SEO configuration
 
@@ -205,19 +200,11 @@ Use Command Palette (CMD+K) → "🚀 Explore [Project]" to:
 
 ```bash
 # Build
-npm run build
+pnpm build
 
 # Deploy to Vercel (recommended)
 vercel deploy
 ```
-
-## 📝 Notes
-
-**Single Source of Truth**: All project data in `src/lib/galaxyData.ts`
-
-**Deep Linking**: 3D selection updates URL with `/?p=[slug]`. Canonical URL is `/work/[slug]`
-
-**State Management**: Zustand store tracks view state (universe | galaxy | project | exploration)
 
 ---
 

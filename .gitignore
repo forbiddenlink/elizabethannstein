@@ -11,12 +11,24 @@ tsconfig.tsbuildinfo
 .env.local
 .env*.local
 
+# OS files
+.DS_Store
+Thumbs.db
+
 # Editor/IDE
 .history/
 .vscode/
 
+# Python
+venv/
+__pycache__/
+*.pyc
+
 # Testing
 .playwright-mcp/
+
+# Code analysis
+.codacy/
 
 # VS Code AI rules
 .github/instructions/codacy.instructions.md

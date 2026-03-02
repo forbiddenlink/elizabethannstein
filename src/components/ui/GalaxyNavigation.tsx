@@ -5,6 +5,12 @@ import { galaxies, narrativeTours } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
+function getGalaxyLabel(galaxy: { id: string; name: string }): string {
+  if (galaxy.id === 'ai') return 'AI'
+  if (galaxy.id === 'experimental') return 'Lab'
+  return galaxy.name.split(' ')[0]
+}
+
 export function GalaxyNavigation() {
   const view = useViewStore((state) => state.view)
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
@@ -18,9 +24,9 @@ export function GalaxyNavigation() {
   if (view === 'exploration' || isJourneyMode) return null
 
   return (
-    <div className="fixed left-6 top-[380px] z-40 hidden lg:block">
+    <div className="fixed left-6 top-95 z-40 hidden lg:block">
       {/* Animated border container */}
-      <div className="relative rounded-2xl p-[1px] overflow-visible">
+      <div className="relative rounded-2xl p-px overflow-visible">
         {/* Animated gradient border */}
         <div
           className="absolute inset-0 rounded-2xl opacity-50"
@@ -42,7 +48,7 @@ export function GalaxyNavigation() {
           }}
         >
           {/* Glass morphism inner glow */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
+          <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
 
           {/* Subtle animated glow */}
           <div
@@ -57,7 +63,7 @@ export function GalaxyNavigation() {
             <button
               onClick={reset}
               className={cn(
-                'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-[44px]',
+                'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11',
                 view === 'universe'
                   ? 'bg-white/20 shadow-lg scale-105 backdrop-blur-sm'
                   : 'hover:bg-white/10 hover:scale-105'
@@ -73,7 +79,7 @@ export function GalaxyNavigation() {
               </span>
             </button>
 
-            <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-0" />
+            <div className="h-px bg-linear-to-r from-transparent via-white/20 to-transparent my-0" />
 
             {/* Galaxy buttons */}
             {galaxies.map((galaxy) => (
@@ -81,7 +87,7 @@ export function GalaxyNavigation() {
                 key={galaxy.id}
                 onClick={() => zoomToGalaxy(galaxy.id)}
                 className={cn(
-                  'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-[44px]',
+                  'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11',
                   selectedGalaxy === galaxy.id
                     ? 'bg-white/20 shadow-lg scale-105 backdrop-blur-sm'
                     : 'hover:bg-white/10 hover:scale-105'
@@ -99,12 +105,12 @@ export function GalaxyNavigation() {
                   }}
                 />
                 <span className="text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap leading-none">
-                  {galaxy.id === 'ai' ? 'AI' : galaxy.id === 'experimental' ? 'Lab' : galaxy.name.split(' ')[0]}
+                  {getGalaxyLabel(galaxy)}
                 </span>
               </button>
             ))}
 
-            <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-0" />
+            <div className="h-px bg-linear-to-r from-transparent via-white/20 to-transparent my-0" />
 
             {/* Tours Section */}
             <div className="relative">
@@ -112,10 +118,10 @@ export function GalaxyNavigation() {
               <button
                 onClick={() => setShowTourMenu(!showTourMenu)}
                 className={cn(
-                  'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-[44px] w-full',
+                  'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11 w-full',
                   showTourMenu
-                    ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20'
-                    : 'hover:bg-gradient-to-r hover:from-indigo-500/20 hover:to-purple-500/20 hover:scale-105'
+                    ? 'bg-linear-to-r from-indigo-500/20 to-purple-500/20'
+                    : 'hover:bg-linear-to-r hover:from-indigo-500/20 hover:to-purple-500/20 hover:scale-105'
                 )}
                 aria-label="Show tour options"
                 aria-expanded={showTourMenu}
@@ -160,7 +166,7 @@ export function GalaxyNavigation() {
 
               {/* Tour Options Menu */}
               {showTourMenu && (
-                <div className="absolute left-full top-0 ml-2 w-64 space-y-1 animate-fade-in max-h-[360px] overflow-y-auto overflow-x-hidden bg-black/80 backdrop-blur-xl rounded-xl p-2 border border-white/10 shadow-2xl" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent' }}>
+                <div className="absolute left-full top-0 ml-2 w-64 space-y-1 animate-fade-in max-h-90 overflow-y-auto overflow-x-hidden bg-black/80 backdrop-blur-xl rounded-xl p-2 border border-white/10 shadow-2xl" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent' }}>
                   {/* Default Galaxy Tour */}
                   <button
                     onClick={() => {

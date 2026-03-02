@@ -6,7 +6,33 @@ const MINMAX_API_URL = 'https://api.minimax.io/v1/text/chatcompletion_v2'
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json()
+    const body = await req.json()
+    const { messages } = body
+
+    // Input validation
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 50) {
+      return NextResponse.json(
+        { error: 'Invalid messages format' },
+        { status: 400 }
+      )
+    }
+
+    // Validate each message shape and sanitize
+    for (const msg of messages) {
+      if (!msg.role || !msg.content || typeof msg.content !== 'string') {
+        return NextResponse.json(
+          { error: 'Invalid message structure' },
+          { status: 400 }
+        )
+      }
+      if (msg.content.length > 2000) {
+        return NextResponse.json(
+          { error: 'Message too long' },
+          { status: 400 }
+        )
+      }
+    }
+
     const apiKey = process.env.MINMAX_API_KEY
 
     // Fallback if no API key - helpful for dev/demo without breaking
@@ -100,7 +126,6 @@ export async function POST(req: Request) {
     }
 
     const data = await response.json()
-    console.log('MiniMax API Response:', JSON.stringify(data, null, 2))
 
     // MiniMax response format parsing - handle multiple possible formats
     const replyContent =
