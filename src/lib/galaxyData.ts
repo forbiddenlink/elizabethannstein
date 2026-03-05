@@ -235,20 +235,28 @@ export const galaxies: Galaxy[] = [
       },
       {
         id: 'autodocs-ai',
-        title: 'AutoDocs AI',
-        description: 'AI-powered documentation platform that automatically generates and maintains comprehensive code documentation with RAG-powered chat interface.',
+        title: 'AutomaDocs',
+        description: 'Production SaaS AI documentation platform launched on Product Hunt. Automatically generates and maintains comprehensive code docs with RAG-powered chat, Tree-sitter parsing, and GitHub webhooks. Stripe-integrated with Pro ($35/mo), Team ($95/mo), and Business ($239/mo) tiers.',
         role: 'Creator',
-        tags: ['AI', 'Claude', 'Documentation', 'RAG', 'GitHub'],
+        tags: ['AI', 'Claude Sonnet', 'Tree-sitter', 'RAG', 'Stripe', 'PostgreSQL', 'Redis'],
         color: '#00D9FF',
-        brightness: 1.7,
-        size: 'large',
+        brightness: 2.0,
+        size: 'supermassive',
         galaxy: 'ai',
-        links: { live: 'https://automadocs.com', github: 'https://github.com/forbiddenlink/autodocs-ai' },
+        links: { 
+          live: 'https://automadocs.com', 
+          github: 'https://github.com/forbiddenlink/autodocs-ai',
+          productHunt: 'https://www.producthunt.com/posts/automadocs'
+        },
+        metrics: {
+          revenue: true,
+          launched: 'Product Hunt'
+        },
         featured: true,
-        dateRange: '2024',
-        challenge: 'Documentation becomes outdated the moment code changes. Manual doc maintenance is tedious and often skipped entirely.',
-        solution: 'Built an AI pipeline that analyzes code changes and automatically updates documentation. RAG-powered chat answers questions by searching through indexed codebase and docs.',
-        impact: 'Documentation stays in sync with code automatically. RAG chat reduces onboarding questions by 70%. Integrates with GitHub for continuous doc updates.',
+        dateRange: '2024-2026',
+        challenge: 'Documentation becomes outdated instantly. Manual maintenance is tedious and skipped. Need auto-sync on every git push plus intelligent Q&A.',
+        solution: 'Built AI pipeline with Claude for documentation generation, Tree-sitter for code parsing, RAG (Pinecone + BM25) for intelligent chat, GitHub webhooks for auto-sync, and full Stripe billing with 3 pricing tiers. Multi-language code sample generation.',
+        impact: 'Launched on Product Hunt. Live production SaaS with Stripe billing ($35-239/mo). Documentation auto-updates on git push. RAG chat reduces onboarding questions by 70%.',
       },
       {
         id: 'mcp-server-studio',
@@ -415,6 +423,78 @@ export const galaxies: Galaxy[] = [
     color: '#9D4EDD',
     size: 2,
     projects: [
+      {
+        id: 'hire-ready',
+        title: 'HireReady',
+        description: 'AI-powered interview practice platform with real-time voice interviews, performance analytics, and career coaching. Full Stripe integration with Pro ($15/mo) and Lifetime ($199) tiers. Prevents $21.75/mo loss per power user through usage limits.',
+        role: 'Creator',
+        tags: ['Next.js 15', 'Supabase', 'OpenAI Realtime', 'Stripe', 'Voice AI'],
+        color: '#9D4EDD',
+        brightness: 2.0,
+        size: 'large',
+        galaxy: 'fullstack',
+        links: { 
+          live: 'https://imhireready.com',
+          github: 'https://github.com/forbiddenlink/hire-ready'
+        },
+        metrics: { 
+          tests: 150,
+          revenue: true
+        },
+        featured: true,
+        dateRange: '2026',
+        challenge: 'Building a production SaaS with real-time AI voice interviews while preventing financial losses from unlimited usage.',
+        solution: 'Implemented OpenAI Realtime API for natural voice interviews, added usage limits per plan (10-20 interviews/month), integrated Stripe for billing ($15 Pro, $199 Lifetime), and built comprehensive analytics dashboard. Database migration tracks voice interview usage.',
+        impact: 'Live production SaaS generating revenue. 57-77% profit margins after implementing usage limits. Voice interview limits prevent $21.75/mo loss per power user. All 21 Vercel env vars configured correctly.',
+      },
+      {
+        id: 'ucp-guard',
+        title: 'UCP Guard',
+        description: 'Uptime monitoring SaaS for Google\'s Universal Commerce Protocol. 90% automated with scheduled scans, email/Slack alerts, and white-label reports for agencies. First monitoring service for UCP (8-week-old protocol). 99.7%+ profit margins.',
+        role: 'Creator',
+        tags: ['Next.js 16', 'Supabase', 'Vercel Cron', 'UCP Protocol', 'Monitoring'],
+        color: '#9D4EDD',
+        brightness: 1.9,
+        size: 'large',
+        galaxy: 'fullstack',
+        links: { 
+          live: 'https://ucpguard.com'
+        },
+        metrics: {
+          automation: '95%',
+          revenue: true
+        },
+        featured: true,
+        status: 'in-progress',
+        dateRange: '2026',
+        challenge: 'UCP protocol launched 8 weeks ago with zero monitoring tools. Agencies need to monitor 10-100 client sites but no service exists.',
+        solution: 'Built UCP validator (10KB engine), store management API, monitoring cron (runs every 5 min), Stripe checkout, and white-label reports. 95% self-running with Vercel cron + Stripe automation. All 27 env vars configured.',
+        impact: '90% ready for launch. First monitoring service for UCP (true white space). 99.7%+ profit margins ($0.30/user cost). Path to $25K ARR via agency tier. Cron endpoint verified working (200 OK).',
+      },
+      {
+        id: 'site-sheriff',
+        title: 'Site Sheriff',
+        description: 'Comprehensive website audit tool with 230+ checks across SEO, security, accessibility (axe-core 80+ rules), performance, and content. Agency-ready reports with CSV export, client email drafts, and SSRF protection. Recent security hardening.',
+        role: 'Creator',
+        tags: ['Next.js 16', 'Playwright', 'Axe-core', 'Supabase', 'SSRF Protection'],
+        color: '#9D4EDD',
+        brightness: 1.7,
+        size: 'large',
+        galaxy: 'fullstack',
+        links: { 
+          live: 'https://site-sheriff.vercel.app',
+          github: 'https://github.com/forbiddenlink/site-sheriff'
+        },
+        metrics: {
+          checks: 230,
+          score: '9.0/10'
+        },
+        featured: true,
+        dateRange: '2026',
+        challenge: 'Building a production-grade audit tool that matches Screaming Frog ($259/yr) and Ahrefs ($129/mo) while remaining free and adding agency features.',
+        solution: 'Implemented 230+ checks (SEO, security, a11y, performance), recent security hardening (SSRF protection, rate limiting, injection prevention), technology detection (34 frameworks), and agency-ready features (white-label reports, CSV export, client email drafts).',
+        impact: '9.0/10 production-ready. Most comprehensive free tool (100+ static + 80+ dynamic checks). Path to $25K ARR with agency white-label tier ($199/mo). All 6 core env vars configured.',
+      },
       {
         id: 'portfolio-pro',
         title: 'Portfolio-Pro',

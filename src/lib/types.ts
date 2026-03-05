@@ -16,12 +16,19 @@ export interface Project {
     tests?: number
     team?: number
     users?: string
+    revenue?: boolean
+    automation?: string
+    checks?: number
+    score?: string
+    launched?: string
   }
   links?: {
     live?: string
     github?: string
     case_study?: string
+    productHunt?: string
   }
+  status?: 'in-progress' | 'live' | 'archived'
   featured: boolean // For homepage highlights
   dateRange: string // "2023-2024", "2022", etc.
   challenge?: string // Custom challenge text for case study page
