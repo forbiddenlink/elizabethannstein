@@ -61,6 +61,24 @@ const badgeConfig: Record<BadgeType, {
 export function ProjectBadge({ type, className = '' }: ProjectBadgeProps) {
   const config = badgeConfig[type]
   
+  // Special glow animation for revenue badge
+  if (type === 'revenue') {
+    return (
+      <span 
+        className={`
+          inline-flex items-center gap-1.5 px-2.5 py-1 
+          rounded-full border backdrop-blur-sm
+          text-[10px] font-bold tracking-wider
+          ${config.color} ${config.bg} ${className}
+          animate-revenue-glow
+        `}
+      >
+        {config.icon && <span className="text-xs">{config.icon}</span>}
+        {config.label}
+      </span>
+    )
+  }
+  
   return (
     <span 
       className={`

@@ -149,10 +149,13 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               href={project.links.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-xl hover:bg-white/90 hover:scale-105 transition-all duration-200 font-semibold shadow-xl"
+              className="relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-xl hover:bg-white/90 hover:scale-105 transition-all duration-200 font-semibold shadow-xl overflow-hidden group"
             >
-              <ExternalLink className="w-5 h-5" />
-              <span>View Live</span>
+              {/* Animated glow on hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300 pointer-events-none" />
+              
+              <ExternalLink className="w-5 h-5 relative z-10" />
+              <span className="relative z-10">View Live</span>
             </a>
           )}
           {project.links.github && (

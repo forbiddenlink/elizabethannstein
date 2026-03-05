@@ -555,3 +555,70 @@ img:hover {
 .animate-fadeInUp {
   animation: fadeInUp 0.5s ease-out;
 }
+
+/* ===== ENHANCED ANIMATIONS (March 2026) ===== */
+
+/* Revenue badge animated glow */
+@keyframes revenueGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(234, 179, 8, 0.6);
+  }
+}
+
+.animate-revenue-glow {
+  animation: revenueGlow 2s ease-in-out infinite;
+}
+
+/* Animated gradient for text */
+@keyframes gradientFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-flow {
+  background-size: 200% auto;
+  animation: gradientFlow 8s ease infinite;
+}
+
+/* Shimmer effect for glass cards */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.glass-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
