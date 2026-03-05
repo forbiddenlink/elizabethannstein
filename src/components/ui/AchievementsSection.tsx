@@ -8,16 +8,16 @@ export function AchievementsSection() {
   const allProjects = galaxies.flatMap(g => g.projects)
   const liveProjects = allProjects.filter(p => p.links?.live).length
   const revenueProjects = allProjects.filter(p => p.metrics?.revenue).length
+  const contestWins = allProjects.filter(p => p.links?.contestWin).length
   const openSourceProjects = allProjects.filter(p => p.links?.github).length
   const totalTests = allProjects.reduce((sum, p) => sum + (p.metrics?.tests || 0), 0)
-  const craftProjects = galaxies.find(g => g.id === 'craft')?.projects.length || 0
   
   const achievements = [
+    { icon: '🏆', label: 'Contest Wins', value: contestWins },
     { icon: '🎯', label: 'Production-Ready', value: liveProjects },
     { icon: '💰', label: 'Revenue-Generating', value: revenueProjects },
     { icon: '📦', label: 'Open Source', value: openSourceProjects },
     { icon: '🧪', label: 'Tests Written', value: `${totalTests.toLocaleString()}+` },
-    { icon: '🎨', label: 'Craft CMS Projects', value: craftProjects },
   ]
   
   return (

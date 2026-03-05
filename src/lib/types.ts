@@ -27,6 +27,7 @@ export interface Project {
     github?: string
     case_study?: string
     productHunt?: string
+    contestWin?: string
   }
   status?: 'in-progress' | 'live' | 'archived'
   featured: boolean // For homepage highlights

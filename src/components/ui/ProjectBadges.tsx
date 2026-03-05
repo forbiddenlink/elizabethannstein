@@ -1,7 +1,7 @@
 import React from 'react'
 import type { Project } from '@/lib/types'
 
-export type BadgeType = 'live' | 'revenue' | 'featured' | 'ph-launch' | 'oss' | 'in-progress'
+export type BadgeType = 'live' | 'revenue' | 'featured' | 'ph-launch' | 'oss' | 'in-progress' | 'contest-winner'
 
 interface ProjectBadgeProps {
   type: BadgeType
@@ -49,6 +49,12 @@ const badgeConfig: Record<BadgeType, {
     color: 'text-gray-400',
     bg: 'bg-gray-500/20 border-gray-500/50',
     icon: '🔨'
+  },
+  'contest-winner': {
+    label: 'CONTEST WINNER',
+    color: 'text-amber-400',
+    bg: 'bg-amber-500/20 border-amber-500/50',
+    icon: '🏆'
   }
 }
 
@@ -74,6 +80,7 @@ export function ProjectBadges({ project }: { project: Project }) {
   const badges: BadgeType[] = []
   
   // Determine which badges to show
+  if (project.links?.contestWin) badges.push('contest-winner')
   if (project.links?.live) badges.push('live')
   if (project.metrics?.revenue) badges.push('revenue')
   if (project.links?.productHunt) badges.push('ph-launch')
