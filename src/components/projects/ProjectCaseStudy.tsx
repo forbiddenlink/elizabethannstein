@@ -1,5 +1,8 @@
+'use client'
+
 import type { Project } from '@/lib/types'
 import { formatDateRange } from '@/lib/utils'
+import { motion } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
@@ -108,8 +111,13 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         </p>
 
         {/* Challenge, Solution & Impact - use custom text if provided, otherwise generate from context */}
-        <div className="grid md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20">
+        <div className="grid md:grid-cols-2 gap-6 mt-8">
+          {/* Challenge */}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -4 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
+          >
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
               <span className="text-2xl">🎯</span>
               <span>Challenge</span>
@@ -117,9 +125,14 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             <p className="text-white/70 leading-relaxed">
               {getChallengeText(project)}
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20">
+          {/* Solution */}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -4 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
+          >
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
               <span className="text-2xl">⚡</span>
               <span>Solution</span>
@@ -127,17 +140,45 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             <p className="text-white/70 leading-relaxed">
               {getSolutionText(project)}
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-linear-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:border-white/30" style={{ boxShadow: `0 0 30px ${project.color}20` }}>
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="text-2xl">📈</span>
-              <span>Impact</span>
-            </h3>
-            <p className="text-white/70 leading-relaxed">
-              {getImpactText(project)}
-            </p>
-          </div>
+          {/* Impact - HERO CARD (spans full width) */}
+          <motion.div
+            whileHover={{ scale: 1.03, y: -8 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="md:col-span-2 relative bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md border-2 border-white/30 rounded-2xl p-8 overflow-hidden group"
+            style={{
+              boxShadow: `
+                0 0 40px ${project.color}40,
+                0 0 80px ${project.color}20,
+                inset 0 0 60px ${project.color}10
+              `
+            }}
+          >
+            {/* Animated glow ring */}
+            <div 
+              className="absolute inset-0 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
+              style={{ 
+                background: `radial-gradient(circle at 50% 50%, ${project.color}60, transparent 70%)`,
+                animation: 'pulse 3s ease-in-out infinite'
+              }}
+            />
+            
+            {/* Shimmer effect on hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+            
+            <div className="relative z-10">
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
+                <span className="text-4xl">📈</span>
+                <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                  Impact
+                </span>
+              </h3>
+              <p className="text-lg text-white/90 font-medium leading-relaxed">
+                {getImpactText(project)}
+              </p>
+            </div>
+          </motion.div>
         </div>
       </div>
 
