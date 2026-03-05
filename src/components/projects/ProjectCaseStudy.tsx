@@ -3,6 +3,7 @@ import { formatDateRange } from '@/lib/utils'
 import { ExternalLink } from 'lucide-react'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
+import { ProjectBadges } from '@/components/ui/ProjectBadges'
 import Image from 'next/image'
 
 // Map project IDs to their screenshot paths
@@ -90,10 +91,13 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           />
         </div>
 
-        <div className="flex flex-wrap gap-3 text-base text-white/70">
+        <div className="flex flex-wrap gap-3 text-base text-white/70 mb-4">
           <span className="px-3 py-1 bg-white/5 rounded-full">{project.role}</span>
           <span className="px-3 py-1 bg-white/5 rounded-full">{formatDateRange(project.dateRange)}</span>
         </div>
+
+        {/* Status Badges */}
+        <ProjectBadges project={project} />
       </header>
 
       {/* Description */}

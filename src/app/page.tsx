@@ -21,6 +21,7 @@ import { Entrance } from '@/components/ui/Entrance'
 import { LoadingProgress } from '@/components/ui/LoadingProgress'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { ScreenReaderAnnouncer } from '@/components/ui/ScreenReaderAnnouncer'
+import { AchievementsSection } from '@/components/ui/AchievementsSection'
 
 // Lazy load 3D scene - critical for < 200KB landing bundle
 const GalaxyScene = dynamic(() => import('@/components/3d/GalaxyScene'), {
@@ -149,6 +150,11 @@ export default function HomePage() {
           </FadeIn>
         </div>
       </header>
+
+      {/* Achievements Section - Below Header (hidden during tour) */}
+      <div className={`absolute top-[280px] md:top-[320px] left-4 right-4 md:left-10 md:right-auto md:max-w-3xl z-10 transition-opacity duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <AchievementsSection />
+      </div>
 
       {/* Quick Actions - Bottom Left (offset on lg to avoid GalaxyNavigation, hidden during tour) */}
       <div className={`absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 lg:left-80 md:right-auto z-30 flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 items-stretch md:items-center transition-all duration-500 ${getVisibilityClasses(isJourneyMode, hasEntered)}`}>
