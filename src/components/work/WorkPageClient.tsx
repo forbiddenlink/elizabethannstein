@@ -141,13 +141,19 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
               href="/"
               className="min-h-11 px-5 py-3 inline-flex items-center bg-surface-2 border border-white/(--border-opacity-default) hover:bg-surface-3 hover:border-white/(--border-opacity-strong) rounded-lg transition-all duration-normal text-white/(--text-opacity-secondary) hover:text-white text-sm"
             >
-              ← 3D View
+              ← Home
             </Link>
             <Link
               href="/about"
               className="min-h-11 px-5 py-3 inline-flex items-center bg-surface-2 border border-white/(--border-opacity-default) hover:bg-surface-3 hover:border-white/(--border-opacity-strong) rounded-lg transition-all duration-normal text-white/(--text-opacity-secondary) hover:text-white text-sm"
             >
               About
+            </Link>
+            <Link
+              href="/contact"
+              className="min-h-11 px-5 py-3 inline-flex items-center bg-surface-2 border border-white/(--border-opacity-default) hover:bg-surface-3 hover:border-white/(--border-opacity-strong) rounded-lg transition-all duration-normal text-white/(--text-opacity-secondary) hover:text-white text-sm"
+            >
+              Contact
             </Link>
             <RandomProjectButton projects={allProjects} />
           </nav>

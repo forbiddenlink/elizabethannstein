@@ -141,7 +141,6 @@ export const galaxies: Galaxy[] = [
         size: 'supermassive',
         galaxy: 'ai',
         metrics: { tests: 29 },
-        links: { github: 'https://github.com/forbiddenlink/chronicle' },
         featured: true,
         dateRange: '2025-2026',
         challenge: 'Developers building AI agents have zero visibility into execution flow, costs, and errors. Existing tools like LangSmith cost $29-299/mo and send data to external servers.',
@@ -263,7 +262,7 @@ export const galaxies: Galaxy[] = [
         galaxy: 'ai',
         links: { 
           live: 'https://automadocs.com', 
-          github: 'https://github.com/forbiddenlink/autodocs-ai',
+          github: 'https://github.com/forbiddenlink/automadocs',
           productHunt: 'https://www.producthunt.com/posts/automadocs'
         },
         metrics: {
@@ -304,7 +303,7 @@ export const galaxies: Galaxy[] = [
         size: 'supermassive',
         galaxy: 'ai',
         metrics: { tests: 400 },
-        links: { github: 'https://github.com/forbiddenlink/aria' },
+        links: { github: 'https://github.com/forbiddenlink/lumira' },
         featured: true,
         dateRange: '2025',
         challenge: 'Building an AI that creates art with genuine personality rather than just generating images on demand - an agent that has moods, preferences, and learns over time.',
@@ -452,8 +451,7 @@ export const galaxies: Galaxy[] = [
         size: 'large',
         galaxy: 'fullstack',
         links: { 
-          live: 'https://imhireready.com',
-          github: 'https://github.com/forbiddenlink/hire-ready'
+          live: 'https://imhireready.com'
         },
         metrics: { 
           tests: 150,
@@ -825,23 +823,6 @@ export const galaxies: Galaxy[] = [
         solution: 'Built sandboxed vulnerability simulations developers can exploit safely. Hands-on exercises teach OWASP Top 10 through practice.',
         impact: 'Hands-on exercises increase retention 3x vs reading. Sandboxed environments eliminate setup friction. Progress tracking identifies knowledge gaps.',
       },
-      {
-        id: 'site-sheriff',
-        title: 'Site Sheriff',
-        description: 'Agency-grade website QA and audit tool that crawls up to 500 pages with 160+ checks across SEO, security, accessibility, and performance, delivering prioritized reports with fix instructions.',
-        role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'Playwright', 'axe-core', 'Supabase', 'Tailwind CSS'],
-        color: '#06FFA5',
-        brightness: 1.7,
-        size: 'large',
-        galaxy: 'devtools',
-        links: { live: 'https://site-sheriff.vercel.app', github: 'https://github.com/forbiddenlink/site-sheriff' },
-        featured: true,
-        dateRange: '2025',
-        challenge: 'Website audits require expensive agency tools or time-consuming manual checks across multiple domains (SEO, accessibility, security, performance).',
-        solution: 'Built comprehensive crawler with 160+ checks using Playwright and axe-core. Severity-weighted scoring, effort estimates, and auto-generated client emails for agencies.',
-        impact: 'Crawls 500 pages in minutes. WCAG 2.0/2.1 AA compliance testing via axe-core. Shareable reports with tokenized links.',
-      },
     ],
   },
   {
@@ -1085,8 +1066,8 @@ export const galaxies: Galaxy[] = [
         impact: 'Scans complete in under 60 seconds. Identifies 85% of common web vulnerabilities. Generates compliance reports for SOC2 and OWASP standards.',
       },
       {
-        id: 'chronicle',
-        title: 'Chronicle',
+        id: 'chronicle-timeline',
+        title: 'Chronicle Timeline',
         description: 'Interactive timeline and history visualization app for documenting personal or project milestones.',
         role: 'Creator',
         tags: ['Timeline', 'Visualization', 'History', 'React'],
@@ -1094,7 +1075,6 @@ export const galaxies: Galaxy[] = [
         brightness: 1.3,
         size: 'medium',
         galaxy: 'experimental',
-        // Note: GitHub repo is private
         featured: false,
         dateRange: '2024',
         challenge: 'Linear timelines fail to show connections between events. Project histories lose context when documented as flat lists.',

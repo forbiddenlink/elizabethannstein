@@ -21,7 +21,6 @@ import { Entrance } from '@/components/ui/Entrance'
 import { LoadingProgress } from '@/components/ui/LoadingProgress'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { ScreenReaderAnnouncer } from '@/components/ui/ScreenReaderAnnouncer'
-import { AchievementsSection } from '@/components/ui/AchievementsSection'
 
 // Lazy load 3D scene - critical for < 200KB landing bundle
 const GalaxyScene = dynamic(() => import('@/components/3d/GalaxyScene'), {
@@ -121,49 +120,53 @@ export default function HomePage() {
       <InteractiveParticles count={50} />
 
       {/* Header Overlay - Top Left (hidden during tour) */}
-      <header id="main-content" tabIndex={-1} className={`absolute top-4 left-4 md:top-10 md:left-10 z-10 pointer-events-none transition-opacity duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <div className="glass-card rounded-2xl p-4 md:p-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 tracking-tight leading-tight drop-shadow-2xl flex items-center gap-3 md:gap-4">
+      <header id="main-content" tabIndex={-1} className={`absolute top-4 left-4 md:top-8 md:left-8 z-10 pointer-events-none transition-all duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <div className="glass-card rounded-2xl p-4 md:p-6 max-w-md lg:max-w-lg">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 tracking-tight leading-tight drop-shadow-2xl flex items-center gap-2 md:gap-3">
             {/* Star icon */}
-            <span className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 shrink-0 inline-flex items-center justify-center">
+            <span className="relative w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 shrink-0 inline-flex items-center justify-center">
               <span className="absolute inset-0 rounded-full bg-linear-to-br from-purple-400 to-indigo-600 animate-pulse" />
-              <span className="absolute inset-1 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
-              <span className="absolute inset-1.25 rounded-full bg-white/80" />
+              <span className="absolute inset-0.5 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
+              <span className="absolute inset-1 rounded-full bg-white/80" />
             </span>
-            <span className="bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-gradient-flow">
+            <span className="text-white drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">
               <AnimatedText type="chars" stagger={0.05}>
                 Elizabeth Stein
               </AnimatedText>
             </span>
           </h1>
           <FadeIn delay={0.8} direction="up">
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/95 max-w-xl leading-relaxed mb-4 drop-shadow-lg">
+            <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-md leading-relaxed mb-3 drop-shadow-lg">
               Full-stack developer + design systems + AI integration
             </p>
-            <Link
-              href="/about"
-              className="pointer-events-auto inline-flex items-center min-h-11 px-2 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 rounded"
-            >
-              More about me →
-            </Link>
+            <div className="flex items-center gap-3 pointer-events-auto">
+              <Link
+                href="/about"
+                className="inline-flex items-center min-h-11 px-2 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 rounded"
+              >
+                About me
+              </Link>
+              <span className="text-white/30">·</span>
+              <Link
+                href="/contact"
+                className="inline-flex items-center min-h-11 px-2 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 rounded"
+              >
+                Get in touch
+              </Link>
+            </div>
             <StatsBar />
           </FadeIn>
         </div>
       </header>
 
-      {/* Achievements Section - Below Header (hidden during tour) */}
-      <div className={`absolute top-[280px] md:top-[320px] left-4 right-4 md:left-10 md:right-auto md:max-w-3xl z-10 transition-opacity duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <AchievementsSection />
-      </div>
-
-      {/* Quick Actions - Bottom Left (offset on lg to avoid GalaxyNavigation, hidden during tour) */}
-      <div className={`absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 lg:left-80 md:right-auto z-30 flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 items-stretch md:items-center transition-all duration-500 ${getVisibilityClasses(isJourneyMode, hasEntered)}`}>
+      {/* Quick Actions - Bottom Center (hidden during tour) */}
+      <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-3 items-center transition-all duration-500 ${getVisibilityClasses(isJourneyMode, hasEntered)}`}>
         <Link
           href="/work"
-          className="ripple-button group w-full md:w-auto md:min-w-50 rounded-xl bg-white/40 backdrop-blur-xl border-[3px] border-white/80 text-white font-bold hover:bg-white/50 hover:border-white transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:scale-105 pointer-events-auto flex items-center justify-center gap-3 px-6 py-4 md:px-8"
+          className="ripple-button group w-full md:w-auto rounded-xl bg-white/20 backdrop-blur-xl border border-white/40 text-white font-semibold hover:bg-white/30 hover:border-white/60 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105 pointer-events-auto flex items-center justify-center gap-2 px-5 py-3"
         >
-          <span className="whitespace-nowrap leading-none">View all work</span>
-          <span className="inline-block transition-transform group-hover:translate-x-1 leading-none">→</span>
+          <span className="whitespace-nowrap leading-none text-sm">View all work</span>
+          <span className="inline-block transition-transform group-hover:translate-x-1 leading-none text-sm">→</span>
         </Link>
       </div>
 
@@ -171,7 +174,7 @@ export default function HomePage() {
       <GalaxyGuide />
 
       {/* Instructions - Bottom Right (hidden on mobile and during tour) */}
-      <FadeIn delay={1.4} direction="left" className={`hidden md:block absolute bottom-10 right-10 z-20 transition-opacity duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <FadeIn delay={1.4} direction="left" className={`hidden lg:block absolute bottom-24 right-20 z-20 transition-opacity duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <nav aria-label="Keyboard shortcuts" className="glass-card rounded-2xl p-6 text-right text-sm text-white space-y-3 font-medium max-w-xs">
           <p className="flex items-center justify-end gap-2.5">
             <span className="text-white/60 text-base" aria-hidden="true">✨</span>

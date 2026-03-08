@@ -46,16 +46,22 @@ export default function ContactPage() {
               Elizabeth Stein
             </span>
           </Link>
-          <nav className="flex items-center gap-3 sm:gap-8">
+          <nav className="flex items-center gap-2 sm:gap-4">
             <Link
               href="/"
-              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-4 py-3 inline-flex items-center"
+              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-3 py-3 inline-flex items-center"
             >
-              ← Back to Galaxy
+              ← Home
+            </Link>
+            <Link
+              href="/work"
+              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-3 py-3 inline-flex items-center"
+            >
+              Work
             </Link>
             <Link
               href="/about"
-              className="px-4 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              className="px-3 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
             >
               About
             </Link>

@@ -119,7 +119,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
           >
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="text-2xl">🎯</span>
+              <span className="text-2xl" aria-hidden="true">🎯</span>
               <span>Challenge</span>
             </h3>
             <p className="text-white/70 leading-relaxed">
@@ -134,7 +134,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
           >
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="text-2xl">⚡</span>
+              <span className="text-2xl" aria-hidden="true">⚡</span>
               <span>Solution</span>
             </h3>
             <p className="text-white/70 leading-relaxed">
@@ -169,7 +169,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             
             <div className="relative z-10">
               <h3 className="text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
-                <span className="text-4xl">📈</span>
+                <span className="text-4xl" aria-hidden="true">📈</span>
                 <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                   Impact
                 </span>
@@ -240,7 +240,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             <div className="absolute inset-0 flex items-center justify-center p-8 bg-black/20 group-hover:bg-black/40 transition-colors duration-500">
               <div className="text-center z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                 <div className="w-16 h-16 mx-auto mb-6 bg-white/5 rounded-full flex items-center justify-center backdrop-blur-md border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
-                  <span className="text-2xl">⚡</span>
+                  <span className="text-2xl" aria-hidden="true">⚡</span>
                 </div>
 
                 {project.links?.live && (

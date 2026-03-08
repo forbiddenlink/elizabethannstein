@@ -64,18 +64,24 @@ export default function AboutPage() {
               Elizabeth Stein
             </span>
           </Link>
-          <nav className="flex items-center gap-3 sm:gap-8">
+          <nav className="flex items-center gap-2 sm:gap-4">
             <Link
               href="/"
-              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-4 py-3 inline-flex items-center"
+              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-3 py-3 inline-flex items-center"
             >
-              ← Back to Galaxy
+              ← Home
             </Link>
             <Link
               href="/work"
-              className="px-4 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-3 py-3 inline-flex items-center"
             >
-              View All Work
+              Work
+            </Link>
+            <Link
+              href="/contact"
+              className="px-3 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+            >
+              Contact
             </Link>
           </nav>
         </div>
@@ -233,7 +239,7 @@ export default function AboutPage() {
             <div className="space-y-4">
               <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
                 <p className="text-white/(--text-opacity-primary)">
-                  ✨ Built and deployed 68 production projects including enterprise SaaS platforms,
+                  ✨ Built and deployed 70 production projects including enterprise SaaS platforms,
                   AI-powered applications, and educational tools with 1,290+ automated tests
                 </p>
               </div>

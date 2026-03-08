@@ -135,16 +135,22 @@ export default async function ProjectPage({
               Elizabeth Stein
             </span>
           </Link>
-          <nav className="flex items-center gap-3 sm:gap-8">
+          <nav className="flex items-center gap-2 sm:gap-4">
+            <Link
+              href="/"
+              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium min-h-11 px-3 py-3 inline-flex items-center rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+            >
+              Home
+            </Link>
             <Link
               href="/work"
-              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium hover:scale-105 min-h-11 px-4 py-3 inline-flex items-center rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium min-h-11 px-3 py-3 inline-flex items-center rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
             >
               ← All Projects
             </Link>
             <Link
               href="/about"
-              className="px-4 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              className="px-3 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
             >
               About
             </Link>
@@ -158,7 +164,7 @@ export default async function ProjectPage({
 
         {/* Navigation Footer */}
         <div className="max-w-7xl mx-auto px-6 mt-32">
-          <h2 className="text-2xl font-bold mb-8 text-white/50">Explore More</h2>
+          <h2 className="text-2xl font-bold mb-8 text-white/70">Explore More</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <TiltCard className="h-full">
               <Link

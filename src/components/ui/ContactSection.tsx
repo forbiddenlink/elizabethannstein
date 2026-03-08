@@ -19,7 +19,7 @@ export function ContactSection() {
       <a
         href={`mailto:${CONTACT.email}`}
         className="group flex items-center gap-3 py-5 px-8 bg-white/15 backdrop-blur-xl border border-white/30 hover:bg-white/25 hover:border-white/40 rounded-xl transition-all duration-300"
-        title="Send me an email"
+        aria-label="Send me an email"
       >
         <Mail className="w-5 h-5 text-white/80 group-hover:text-white" />
         <span className="text-white/80 group-hover:text-white text-sm font-medium">Contact</span>
@@ -32,7 +32,7 @@ export function ContactSection() {
           target="_blank"
           rel="noopener noreferrer"
           className="min-h-11 min-w-11 p-3 flex items-center justify-center bg-white/15 backdrop-blur-xl border border-white/30 hover:bg-white/25 hover:border-white/40 rounded-xl transition-all duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-          title="LinkedIn"
+          aria-label="LinkedIn profile"
         >
           <LinkedInIcon className="w-5 h-5 text-white/80 hover:text-white" aria-hidden="true" />
           <span className="sr-only">LinkedIn</span>
@@ -43,7 +43,7 @@ export function ContactSection() {
           target="_blank"
           rel="noopener noreferrer"
           className="min-h-11 min-w-11 p-3 flex items-center justify-center bg-white/15 backdrop-blur-xl border border-white/30 hover:bg-white/25 hover:border-white/40 rounded-xl transition-all duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-          title="GitHub"
+          aria-label="GitHub profile"
         >
           <GitHubIcon className="w-5 h-5 text-white/80 hover:text-white" aria-hidden="true" />
           <span className="sr-only">GitHub</span>
