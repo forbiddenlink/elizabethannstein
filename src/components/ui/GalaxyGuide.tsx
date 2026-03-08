@@ -87,18 +87,18 @@ export function GalaxyGuide() {
 
     return (
         <>
-            {/* Trigger Button - positioned to avoid overlap with instructions box on desktop */}
+            {/* Trigger Button - bottom-right, clear of left-side nav elements */}
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
                     aria-label="Open Galaxy Guide"
-                    className="fixed bottom-20 right-4 md:bottom-64 md:right-10 z-50 group flex items-center gap-3 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:bg-white/20 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]"
+                    className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 group flex items-center gap-3 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:bg-white/20 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]"
                 >
                     <div className="relative">
                         <div className="absolute inset-0 bg-indigo-500 rounded-full blur-md opacity-50 animate-pulse" />
                         <Sparkles className="w-6 h-6 text-indigo-300 relative z-10" />
                     </div>
-                    <span className="text-white font-medium pr-1 text-sm hidden group-hover:block animate-in fade-in slide-in-from-right-2 duration-300">
+                    <span className="text-white font-medium pl-1 text-sm hidden group-hover:block animate-in fade-in slide-in-from-left-2 duration-300">
                         Galaxy Guide
                     </span>
                 </button>
@@ -112,7 +112,7 @@ export function GalaxyGuide() {
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="fixed bottom-4 right-4 left-4 md:left-auto md:bottom-10 md:right-10 z-50 md:w-100 h-[70vh] md:h-125 flex flex-col rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]"
+                    className="fixed bottom-4 left-4 right-4 md:left-auto md:bottom-10 md:right-8 z-50 md:w-100 h-[70vh] md:h-125 flex flex-col rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]"
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between p-4 border-b border-white/10 bg-linear-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-xl">
@@ -204,6 +204,7 @@ export function GalaxyGuide() {
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 placeholder="Ask about projects..."
+                                aria-label="Ask about projects"
                                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-all font-light"
                             />
                             <button

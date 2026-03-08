@@ -70,7 +70,7 @@ export function MotionToggle() {
     <button
       onClick={cycleMotionPreference}
       className={cn(
-        'fixed bottom-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-full',
+        'fixed bottom-6 left-20 lg:left-60 z-30 flex items-center gap-2 px-3 py-2 rounded-full',
         'bg-black/60 backdrop-blur-md border border-white/10',
         'text-white/80 hover:text-white hover:bg-black/70',
         'transition-all duration-200 text-xs font-medium',
