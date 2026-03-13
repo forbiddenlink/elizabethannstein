@@ -7,6 +7,7 @@ import { ExternalLink } from 'lucide-react'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import { ProjectBadges } from '@/components/ui/ProjectBadges'
+import { SocialProof } from '@/components/ui/SocialProofBadges'
 import Image from 'next/image'
 
 // Map project IDs to their screenshot paths
@@ -101,6 +102,13 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
         {/* Status Badges */}
         <ProjectBadges project={project} />
+
+        {/* Social Proof Badges - only show data we actually have */}
+        <SocialProof
+          githubRepo={project.links?.github?.replace('https://github.com/', '')}
+          tests={project.metrics?.tests ? { count: project.metrics.tests, passing: true } : undefined}
+          metrics={project.metrics?.users ? [{ label: 'Users', value: project.metrics.users }] : undefined}
+        />
       </header>
 
       {/* Description */}

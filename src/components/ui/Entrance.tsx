@@ -3,7 +3,9 @@
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useViewStore } from '@/lib/store'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles, ExternalLink, Trophy, Rocket, Code2, Building2, Brain } from 'lucide-react'
+import Link from 'next/link'
+import { getProjectById } from '@/lib/galaxyData'
 
 // Seeded random for consistent star positions (fixes hydration mismatch)
 function seededRandom(seed: number) {
@@ -58,6 +60,46 @@ function StarParticles() {
                 />
             ))}
         </div>
+    )
+}
+
+// Hero projects for quick scan
+const heroProjects = [
+    { id: 'chronicle', highlight: 'Rust AI observability', icon: Brain, gradient: 'from-cyan-500 to-blue-600' },
+    { id: 'autodocs-ai', highlight: 'Product Hunt launch', icon: Rocket, gradient: 'from-purple-500 to-pink-600' },
+    { id: 'timeslip-search', highlight: '$750 contest win', icon: Trophy, gradient: 'from-amber-500 to-orange-600' },
+    { id: 'hire-ready', highlight: 'Voice AI SaaS', icon: Code2, gradient: 'from-emerald-500 to-teal-600' },
+    { id: 'coulson-one', highlight: '64K+ files', icon: Building2, gradient: 'from-orange-500 to-red-600' },
+]
+
+function HeroProjectsQuick() {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 2.2 }}
+            className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto"
+        >
+            {heroProjects.map((hero) => {
+                const project = getProjectById(hero.id)
+                if (!project) return null
+                const Icon = hero.icon
+                return (
+                    <Link
+                        key={hero.id}
+                        href={`/work/${hero.id}`}
+                        className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                    >
+                        <div className={`p-1 rounded-full bg-gradient-to-br ${hero.gradient}`}>
+                            <Icon className="w-3 h-3 text-white" />
+                        </div>
+                        <span className="text-xs text-white/70 group-hover:text-white transition-colors">
+                            {hero.highlight}
+                        </span>
+                    </Link>
+                )
+            })}
+        </motion.div>
     )
 }
 
@@ -267,6 +309,19 @@ export function Entrance() {
                                 )}
                             </span>
                         </motion.button>
+
+                        {/* Quick look at featured projects */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 2 }}
+                            className="mt-8 text-center"
+                        >
+                            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-3">
+                                Featured Work
+                            </p>
+                            <HeroProjectsQuick />
+                        </motion.div>
                     </div>
 
                     {/* Bottom decorative elements */}

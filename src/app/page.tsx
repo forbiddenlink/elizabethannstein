@@ -18,9 +18,11 @@ import { GlowOrb } from '@/components/ui/FloatingElement'
 import { ContactSection } from '@/components/ui/ContactSection'
 import { ResumeDownload } from '@/components/ui/ResumeDownload'
 import { Entrance } from '@/components/ui/Entrance'
+import { StickyContactCTA } from '@/components/ui/StickyContactCTA'
 import { LoadingProgress } from '@/components/ui/LoadingProgress'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { ScreenReaderAnnouncer } from '@/components/ui/ScreenReaderAnnouncer'
+import { AccessibleView, AccessibleViewToggle, useAccessibleView } from '@/components/ui/AccessibleView'
 
 // Lazy load 3D scene - critical for < 200KB landing bundle
 const GalaxyScene = dynamic(() => import('@/components/3d/GalaxyScene'), {
@@ -45,9 +47,23 @@ function getVisibilityClasses(isJourneyMode: boolean, hasEntered: boolean): stri
 export default function HomePage() {
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
   const hasEntered = useViewStore((state) => state.hasEntered)
+  const { isAccessibleMode, toggle: toggleAccessibleMode } = useAccessibleView()
+
+  // Render accessible text-only view if user prefers it
+  if (isAccessibleMode) {
+    return (
+      <>
+        <AccessibleViewToggle isAccessibleMode={isAccessibleMode} onToggle={toggleAccessibleMode} />
+        <AccessibleView />
+      </>
+    )
+  }
 
   return (
     <main className="relative w-full h-screen overflow-hidden bg-black">
+      {/* Accessible View Toggle */}
+      <AccessibleViewToggle isAccessibleMode={isAccessibleMode} onToggle={toggleAccessibleMode} />
+
       {/* Skip Link for Accessibility */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium">
         Skip to main content
@@ -89,6 +105,9 @@ export default function HomePage() {
 
       {/* Resume Download */}
       <ResumeDownload />
+
+      {/* Sticky Contact CTA */}
+      <StickyContactCTA />
 
       {/* Hidden handlers */}
       <Suspense fallback={null}>

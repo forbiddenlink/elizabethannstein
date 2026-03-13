@@ -12,16 +12,21 @@ export function ScreenReaderAnnouncer() {
 
   useEffect(() => {
     if (view === 'universe') {
-      setAnnouncement('Viewing all galaxies. Use number keys 1-6 to select a galaxy, or arrow keys to navigate.')
+      setAnnouncement('Viewing all galaxies. Use number keys 1-6 to select a galaxy, or arrow keys to navigate. Press T for text-only accessible view.')
     } else if (view === 'galaxy' && selectedGalaxy) {
       const galaxy = galaxies.find(g => g.id === selectedGalaxy)
       if (galaxy) {
-        setAnnouncement(`Viewing ${galaxy.name} galaxy with ${galaxy.projects.length} projects. ${galaxy.description}. Use arrow keys to navigate projects.`)
+        setAnnouncement(`Viewing ${galaxy.name} galaxy with ${galaxy.projects.length} projects. ${galaxy.description}. Use arrow keys to navigate projects, Escape to zoom out.`)
       }
     } else if (view === 'project' && selectedProject) {
       const project = allProjects.find(p => p.id === selectedProject)
       if (project) {
-        setAnnouncement(`Viewing project: ${project.title}. ${project.description}. Press Enter to open project details.`)
+        setAnnouncement(`Viewing project: ${project.title}. ${project.description}. Press Enter to open project details, E to explore planet surface, Escape to go back.`)
+      }
+    } else if (view === 'exploration' && selectedProject) {
+      const project = allProjects.find(p => p.id === selectedProject)
+      if (project) {
+        setAnnouncement(`Exploring ${project.title} planet surface. Use W A S D keys to move around. Press Escape to exit exploration mode.`)
       }
     }
   }, [view, selectedGalaxy, selectedProject])

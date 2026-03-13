@@ -28,6 +28,7 @@ export interface Project {
     case_study?: string
     productHunt?: string
     contestWin?: string
+    videoUrl?: string // Loom/YouTube demo video
   }
   status?: 'in-progress' | 'live' | 'archived'
   featured: boolean // For homepage highlights
@@ -35,6 +36,18 @@ export interface Project {
   challenge?: string // Custom challenge text for case study page
   solution?: string // Custom solution text for case study page
   impact?: string // Quantifiable outcomes and results
+  // Enhanced case study fields
+  testimonial?: {
+    quote: string
+    author: string
+    role: string
+    company?: string
+  }
+  impactMetrics?: Array<{
+    label: string
+    value: string
+    icon?: string
+  }>
 }
 
 export interface Galaxy {

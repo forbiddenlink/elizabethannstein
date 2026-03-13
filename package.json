@@ -12,6 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@react-three/a11y": "^3.0.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
     "clsx": "^2.1.1",
