@@ -17,7 +17,7 @@ export function AccessibleViewToggle({
   return (
     <button
       onClick={onToggle}
-      className="fixed top-4 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-black/60 backdrop-blur-sm border border-white/20 text-sm text-white/80 hover:text-white hover:bg-black/80 transition-all"
+      className="fixed top-4 right-4 md:top-6 md:right-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-black/60 backdrop-blur-sm border border-white/20 text-sm text-white/80 hover:text-white hover:bg-black/80 transition-all"
       aria-label={isAccessibleMode ? 'Switch to 3D view' : 'Switch to accessible text view'}
     >
       {isAccessibleMode ? (

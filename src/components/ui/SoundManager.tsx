@@ -58,7 +58,7 @@ export function SoundManager() {
   return (
     <button
       onClick={() => setIsMuted(!isMuted)}
-      className="fixed bottom-6 left-6 lg:left-72 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/30 transition-all duration-300 group hover:scale-110"
+      className="fixed bottom-6 left-64 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/30 transition-all duration-300 group hover:scale-110 hidden lg:flex"
       aria-label={isMuted ? 'Unmute' : 'Mute'}
       title={isMuted ? 'Enable sound effects' : 'Disable sound effects'}
     >

@@ -14,7 +14,7 @@ export function ContactSection() {
   if (isJourneyMode || view === 'exploration') return null
 
   return (
-    <div className="fixed top-auto bottom-32 right-6 z-20 hidden lg:flex flex-col gap-3 md:top-112 md:bottom-auto">
+    <div className="fixed top-auto bottom-44 right-6 z-20 hidden lg:flex flex-col gap-3 md:top-auto md:bottom-44">
       <MagneticButton strength={0.3} tiltStrength={10}>
       <a
         href={`mailto:${CONTACT.email}`}

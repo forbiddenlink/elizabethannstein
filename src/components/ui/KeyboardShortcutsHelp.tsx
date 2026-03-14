@@ -24,7 +24,7 @@ export function KeyboardShortcutsHelp() {
     return (
       <button
         onClick={() => setIsVisible(true)}
-        className="fixed bottom-24 right-6 md:bottom-24 md:right-8 z-40 min-w-11 min-h-11 w-11 h-11 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 flex items-center justify-center text-white/70 hover:text-white text-sm font-bold"
+        className="fixed bottom-6 right-24 md:bottom-8 md:right-28 z-40 min-w-11 min-h-11 w-11 h-11 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 flex items-center justify-center text-white/70 hover:text-white text-sm font-bold"
         aria-label="Show keyboard shortcuts"
       >
         <span aria-hidden="true">?</span>

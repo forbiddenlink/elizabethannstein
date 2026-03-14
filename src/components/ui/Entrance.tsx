@@ -315,38 +315,25 @@ export function Entrance() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.6, delay: 2 }}
-                            className="mt-8 text-center"
+                            className="mt-4 text-center"
                         >
-                            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-3">
+                            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-2">
                                 Featured Work
                             </p>
                             <HeroProjectsQuick />
                         </motion.div>
-                    </div>
 
-                    {/* Bottom decorative elements */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 2 }}
-                        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
-                    >
-                        <motion.div
-                            animate={{ y: [0, -5, 0] }}
-                            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                            className="w-[1px] h-12 bg-linear-to-b from-transparent to-white/30"
-                        />
-                        <span className="text-[10px] tracking-[0.4em] text-white/30 uppercase">
-                            Click to enter
-                        </span>
-                        {/* Skip intro for recruiters */}
-                        <button
+                        {/* Skip intro link - inline with content */}
+                        <motion.button
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 2.4 }}
                             onClick={handleEnter}
-                            className="text-[10px] tracking-[0.2em] text-white/20 hover:text-white/50 transition-colors uppercase mt-2"
+                            className="mt-6 text-[11px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase"
                         >
                             Skip to portfolio →
-                        </button>
-                    </motion.div>
+                        </motion.button>
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>
