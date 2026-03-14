@@ -4,12 +4,17 @@ import { useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
+interface NebulaBackgroundProps {
+  readonly isMobile?: boolean
+}
+
 /**
  * Nebula background with animated gradient colors for deep space atmosphere
  */
-export function NebulaBackground() {
+export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
   const meshRef = useRef<THREE.Mesh>(null)
   const { camera } = useThree()
+  const octaves = isMobile ? 4 : 6
 
   // Animate the nebula with camera parallax
   useFrame(({ clock }) => {
@@ -37,6 +42,7 @@ export function NebulaBackground() {
   const fragmentShader = `
     uniform float time;
     uniform vec3 cameraPos;
+    uniform int octaveCount;
     varying vec2 vUv;
 
     // Improved noise function for smoother patterns
@@ -64,6 +70,7 @@ export function NebulaBackground() {
       float frequency = 1.0;
 
       for(int i = 0; i < 6; i++) {
+        if (i >= octaveCount) break;
         value += amplitude * noise(p * frequency);
         frequency *= 2.0;
         amplitude *= 0.5;
@@ -178,7 +185,8 @@ export function NebulaBackground() {
         fragmentShader={fragmentShader}
         uniforms={{
           time: { value: 0.0 },
-          cameraPos: { value: new THREE.Vector3(0, 0, 0) }
+          cameraPos: { value: new THREE.Vector3(0, 0, 0) },
+          octaveCount: { value: octaves }
         }}
         side={THREE.BackSide}
         depthWrite={false}

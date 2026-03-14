@@ -137,7 +137,7 @@ export const galaxies: Galaxy[] = [
         role: 'Creator',
         tags: ['Rust', 'Axum', 'SQLite', 'React 19', 'TypeScript', 'Vite', 'Tailwind', 'Python SDK'],
         color: '#00D9FF',
-        brightness: 2.0,
+        brightness: 2,
         size: 'supermassive',
         galaxy: 'ai',
         metrics: { tests: 29 },
@@ -257,7 +257,7 @@ export const galaxies: Galaxy[] = [
         role: 'Creator',
         tags: ['AI', 'Claude Sonnet', 'Tree-sitter', 'RAG', 'Stripe', 'PostgreSQL', 'Redis'],
         color: '#00D9FF',
-        brightness: 2.0,
+        brightness: 2,
         size: 'supermassive',
         galaxy: 'ai',
         links: { 
@@ -299,7 +299,7 @@ export const galaxies: Galaxy[] = [
         role: 'Creator',
         tags: ['Rust', 'PWA', 'Hugging Face', 'Stable Diffusion', 'Memory Systems'],
         color: '#00D9FF',
-        brightness: 2.0,
+        brightness: 2,
         size: 'supermassive',
         galaxy: 'ai',
         links: { github: 'https://github.com/forbiddenlink/lumira' },
@@ -395,7 +395,7 @@ export const galaxies: Galaxy[] = [
         role: 'Creator',
         tags: ['Next.js 15', 'Supabase', 'OpenAI Realtime', 'Stripe', 'Voice AI'],
         color: '#9D4EDD',
-        brightness: 2.0,
+        brightness: 2,
         size: 'large',
         galaxy: 'fullstack',
         links: { 
@@ -1224,7 +1224,7 @@ export const galaxies: Galaxy[] = [
         role: 'Creator',
         tags: ['Next.js 16', 'Algolia Agent Studio', 'Chart.js', 'Framer Motion', 'AI'],
         color: '#FFB800',
-        brightness: 2.0,
+        brightness: 2,
         size: 'large',
         galaxy: 'experimental',
         links: { 
@@ -1452,14 +1452,18 @@ export const allProjects = galaxies.flatMap((g) => g.projects)
 // Helper to get featured projects
 export const featuredProjects = allProjects.filter((p) => p.featured)
 
-// Helper to get project by ID
+// Pre-computed lookup maps for O(1) access
+const projectMap = new Map(allProjects.map((p) => [p.id, p]))
+const galaxyMap = new Map(galaxies.map((g) => [g.id, g]))
+
+// Helper to get project by ID (O(1))
 export function getProjectById(id: string) {
-  return allProjects.find((p) => p.id === id)
+  return projectMap.get(id)
 }
 
-// Helper to get galaxy by ID
+// Helper to get galaxy by ID (O(1))
 export function getGalaxyById(id: string) {
-  return galaxies.find((g) => g.id === id)
+  return galaxyMap.get(id)
 }
 
 // =============================================================================

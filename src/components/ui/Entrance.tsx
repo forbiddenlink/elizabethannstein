@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useViewStore } from '@/lib/store'
-import { ArrowRight, Sparkles, ExternalLink, Trophy, Rocket, Code2, Building2, Brain } from 'lucide-react'
+import { ArrowRight, Sparkles, Trophy, Rocket, Code2, Building2, Brain } from 'lucide-react'
 import Link from 'next/link'
 import { getProjectById } from '@/lib/galaxyData'
 

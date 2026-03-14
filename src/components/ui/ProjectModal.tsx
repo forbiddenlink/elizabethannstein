@@ -1,24 +1,62 @@
 'use client'
 
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useViewStore } from '@/lib/store'
 import { getProjectById } from '@/lib/galaxyData'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import { X } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { ScrollProgress } from './ScrollProgress'
 
 export function ProjectModal() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const selectedProject = useViewStore((state) => state.selectedProject)
   const view = useViewStore((state) => state.view)
   const zoomOut = useViewStore((state) => state.zoomOut)
 
   const project = selectedProject ? getProjectById(selectedProject) : null
   const isOpen = view === 'project' && project !== null
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  // Focus trapping inside modal
+  useEffect(() => {
+    if (!isOpen || !modalRef.current) return
+
+    const modal = modalRef.current
+    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, textarea, select'
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+
+      const focusableElements = modal.querySelectorAll<HTMLElement>(focusableSelector)
+      if (focusableElements.length === 0) return
+
+      const first = focusableElements[0]
+      const last = focusableElements[focusableElements.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    // Focus the first focusable element
+    const timer = setTimeout(() => {
+      const firstFocusable = modal.querySelector<HTMLElement>(focusableSelector)
+      firstFocusable?.focus()
+    }, 100)
+
+    modal.addEventListener('keydown', handleTab)
+    return () => {
+      clearTimeout(timer)
+      modal.removeEventListener('keydown', handleTab)
+    }
+  }, [isOpen])
 
   // Close handler that properly updates URL
   const handleClose = useCallback(() => {
@@ -37,7 +75,7 @@ export function ProjectModal() {
   // Handle browser back/forward
   useEffect(() => {
     const handlePopState = () => {
-      const urlParams = new URLSearchParams(window.location.search)
+      const urlParams = new URLSearchParams(globalThis.location.search)
       const projectParam = urlParams.get('p')
 
       if (!projectParam && isOpen) {
@@ -45,8 +83,8 @@ export function ProjectModal() {
       }
     }
 
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
+    globalThis.addEventListener('popstate', handlePopState)
+    return () => globalThis.removeEventListener('popstate', handlePopState)
   }, [zoomOut, isOpen])
 
   // Handle ESC key
@@ -86,8 +124,10 @@ export function ProjectModal() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto gpu-accelerated"
-          onClick={handleClose}
-        >
+          onClick={handleClose}          role="dialog"
+          aria-modal="true"
+          aria-label={`${project.title} project details`}
+          ref={modalRef}        >
           {/* Backdrop with blur-in */}
           <motion.div
             initial={{ backdropFilter: 'blur(0px)' }}

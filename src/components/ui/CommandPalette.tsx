@@ -21,7 +21,6 @@ export function CommandPalette() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const zoomToProject = useViewStore((state) => state.zoomToProject)
   const exploreProject = useViewStore((state) => state.exploreProject)
-  const setView = useViewStore((state) => state.setView)
 
   // Build command list
   const commands: CommandItem[] = [
@@ -76,7 +75,7 @@ export function CommandPalette() {
       category: 'action' as const,
       icon: <Keyboard className="w-4 h-4" />,
       action: () => {
-        window.location.href = '/work'
+        globalThis.location.href = '/work'
         setIsOpen(false)
       }
     },
@@ -189,6 +188,15 @@ export function CommandPalette() {
           setIsOpen(false)
           setSearch('')
         }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setIsOpen(false)
+            setSearch('')
+          }
+        }}
+        role="button"
+        tabIndex={-1}
+        aria-label="Close command palette"
       />
 
       {/* Modal */}

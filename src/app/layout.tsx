@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
@@ -21,6 +21,12 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
   weight: ['400', '500', '600', '700'],
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#000000',
+}
 
 export const metadata: Metadata = {
   title: SITE.fullTitle,

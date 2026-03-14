@@ -1,11 +1,11 @@
 'use client'
 
 import { useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls, PerspectiveCamera, PerformanceMonitor } from '@react-three/drei'
-// Post-processing removed - caused flickering bug and scene looks great without it
-import { useRef, useMemo, useState, useEffect, Suspense, useCallback } from 'react'
+import { OrbitControls, PerformanceMonitor } from '@react-three/drei'
+// Post-processing conditionally enabled for WebGL only (causes flickering on WebGPU)
+import { useRef, useState, useEffect, Suspense, useCallback } from 'react'
 import * as THREE from 'three'
-import { useViewStore, usePrefersReducedMotion } from '@/lib/store'
+import { useViewStore } from '@/lib/store'
 import { WebGPUCanvas } from '@/components/3d/WebGPUCanvas'
 import { type RendererType } from '@/lib/webgpu'
 import { TwinklingStarfield } from '@/components/3d/TwinklingStarfield'
@@ -56,8 +56,8 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    if (typeof globalThis.window !== 'undefined') {
+      setPrefersReducedMotion(globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches)
     }
   }, [])
 
@@ -131,12 +131,11 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
   return null
 }
 
-function SceneContent({ isMobile, controlsRef }: { isMobile: boolean; controlsRef: React.RefObject<any> }) {
+function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; controlsRef: React.RefObject<any> }>) {
   const { camera } = useThree()
   const hasEntered = useViewStore((state) => state.hasEntered)
   const view = useViewStore((state) => state.view)
   const selectedProject = useViewStore((state) => state.selectedProject)
-  const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
   const exitExploration = useViewStore((state) => state.exitExploration)
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
 
@@ -164,7 +163,7 @@ function SceneContent({ isMobile, controlsRef }: { isMobile: boolean; controlsRe
 
       {/* Lights */}
       <ambientLight intensity={0.9} color="#0a0a15" />
-      <pointLight position={[100, 100, 100]} intensity={2.0} color="#6d28d9" castShadow shadow-mapSize={[1024, 1024]} />
+      <pointLight position={[100, 100, 100]} intensity={2} color="#6d28d9" castShadow shadow-mapSize={[1024, 1024]} />
       <pointLight position={[-100, -100, -50]} intensity={1.5} color="#3b82f6" castShadow shadow-mapSize={[512, 512]} />
       <directionalLight position={[0, 50, 0]} intensity={0.8} color="#ffffff" castShadow />
       <hemisphereLight intensity={0.3} color="#8b5cf6" groundColor="#1e1b4b" />
@@ -180,7 +179,7 @@ function SceneContent({ isMobile, controlsRef }: { isMobile: boolean; controlsRe
           />
         ) : (
           <>
-            <NebulaBackground />
+            <NebulaBackground isMobile={isMobile} />
             <TwinklingStarfield count={isMobile ? 2000 : 5000} />
             <GalaxyCores />
             <EnhancedProjectStars />
@@ -234,7 +233,7 @@ function SceneContent({ isMobile, controlsRef }: { isMobile: boolean; controlsRe
 }
 
 // Wrapper component to provide controlsRef inside Canvas
-function SceneWrapper({ isMobile }: { isMobile: boolean }) {
+function SceneWrapper({ isMobile, rendererType }: Readonly<{ isMobile: boolean; rendererType: RendererType | null }>) {
   const controlsRef = useRef<any>(null)
 
   return (
@@ -244,8 +243,9 @@ function SceneWrapper({ isMobile }: { isMobile: boolean }) {
       <GalaxyCameraController controlsRef={controlsRef} />
       <HyperspaceWarp isMobile={isMobile} />
       <ClickRipple isMobile={isMobile} />
-      {/* PostProcessingEffects disabled - causes flickering bug, needs WebGPU compatibility fix */}
-      {/* <PostProcessingEffects isMobile={isMobile} /> */}
+      {rendererType === 'webgl' && (
+        <PostProcessingEffects isMobile={isMobile} />
+      )}
     </>
   )
 }
@@ -334,7 +334,7 @@ export default function GalaxyScene() {
         onRendererReady={handleRendererReady}
         showRendererIndicator={process.env.NODE_ENV === 'development'}
       >
-        <SceneWrapper isMobile={isMobile} />
+        <SceneWrapper isMobile={isMobile} rendererType={rendererType} />
       </WebGPUCanvas>
 
       <GalaxyNavigation />

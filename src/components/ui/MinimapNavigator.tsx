@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { galaxies } from '@/lib/galaxyData'
 import { generateProjectPosition } from '@/lib/utils'
 import { useViewStore } from '@/lib/store'
-import { gsap } from 'gsap'
 import { Minimize2, Maximize2 } from 'lucide-react'
 
 interface ProjectPosition {
