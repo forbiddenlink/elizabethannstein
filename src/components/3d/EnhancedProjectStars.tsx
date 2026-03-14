@@ -1,20 +1,36 @@
 'use client'
 
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState, useMemo, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Text } from '@react-three/drei'
+import { Text, Html } from '@react-three/drei'
 import { galaxies } from '@/lib/galaxyData'
-import { generateProjectPosition, getSizeMultiplier } from '@/lib/utils'
+import { generateProjectPosition, getSizeMultiplier, getGalaxyCenterPosition } from '@/lib/utils'
 import { useViewStore } from '@/lib/store'
 import * as THREE from 'three'
 import { SupernovaEffect } from './SupernovaEffect'
 import { AnimatedConstellation } from './AnimatedConstellation'
 
 // LOD distance thresholds with hysteresis buffer to prevent flickering
-const LOD_NEAR = 15    // Full detail
-const LOD_MEDIUM = 35  // Medium detail
-const LOD_HYSTERESIS = 3  // Buffer zone to prevent rapid switching
-const LOD_FAR = 60     // Low detail (universe view)
+// Mobile uses more aggressive LOD (switch to lower detail sooner)
+const LOD_CONFIG = {
+  desktop: { near: 15, medium: 35, hysteresis: 3 },
+  mobile: { near: 12, medium: 25, hysteresis: 2 }
+}
+
+// Geometry segment counts - reduced on mobile for performance
+const SEGMENTS = {
+  desktop: { planet: 64, atmosphere: 32, clouds: 48, rings: 64 },
+  mobile: { planet: 32, atmosphere: 16, clouds: 24, rings: 32 }
+}
+
+// Hook to detect mobile once
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
+  return isMobile
+}
 
 export function EnhancedProjectStars() {
   return (
@@ -57,6 +73,7 @@ function GalaxyCluster({ galaxy, galaxyIndex }: { galaxy: any; galaxyIndex: numb
             key={project.id}
             project={project}
             position={position}
+            galaxyIndex={galaxyIndex}
             sizeMultiplier={sizeMultiplier}
             isSupernova={isSupernova}
             isScanned={isScanned}
@@ -368,6 +385,7 @@ const cloudFragmentShader = `
 function RealisticPlanet({
   project,
   position,
+  galaxyIndex,
   sizeMultiplier,
   isSupernova,
   isScanned,
@@ -375,12 +393,19 @@ function RealisticPlanet({
 }: {
   project: any
   position: [number, number, number]
+  galaxyIndex: number
   sizeMultiplier: number
   isSupernova: boolean
   isScanned: boolean
   onPlanetClick: () => void
 }) {
   const [hovered, setHovered] = useState(false)
+  const isMobile = useIsMobile()
+
+  // Get LOD and segment config based on device
+  const lodConfig = isMobile ? LOD_CONFIG.mobile : LOD_CONFIG.desktop
+  const segments = isMobile ? SEGMENTS.mobile : SEGMENTS.desktop
+
   // Use ref for LOD level to avoid React re-renders that cause flickering
   const lodLevelRef = useRef<'high' | 'medium' | 'low'>('high')
   // Refs for all meshes - visibility controlled imperatively in useFrame
@@ -396,8 +421,8 @@ function RealisticPlanet({
   // Pre-compute position vector for distance calculation
   const positionVec = useMemo(() => new THREE.Vector3(...position), [position])
 
-  // Determine planet characteristics
-  const hasRings = ['coulson-one', 'portfolio-pro', 'quantum-forge', 'flo-labs'].includes(project.id)
+  // Determine planet characteristics - supermassive projects get rings
+  const hasRings = project.size === 'supermassive'
 
   // Featured/enterprise projects have city lights (inhabited worlds)
   const hasCities = useMemo(() => {
@@ -433,21 +458,59 @@ function RealisticPlanet({
 
   const rotationSpeed = useMemo(() => 0.001 + (seed % 100) * 0.00002, [seed])
 
+  // Orbital animation parameters
+  const orbitalParams = useMemo(() => {
+    const [gx, , gz] = getGalaxyCenterPosition(galaxyIndex)
+    const galaxyCenter = new THREE.Vector2(gx, gz)
+    const planetPos2D = new THREE.Vector2(position[0], position[2])
+
+    // Calculate orbital radius (distance from galaxy center in XZ plane)
+    const radius = planetPos2D.distanceTo(galaxyCenter)
+
+    // Calculate initial angle
+    const dx = position[0] - gx
+    const dz = position[2] - gz
+    const initialAngle = Math.atan2(dz, dx)
+
+    // Orbital speed: smaller planets orbit faster, supermassive slowest
+    const baseSpeed = 0.015
+    const speedMultiplier = sizeMultiplier > 2.5 ? 0.3 : sizeMultiplier > 1.5 ? 0.5 : 1.0
+    const orbitSpeed = baseSpeed * speedMultiplier * (0.8 + (seed % 100) * 0.004)
+
+    return { galaxyCenter, radius, initialAngle, orbitSpeed, y: position[1] }
+  }, [position, galaxyIndex, sizeMultiplier, seed])
+
+  // Track current orbital position
+  const currentPosRef = useRef(new THREE.Vector3(...position))
+
   useFrame((state) => {
     const time = state.clock.elapsedTime
 
+    // Update orbital position
+    const { galaxyCenter, radius, initialAngle, orbitSpeed, y } = orbitalParams
+    const currentAngle = initialAngle + time * orbitSpeed
+    const newX = galaxyCenter.x + Math.cos(currentAngle) * radius
+    const newZ = galaxyCenter.y + Math.sin(currentAngle) * radius
+    currentPosRef.current.set(newX, y, newZ)
+
+    // Update group position for orbital motion
+    if (groupRef.current) {
+      groupRef.current.position.set(newX, y, newZ)
+    }
+
     // Calculate distance to camera for LOD with hysteresis
-    const distance = camera.position.distanceTo(positionVec)
+    const distance = camera.position.distanceTo(currentPosRef.current)
     const currentLod = lodLevelRef.current
     let newLod = currentLod
 
     // Apply hysteresis: need to cross threshold + buffer to switch
-    if (currentLod === 'high' && distance > LOD_NEAR + LOD_HYSTERESIS) {
+    const { near, medium, hysteresis } = lodConfig
+    if (currentLod === 'high' && distance > near + hysteresis) {
       newLod = 'medium'
     } else if (currentLod === 'medium') {
-      if (distance < LOD_NEAR - LOD_HYSTERESIS) newLod = 'high'
-      else if (distance > LOD_MEDIUM + LOD_HYSTERESIS) newLod = 'low'
-    } else if (currentLod === 'low' && distance < LOD_MEDIUM - LOD_HYSTERESIS) {
+      if (distance < near - hysteresis) newLod = 'high'
+      else if (distance > medium + hysteresis) newLod = 'low'
+    } else if (currentLod === 'low' && distance < medium - hysteresis) {
       newLod = 'medium'
     }
 
@@ -500,7 +563,7 @@ function RealisticPlanet({
   // For supernova, render the special effect with clickable area
   if (isSupernova) {
     return (
-      <group position={position}>
+      <group ref={groupRef} position={position}>
         <SupernovaEffect position={[0, 0, 0]} color={project.color} size={sizeMultiplier} />
         {/* Invisible clickable sphere for the supernova */}
         <mesh
@@ -534,7 +597,7 @@ function RealisticPlanet({
           document.body.style.cursor = 'auto'
         }}
       >
-        <sphereGeometry args={[sizeMultiplier, 64, 64]} />
+        <sphereGeometry args={[sizeMultiplier, segments.planet, segments.planet]} />
         <shaderMaterial
           vertexShader={planetVertexShader}
           fragmentShader={planetFragmentShader}
@@ -550,12 +613,12 @@ function RealisticPlanet({
       </mesh>
 
       {/* Atmosphere glow - visibility controlled in useFrame */}
-      <mesh ref={atmosphereRef} scale={1.1} visible={false}>
-        <sphereGeometry args={[sizeMultiplier, 32, 32]} />
+      <mesh ref={atmosphereRef} scale={1.12} visible={false}>
+        <sphereGeometry args={[sizeMultiplier, segments.atmosphere, segments.atmosphere]} />
         <meshBasicMaterial
           color={project.color}
           transparent
-          opacity={hovered ? 0.3 : 0.15}
+          opacity={hovered ? 0.4 : 0.22}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
@@ -563,12 +626,12 @@ function RealisticPlanet({
       </mesh>
 
       {/* Outer atmosphere haze - visibility controlled in useFrame */}
-      <mesh ref={outerAtmosphereRef} scale={1.18} visible={false}>
-        <sphereGeometry args={[sizeMultiplier, 24, 24]} />
+      <mesh ref={outerAtmosphereRef} scale={1.25} visible={false}>
+        <sphereGeometry args={[sizeMultiplier, segments.atmosphere, segments.atmosphere]} />
         <meshBasicMaterial
           color={project.color}
           transparent
-          opacity={hovered ? 0.15 : 0.08}
+          opacity={hovered ? 0.2 : 0.12}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
@@ -578,7 +641,7 @@ function RealisticPlanet({
       {/* Cloud layer for gas giants - visibility controlled in useFrame */}
       {planetType === 1 && (
         <mesh ref={cloudRef} scale={1.03} visible={false}>
-          <sphereGeometry args={[sizeMultiplier, 48, 48]} />
+          <sphereGeometry args={[sizeMultiplier, segments.clouds, segments.clouds]} />
           <shaderMaterial
             vertexShader={cloudVertexShader}
             fragmentShader={cloudFragmentShader}
@@ -597,7 +660,7 @@ function RealisticPlanet({
       {/* Saturn-like rings */}
       {hasRings && (
         <mesh ref={ringsRef} rotation={[Math.PI / 2.5, 0, Math.PI / 8]}>
-          <ringGeometry args={[sizeMultiplier * 1.4, sizeMultiplier * 2.2, 64]} />
+          <ringGeometry args={[sizeMultiplier * 1.4, sizeMultiplier * 2.2, segments.rings]} />
           <meshBasicMaterial
             color={project.color}
             transparent
@@ -611,7 +674,7 @@ function RealisticPlanet({
 
       {/* Hover indicator ring - visibility controlled in useFrame */}
       <mesh ref={hoverRingRef} rotation={[Math.PI / 2, 0, 0]} visible={false}>
-        <ringGeometry args={[sizeMultiplier * 1.3, sizeMultiplier * 1.35, 32]} />
+        <ringGeometry args={[sizeMultiplier * 1.3, sizeMultiplier * 1.35, segments.atmosphere]} />
         <meshBasicMaterial
           color="#ffffff"
           transparent
@@ -620,6 +683,44 @@ function RealisticPlanet({
           blending={THREE.AdditiveBlending}
         />
       </mesh>
+
+      {/* Hover preview card - skip on mobile for performance */}
+      {hovered && !isMobile && (
+        <Html
+          position={[0, sizeMultiplier + 1.5, 0]}
+          center
+          style={{ pointerEvents: 'none', userSelect: 'none' }}
+          distanceFactor={15}
+          occlude={false}
+        >
+          <div className="px-3 py-2 bg-black/90 backdrop-blur-md rounded-lg border border-white/20 shadow-xl min-w-[180px] max-w-[240px]">
+            <h3 className="text-white font-semibold text-sm truncate">{project.title}</h3>
+            {project.role && (
+              <p className="text-white/60 text-xs mt-0.5">{project.role}</p>
+            )}
+            <div className="flex flex-wrap gap-1 mt-2">
+              {project.tags?.slice(0, 3).map((tag: string) => (
+                <span
+                  key={tag}
+                  className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/10 text-white/80"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            {project.metrics && (
+              <div className="mt-2 pt-2 border-t border-white/10 flex gap-3 text-[10px]">
+                {project.metrics.users && (
+                  <span className="text-white/70">{project.metrics.users} users</span>
+                )}
+                {project.metrics.revenue && (
+                  <span className="text-green-400">{project.metrics.revenue}</span>
+                )}
+              </div>
+            )}
+          </div>
+        </Html>
+      )}
     </group>
   )
 }

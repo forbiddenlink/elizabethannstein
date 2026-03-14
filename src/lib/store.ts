@@ -2,6 +2,8 @@
 
 import { create } from 'zustand'
 import type { ViewState } from './types'
+import { getProjectById } from './galaxyData'
+import { getAudioSynth } from '@/components/ui/SoundManager'
 
 interface ViewStore {
   // Core state machine
@@ -86,6 +88,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
 
   // Navigation with state transitions
   zoomToGalaxy: (galaxyId) => {
+    getAudioSynth()?.playWarp()
     set({
       view: 'galaxy',
       selectedGalaxy: galaxyId,
@@ -96,16 +99,21 @@ export const useViewStore = create<ViewStore>((set, get) => ({
 
   zoomToProject: (projectId) => {
     const state = get()
-    // If not in a galaxy view, we need to figure out which galaxy this project belongs to
+    // Find which galaxy this project belongs to
+    const project = getProjectById(projectId)
+    const galaxyId = project?.galaxy ?? state.selectedGalaxy
+    getAudioSynth()?.playZoom()
     set({
       view: 'project',
       selectedProject: projectId,
+      selectedGalaxy: galaxyId,
       isLanding: false
     })
   },
 
   // New: Enter exploration mode with landing animation
   exploreProject: (projectId) => {
+    getAudioSynth()?.playZoom()
     set({
       view: 'exploration',
       selectedProject: projectId,
@@ -116,6 +124,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
   // New: Exit exploration mode
   exitExploration: () => {
     const state = get()
+    getAudioSynth()?.playWarp()
     set({
       view: state.selectedGalaxy ? 'galaxy' : 'universe',
       selectedProject: null,
@@ -125,6 +134,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
 
   zoomOut: () => {
     const state = get()
+    getAudioSynth()?.playWarp()
     if (state.view === 'exploration') {
       // From exploration back to galaxy
       set({ view: 'galaxy', selectedProject: null, isLanding: false })
@@ -147,11 +157,14 @@ export const useViewStore = create<ViewStore>((set, get) => ({
     scanProgress: Math.min(1, Math.max(0, progress))
   }),
 
-  completeScan: (planetId) => set((state) => ({
-    scannedPlanets: new Set([...state.scannedPlanets, planetId]),
-    scanningPlanet: null,
-    scanProgress: 0
-  })),
+  completeScan: (planetId) => {
+    getAudioSynth()?.playSuccess()
+    return set((state) => ({
+      scannedPlanets: new Set([...state.scannedPlanets, planetId]),
+      scanningPlanet: null,
+      scanProgress: 0
+    }))
+  },
 
   cancelScan: () => set({
     scanningPlanet: null,
@@ -159,27 +172,39 @@ export const useViewStore = create<ViewStore>((set, get) => ({
   }),
 
   // Journey Mode actions
-  startJourney: (tourId?: string) => set({
-    isJourneyMode: true,
-    journeyStep: 0,
-    isJourneyPaused: false,
-    activeTourId: tourId ?? null,
-    view: 'universe'
-  }),
+  startJourney: (tourId?: string) => {
+    getAudioSynth()?.playWarp()
+    return set({
+      isJourneyMode: true,
+      journeyStep: 0,
+      isJourneyPaused: false,
+      activeTourId: tourId ?? null,
+      view: 'universe'
+    })
+  },
 
-  endJourney: () => set({
-    isJourneyMode: false,
-    journeyStep: 0,
-    isJourneyPaused: false
-  }),
+  endJourney: () => {
+    getAudioSynth()?.playSuccess()
+    return set({
+      isJourneyMode: false,
+      journeyStep: 0,
+      isJourneyPaused: false
+    })
+  },
 
-  nextJourneyStop: () => set((state) => ({
-    journeyStep: state.journeyStep + 1
-  })),
+  nextJourneyStop: () => {
+    getAudioSynth()?.playWarp()
+    return set((state) => ({
+      journeyStep: state.journeyStep + 1
+    }))
+  },
 
-  prevJourneyStop: () => set((state) => ({
-    journeyStep: Math.max(0, state.journeyStep - 1)
-  })),
+  prevJourneyStop: () => {
+    getAudioSynth()?.playWarp()
+    return set((state) => ({
+      journeyStep: Math.max(0, state.journeyStep - 1)
+    }))
+  },
 
   setJourneyStep: (step) => set({ journeyStep: step }),
 

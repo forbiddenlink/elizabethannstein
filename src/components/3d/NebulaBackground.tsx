@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 /**
@@ -9,12 +9,19 @@ import * as THREE from 'three'
  */
 export function NebulaBackground() {
   const meshRef = useRef<THREE.Mesh>(null)
+  const { camera } = useThree()
 
-  // Animate the nebula subtly
+  // Animate the nebula with camera parallax
   useFrame(({ clock }) => {
     if (meshRef.current) {
       const material = meshRef.current.material as THREE.ShaderMaterial
       material.uniforms.time.value = clock.getElapsedTime() * 0.05
+      // Pass camera position for parallax effect
+      material.uniforms.cameraPos.value.set(
+        camera.position.x * 0.002,
+        camera.position.y * 0.002,
+        camera.position.z * 0.001
+      )
     }
   })
 
@@ -29,6 +36,7 @@ export function NebulaBackground() {
 
   const fragmentShader = `
     uniform float time;
+    uniform vec3 cameraPos;
     varying vec2 vUv;
 
     // Improved noise function for smoother patterns
@@ -83,7 +91,8 @@ export function NebulaBackground() {
     }
 
     void main() {
-      vec2 uv = vUv;
+      // Apply parallax offset based on camera position
+      vec2 uv = vUv + cameraPos.xy * 0.05;
 
       // Enhanced multi-layer nebula colors with more vibrancy
       vec3 deepPurple = vec3(0.15, 0.03, 0.42);   // Deep purple core - richer
@@ -168,7 +177,8 @@ export function NebulaBackground() {
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={{
-          time: { value: 0.0 }
+          time: { value: 0.0 },
+          cameraPos: { value: new THREE.Vector3(0, 0, 0) }
         }}
         side={THREE.BackSide}
         depthWrite={false}

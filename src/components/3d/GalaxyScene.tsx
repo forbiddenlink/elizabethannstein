@@ -33,6 +33,9 @@ import { SolarFlares } from '@/components/3d/SolarFlares'
 import { BlackHole } from '@/components/3d/BlackHole'
 import { AsteroidBelts } from '@/components/3d/AsteroidBelts'
 import { ScanSystem } from '@/components/3d/ScanSystem'
+import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
+import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
+import { ClickRipple } from '@/components/3d/ClickRipple'
 import { getGalaxyCenterPosition } from '@/lib/utils'
 
 // Camera fly-to controller for galaxy navigation
@@ -239,6 +242,10 @@ function SceneWrapper({ isMobile }: { isMobile: boolean }) {
       <PerformanceMonitor onDecline={() => {}} />
       <SceneContent isMobile={isMobile} controlsRef={controlsRef} />
       <GalaxyCameraController controlsRef={controlsRef} />
+      <HyperspaceWarp isMobile={isMobile} />
+      <ClickRipple isMobile={isMobile} />
+      {/* PostProcessingEffects disabled - causes flickering bug, needs WebGPU compatibility fix */}
+      {/* <PostProcessingEffects isMobile={isMobile} /> */}
     </>
   )
 }

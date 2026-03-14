@@ -178,4 +178,111 @@ class AudioSynth {
     osc.start()
     osc.stop(this.ctx.currentTime + 0.05)
   }
+
+  // Whoosh sound for galaxy navigation / hyperspace
+  playWarp() {
+    if (!this.ctx || !this.masterGain) return
+
+    // Create noise for whoosh texture
+    const bufferSize = this.ctx.sampleRate * 0.8
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate)
+    const data = buffer.getChannelData(0)
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2)
+    }
+
+    const noise = this.ctx.createBufferSource()
+    noise.buffer = buffer
+
+    // Bandpass filter for whoosh character
+    const filter = this.ctx.createBiquadFilter()
+    filter.type = 'bandpass'
+    filter.frequency.setValueAtTime(200, this.ctx.currentTime)
+    filter.frequency.exponentialRampToValueAtTime(2000, this.ctx.currentTime + 0.3)
+    filter.frequency.exponentialRampToValueAtTime(400, this.ctx.currentTime + 0.8)
+    filter.Q.value = 1
+
+    const gain = this.ctx.createGain()
+    gain.gain.setValueAtTime(0, this.ctx.currentTime)
+    gain.gain.linearRampToValueAtTime(0.15, this.ctx.currentTime + 0.1)
+    gain.gain.linearRampToValueAtTime(0.08, this.ctx.currentTime + 0.4)
+    gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.8)
+
+    noise.connect(filter)
+    filter.connect(gain)
+    gain.connect(this.masterGain)
+
+    noise.start()
+    noise.stop(this.ctx.currentTime + 0.8)
+  }
+
+  // Descent/zoom sound for project selection
+  playZoom() {
+    if (!this.ctx || !this.masterGain) return
+
+    const osc = this.ctx.createOscillator()
+    const osc2 = this.ctx.createOscillator()
+    const gain = this.ctx.createGain()
+
+    osc.connect(gain)
+    osc2.connect(gain)
+    gain.connect(this.masterGain)
+
+    // Descending tone
+    osc.type = 'sine'
+    osc.frequency.setValueAtTime(800, this.ctx.currentTime)
+    osc.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.4)
+
+    // Harmonic
+    osc2.type = 'sine'
+    osc2.frequency.setValueAtTime(1200, this.ctx.currentTime)
+    osc2.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime + 0.4)
+
+    gain.gain.setValueAtTime(0.08, this.ctx.currentTime)
+    gain.gain.linearRampToValueAtTime(0.12, this.ctx.currentTime + 0.1)
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.4)
+
+    osc.start()
+    osc2.start()
+    osc.stop(this.ctx.currentTime + 0.4)
+    osc2.stop(this.ctx.currentTime + 0.4)
+  }
+
+  // Success/completion chime
+  playSuccess() {
+    if (!this.ctx || !this.masterGain) return
+
+    const notes = [523.25, 659.25, 783.99] // C5, E5, G5 - major chord
+    const duration = 0.15
+
+    notes.forEach((freq, i) => {
+      const osc = this.ctx!.createOscillator()
+      const gain = this.ctx!.createGain()
+
+      osc.connect(gain)
+      gain.connect(this.masterGain!)
+
+      osc.type = 'sine'
+      osc.frequency.value = freq
+
+      const startTime = this.ctx!.currentTime + i * 0.08
+      gain.gain.setValueAtTime(0, startTime)
+      gain.gain.linearRampToValueAtTime(0.06, startTime + 0.02)
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
+
+      osc.start(startTime)
+      osc.stop(startTime + duration)
+    })
+  }
+}
+
+// Export singleton for use in 3D components
+let audioSynthInstance: AudioSynth | null = null
+
+export function getAudioSynth(): AudioSynth | null {
+  if (typeof window === 'undefined') return null
+  if (!audioSynthInstance) {
+    audioSynthInstance = new AudioSynth()
+  }
+  return audioSynthInstance
 }
