@@ -243,9 +243,8 @@ function SceneWrapper({ isMobile, rendererType }: Readonly<{ isMobile: boolean; 
       <GalaxyCameraController controlsRef={controlsRef} />
       <HyperspaceWarp isMobile={isMobile} />
       <ClickRipple isMobile={isMobile} />
-      {rendererType === 'webgl' && (
-        <PostProcessingEffects isMobile={isMobile} />
-      )}
+      {/* PostProcessingEffects disabled - causes flickering/flash bug */}
+      {/* <PostProcessingEffects isMobile={isMobile} /> */}
     </>
   )
 }
