@@ -24,7 +24,7 @@ export function GalaxyNavigation() {
   if (view === 'exploration' || isJourneyMode) return null
 
   return (
-    <div className="fixed left-6 top-95 z-40 hidden lg:block">
+    <div className="fixed left-6 top-[380px] z-40 hidden lg:block">
       {/* Animated border container */}
       <div className="relative rounded-2xl p-px overflow-visible">
         {/* Animated gradient border */}
