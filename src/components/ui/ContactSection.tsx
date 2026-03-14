@@ -14,16 +14,15 @@ export function ContactSection() {
   if (isJourneyMode || view === 'exploration') return null
 
   return (
-    <div className="fixed top-auto bottom-44 right-6 z-20 hidden lg:flex flex-col gap-3 md:top-auto md:bottom-44">
-      <MagneticButton strength={0.3} tiltStrength={10}>
-      <a
+    <div className="fixed top-auto bottom-44 right-6 z-30 hidden lg:flex flex-col gap-3 md:top-auto md:bottom-44">
+      <MagneticButton
+        strength={0.3}
+        tiltStrength={10}
         href={`mailto:${CONTACT.email}`}
         className="group flex items-center gap-3 py-5 px-8 bg-white/15 backdrop-blur-xl border border-white/30 hover:bg-white/25 hover:border-white/40 rounded-xl transition-all duration-300"
-        aria-label="Send me an email"
       >
         <Mail className="w-5 h-5 text-white/80 group-hover:text-white" />
         <span className="text-white/80 group-hover:text-white text-sm font-medium">Contact</span>
-      </a>
       </MagneticButton>
 
       <div className="flex gap-2">
