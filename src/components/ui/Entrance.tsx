@@ -251,9 +251,9 @@ export function Entrance() {
                             transition={{ duration: 0.8, delay: 1.5 }}
                             className="text-white/50 text-base md:text-xl font-light tracking-wide max-w-lg mx-auto leading-relaxed"
                         >
-                            Designing immersive digital universes
+                            Full-stack developer shipping production apps
                             <br />
-                            <span className="text-indigo-400/70">and intelligent systems</span>
+                            <span className="text-indigo-400/70">with AI integration & design systems</span>
                         </motion.p>
 
                         {/* Enter button */}

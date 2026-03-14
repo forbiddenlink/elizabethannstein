@@ -100,6 +100,17 @@ export default function AboutPage() {
             </p>
           </div>
 
+          {/* What I'm Looking For - FIRST for recruiters */}
+          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 fill-mode-both">
+            <h2 className="text-2xl font-semibold mb-4 text-white/70">Open to Opportunities</h2>
+            <div className="bg-linear-to-br from-purple-500/15 via-pink-500/10 to-orange-500/10 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-3xl shadow-[0_0_50px_rgba(168,85,247,0.15)]">
+              <p className="text-lg text-white/90 leading-relaxed">
+                <strong className="inline-flex items-center gap-1.5 text-success mr-2"><span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span></span>Available now</strong>
+                Looking for <strong className="text-white">frontend</strong>, <strong className="text-white">UX engineering</strong>, or <strong className="text-white">full-stack</strong> roles with a strong product focus—where I can blend UI craftsmanship with solid engineering.
+              </p>
+            </div>
+          </section>
+
           {/* Bio Section */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
@@ -116,7 +127,7 @@ export default function AboutPage() {
               </p>
               <p>
                 I work best in small, shippable steps, with clear commits and documentation so future me
-                (and teammates) don't suffer. <strong className="inline-flex items-center gap-1.5 text-success"><span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span></span>Available now</strong> — B.S. in Software Development from Capella University
+                (and teammates) don't suffer. B.S. in Software Development from Capella University
                 (March 2026, 3.98 GPA). Previously led a design team shipping 6 production sites for a client ecosystem.
               </p>
             </div>
@@ -226,11 +237,39 @@ export default function AboutPage() {
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">Process</h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Agile/Scrum, CI/CD, Testing (1,290+ automated tests), Documentation
+                    Agile/Scrum, CI/CD, Testing (1,500+ automated tests), Documentation
                   </p>
                 </div>
               </div>
             </div>
+          </section>
+
+          {/* Testimonial */}
+          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both">
+            <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
+              💬 What Clients Say
+            </h2>
+            <blockquote className="relative bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-transparent border border-white/20 rounded-2xl p-8 md:p-10 backdrop-blur-sm">
+              <div className="absolute -top-4 -left-2 text-6xl text-white/20 font-serif" aria-hidden="true">"</div>
+              <p className="text-lg md:text-xl leading-relaxed text-white/90 italic mb-6 relative z-10">
+                Elizabeth was the backbone of this project. While every team member played a role, it was Elizabeth who carried the technical weight and delivered a product that exceeded expectations... What set Elizabeth apart beyond her technical ability was her communication. A technically brilliant person who cannot communicate is difficult to work with. Elizabeth was both brilliant and a pleasure to collaborate with, and that combination is genuinely rare.
+              </p>
+              <footer className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <cite className="not-italic font-semibold text-white">Brenna Martin</cite>
+                  <p className="text-white/60 text-sm">Founder & Station Director, DareU Radio</p>
+                  <p className="text-white/40 text-xs mt-1">Best-Selling Author | Corporate Transition Expert</p>
+                </div>
+                <a
+                  href="/testimonials/brenna-martin-dareu-radio.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm font-medium hover:bg-white/20 hover:border-white/30 transition-all duration-200"
+                >
+                  View Full Letter
+                </a>
+              </footer>
+            </blockquote>
           </section>
 
           {/* Highlights */}
@@ -239,8 +278,7 @@ export default function AboutPage() {
             <div className="space-y-4">
               <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
                 <p className="text-white/(--text-opacity-primary)">
-                  ✨ Built and deployed 70 production projects including enterprise SaaS platforms,
-                  AI-powered applications, and educational tools with 1,290+ automated tests
+                  ✨ Built 15+ production apps including enterprise SaaS platforms, AI-powered applications, and educational tools—plus 60+ experiments and learning projects
                 </p>
               </div>
               <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
@@ -269,18 +307,16 @@ export default function AboutPage() {
                   🎓 Graduated with 3.98 GPA, Dean's List every quarter, while shipping production projects full-time
                 </p>
               </div>
-            </div>
-          </section>
-
-          {/* What I'm Looking For */}
-          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-1000 fill-mode-both">
-            <h2 className="text-3xl font-semibold mb-6">What I'm Looking For</h2>
-            <div className="bg-linear-to-br from-purple-500/10 via-pink-500/10 to-orange-500/10 border border-white/20 rounded-2xl p-8 backdrop-blur-3xl shadow-[0_0_50px_rgba(168,85,247,0.1)]">
-              <p className="text-xl text-white/90 leading-relaxed">
-                Roles where I can blend UI craftsmanship with real engineering—frontend, UX engineering,
-                or full-stack work with a strong product focus. I thrive in environments that value both
-                beautiful, accessible interfaces and solid, maintainable code.
-              </p>
+              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+                <p className="text-white/(--text-opacity-primary)">
+                  🏆 Won $750 Algolia Agent Studio Challenge with TimeSlipSearch—"conversational time machine" exploring 420,000+ pop culture records
+                </p>
+              </div>
+              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+                <p className="text-white/(--text-opacity-primary)">
+                  📦 Published npm package (ally-a11y)—accessibility CLI with real-time auto-fix, and built Rust-powered observability tools
+                </p>
+              </div>
             </div>
           </section>
 

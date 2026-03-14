@@ -45,9 +45,10 @@ export const SITE = {
   ],
 } as const
 
-// Portfolio stats
+// Portfolio stats - focused on what recruiters care about
 export const STATS = {
-  projectCount: '70',
-  testCount: '1,290+',
-  yearsExperience: '3+',
+  projectCount: '78',
+  productionProjects: '15+', // Enterprise & shipped SaaS
+  yearsExperience: '3',
+  yearRange: '2023–2026',
 } as const

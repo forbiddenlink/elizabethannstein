@@ -13,28 +13,41 @@ import Image from 'next/image'
 // Map project IDs to their screenshot paths
 // Screenshots should be 1280x720 files in public/screenshots/
 const PROJECT_SCREENSHOTS: Record<string, string> = {
+  // Enterprise
   'flo-labs': '/screenshots/flo-labs.png',
   'caipo-ai': '/screenshots/caipo-ai.webp',
-  'finance-quest': '/screenshots/finance-quest.webp',
-  'portfolio-pro': '/screenshots/portfolio-pro.png',
-  'stancestream': '/screenshots/stance-stream.png',
-  'explainthiscode': '/screenshots/explain-this-code.webp',
   'moodchanger-ai': '/screenshots/moodchanger-ai.png',
   'hephaestus': '/screenshots/hephaestus.png',
   'robocollective-ai': '/screenshots/robocollective-ai.webp',
+  // AI Frontier
+  'finance-quest': '/screenshots/finance-quest.webp',
+  'stancestream': '/screenshots/stance-stream.png',
+  'explainthiscode': '/screenshots/explain-this-code.webp',
   'tubedigest': '/screenshots/tubedigest.png',
   'contradictme': '/screenshots/contradictme.webp',
+  'dev-interviewer': '/screenshots/dev-interviewer.png',
+  // Full-Stack
+  'portfolio-pro': '/screenshots/portfolio-pro.png',
   'create-surveys': '/screenshots/create-surveys.png',
+  'quantum-forge': '/screenshots/quantum-forge.webp',
+  'skill-mapper': '/screenshots/skill-mapper.png',
   'reprise': '/screenshots/reprise.webp',
+  // DevTools
   'componentcompass': '/screenshots/componentcompass.png',
   'security-trainer': '/screenshots/security-trainer.png',
+  'encryption-visualizer': '/screenshots/encryption-visualizer.png',
+  // Creative
   'goodstuff-foodtruck': '/screenshots/goodstuff-foodtruck.png',
+  'studio-furniture': '/screenshots/studio-furniture.png',
+  'rivet': '/screenshots/rivet.png',
+  // Experimental
   'pollyglot': '/screenshots/pollyglot.png',
   'guts-and-glory': '/screenshots/guts-and-glory.png',
   'plant-therapy': '/screenshots/plant-therapy.webp',
   'timeslip-search': '/screenshots/timeslip-search.webp',
   'mythos': '/screenshots/mythos.webp',
-  'quantum-forge': '/screenshots/quantum-forge.webp',
+  'apoc-bnb': '/screenshots/apoc-bnb.png',
+  'canvas-flow': '/screenshots/canvas-flow.png',
 }
 
 interface ProjectCaseStudyProps {
@@ -287,6 +300,50 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           {project.metrics.users && (
             <MetricCard label="Users" value={project.metrics.users} color={project.color} />
           )}
+        </div>
+      )}
+
+      {/* Testimonial */}
+      {project.testimonial && (
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
+            <span className="text-3xl" aria-hidden="true">💬</span>
+            Client Testimonial
+          </h2>
+          <motion.blockquote
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="relative bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-8 md:p-10"
+            style={{
+              boxShadow: `0 0 40px ${project.color}20`
+            }}
+          >
+            <div className="absolute -top-4 -left-2 text-6xl text-white/20 font-serif" aria-hidden="true">"</div>
+            <p className="text-lg md:text-xl leading-relaxed text-white/90 italic mb-6 relative z-10">
+              {project.testimonial.quote}
+            </p>
+            <footer className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <cite className="not-italic font-semibold text-white">{project.testimonial.author}</cite>
+                <p className="text-white/60 text-sm">{project.testimonial.role}</p>
+                {project.testimonial.date && (
+                  <p className="text-white/40 text-xs mt-1">{project.testimonial.date}</p>
+                )}
+              </div>
+              {project.links?.testimonial && (
+                <a
+                  href={project.links.testimonial}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm font-medium hover:bg-white/20 hover:border-white/30 transition-all duration-200"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  View Full Letter
+                </a>
+              )}
+            </footer>
+          </motion.blockquote>
         </div>
       )}
 

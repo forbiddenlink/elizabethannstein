@@ -5,7 +5,7 @@ import { STATS } from '@/lib/constants'
 
 const stats = [
   { label: 'Projects', value: STATS.projectCount },
-  { label: 'Tests', value: STATS.testCount },
+  { label: 'Production', value: STATS.productionProjects },
   { label: 'Years', value: STATS.yearsExperience },
 ]
 

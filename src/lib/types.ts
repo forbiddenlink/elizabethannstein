@@ -29,6 +29,7 @@ export interface Project {
     productHunt?: string
     contestWin?: string
     videoUrl?: string // Loom/YouTube demo video
+    testimonial?: string // PDF or link to recommendation letter
   }
   status?: 'in-progress' | 'live' | 'archived'
   featured: boolean // For homepage highlights
@@ -42,6 +43,7 @@ export interface Project {
     author: string
     role: string
     company?: string
+    date?: string
   }
   impactMetrics?: Array<{
     label: string
