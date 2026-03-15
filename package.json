@@ -1,8 +1,8 @@
 {
-  "name": "my-portfolio",
+  "name": "elizabethannstein",
   "version": "1.0.0",
   "private": true,
-  "description": "Elizabeth Stein's interactive 3D galaxy portfolio — 68 projects across 6 galaxies",
+  "description": "Elizabeth Stein's interactive 3D galaxy portfolio \u2014 68 projects across 6 galaxies",
   "author": "Elizabeth Stein",
   "license": "MIT",
   "packageManager": "pnpm@10.26.2",
