@@ -59,3 +59,4 @@ coverage/
 test_run/
 supabase/.temp/
 dist/
+.env*

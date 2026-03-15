@@ -1,7 +1,7 @@
 {
   "name": "elizabethannstein",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "Elizabeth Stein's interactive 3D galaxy portfolio \u2014 68 projects across 6 galaxies",
   "author": "Elizabeth Stein",
   "license": "MIT",
