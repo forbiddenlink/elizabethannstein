@@ -47,3 +47,15 @@ thoughts/
 
 # Temporary files
 /tmp/
+.claude
+.claude/
+.playwright-mcp
+.history
+playwright-report
+playwright-report/
+__pycache__
+.codacy
+coverage/
+test_run/
+supabase/.temp/
+dist/
