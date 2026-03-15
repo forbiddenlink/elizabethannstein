@@ -1,0 +1,20 @@
+# Elizabeth Ann Stein
+
+> Full-stack developer and designer building SaaS products and open-source tools.
+
+## About
+elizabethannstein.com is the personal portfolio and blog of Elizabeth Ann Stein, a full-stack developer specializing in Next.js, TypeScript, and modern web technologies. The site showcases projects, writing, and professional work.
+
+## Key Features
+- Project portfolio and case studies
+- Technical blog and articles
+- Open-source contributions
+- Contact and hiring information
+
+## Documentation
+- [Homepage](https://elizabethannstein.com)
+- [Projects](https://elizabethannstein.com/projects)
+- [Blog](https://elizabethannstein.com/blog)
+
+## Contact
+- hello@elizabethannstein.com
