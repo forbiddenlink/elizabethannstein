@@ -7,6 +7,8 @@ import { WarpTransition } from '@/components/ui/WarpTransition'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { SITE, CONTACT } from '@/lib/constants'
 import '@/app/globals.css'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -97,6 +99,8 @@ export default function RootLayout({
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
+              <VercelAnalytics />
+              <SpeedInsights />
       </body>
     </html>
   )
