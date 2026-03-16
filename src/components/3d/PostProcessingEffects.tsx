@@ -54,17 +54,17 @@ export function PostProcessingEffects({ enabled = true, isMobile = false }: Post
   if (!enabled) return null
 
   return (
-    <EffectComposer multisampling={isMobile ? 0 : 4}>
+    <EffectComposer multisampling={0}>
       <Bloom
         intensity={dynamicBloom}
-        luminanceThreshold={0.15}
-        luminanceSmoothing={0.9}
+        luminanceThreshold={0.2}
+        luminanceSmoothing={0.8}
         kernelSize={bloomKernel}
         mipmapBlur
       />
       <Vignette
-        offset={0.3}
-        darkness={0.5}
+        offset={0.35}
+        darkness={0.55}
       />
     </EffectComposer>
   )

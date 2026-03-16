@@ -36,6 +36,7 @@ import { ScanSystem } from '@/components/3d/ScanSystem'
 import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
 import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
 import { ClickRipple } from '@/components/3d/ClickRipple'
+import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
 import { getGalaxyCenterPosition } from '@/lib/utils'
 
 // Camera fly-to controller for galaxy navigation
@@ -161,12 +162,13 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       <color attach="background" args={['#000000']} />
       <fog attach="fog" args={['#000510', 180, 450]} />
 
-      {/* Lights */}
-      <ambientLight intensity={0.9} color="#0a0a15" />
-      <pointLight position={[100, 100, 100]} intensity={2} color="#6d28d9" castShadow shadow-mapSize={[1024, 1024]} />
-      <pointLight position={[-100, -100, -50]} intensity={1.5} color="#3b82f6" castShadow shadow-mapSize={[512, 512]} />
-      <directionalLight position={[0, 50, 0]} intensity={0.8} color="#ffffff" castShadow />
-      <hemisphereLight intensity={0.3} color="#8b5cf6" groundColor="#1e1b4b" />
+      {/* Lights — darker ambient for drama, vivid coloured point lights */}
+      <ambientLight intensity={0.5} color="#080815" />
+      <pointLight position={[100, 100, 100]} intensity={3.5} color="#7c3aed" castShadow shadow-mapSize={[1024, 1024]} />
+      <pointLight position={[-100, -100, -50]} intensity={2.5} color="#2563eb" castShadow shadow-mapSize={[512, 512]} />
+      <pointLight position={[0, -80, 0]} intensity={1.2} color="#ec4899" />
+      <directionalLight position={[0, 50, 0]} intensity={0.6} color="#ffffff" castShadow />
+      <hemisphereLight intensity={0.4} color="#a78bfa" groundColor="#1e1b4b" />
 
       {/* Environment */}
       <Suspense fallback={null}>
@@ -180,8 +182,9 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
         ) : (
           <>
             <NebulaBackground isMobile={isMobile} />
-            <TwinklingStarfield count={isMobile ? 2000 : 5000} />
+            <TwinklingStarfield count={isMobile ? 2000 : 8000} />
             <GalaxyCores />
+            <GalaxyLabels />
             <EnhancedProjectStars />
             <ScanSystem />
             <PlanetEnhancements />
@@ -243,8 +246,8 @@ function SceneWrapper({ isMobile, rendererType }: Readonly<{ isMobile: boolean; 
       <GalaxyCameraController controlsRef={controlsRef} />
       <HyperspaceWarp isMobile={isMobile} />
       <ClickRipple isMobile={isMobile} />
-      {/* PostProcessingEffects disabled - causes flickering/flash bug */}
-      {/* <PostProcessingEffects isMobile={isMobile} /> */}
+      {/* PostProcessingEffects: WebGL-only — WebGPU causes flickering */}
+      {rendererType === 'webgl' && <PostProcessingEffects isMobile={isMobile} />}
     </>
   )
 }

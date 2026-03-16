@@ -79,8 +79,8 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
 
   // Spiral arm particles
   const spiralData = useMemo(() => {
-    const armCount = 2
-    const particlesPerArm = 150
+    const armCount = 3
+    const particlesPerArm = 280
     const totalParticles = armCount * particlesPerArm
 
     const positions = new Float32Array(totalParticles * 3)
@@ -88,7 +88,8 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
     const sizes = new Float32Array(totalParticles)
 
     const baseColor = new THREE.Color(color)
-    const brightColor = new THREE.Color(color).multiplyScalar(1.5)
+    const brightColor = new THREE.Color(color).multiplyScalar(2.0)
+    const coreColor = new THREE.Color('#ffffff').lerp(baseColor, 0.4)
 
     for (let arm = 0; arm < armCount; arm++) {
       const armOffset = (arm / armCount) * Math.PI * 2
@@ -96,29 +97,31 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
       for (let i = 0; i < particlesPerArm; i++) {
         const idx = arm * particlesPerArm + i
 
-        // Spiral equation: r = a + b * theta
         const t = i / particlesPerArm
-        const theta = t * Math.PI * 3 + armOffset // 1.5 rotations per arm
-        const radius = 2 + t * 12 // Start at 2, extend to 14
+        const theta = t * Math.PI * 3.5 + armOffset
+        const radius = 1.5 + t * 18 // extend to 19.5
 
-        // Add some randomness for organic look
-        const randRadius = radius + (Math.random() - 0.5) * 2
-        const randTheta = theta + (Math.random() - 0.5) * 0.3
-        const randY = (Math.random() - 0.5) * 1.5 // Slight thickness
+        const randRadius = radius + (Math.random() - 0.5) * 2.5
+        const randTheta = theta + (Math.random() - 0.5) * 0.25
+        const randY = (Math.random() - 0.5) * 2.0
 
         positions[idx * 3] = Math.cos(randTheta) * randRadius
         positions[idx * 3 + 1] = randY
         positions[idx * 3 + 2] = Math.sin(randTheta) * randRadius
 
-        // Color gradient - brighter toward center
-        const colorMix = 1 - t * 0.7
-        const particleColor = baseColor.clone().lerp(brightColor, colorMix)
+        // Inner third: white-tinted, middle: bright galaxy colour, outer: dim
+        let particleColor
+        if (t < 0.2) {
+          particleColor = coreColor.clone().lerp(brightColor, t / 0.2)
+        } else {
+          particleColor = baseColor.clone().lerp(brightColor, 1 - t * 0.8)
+        }
         colors[idx * 3] = particleColor.r
         colors[idx * 3 + 1] = particleColor.g
         colors[idx * 3 + 2] = particleColor.b
 
-        // Size - larger toward center
-        sizes[idx] = (1 - t * 0.5) * 0.3
+        // Size — larger in centre, tiny at edges
+        sizes[idx] = t < 0.15 ? 0.55 - t : (1 - t * 0.65) * 0.35
       }
     }
 
@@ -154,17 +157,30 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
     <group position={position} scale={scale}>
       {/* Central luminous core */}
       <mesh ref={coreRef} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[8, 8]} />
+        <planeGeometry args={[14, 14]} />
         <primitive object={coreMaterial} attach="material" />
       </mesh>
 
-      {/* Outer glow halo */}
+      {/* Outer glow halo — larger, more vivid */}
       <mesh ref={glowRef} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[0, 6, 64]} />
+        <ringGeometry args={[0, 10, 64]} />
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.15}
+          opacity={0.22}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* Second outer halo — very faint, large */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0, 16, 64]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={0.07}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
           side={THREE.DoubleSide}
@@ -188,10 +204,10 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.4}
+          size={0.55}
           vertexColors
           transparent
-          opacity={0.6}
+          opacity={0.75}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
           sizeAttenuation

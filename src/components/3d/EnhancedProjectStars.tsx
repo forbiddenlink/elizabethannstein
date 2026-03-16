@@ -687,37 +687,84 @@ function RealisticPlanet({
       {/* Hover preview card - skip on mobile for performance */}
       {hovered && !isMobile && (
         <Html
-          position={[0, sizeMultiplier + 1.5, 0]}
+          position={[0, sizeMultiplier + 2, 0]}
           center
           style={{ pointerEvents: 'none', userSelect: 'none' }}
           distanceFactor={15}
           occlude={false}
         >
-          <div className="px-3 py-2 bg-black/90 backdrop-blur-md rounded-lg border border-white/20 shadow-xl min-w-[180px] max-w-[240px]">
-            <h3 className="text-white font-semibold text-sm truncate">{project.title}</h3>
-            {project.role && (
-              <p className="text-white/60 text-xs mt-0.5">{project.role}</p>
-            )}
-            <div className="flex flex-wrap gap-1 mt-2">
-              {project.tags?.slice(0, 3).map((tag: string) => (
+          <div
+            className="rounded-xl shadow-2xl overflow-hidden min-w-[200px] max-w-[260px]"
+            style={{
+              background: 'rgba(5, 5, 15, 0.92)',
+              border: `1px solid ${project.color}40`,
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            {/* Colour accent bar */}
+            <div
+              className="h-[3px] w-full"
+              style={{ background: `linear-gradient(90deg, ${project.color}cc, ${project.color}22)` }}
+            />
+            <div className="px-3.5 py-2.5 space-y-2">
+              {/* Galaxy badge */}
+              <div className="flex items-center justify-between gap-2">
                 <span
-                  key={tag}
-                  className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/10 text-white/80"
+                  className="text-[9px] tracking-[0.2em] uppercase font-medium px-1.5 py-0.5 rounded-full"
+                  style={{ color: project.color, background: `${project.color}18` }}
                 >
-                  {tag}
+                  {project.galaxy?.replace('-', ' ')}
                 </span>
-              ))}
-            </div>
-            {project.metrics && (
-              <div className="mt-2 pt-2 border-t border-white/10 flex gap-3 text-[10px]">
-                {project.metrics.users && (
-                  <span className="text-white/70">{project.metrics.users} users</span>
-                )}
-                {project.metrics.revenue && (
-                  <span className="text-green-400">{project.metrics.revenue}</span>
+                {project.featured && (
+                  <span className="text-[9px] tracking-widest uppercase text-amber-400/80 font-medium">
+                    ★ Featured
+                  </span>
                 )}
               </div>
-            )}
+
+              {/* Title + role */}
+              <div>
+                <h3 className="text-white font-semibold text-sm leading-tight">{project.title}</h3>
+                {project.role && (
+                  <p className="text-white/50 text-[11px] mt-0.5">{project.role}</p>
+                )}
+              </div>
+
+              {/* Tags */}
+              {project.tags && project.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {project.tags.slice(0, 3).map((tag: string) => (
+                    <span
+                      key={tag}
+                      className="px-1.5 py-0.5 text-[10px] rounded-full text-white/70"
+                      style={{ background: `${project.color}1a`, border: `1px solid ${project.color}30` }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Metrics row */}
+              {project.metrics && (
+                <div className="pt-1.5 border-t border-white/8 flex gap-3 text-[10px]">
+                  {project.metrics.users && (
+                    <span className="text-white/60">{project.metrics.users} users</span>
+                  )}
+                  {project.metrics.revenue && (
+                    <span className="text-emerald-400/90">{project.metrics.revenue}</span>
+                  )}
+                  {project.metrics.tests && (
+                    <span className="text-white/60">{project.metrics.tests} tests</span>
+                  )}
+                </div>
+              )}
+
+              {/* Click CTA */}
+              <p className="text-[9px] tracking-[0.15em] uppercase text-white/25 text-center pt-0.5">
+                Click to explore →
+              </p>
+            </div>
           </div>
         </Html>
       )}
