@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { MagneticButton } from '@/components/ui/MagneticButton'
 import { useViewStore } from '@/lib/store'
 import { ArrowRight, Sparkles, Trophy, Rocket, Code2, Building2, Brain } from 'lucide-react'
 import Link from 'next/link'
@@ -124,13 +125,17 @@ function AnimatedLetter({ char, index, total }: Readonly<{ char: string; index: 
 export function Entrance() {
     const hasEntered = useViewStore((state) => state.hasEntered)
     const enter = useViewStore((state) => state.enter)
+    const setWarpingIn = useViewStore((state) => state.setWarpingIn)
     const [isEntering, setIsEntering] = useState(false)
 
     const handleEnter = () => {
         setIsEntering(true)
+        // Start hyperspace warp immediately, enter the galaxy after 1.4s
+        setWarpingIn(true)
         setTimeout(() => {
             enter()
-        }, 1200)
+            setWarpingIn(false)
+        }, 1400)
     }
 
     const firstName = 'ELIZABETH'
@@ -300,58 +305,41 @@ export function Entrance() {
                         </motion.div>
 
                         {/* Enter button */}
-                        <motion.button
+                        <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            whileHover={{
-                                scale: 1.05,
-                                boxShadow: '0 0 40px rgba(99, 102, 241, 0.4)',
-                            }}
-                            whileTap={{ scale: 0.98 }}
                             transition={{ duration: 0.5, delay: 1.8 }}
-                            onClick={handleEnter}
-                            disabled={isEntering}
-                            className="group relative mt-4 px-14 py-6 md:px-16 md:py-7 bg-linear-to-r from-indigo-600/30 to-purple-600/30 border-2 border-indigo-500/40 hover:border-indigo-400/60 rounded-full backdrop-blur-xl overflow-hidden transition-all duration-500 shadow-2xl shadow-indigo-500/20"
+                            className="mt-4"
                         >
-                            {/* Animated border glow */}
+                        <MagneticButton
+                            strength={0.5}
+                            glowOnHover
+                            onClick={handleEnter}
+                            className="group relative px-14 py-6 md:px-16 md:py-7 bg-gradient-to-r from-indigo-600/30 to-purple-600/30 border-2 border-indigo-500/40 hover:border-indigo-400/60 rounded-full backdrop-blur-xl overflow-hidden transition-all duration-500 shadow-2xl shadow-indigo-500/20"
+                        >
+                            {/* Animated border shimmer */}
                             <motion.div
                                 className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                style={{
-                                    background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent)',
-                                    backgroundSize: '200% 100%',
-                                }}
-                                animate={{
-                                    backgroundPosition: ['200% 0', '-200% 0'],
-                                }}
-                                transition={{
-                                    duration: 2,
-                                    repeat: Infinity,
-                                    ease: 'linear',
-                                }}
+                                style={{ background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent)', backgroundSize: '200% 100%' }}
+                                animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
                             />
-
-                            {/* Button content */}
                             <span className="relative z-10 flex items-center gap-4 text-white font-semibold tracking-[0.15em] text-sm md:text-base">
                                 {isEntering ? (
-                                    <motion.span
-                                        animate={{ opacity: [1, 0.5, 1] }}
-                                        transition={{ duration: 1, repeat: Infinity }}
-                                    >
+                                    <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1, repeat: Infinity }}>
                                         LAUNCHING...
                                     </motion.span>
                                 ) : (
                                     <>
                                         ENTER UNIVERSE
-                                        <motion.div
-                                            animate={{ x: [0, 5, 0] }}
-                                            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                                        >
+                                        <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}>
                                             <ArrowRight className="w-5 h-5" />
                                         </motion.div>
                                     </>
                                 )}
                             </span>
-                        </motion.button>
+                        </MagneticButton>
+                        </motion.div>
 
                         {/* Featured Work — hidden on small phones */}
                         <motion.div

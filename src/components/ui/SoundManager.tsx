@@ -12,12 +12,11 @@ export function SoundManager() {
 
   useEffect(() => {
     setIsClient(true)
-    synthRef.current = new AudioSynth()
+    // Use the singleton to avoid a second AudioContext alongside store's instance
+    synthRef.current = getAudioSynth()
 
     return () => {
-      if (synthRef.current) {
-        synthRef.current.stopDrone()
-      }
+      // Don't destroy singleton on unmount — store and other components share it
     }
   }, [])
 

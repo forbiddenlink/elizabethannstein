@@ -29,6 +29,11 @@ export const galaxies: Galaxy[] = [
         challenge: 'Navigating a massive 64,806-file enterprise codebase while contributing meaningful features to an aviation resource management platform used in real operations.',
         solution: 'Focused on understanding existing patterns before making changes. Contributed to architecture decisions, implemented core features with comprehensive testing, and maintained strict type safety across the monorepo.',
         impact: 'Successfully shipped features to production used by aviation operations teams. Improved codebase maintainability through comprehensive test coverage and documentation.',
+        impactMetrics: [
+          { label: 'Files in Codebase', value: '64,806', icon: '📁' },
+          { label: 'Production Users', value: 'Live Ops', icon: '✈️' },
+          { label: 'Type Coverage', value: '100%', icon: '🛡️' },
+        ],
       },
       {
         id: 'flo-labs',
@@ -46,7 +51,12 @@ export const galaxies: Galaxy[] = [
         dateRange: '2024',
         challenge: 'Led a team of 3-4 developers across 6+ production sites for a client while establishing consistent design patterns and development workflows.',
         solution: 'Built a unified design system and component library from scratch. Implemented modern Next.js architecture with Strapi CMS, established code review processes, and mentored junior developers on TypeScript and React best practices.',
-        impact: '6 production sites launched and maintained. Team velocity increased 40% through shared component library. Reduced onboarding time for new developers from weeks to days.'
+        impact: '6 production sites launched and maintained. Team velocity increased 40% through shared component library. Reduced onboarding time for new developers from weeks to days.',
+        impactMetrics: [
+          { label: 'Production Sites', value: '6', icon: '🌐' },
+          { label: 'Velocity Increase', value: '40%', icon: '🚀' },
+          { label: 'Team Size', value: '4 devs', icon: '👥' },
+        ],
       },
       {
         id: 'caipo-ai',
@@ -163,6 +173,11 @@ export const galaxies: Galaxy[] = [
         challenge: 'Coordinating multiple AI agents in real-time with persistent memory and coherent debate dynamics while showcasing all Redis data model capabilities.',
         solution: 'Express.js + WebSocket server for real-time concurrent debates. GPT-4 agents with emotional states and coalition tracking. Redis Vector-powered semantic caching (85% hit rate). Advanced multi-source fact-checking with cross-validation. Business Intelligence dashboard tracks ROI and cost savings. React 19 + Vite frontend with 4-mode navigation.',
         impact: 'Production-ready Redis AI Challenge entry. 85% semantic cache hit rate cuts LLM costs dramatically. BI dashboard quantifies ROI in real-time. 47+ Lucide React icons across fully responsive UI.',
+        impactMetrics: [
+          { label: 'Cache Hit Rate', value: '85%', icon: '⚡' },
+          { label: 'AI Agents', value: '4', icon: '🤖' },
+          { label: 'Redis Models', value: '4', icon: '🗄️' },
+        ],
       },
       {
         id: 'codebase-onboarding-tool',
@@ -198,6 +213,11 @@ export const galaxies: Galaxy[] = [
         challenge: 'Creating an engaging financial education platform that actually helps users retain knowledge long-term, with full WCAG 2.1 AA accessibility compliance.',
         solution: 'Implemented the SM-2 spaced repetition algorithm to optimize learning retention (85% rate). Built 30+ interactive calculators, AI-powered coaching, and gamification elements. Wrote 702 tests to ensure reliability.',
         impact: '85% knowledge retention rate achieved through spaced repetition. 702 passing tests ensure platform reliability. WCAG 2.1 AA compliant for full accessibility.',
+        impactMetrics: [
+          { label: 'Passing Tests', value: '702', icon: '✅' },
+          { label: 'Retention Rate', value: '85%', icon: '🧠' },
+          { label: 'Calculators', value: '30+', icon: '🧮' },
+        ],
       },
       {
         id: 'explainthiscode',
@@ -215,6 +235,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Building a full SaaS platform from scratch with AI-powered code analysis, subscription billing, and team collaboration features.',
         solution: 'Integrated GPT-4 with skill-level adaptation to explain code at the user\'s level. Added security vulnerability scanning, performance profiling, Stripe subscriptions, and built the entire UI with 47 Radix components.',
         impact: 'Full production SaaS with Stripe billing integration. 47 Radix UI components for consistent, accessible UI. Security scanning identifies vulnerabilities in real-time.',
+        impactMetrics: [
+          { label: 'Radix Components', value: '47', icon: '🧩' },
+          { label: 'AI Models', value: 'GPT-4', icon: '🤖' },
+          { label: 'Billing Tiers', value: '3', icon: '💳' },
+          { label: 'Status', value: 'Live SaaS', icon: '🚀' },
+        ],
       },
       {
         id: 'dev-assistant-pro',
@@ -249,6 +275,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Processing long-form YouTube content into useful, searchable summaries while preserving key insights and enabling knowledge management.',
         solution: 'Built a pipeline using Claude Sonnet 4.5 for intelligent summarization with topic extraction. Added mind map visualization for exploring connections, full-text search across all summaries, and GitHub sync for backup.',
         impact: 'Claude Sonnet 4.5 integration delivers high-quality summaries. Mind map visualization reveals content connections. GitHub sync ensures knowledge is never lost.',
+        impactMetrics: [
+          { label: 'AI Model', value: 'Claude 4.5', icon: '🧠' },
+          { label: 'Search', value: 'Full-Text', icon: '🔍' },
+          { label: 'Visualisation', value: 'Mind Map', icon: '🗺️' },
+          { label: 'Backup', value: 'GitHub Sync', icon: '☁️' },
+        ],
       },
       {
         id: 'autodocs-ai',
@@ -274,6 +306,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Documentation becomes outdated instantly. Manual maintenance is tedious and skipped. Need auto-sync on every git push plus intelligent Q&A.',
         solution: 'Built AI pipeline with Claude for documentation generation, Tree-sitter for code parsing, RAG (Pinecone + BM25) for intelligent chat, GitHub webhooks for auto-sync, and full Stripe billing with 3 pricing tiers. Multi-language code sample generation.',
         impact: 'Launched on Product Hunt. Live production SaaS with Stripe billing ($35-239/mo). Documentation auto-updates on git push. RAG chat reduces onboarding questions by 70%.',
+        impactMetrics: [
+          { label: 'Pricing', value: '$35–239/mo', icon: '💰' },
+          { label: 'RAG Savings', value: '-70% Q&A', icon: '🤖' },
+          { label: 'Launched', value: 'Product Hunt', icon: '🚀' },
+          { label: 'Sync', value: 'Auto on Push', icon: '🔄' },
+        ],
       },
       {
         id: 'mcp-server-studio',
@@ -327,6 +365,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Fighting echo chambers by presenting the strongest opposing viewpoints without bias or strawmanning.',
         solution: 'GPT-4 generates steelman arguments — the best possible version of the opposing case. Built credibility scoring, source verification, AI debate arena, and analytics dashboard tracking argument quality over time.',
         impact: '73 automated tests ensure argument quality. Users report 3x more exposure to diverse perspectives. Steelman framing produces meaningfully better critical thinking outcomes than strawman approaches.',
+        impactMetrics: [
+          { label: 'Passing Tests', value: '73', icon: '✅' },
+          { label: 'Perspectives', value: '3x', icon: '🌐' },
+          { label: 'AI Model', value: 'GPT-4', icon: '🤖' },
+          { label: 'Status', value: 'Live', icon: '🚀' },
+        ],
       },
       {
         id: 'interview-ace',
@@ -477,6 +521,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Creating a comprehensive AI development learning platform with interactive coding, subscription management, and custom tooling.',
         solution: 'Built 269 lessons across 144 projects with Monaco Editor for live coding. Integrated custom MCP servers, Stripe subscriptions with multiple tiers, and achieved 87% test coverage with a 9.3/10 quality score.',
         impact: '269 lessons, 144 projects, 87% test coverage. Quality score 9.3/10 from automated analysis. Live production platform with paying subscribers.',
+        impactMetrics: [
+          { label: 'Lessons', value: '269', icon: '📚' },
+          { label: 'Projects', value: '144', icon: '🏗️' },
+          { label: 'Test Coverage', value: '87%', icon: '✅' },
+          { label: 'Quality Score', value: '9.3/10', icon: '⭐' },
+        ],
       },
       {
         id: 'create-surveys',
@@ -494,6 +544,11 @@ export const galaxies: Galaxy[] = [
         challenge: 'Survey tools are either too simple (Google Forms) or too complex (enterprise solutions). Middle ground with good UX barely exists.',
         solution: 'Built intuitive drag-and-drop builder with real-time analytics dashboard. Skip logic and conditional branching without complexity.',
         impact: 'Survey creation takes under 5 minutes. Real-time analytics show response patterns as they come in. Conditional logic requires zero coding.',
+        impactMetrics: [
+          { label: 'Setup Time', value: '< 5 min', icon: '⚡' },
+          { label: 'Analytics', value: 'Real-Time', icon: '📊' },
+          { label: 'Status', value: 'Live', icon: '🌐' },
+        ],
       },
       {
         id: 'innovation-bootcamp',
@@ -527,6 +582,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Building a modern employee portal that feels native while handling complex data relationships and AI interactions.',
         solution: 'Architected with Next.js 15 and React 19 for optimal performance. PostgreSQL for relational data, AI-powered search and recommendations, glass-morphism design for modern aesthetics.',
         impact: 'Production-ready portal with <100ms page loads. AI-powered interactions reduce time-to-answer by 60%. Glass-morphism UI praised for modern, accessible design.',
+        impactMetrics: [
+          { label: 'Page Load', value: '<100ms', icon: '⚡' },
+          { label: 'Time-to-Answer', value: '-60%', icon: '🤖' },
+          { label: 'Stack', value: 'React 19', icon: '⚛️' },
+          { label: 'DB', value: 'PostgreSQL', icon: '🗄️' },
+        ],
       },
       {
         id: 'codealpha-todolist',
@@ -577,6 +638,11 @@ export const galaxies: Galaxy[] = [
         challenge: 'Matching people with fitness trainers requires weighing incommensurable factors — schedule, budget, personality, goals — in a way that feels trustworthy rather than arbitrary.',
         solution: 'Multi-factor weighted scoring with Jaccard similarity for goal overlap, budget constraint logic as a hard filter, schedule conflict detection, and a 0–100 confidence score driven by profile completeness.',
         impact: 'Matching algorithm handles edge cases gracefully. Confidence scoring gives users a clear signal of match quality. Clean UX makes a complex algorithm feel effortless.',
+        impactMetrics: [
+          { label: 'Algorithm', value: 'Jaccard', icon: '🧮' },
+          { label: 'Score Range', value: '0–100', icon: '🎯' },
+          { label: 'Factors', value: '5+', icon: '⚖️' },
+        ],
       },
       {
         id: 'willwise',
@@ -802,6 +868,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Helping developers find the right shadcn/ui components without reading through extensive documentation.',
         solution: 'Built GPT-4 Vision screenshot analysis for visual component matching. Multi-index Algolia search across components, code samples, and accessibility patterns.',
         impact: '24 automated tests ensure accuracy. Screenshot-to-component matching in <2 seconds. Multi-index search covers 40+ component patterns.',
+        impactMetrics: [
+          { label: 'Tests', value: '24', icon: '✅' },
+          { label: 'Match Speed', value: '<2s', icon: '⚡' },
+          { label: 'AI', value: 'GPT-4 Vision', icon: '👁️' },
+          { label: 'Patterns', value: '40+', icon: '🧩' },
+        ],
       },
       {
         id: 'gif-my-code',
@@ -837,6 +909,12 @@ export const galaxies: Galaxy[] = [
         challenge: 'Reproducing bugs reliably is the hardest part of QA. Evidence gets lost, steps get forgotten, and AI assistants have no direct access to QA findings.',
         solution: 'Autonomous Playwright-based crawler with 7 parallel detectors. HAR capture freezes the exact network state of a bug. Reproducibility validation confirms the bug before filing. MCP server exposes findings directly to Claude Desktop for AI-powered triage.',
         impact: '170 tests across 11 files at 85% coverage. MCP integration means Claude can query and reason about bugs directly. HAR replay via Playwright makes every bug reproducible on demand.',
+        impactMetrics: [
+          { label: 'Test Coverage', value: '85%', icon: '✅' },
+          { label: 'Bug Detectors', value: '7', icon: '🔍' },
+          { label: 'Tests', value: '170', icon: '🧪' },
+          { label: 'Integration', value: 'Claude MCP', icon: '🤖' },
+        ],
       },
       {
         id: 'imgzen',

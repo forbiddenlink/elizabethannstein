@@ -17,7 +17,7 @@ interface HyperspaceWarpProps {
  * Creates a starfield that stretches into lines during transition
  */
 export function HyperspaceWarp({ isMobile = false }: HyperspaceWarpProps) {
-  const STAR_COUNT = isMobile ? 200 : 500
+  const STAR_COUNT = isMobile ? 300 : 800
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
   const [isWarping, setIsWarping] = useState(false)
@@ -25,6 +25,7 @@ export function HyperspaceWarp({ isMobile = false }: HyperspaceWarpProps) {
   const prevGalaxy = useRef<string | null>(null)
 
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
+  const isWarpingIn = useViewStore((state) => state.isWarpingIn)
   const view = useViewStore((state) => state.view)
 
   // Detect galaxy change to trigger warp
@@ -35,6 +36,14 @@ export function HyperspaceWarp({ isMobile = false }: HyperspaceWarpProps) {
     }
     prevGalaxy.current = selectedGalaxy
   }, [selectedGalaxy, view])
+
+  // Trigger warp on initial entry into the galaxy
+  useEffect(() => {
+    if (isWarpingIn) {
+      setIsWarping(true)
+      warpProgress.current = 0
+    }
+  }, [isWarpingIn])
 
   // Generate star positions in a cylinder
   const { positions, velocities } = useMemo(() => {

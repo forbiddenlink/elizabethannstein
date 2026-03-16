@@ -230,24 +230,42 @@ export function GalaxyCursor() {
             <div className="absolute top-1/2 left-0 right-0 h-px bg-cyan-400/50 -translate-y-1/2" />
             <div className="absolute left-1/2 top-0 bottom-0 w-px bg-cyan-400/50 -translate-x-1/2" />
             <div className="absolute inset-[22px] w-1 h-1 rounded-full bg-cyan-400" />
+            {/* Context label */}
+            <div
+              className="absolute top-full mt-2 left-1/2 -translate-x-1/2 text-[10px] font-mono font-semibold uppercase tracking-[0.15em] whitespace-nowrap"
+              style={{ color: '#22d3ee', textShadow: '0 0 8px rgba(34,211,238,0.8)' }}
+            >
+              EXPLORE →
+            </div>
           </div>
         ) : (
           /* Normal glowing orb */
-          <div
-            className="rounded-full transition-all duration-200"
-            style={{
-              width:  isHover ? 44 : 28,
-              height: isHover ? 44 : 28,
-              background: isHover
-                ? 'radial-gradient(circle, rgba(139,92,246,0.35) 0%, rgba(99,102,241,0.12) 60%, transparent 100%)'
-                : 'radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(99,102,241,0.06) 60%, transparent 100%)',
-              border: `1px solid rgba(139,92,246,${isHover ? 0.5 : 0.25})`,
-              boxShadow: isHover
-                ? '0 0 18px rgba(139,92,246,0.4), 0 0 40px rgba(99,102,241,0.15)'
-                : '0 0 10px rgba(139,92,246,0.2)',
-              filter: 'blur(0.4px)',
-            }}
-          />
+          <div className="relative">
+            <div
+              className="rounded-full transition-all duration-200"
+              style={{
+                width:  isHover ? 44 : 28,
+                height: isHover ? 44 : 28,
+                background: isHover
+                  ? 'radial-gradient(circle, rgba(139,92,246,0.35) 0%, rgba(99,102,241,0.12) 60%, transparent 100%)'
+                  : 'radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(99,102,241,0.06) 60%, transparent 100%)',
+                border: `1px solid rgba(139,92,246,${isHover ? 0.5 : 0.25})`,
+                boxShadow: isHover
+                  ? '0 0 18px rgba(139,92,246,0.4), 0 0 40px rgba(99,102,241,0.15)'
+                  : '0 0 10px rgba(139,92,246,0.2)',
+                filter: 'blur(0.4px)',
+              }}
+            />
+            {/* Context label on hover */}
+            {isHover && cursorState === 'hover' && (
+              <div
+                className="absolute top-full mt-1.5 left-1/2 -translate-x-1/2 text-[9px] font-mono font-medium uppercase tracking-[0.12em] whitespace-nowrap opacity-80"
+                style={{ color: 'rgba(255,255,255,0.7)' }}
+              >
+                VIEW
+              </div>
+            )}
+          </div>
         )}
       </div>
 

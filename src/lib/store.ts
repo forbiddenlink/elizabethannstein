@@ -12,6 +12,7 @@ interface ViewStore {
   selectedProject: string | null
   isLanding: boolean // Track landing animation state
   hasEntered: boolean // Track if user has entered the experience
+  isWarpingIn: boolean // Hyperspace effect during initial entry
 
   // Scan state (Explorer Phase 1)
   scannedPlanets: Set<string>
@@ -29,6 +30,7 @@ interface ViewStore {
   selectGalaxy: (galaxyId: string) => void
   selectProject: (projectId: string) => void
   enter: () => void
+  setWarpingIn: (val: boolean) => void
   reset: () => void
 
   // Navigation helpers
@@ -60,6 +62,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
   selectedProject: null,
   isLanding: false,
   hasEntered: false,
+  isWarpingIn: false,
 
   // Scan initial state
   scannedPlanets: new Set<string>(),
@@ -82,6 +85,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
     set({ selectedProject: projectId }),
 
   enter: () => set({ hasEntered: true }),
+  setWarpingIn: (val) => set({ isWarpingIn: val }),
 
   reset: () =>
     set({ view: 'universe', selectedGalaxy: null, selectedProject: null, isLanding: false }),
