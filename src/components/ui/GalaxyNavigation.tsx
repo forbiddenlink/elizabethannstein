@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { galaxies, narrativeTours } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
+import { ScrambleText } from '@/components/ui/ScrambleText'
 
 function getGalaxyLabel(galaxy: { id: string; name: string }): string {
   if (galaxy.id === 'ai') return 'AI'
@@ -104,9 +105,9 @@ export function GalaxyNavigation() {
                     boxShadow: `0 0 ${selectedGalaxy === galaxy.id ? 15 : 10}px ${galaxy.color}`
                   }}
                 />
-                <span className="text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap leading-none">
+                <ScrambleText className="text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap leading-none">
                   {getGalaxyLabel(galaxy)}
-                </span>
+                </ScrambleText>
               </button>
             ))}
 

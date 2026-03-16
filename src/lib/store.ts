@@ -4,6 +4,8 @@ import { create } from 'zustand'
 import type { ViewState } from './types'
 import { getProjectById } from './galaxyData'
 import { getAudioSynth } from '@/components/ui/SoundManager'
+import { trackPlanetVisit, trackGalaxyVisit, trackSpeedGalaxyHop, unlockAchievement } from './achievements'
+import { enqueueAchievement } from '@/components/ui/AchievementToast'
 
 interface ViewStore {
   // Core state machine
@@ -99,6 +101,13 @@ export const useViewStore = create<ViewStore>((set, get) => ({
       selectedProject: null,
       isLanding: false
     })
+    // Achievement tracking
+    if (typeof window !== 'undefined') {
+      const newAchievements = trackGalaxyVisit(galaxyId)
+      newAchievements.forEach(enqueueAchievement)
+      const speedA = trackSpeedGalaxyHop()
+      if (speedA) enqueueAchievement(speedA)
+    }
   },
 
   zoomToProject: (projectId) => {
@@ -113,6 +122,11 @@ export const useViewStore = create<ViewStore>((set, get) => ({
       selectedGalaxy: galaxyId,
       isLanding: false
     })
+    // Achievement tracking (client-side only)
+    if (typeof window !== 'undefined') {
+      const newAchievements = trackPlanetVisit(projectId)
+      newAchievements.forEach(enqueueAchievement)
+    }
   },
 
   // New: Enter exploration mode with landing animation

@@ -4,6 +4,7 @@ import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { GalaxyCursor } from '@/components/ui/GalaxyCursor'
 import { WarpTransition } from '@/components/ui/WarpTransition'
+import { AchievementToastManager } from '@/components/ui/AchievementToast'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { SITE, CONTACT } from '@/lib/constants'
 import '@/app/globals.css'
@@ -95,6 +96,7 @@ export default function RootLayout({
         <SmoothScroll />
         <WarpTransition />
         <GalaxyCursor />
+        <AchievementToastManager />
         <Analytics />
         <ErrorBoundary>
           {children}

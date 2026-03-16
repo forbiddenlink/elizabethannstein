@@ -39,6 +39,8 @@ import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
 import { ClickRipple } from '@/components/3d/ClickRipple'
 import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
 import { getGalaxyCenterPosition, generateProjectPosition } from '@/lib/utils'
+import { unlockAchievement } from '@/lib/achievements'
+import { enqueueAchievement } from '@/components/ui/AchievementToast'
 
 // Camera fly-to controller for galaxy navigation
 function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<any> }) {
@@ -158,6 +160,8 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       if (buffer.join(',') === KONAMI.join(',')) {
         setKonamiActive(true)
         setTimeout(() => setKonamiActive(false), 4000)
+        const a = unlockAchievement('konami_master')
+        if (a) setTimeout(() => enqueueAchievement(a), 400)
       }
     }
     window.addEventListener('keydown', onKey)
@@ -253,7 +257,11 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
           zoomSpeed={0.8}
           panSpeed={0.5}
           enableDamping
-          dampingFactor={0.05}
+          dampingFactor={0.08}
+          touches={{
+            ONE: 0, // THREE.TOUCH.ROTATE
+            TWO: 2, // THREE.TOUCH.DOLLY_PAN
+          }}
           makeDefault
         />
       )}
@@ -292,7 +300,7 @@ export default function GalaxyScene() {
     // Basic mobile check - only update state if values actually changed
     const checkMobile = () => {
       const mobile = window.innerWidth < 768
-      const newDpr = Math.min(window.devicePixelRatio, mobile ? 2 : 3)
+      const newDpr = Math.min(window.devicePixelRatio, mobile ? 1.5 : 2)
 
       // Only update isMobile if it changed
       if (prevMobileRef.current !== mobile) {

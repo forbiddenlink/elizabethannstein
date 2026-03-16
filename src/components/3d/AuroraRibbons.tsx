@@ -133,6 +133,12 @@ export function AuroraRibbons({ count = 4, spread = 120 }: AuroraRibbonsProps) {
   const animationSpeed = prefersReducedMotion ? 0.1 : 1.0
 
   useFrame((state) => {
+    // Distance culling — skip ribbon animation when camera is far away
+    if (ribbonsRef.current) {
+      const dist = state.camera.position.distanceTo(ribbonsRef.current.position)
+      if (dist > 180) return
+    }
+
     const time = state.clock.getElapsedTime() * animationSpeed
 
     if (ribbonsRef.current) {

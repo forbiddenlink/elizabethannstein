@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MagneticButton } from '@/components/ui/MagneticButton'
+import { ScrambleText } from '@/components/ui/ScrambleText'
 import { useViewStore } from '@/lib/store'
 import { ArrowRight, Sparkles, Trophy, Rocket, Code2, Building2, Brain } from 'lucide-react'
 import Link from 'next/link'
@@ -331,7 +332,7 @@ export function Entrance() {
                                     </motion.span>
                                 ) : (
                                     <>
-                                        ENTER UNIVERSE
+                                        <ScrambleText className="tracking-[0.15em]">ENTER UNIVERSE</ScrambleText>
                                         <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}>
                                             <ArrowRight className="w-5 h-5" />
                                         </motion.div>

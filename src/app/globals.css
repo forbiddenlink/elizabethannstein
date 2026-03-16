@@ -622,3 +622,42 @@ img:hover {
 .glass-card:hover::before {
   opacity: 1;
 }
+
+/* ── Link reveal: underline draws from center outward on hover ─────────── */
+.link-reveal {
+  position: relative;
+  text-decoration: none;
+}
+.link-reveal::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  right: 50%;
+  height: 1px;
+  background: currentColor;
+  transition: left 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+              right 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.link-reveal:hover::after {
+  left: 0;
+  right: 0;
+}
+
+/* ── Variable font weight morphing for headings ─────────────────────────── */
+.vf-heading {
+  font-variation-settings: 'wght' 400;
+  transition: font-variation-settings 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.vf-heading:hover {
+  font-variation-settings: 'wght' 700;
+}
+
+/* ── Shimmer sweep (for AchievementToast) ───────────────────────────────── */
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer {
+  animation: shimmer-sweep 0.8s ease-in-out forwards;
+}

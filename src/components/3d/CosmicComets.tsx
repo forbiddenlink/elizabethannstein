@@ -141,6 +141,12 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
   }, [])
 
   useFrame((state, delta) => {
+    // Distance culling — skip expensive particle math when out of range
+    if (groupRef.current) {
+      const dist = state.camera.position.distanceTo(groupRef.current.position)
+      if (dist > 180) return
+    }
+
     const time = state.clock.getElapsedTime()
 
     cometsRef.current.forEach((comet, i) => {
