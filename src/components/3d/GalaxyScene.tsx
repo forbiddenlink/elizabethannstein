@@ -37,12 +37,13 @@ import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
 import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
 import { ClickRipple } from '@/components/3d/ClickRipple'
 import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
-import { getGalaxyCenterPosition } from '@/lib/utils'
+import { getGalaxyCenterPosition, generateProjectPosition } from '@/lib/utils'
 
 // Camera fly-to controller for galaxy navigation
 function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<any> }) {
   const { camera } = useThree()
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
+  const selectedProject = useViewStore((state) => state.selectedProject)
   const view = useViewStore((state) => state.view)
 
   // Animation state
@@ -52,6 +53,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
   const animationProgress = useRef(0)
   const startPosition = useRef(new THREE.Vector3())
   const startLookAt = useRef(new THREE.Vector3())
+  const animSpeed = useRef(1.5)
 
   // Check for reduced motion preference
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -62,67 +64,69 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
     }
   }, [])
 
-  // Handle galaxy selection changes
+  // Handle view/selection changes
   useEffect(() => {
-    if (selectedGalaxy && view === 'galaxy') {
+    startPosition.current.copy(camera.position)
+    if (controlsRef.current) {
+      startLookAt.current.copy(controlsRef.current.target)
+    }
+    animationProgress.current = 0
+    isAnimating.current = true
+
+    if (view === 'project' && selectedProject) {
+      // Zoom close to the selected planet
+      const project = getProjectById(selectedProject)
+      if (project) {
+        const galaxyIndex = galaxies.findIndex(g => g.id === project.galaxy)
+        if (galaxyIndex !== -1) {
+          const projectIndex = galaxies[galaxyIndex].projects.findIndex((p: any) => p.id === selectedProject)
+          const [px, py, pz] = generateProjectPosition(
+            selectedProject,
+            project.galaxy,
+            galaxyIndex,
+            projectIndex,
+            galaxies[galaxyIndex].projects.length
+          )
+          // Position camera 10 units away at a slight upward angle
+          targetLookAt.current.set(px, py, pz)
+          targetPosition.current.set(px + 4, py + 3, pz + 9)
+          animSpeed.current = prefersReducedMotion ? 8 : 2.5
+        }
+      }
+    } else if (selectedGalaxy && view === 'galaxy') {
       const galaxyIndex = galaxies.findIndex(g => g.id === selectedGalaxy)
       if (galaxyIndex !== -1) {
         const [gx, gy, gz] = getGalaxyCenterPosition(galaxyIndex)
-
-        // Set target position (camera offset from galaxy center)
         const cameraDistance = 35
         const cameraHeight = 15
         targetLookAt.current.set(gx, gy, gz)
         targetPosition.current.set(gx, gy + cameraHeight, gz + cameraDistance)
-
-        // Store start position
-        startPosition.current.copy(camera.position)
-        startLookAt.current.set(0, 0, 0) // Current look target
-        if (controlsRef.current) {
-          startLookAt.current.copy(controlsRef.current.target)
-        }
-
-        // Start animation
-        animationProgress.current = 0
-        isAnimating.current = true
+        animSpeed.current = prefersReducedMotion ? 8 : 1.5
       }
     } else if (view === 'universe' && !selectedGalaxy) {
-      // Zoom out to universe view
       targetPosition.current.set(0, 20, 60)
       targetLookAt.current.set(0, 0, 0)
-
-      startPosition.current.copy(camera.position)
-      if (controlsRef.current) {
-        startLookAt.current.copy(controlsRef.current.target)
-      }
-
-      animationProgress.current = 0
-      isAnimating.current = true
+      animSpeed.current = prefersReducedMotion ? 8 : 1.2
     }
-  }, [selectedGalaxy, view, camera, controlsRef])
+  }, [selectedGalaxy, selectedProject, view, camera, controlsRef, prefersReducedMotion])
 
   // Animate camera
   useFrame((_, delta) => {
     if (!isAnimating.current) return
 
-    // Easing function (ease-out cubic)
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
+    const easeOutExpo = (t: number) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
 
-    // Animation speed (faster if reduced motion preferred)
-    const speed = prefersReducedMotion ? 8 : 1.5
-    animationProgress.current += delta * speed
+    animationProgress.current += delta * animSpeed.current
 
     if (animationProgress.current >= 1) {
       animationProgress.current = 1
       isAnimating.current = false
     }
 
-    const t = easeOutCubic(animationProgress.current)
+    const t = easeOutExpo(animationProgress.current)
 
-    // Lerp camera position
     camera.position.lerpVectors(startPosition.current, targetPosition.current, t)
 
-    // Update OrbitControls target for smooth lookAt
     if (controlsRef.current) {
       controlsRef.current.target.lerpVectors(startLookAt.current, targetLookAt.current, t)
       controlsRef.current.update()

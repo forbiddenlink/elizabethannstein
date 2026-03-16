@@ -7,13 +7,13 @@ import { SITE } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Projects & Work - Elizabeth Stein Portfolio',
-  description: 'Full-stack development, AI integration, and design systems work across 70 projects with 1,290+ automated tests. Browse the portfolio.',
+  description: 'Full-stack development, AI integration, and design systems work across 84 projects with 1,500+ automated tests. Browse the portfolio.',
   alternates: {
     canonical: '/work',
   },
   openGraph: {
     title: 'Projects & Work - Elizabeth Stein Portfolio',
-    description: 'Full-stack development, AI integration, and design systems work across 70 projects with 1,290+ automated tests. Browse the portfolio.',
+    description: 'Full-stack development, AI integration, and design systems work across 84 projects with 1,500+ automated tests. Browse the portfolio.',
     url: '/work',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },

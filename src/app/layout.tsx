@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { NebulaCursor } from '@/components/ui/NebulaCursor'
+import { GalaxyCursor } from '@/components/ui/GalaxyCursor'
 import { WarpTransition } from '@/components/ui/WarpTransition'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { SITE, CONTACT } from '@/lib/constants'
@@ -94,7 +94,7 @@ export default function RootLayout({
         />
         <SmoothScroll />
         <WarpTransition />
-        <NebulaCursor />
+        <GalaxyCursor />
         <Analytics />
         <ErrorBoundary>
           {children}

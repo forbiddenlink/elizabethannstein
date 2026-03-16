@@ -533,6 +533,16 @@ function RealisticPlanet({
 
     if (planetRef.current) {
       planetRef.current.rotation.y += rotationSpeed
+
+      // Gravitational lean toward cursor — only when close enough to feel alive
+      if (distance < 25 && newLod !== 'low') {
+        const { mouse } = state
+        const targetTiltX = -mouse.y * 0.18
+        const targetTiltZ = mouse.x * 0.12
+        planetRef.current.rotation.x += (targetTiltX - planetRef.current.rotation.x) * 0.04
+        planetRef.current.rotation.z += (targetTiltZ - planetRef.current.rotation.z) * 0.04
+      }
+
       const material = planetRef.current.material as THREE.ShaderMaterial
       if (material.uniforms) {
         material.uniforms.time.value = time
@@ -552,13 +562,32 @@ function RealisticPlanet({
       }
     }
 
-    if (groupRef.current && hovered) {
+    if (groupRef.current && clickBurstRef.current) {
+      // Click burst: rapid scale-up before modal opens
+      const scale = 1.0 + Math.min((time * 8) % 1, 1) * 0.45
+      groupRef.current.scale.setScalar(scale)
+    } else if (groupRef.current && hovered) {
       const scale = 1.1 + Math.sin(time * 3) * 0.02
       groupRef.current.scale.setScalar(scale)
     } else if (groupRef.current) {
       groupRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1)
     }
   })
+
+  const [clickBurst, setClickBurst] = useState(false)
+  const clickBurstRef = useRef(false)
+
+  const handleClick = () => {
+    if (!isScanned) return
+    // Scale burst: 1 → 1.4 → snap to modal
+    setClickBurst(true)
+    clickBurstRef.current = true
+    setTimeout(() => {
+      setClickBurst(false)
+      clickBurstRef.current = false
+      onPlanetClick()
+    }, 180)
+  }
 
   // For supernova, render the special effect with clickable area
   if (isSupernova) {
@@ -567,7 +596,7 @@ function RealisticPlanet({
         <SupernovaEffect position={[0, 0, 0]} color={project.color} size={sizeMultiplier} />
         {/* Invisible clickable sphere for the supernova */}
         <mesh
-          onClick={() => isScanned && onPlanetClick()}
+          onClick={handleClick}
           onPointerEnter={() => {
             document.body.style.cursor = isScanned ? 'pointer' : 'not-allowed'
           }}
@@ -587,7 +616,7 @@ function RealisticPlanet({
       {/* Main planet with procedural surface */}
       <mesh
         ref={planetRef}
-        onClick={() => isScanned && onPlanetClick()}
+        onClick={handleClick}
         onPointerEnter={() => {
           setHovered(true)
           document.body.style.cursor = isScanned ? 'pointer' : 'not-allowed'

@@ -1,36 +1,63 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
+import { useViewStore } from '@/lib/store'
 
 interface NebulaBackgroundProps {
   readonly isMobile?: boolean
 }
 
+/** Galaxy hex colors as vec3 tuples for shader uniforms */
+const GALAXY_COLORS: Record<string, [number,number,number]> = {
+  enterprise:   [1.0, 0.42, 0.21],  // #FF6B35 warm orange
+  ai:           [0.0, 0.85, 1.0],   // #00D9FF cyan
+  fullstack:    [0.62, 0.31, 0.87], // #9D4EDD purple
+  devtools:     [0.02, 1.0, 0.65],  // #06FFA5 green
+  design:       [1.0, 0.42, 0.62],  // #FF6BAD pink
+  experimental: [1.0, 0.70, 0.28],  // #FFB347 amber
+}
+const DEFAULT_GALAXY_COLOR: [number,number,number] = [0.18, 0.1, 0.48]
+
 /**
- * Nebula background with animated gradient colors for deep space atmosphere
+ * Nebula background with animated gradient colors.
+ * Tints toward the currently selected galaxy's colour.
  */
 export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
   const meshRef = useRef<THREE.Mesh>(null)
   const { camera } = useThree()
   const octaves = isMobile ? 4 : 6
+  const selectedGalaxy = useViewStore((s) => s.selectedGalaxy)
+  const view = useViewStore((s) => s.view)
 
-  // Animate the nebula with camera parallax
-  useFrame(({ clock }) => {
-    if (meshRef.current) {
-      const material = meshRef.current.material as THREE.ShaderMaterial
-      material.uniforms.time.value = clock.getElapsedTime() * 0.05
-      // Pass camera position for parallax effect
-      material.uniforms.cameraPos.value.set(
-        camera.position.x * 0.002,
-        camera.position.y * 0.002,
-        camera.position.z * 0.001
-      )
+  // Current lerp target (galaxy color or default)
+  const targetColor = useMemo(() => {
+    if (view === 'galaxy' && selectedGalaxy && GALAXY_COLORS[selectedGalaxy]) {
+      return GALAXY_COLORS[selectedGalaxy]
     }
+    return DEFAULT_GALAXY_COLOR
+  }, [selectedGalaxy, view])
+
+  const currentColor = useRef(new THREE.Vector3(...DEFAULT_GALAXY_COLOR))
+  const targetVec    = useRef(new THREE.Vector3(...targetColor))
+
+  useFrame(({ clock }) => {
+    if (!meshRef.current) return
+    const material = meshRef.current.material as THREE.ShaderMaterial
+    material.uniforms.time.value = clock.getElapsedTime() * 0.05
+    material.uniforms.cameraPos.value.set(
+      camera.position.x * 0.002,
+      camera.position.y * 0.002,
+      camera.position.z * 0.001
+    )
+
+    // Lerp galaxy tint smoothly
+    targetVec.current.set(...targetColor)
+    currentColor.current.lerp(targetVec.current, 0.018)
+    material.uniforms.galaxyTint.value.copy(currentColor.current)
   })
 
-  // Create a custom shader material for the nebula effect
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -43,9 +70,9 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
     uniform float time;
     uniform vec3 cameraPos;
     uniform int octaveCount;
+    uniform vec3 galaxyTint;
     varying vec2 vUv;
 
-    // Improved noise function for smoother patterns
     float hash(vec2 p) {
       return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
     }
@@ -54,21 +81,17 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
       vec2 i = floor(p);
       vec2 f = fract(p);
       f = f * f * (3.0 - 2.0 * f);
-
       float a = hash(i);
       float b = hash(i + vec2(1.0, 0.0));
       float c = hash(i + vec2(0.0, 1.0));
       float d = hash(i + vec2(1.0, 1.0));
-
       return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
     }
 
-    // Fractional Brownian motion for realistic nebula structure
     float fbm(vec2 p) {
       float value = 0.0;
       float amplitude = 0.5;
       float frequency = 1.0;
-
       for(int i = 0; i < 6; i++) {
         if (i >= octaveCount) break;
         value += amplitude * noise(p * frequency);
@@ -78,11 +101,9 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
       return value;
     }
 
-    // Voronoi for star cluster regions
     float voronoi(vec2 p) {
       vec2 i = floor(p);
       vec2 f = fract(p);
-
       float minDist = 1.0;
       for(int x = -1; x <= 1; x++) {
         for(int y = -1; y <= 1; y++) {
@@ -98,80 +119,53 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
     }
 
     void main() {
-      // Apply parallax offset based on camera position
       vec2 uv = vUv + cameraPos.xy * 0.05;
 
-      // Enhanced multi-layer nebula colors with more vibrancy
-      vec3 deepPurple = vec3(0.15, 0.03, 0.42);   // Deep purple core - richer
-      vec3 cosmicBlue = vec3(0.03, 0.12, 0.48);   // Dark blue - more saturated
-      vec3 nebulaPink = vec3(0.38, 0.06, 0.32);   // Magenta emission - brighter
-      vec3 electricCyan = vec3(0.06, 0.25, 0.42); // Cyan glow - more visible
-      vec3 royalPurple = vec3(0.18, 0.1, 0.48);   // Purple-blue mix - enhanced
-      vec3 deepSpace = vec3(0.02, 0.02, 0.1);     // Near black void
+      vec3 deepPurple    = mix(vec3(0.15, 0.03, 0.42), galaxyTint * 0.6, 0.5);
+      vec3 cosmicBlue    = vec3(0.03, 0.12, 0.48);
+      vec3 nebulaPink    = mix(vec3(0.38, 0.06, 0.32), galaxyTint * 0.4, 0.4);
+      vec3 electricCyan  = mix(vec3(0.06, 0.25, 0.42), galaxyTint * 0.3, 0.35);
+      vec3 royalPurple   = mix(vec3(0.18, 0.1, 0.48), galaxyTint * 0.5, 0.45);
+      vec3 deepSpace     = vec3(0.02, 0.02, 0.1);
 
-      // Large-scale nebula structure with swirling motion
       vec2 swirl = uv - 0.5;
       float angle = atan(swirl.y, swirl.x);
       float radius = length(swirl);
       float spiral = angle + radius * 3.0 + time * 0.05;
 
       float layer1 = fbm(uv * 2.0 + vec2(cos(spiral) * 0.2, sin(spiral) * 0.2) + time * 0.015);
-
-      // Medium nebula filaments with directional flow
       float layer2 = fbm(uv * 4.5 - vec2(time * 0.04, time * 0.025));
-
-      // Small-scale detail and glowing wisps
       float layer3 = fbm(uv * 8.0 + vec2(time * 0.06, -time * 0.05));
-
-      // Micro detail for depth perception
       float layer4 = fbm(uv * 14.0 - vec2(time * 0.08, time * 0.1));
-
-      // Volumetric dust lanes
       float dustLanes = fbm(uv * 3.0 + vec2(time * 0.02, 0.0));
       dustLanes = smoothstep(0.3, 0.7, dustLanes);
-
-      // Star cluster regions using voronoi
       float clusters = voronoi(uv * 6.0);
       clusters = smoothstep(0.0, 0.4, clusters);
 
-      // Build color with depth layers
       vec3 color = mix(deepSpace, deepPurple, layer1 * 1.2);
       color = mix(color, cosmicBlue, layer2 * 0.8);
       color = mix(color, nebulaPink, pow(layer3, 1.5) * 0.6);
       color = mix(color, electricCyan, layer4 * 0.5);
       color = mix(color, royalPurple, (1.0 - dustLanes) * 0.4);
 
-      // Radial density with asymmetry
       vec2 center = vec2(0.5 + sin(time * 0.02) * 0.05, 0.5 + cos(time * 0.03) * 0.05);
       float dist = distance(uv, center);
       float radialDensity = 1.0 - smoothstep(0.0, 0.75, dist);
-
-      // Add emission glow in dense regions
       float emission = pow(layer2 * layer3, 0.5) * radialDensity;
       color += nebulaPink * emission * 0.4;
       color += electricCyan * (1.0 - emission) * radialDensity * 0.3;
 
-      // Volumetric light scattering effect
       float scattering = pow(radialDensity, 2.0) * 0.5;
       color += vec3(0.1, 0.05, 0.2) * scattering;
-
-      // Apply dust lane darkening
       color *= 0.7 + dustLanes * 0.5;
-
-      // Add star cluster brightness
       color += vec3(0.15, 0.1, 0.2) * (1.0 - clusters) * 0.5;
 
-      // Bright emission spots (protostars)
       float spots = smoothstep(0.94, 1.0, fbm(uv * 18.0 + time * 0.015));
       color += vec3(1.0, 0.9, 0.95) * spots * 0.5;
-
-      // Add subtle color variation based on position
       color.r += sin(uv.x * 3.14159 + time * 0.1) * 0.02;
       color.b += cos(uv.y * 3.14159 + time * 0.08) * 0.02;
-
-      // Overall brightness and contrast adjustment
-      color = pow(color, vec3(0.92)); // Gamma for richer tones
-      color *= 1.6; // Boost overall brightness for more impact
+      color = pow(color, vec3(0.92));
+      color *= 1.6;
 
       gl_FragColor = vec4(color, 1.0);
     }
@@ -184,9 +178,10 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={{
-          time: { value: 0.0 },
-          cameraPos: { value: new THREE.Vector3(0, 0, 0) },
-          octaveCount: { value: octaves }
+          time:       { value: 0.0 },
+          cameraPos:  { value: new THREE.Vector3(0, 0, 0) },
+          octaveCount:{ value: octaves },
+          galaxyTint: { value: new THREE.Vector3(...DEFAULT_GALAXY_COLOR) },
         }}
         side={THREE.BackSide}
         depthWrite={false}
@@ -194,3 +189,4 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
     </mesh>
   )
 }
+

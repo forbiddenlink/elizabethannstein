@@ -8,7 +8,6 @@ import { DeepLinkHandler } from '@/components/ui/DeepLinkHandler'
 import { KeyboardNavigation } from '@/components/ui/KeyboardNavigation'
 import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor'
 import { KeyboardShortcutsHelp } from '@/components/ui/KeyboardShortcutsHelp'
-import { CustomCursor } from '@/components/ui/CustomCursor'
 import { AnimatedText, FadeIn } from '@/components/ui/AnimatedText'
 import { InteractiveParticles } from '@/components/ui/InteractiveParticles'
 import { RippleEffect } from '@/components/ui/RippleEffect'
@@ -35,8 +34,6 @@ const CommandPalette = dynamic(() => import('@/components/ui/CommandPalette').th
 const ProjectModal = dynamic(() => import('@/components/ui/ProjectModal').then(m => ({ default: m.ProjectModal })), { ssr: false })
 const GalaxyGuide = dynamic(() => import('@/components/ui/GalaxyGuide').then(m => ({ default: m.GalaxyGuide })), { ssr: false })
 const ExplorationOverlay = dynamic(() => import('@/components/ui/ExplorationOverlay').then(m => ({ default: m.ExplorationOverlay })), { ssr: false })
-const SpotlightCursor = dynamic(() => import('@/components/ui/SpotlightCursor').then(m => ({ default: m.SpotlightCursor })), { ssr: false })
-const ParticleTrail = dynamic(() => import('@/components/ui/ParticleTrail').then(m => ({ default: m.ParticleTrail })), { ssr: false })
 const MorphingShape = dynamic(() => import('@/components/ui/MorphingShape').then(m => ({ default: m.MorphingShape })), { ssr: false })
 
 function getVisibilityClasses(isJourneyMode: boolean, hasEntered: boolean): string {
@@ -73,17 +70,6 @@ export default function HomePage() {
       {/* Fullscreen 3D Scene - MUST BE FIRST for proper z-index */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <GalaxyScene />
-      </div>
-
-      {/* Custom Cursor - Decorative */}
-      <div aria-hidden="true">
-        <CustomCursor />
-      </div>
-
-      {/* Decorative Visual Effects */}
-      <div aria-hidden="true">
-        <SpotlightCursor />
-        <ParticleTrail />
       </div>
 
       {/* Ripple Effect */}
