@@ -520,9 +520,16 @@ function RealisticPlanet({
     // Control visibility imperatively based on LOD - no React re-renders
     if (atmosphereRef.current) {
       atmosphereRef.current.visible = newLod !== 'low'
+      // Progressive proximity glow — opacity strengthens as cursor approaches
+      const hoverIntensity = hovered ? 1.0 : Math.max(0, 1 - distance / 25)
+      const mat = atmosphereRef.current.material as THREE.MeshBasicMaterial
+      mat.opacity += (0.22 + hoverIntensity * 0.28 - mat.opacity) * 0.12
     }
     if (outerAtmosphereRef.current) {
       outerAtmosphereRef.current.visible = newLod === 'high'
+      const hoverIntensity = hovered ? 1.0 : Math.max(0, 1 - distance / 25)
+      const mat = outerAtmosphereRef.current.material as THREE.MeshBasicMaterial
+      mat.opacity += (0.12 + hoverIntensity * 0.14 - mat.opacity) * 0.12
     }
     if (cloudRef.current) {
       cloudRef.current.visible = newLod !== 'low'
@@ -641,26 +648,26 @@ function RealisticPlanet({
         />
       </mesh>
 
-      {/* Atmosphere glow - visibility controlled in useFrame */}
+      {/* Atmosphere glow - visibility & opacity controlled in useFrame */}
       <mesh ref={atmosphereRef} scale={1.12} visible={false}>
         <sphereGeometry args={[sizeMultiplier, segments.atmosphere, segments.atmosphere]} />
         <meshBasicMaterial
           color={project.color}
           transparent
-          opacity={hovered ? 0.4 : 0.22}
+          opacity={0.22}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
       </mesh>
 
-      {/* Outer atmosphere haze - visibility controlled in useFrame */}
+      {/* Outer atmosphere haze - visibility & opacity controlled in useFrame */}
       <mesh ref={outerAtmosphereRef} scale={1.25} visible={false}>
         <sphereGeometry args={[sizeMultiplier, segments.atmosphere, segments.atmosphere]} />
         <meshBasicMaterial
           color={project.color}
           transparent
-          opacity={hovered ? 0.2 : 0.12}
+          opacity={0.12}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}

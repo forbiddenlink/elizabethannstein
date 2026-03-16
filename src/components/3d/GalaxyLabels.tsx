@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Text } from '@react-three/drei'
 import * as THREE from 'three'
@@ -28,11 +28,15 @@ function GalaxyLabel({ name, projectCount, position, color, index }: GalaxyLabel
   const { camera } = useThree()
   const posVec = useMemo(() => new THREE.Vector3(...position), [position])
 
+  // Typewriter effect state (imperative, no re-renders)
+  const typewriterRef = useRef({ chars: 0, lastTime: 0, revealed: false })
+  const [displayName, setDisplayName] = useState(name)
+
   // Label sits above the galaxy core
   const labelY = position[1] + 7.5
   const labelPos: [number, number, number] = [position[0], labelY, position[2]]
 
-  useFrame(() => {
+  useFrame((state) => {
     const dist = camera.position.distanceTo(posVec)
 
     let opacity = 0
@@ -46,6 +50,23 @@ function GalaxyLabel({ name, projectCount, position, color, index }: GalaxyLabel
     } else if (dist > FADE_OUT_END) {
       opacity = (dist - FADE_OUT_END) / (FADE_OUT_START - FADE_OUT_END)
       opacity = Math.max(0, Math.min(1, opacity))
+    }
+
+    // Typewriter: trigger when label first becomes visible
+    const tw = typewriterRef.current
+    if (opacity > 0.05 && !tw.revealed) {
+      const now = state.clock.elapsedTime
+      if (now - tw.lastTime > 0.045) { // ~22fps typewriter
+        tw.lastTime = now
+        tw.chars = Math.min(name.length, tw.chars + 1)
+        setDisplayName(name.slice(0, tw.chars) + (tw.chars < name.length ? '█' : ''))
+        if (tw.chars >= name.length) tw.revealed = true
+      }
+    } else if (opacity < 0.02 && tw.revealed) {
+      // Reset typewriter when label disappears
+      tw.chars = 0
+      tw.revealed = false
+      setDisplayName(name)
     }
 
     if (nameRef.current) {

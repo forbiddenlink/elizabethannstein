@@ -40,16 +40,24 @@ export function GalaxyCursor() {
   const selectedProject = useViewStore(s => s.selectedProject)
   const view = useViewStore(s => s.view)
 
+  // Effect 1: detect desktop and flip isReady flag (mounts the DOM elements)
   useEffect(() => {
     const isMobile = window.matchMedia('(pointer: coarse)').matches
-    if (isMobile) return
-    setIsReady(true)
+    if (!isMobile) setIsReady(true)
+  }, [])
 
-    const orb   = orbRef.current!
-    const dot   = dotRef.current!
-    const ring  = ringRef.current!
-    const canvas = canvasRef.current!
-    const ctx   = canvas.getContext('2d')!
+  // Effect 2: set up canvas + GSAP ticker — only runs after isReady=true causes DOM update
+  useEffect(() => {
+    if (!isReady) return
+
+    const orb   = orbRef.current
+    const dot   = dotRef.current
+    const ring  = ringRef.current
+    const canvas = canvasRef.current
+    if (!orb || !dot || !ring || !canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
     // ── canvas sizing ──────────────────────────────────────────────
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight }
@@ -194,7 +202,7 @@ export function GalaxyCursor() {
       window.removeEventListener('mousemove', onMove)
       observer.disconnect()
     }
-  }, [])
+  }, [isReady])
 
   // When project modal opens, freeze cursor state
   useEffect(() => {
