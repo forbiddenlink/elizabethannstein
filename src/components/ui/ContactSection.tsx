@@ -11,10 +11,10 @@ export function ContactSection() {
   const view = useViewStore((state) => state.view)
 
   // Hide during journey mode and exploration mode
-  if (isJourneyMode || view === 'exploration') return null
+  if (isJourneyMode || view === 'exploration' || view === 'project') return null
 
   return (
-    <div className="fixed top-auto bottom-44 right-6 z-30 hidden lg:flex flex-col gap-3 md:top-auto md:bottom-44">
+    <div className="fixed bottom-44 right-6 z-30 hidden lg:flex flex-col gap-2.5 md:top-auto md:bottom-44">
       <MagneticButton
         strength={0.3}
         tiltStrength={10}

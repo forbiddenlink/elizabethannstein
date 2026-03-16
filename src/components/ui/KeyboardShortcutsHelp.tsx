@@ -21,6 +21,8 @@ export function KeyboardShortcutsHelp() {
   }, [])
 
   if (!isVisible) {
+    // Hide the ? button when modal is open — it's under the modal anyway but prevents visual peek-through
+    if (view === 'project') return null
     return (
       <button
         onClick={() => setIsVisible(true)}

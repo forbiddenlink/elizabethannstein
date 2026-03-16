@@ -23,6 +23,7 @@ import { LoadingProgress } from '@/components/ui/LoadingProgress'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { ScreenReaderAnnouncer } from '@/components/ui/ScreenReaderAnnouncer'
 import { AccessibleView, AccessibleViewToggle, useAccessibleView } from '@/components/ui/AccessibleView'
+import { GalaxyHint } from '@/components/ui/GalaxyHint'
 
 // Lazy load 3D scene - critical for < 200KB landing bundle
 const GalaxyScene = dynamic(() => import('@/components/3d/GalaxyScene'), {
@@ -179,7 +180,7 @@ export default function HomePage() {
       </header>
 
       {/* Quick Actions - Bottom Center (hidden during tour) */}
-      <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-3 items-center transition-all duration-500 ${getVisibilityClasses(isJourneyMode, hasEntered)}`}>
+      <div className={`absolute bottom-20 lg:bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-3 items-center transition-all duration-500 ${getVisibilityClasses(isJourneyMode, hasEntered)}`}>
         <Link
           href="/work"
           className="ripple-button group w-full md:w-auto rounded-xl bg-white/20 backdrop-blur-xl border border-white/40 text-white font-semibold hover:bg-white/30 hover:border-white/60 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105 pointer-events-auto flex items-center justify-center gap-2 px-5 py-3"
@@ -192,39 +193,9 @@ export default function HomePage() {
       {/* AI Galaxy Guide */}
       <GalaxyGuide />
 
-      {/* Instructions - Bottom Right (hidden on mobile and during tour) */}
-      <FadeIn delay={1.4} direction="left" className={`hidden lg:block absolute bottom-24 right-20 z-20 transition-opacity duration-500 ${isJourneyMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <nav aria-label="Keyboard shortcuts" className="glass-card rounded-2xl p-6 text-right text-sm text-white space-y-3 font-medium max-w-xs">
-          <p className="flex items-center justify-end gap-2.5">
-            <span className="text-white/60 text-base" aria-hidden="true">✨</span>
-            <span className="drop-shadow-md">Click stars to explore projects</span>
-          </p>
-          <p className="flex items-center justify-end gap-2.5">
-            <span className="text-white/60 text-base" aria-hidden="true">⌨️</span>
-            <span className="drop-shadow-md">Arrow keys to navigate</span>
-          </p>
-          <p className="flex items-center justify-end gap-2.5">
-            <kbd className="text-white/60 text-xs bg-white/10 px-1.5 py-0.5 rounded">1-6</kbd>
-            <span className="drop-shadow-md">Jump to galaxy</span>
-          </p>
-          <p className="flex items-center justify-end gap-2.5">
-            <kbd className="text-white/60 text-xs bg-white/10 px-1.5 py-0.5 rounded">ESC</kbd>
-            <span className="drop-shadow-md">Zoom out</span>
-            <span className="text-white/40">•</span>
-            <kbd className="text-white/60 text-xs bg-white/10 px-1.5 py-0.5 rounded">H</kbd>
-            <span className="drop-shadow-md">Home</span>
-          </p>
-          <div className="pt-2 border-t border-white/10 mt-2 flex gap-2">
-            <Link href="/contact" className="text-white/40 hover:text-white/70 transition-colors text-xs">
-              Contact
-            </Link>
-            <span className="text-white/20">·</span>
-            <Link href="/privacy" className="text-white/40 hover:text-white/70 transition-colors text-xs">
-              Privacy
-            </Link>
-          </div>
-        </nav>
-      </FadeIn>
+      {/* First-visit galaxy navigation hint — auto-dismisses, centered bottom, no positional conflicts */}
+      <GalaxyHint />
+
       {/* Entrance Overlay - MUST BE LAST to sit on top of everything until dismissed */}
       <Entrance />
     </main>

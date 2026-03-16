@@ -18,7 +18,7 @@ export function StickyContactCTA() {
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
 
   // Hide during exploration/journey modes
-  const shouldHide = view === 'exploration' || isJourneyMode
+  const shouldHide = view === 'exploration' || view === 'project' || isJourneyMode
 
   useEffect(() => {
     if (isDismissed || shouldHide) return

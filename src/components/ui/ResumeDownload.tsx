@@ -8,7 +8,7 @@ export function ResumeDownload() {
   const view = useViewStore((state) => state.view)
 
   // Hide during journey mode and exploration mode
-  if (isJourneyMode || view === 'exploration') return null
+  if (isJourneyMode || view === 'exploration' || view === 'project') return null
 
   return (
     <a

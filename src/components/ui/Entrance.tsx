@@ -147,7 +147,7 @@ export function Entrance() {
                         filter: 'blur(30px)',
                     }}
                     transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-                    className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center overflow-hidden"
+                    className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center overflow-y-auto"
                 >
                     {/* Animated star particles */}
                     <StarParticles />
@@ -175,7 +175,7 @@ export function Entrance() {
                     />
 
                     {/* Content */}
-                    <div className="relative z-10 flex flex-col items-center text-center space-y-10 px-4">
+                    <div className="relative z-10 flex flex-col items-center text-center gap-5 sm:gap-7 lg:gap-10 px-4 py-8 min-h-full w-full max-w-2xl mx-auto justify-center">
                         {/* Subtitle */}
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
@@ -249,12 +249,55 @@ export function Entrance() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 1.5 }}
-                            className="text-white/50 text-base md:text-xl font-light tracking-wide max-w-lg mx-auto leading-relaxed"
+                            className="text-white/60 text-base md:text-xl font-light tracking-wide max-w-xl mx-auto leading-relaxed"
                         >
-                            Full-stack developer shipping production apps
+                            Full-stack developer · AI integration · design systems
                             <br />
-                            <span className="text-indigo-400/70">with AI integration & design systems</span>
+                            <span className="text-white/40 text-sm md:text-base">84 projects shipped across 6 years of building</span>
                         </motion.p>
+
+                        {/* Galaxy metaphor explainer — hidden on very small phones to save space */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.7, delay: 1.75 }}
+                            className="flex flex-col items-center gap-3"
+                        >
+                            <div className="hidden sm:flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-[11px] tracking-[0.2em] uppercase text-white/35">
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/70 inline-block" />
+                                    Enterprise
+                                </span>
+                                <span className="text-white/15">·</span>
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400/70 inline-block" />
+                                    AI / ML
+                                </span>
+                                <span className="text-white/15">·</span>
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400/70 inline-block" />
+                                    Full-Stack
+                                </span>
+                                <span className="text-white/15">·</span>
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-green-400/70 inline-block" />
+                                    Dev Tools
+                                </span>
+                                <span className="text-white/15">·</span>
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-pink-400/70 inline-block" />
+                                    Design
+                                </span>
+                                <span className="text-white/15">·</span>
+                                <span className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70 inline-block" />
+                                    Experiments
+                                </span>
+                            </div>
+                            <p className="text-[11px] tracking-[0.15em] text-white/25 uppercase">
+                                Each star is a project · each cluster is a galaxy
+                            </p>
+                        </motion.div>
 
                         {/* Enter button */}
                         <motion.button
@@ -310,12 +353,12 @@ export function Entrance() {
                             </span>
                         </motion.button>
 
-                        {/* Quick look at featured projects */}
+                        {/* Featured Work — hidden on small phones */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.6, delay: 2 }}
-                            className="mt-4 text-center"
+                            className="mt-4 text-center hidden sm:block"
                         >
                             <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-2">
                                 Featured Work

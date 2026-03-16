@@ -21,7 +21,7 @@ export function GalaxyNavigation() {
   const [showTourMenu, setShowTourMenu] = useState(false)
 
   // Hide during exploration mode and journey mode for immersion
-  if (view === 'exploration' || isJourneyMode) return null
+  if (view === 'exploration' || isJourneyMode || view === 'project') return null
 
   return (
     <div className="fixed left-6 top-[380px] z-40 hidden lg:block">

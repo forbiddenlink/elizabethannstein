@@ -50,8 +50,8 @@ export function GalaxyGuide() {
         }
     }, [isOpen])
 
-    // Hide during journey mode and exploration mode - AFTER all hooks are called
-    if (isJourneyMode || view === 'exploration') return null
+    // Hide during journey mode, exploration mode, and when project modal is open
+    if (isJourneyMode || view === 'exploration' || view === 'project') return null
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
