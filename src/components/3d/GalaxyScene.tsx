@@ -34,6 +34,7 @@ import { BlackHole } from '@/components/3d/BlackHole'
 import { AsteroidBelts } from '@/components/3d/AsteroidBelts'
 import { ScanSystem } from '@/components/3d/ScanSystem'
 import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
+import { SupernovaEffect } from '@/components/3d/SupernovaEffect'
 import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
 import { ClickRipple } from '@/components/3d/ClickRipple'
 import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
@@ -143,8 +144,25 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
   const selectedProject = useViewStore((state) => state.selectedProject)
   const exitExploration = useViewStore((state) => state.exitExploration)
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
+  const [konamiActive, setKonamiActive] = useState(false)
 
   const activeProject = selectedProject ? getProjectById(selectedProject) : null
+
+  // Konami code easter egg: ↑↑↓↓←→←→BA
+  useEffect(() => {
+    const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']
+    const buffer: string[] = []
+    const onKey = (e: KeyboardEvent) => {
+      buffer.push(e.key)
+      if (buffer.length > KONAMI.length) buffer.shift()
+      if (buffer.join(',') === KONAMI.join(',')) {
+        setKonamiActive(true)
+        setTimeout(() => setKonamiActive(false), 4000)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   // Animate camera slightly for "breathing" effect and Entrance Zoom
   useFrame((state) => {
@@ -212,6 +230,11 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
 
       {/* Tour interactive elements (aliens, stations, trail) */}
       <TourElements />
+
+      {/* Konami easter egg: ↑↑↓↓←→←→BA triggers supernova at black hole */}
+      {konamiActive && (
+        <SupernovaEffect position={[0, 0, 0]} color="#ffffff" size={8} />
+      )}
 
       {/* Journey Mode camera controller */}
       {isJourneyMode && <JourneyCameraController />}

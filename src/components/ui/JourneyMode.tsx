@@ -244,6 +244,17 @@ export function JourneyOverlay() {
   const isMobile = useIsMobile()
   const [showInfoCard, setShowInfoCard] = useState(true)
 
+  // Cinematic title card: shows for 2.5s on each step change
+  const [showTitleCard, setShowTitleCard] = useState(false)
+  const titleCardTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  useEffect(() => {
+    if (!isJourneyMode) return
+    setShowTitleCard(true)
+    clearTimeout(titleCardTimer.current)
+    titleCardTimer.current = setTimeout(() => setShowTitleCard(false), 2600)
+    return () => clearTimeout(titleCardTimer.current)
+  }, [journeyStep, isJourneyMode])
+
   const handleNext = useCallback(() => {
     if (journeyStep < tourStops.length - 1) {
       nextJourneyStop()
@@ -263,9 +274,67 @@ export function JourneyOverlay() {
   const currentStop = tourStops[journeyStep]
   if (!currentStop) return null
 
-  // Mobile layout - optimized for thumb reach
-  if (isMobile) {
-    return (
+  return (
+    <>
+      {/* Cinematic letterbox title card — fades in/out on step change */}
+      <div
+        className="fixed inset-0 z-[60] pointer-events-none flex flex-col items-center justify-center transition-opacity duration-500"
+        style={{ opacity: showTitleCard ? 1 : 0 }}
+        aria-hidden="true"
+      >
+        {/* Top letterbox bar */}
+        <div
+          className="absolute top-0 left-0 right-0 transition-all duration-500"
+          style={{
+            height: showTitleCard ? '14%' : '0%',
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.7))',
+          }}
+        />
+        {/* Bottom letterbox bar */}
+        <div
+          className="absolute bottom-0 left-0 right-0 transition-all duration-500"
+          style={{
+            height: showTitleCard ? '14%' : '0%',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7))',
+          }}
+        />
+        {/* Center title card */}
+        {showTitleCard && (
+          <div className="relative text-center px-8 max-w-2xl">
+            {activeTour && (
+              <div
+                className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] mb-3 px-3 py-1 rounded-full"
+                style={{ color: currentStop.galaxyColor, border: `1px solid ${currentStop.galaxyColor}50`, background: `${currentStop.galaxyColor}10` }}
+              >
+                <span>{activeTour.icon}</span>
+                <span>{activeTour.name}</span>
+                <span className="opacity-50">·</span>
+                <span>{journeyStep + 1} / {tourStops.length}</span>
+              </div>
+            )}
+            <h2
+              className="text-3xl sm:text-5xl font-bold text-white mb-3 leading-tight"
+              style={{ textShadow: `0 0 40px ${currentStop.galaxyColor}80` }}
+            >
+              {currentStop.project.title}
+            </h2>
+            <p
+              className="text-sm sm:text-base font-medium uppercase tracking-[0.15em]"
+              style={{ color: currentStop.galaxyColor }}
+            >
+              {currentStop.galaxyName}
+            </p>
+            {currentStop.narrativeIntro && (
+              <p className="mt-3 text-sm text-white/60 max-w-md mx-auto leading-relaxed">
+                {currentStop.narrativeIntro}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Mobile layout - optimized for thumb reach */}
+      {isMobile ? (
       <div className="fixed inset-0 z-50 pointer-events-none">
         {/* Collapsible Info Card - Top area, tap to toggle */}
         <div
@@ -492,12 +561,9 @@ export function JourneyOverlay() {
           </div>
         </div>
       </div>
-    )
-  }
-
-  // Desktop layout - original design
-  return (
-    <div className="fixed inset-0 z-50 pointer-events-none">
+      ) : (
+      /* Desktop layout */
+      <div className="fixed inset-0 z-50 pointer-events-none">
       {/* Info Card - Upper left to avoid Minimap overlap */}
       <div
         key={journeyStep}
@@ -640,8 +706,9 @@ export function JourneyOverlay() {
           </button>
         </div>
       </div>
-
-    </div>
+      </div>
+      )}
+    </>
   )
 }
 
