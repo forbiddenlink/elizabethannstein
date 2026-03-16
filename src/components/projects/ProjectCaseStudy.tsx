@@ -310,7 +310,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
       <header className="mb-12">
         <div className="flex items-start justify-between gap-6 mb-6">
           <div className="flex-1">
-            <h1 className="text-5xl md:text-6xl font-bold mb-3 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent leading-tight">
+            <h1 className="vf-heading text-5xl md:text-6xl font-bold mb-3 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent leading-tight cursor-default">
               {project.title}
             </h1>
             {project.company && (

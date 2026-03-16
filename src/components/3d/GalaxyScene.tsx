@@ -148,6 +148,12 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
   const [konamiActive, setKonamiActive] = useState(false)
 
+  // Cinematic entry zoom state
+  const entryAnimating = useRef(false)
+  const entryProgress = useRef(0)
+  const entryStart = useRef(new THREE.Vector3())
+  const entryTarget = new THREE.Vector3(0, 20, 60)
+
   const activeProject = selectedProject ? getProjectById(selectedProject) : null
 
   // Konami code easter egg: ↑↑↓↓←→←→BA
@@ -168,6 +174,17 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  // Trigger cinematic entry zoom when user enters
+  const prevHasEntered = useRef(false)
+  useEffect(() => {
+    if (hasEntered && !prevHasEntered.current) {
+      prevHasEntered.current = true
+      entryStart.current.copy(camera.position)
+      entryProgress.current = 0
+      entryAnimating.current = true
+    }
+  }, [hasEntered, camera])
+
   // Animate camera slightly for "breathing" effect and Entrance Zoom
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
@@ -179,6 +196,23 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       camera.position.z = Math.cos(time * 0.2) * radius
       camera.position.y = 60
       camera.lookAt(0, 0, 0)
+      return
+    }
+
+    // Cinematic entry zoom: fly from orbit position to home
+    if (entryAnimating.current) {
+      entryProgress.current = Math.min(1, entryProgress.current + 0.008)
+      // power4.out easing: rapid deceleration = sense of arrival
+      const t = 1 - Math.pow(1 - entryProgress.current, 4)
+      camera.position.lerpVectors(entryStart.current, entryTarget, t)
+      camera.lookAt(0, 0, 0)
+      if (entryProgress.current >= 1) {
+        entryAnimating.current = false
+        if (controlsRef.current) {
+          controlsRef.current.target.set(0, 0, 0)
+          controlsRef.current.update()
+        }
+      }
     }
     // Note: Breathing effect removed to avoid fighting with GalaxyCameraController
   })
