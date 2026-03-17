@@ -45,7 +45,6 @@ import { enqueueAchievement } from '@/components/ui/AchievementToast'
 // Camera fly-to controller for galaxy navigation
 function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<any> }) {
   const { camera } = useThree()
-  const hasEntered = useViewStore((state) => state.hasEntered)
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
   const selectedProject = useViewStore((state) => state.selectedProject)
   const view = useViewStore((state) => state.view)
@@ -68,10 +67,8 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
     }
   }, [])
 
-  // Handle view/selection changes — only runs after user has entered
+  // Handle view/selection changes
   useEffect(() => {
-    if (!hasEntered) return  // don't fight with entrance orbit
-
     startPosition.current.copy(camera.position)
     if (controlsRef.current) {
       startLookAt.current.copy(controlsRef.current.target)
@@ -114,7 +111,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       targetLookAt.current.set(0, 0, 0)
       animSpeed.current = prefersReducedMotion ? 8 : 1.2
     }
-  }, [selectedGalaxy, selectedProject, view, hasEntered, camera, controlsRef, prefersReducedMotion])
+  }, [selectedGalaxy, selectedProject, view, camera, controlsRef, prefersReducedMotion])
 
   // Animate camera
   useFrame((_, delta) => {
@@ -171,18 +168,9 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // Orbit camera freely before entry — OrbitControls is disabled during this phase
-  // so we own the camera completely and lookAt is safe to call
-  useFrame((state) => {
-    if (!hasEntered) {
-      const time = state.clock.getElapsedTime()
-      const radius = 120
-      camera.position.x = Math.sin(time * 0.2) * radius
-      camera.position.z = Math.cos(time * 0.2) * radius
-      camera.position.y = 60
-      camera.lookAt(0, 0, 0)
-    }
-  })
+  // No manual camera orbit — OrbitControls autoRotate handles gentle rotation
+  // on the welcome screen. This eliminates ALL camera ownership conflicts.
+  // GalaxyCameraController handles all navigation after entry.
 
   return (
     <>
@@ -244,12 +232,11 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       {/* Journey Mode camera controller */}
       {isJourneyMode && <JourneyCameraController />}
 
-      {/* OrbitControls — disabled during exploration, journey, and pre-entry orbit.
-          Keeping it disabled pre-entry prevents it fighting camera.lookAt in SceneContent */}
+      {/* OrbitControls — always enabled so camera.lookAt(target) is called every frame.
+          autoRotate gives a gentle spin during the welcome screen. */}
       {view !== 'exploration' && !isJourneyMode && (
         <OrbitControls
           ref={controlsRef}
-          enabled={hasEntered}
           enablePan={true}
           enableZoom={true}
           minDistance={10}
@@ -261,6 +248,8 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
           panSpeed={0.5}
           enableDamping
           dampingFactor={0.08}
+          autoRotate={!hasEntered}
+          autoRotateSpeed={0.4}
           touches={{
             ONE: 0, // THREE.TOUCH.ROTATE
             TWO: 2, // THREE.TOUCH.DOLLY_PAN
