@@ -168,19 +168,8 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // Animate camera for pre-entry "breathing" effect and welcome screen orbit
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime()
-
-    if (!hasEntered) {
-      // Orbit slowly while waiting at a distance - positions camera to see galaxies
-      const radius = 120
-      camera.position.x = Math.sin(time * 0.2) * radius
-      camera.position.z = Math.cos(time * 0.2) * radius
-      camera.position.y = 60
-      camera.lookAt(0, 0, 0)
-    }
-  })
+  // Camera handled by OrbitControls and GalaxyCameraController
+  // No manual camera manipulation here to avoid conflicts
 
   return (
     <>
@@ -188,8 +177,7 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       <fog attach="fog" args={['#000510', 180, 450]} />
 
       {/* Cinematic Three-Point Lighting */}
-      {/* Darker ambient for more contrast */}
-      <ambientLight intensity={0.12} color="#050510" />
+      <ambientLight intensity={0.4} color="#0a0815" />
 
       {/* Key light - neutral white for true color rendering */}
       <directionalLight
