@@ -209,7 +209,7 @@ export function Entrance() {
                         {/* Main title with letter animation */}
                         <div className="space-y-4">
                             <div className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter" aria-hidden="true">
-                                <div className="overflow-hidden flex items-center justify-center gap-4">
+                                <div className="overflow-hidden pb-2 flex items-center justify-center gap-4">
                                     {/* Decorative star icon */}
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0, rotate: -180 }}
@@ -232,7 +232,7 @@ export function Entrance() {
                                         ))}
                                     </span>
                                 </div>
-                                <div className="overflow-hidden">
+                                <div className="overflow-hidden pb-2">
                                     <span className="bg-linear-to-r from-purple-200 via-white to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
                                         {lastName.split('').map((char, i) => (
                                             <AnimatedLetter key={i} char={char} index={firstName.length + i} total={lastName.length} />
@@ -332,7 +332,7 @@ export function Entrance() {
                                     </motion.span>
                                 ) : (
                                     <>
-                                        <ScrambleText className="tracking-[0.15em]">ENTER UNIVERSE</ScrambleText>
+                                        <ScrambleText className="tracking-[0.15em] inline-block min-w-[13ch]">ENTER UNIVERSE</ScrambleText>
                                         <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}>
                                             <ArrowRight className="w-5 h-5" />
                                         </motion.div>
