@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { galaxies, narrativeTours } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
@@ -233,18 +233,19 @@ function SwipeHint() {
   const view = useViewStore((state) => state.view)
 
   // Show hint when user is in galaxy view
-  useState(() => {
+  useEffect(() => {
     if (view === 'galaxy' && typeof window !== 'undefined') {
       const hasSeenHint = localStorage.getItem('mobile-swipe-hint-seen')
       if (!hasSeenHint) {
         setShowHint(true)
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           setShowHint(false)
           localStorage.setItem('mobile-swipe-hint-seen', 'true')
         }, 4000)
+        return () => clearTimeout(timer)
       }
     }
-  })
+  }, [view])
 
   if (!showHint) return null
 

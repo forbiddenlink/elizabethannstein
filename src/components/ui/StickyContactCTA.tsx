@@ -78,7 +78,7 @@ export function StickyContactCTA() {
           {/* Dismiss button */}
           <button
             onClick={handleDismiss}
-            className="p-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/60 hover:text-white hover:bg-white/20 transition-all duration-200"
+            className="p-2 rounded-full bg-black/50 backdrop-blur-sm border border-white/30 text-white hover:bg-black/60 transition-all duration-200"
             aria-label="Dismiss contact button"
           >
             <X className="w-4 h-4" />

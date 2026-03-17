@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
-import { Code2, Palette, Cpu, Sparkles } from 'lucide-react'
+import { Code2, Palette, Cpu, Sparkles, Download } from 'lucide-react'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { SITE, CONTACT } from '@/lib/constants'
@@ -261,7 +261,7 @@ export default function AboutPage() {
           </section>
 
           {/* Testimonial */}
-          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both">
+          <section id="testimonial" className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both scroll-mt-24">
             <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
               💬 What Clients Say
             </h2>
@@ -349,6 +349,14 @@ export default function AboutPage() {
                 className="px-8 py-4 bg-white/10 backdrop-blur-xl border border-white/30 text-white font-semibold hover:bg-white/20 hover:border-white/40 transition-all duration-300 rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105"
               >
                 Get in Touch
+              </a>
+              <a
+                href="/resume/elizabeth-stein-resume.pdf"
+                download
+                className="px-8 py-4 bg-purple-600/20 backdrop-blur-xl border border-purple-500/30 text-white font-semibold hover:bg-purple-600/30 hover:border-purple-500/50 transition-all duration-300 rounded-xl shadow-xl hover:scale-105 inline-flex items-center gap-2"
+              >
+                <Download className="w-5 h-5" />
+                Download Resume
               </a>
               <Link
                 href="/work"

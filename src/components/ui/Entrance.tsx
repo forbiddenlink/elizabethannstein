@@ -129,8 +129,22 @@ export function Entrance() {
     const setWarpingIn = useViewStore((state) => state.setWarpingIn)
     const [isEntering, setIsEntering] = useState(false)
 
+    // Skip entrance on repeat visits
+    useEffect(() => {
+        if (typeof window !== 'undefined' && !hasEntered) {
+            const hasVisited = localStorage.getItem('ea-has-visited')
+            if (hasVisited) {
+                enter()
+            }
+        }
+    }, [hasEntered, enter])
+
     const handleEnter = () => {
         setIsEntering(true)
+        // Mark as visited for future sessions
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('ea-has-visited', 'true')
+        }
         // Start hyperspace warp immediately, enter the galaxy after 1.4s
         setWarpingIn(true)
         setTimeout(() => {

@@ -142,22 +142,31 @@ export default function HomePage() {
             </span>
           </h1>
           <FadeIn delay={0.8} direction="up">
+            {/* Available badge */}
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-medium">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                </span>
+                Available for hire
+              </span>
+            </div>
             <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-md leading-relaxed mb-3 drop-shadow-lg">
               Full-stack developer + design systems + AI integration
             </p>
-            <div className="flex items-center gap-3 pointer-events-auto">
-              <Link
-                href="/about"
-                className="inline-flex items-center min-h-11 px-2 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 rounded"
-              >
-                About me
-              </Link>
-              <span className="text-white/30">·</span>
+            <div className="flex items-center gap-3 pointer-events-auto flex-wrap">
               <Link
                 href="/contact"
-                className="inline-flex items-center min-h-11 px-2 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 rounded"
+                className="inline-flex items-center min-h-11 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors duration-200 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
-                Get in touch
+                Let's Talk
+              </Link>
+              <Link
+                href="/about"
+                className="inline-flex items-center min-h-11 px-3 py-2 text-sm text-white/90 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+              >
+                About me
               </Link>
             </div>
             <StatsBar />

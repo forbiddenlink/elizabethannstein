@@ -82,7 +82,7 @@ export default function ContactPage() {
 
           <section className="grid gap-6 md:grid-cols-3">
             <a
-              href={`mailto:${CONTACT.email}`}
+              href={`mailto:${CONTACT.email}?subject=Let's%20Work%20Together&body=Hi%20Elizabeth,%0A%0AI%20came%20across%20your%20portfolio%20and%20I'm%20interested%20in%20discussing%20a%20potential%20opportunity.%0A%0A[Brief%20description%20of%20project%20or%20role]%0A%0ABest,%0A[Your%20name]`}
               className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
             >
               <Mail className="w-8 h-8 mb-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
