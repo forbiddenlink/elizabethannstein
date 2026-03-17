@@ -74,20 +74,20 @@ export default function NotFound() {
                 >
                     <Link
                         href="/"
-                        className="group relative inline-flex items-center gap-2 min-h-11 px-8 py-4 bg-purple-600 hover:bg-purple-500 rounded-full transition-all duration-300"
+                        className="group relative inline-flex items-center gap-2 min-h-11 px-8 py-4 bg-purple-600 hover:bg-purple-500 rounded-xl transition-all duration-300"
                     >
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                         <span>Back to Home</span>
                     </Link>
                     <Link
                         href="/work"
-                        className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+                        className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
                     >
                         <span>View All Projects</span>
                     </Link>
                     <Link
                         href="/about"
-                        className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+                        className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
                     >
                         <span>About Me</span>
                     </Link>

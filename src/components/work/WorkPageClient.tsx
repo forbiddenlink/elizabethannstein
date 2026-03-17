@@ -227,7 +227,7 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
               <button
                 onClick={() => setShowFeaturedOnly(true)}
                 className={cn(
-                  'min-h-9 px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200',
+                  'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
                   showFeaturedOnly
                     ? 'bg-purple-600 text-white shadow-lg'
                     : 'text-white/60 hover:text-white/80 hover:bg-white/5'
@@ -243,7 +243,7 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
               <button
                 onClick={() => setShowFeaturedOnly(false)}
                 className={cn(
-                  'min-h-9 px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200',
+                  'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
                   !showFeaturedOnly
                     ? 'bg-white/10 text-white shadow-lg'
                     : 'text-white/60 hover:text-white/80 hover:bg-white/5'

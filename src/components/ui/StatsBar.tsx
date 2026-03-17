@@ -22,7 +22,7 @@ export function StatsBar() {
           <span className="text-base sm:text-lg md:text-xl font-bold text-white/90">{stat.value}</span>
           <span className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">{stat.label}</span>
           {idx < stats.length - 1 && (
-            <span className="ml-2 sm:ml-4 w-px h-3 sm:h-4 bg-white/20" aria-hidden="true" />
+            <span className="ml-2 sm:ml-4 w-px h-4 bg-white/20" aria-hidden="true" />
           )}
         </div>
       ))}

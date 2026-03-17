@@ -44,7 +44,7 @@ export default function PrivacyPage() {
               Elizabeth Stein
             </span>
           </Link>
-          <nav className="flex items-center gap-3 sm:gap-8">
+          <nav className="flex items-center gap-2 sm:gap-4">
             <Link
               href="/"
               className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-4 py-3 inline-flex items-center"

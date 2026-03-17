@@ -330,7 +330,7 @@ export function Entrance() {
                             strength={0.5}
                             glowOnHover
                             onClick={handleEnter}
-                            className="group relative px-14 py-6 md:px-16 md:py-7 bg-gradient-to-r from-indigo-600/30 to-purple-600/30 border-2 border-indigo-500/40 hover:border-indigo-400/60 rounded-full backdrop-blur-xl overflow-hidden transition-all duration-500 shadow-2xl shadow-indigo-500/20"
+                            className="group relative px-14 py-6 md:px-16 md:py-7 bg-gradient-to-r from-indigo-600/30 to-purple-600/30 border border-indigo-500/40 hover:border-indigo-400/60 rounded-xl backdrop-blur-xl overflow-hidden transition-all duration-500 shadow-2xl shadow-indigo-500/20"
                         >
                             {/* Animated border shimmer */}
                             <motion.div

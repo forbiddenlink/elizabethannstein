@@ -349,9 +349,7 @@ export default function AboutPage() {
 
           {/* Testimonial */}
           <section id="testimonial" className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both scroll-mt-24">
-            <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
-              💬 What Clients Say
-            </h2>
+            <h2 className="text-3xl font-semibold mb-6">What Clients Say</h2>
             <blockquote className="relative bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-transparent border border-white/20 rounded-2xl p-8 md:p-10 backdrop-blur-sm">
               <div className="absolute -top-4 -left-2 text-6xl text-white/20 font-serif" aria-hidden="true">"</div>
               <p className="text-lg md:text-xl leading-relaxed text-white/90 italic mb-6 relative z-10">
@@ -378,49 +376,57 @@ export default function AboutPage() {
           {/* Highlights */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-700 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6">Highlights</h2>
-            <div className="space-y-4">
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+            <ul className="space-y-4">
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-purple-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  ✨ Built 15+ production apps including enterprise SaaS platforms, AI-powered applications, and educational tools—plus 60+ experiments and learning projects
+                  Built 15+ production apps including enterprise SaaS platforms, AI-powered applications, and educational tools—plus 60+ experiments and learning projects
                 </p>
-              </div>
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+              </li>
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-pink-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  🎨 Led a 4-person team shipping 6 production sites with a unified design system and modern Next.js + Strapi architecture
+                  Led a 4-person team shipping 6 production sites with a unified design system and modern Next.js + Strapi architecture
                 </p>
-              </div>
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+              </li>
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  🤖 Built sophisticated AI systems including autonomous artist with 400+ tests,
+                  Built sophisticated AI systems including autonomous artist with 400+ tests,
                   multi-agent platforms, and GPT-4 Vision integrations with Algolia Agent Studio
                 </p>
-              </div>
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+              </li>
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  📚 Created full educational platforms: Portfolio-Pro (205 lessons), Finance Quest (17 chapters, 30+ calculators, 85% retention rate)
+                  Created full educational platforms: Portfolio-Pro (205 lessons), Finance Quest (17 chapters, 30+ calculators, 85% retention rate)
                 </p>
-              </div>
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+              </li>
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-orange-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  🏗️ Navigated 64,806-file enterprise codebase (Coulson One) and built monorepo architectures with NestJS, Next.js, and React Native
+                  Navigated 64,806-file enterprise codebase (Coulson One) and built monorepo architectures with NestJS, Next.js, and React Native
                 </p>
-              </div>
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+              </li>
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-indigo-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  🎓 Graduated with 3.98 GPA, Dean's List every quarter, while shipping production projects full-time
+                  Graduated with 3.98 GPA, Dean's List every quarter, while shipping production projects full-time
                 </p>
-              </div>
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+              </li>
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  🏆 Won $750 Algolia Agent Studio Challenge with TimeSlipSearch—"conversational time machine" exploring 420,000+ pop culture records
+                  Won $750 Algolia Agent Studio Challenge with TimeSlipSearch—"conversational time machine" exploring 420,000+ pop culture records
                 </p>
-              </div>
-              <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2">
+              </li>
+              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span className="w-2 h-2 rounded-full bg-rose-500 mt-2 shrink-0" aria-hidden="true" />
                 <p className="text-white/(--text-opacity-primary)">
-                  📦 Published npm package (ally-a11y)—accessibility CLI with real-time auto-fix, and built Rust-powered observability tools
+                  Published npm package (ally-a11y)—accessibility CLI with real-time auto-fix, and built Rust-powered observability tools
                 </p>
-              </div>
-            </div>
+              </li>
+            </ul>
           </section>
 
           {/* CTA */}

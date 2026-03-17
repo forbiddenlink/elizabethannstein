@@ -400,20 +400,14 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           <motion.div whileHover={{ scale: 1.02, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
           >
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="text-2xl" aria-hidden="true">🎯</span>
-              <span>Challenge</span>
-            </h3>
+            <h3 className="text-lg font-semibold mb-3">Challenge</h3>
             <p className="text-white/70 leading-relaxed">{getChallengeText(project)}</p>
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.02, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
           >
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="text-2xl" aria-hidden="true">⚡</span>
-              <span>Solution</span>
-            </h3>
+            <h3 className="text-lg font-semibold mb-3">Solution</h3>
             <p className="text-white/70 leading-relaxed">{getSolutionText(project)}</p>
           </motion.div>
 
@@ -427,10 +421,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
             <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
-                <span className="text-4xl" aria-hidden="true">📈</span>
-                <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">Impact</span>
-              </h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">Impact</h3>
               <p className="text-lg text-white/90 font-medium leading-relaxed">{getImpactText(project)}</p>
             </div>
           </motion.div>
@@ -489,10 +480,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
       {/* ── Testimonial ── */}
       {project.testimonial && (
         <section>
-          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
-            <span className="text-3xl" aria-hidden="true">💬</span>
-            Client Testimonial
-          </h2>
+          <h2 className="text-2xl font-semibold mb-6">Client Testimonial</h2>
           <motion.blockquote
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
