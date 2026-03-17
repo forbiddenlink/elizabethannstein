@@ -171,8 +171,8 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // Orbit camera while on the entrance screen — let GalaxyCameraController
-  // handle all post-entry movement (it syncs OrbitControls properly)
+  // Orbit camera freely before entry — OrbitControls is disabled during this phase
+  // so we own the camera completely and lookAt is safe to call
   useFrame((state) => {
     if (!hasEntered) {
       const time = state.clock.getElapsedTime()
@@ -180,7 +180,7 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       camera.position.x = Math.sin(time * 0.2) * radius
       camera.position.z = Math.cos(time * 0.2) * radius
       camera.position.y = 60
-      // Don't call camera.lookAt here — let OrbitControls own orientation
+      camera.lookAt(0, 0, 0)
     }
   })
 
@@ -244,10 +244,12 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       {/* Journey Mode camera controller */}
       {isJourneyMode && <JourneyCameraController />}
 
-      {/* OrbitControls - disabled during exploration and journey */}
+      {/* OrbitControls — disabled during exploration, journey, and pre-entry orbit.
+          Keeping it disabled pre-entry prevents it fighting camera.lookAt in SceneContent */}
       {view !== 'exploration' && !isJourneyMode && (
         <OrbitControls
           ref={controlsRef}
+          enabled={hasEntered}
           enablePan={true}
           enableZoom={true}
           minDistance={10}
