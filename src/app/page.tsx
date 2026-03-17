@@ -46,13 +46,13 @@ function getVisibilityClasses(isJourneyMode: boolean, hasEntered: boolean): stri
 export default function HomePage() {
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
   const hasEntered = useViewStore((state) => state.hasEntered)
-  const { isAccessibleMode, toggle: toggleAccessibleMode } = useAccessibleView()
+  const { isAccessibleMode, toggle: toggleAccessibleMode, autoEnabled } = useAccessibleView()
 
   // Render accessible text-only view if user prefers it
   if (isAccessibleMode) {
     return (
       <>
-        <AccessibleViewToggle isAccessibleMode={isAccessibleMode} onToggle={toggleAccessibleMode} />
+        <AccessibleViewToggle isAccessibleMode={isAccessibleMode} onToggle={toggleAccessibleMode} autoEnabled={autoEnabled} />
         <AccessibleView />
       </>
     )
@@ -61,7 +61,7 @@ export default function HomePage() {
   return (
     <main className="relative w-full h-screen overflow-hidden bg-black">
       {/* Accessible View Toggle */}
-      <AccessibleViewToggle isAccessibleMode={isAccessibleMode} onToggle={toggleAccessibleMode} />
+      <AccessibleViewToggle isAccessibleMode={isAccessibleMode} onToggle={toggleAccessibleMode} autoEnabled={autoEnabled} />
 
       {/* Skip Link for Accessibility */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium">

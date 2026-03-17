@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Building2, Brain, Trophy, Code2, Rocket } from 'lucide-react'
+import { Building2, Brain, Trophy, Code2, Rocket, ArrowRight } from 'lucide-react'
 import { getProjectById } from '@/lib/galaxyData'
 
 // Top 5 projects to highlight for recruiters - chosen for impact/credibility
@@ -23,7 +23,7 @@ export function FeaturedProjectsBar() {
       className="mt-4 md:mt-6"
     >
       <p className="text-[10px] tracking-[0.2em] text-white/40 uppercase mb-2">
-        Featured Work
+        Featured Case Studies
       </p>
       <div className="flex flex-wrap gap-2">
         {featuredProjects.map((hero) => {
@@ -34,6 +34,7 @@ export function FeaturedProjectsBar() {
             <Link
               key={hero.id}
               href={`/work/${hero.id}`}
+              title={`View ${project.title} case study`}
               className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto"
             >
               <div className={`p-1 rounded-full bg-gradient-to-br ${hero.gradient}`}>
@@ -42,6 +43,7 @@ export function FeaturedProjectsBar() {
               <span className="text-xs text-white/70 group-hover:text-white transition-colors whitespace-nowrap">
                 {hero.highlight}
               </span>
+              <ArrowRight className="w-3 h-3 text-white/0 group-hover:text-white/60 transition-all -ml-1 group-hover:ml-0" />
             </Link>
           )
         })}

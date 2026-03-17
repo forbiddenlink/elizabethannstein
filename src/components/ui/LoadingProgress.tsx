@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 interface LoadingProgressProps {
   onComplete?: () => void
@@ -149,15 +150,23 @@ export function LoadingProgress({ onComplete }: LoadingProgressProps) {
         </p>
       </div>
 
-      {/* Tip */}
-      <motion.p
+      {/* Skip loading - go straight to projects */}
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-8 text-white/30 text-xs text-center px-4"
+        transition={{ delay: 0.5 }}
+        className="absolute bottom-8 flex flex-col items-center gap-3 px-4"
       >
-        Tip: Use keyboard arrows to navigate the galaxy
-      </motion.p>
+        <Link
+          href="/work"
+          className="text-xs text-white/50 hover:text-white/80 transition-colors px-4 py-2 rounded-lg border border-white/20 hover:border-white/40 hover:bg-white/5"
+        >
+          Skip to projects →
+        </Link>
+        <p className="text-white/25 text-xs text-center">
+          Tip: Use keyboard arrows to navigate
+        </p>
+      </motion.div>
     </div>
   )
 }

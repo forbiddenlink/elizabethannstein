@@ -369,16 +369,26 @@ export function Entrance() {
                             <HeroProjectsQuick />
                         </motion.div>
 
-                        {/* Skip intro link - inline with content, appears immediately */}
-                        <motion.button
+                        {/* Quick actions - appear immediately for impatient users */}
+                        <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.4, delay: 0.5 }}
-                            onClick={handleEnter}
-                            className="mt-6 text-[11px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase"
+                            transition={{ duration: 0.4, delay: 0.3 }}
+                            className="mt-6 flex flex-col sm:flex-row items-center gap-3 sm:gap-6"
                         >
-                            Skip intro →
-                        </motion.button>
+                            <Link
+                                href="/work"
+                                className="text-[11px] tracking-[0.2em] text-white/50 hover:text-white/80 transition-colors uppercase flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/10 hover:border-white/30 hover:bg-white/5"
+                            >
+                                View All Projects →
+                            </Link>
+                            <button
+                                onClick={handleEnter}
+                                className="text-[11px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase"
+                            >
+                                Skip intro
+                            </button>
+                        </motion.div>
                     </div>
                 </motion.div>
             )}

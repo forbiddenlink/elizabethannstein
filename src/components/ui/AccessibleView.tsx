@@ -10,13 +10,21 @@ import { Eye, EyeOff, ExternalLink, Github, ChevronRight } from 'lucide-react'
 // Made prominent for users who can't/won't use 3D
 export function AccessibleViewToggle({
   isAccessibleMode,
-  onToggle
+  onToggle,
+  autoEnabled = false
 }: {
   isAccessibleMode: boolean
   onToggle: () => void
+  autoEnabled?: boolean
 }) {
   return (
     <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-2">
+      {/* Auto-enabled notification */}
+      {isAccessibleMode && autoEnabled && (
+        <span className="text-xs text-white/50 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded max-w-[200px] text-right">
+          Text view enabled for better performance on your device
+        </span>
+      )}
       {/* Hint text - only shows on 3D mode */}
       {!isAccessibleMode && (
         <span className="text-xs text-white/40 bg-black/60 backdrop-blur-sm px-2 py-1 rounded hidden md:block">
@@ -195,30 +203,71 @@ export function AccessibleView() {
   )
 }
 
+// Detect if device is low-end or mobile with poor performance
+function isLowEndDevice(): boolean {
+  if (typeof window === 'undefined') return false
+
+  // Check hardware concurrency (CPU cores)
+  const cores = navigator.hardwareConcurrency || 4
+  if (cores < 4) return true
+
+  // Check device memory (if available)
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory
+  if (memory && memory < 4) return true
+
+  // Check if mobile with small screen (likely budget phone)
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  const isSmallScreen = window.innerWidth < 768
+
+  // Check connection quality (if available)
+  const connection = (navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } }).connection
+  if (connection) {
+    // Save data mode or slow connection
+    if (connection.saveData) return true
+    if (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g') return true
+  }
+
+  // Mobile + small screen suggests budget device
+  if (isMobile && isSmallScreen && cores <= 4) return true
+
+  return false
+}
+
 // Hook to manage accessible view preference
 export function useAccessibleView() {
   const [isAccessibleMode, setIsAccessibleMode] = useState(false)
+  const [autoEnabled, setAutoEnabled] = useState(false)
 
   useEffect(() => {
-    // Check localStorage preference
+    // Check localStorage preference first (user choice takes priority)
     const stored = localStorage.getItem('accessible-view')
     if (stored === 'true') {
       setIsAccessibleMode(true)
+      return
+    }
+    if (stored === 'false') {
+      // User explicitly chose 3D mode, respect that
+      setIsAccessibleMode(false)
+      return
     }
 
-    // Check if user prefers reduced motion
+    // No stored preference - check device capabilities
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion && stored === null) {
-      // Suggest accessible view for reduced motion users
+    const lowEnd = isLowEndDevice()
+
+    if (prefersReducedMotion || lowEnd) {
+      // Auto-enable accessible view for better experience
       setIsAccessibleMode(true)
+      setAutoEnabled(true)
     }
   }, [])
 
   const toggle = () => {
     const newValue = !isAccessibleMode
     setIsAccessibleMode(newValue)
+    setAutoEnabled(false) // User made explicit choice
     localStorage.setItem('accessible-view', String(newValue))
   }
 
-  return { isAccessibleMode, toggle }
+  return { isAccessibleMode, toggle, autoEnabled }
 }
