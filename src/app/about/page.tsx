@@ -206,7 +206,7 @@ export default function AboutPage() {
                 Download Resume
               </a>
               <a
-                href="mailto:purplegumdropz@gmail.com?subject=Job%20Opportunity"
+                href={`mailto:${CONTACT.email}?subject=Job%20Opportunity`}
                 className="inline-flex items-center gap-2 px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg border border-white/20 transition-colors"
               >
                 Schedule a Chat
@@ -438,7 +438,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a
-                href="mailto:purplegumdropz@gmail.com"
+                href={`mailto:${CONTACT.email}`}
                 className="px-8 py-4 bg-white/10 backdrop-blur-xl border border-white/30 text-white font-semibold hover:bg-white/20 hover:border-white/40 transition-all duration-300 rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105"
               >
                 Get in Touch

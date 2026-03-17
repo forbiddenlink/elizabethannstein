@@ -60,7 +60,7 @@ export async function GET(
             textAlign: 'center',
           }}
         >
-          {project.role} • {project.company}
+          {project.role}{project.company ? ` • ${project.company}` : ''}
         </div>
 
         {/* Tags */}

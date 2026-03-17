@@ -146,12 +146,30 @@ export async function POST(req: Request) {
     const data = await response.json()
 
     // MiniMax response format parsing - handle multiple possible formats
-    const replyContent =
-      data.choices?.[0]?.messages?.[0]?.text ||  // MiniMax v2 format
-      data.choices?.[0]?.message?.content ||      // OpenAI-style format
-      data.reply ||                               // Simple reply format
-      data.choices?.[0]?.text ||                  // Alternative format
-      "I'm here to help you explore Elizabeth's portfolio! Ask me about her projects, skills, or technologies."
+    // Log which format was matched for debugging
+    let formatUsed = 'fallback'
+    let replyContent: string
+
+    if (data.choices?.[0]?.messages?.[0]?.text) {
+      replyContent = data.choices[0].messages[0].text
+      formatUsed = 'MiniMax v2'
+    } else if (data.choices?.[0]?.message?.content) {
+      replyContent = data.choices[0].message.content
+      formatUsed = 'OpenAI-style'
+    } else if (data.reply) {
+      replyContent = data.reply
+      formatUsed = 'simple reply'
+    } else if (data.choices?.[0]?.text) {
+      replyContent = data.choices[0].text
+      formatUsed = 'alternative'
+    } else {
+      replyContent = "I'm here to help you explore Elizabeth's portfolio! Ask me about her projects, skills, or technologies."
+      console.warn('MiniMax API: No recognized response format, using fallback. Response keys:', Object.keys(data))
+    }
+
+    if (formatUsed !== 'fallback' && process.env.NODE_ENV === 'development') {
+      console.log(`MiniMax API response format: ${formatUsed}`)
+    }
 
     return NextResponse.json({ role: 'assistant', content: replyContent })
 

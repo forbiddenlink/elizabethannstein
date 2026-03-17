@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
-import { Send, CheckCircle, AlertCircle } from 'lucide-react'
+import { Send, CheckCircle, AlertCircle, Copy, Check } from 'lucide-react'
 import { CONTACT } from '@/lib/constants'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
@@ -11,6 +11,29 @@ export function ContactForm() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<FormStatus>('idle')
+  const [copied, setCopied] = useState(false)
+
+  const getMessageText = () => {
+    return `Hi Elizabeth,\n\n${message}\n\n---\nFrom: ${name}\nEmail: ${email}`
+  }
+
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(getMessageText())
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea')
+      textArea.value = getMessageText()
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -44,17 +67,33 @@ export function ContactForm() {
         <p className="text-white/60 mb-4">
           Your message should be ready to send in your email app.
         </p>
-        <button
-          onClick={() => {
-            setStatus('idle')
-            setName('')
-            setEmail('')
-            setMessage('')
-          }}
-          className="text-emerald-400 hover:text-emerald-300 text-sm underline underline-offset-2"
-        >
-          Send another message
-        </button>
+        <p className="text-white/40 text-sm mb-4">
+          Email didn't open? Copy your message and send to{' '}
+          <a href={`mailto:${CONTACT.email}`} className="text-purple-400 hover:text-purple-300">
+            {CONTACT.email}
+          </a>
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <button
+            onClick={handleCopyToClipboard}
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all"
+          >
+            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            {copied ? 'Copied!' : 'Copy message'}
+          </button>
+          <button
+            onClick={() => {
+              setStatus('idle')
+              setName('')
+              setEmail('')
+              setMessage('')
+              setCopied(false)
+            }}
+            className="text-emerald-400 hover:text-emerald-300 text-sm underline underline-offset-2"
+          >
+            Send another message
+          </button>
+        </div>
       </div>
     )
   }

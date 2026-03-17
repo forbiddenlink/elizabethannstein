@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Shield } from 'lucide-react'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { StarryBackground } from '@/components/ui/StarryBackground'
+import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Elizabeth Stein',
@@ -149,10 +150,10 @@ export default function PrivacyPage() {
                 If you have questions about this privacy policy or how your data is handled,
                 please contact me at{' '}
                 <a
-                  href="mailto:purplegumdropz@gmail.com"
+                  href={`mailto:${CONTACT.email}`}
                   className="text-accent-purple hover:text-accent-pink transition-colors underline"
                 >
-                  purplegumdropz@gmail.com
+                  {CONTACT.email}
                 </a>.
               </p>
             </section>
