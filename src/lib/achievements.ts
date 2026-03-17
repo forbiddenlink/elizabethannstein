@@ -9,14 +9,14 @@ export interface Achievement {
 }
 
 export const ACHIEVEMENTS: Achievement[] = [
-  { id: 'first_contact',  label: 'First Contact',       icon: '🪐', desc: 'Explored your first planet' },
-  { id: 'galaxy_hopper',  label: 'Galaxy Hopper',       icon: '🌌', desc: 'Visited all 6 galaxies' },
-  { id: 'half_done',      label: 'Deep Space Traveler', icon: '🚀', desc: 'Discovered 42 planets' },
-  { id: 'completionist',  label: 'Completionist',       icon: '⭐', desc: 'All 84 planets discovered' },
-  { id: 'konami_master',  label: 'Konami Master',       icon: '🎮', desc: '↑↑↓↓←→←→BA', secret: true },
-  { id: 'speed_runner',   label: 'Speed Runner',        icon: '⚡', desc: '3 galaxies in 60 seconds', secret: true },
-  { id: 'night_owl',      label: 'Night Owl',           icon: '🦉', desc: 'Explored after midnight', secret: true },
-  { id: 'returning',      label: 'Returning Explorer',  icon: '♾️', desc: 'Visited on 3 different days', secret: true },
+  { id: 'first_contact',  label: 'First Contact',       icon: 'planet', desc: 'Explored your first planet' },
+  { id: 'galaxy_hopper',  label: 'Galaxy Hopper',       icon: 'galaxy', desc: 'Visited all 6 galaxies' },
+  { id: 'half_done',      label: 'Deep Space Traveler', icon: 'rocket', desc: 'Discovered 42 planets' },
+  { id: 'completionist',  label: 'Completionist',       icon: 'star', desc: 'All 84 planets discovered' },
+  { id: 'konami_master',  label: 'Konami Master',       icon: 'gamepad', desc: '↑↑↓↓←→←→BA', secret: true },
+  { id: 'speed_runner',   label: 'Speed Runner',        icon: 'zap', desc: '3 galaxies in 60 seconds', secret: true },
+  { id: 'night_owl',      label: 'Night Owl',           icon: 'moon', desc: 'Explored after midnight', secret: true },
+  { id: 'returning',      label: 'Returning Explorer',  icon: 'infinity', desc: 'Visited on 3 different days', secret: true },
 ]
 
 const STORAGE_KEY = 'ea-achievements'

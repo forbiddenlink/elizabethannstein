@@ -5,6 +5,7 @@ import { useThree } from '@react-three/fiber'
 import { useViewStore } from '@/lib/store'
 import { galaxies, narrativeTours, getProjectById, getGalaxyById, type NarrativeTour } from '@/lib/galaxyData'
 import { generateProjectPosition } from '@/lib/utils'
+import { getMetricIcon } from '@/lib/metricIcons'
 import type { Project } from '@/lib/types'
 import gsap from 'gsap'
 
@@ -306,7 +307,10 @@ export function JourneyOverlay() {
                 className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] mb-3 px-3 py-1 rounded-full"
                 style={{ color: currentStop.galaxyColor, border: `1px solid ${currentStop.galaxyColor}50`, background: `${currentStop.galaxyColor}10` }}
               >
-                <span>{activeTour.icon}</span>
+                {(() => {
+                  const Icon = getMetricIcon(activeTour.icon)
+                  return <Icon className="w-4 h-4" />
+                })()}
                 <span>{activeTour.name}</span>
                 <span className="opacity-50">·</span>
                 <span>{journeyStep + 1} / {tourStops.length}</span>
@@ -366,7 +370,10 @@ export function JourneyOverlay() {
                   }}
                 >
                   {activeTour ? (
-                    <span className="text-lg">{activeTour.icon}</span>
+                    (() => {
+                      const Icon = getMetricIcon(activeTour.icon)
+                      return <Icon className="w-5 h-5" style={{ color: currentStop.galaxyColor }} />
+                    })()
                   ) : (
                     <div
                       className="w-4 h-4 rounded-full"
@@ -583,7 +590,10 @@ export function JourneyOverlay() {
               className="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full mb-3"
               style={{ backgroundColor: `${activeTour.color}20`, color: activeTour.color }}
             >
-              <span>{activeTour.icon}</span>
+              {(() => {
+                const Icon = getMetricIcon(activeTour.icon)
+                return <Icon className="w-3.5 h-3.5" />
+              })()}
               <span>{activeTour.name}</span>
             </div>
           )}

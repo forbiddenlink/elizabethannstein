@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Achievement } from '@/lib/achievements'
+import { getMetricIcon } from '@/lib/metricIcons'
 
 interface AchievementToastProps {
   achievement: Achievement | null
@@ -33,7 +34,10 @@ export function AchievementToast({ achievement, onDismiss }: AchievementToastPro
           role="alert"
           aria-live="polite"
         >
-          <span className="text-4xl leading-none select-none">{achievement.icon}</span>
+          {(() => {
+            const Icon = getMetricIcon(achievement.icon)
+            return <Icon className="w-10 h-10 text-amber-400 shrink-0" />
+          })()}
           <div className="flex flex-col gap-0.5">
             <p className="text-[9px] text-white/35 uppercase tracking-[0.15em] font-mono">
               Achievement Unlocked

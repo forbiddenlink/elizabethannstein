@@ -4,6 +4,7 @@ import type { Project } from '@/lib/types'
 import { formatDateRange } from '@/lib/utils'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ExternalLink, Github, ArrowLeft } from 'lucide-react'
+import { getMetricIcon } from '@/lib/metricIcons'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import { ProjectBadges } from '@/components/ui/ProjectBadges'
@@ -182,7 +183,10 @@ function ImpactMetricCard({ label, value, icon, color }: { label: string; value:
         style={{ background: `radial-gradient(circle at 50% 0%, ${color}20, transparent 70%)` }}
       />
       <div className="relative z-10">
-        {icon && <div className="text-2xl mb-2" aria-hidden="true">{icon}</div>}
+        {icon && (() => {
+          const Icon = getMetricIcon(icon)
+          return <Icon className="w-6 h-6 mb-2" style={{ color }} aria-hidden="true" />
+        })()}
         <div
           className="text-2xl md:text-3xl font-bold tabular-nums mb-1"
           style={{ color }}

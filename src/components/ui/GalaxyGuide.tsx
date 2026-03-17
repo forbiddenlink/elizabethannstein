@@ -112,7 +112,7 @@ export function GalaxyGuide() {
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="fixed bottom-4 left-4 right-4 md:left-auto md:bottom-10 md:right-8 z-50 md:w-100 h-[70vh] md:h-125 flex flex-col rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]"
+                    className="fixed bottom-4 left-4 right-4 md:left-auto md:bottom-10 md:right-8 z-50 md:w-100 h-[55vh] md:h-125 mb-16 md:mb-0 flex flex-col rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]"
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between p-4 border-b border-white/10 bg-linear-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-xl">

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { Trophy, Target, DollarSign, Package, TestTube } from 'lucide-react'
 import { galaxies } from '@/lib/galaxyData'
 
 export function AchievementsSection() {
@@ -35,7 +36,7 @@ export function AchievementsSection() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-400/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
           
           <div className="relative z-10 flex flex-col justify-center h-full text-center lg:text-left">
-            <div className="text-6xl lg:text-7xl mb-4">🏆</div>
+            <Trophy className="w-16 h-16 lg:w-20 lg:h-20 mb-4 text-amber-400" />
             <div className="text-5xl lg:text-6xl font-black mb-3 text-amber-400">
               {contestWins}
             </div>
@@ -61,7 +62,7 @@ export function AchievementsSection() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
           
           <div className="relative z-10 text-center">
-            <div className="text-4xl mb-2">🎯</div>
+            <Target className="w-10 h-10 mx-auto mb-2 text-emerald-400" />
             <div className="text-3xl font-bold text-white/90 mb-1">{liveProjects}</div>
             <div className="text-xs text-white/60 uppercase tracking-wide">Production-Ready</div>
           </div>
@@ -79,7 +80,7 @@ export function AchievementsSection() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
           
           <div className="relative z-10 text-center">
-            <div className="text-4xl mb-2">💰</div>
+            <DollarSign className="w-10 h-10 mx-auto mb-2 text-green-400" />
             <div className="text-3xl font-bold text-white/90 mb-1">{revenueProjects}</div>
             <div className="text-xs text-white/60 uppercase tracking-wide">Revenue-Generating</div>
           </div>
@@ -97,7 +98,7 @@ export function AchievementsSection() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
           
           <div className="relative z-10 text-center">
-            <div className="text-4xl mb-2">📦</div>
+            <Package className="w-10 h-10 mx-auto mb-2 text-blue-400" />
             <div className="text-3xl font-bold text-white/90 mb-1">{openSourceProjects}</div>
             <div className="text-xs text-white/60 uppercase tracking-wide">Open Source</div>
           </div>
@@ -115,7 +116,7 @@ export function AchievementsSection() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
           
           <div className="relative z-10 text-center">
-            <div className="text-4xl mb-2">🧪</div>
+            <TestTube className="w-10 h-10 mx-auto mb-2 text-purple-400" />
             <div className="text-3xl font-bold text-white/90 mb-1">{totalTests.toLocaleString()}+</div>
             <div className="text-xs text-white/60 uppercase tracking-wide">Tests Written</div>
           </div>

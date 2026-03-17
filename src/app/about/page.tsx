@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import { Code2, Palette, Cpu, Sparkles } from 'lucide-react'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
@@ -92,12 +93,27 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           {/* Hero */}
           <div className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-              Hi, I'm Liz
-            </h1>
-            <p className="text-2xl md:text-3xl text-white/90 leading-relaxed max-w-3xl">
-              I build modern web experiences with thoughtful UX and solid engineering.
-            </p>
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
+              <div className="relative shrink-0">
+                <div className="absolute -inset-1 bg-linear-to-br from-purple-500/50 to-pink-500/50 rounded-2xl blur-lg opacity-60" />
+                <Image
+                  src="/images/profile.jpg"
+                  alt="Elizabeth Stein"
+                  width={200}
+                  height={200}
+                  className="relative rounded-2xl shadow-2xl shadow-purple-500/20 ring-2 ring-white/10 object-cover"
+                  priority
+                />
+              </div>
+              <div>
+                <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-linear-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
+                  Hi, I'm Liz
+                </h1>
+                <p className="text-2xl md:text-3xl text-white/90 leading-relaxed max-w-3xl">
+                  I build modern web experiences with thoughtful UX and solid engineering.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* What I'm Looking For - FIRST for recruiters */}

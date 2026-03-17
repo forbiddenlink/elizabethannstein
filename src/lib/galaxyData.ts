@@ -30,9 +30,9 @@ export const galaxies: Galaxy[] = [
         solution: 'Focused on understanding existing patterns before making changes. Contributed to architecture decisions, implemented core features with comprehensive testing, and maintained strict type safety across the monorepo.',
         impact: 'Successfully shipped features to production used by aviation operations teams. Improved codebase maintainability through comprehensive test coverage and documentation.',
         impactMetrics: [
-          { label: 'Files in Codebase', value: '64,806', icon: '📁' },
-          { label: 'Production Users', value: 'Live Ops', icon: '✈️' },
-          { label: 'Type Coverage', value: '100%', icon: '🛡️' },
+          { label: 'Files in Codebase', value: '64,806', icon: 'folder' },
+          { label: 'Production Users', value: 'Live Ops', icon: 'plane' },
+          { label: 'Type Coverage', value: '100%', icon: 'shield' },
         ],
       },
       {
@@ -53,9 +53,9 @@ export const galaxies: Galaxy[] = [
         solution: 'Built a unified design system and component library from scratch. Implemented modern Next.js architecture with Strapi CMS, established code review processes, and mentored junior developers on TypeScript and React best practices.',
         impact: '6 production sites launched and maintained. Team velocity increased 40% through shared component library. Reduced onboarding time for new developers from weeks to days.',
         impactMetrics: [
-          { label: 'Production Sites', value: '6', icon: '🌐' },
-          { label: 'Velocity Increase', value: '40%', icon: '🚀' },
-          { label: 'Team Size', value: '4 devs', icon: '👥' },
+          { label: 'Production Sites', value: '6', icon: 'globe' },
+          { label: 'Velocity Increase', value: '40%', icon: 'rocket' },
+          { label: 'Team Size', value: '4 devs', icon: 'users' },
         ],
       },
       {
@@ -174,9 +174,9 @@ export const galaxies: Galaxy[] = [
         solution: 'Express.js + WebSocket server for real-time concurrent debates. GPT-4 agents with emotional states and coalition tracking. Redis Vector-powered semantic caching (85% hit rate). Advanced multi-source fact-checking with cross-validation. Business Intelligence dashboard tracks ROI and cost savings. React 19 + Vite frontend with 4-mode navigation.',
         impact: 'Production-ready Redis AI Challenge entry. 85% semantic cache hit rate cuts LLM costs dramatically. BI dashboard quantifies ROI in real-time. 47+ Lucide React icons across fully responsive UI.',
         impactMetrics: [
-          { label: 'Cache Hit Rate', value: '85%', icon: '⚡' },
-          { label: 'AI Agents', value: '4', icon: '🤖' },
-          { label: 'Redis Models', value: '4', icon: '🗄️' },
+          { label: 'Cache Hit Rate', value: '85%', icon: 'zap' },
+          { label: 'AI Agents', value: '4', icon: 'bot' },
+          { label: 'Redis Models', value: '4', icon: 'database' },
         ],
       },
       {
@@ -214,9 +214,9 @@ export const galaxies: Galaxy[] = [
         solution: 'Implemented the SM-2 spaced repetition algorithm to optimize learning retention (85% rate). Built 30+ interactive calculators, AI-powered coaching, and gamification elements. Wrote 702 tests to ensure reliability.',
         impact: '85% knowledge retention rate achieved through spaced repetition. 702 passing tests ensure platform reliability. WCAG 2.1 AA compliant for full accessibility.',
         impactMetrics: [
-          { label: 'Passing Tests', value: '702', icon: '✅' },
-          { label: 'Retention Rate', value: '85%', icon: '🧠' },
-          { label: 'Calculators', value: '30+', icon: '🧮' },
+          { label: 'Passing Tests', value: '702', icon: 'check' },
+          { label: 'Retention Rate', value: '85%', icon: 'brain' },
+          { label: 'Calculators', value: '30+', icon: 'calculator' },
         ],
       },
       {
@@ -236,10 +236,10 @@ export const galaxies: Galaxy[] = [
         solution: 'Integrated GPT-4 with skill-level adaptation to explain code at the user\'s level. Added security vulnerability scanning, performance profiling, Stripe subscriptions, and built the entire UI with 47 Radix components.',
         impact: 'Full production SaaS with Stripe billing integration. 47 Radix UI components for consistent, accessible UI. Security scanning identifies vulnerabilities in real-time.',
         impactMetrics: [
-          { label: 'Radix Components', value: '47', icon: '🧩' },
-          { label: 'AI Models', value: 'GPT-4', icon: '🤖' },
-          { label: 'Billing Tiers', value: '3', icon: '💳' },
-          { label: 'Status', value: 'Live SaaS', icon: '🚀' },
+          { label: 'Radix Components', value: '47', icon: 'puzzle' },
+          { label: 'AI Models', value: 'GPT-4', icon: 'bot' },
+          { label: 'Billing Tiers', value: '3', icon: 'card' },
+          { label: 'Status', value: 'Live SaaS', icon: 'rocket' },
         ],
       },
       {
@@ -276,10 +276,10 @@ export const galaxies: Galaxy[] = [
         solution: 'Built a pipeline using Claude Sonnet 4.5 for intelligent summarization with topic extraction. Added mind map visualization for exploring connections, full-text search across all summaries, and GitHub sync for backup.',
         impact: 'Claude Sonnet 4.5 integration delivers high-quality summaries. Mind map visualization reveals content connections. GitHub sync ensures knowledge is never lost.',
         impactMetrics: [
-          { label: 'AI Model', value: 'Claude 4.5', icon: '🧠' },
-          { label: 'Search', value: 'Full-Text', icon: '🔍' },
-          { label: 'Visualisation', value: 'Mind Map', icon: '🗺️' },
-          { label: 'Backup', value: 'GitHub Sync', icon: '☁️' },
+          { label: 'AI Model', value: 'Claude 4.5', icon: 'brain' },
+          { label: 'Search', value: 'Full-Text', icon: 'search' },
+          { label: 'Visualisation', value: 'Mind Map', icon: 'map' },
+          { label: 'Backup', value: 'GitHub Sync', icon: 'cloud' },
         ],
       },
       {
@@ -307,10 +307,10 @@ export const galaxies: Galaxy[] = [
         solution: 'Built AI pipeline with Claude for documentation generation, Tree-sitter for code parsing, RAG (Pinecone + BM25) for intelligent chat, GitHub webhooks for auto-sync, and full Stripe billing with 3 pricing tiers. Multi-language code sample generation.',
         impact: 'Launched on Product Hunt. Live production SaaS with Stripe billing ($35-239/mo). Documentation auto-updates on git push. RAG chat reduces onboarding questions by 70%.',
         impactMetrics: [
-          { label: 'Pricing', value: '$35–239/mo', icon: '💰' },
-          { label: 'RAG Savings', value: '-70% Q&A', icon: '🤖' },
-          { label: 'Launched', value: 'Product Hunt', icon: '🚀' },
-          { label: 'Sync', value: 'Auto on Push', icon: '🔄' },
+          { label: 'Pricing', value: '$35–239/mo', icon: 'dollar' },
+          { label: 'RAG Savings', value: '-70% Q&A', icon: 'bot' },
+          { label: 'Launched', value: 'Product Hunt', icon: 'rocket' },
+          { label: 'Sync', value: 'Auto on Push', icon: 'refresh' },
         ],
       },
       {
@@ -366,10 +366,10 @@ export const galaxies: Galaxy[] = [
         solution: 'GPT-4 generates steelman arguments — the best possible version of the opposing case. Built credibility scoring, source verification, AI debate arena, and analytics dashboard tracking argument quality over time.',
         impact: '73 automated tests ensure argument quality. Users report 3x more exposure to diverse perspectives. Steelman framing produces meaningfully better critical thinking outcomes than strawman approaches.',
         impactMetrics: [
-          { label: 'Passing Tests', value: '73', icon: '✅' },
-          { label: 'Perspectives', value: '3x', icon: '🌐' },
-          { label: 'AI Model', value: 'GPT-4', icon: '🤖' },
-          { label: 'Status', value: 'Live', icon: '🚀' },
+          { label: 'Passing Tests', value: '73', icon: 'check' },
+          { label: 'Perspectives', value: '3x', icon: 'globe' },
+          { label: 'AI Model', value: 'GPT-4', icon: 'bot' },
+          { label: 'Status', value: 'Live', icon: 'rocket' },
         ],
       },
       {
@@ -522,10 +522,10 @@ export const galaxies: Galaxy[] = [
         solution: 'Built 269 lessons across 144 projects with Monaco Editor for live coding. Integrated custom MCP servers, Stripe subscriptions with multiple tiers, and achieved 87% test coverage with a 9.3/10 quality score.',
         impact: '269 lessons, 144 projects, 87% test coverage. Quality score 9.3/10 from automated analysis. Live production platform with paying subscribers.',
         impactMetrics: [
-          { label: 'Lessons', value: '269', icon: '📚' },
-          { label: 'Projects', value: '144', icon: '🏗️' },
-          { label: 'Test Coverage', value: '87%', icon: '✅' },
-          { label: 'Quality Score', value: '9.3/10', icon: '⭐' },
+          { label: 'Lessons', value: '269', icon: 'book' },
+          { label: 'Projects', value: '144', icon: 'building' },
+          { label: 'Test Coverage', value: '87%', icon: 'check' },
+          { label: 'Quality Score', value: '9.3/10', icon: 'star' },
         ],
       },
       {
@@ -545,9 +545,9 @@ export const galaxies: Galaxy[] = [
         solution: 'Built intuitive drag-and-drop builder with real-time analytics dashboard. Skip logic and conditional branching without complexity.',
         impact: 'Survey creation takes under 5 minutes. Real-time analytics show response patterns as they come in. Conditional logic requires zero coding.',
         impactMetrics: [
-          { label: 'Setup Time', value: '< 5 min', icon: '⚡' },
-          { label: 'Analytics', value: 'Real-Time', icon: '📊' },
-          { label: 'Status', value: 'Live', icon: '🌐' },
+          { label: 'Setup Time', value: '< 5 min', icon: 'zap' },
+          { label: 'Analytics', value: 'Real-Time', icon: 'chart' },
+          { label: 'Status', value: 'Live', icon: 'globe' },
         ],
       },
       {
@@ -583,10 +583,10 @@ export const galaxies: Galaxy[] = [
         solution: 'Architected with Next.js 15 and React 19 for optimal performance. PostgreSQL for relational data, AI-powered search and recommendations, glass-morphism design for modern aesthetics.',
         impact: 'Production-ready portal with <100ms page loads. AI-powered interactions reduce time-to-answer by 60%. Glass-morphism UI praised for modern, accessible design.',
         impactMetrics: [
-          { label: 'Page Load', value: '<100ms', icon: '⚡' },
-          { label: 'Time-to-Answer', value: '-60%', icon: '🤖' },
-          { label: 'Stack', value: 'React 19', icon: '⚛️' },
-          { label: 'DB', value: 'PostgreSQL', icon: '🗄️' },
+          { label: 'Page Load', value: '<100ms', icon: 'zap' },
+          { label: 'Time-to-Answer', value: '-60%', icon: 'bot' },
+          { label: 'Stack', value: 'React 19', icon: 'atom' },
+          { label: 'DB', value: 'PostgreSQL', icon: 'database' },
         ],
       },
       {
@@ -639,9 +639,9 @@ export const galaxies: Galaxy[] = [
         solution: 'Multi-factor weighted scoring with Jaccard similarity for goal overlap, budget constraint logic as a hard filter, schedule conflict detection, and a 0–100 confidence score driven by profile completeness.',
         impact: 'Matching algorithm handles edge cases gracefully. Confidence scoring gives users a clear signal of match quality. Clean UX makes a complex algorithm feel effortless.',
         impactMetrics: [
-          { label: 'Algorithm', value: 'Jaccard', icon: '🧮' },
-          { label: 'Score Range', value: '0–100', icon: '🎯' },
-          { label: 'Factors', value: '5+', icon: '⚖️' },
+          { label: 'Algorithm', value: 'Jaccard', icon: 'calculator' },
+          { label: 'Score Range', value: '0–100', icon: 'target' },
+          { label: 'Factors', value: '5+', icon: 'scale' },
         ],
       },
       {
@@ -869,10 +869,10 @@ export const galaxies: Galaxy[] = [
         solution: 'Built GPT-4 Vision screenshot analysis for visual component matching. Multi-index Algolia search across components, code samples, and accessibility patterns.',
         impact: '24 automated tests ensure accuracy. Screenshot-to-component matching in <2 seconds. Multi-index search covers 40+ component patterns.',
         impactMetrics: [
-          { label: 'Tests', value: '24', icon: '✅' },
-          { label: 'Match Speed', value: '<2s', icon: '⚡' },
-          { label: 'AI', value: 'GPT-4 Vision', icon: '👁️' },
-          { label: 'Patterns', value: '40+', icon: '🧩' },
+          { label: 'Tests', value: '24', icon: 'check' },
+          { label: 'Match Speed', value: '<2s', icon: 'zap' },
+          { label: 'AI', value: 'GPT-4 Vision', icon: 'eye' },
+          { label: 'Patterns', value: '40+', icon: 'puzzle' },
         ],
       },
       {
@@ -910,10 +910,10 @@ export const galaxies: Galaxy[] = [
         solution: 'Autonomous Playwright-based crawler with 7 parallel detectors. HAR capture freezes the exact network state of a bug. Reproducibility validation confirms the bug before filing. MCP server exposes findings directly to Claude Desktop for AI-powered triage.',
         impact: '170 tests across 11 files at 85% coverage. MCP integration means Claude can query and reason about bugs directly. HAR replay via Playwright makes every bug reproducible on demand.',
         impactMetrics: [
-          { label: 'Test Coverage', value: '85%', icon: '✅' },
-          { label: 'Bug Detectors', value: '7', icon: '🔍' },
-          { label: 'Tests', value: '170', icon: '🧪' },
-          { label: 'Integration', value: 'Claude MCP', icon: '🤖' },
+          { label: 'Test Coverage', value: '85%', icon: 'check' },
+          { label: 'Bug Detectors', value: '7', icon: 'search' },
+          { label: 'Tests', value: '170', icon: 'test' },
+          { label: 'Integration', value: 'Claude MCP', icon: 'bot' },
         ],
       },
       {
@@ -1671,7 +1671,7 @@ export const narrativeTours: NarrativeTour[] = [
     tagline: 'From chatbots to autonomous agents',
     description: 'Explore how I evolved from basic AI integrations to building multi-agent systems and autonomous AI artists.',
     color: '#00D9FF',
-    icon: '🤖',
+    icon: 'bot',
     projectIds: [
       'finance-quest',      // Start: AI-assisted learning
       'tubedigest',         // Content summarization
@@ -1695,7 +1695,7 @@ export const narrativeTours: NarrativeTour[] = [
     tagline: 'From first commit to enterprise scale',
     description: 'The journey from building my first full-stack app to leading teams on 64,000+ file enterprise codebases.',
     color: '#9D4EDD',
-    icon: '🚀',
+    icon: 'rocket',
     projectIds: [
       'create-surveys',     // Start: First real SaaS
       'portfolio-pro',      // Comprehensive platform
@@ -1717,7 +1717,7 @@ export const narrativeTours: NarrativeTour[] = [
     tagline: 'Tools I wish existed, so I built them',
     description: 'From accessibility checkers to image optimizers—building tools that make other developers\' lives easier.',
     color: '#06FFA5',
-    icon: '🛠️',
+    icon: 'code',
     projectIds: [
       'accessibility-checker',  // Start: A11y automation
       'codememory',             // Learning tools

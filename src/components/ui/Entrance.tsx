@@ -208,25 +208,25 @@ export function Entrance() {
 
                         {/* Main title with letter animation */}
                         <div className="space-y-4">
-                            <div className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter" aria-hidden="true">
-                                <div className="overflow-hidden pb-2 flex items-center justify-center gap-4">
+                            <div className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tighter" aria-hidden="true">
+                                <div className="overflow-hidden pb-2 flex items-center justify-center gap-2 sm:gap-4">
                                     {/* Decorative star icon */}
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0, rotate: -180 }}
                                         animate={{ opacity: 1, scale: 1, rotate: 0 }}
                                         transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                                        className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 shrink-0"
+                                        className="relative w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 shrink-0"
                                     >
                                         <div className="absolute inset-0 rounded-full bg-linear-to-br from-purple-400 to-indigo-600 animate-pulse" />
-                                        <div className="absolute inset-1 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
-                                        <div className="absolute inset-[6px] rounded-full bg-white/80" />
+                                        <div className="absolute inset-0.5 sm:inset-1 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
+                                        <div className="absolute inset-1 sm:inset-[6px] rounded-full bg-white/80" />
                                         <motion.div
                                             className="absolute inset-0 rounded-full border-2 border-purple-400/50"
                                             animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
                                             transition={{ duration: 2, repeat: Infinity }}
                                         />
                                     </motion.div>
-                                    <span className="bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                                    <span className="whitespace-nowrap bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
                                         {firstName.split('').map((char, i) => (
                                             <AnimatedLetter key={i} char={char} index={i} total={firstName.length} />
                                         ))}
@@ -259,7 +259,7 @@ export function Entrance() {
                         >
                             Full-stack developer · AI integration · design systems
                             <br />
-                            <span className="text-white/40 text-sm md:text-base">84 projects shipped across 6 years of building</span>
+                            <span className="text-white/40 text-sm md:text-base">84 projects shipped across 3 years of building</span>
                         </motion.p>
 
                         {/* Galaxy metaphor explainer — hidden on very small phones to save space */}
