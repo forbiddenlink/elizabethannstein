@@ -87,7 +87,7 @@ export function getSizeMultiplier(size: string): number {
     case 'supermassive':
       return 3.0
     case 'large':
-      return 1.8
+      return 2.0
     case 'medium':
       return 1.2
     case 'small':
