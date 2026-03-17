@@ -127,6 +127,93 @@ export default function AboutPage() {
             </div>
           </section>
 
+          {/* Quick Glance for Recruiters */}
+          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
+            <h2 className="text-2xl font-semibold mb-6 text-white/70">Quick Glance</h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Skills Matrix */}
+              <div className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6">
+                <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4">Core Skills</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/80">React / Next.js</span>
+                    <span className="text-xs text-purple-400 bg-purple-500/10 px-2 py-1 rounded">40+ projects</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/80">TypeScript</span>
+                    <span className="text-xs text-purple-400 bg-purple-500/10 px-2 py-1 rounded">35+ projects</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/80">AI Integration</span>
+                    <span className="text-xs text-cyan-400 bg-cyan-500/10 px-2 py-1 rounded">15+ projects</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/80">Full-Stack (Node/Python)</span>
+                    <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">20+ projects</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/80">Design Systems</span>
+                    <span className="text-xs text-pink-400 bg-pink-500/10 px-2 py-1 rounded">6+ shipped</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Links */}
+              <div className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6">
+                <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4">Browse by Role</h3>
+                <div className="space-y-3">
+                  <Link
+                    href="/work?filter=enterprise"
+                    className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
+                  >
+                    <span className="text-white/80 group-hover:text-white">Enterprise Projects</span>
+                    <span className="text-xs text-orange-400">5 projects →</span>
+                  </Link>
+                  <Link
+                    href="/work?filter=ai"
+                    className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
+                  >
+                    <span className="text-white/80 group-hover:text-white">AI & ML Work</span>
+                    <span className="text-xs text-cyan-400">15 projects →</span>
+                  </Link>
+                  <Link
+                    href="/work?filter=fullstack"
+                    className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
+                  >
+                    <span className="text-white/80 group-hover:text-white">Full-Stack Apps</span>
+                    <span className="text-xs text-purple-400">20 projects →</span>
+                  </Link>
+                </div>
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <Link
+                    href="/work"
+                    className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                  >
+                    View all 84 projects →
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="flex flex-wrap gap-3 mt-6">
+              <a
+                href="/resume/elizabeth-stein-resume.pdf"
+                download
+                className="inline-flex items-center gap-2 px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-lg transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                Download Resume
+              </a>
+              <a
+                href="mailto:purplegumdropz@gmail.com?subject=Job%20Opportunity"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg border border-white/20 transition-colors"
+              >
+                Schedule a Chat
+              </a>
+            </div>
+          </section>
+
           {/* Bio Section */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">

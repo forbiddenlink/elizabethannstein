@@ -50,21 +50,26 @@ export function GalaxyHint() {
           role="status"
           aria-live="polite"
         >
-          <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl whitespace-nowrap">
-            {/* Hint items */}
-            <span className="flex items-center gap-2 text-white/60 text-xs">
-              <span className="text-white/40">✦</span>
-              Each <span className="text-white/80 font-medium">star</span> is a project
-            </span>
-            <span className="w-px h-3 bg-white/15" aria-hidden="true" />
-            <span className="flex items-center gap-2 text-white/60 text-xs">
-              <span className="text-white/40">◎</span>
-              Each <span className="text-white/80 font-medium">cluster</span> is a category
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 px-5 py-3 rounded-2xl bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl">
+            {/* Main hint */}
+            <span className="flex items-center gap-2 text-white/70 text-xs">
+              <span className="text-purple-400">Click any star</span> to view that project
             </span>
             <span className="w-px h-3 bg-white/15 hidden sm:block" aria-hidden="true" />
-            <span className="hidden sm:flex items-center gap-2 text-white/60 text-xs">
-              <kbd className="text-[10px] bg-white/10 border border-white/10 px-1.5 py-0.5 rounded text-white/50">1–6</kbd>
-              jump to galaxy
+            {/* Keyboard hints */}
+            <span className="flex items-center gap-3 text-white/60 text-xs">
+              <span className="flex items-center gap-1.5">
+                <kbd className="text-[10px] bg-white/10 border border-white/10 px-1.5 py-0.5 rounded text-white/50">←→↑↓</kbd>
+                <span className="hidden md:inline">navigate</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <kbd className="text-[10px] bg-white/10 border border-white/10 px-1.5 py-0.5 rounded text-white/50">⌘K</kbd>
+                <span className="hidden md:inline">search</span>
+              </span>
+              <span className="hidden sm:flex items-center gap-1.5">
+                <kbd className="text-[10px] bg-white/10 border border-white/10 px-1.5 py-0.5 rounded text-white/50">?</kbd>
+                <span className="hidden md:inline">help</span>
+              </span>
             </span>
             {/* Dismiss */}
             <button

@@ -36,13 +36,13 @@ export function KeyboardShortcutsHelp() {
   }
 
   const shortcuts = [
+    { keys: ['⌘K'], description: 'Search all projects' },
     { keys: ['←', '→', '↑', '↓'], description: 'Navigate galaxies/projects' },
     { keys: ['1-6'], description: 'Jump to galaxy' },
     { keys: ['H'], description: 'Home (universe view)' },
     { keys: ['ESC'], description: 'Zoom out / Close' },
     { keys: ['Enter'], description: 'Select / Zoom in' },
     { keys: ['?'], description: 'Toggle this help' },
-    { keys: ['Ctrl+Shift+P'], description: 'Show FPS counter' },
   ]
 
   return (

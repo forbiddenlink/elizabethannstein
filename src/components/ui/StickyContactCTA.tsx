@@ -23,12 +23,12 @@ export function StickyContactCTA() {
   useEffect(() => {
     if (isDismissed || shouldHide) return
 
-    // Show after 2 seconds or 20% scroll
-    const timer = setTimeout(() => setIsVisible(true), 2000)
+    // Show after 5 seconds or 30% scroll (less aggressive)
+    const timer = setTimeout(() => setIsVisible(true), 5000)
 
     const handleScroll = () => {
       const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
-      if (scrollPercent > 20) {
+      if (scrollPercent > 30) {
         setIsVisible(true)
       }
     }
@@ -45,7 +45,7 @@ export function StickyContactCTA() {
     setIsDismissed(true)
     setIsVisible(false)
     // Remember dismissal for this session
-    sessionStorage.setItem('cta-dismissed', 'true')
+    localStorage.setItem('cta-dismissed', 'true')
   }
 
   const handleContact = () => {
@@ -58,7 +58,7 @@ export function StickyContactCTA() {
 
   // Check if previously dismissed this session
   useEffect(() => {
-    if (sessionStorage.getItem('cta-dismissed') === 'true') {
+    if (localStorage.getItem('cta-dismissed') === 'true') {
       setIsDismissed(true)
     }
   }, [])

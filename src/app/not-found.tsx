@@ -39,11 +39,20 @@ export default function NotFound() {
                     </motion.div>
                 </div>
 
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-white/70 text-lg mb-2"
+                >
+                    Page not found
+                </motion.p>
+
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-3xl md:text-4xl font-light tracking-wide mb-6"
+                    transition={{ delay: 0.4 }}
+                    className="text-3xl md:text-4xl font-light tracking-wide mb-4"
                 >
                     Signal Lost
                 </motion.h2>
@@ -52,23 +61,35 @@ export default function NotFound() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="text-white/40 max-w-md mb-12 text-lg"
+                    className="text-white/40 max-w-md mb-10 text-base"
                 >
-                    The coordinates you entered seem to lead to a black hole. Let's get you back to the known universe.
+                    This page doesn't exist or may have moved. Let's get you somewhere useful.
                 </motion.p>
 
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7 }}
+                    transition={{ delay: 0.6 }}
+                    className="flex flex-col sm:flex-row items-center gap-4"
                 >
                     <Link
                         href="/"
-                        className="group relative inline-flex items-center gap-2 min-h-11 px-8 py-4 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+                        className="group relative inline-flex items-center gap-2 min-h-11 px-8 py-4 bg-purple-600 hover:bg-purple-500 rounded-full transition-all duration-300"
                     >
-                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform text-purple-400" />
-                        <span>Return to Mission Control</span>
-                        <div className="absolute inset-0 rounded-full shadow-[0_0_20px_rgba(168,85,247,0.2)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] transition-shadow duration-300" />
+                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                        <span>Back to Home</span>
+                    </Link>
+                    <Link
+                        href="/work"
+                        className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+                    >
+                        <span>View All Projects</span>
+                    </Link>
+                    <Link
+                        href="/about"
+                        className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+                    >
+                        <span>About Me</span>
                     </Link>
                 </motion.div>
             </div>

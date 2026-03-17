@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { Mail } from 'lucide-react'
+import { Mail, Clock } from 'lucide-react'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { StarryBackground } from '@/components/ui/StarryBackground'
+import { ContactForm } from '@/components/ui/ContactForm'
 import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
@@ -80,49 +81,82 @@ export default function ContactPage() {
             </p>
           </header>
 
-          <section className="grid gap-6 md:grid-cols-3">
-            <a
-              href={`mailto:${CONTACT.email}?subject=Let's%20Work%20Together&body=Hi%20Elizabeth,%0A%0AI%20came%20across%20your%20portfolio%20and%20I'm%20interested%20in%20discussing%20a%20potential%20opportunity.%0A%0A[Brief%20description%20of%20project%20or%20role]%0A%0ABest,%0A[Your%20name]`}
-              className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
-            >
-              <Mail className="w-8 h-8 mb-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
-              <h2 className="text-lg font-semibold mb-2">Email</h2>
-              <p className="text-white/60 text-sm">Send me a message directly</p>
-              <span className="sr-only">Send email to Elizabeth Stein</span>
-            </a>
-
-            <a
-              href={CONTACT.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
-            >
-              <LinkedInIcon className="w-8 h-8 mb-4 text-blue-400 group-hover:text-blue-300 transition-colors" />
-              <h2 className="text-lg font-semibold mb-2">LinkedIn</h2>
-              <p className="text-white/60 text-sm">Connect professionally</p>
-              <span className="sr-only">Connect on LinkedIn</span>
-            </a>
-
-            <a
-              href={CONTACT.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
-            >
-              <GitHubIcon className="w-8 h-8 mb-4 text-white/80 group-hover:text-white transition-colors" />
-              <h2 className="text-lg font-semibold mb-2">GitHub</h2>
-              <p className="text-white/60 text-sm">Check out my code</p>
-              <span className="sr-only">View GitHub profile</span>
-            </a>
+          {/* Contact Form - Primary CTA */}
+          <section className="p-8 rounded-2xl bg-white/5 border border-white/10">
+            <h2 className="text-2xl font-bold mb-2">Send a Message</h2>
+            <p className="text-white/60 text-sm mb-6 flex items-center gap-2">
+              <Clock className="w-4 h-4" />
+              I typically respond within 24 hours
+            </p>
+            <ContactForm />
           </section>
 
-          <section className="p-8 rounded-2xl bg-linear-to-br from-purple-500/10 to-indigo-500/10 border border-purple-500/20">
-            <h2 className="text-2xl font-bold mb-4">Open to Opportunities</h2>
-            <p className="text-white/70 leading-relaxed">
-              I&apos;m currently available for freelance projects, consulting work, and full-time positions.
-              Whether you need help with full-stack development, AI integration, or building design systems,
-              I&apos;d love to hear about your project.
-            </p>
+          {/* Alternative Contact Methods */}
+          <section>
+            <h2 className="text-lg font-medium text-white/60 mb-4">Or reach out directly</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              <a
+                href={`mailto:${CONTACT.email}`}
+                className="group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              >
+                <div className="flex items-center gap-3">
+                  <Mail className="w-6 h-6 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                  <div>
+                    <h3 className="font-semibold">Email</h3>
+                    <p className="text-white/50 text-sm">{CONTACT.email}</p>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href={CONTACT.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              >
+                <div className="flex items-center gap-3">
+                  <LinkedInIcon className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                  <div>
+                    <h3 className="font-semibold">LinkedIn</h3>
+                    <p className="text-white/50 text-sm">Connect professionally</p>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href={CONTACT.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              >
+                <div className="flex items-center gap-3">
+                  <GitHubIcon className="w-6 h-6 text-white/80 group-hover:text-white transition-colors" />
+                  <div>
+                    <h3 className="font-semibold">GitHub</h3>
+                    <p className="text-white/50 text-sm">View my code</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </section>
+
+          {/* Availability Section */}
+          <section className="p-6 rounded-xl bg-linear-to-br from-purple-500/10 to-indigo-500/10 border border-purple-500/20">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 mt-1">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
+                </span>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold mb-2">Currently Available</h2>
+                <p className="text-white/70 leading-relaxed">
+                  I&apos;m open to full-time roles, freelance projects, and consulting work.
+                  Looking for frontend, UX engineering, or full-stack positions with a strong product focus.
+                </p>
+              </div>
+            </div>
           </section>
         </div>
       </div>

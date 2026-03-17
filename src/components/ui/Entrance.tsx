@@ -210,7 +210,7 @@ export function Entrance() {
                                 <Sparkles className="w-4 h-4" />
                             </motion.div>
                             <span className="text-xs tracking-[0.3em] font-light uppercase">
-                                Interactive Portfolio Experience
+                                Full-Stack Developer Portfolio
                             </span>
                             <motion.div
                                 animate={{ rotate: [0, -15, 15, 0] }}
@@ -271,9 +271,9 @@ export function Entrance() {
                             transition={{ duration: 0.8, delay: 1.5 }}
                             className="text-white/60 text-base md:text-xl font-light tracking-wide max-w-xl mx-auto leading-relaxed"
                         >
-                            Full-stack developer · AI integration · design systems
+                            I build fast, beautiful web apps with thoughtful UX
                             <br />
-                            <span className="text-white/40 text-sm md:text-base">84 projects shipped across 3 years of building</span>
+                            <span className="text-white/40 text-sm md:text-base">15+ production apps · 60+ experiments · Enterprise to AI</span>
                         </motion.p>
 
                         {/* Galaxy metaphor explainer — hidden on very small phones to save space */}
@@ -283,7 +283,7 @@ export function Entrance() {
                             transition={{ duration: 0.7, delay: 1.75 }}
                             className="flex flex-col items-center gap-3"
                         >
-                            <div className="hidden sm:flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-[11px] tracking-[0.2em] uppercase text-white/35">
+                            <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-white/35">
                                 <span className="flex items-center gap-1.5">
                                     <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: '#FF6B35' }} />
                                     Enterprise
@@ -315,7 +315,7 @@ export function Entrance() {
                                 </span>
                             </div>
                             <p className="text-[11px] tracking-[0.15em] text-white/25 uppercase">
-                                Each star is a project · each cluster is a galaxy
+                                Click any star to see that project · Arrow keys to navigate
                             </p>
                         </motion.div>
 
@@ -346,7 +346,7 @@ export function Entrance() {
                                     </motion.span>
                                 ) : (
                                     <>
-                                        <ScrambleText className="tracking-[0.15em] inline-block min-w-[13ch]">ENTER UNIVERSE</ScrambleText>
+                                        <ScrambleText className="tracking-[0.15em] inline-block min-w-[13ch]">VIEW MY WORK</ScrambleText>
                                         <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}>
                                             <ArrowRight className="w-5 h-5" />
                                         </motion.div>
@@ -369,15 +369,15 @@ export function Entrance() {
                             <HeroProjectsQuick />
                         </motion.div>
 
-                        {/* Skip intro link - inline with content */}
+                        {/* Skip intro link - inline with content, appears immediately */}
                         <motion.button
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 2.4 }}
+                            transition={{ duration: 0.4, delay: 0.5 }}
                             onClick={handleEnter}
                             className="mt-6 text-[11px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase"
                         >
-                            Skip to portfolio →
+                            Skip intro →
                         </motion.button>
                     </div>
                 </motion.div>

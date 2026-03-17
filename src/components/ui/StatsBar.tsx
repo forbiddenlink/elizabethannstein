@@ -4,9 +4,9 @@ import { motion } from 'framer-motion'
 import { STATS } from '@/lib/constants'
 
 const stats = [
-  { label: 'Projects', value: STATS.projectCount },
-  { label: 'Production', value: STATS.productionProjects },
-  { label: 'Years', value: STATS.yearsExperience },
+  { label: 'Projects Built', value: STATS.projectCount },
+  { label: 'In Production', value: STATS.productionProjects },
+  { label: 'Years Building', value: STATS.yearsExperience },
 ]
 
 export function StatsBar() {

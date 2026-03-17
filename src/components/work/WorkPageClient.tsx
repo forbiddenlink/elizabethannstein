@@ -151,15 +151,22 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
       <header className="mb-16">
         <ScrollReveal direction="up" delay={0.2}>
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            <SplitWords delay={0.3}>All Work</SplitWords>
+            <SplitWords delay={0.3}>Projects & Case Studies</SplitWords>
           </h1>
         </ScrollReveal>
         <ScrollReveal direction="up" delay={0.4}>
           <p className="text-lg text-white/(--text-opacity-tertiary) max-w-2xl leading-relaxed">
             {showFeaturedOnly ? (
-              <>Showing {projectCount} featured projects. <button onClick={() => setShowFeaturedOnly(false)} className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors">Show all {allProjects.length} including experiments →</button></>
+              <>
+                <span className="text-white/(--text-opacity-primary) font-medium">{projectCount} production-ready projects</span> — the work I'm most proud of.{' '}
+                <button onClick={() => setShowFeaturedOnly(false)} className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors">
+                  Show all {allProjects.length} including experiments →
+                </button>
+              </>
             ) : (
-              <>{projectCount} projects spanning enterprise applications, AI integration, full-stack development, and creative experiments.</>
+              <>
+                <span className="text-white/(--text-opacity-primary) font-medium">{projectCount} projects</span> spanning enterprise applications, AI integration, full-stack development, and creative experiments.
+              </>
             )}
           </p>
         </ScrollReveal>
@@ -216,26 +223,35 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
           {/* Featured Toggle + Galaxy Filter */}
           <div className="flex flex-wrap items-center gap-4">
             {/* Featured Only Toggle */}
-            <button
-              onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
-              className={cn(
-                'min-h-11 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border',
-                showFeaturedOnly
-                  ? 'bg-purple-600/20 border-purple-500/40 text-purple-300 hover:bg-purple-600/30'
-                  : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white/80'
-              )}
-            >
-              {showFeaturedOnly ? (
+            <div className="flex items-center gap-2 p-1 bg-white/5 rounded-lg border border-white/10">
+              <button
+                onClick={() => setShowFeaturedOnly(true)}
+                className={cn(
+                  'min-h-9 px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200',
+                  showFeaturedOnly
+                    ? 'bg-purple-600 text-white shadow-lg'
+                    : 'text-white/60 hover:text-white/80 hover:bg-white/5'
+                )}
+              >
                 <span className="flex items-center gap-2">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                   Featured ({featuredCount})
                 </span>
-              ) : (
-                <span>All Projects ({allProjects.length})</span>
-              )}
-            </button>
+              </button>
+              <button
+                onClick={() => setShowFeaturedOnly(false)}
+                className={cn(
+                  'min-h-9 px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200',
+                  !showFeaturedOnly
+                    ? 'bg-white/10 text-white shadow-lg'
+                    : 'text-white/60 hover:text-white/80 hover:bg-white/5'
+                )}
+              >
+                All ({allProjects.length})
+              </button>
+            </div>
 
             <GalaxyFilter
               galaxies={galaxies.map(g => ({ id: g.id, name: g.name, color: g.color }))}
@@ -249,15 +265,28 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
       {/* No Results Message */}
       {filteredGalaxies.length === 0 && (
         <div className="text-center py-16">
-          <p className="text-white/(--text-opacity-tertiary) text-lg mb-4">No projects found for "{searchQuery}"</p>
+          <p className="text-white/(--text-opacity-tertiary) text-lg mb-2">No projects found for "{searchQuery}"</p>
+          <p className="text-white/(--text-opacity-muted) text-sm mb-6">Try one of these popular searches:</p>
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
+            {['React', 'AI', 'TypeScript', 'Next.js', 'Full-stack', 'Enterprise'].map((term) => (
+              <button
+                key={term}
+                onClick={() => setSearchQuery(term)}
+                className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/20 transition-all text-sm"
+              >
+                {term}
+              </button>
+            ))}
+          </div>
           <button
             onClick={() => {
               setSearchQuery('')
               setSelectedGalaxy(null)
+              setShowFeaturedOnly(false)
             }}
             className="px-4 py-2 bg-surface-3 border border-white/(--border-opacity-strong) rounded-lg text-white/(--text-opacity-secondary) hover:bg-surface-4 hover:text-white transition-all text-sm"
           >
-            Clear filters
+            Clear all filters
           </button>
         </div>
       )}
@@ -358,7 +387,7 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
                             
                             {/* CTA */}
                             <div className="flex items-center gap-3 text-sm font-medium uppercase tracking-wider text-white/60 group-hover:text-white transition-colors">
-                              <span>View Project</span>
+                              <span>See Case Study</span>
                               <svg className="w-5 h-5 transform group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                               </svg>

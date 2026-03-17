@@ -154,7 +154,7 @@ export default function HomePage() {
               </span>
             </div>
             <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-md leading-relaxed mb-3 drop-shadow-lg">
-              Full-stack developer + design systems + AI integration
+              I build fast, beautiful web apps with thoughtful UX and solid engineering
             </p>
             <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto flex-wrap">
               <Link
@@ -179,6 +179,15 @@ export default function HomePage() {
               >
                 About
               </Link>
+              <Link
+                href="/work"
+                className="inline-flex items-center gap-1.5 min-h-11 px-3 py-2 text-sm text-white/70 hover:text-white transition-colors duration-200 hover:bg-white/10 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                <span className="hidden sm:inline">List View</span>
+              </Link>
             </div>
             <StatsBar />
             <FeaturedProjectsBar />
@@ -192,7 +201,10 @@ export default function HomePage() {
           href="/work"
           className="ripple-button group w-full md:w-auto rounded-xl bg-white/20 backdrop-blur-xl border border-white/40 text-white font-semibold hover:bg-white/30 hover:border-white/60 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105 pointer-events-auto flex items-center justify-center gap-2 px-5 py-3"
         >
-          <span className="whitespace-nowrap leading-none text-sm">View all work</span>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          <span className="whitespace-nowrap leading-none text-sm">Prefer a list? Browse all projects</span>
           <span className="inline-block transition-transform group-hover:translate-x-1 leading-none text-sm">→</span>
         </Link>
       </div>
