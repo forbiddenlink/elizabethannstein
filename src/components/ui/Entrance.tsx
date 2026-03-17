@@ -285,32 +285,32 @@ export function Entrance() {
                         >
                             <div className="hidden sm:flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-[11px] tracking-[0.2em] uppercase text-white/35">
                                 <span className="flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/70 inline-block" />
+                                    <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: '#FF6B35' }} />
                                     Enterprise
                                 </span>
                                 <span className="text-white/15">·</span>
                                 <span className="flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400/70 inline-block" />
+                                    <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: '#00D9FF' }} />
                                     AI / ML
                                 </span>
                                 <span className="text-white/15">·</span>
                                 <span className="flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400/70 inline-block" />
+                                    <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: '#9D4EDD' }} />
                                     Full-Stack
                                 </span>
                                 <span className="text-white/15">·</span>
                                 <span className="flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-green-400/70 inline-block" />
+                                    <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: '#06FFA5' }} />
                                     Dev Tools
                                 </span>
                                 <span className="text-white/15">·</span>
                                 <span className="flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-pink-400/70 inline-block" />
-                                    Design
+                                    <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: '#FF006E' }} />
+                                    Creative
                                 </span>
                                 <span className="text-white/15">·</span>
                                 <span className="flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70 inline-block" />
+                                    <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: '#FFB800' }} />
                                     Experiments
                                 </span>
                             </div>
@@ -356,12 +356,12 @@ export function Entrance() {
                         </MagneticButton>
                         </motion.div>
 
-                        {/* Featured Work — hidden on small phones */}
+                        {/* Featured Work — visible on all devices for recruiter visibility */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.6, delay: 2 }}
-                            className="mt-4 text-center hidden sm:block"
+                            className="mt-4 text-center"
                         >
                             <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-2">
                                 Featured Work

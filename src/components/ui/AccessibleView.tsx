@@ -7,6 +7,7 @@ import { galaxies } from '@/lib/galaxyData'
 import { Eye, EyeOff, ExternalLink, Github, ChevronRight } from 'lucide-react'
 
 // Toggle button to switch between 3D and accessible view
+// Made prominent for users who can't/won't use 3D
 export function AccessibleViewToggle({
   isAccessibleMode,
   onToggle
@@ -15,23 +16,32 @@ export function AccessibleViewToggle({
   onToggle: () => void
 }) {
   return (
-    <button
-      onClick={onToggle}
-      className="fixed top-4 right-4 md:top-6 md:right-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-black/60 backdrop-blur-sm border border-white/20 text-sm text-white/80 hover:text-white hover:bg-black/80 transition-all"
-      aria-label={isAccessibleMode ? 'Switch to 3D view' : 'Switch to accessible text view'}
-    >
-      {isAccessibleMode ? (
-        <>
-          <Eye className="w-4 h-4" />
-          <span className="hidden sm:inline">3D View</span>
-        </>
-      ) : (
-        <>
-          <EyeOff className="w-4 h-4" />
-          <span className="hidden sm:inline">Text View</span>
-        </>
+    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-2">
+      {/* Hint text - only shows on 3D mode */}
+      {!isAccessibleMode && (
+        <span className="text-xs text-white/40 bg-black/60 backdrop-blur-sm px-2 py-1 rounded hidden md:block">
+          Prefer text? Click below
+        </span>
       )}
-    </button>
+      <button
+        onClick={onToggle}
+        className="group flex items-center gap-2 px-4 py-3 rounded-xl bg-black/70 backdrop-blur-xl border border-white/30 text-sm text-white/90 hover:text-white hover:bg-black/90 hover:border-white/50 hover:scale-105 transition-all shadow-lg"
+        aria-label={isAccessibleMode ? 'Switch to 3D galaxy view' : 'Switch to accessible text list view'}
+        title={isAccessibleMode ? 'Return to interactive 3D view' : 'View as simple text list (no 3D)'}
+      >
+        {isAccessibleMode ? (
+          <>
+            <Eye className="w-5 h-5" />
+            <span>3D Galaxy View</span>
+          </>
+        ) : (
+          <>
+            <EyeOff className="w-5 h-5" />
+            <span>View as List</span>
+          </>
+        )}
+      </button>
+    </div>
   )
 }
 

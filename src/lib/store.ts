@@ -58,12 +58,13 @@ interface ViewStore {
 }
 
 export const useViewStore = create<ViewStore>((set, get) => ({
-  // Initial state
+  // Initial state - hasEntered defaults to true to skip entrance gate
+  // Recruiters need immediate access to portfolio, not animation walls
   view: 'universe',
   selectedGalaxy: null,
   selectedProject: null,
   isLanding: false,
-  hasEntered: false,
+  hasEntered: true,
   isWarpingIn: false,
 
   // Scan initial state

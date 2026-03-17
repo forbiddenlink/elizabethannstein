@@ -13,6 +13,7 @@ import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
 import { GalaxyFilter } from '@/components/ui/GalaxyFilter'
 import { ProjectBadges } from '@/components/ui/ProjectBadges'
 import { formatDateRange, cn } from '@/lib/utils'
+import { ProjectPlaceholder } from '@/components/ui/ProjectPlaceholder'
 import type { Galaxy, Project } from '@/lib/types'
 
 // Map project IDs to their screenshot paths
@@ -106,13 +107,24 @@ interface WorkPageClientProps {
 export function WorkPageClient({ galaxies }: WorkPageClientProps) {
   const [selectedGalaxy, setSelectedGalaxy] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  // Default to showing featured projects only - recruiters don't need to see learning experiments
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(true)
 
   const allProjects = useMemo(() => galaxies.flatMap(g => g.projects), [galaxies])
+  const featuredCount = useMemo(() => allProjects.filter(p => p.featured).length, [allProjects])
 
   const filteredGalaxies = useMemo(() => {
     let filtered = selectedGalaxy
       ? galaxies.filter(g => g.id === selectedGalaxy)
       : galaxies
+
+    // Filter to featured projects only when toggle is on
+    if (showFeaturedOnly) {
+      filtered = filtered.map(galaxy => ({
+        ...galaxy,
+        projects: galaxy.projects.filter(p => p.featured)
+      })).filter(g => g.projects.length > 0)
+    }
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
@@ -127,7 +139,7 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
     }
 
     return filtered
-  }, [galaxies, selectedGalaxy, searchQuery])
+  }, [galaxies, selectedGalaxy, searchQuery, showFeaturedOnly])
 
   const projectCount = useMemo(() => {
     return filteredGalaxies.reduce((acc, g) => acc + g.projects.length, 0)
@@ -144,8 +156,11 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
         </ScrollReveal>
         <ScrollReveal direction="up" delay={0.4}>
           <p className="text-lg text-white/(--text-opacity-tertiary) max-w-2xl leading-relaxed">
-            {projectCount} projects spanning enterprise applications, AI integration, full-stack development,
-            and creative experiments.
+            {showFeaturedOnly ? (
+              <>Showing {projectCount} featured projects. <button onClick={() => setShowFeaturedOnly(false)} className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors">Show all {allProjects.length} including experiments →</button></>
+            ) : (
+              <>{projectCount} projects spanning enterprise applications, AI integration, full-stack development, and creative experiments.</>
+            )}
           </p>
         </ScrollReveal>
         <ScrollReveal direction="up" delay={0.6}>
@@ -198,12 +213,36 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
             )}
           </div>
 
-          {/* Galaxy Filter */}
-          <GalaxyFilter
-            galaxies={galaxies.map(g => ({ id: g.id, name: g.name, color: g.color }))}
-            selectedGalaxy={selectedGalaxy}
-            onFilterChange={setSelectedGalaxy}
-          />
+          {/* Featured Toggle + Galaxy Filter */}
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Featured Only Toggle */}
+            <button
+              onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
+              className={cn(
+                'min-h-11 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border',
+                showFeaturedOnly
+                  ? 'bg-purple-600/20 border-purple-500/40 text-purple-300 hover:bg-purple-600/30'
+                  : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white/80'
+              )}
+            >
+              {showFeaturedOnly ? (
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  Featured ({featuredCount})
+                </span>
+              ) : (
+                <span>All Projects ({allProjects.length})</span>
+              )}
+            </button>
+
+            <GalaxyFilter
+              galaxies={galaxies.map(g => ({ id: g.id, name: g.name, color: g.color }))}
+              selectedGalaxy={selectedGalaxy}
+              onFilterChange={setSelectedGalaxy}
+            />
+          </div>
         </div>
       </ScrollReveal>
 
@@ -268,7 +307,7 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
                         href={`/work/${project.id}`}
                         className="group block h-full rounded-2xl overflow-hidden relative border-2 border-white/10 hover:border-white/25 transition-all duration-500"
                       >
-                        {/* Background with screenshot or gradient */}
+                        {/* Background with screenshot or generative placeholder */}
                         <div className="absolute inset-0">
                           {screenshotPath ? (
                             <Image
@@ -278,11 +317,10 @@ export function WorkPageClient({ galaxies }: WorkPageClientProps) {
                               className="object-cover opacity-30 group-hover:opacity-40 group-hover:scale-105 transition-all duration-500"
                             />
                           ) : (
-                            <div 
-                              className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500"
-                              style={{
-                                background: `radial-gradient(circle at 30% 50%, ${project.color}60, transparent 70%)`
-                              }}
+                            <ProjectPlaceholder
+                              title={project.title}
+                              color={project.color}
+                              className="opacity-60 group-hover:opacity-80 transition-opacity duration-500"
                             />
                           )}
                           

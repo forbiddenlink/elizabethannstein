@@ -88,32 +88,50 @@ export async function POST(req: Request) {
       ...messages
     ]
 
-    const response = await fetch(MINMAX_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'abab5.5-chat', 
-        stream: false,
-        messages: apiMessages.map(m => ({
-            sender_type: m.role === 'user' ? 'USER' : 'BOT',
-            sender_name: m.role === 'user' ? 'Visitor' : 'Galaxy Guide',
-            text: m.content
-        })),
-        bot_setting: [
-            {
-                bot_name: "Galaxy Guide",
-                content: systemPrompt
-            }
-        ],
-        reply_constraints: {
-            sender_type: "BOT",
-            sender_name: "Galaxy Guide"
-        }
+    // Add 15s timeout to prevent hanging if external API is slow
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 15000)
+
+    let response: Response
+    try {
+      response = await fetch(MINMAX_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: 'abab5.5-chat',
+          stream: false,
+          messages: apiMessages.map(m => ({
+              sender_type: m.role === 'user' ? 'USER' : 'BOT',
+              sender_name: m.role === 'user' ? 'Visitor' : 'Galaxy Guide',
+              text: m.content
+          })),
+          bot_setting: [
+              {
+                  bot_name: "Galaxy Guide",
+                  content: systemPrompt
+              }
+          ],
+          reply_constraints: {
+              sender_type: "BOT",
+              sender_name: "Galaxy Guide"
+          }
+        })
       })
-    })
+    } catch (fetchError) {
+      clearTimeout(timeoutId)
+      if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+        return NextResponse.json({
+          role: 'assistant',
+          content: `The galaxy databanks are taking too long to respond (timeout). Elizabeth's portfolio features ${allProjects.length} projects! Try exploring the 3D scene or ask me a simpler question.`
+        })
+      }
+      throw fetchError
+    }
+    clearTimeout(timeoutId)
 
     if (!response.ok) {
         const errorText = await response.text()

@@ -16,6 +16,7 @@ import { TouchGestures } from '@/components/ui/TouchGestures'
 import { GlowOrb } from '@/components/ui/FloatingElement'
 import { ContactSection } from '@/components/ui/ContactSection'
 import { ResumeDownload } from '@/components/ui/ResumeDownload'
+import { FeaturedProjectsBar } from '@/components/ui/FeaturedProjectsBar'
 import { Entrance } from '@/components/ui/Entrance'
 import { StickyContactCTA } from '@/components/ui/StickyContactCTA'
 import { LoadingProgress } from '@/components/ui/LoadingProgress'
@@ -155,21 +156,32 @@ export default function HomePage() {
             <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-md leading-relaxed mb-3 drop-shadow-lg">
               Full-stack developer + design systems + AI integration
             </p>
-            <div className="flex items-center gap-3 pointer-events-auto flex-wrap">
+            <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto flex-wrap">
               <Link
                 href="/contact"
                 className="inline-flex items-center min-h-11 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors duration-200 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
                 Let's Talk
               </Link>
+              <a
+                href="/resume/elizabeth-stein-resume.pdf"
+                download="Elizabeth_Stein_Resume.pdf"
+                className="inline-flex items-center gap-2 min-h-11 px-3 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Resume
+              </a>
               <Link
                 href="/about"
                 className="inline-flex items-center min-h-11 px-3 py-2 text-sm text-white/90 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 drop-shadow-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
-                About me
+                About
               </Link>
             </div>
             <StatsBar />
+            <FeaturedProjectsBar />
           </FadeIn>
         </div>
       </header>

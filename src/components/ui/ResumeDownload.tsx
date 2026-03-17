@@ -12,7 +12,7 @@ export function ResumeDownload() {
 
   return (
     <a
-      href="/resume.pdf"
+      href="/resume/elizabeth-stein-resume.pdf"
       download="Elizabeth_Stein_Resume.pdf"
       className="fixed top-4 right-28 md:top-6 md:right-36 z-20 group flex items-center gap-2 md:gap-3 bg-black/60 backdrop-blur-xl border border-white/30 hover:bg-black/70 hover:border-white/40 rounded-xl transition-all duration-300 hover:scale-105 shadow-2xl px-3 py-2 md:px-8 md:py-5"
       aria-label="Download resume as PDF"
