@@ -125,9 +125,11 @@ export function GalaxyCursor() {
     // ── hover detection ────────────────────────────────────────────
     const onEnter = (e: Event) => {
       const el = e.currentTarget as HTMLElement
-      isLinkHover = true
       isPlanetHover = el.dataset.planet === 'true'
-      setCursorState(isPlanetHover ? 'planet' : 'hover')
+      // Only show "VIEW" for actual links/buttons, not plain canvas
+      const isCanvas = el.tagName === 'CANVAS'
+      isLinkHover = isPlanetHover || !isCanvas
+      setCursorState(isPlanetHover ? 'planet' : isLinkHover ? 'hover' : 'default')
     }
     const onLeave = () => {
       isLinkHover = false; isPlanetHover = false

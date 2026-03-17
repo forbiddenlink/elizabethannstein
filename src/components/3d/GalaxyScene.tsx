@@ -168,22 +168,65 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // No manual camera orbit — OrbitControls autoRotate handles gentle rotation
-  // on the welcome screen. This eliminates ALL camera ownership conflicts.
-  // GalaxyCameraController handles all navigation after entry.
+  // Animate camera for pre-entry "breathing" effect and welcome screen orbit
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+
+    if (!hasEntered) {
+      // Orbit slowly while waiting at a distance - positions camera to see galaxies
+      const radius = 120
+      camera.position.x = Math.sin(time * 0.2) * radius
+      camera.position.z = Math.cos(time * 0.2) * radius
+      camera.position.y = 60
+      camera.lookAt(0, 0, 0)
+    }
+  })
 
   return (
     <>
       <color attach="background" args={['#000000']} />
       <fog attach="fog" args={['#000510', 180, 450]} />
 
-      {/* Lights — darker ambient for drama, vivid coloured point lights */}
-      <ambientLight intensity={0.5} color="#080815" />
-      <pointLight position={[100, 100, 100]} intensity={3.5} color="#7c3aed" castShadow shadow-mapSize={[1024, 1024]} />
-      <pointLight position={[-100, -100, -50]} intensity={2.5} color="#2563eb" castShadow shadow-mapSize={[512, 512]} />
-      <pointLight position={[0, -80, 0]} intensity={1.2} color="#ec4899" />
-      <directionalLight position={[0, 50, 0]} intensity={0.6} color="#ffffff" castShadow />
-      <hemisphereLight intensity={0.4} color="#a78bfa" groundColor="#1e1b4b" />
+      {/* Cinematic Three-Point Lighting */}
+      {/* Darker ambient for more contrast */}
+      <ambientLight intensity={0.12} color="#050510" />
+
+      {/* Key light - neutral white for true color rendering */}
+      <directionalLight
+        position={[80, 60, 40]}
+        intensity={1.5}
+        color="#ffffff"
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-near={10}
+        shadow-camera-far={400}
+        shadow-camera-left={-100}
+        shadow-camera-right={100}
+        shadow-camera-top={100}
+        shadow-camera-bottom={-100}
+      />
+
+      {/* Fill light - softer opposite side */}
+      <directionalLight
+        position={[-60, 20, -40]}
+        intensity={0.4}
+        color="#6366f1"
+      />
+
+      {/* Rim light - edge definition */}
+      <pointLight
+        position={[0, 80, -60]}
+        intensity={1.5}
+        color="#a855f7"
+        distance={200}
+      />
+
+      {/* Hemisphere for ambient variation */}
+      <hemisphereLight
+        intensity={0.25}
+        color="#818cf8"
+        groundColor="#1e1b4b"
+      />
 
       {/* Environment */}
       <Suspense fallback={null}>
@@ -197,7 +240,7 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
         ) : (
           <>
             <NebulaBackground isMobile={isMobile} />
-            <TwinklingStarfield count={isMobile ? 2000 : 8000} />
+            <TwinklingStarfield count={isMobile ? 1000 : 3000} />
             <GalaxyCores />
             <GalaxyLabels />
             <EnhancedProjectStars />
@@ -207,7 +250,7 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
             {!isMobile && (
               <>
                 <ShootingStars count={isMobile ? 2 : 5} />
-                <InteractiveSpaceDust count={isMobile ? 300 : 800} />
+{/* Disabled - particles render as squares */}
                 <CosmicComets count={3} />
                 <AuroraRibbons count={4} />
                 <CosmicJellyfish count={4} />
@@ -232,11 +275,11 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       {/* Journey Mode camera controller */}
       {isJourneyMode && <JourneyCameraController />}
 
-      {/* OrbitControls — always enabled so camera.lookAt(target) is called every frame.
-          autoRotate gives a gentle spin during the welcome screen. */}
+      {/* OrbitControls - enabled after entry for user interaction */}
       {view !== 'exploration' && !isJourneyMode && (
         <OrbitControls
           ref={controlsRef}
+          enabled={hasEntered}
           enablePan={true}
           enableZoom={true}
           minDistance={10}
@@ -247,13 +290,7 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
           zoomSpeed={0.8}
           panSpeed={0.5}
           enableDamping
-          dampingFactor={0.08}
-          autoRotate={!hasEntered}
-          autoRotateSpeed={0.4}
-          touches={{
-            ONE: 0, // THREE.TOUCH.ROTATE
-            TWO: 2, // THREE.TOUCH.DOLLY_PAN
-          }}
+          dampingFactor={0.05}
           makeDefault
         />
       )}
@@ -365,6 +402,16 @@ export default function GalaxyScene() {
       >
         <SceneWrapper isMobile={isMobile} rendererType={rendererType} />
       </WebGPUCanvas>
+
+      {/* CSS vignette fallback for WebGPU (post-processing causes flickering) */}
+      {rendererType === 'webgpu' && (
+        <div
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)'
+          }}
+        />
+      )}
 
       <GalaxyNavigation />
       <MobileGalaxyNav />

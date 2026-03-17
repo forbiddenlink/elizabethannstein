@@ -140,19 +140,20 @@ export function InteractiveSpaceDust({
     varying float vAlpha;
 
     void main() {
-      // Soft circular particle with glow
+      // Soft circular particle - smooth falloff to avoid square edges
       vec2 center = gl_PointCoord - vec2(0.5);
-      float dist = length(center);
+      float dist = length(center) * 2.0; // normalize to 0-1
 
-      if (dist > 0.5) discard;
+      // Smooth circular falloff (no hard discard to avoid square artifacts)
+      float circle = 1.0 - smoothstep(0.0, 1.0, dist);
+      float alpha = circle * circle * vAlpha; // quadratic falloff for softer edges
 
-      // Soft falloff
-      float alpha = smoothstep(0.5, 0.0, dist) * vAlpha;
+      if (alpha < 0.01) discard;
 
-      // Add slight glow
-      float glow = exp(-dist * 4.0) * 0.5;
+      // Subtle glow in center
+      float glow = exp(-dist * 3.0) * 0.3;
 
-      gl_FragColor = vec4(vColor + glow, alpha);
+      gl_FragColor = vec4(vColor * (1.0 + glow), alpha);
     }
   `
 

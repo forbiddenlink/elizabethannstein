@@ -118,54 +118,110 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
       return minDist;
     }
 
+    // Blue noise approximation for dithering
+    float blueNoise(vec2 p) {
+      float n = hash(p);
+      n += hash(p * 2.0 + 0.5) * 0.5;
+      n += hash(p * 4.0 + 0.25) * 0.25;
+      return fract(n);
+    }
+
     void main() {
-      vec2 uv = vUv + cameraPos.xy * 0.05;
+      // === PARALLAX DEPTH LAYERS ===
+      // Each layer moves at different speed based on camera, creating depth
+      float parallax1 = 0.08;  // Far layer - slow
+      float parallax2 = 0.05;  // Mid-far layer
+      float parallax3 = 0.03;  // Mid layer
+      float parallax4 = 0.015; // Near layer - fastest
+
+      vec2 uv1 = vUv + cameraPos.xy * parallax1;
+      vec2 uv2 = vUv + cameraPos.xy * parallax2;
+      vec2 uv3 = vUv + cameraPos.xy * parallax3;
+      vec2 uv4 = vUv + cameraPos.xy * parallax4;
 
       vec3 deepPurple    = mix(vec3(0.15, 0.03, 0.42), galaxyTint * 0.6, 0.5);
       vec3 cosmicBlue    = vec3(0.03, 0.12, 0.48);
       vec3 nebulaPink    = mix(vec3(0.38, 0.06, 0.32), galaxyTint * 0.4, 0.4);
       vec3 electricCyan  = mix(vec3(0.06, 0.25, 0.42), galaxyTint * 0.3, 0.35);
       vec3 royalPurple   = mix(vec3(0.18, 0.1, 0.48), galaxyTint * 0.5, 0.45);
-      vec3 deepSpace     = vec3(0.02, 0.02, 0.1);
+      vec3 deepSpace     = vec3(0.015, 0.015, 0.08);
+      vec3 warmGlow      = vec3(0.25, 0.08, 0.12);
 
-      vec2 swirl = uv - 0.5;
+      // Swirl with parallax
+      vec2 swirl = uv2 - 0.5;
       float angle = atan(swirl.y, swirl.x);
       float radius = length(swirl);
       float spiral = angle + radius * 3.0 + time * 0.05;
 
-      float layer1 = fbm(uv * 2.0 + vec2(cos(spiral) * 0.2, sin(spiral) * 0.2) + time * 0.015);
-      float layer2 = fbm(uv * 4.5 - vec2(time * 0.04, time * 0.025));
-      float layer3 = fbm(uv * 8.0 + vec2(time * 0.06, -time * 0.05));
-      float layer4 = fbm(uv * 14.0 - vec2(time * 0.08, time * 0.1));
-      float dustLanes = fbm(uv * 3.0 + vec2(time * 0.02, 0.0));
-      dustLanes = smoothstep(0.3, 0.7, dustLanes);
-      float clusters = voronoi(uv * 6.0);
-      clusters = smoothstep(0.0, 0.4, clusters);
+      // LAYER 1: Far background nebula (slowest parallax)
+      float farNebula = fbm(uv1 * 1.5 + vec2(cos(spiral) * 0.15, sin(spiral) * 0.15) + time * 0.008);
+      vec3 color = mix(deepSpace, deepPurple * 0.7, farNebula * 1.1);
 
-      vec3 color = mix(deepSpace, deepPurple, layer1 * 1.2);
-      color = mix(color, cosmicBlue, layer2 * 0.8);
-      color = mix(color, nebulaPink, pow(layer3, 1.5) * 0.6);
-      color = mix(color, electricCyan, layer4 * 0.5);
-      color = mix(color, royalPurple, (1.0 - dustLanes) * 0.4);
+      // LAYER 2: Mid-far cosmic clouds
+      float midFarClouds = fbm(uv2 * 3.0 - vec2(time * 0.02, time * 0.015));
+      float midFarDust = fbm(uv2 * 2.0 + 100.0);
+      color = mix(color, cosmicBlue * 0.9, midFarClouds * 0.7);
+      color = mix(color, warmGlow, midFarDust * 0.2);
 
-      vec2 center = vec2(0.5 + sin(time * 0.02) * 0.05, 0.5 + cos(time * 0.03) * 0.05);
-      float dist = distance(uv, center);
-      float radialDensity = 1.0 - smoothstep(0.0, 0.75, dist);
-      float emission = pow(layer2 * layer3, 0.5) * radialDensity;
-      color += nebulaPink * emission * 0.4;
-      color += electricCyan * (1.0 - emission) * radialDensity * 0.3;
+      // LAYER 3: Mid nebula structures (detailed)
+      float layer3a = fbm(uv3 * 6.0 + vec2(time * 0.04, -time * 0.03));
+      float layer3b = fbm(uv3 * 8.0 + vec2(-time * 0.05, time * 0.04));
+      color = mix(color, nebulaPink, pow(layer3a, 1.4) * 0.55);
+      color = mix(color, electricCyan, layer3b * 0.45);
 
-      float scattering = pow(radialDensity, 2.0) * 0.5;
-      color += vec3(0.1, 0.05, 0.2) * scattering;
-      color *= 0.7 + dustLanes * 0.5;
-      color += vec3(0.15, 0.1, 0.2) * (1.0 - clusters) * 0.5;
+      // LAYER 4: Near foreground wisps (fastest parallax)
+      float nearWisps = fbm(uv4 * 12.0 - vec2(time * 0.06, time * 0.08));
+      float nearDust = fbm(uv4 * 5.0 + vec2(time * 0.03, 0.0));
+      nearDust = smoothstep(0.35, 0.65, nearDust);
+      color = mix(color, royalPurple, nearWisps * 0.35);
+      color *= 0.75 + nearDust * 0.4;
 
-      float spots = smoothstep(0.94, 1.0, fbm(uv * 18.0 + time * 0.015));
-      color += vec3(1.0, 0.9, 0.95) * spots * 0.5;
-      color.r += sin(uv.x * 3.14159 + time * 0.1) * 0.02;
-      color.b += cos(uv.y * 3.14159 + time * 0.08) * 0.02;
-      color = pow(color, vec3(0.92));
-      color *= 1.6;
+      // Volumetric light shafts from center
+      vec2 center = vec2(0.5 + sin(time * 0.02) * 0.04, 0.5 + cos(time * 0.025) * 0.04);
+      float dist = distance(vUv, center);
+      float radialDensity = 1.0 - smoothstep(0.0, 0.7, dist);
+
+      // God rays / light shafts
+      float rayAngle = atan(vUv.y - center.y, vUv.x - center.x);
+      float rays = sin(rayAngle * 12.0 + time * 0.3) * 0.5 + 0.5;
+      rays = pow(rays, 3.0) * radialDensity;
+      float rayNoise = fbm(vec2(rayAngle * 3.0, dist * 8.0) + time * 0.1);
+      rays *= 0.7 + rayNoise * 0.3;
+      color += vec3(0.15, 0.1, 0.25) * rays * 0.4;
+
+      // Emission and scattering
+      float emission = pow(midFarClouds * layer3a, 0.5) * radialDensity;
+      color += nebulaPink * emission * 0.35;
+      color += electricCyan * (1.0 - emission) * radialDensity * 0.25;
+
+      float scattering = pow(radialDensity, 2.0) * 0.45;
+      color += vec3(0.12, 0.06, 0.22) * scattering;
+
+      // Star cluster voronoi
+      float clusters = voronoi(uv3 * 6.0);
+      clusters = smoothstep(0.0, 0.35, clusters);
+      color += vec3(0.12, 0.08, 0.18) * (1.0 - clusters) * 0.45;
+
+      // Bright star spots
+      float spots = smoothstep(0.95, 1.0, fbm(uv4 * 20.0 + time * 0.012));
+      color += vec3(1.0, 0.92, 0.96) * spots * 0.6;
+
+      // Subtle color shifts
+      color.r += sin(vUv.x * 3.14159 + time * 0.08) * 0.015;
+      color.b += cos(vUv.y * 3.14159 + time * 0.06) * 0.015;
+
+      // === BLUE NOISE DITHERING ===
+      // Reduces gradient banding in dark areas
+      float dither = (blueNoise(gl_FragCoord.xy) - 0.5) / 255.0 * 2.0;
+      color += dither;
+
+      // Final grading
+      color = pow(color, vec3(0.9));
+      color *= 1.55;
+
+      // Vignette
+      float vignette = 1.0 - smoothstep(0.4, 1.0, dist * 1.2);
+      color *= 0.85 + vignette * 0.15;
 
       gl_FragColor = vec4(color, 1.0);
     }

@@ -90,7 +90,6 @@ function GalaxyLabel({ name, projectCount, position, color, index }: GalaxyLabel
         anchorX="center"
         anchorY="bottom"
         position={[0, 0.3, 0]}
-        font="/fonts/inter-bold.woff"
         material-transparent={true}
         material-opacity={0}
         material-depthWrite={false}
@@ -109,7 +108,6 @@ function GalaxyLabel({ name, projectCount, position, color, index }: GalaxyLabel
         anchorX="center"
         anchorY="top"
         position={[0, -0.1, 0]}
-        font="/fonts/inter-regular.woff"
         material-transparent={true}
         material-opacity={0}
         material-depthWrite={false}

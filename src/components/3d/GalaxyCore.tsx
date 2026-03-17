@@ -61,11 +61,11 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
           float noise = fract(sin(dot(vUv, vec2(12.9898, 78.233))) * 43758.5453);
           glow += noise * 0.05 * glow;
 
-          // Brighter center
-          float core = smoothstep(0.15, 0.0, dist) * 2.0;
+          // Center glow - reduced to prevent harsh flash
+          float core = smoothstep(0.15, 0.0, dist) * 1.0;
 
-          vec3 finalColor = uColor * (glow + core);
-          float alpha = glow * 0.8;
+          vec3 finalColor = uColor * (glow * 0.8 + core * 0.6);
+          float alpha = glow * 0.6;
 
           gl_FragColor = vec4(finalColor, alpha);
         }
@@ -161,64 +161,39 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
         <primitive object={coreMaterial} attach="material" />
       </mesh>
 
-      {/* Outer glow halo — larger, more vivid */}
+      {/* Outer glow halo — subtle */}
       <mesh ref={glowRef} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[0, 10, 64]} />
+        <ringGeometry args={[0, 8, 64]} />
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.22}
+          opacity={0.15}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Second outer halo — very faint, large */}
+      {/* Second outer halo — very faint */}
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[0, 16, 64]} />
+        <ringGeometry args={[0, 12, 64]} />
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.07}
+          opacity={0.05}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Spiral arm particles - always render, visibility controlled in useFrame */}
-      <points ref={armsRef} visible={false}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[spiralData.positions, 3]}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            args={[spiralData.colors, 3]}
-          />
-          <bufferAttribute
-            attach="attributes-size"
-            args={[spiralData.sizes, 1]}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.55}
-          vertexColors
-          transparent
-          opacity={0.75}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          sizeAttenuation
-        />
-      </points>
+      {/* Spiral arm particles - disabled due to square rendering issue */}
 
-      {/* Central point light for bloom effect */}
+      {/* Central point light for bloom effect - reduced to prevent flash */}
       <pointLight
         color={color}
-        intensity={2}
-        distance={20}
+        intensity={0.8}
+        distance={15}
         decay={2}
       />
     </group>
