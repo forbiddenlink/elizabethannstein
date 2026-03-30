@@ -23,9 +23,10 @@
  * Related files: GalaxyScene.tsx, WebGPUCanvas.tsx
  */
 
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
-import { KernelSize } from 'postprocessing'
+import { EffectComposer, Bloom, Vignette, ChromaticAberration, Noise } from '@react-three/postprocessing'
+import { KernelSize, BlendFunction } from 'postprocessing'
 import { useViewStore } from '@/lib/store'
+import { Vector2 } from 'three'
 
 interface PostProcessingEffectsProps {
   enabled?: boolean
@@ -36,6 +37,8 @@ interface PostProcessingEffectsProps {
  * Cinematic post-processing effects for the galaxy scene
  * - Bloom: Glowing planets and stars
  * - Vignette: Darkened edges for focus
+ * - ChromaticAberration: Subtle lens distortion for AAA feel
+ * - Noise: Film grain for cinematic texture
  *
  * NOTE: Currently disabled due to flickering bug - see warning above
  */
@@ -43,13 +46,19 @@ export function PostProcessingEffects({ enabled = true, isMobile = false }: Post
   const view = useViewStore((state) => state.view)
   const selectedProject = useViewStore((state) => state.selectedProject)
 
-  // Reduce effects on mobile for performance
-  const bloomIntensity = isMobile ? 0.6 : 1.0
-  const bloomKernel = isMobile ? KernelSize.SMALL : KernelSize.LARGE
+  // Cinematic bloom settings - subtle but impactful
+  const bloomIntensity = isMobile ? 0.8 : 1.2
+  const bloomKernel = isMobile ? KernelSize.MEDIUM : KernelSize.LARGE
 
-  // Increase bloom when viewing a project (dramatic focus)
+  // Increase bloom when viewing a project (dramatic planet focus)
   const isProjectView = view === 'project' || selectedProject
-  const dynamicBloom = isProjectView ? bloomIntensity * 1.3 : bloomIntensity
+  const dynamicBloom = isProjectView ? bloomIntensity * 1.4 : bloomIntensity
+
+  // Chromatic aberration intensity - subtle edge distortion (disabled on mobile)
+  const caIntensity = isMobile ? 0 : isProjectView ? 0.0008 : 0.0004
+
+  // Film grain intensity
+  const noiseOpacity = isMobile ? 0.08 : 0.15
 
   if (!enabled) return null
 
@@ -57,13 +66,23 @@ export function PostProcessingEffects({ enabled = true, isMobile = false }: Post
     <EffectComposer multisampling={0}>
       <Bloom
         intensity={dynamicBloom}
-        luminanceThreshold={0.2}
-        luminanceSmoothing={0.8}
+        luminanceThreshold={0.15}
+        luminanceSmoothing={0.9}
         kernelSize={bloomKernel}
         mipmapBlur
       />
+      <ChromaticAberration
+        offset={new Vector2(caIntensity, caIntensity)}
+        radialModulation={true}
+        modulationOffset={0.5}
+      />
+      <Noise
+        premultiply
+        blendFunction={BlendFunction.SOFT_LIGHT}
+        opacity={noiseOpacity}
+      />
       <Vignette
-        offset={0.35}
+        offset={0.3}
         darkness={0.55}
       />
     </EffectComposer>

@@ -1,12 +1,12 @@
 'use client'
 
-import { useRef, useMemo, useEffect, useState } from 'react'
-import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
-import { galaxies, allProjects } from '@/lib/galaxyData'
-import { generateProjectPosition } from '@/lib/utils'
+import { allProjects, galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
+import { generateProjectPosition } from '@/lib/utils'
 import { Html, Line } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
+import * as THREE from 'three'
 
 interface ProjectConnection {
   fromId: string
@@ -19,23 +19,32 @@ interface ProjectConnection {
 }
 
 // Key technologies to highlight connections for
-const KEY_TECHNOLOGIES = [
-  'AI', 'Next.js', 'React', 'TypeScript', 'Supabase', 'Stripe',
-  'Claude', 'GPT-4', 'Three.js', 'Spaced Repetition', 'RAG'
-]
+const KEY_TECHNOLOGIES = new Set([
+  'AI',
+  'Next.js',
+  'React',
+  'TypeScript',
+  'Supabase',
+  'Stripe',
+  'Claude',
+  'GPT-4',
+  'Three.js',
+  'Spaced Repetition',
+  'RAG',
+])
 
 // Colors for different connection types
 const CONNECTION_COLORS: Record<string, string> = {
-  'AI': '#00D9FF',
+  AI: '#00D9FF',
   'Next.js': '#9D4EDD',
-  'React': '#61DAFB',
-  'TypeScript': '#3178C6',
-  'Supabase': '#3ECF8E',
-  'Stripe': '#635BFF',
-  'Claude': '#D97706',
+  React: '#61DAFB',
+  TypeScript: '#3178C6',
+  Supabase: '#3ECF8E',
+  Stripe: '#635BFF',
+  Claude: '#D97706',
   'GPT-4': '#10A37F',
   'Three.js': '#000000',
-  'default': '#FFFFFF'
+  default: '#FFFFFF',
 }
 
 /**
@@ -47,9 +56,9 @@ function computeProjectRelationships(): ProjectConnection[] {
 
   // Get all projects with their positions
   const projectsWithPositions = allProjects.map((project) => {
-    const galaxy = galaxies.find(g => g.id === project.galaxy)
-    const galaxyIndex = galaxies.findIndex(g => g.id === project.galaxy)
-    const projectIndex = galaxy?.projects.findIndex(p => p.id === project.id) ?? 0
+    const galaxy = galaxies.find((g) => g.id === project.galaxy)
+    const galaxyIndex = galaxies.findIndex((g) => g.id === project.galaxy)
+    const projectIndex = galaxy?.projects.findIndex((p) => p.id === project.id) ?? 0
     const totalProjects = galaxy?.projects.length ?? 1
 
     const position = new THREE.Vector3(
@@ -58,8 +67,8 @@ function computeProjectRelationships(): ProjectConnection[] {
         project.galaxy,
         galaxyIndex,
         projectIndex,
-        totalProjects
-      )
+        totalProjects,
+      ),
     )
 
     return { ...project, position }
@@ -76,18 +85,20 @@ function computeProjectRelationships(): ProjectConnection[] {
 
       // Find shared key technologies
       const sharedTags = projectA.tags.filter(
-        tag => projectB.tags.includes(tag) && KEY_TECHNOLOGIES.includes(tag)
+        (tag) => projectB.tags.includes(tag) && KEY_TECHNOLOGIES.has(tag),
       )
 
       // Only create connection if they share at least one key technology
       if (sharedTags.length === 0) continue
 
-      const pairKey = [projectA.id, projectB.id].sort().join('-')
+      const pairKey = [projectA.id, projectB.id]
+        .sort((left, right) => left.localeCompare(right))
+        .join('-')
       if (seenPairs.has(pairKey)) continue
       seenPairs.add(pairKey)
 
       // Determine primary color based on most significant shared tag
-      const primaryTag = sharedTags.find(tag => CONNECTION_COLORS[tag]) || 'default'
+      const primaryTag = sharedTags.find((tag) => CONNECTION_COLORS[tag]) || 'default'
       const color = CONNECTION_COLORS[primaryTag] || CONNECTION_COLORS['default']
 
       connections.push({
@@ -97,7 +108,7 @@ function computeProjectRelationships(): ProjectConnection[] {
         toPos: projectB.position,
         sharedTags,
         strength: Math.min(sharedTags.length / 3, 1),
-        color
+        color,
       })
     }
   }
@@ -108,10 +119,11 @@ function computeProjectRelationships(): ProjectConnection[] {
 /**
  * Get connections related to a specific project
  */
-function getProjectConnections(projectId: string, allConnections: ProjectConnection[]): ProjectConnection[] {
-  return allConnections.filter(
-    conn => conn.fromId === projectId || conn.toId === projectId
-  )
+function getProjectConnections(
+  projectId: string,
+  allConnections: ProjectConnection[],
+): ProjectConnection[] {
+  return allConnections.filter((conn) => conn.fromId === projectId || conn.toId === projectId)
 }
 
 interface ConnectionLineProps {
@@ -120,7 +132,7 @@ interface ConnectionLineProps {
   highlighted: boolean
 }
 
-function ConnectionLine({ connection, visible, highlighted }: ConnectionLineProps) {
+function ConnectionLine({ connection, visible, highlighted }: Readonly<ConnectionLineProps>) {
   const particlesRef = useRef<THREE.Points>(null)
   const progressRef = useRef<Float32Array | null>(null)
 
@@ -134,15 +146,11 @@ function ConnectionLine({ connection, visible, highlighted }: ConnectionLineProp
     const distance = connection.fromPos.distanceTo(connection.toPos)
     midPoint.y += distance * 0.2
 
-    const curve = new THREE.QuadraticBezierCurve3(
-      connection.fromPos,
-      midPoint,
-      connection.toPos
-    )
+    const curve = new THREE.QuadraticBezierCurve3(connection.fromPos, midPoint, connection.toPos)
 
     return {
       curve,
-      points: curve.getPoints(50).map(p => [p.x, p.y, p.z] as [number, number, number])
+      points: curve.getPoints(50).map((p) => [p.x, p.y, p.z] as [number, number, number]),
     }
   }, [connection])
 
@@ -197,40 +205,38 @@ function ConnectionLine({ connection, visible, highlighted }: ConnectionLineProp
       <Line
         points={points}
         color={connection.color}
-        lineWidth={highlighted ? 3 : 1.5}
+        lineWidth={highlighted ? 2.4 : 0.75}
         transparent
-        opacity={highlighted ? 0.8 : 0.4}
+        opacity={highlighted ? 0.7 : 0.14}
       />
 
       {/* Glow line */}
       <Line
         points={points}
         color={connection.color}
-        lineWidth={highlighted ? 6 : 3}
+        lineWidth={highlighted ? 4 : 1.5}
         transparent
-        opacity={highlighted ? 0.4 : 0.2}
+        opacity={highlighted ? 0.24 : 0.05}
       />
 
       {/* Flowing particles */}
       {highlighted && (
         <points ref={particlesRef}>
           <bufferGeometry>
-            <bufferAttribute
-              attach="attributes-position"
-              count={particleData.count}
-              array={particleData.positions}
-              itemSize={3}
-              args={[particleData.positions, 3]}
-            />
+            <bufferAttribute attach="attributes-position" args={[particleData.positions, 3]} />
           </bufferGeometry>
           <pointsMaterial
-            size={0.5}
-            color={connection.color}
-            transparent
-            opacity={0.9}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-            sizeAttenuation
+            args={[
+              {
+                size: 0.5,
+                color: connection.color,
+                transparent: true,
+                opacity: 0.9,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                sizeAttenuation: true,
+              },
+            ]}
           />
         </points>
       )}
@@ -257,7 +263,6 @@ function ConnectionLine({ connection, visible, highlighted }: ConnectionLineProp
 export function ProjectRelationships() {
   const selectedProject = useViewStore((state) => state.selectedProject)
   const view = useViewStore((state) => state.view)
-  const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
 
   // Compute all relationships once
   const allConnections = useMemo(() => computeProjectRelationships(), [])
@@ -269,10 +274,12 @@ export function ProjectRelationships() {
       return getProjectConnections(selectedProject, allConnections)
     }
 
-    // In galaxy view, show strong cross-galaxy connections
-    if (view === 'galaxy' || view === 'universe') {
-      // Show only the strongest connections (2+ shared tags) to avoid visual clutter
-      return allConnections.filter(c => c.strength >= 0.66)
+    if (view === 'galaxy') {
+      return allConnections.filter((connection) => connection.strength >= 0.95)
+    }
+
+    if (view === 'universe') {
+      return allConnections.filter((connection) => connection.strength >= 1)
     }
 
     return []
@@ -290,10 +297,7 @@ export function ProjectRelationships() {
           key={`${connection.fromId}-${connection.toId}`}
           connection={connection}
           visible={true}
-          highlighted={
-            selectedProject === connection.fromId ||
-            selectedProject === connection.toId
-          }
+          highlighted={selectedProject === connection.fromId || selectedProject === connection.toId}
         />
       ))}
     </group>

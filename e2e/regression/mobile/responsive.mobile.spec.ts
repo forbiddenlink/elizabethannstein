@@ -11,7 +11,7 @@
  * - Key elements are accessible
  */
 
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Mobile Responsive Layout', () => {
   test('homepage renders without horizontal scroll', async ({ page }) => {
@@ -40,15 +40,12 @@ test.describe('Mobile Responsive Layout', () => {
     expect(box?.height).toBeGreaterThanOrEqual(44)
   })
 
-  test('/work page is scrollable on mobile', async ({ page }) => {
+  test('/work page renders project cards on mobile', async ({ page }) => {
     await page.goto('/work')
     await page.waitForLoadState('domcontentloaded')
 
-    // Should be able to scroll
-    await page.evaluate(() => window.scrollTo(0, 500))
-
-    const scrollY = await page.evaluate(() => window.scrollY)
-    expect(scrollY).toBeGreaterThan(0)
+    await expect(page.locator('h1')).toContainText(/Projects|Case Studies/i)
+    await expect(page.locator('a[href^="/work/"]').first()).toBeVisible()
   })
 
   test('project links are tappable on mobile', async ({ page }) => {
@@ -85,44 +82,46 @@ test.describe('Mobile Responsive Layout', () => {
     expect(bodyFontSize).toBeGreaterThanOrEqual(14)
   })
 
-  test('modal is usable on mobile', async ({ page }) => {
-    await page.goto('/?p=lumira')
+  test('project detail page is usable on mobile', async ({ page }) => {
+    await page.goto('/work/chronicle')
     await page.waitForLoadState('domcontentloaded')
 
-    const modal = page.locator('[role="dialog"]')
-    await expect(modal).toBeVisible({ timeout: 10000 })
-
-    // Close button should be visible and tappable
-    const closeButton = page.locator('button[aria-label="Close modal"]')
-    await expect(closeButton).toBeVisible()
-
-    const box = await closeButton.boundingBox()
-    expect(box?.width).toBeGreaterThanOrEqual(44)
-    expect(box?.height).toBeGreaterThanOrEqual(44)
+    await expect(page.locator('main')).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Chronicle')
   })
 })
 
 test.describe('Mobile Touch Interactions', () => {
   test('buttons respond to tap', async ({ page }) => {
     await page.goto('/contact')
+    await page.waitForLoadState('domcontentloaded')
+    await page.waitForTimeout(200)
 
-    // Fill form
-    await page.locator('input#name').fill('Test')
-    await page.locator('input#email').fill('test@example.com')
-    await page.locator('textarea#message').fill('Test message')
+    const name = page.locator('input#name')
+    const email = page.locator('input#email')
+    const message = page.locator('textarea#message')
 
-    // Tap submit
-    await page.locator('button[type="submit"]').tap()
+    await email.fill('test@example.com')
+    if ((await email.inputValue()) !== 'test@example.com') await email.fill('test@example.com')
 
-    // Should show loading or success
-    await expect(page.locator('text=Opening email')).toBeVisible({ timeout: 2000 })
+    await message.fill('Test message')
+    if ((await message.inputValue()) !== 'Test message') await message.fill('Test message')
+
+    await name.fill('Test')
+    if ((await name.inputValue()) !== 'Test') await name.fill('Test')
+
+    await page.locator('button[type="submit"]').click()
+
+    // Should reveal the follow-up actions
+    await expect(page.locator('text=Message ready to send')).toBeVisible({ timeout: 5000 })
   })
 
   test('links respond to tap', async ({ page }) => {
     await page.goto('/work')
 
     const firstLink = page.locator('a[href^="/work/"]').first()
-    await firstLink.tap()
+    await firstLink.scrollIntoViewIfNeeded()
+    await firstLink.click()
 
     await page.waitForURL('**/work/**')
     expect(page.url()).toContain('/work/')

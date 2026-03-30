@@ -1,14 +1,14 @@
 'use client'
 
-import { useMemo, useRef } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
 import { galaxies } from '@/lib/galaxyData'
 import { generateProjectPosition } from '@/lib/utils'
-import { AsteroidField, OrbitingMoon, BinaryCompanion } from './AsteroidField'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { AsteroidField, BinaryCompanion, OrbitingMoon } from './AsteroidField'
 
 // Distance threshold for rendering enhancements
-const ENHANCEMENT_RENDER_DISTANCE = 50
+const ENHANCEMENT_RENDER_DISTANCE = 44
 
 // Add visual enhancements to specific planets based on their properties
 export function PlanetEnhancements() {
@@ -53,7 +53,7 @@ export function PlanetEnhancements() {
           galaxy.id,
           galaxyIndex,
           projectIndex,
-          galaxy.projects.length
+          galaxy.projects.length,
         )
         const position: [number, number, number] = [x, y, z]
 
@@ -61,8 +61,8 @@ export function PlanetEnhancements() {
         if (project.size === 'supermassive') {
           asteroidFields.push({
             position,
-            innerRadius: 6,
-            outerRadius: 8,
+            innerRadius: 5.2,
+            outerRadius: 7,
             color: galaxy.color,
           })
         }
@@ -71,18 +71,14 @@ export function PlanetEnhancements() {
         if (project.size === 'large' && project.featured) {
           moons.push({
             position,
-            orbitRadius: 4,
+            orbitRadius: 3.5,
             color: '#C0C0C0',
           })
         }
 
         // Specific special projects get binary companions
         // (projects with AI tag in Enterprise galaxy)
-        if (
-          galaxy.id === 'ai' &&
-          project.featured &&
-          project.size !== 'supermassive'
-        ) {
+        if (galaxy.id === 'ai' && project.featured && project.size !== 'supermassive') {
           binaryStars.push({
             position,
             color: '#00D9FF',
@@ -93,9 +89,9 @@ export function PlanetEnhancements() {
 
     // Initialize position vectors for distance calculations
     positionVectors.current = {
-      asteroids: asteroidFields.map(f => new THREE.Vector3(...f.position)),
-      moons: moons.map(m => new THREE.Vector3(...m.position)),
-      binaries: binaryStars.map(b => new THREE.Vector3(...b.position)),
+      asteroids: asteroidFields.map((f) => new THREE.Vector3(...f.position)),
+      moons: moons.map((m) => new THREE.Vector3(...m.position)),
+      binaries: binaryStars.map((b) => new THREE.Vector3(...b.position)),
     }
 
     return { asteroidFields, moons, binaryStars }
@@ -140,7 +136,9 @@ export function PlanetEnhancements() {
       {enhancements.asteroidFields.map((field, index) => (
         <group
           key={`asteroid-${index}`}
-          ref={(el) => { asteroidRefs.current[index] = el }}
+          ref={(el) => {
+            asteroidRefs.current[index] = el
+          }}
           visible={false}
         >
           <AsteroidField
@@ -148,8 +146,8 @@ export function PlanetEnhancements() {
             innerRadius={field.innerRadius}
             outerRadius={field.outerRadius}
             color={field.color}
-            count={80}
-            rotationSpeed={0.08}
+            count={52}
+            rotationSpeed={0.05}
           />
         </group>
       ))}
@@ -158,14 +156,16 @@ export function PlanetEnhancements() {
       {enhancements.moons.map((moon, index) => (
         <group
           key={`moon-${index}`}
-          ref={(el) => { moonRefs.current[index] = el }}
+          ref={(el) => {
+            moonRefs.current[index] = el
+          }}
           visible={false}
         >
           <OrbitingMoon
             planetPosition={moon.position}
             orbitRadius={moon.orbitRadius}
-            moonSize={0.25}
-            orbitSpeed={0.4}
+            moonSize={0.2}
+            orbitSpeed={0.32}
             color={moon.color}
           />
         </group>
@@ -175,14 +175,16 @@ export function PlanetEnhancements() {
       {enhancements.binaryStars.map((binary, index) => (
         <group
           key={`binary-${index}`}
-          ref={(el) => { binaryRefs.current[index] = el }}
+          ref={(el) => {
+            binaryRefs.current[index] = el
+          }}
           visible={false}
         >
           <BinaryCompanion
             primaryPosition={binary.position}
-            orbitRadius={3}
-            starSize={0.5}
-            orbitSpeed={0.25}
+            orbitRadius={2.5}
+            starSize={0.38}
+            orbitSpeed={0.2}
             color={binary.color}
           />
         </group>

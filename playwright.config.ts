@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const e2ePort = process.env.PLAYWRIGHT_PORT || '3100'
+const baseURL = process.env.BASE_URL || `http://127.0.0.1:${e2ePort}`
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
@@ -11,13 +14,30 @@ export default defineConfig({
     : [['list'], ['html', { open: 'on-failure' }]],
 
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
   },
 
+  // Configure visual regression snapshot settings
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixels: 100,
+    },
+  },
+
   projects: [
+    // Visual regression tests on Chrome (stable baseline)
+    {
+      name: 'visual',
+      testDir: './e2e/visual',
+      use: {
+        ...devices['Desktop Chrome'],
+        // Consistent viewport for snapshots
+        viewport: { width: 1280, height: 720 },
+      },
+    },
     // Smoke tests run first on Chrome only
     {
       name: 'smoke',
@@ -28,19 +48,19 @@ export default defineConfig({
     {
       name: 'chromium',
       testMatch: /.*\.spec\.ts/,
-      testIgnore: /.*\.smoke\.spec\.ts/,
+      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/],
       use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
       testMatch: /.*\.spec\.ts/,
-      testIgnore: /.*\.smoke\.spec\.ts/,
+      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/],
       use: { ...devices['Desktop Firefox'] },
     },
     {
       name: 'webkit',
       testMatch: /.*\.spec\.ts/,
-      testIgnore: /.*\.smoke\.spec\.ts/,
+      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/],
       use: { ...devices['Desktop Safari'] },
     },
     // Mobile viewport tests
@@ -57,10 +77,12 @@ export default defineConfig({
   ],
 
   // Run dev server before tests if not in CI
-  webServer: process.env.CI ? undefined : {
-    command: 'pnpm dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: true,
-    timeout: 120 * 1000,
-  },
+  webServer: process.env.CI
+    ? undefined
+    : {
+        command: `pnpm dev --hostname 127.0.0.1 --port ${e2ePort}`,
+        url: baseURL,
+        reuseExistingServer: false,
+        timeout: 120 * 1000,
+      },
 })

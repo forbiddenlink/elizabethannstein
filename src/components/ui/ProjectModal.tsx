@@ -1,14 +1,33 @@
 'use client'
 
-import { useEffect, useCallback, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useViewStore } from '@/lib/store'
-import { getProjectById } from '@/lib/galaxyData'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
-import { X } from 'lucide-react'
+import { getProjectById } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowUp, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ScrollProgress } from './ScrollProgress'
+
+function getModalTone(color?: string): string {
+  switch (color?.toLowerCase()) {
+    case '#ff6b35':
+      return 'enterprise'
+    case '#00d9ff':
+      return 'ai'
+    case '#9d4edd':
+      return 'fullstack'
+    case '#06ffa5':
+      return 'devtools'
+    case '#ff006e':
+      return 'creative'
+    case '#ffb800':
+      return 'experimental'
+    default:
+      return 'default'
+  }
+}
 
 export function ProjectModal() {
   const router = useRouter()
@@ -19,13 +38,17 @@ export function ProjectModal() {
   const project = selectedProject ? getProjectById(selectedProject) : null
   const isOpen = view === 'project' && project !== null
   const modalRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [showJumpToTop, setShowJumpToTop] = useState(false)
+  const tone = getModalTone(project?.color)
 
   // Focus trapping inside modal
   useEffect(() => {
     if (!isOpen || !modalRef.current) return
 
     const modal = modalRef.current
-    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, textarea, select'
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, textarea, select'
 
     const handleTab = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return
@@ -94,13 +117,33 @@ export function ProjectModal() {
         handleClose()
       }
     },
-    [isOpen, handleClose]
+    [isOpen, handleClose],
   )
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    globalThis.addEventListener('keydown', handleKeyDown)
+    return () => globalThis.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
+
+  useEffect(() => {
+    if (!isOpen || !scrollContainerRef.current) return
+
+    const scrollContainer = scrollContainerRef.current
+    const updateJumpState = () => {
+      setShowJumpToTop(scrollContainer.scrollTop > 320)
+    }
+
+    scrollContainer.addEventListener('scroll', updateJumpState, { passive: true })
+    updateJumpState()
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', updateJumpState)
+    }
+  }, [isOpen])
+
+  const handleJumpToTop = useCallback(() => {
+    scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -123,11 +166,12 @@ export function ProjectModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto gpu-accelerated"
-          onClick={handleClose}          role="dialog"
+          className="fixed inset-0 z-50 gpu-accelerated"
+          onClick={handleClose}
+          role="dialog"
           aria-modal="true"
           aria-label={`${project.title} project details`}
-          ref={modalRef}        >
+        >
           {/* Backdrop with blur-in */}
           <motion.div
             initial={{ backdropFilter: 'blur(0px)' }}
@@ -135,72 +179,85 @@ export function ProjectModal() {
             exit={{ backdropFilter: 'blur(0px)' }}
             transition={{ duration: 0.4 }}
             className="absolute inset-0 bg-black/90"
+            onClick={handleClose}
           />
-          
+
           {/* Scroll Progress */}
-          <ScrollProgress />
+          <ScrollProgress color={project.color} target={scrollContainerRef.current} />
 
-          {/* Content with zoom + slide-up */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 40 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 40 }}
-            transition={{ 
-              delay: 0.1, 
-              duration: 0.5, 
-              ease: [0.22, 1, 0.36, 1] 
-            }}
-            className="relative w-full max-w-5xl bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl my-8 mx-4 shadow-2xl will-change-transform"
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: 'linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,20,40,0.6) 50%, rgba(0,0,0,0.8) 100%)',
-              backdropFilter: 'blur(20px) saturate(180%)',
-              borderColor: `${project.color}30`,
-              boxShadow: `0 0 60px ${project.color}20, 0 8px 32px rgba(0,0,0,0.5)`
-            }}
-          >
-            {/* Glass morphism inner glow */}
-            <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none z-10" />
-
-            {/* Generative Modal Background/Header */}
-            <div className="absolute inset-x-0 top-0 h-64 overflow-hidden rounded-t-3xl opacity-20 mask-image-linear-to-b">
-              <GenerativeHero name={project.title} color={project.color} />
-              <div className="absolute inset-0 bg-linear-to-b from-transparent to-black" />
-            </div>
-
-            {/* Animated border glow with project color */}
-            <div
-              className="absolute inset-0 rounded-3xl blur-xl -z-10 animate-pulse"
-              style={{
-                background: `radial-gradient(circle at 50% 0%, ${project.color}30, transparent 70%)`
-              }}
-            />
-
-            {/* Close button */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.3 }}
-              onClick={handleClose}
-              className="ripple-button fixed top-8 right-8 z-[60] p-4 rounded-full bg-black/60 hover:bg-black/80 hover:scale-110 hover:rotate-90 transition-all duration-300 backdrop-blur-xl border-2 border-white/30 group shadow-2xl"
-              aria-label="Close modal"
-            >
-              <X className="w-6 h-6 text-white transition-transform group-hover:scale-110" />
-            </motion.button>
-
-            {/* Reuse the same component used in /work/[slug] */}
-            <ProjectCaseStudy project={project} />
-
-            {/* View full page link */}
-            <div className="px-8 pb-8">
-              <a
-                href={`/work/${project.id}`}
-                className="ripple-button inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-base text-white/70 hover:text-white hover:gap-3 transition-all duration-300"
+          <div ref={scrollContainerRef} className="absolute inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-start justify-center px-4 py-8">
+              {/* Content with zoom + slide-up */}
+              <motion.div
+                ref={modalRef}
+                initial={{ opacity: 0, scale: 0.95, y: 40 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 40 }}
+                transition={{
+                  delay: 0.1,
+                  duration: 0.5,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="project-modal-surface relative w-full max-w-5xl bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl will-change-transform"
+                data-tone={tone}
+                onClick={(e) => e.stopPropagation()}
               >
-                View full page →
-              </a>
+                {/* Glass morphism inner glow */}
+                <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none z-10" />
+
+                {/* Generative Modal Background/Header */}
+                <div className="absolute inset-x-0 top-0 h-64 overflow-hidden rounded-t-3xl opacity-20 mask-image-linear-to-b">
+                  <GenerativeHero name={project.title} color={project.color} />
+                  <div className="absolute inset-0 bg-linear-to-b from-transparent to-black" />
+                </div>
+
+                {/* Animated border glow with project color */}
+                <div
+                  className="project-modal-glow absolute inset-0 rounded-3xl blur-xl -z-10 animate-pulse"
+                  data-tone={tone}
+                />
+
+                {/* Close button */}
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                  onClick={handleClose}
+                  className="fixed top-8 right-8 z-60 p-4 rounded-full bg-black/60 hover:bg-black/80 hover:scale-110 hover:rotate-90 transition-all duration-300 backdrop-blur-xl border-2 border-white/30 group shadow-2xl"
+                  aria-label="Close modal"
+                >
+                  <X className="w-6 h-6 text-white transition-transform group-hover:scale-110" />
+                </motion.button>
+
+                {showJumpToTop && (
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    onClick={handleJumpToTop}
+                    className="fixed bottom-8 right-8 z-60 inline-flex items-center gap-2 rounded-full bg-black/70 border border-white/20 px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-black/85 transition-all duration-200 shadow-xl"
+                    aria-label="Scroll to top of project details"
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                    Top
+                  </motion.button>
+                )}
+
+                {/* Reuse the same component used in /work/[slug] */}
+                <ProjectCaseStudy project={project} />
+
+                {/* View full page link */}
+                <div className="px-8 pb-8">
+                  <a
+                    href={`/work/${project.id}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-base text-white/70 hover:text-white hover:gap-3 transition-all duration-300"
+                  >
+                    View full page →
+                  </a>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

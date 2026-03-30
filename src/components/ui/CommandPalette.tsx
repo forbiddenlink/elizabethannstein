@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-import { X, Search, Zap, Keyboard, Globe } from 'lucide-react'
 import { galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 import { gsap } from 'gsap'
+import { Globe, Keyboard, Search, X, Zap } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 
 interface CommandItem {
   id: string
@@ -16,56 +17,94 @@ interface CommandItem {
 }
 
 export function CommandPalette() {
+  const router = useRouter()
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const zoomToProject = useViewStore((state) => state.zoomToProject)
   const exploreProject = useViewStore((state) => state.exploreProject)
+  const hasEntered = useViewStore((state) => state.hasEntered)
+
+  const isHomeRoute = pathname === '/'
+
+  const closePalette = useCallback(() => {
+    setIsOpen(false)
+    setSearch('')
+    setSelectedIndex(0)
+  }, [])
+
+  const viewProject = useCallback(
+    (projectId: string) => {
+      if (isHomeRoute && hasEntered) {
+        zoomToProject(projectId)
+      } else {
+        router.push(`/work/${projectId}`)
+      }
+      closePalette()
+    },
+    [closePalette, hasEntered, isHomeRoute, router, zoomToProject],
+  )
+
+  const openGalaxy = useCallback(
+    (galaxyId: string) => {
+      if (isHomeRoute && hasEntered) {
+        const galaxy = galaxies.find((item) => item.id === galaxyId)
+        if (galaxy?.projects[0]) {
+          zoomToProject(galaxy.projects[0].id)
+        }
+      } else {
+        router.push(`/work?filter=${galaxyId}`)
+      }
+      closePalette()
+    },
+    [closePalette, hasEntered, isHomeRoute, router, zoomToProject],
+  )
+
+  const exploreIn3D = useCallback(
+    (projectId: string) => {
+      if (isHomeRoute && hasEntered) {
+        exploreProject(projectId)
+      } else {
+        router.push(`/?p=${projectId}`)
+      }
+      closePalette()
+    },
+    [closePalette, exploreProject, hasEntered, isHomeRoute, router],
+  )
 
   // Build command list
   const commands: CommandItem[] = [
     // Projects - View Details
-    ...galaxies.flatMap(galaxy =>
-      galaxy.projects.map(project => ({
+    ...galaxies.flatMap((galaxy) =>
+      galaxy.projects.map((project) => ({
         id: `project-${project.id}`,
         title: project.title,
         subtitle: `${galaxy.name} • ${project.role}`,
         category: 'project' as const,
         icon: <Zap className="w-4 h-4" />,
-        action: () => {
-          zoomToProject(project.id)
-          setIsOpen(false)
-        }
-      }))
+        action: () => viewProject(project.id),
+      })),
     ),
     // Projects - Explore Planet
-    ...galaxies.flatMap(galaxy =>
-      galaxy.projects.map(project => ({
+    ...galaxies.flatMap((galaxy) =>
+      galaxy.projects.map((project) => ({
         id: `explore-${project.id}`,
         title: `🚀 Explore ${project.title}`,
         subtitle: `Land on planet and walk around • ${galaxy.name}`,
         category: 'action' as const,
         icon: <Globe className="w-4 h-4" />,
-        action: () => {
-          exploreProject(project.id)
-          setIsOpen(false)
-        }
-      }))
+        action: () => exploreIn3D(project.id),
+      })),
     ),
     // Galaxies
-    ...galaxies.map(galaxy => ({
+    ...galaxies.map((galaxy) => ({
       id: `galaxy-${galaxy.id}`,
       title: galaxy.name,
       subtitle: `${galaxy.projects.length} projects`,
       category: 'galaxy' as const,
       icon: <Globe className="w-4 h-4" />,
-      action: () => {
-        // Zoom to first project in galaxy
-        if (galaxy.projects[0]) {
-          zoomToProject(galaxy.projects[0].id)
-        }
-        setIsOpen(false)
-      }
+      action: () => openGalaxy(galaxy.id),
     })),
     // Actions
     {
@@ -75,9 +114,9 @@ export function CommandPalette() {
       category: 'action' as const,
       icon: <Keyboard className="w-4 h-4" />,
       action: () => {
-        globalThis.location.href = '/work'
-        setIsOpen(false)
-      }
+        router.push('/work')
+        closePalette()
+      },
     },
     {
       id: 'view-3d',
@@ -86,57 +125,66 @@ export function CommandPalette() {
       category: 'action' as const,
       icon: <Globe className="w-4 h-4" />,
       action: () => {
-        window.location.href = '/'
-        setIsOpen(false)
-      }
-    }
+        router.push('/')
+        closePalette()
+      },
+    },
   ]
 
   // Filter commands based on search
   const filteredCommands = search
-    ? commands.filter(cmd =>
-        cmd.title.toLowerCase().includes(search.toLowerCase()) ||
-        cmd.subtitle?.toLowerCase().includes(search.toLowerCase())
+    ? commands.filter(
+        (cmd) =>
+          cmd.title.toLowerCase().includes(search.toLowerCase()) ||
+          cmd.subtitle?.toLowerCase().includes(search.toLowerCase()),
       )
     : commands
 
   // Keyboard shortcuts
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    // Open with CMD+K or CTRL+K
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault()
-      setIsOpen(prev => !prev)
-      return
-    }
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null
+      const isTypingContext =
+        target?.tagName === 'INPUT' ||
+        target?.tagName === 'TEXTAREA' ||
+        target?.tagName === 'SELECT' ||
+        target?.isContentEditable
 
-    // Close with ESC
-    if (e.key === 'Escape' && isOpen) {
-      setIsOpen(false)
-      setSearch('')
-      return
-    }
+      // Open with CMD+K or CTRL+K
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setIsOpen((prev) => !prev)
+        return
+      }
 
-    // Navigate with arrows when open
-    if (!isOpen) return
+      if (isTypingContext) return
 
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setSelectedIndex(prev => 
-        prev < filteredCommands.length - 1 ? prev + 1 : prev
-      )
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setSelectedIndex(prev => prev > 0 ? prev - 1 : prev)
-    } else if (e.key === 'Enter') {
-      e.preventDefault()
-      filteredCommands[selectedIndex]?.action()
-      setSearch('')
-    }
-  }, [isOpen, filteredCommands, selectedIndex])
+      // Close with ESC
+      if (e.key === 'Escape' && isOpen) {
+        closePalette()
+        return
+      }
+
+      // Navigate with arrows when open
+      if (!isOpen) return
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setSelectedIndex((prev) => (prev < filteredCommands.length - 1 ? prev + 1 : prev))
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev))
+      } else if (e.key === 'Enter') {
+        e.preventDefault()
+        filteredCommands[selectedIndex]?.action()
+      }
+    },
+    [closePalette, filteredCommands, isOpen, selectedIndex],
+  )
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    globalThis.addEventListener('keydown', handleKeyDown)
+    return () => globalThis.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
 
   // Reset selected index when search changes
@@ -147,15 +195,11 @@ export function CommandPalette() {
   // Animate in/out
   useEffect(() => {
     if (isOpen) {
-      gsap.fromTo(
-        '.command-palette-backdrop',
-        { opacity: 0 },
-        { opacity: 1, duration: 0.2 }
-      )
+      gsap.fromTo('.command-palette-backdrop', { opacity: 0 }, { opacity: 1, duration: 0.2 })
       gsap.fromTo(
         '.command-palette-modal',
         { opacity: 0, y: -20, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'back.out(1.7)' }
+        { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'back.out(1.7)' },
       )
     }
   }, [isOpen])
@@ -164,43 +208,49 @@ export function CommandPalette() {
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
-      case 'project': return 'Projects'
-      case 'galaxy': return 'Galaxies'
-      case 'action': return 'Actions'
-      case 'shortcut': return 'Shortcuts'
-      default: return ''
+      case 'project':
+        return 'Projects'
+      case 'galaxy':
+        return 'Galaxies'
+      case 'action':
+        return 'Actions'
+      case 'shortcut':
+        return 'Shortcuts'
+      default:
+        return ''
     }
   }
 
   // Group commands by category
-  const groupedCommands = filteredCommands.reduce((acc, cmd) => {
-    if (!acc[cmd.category]) acc[cmd.category] = []
-    acc[cmd.category].push(cmd)
-    return acc
-  }, {} as Record<string, CommandItem[]>)
+  const groupedCommands = filteredCommands.reduce(
+    (acc, cmd) => {
+      if (!acc[cmd.category]) acc[cmd.category] = []
+      acc[cmd.category].push(cmd)
+      return acc
+    },
+    {} as Record<string, CommandItem[]>,
+  )
 
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="command-palette-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+      <button
+        type="button"
+        className="command-palette-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-60"
         onClick={() => {
-          setIsOpen(false)
-          setSearch('')
+          closePalette()
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
-            setIsOpen(false)
-            setSearch('')
+            closePalette()
           }
         }}
-        role="button"
         tabIndex={-1}
         aria-label="Close command palette"
       />
 
       {/* Modal */}
-      <div className="command-palette-modal fixed top-[20vh] left-1/2 -translate-x-1/2 w-full max-w-2xl z-50 px-4">
+      <div className="command-palette-modal fixed top-[20vh] left-1/2 -translate-x-1/2 w-full max-w-2xl z-60 px-4">
         <div className="bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
           {/* Search Input */}
           <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
@@ -215,8 +265,7 @@ export function CommandPalette() {
             />
             <button
               onClick={() => {
-                setIsOpen(false)
-                setSearch('')
+                closePalette()
               }}
               className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/10"
               title="Close command palette"
@@ -241,7 +290,7 @@ export function CommandPalette() {
                   {items.map((cmd, idx) => {
                     const globalIdx = filteredCommands.indexOf(cmd)
                     const isSelected = globalIdx === selectedIndex
-                    
+
                     return (
                       <button
                         key={cmd.id}
@@ -265,9 +314,7 @@ export function CommandPalette() {
                           )}
                         </div>
                         {isSelected && (
-                          <kbd className="px-2 py-1 text-xs font-mono bg-white/10 rounded">
-                            ↵
-                          </kbd>
+                          <kbd className="px-2 py-1 text-xs font-mono bg-white/10 rounded">↵</kbd>
                         )}
                       </button>
                     )

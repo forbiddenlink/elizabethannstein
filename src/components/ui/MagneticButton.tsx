@@ -77,6 +77,12 @@ export function MagneticButton({
 
     const handleMouseEnter = () => {
       setIsHovered(true)
+      // Scale up with spring effect on hover
+      gsap.to(button, {
+        scale: 1.05,
+        duration: 0.4,
+        ease: 'back.out(1.7)',
+      })
     }
 
     const handleMouseLeave = () => {
@@ -84,6 +90,7 @@ export function MagneticButton({
       gsap.to(button, {
         x: 0,
         y: 0,
+        scale: 1,
         rotationX: 0,
         rotationY: 0,
         duration: 0.6,

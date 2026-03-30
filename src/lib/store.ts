@@ -1,11 +1,11 @@
 'use client'
 
-import { create } from 'zustand'
-import type { ViewState } from './types'
-import { getProjectById } from './galaxyData'
-import { getAudioSynth } from '@/components/ui/SoundManager'
-import { trackPlanetVisit, trackGalaxyVisit, trackSpeedGalaxyHop, unlockAchievement } from './achievements'
 import { enqueueAchievement } from '@/components/ui/AchievementToast'
+import { getAudioSynth } from '@/components/ui/SoundManager'
+import { create } from 'zustand'
+import { trackGalaxyVisit, trackPlanetVisit, trackSpeedGalaxyHop } from './achievements'
+import { getProjectById } from './galaxyData'
+import type { ViewState } from './types'
 
 interface ViewStore {
   // Core state machine
@@ -58,13 +58,13 @@ interface ViewStore {
 }
 
 export const useViewStore = create<ViewStore>((set, get) => ({
-  // Initial state - hasEntered defaults to true to skip entrance gate
-  // Recruiters need immediate access to portfolio, not animation walls
+  // Initial state - hasEntered defaults to false to show entrance gate
+  // First-time visitors see the entrance; returning visitors skip via localStorage
   view: 'universe',
   selectedGalaxy: null,
   selectedProject: null,
   isLanding: false,
-  hasEntered: true,
+  hasEntered: false,
   isWarpingIn: false,
 
   // Scan initial state
@@ -81,11 +81,9 @@ export const useViewStore = create<ViewStore>((set, get) => ({
   // Basic setters
   setView: (view) => set({ view }),
 
-  selectGalaxy: (galaxyId) =>
-    set({ selectedGalaxy: galaxyId }),
+  selectGalaxy: (galaxyId) => set({ selectedGalaxy: galaxyId }),
 
-  selectProject: (projectId) =>
-    set({ selectedProject: projectId }),
+  selectProject: (projectId) => set({ selectedProject: projectId }),
 
   enter: () => set({ hasEntered: true }),
   setWarpingIn: (val) => set({ isWarpingIn: val }),
@@ -100,7 +98,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
       view: 'galaxy',
       selectedGalaxy: galaxyId,
       selectedProject: null,
-      isLanding: false
+      isLanding: false,
     })
     // Achievement tracking
     if (typeof window !== 'undefined') {
@@ -121,7 +119,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
       view: 'project',
       selectedProject: projectId,
       selectedGalaxy: galaxyId,
-      isLanding: false
+      isLanding: false,
     })
     // Achievement tracking (client-side only)
     if (typeof window !== 'undefined') {
@@ -136,7 +134,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
     set({
       view: 'exploration',
       selectedProject: projectId,
-      isLanding: true
+      isLanding: true,
     })
   },
 
@@ -147,7 +145,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
     set({
       view: state.selectedGalaxy ? 'galaxy' : 'universe',
       selectedProject: null,
-      isLanding: false
+      isLanding: false,
     })
   },
 
@@ -167,28 +165,31 @@ export const useViewStore = create<ViewStore>((set, get) => ({
   },
 
   // Scan actions
-  startScan: (planetId) => set({
-    scanningPlanet: planetId,
-    scanProgress: 0
-  }),
+  startScan: (planetId) =>
+    set({
+      scanningPlanet: planetId,
+      scanProgress: 0,
+    }),
 
-  updateScanProgress: (progress) => set({
-    scanProgress: Math.min(1, Math.max(0, progress))
-  }),
+  updateScanProgress: (progress) =>
+    set({
+      scanProgress: Math.min(1, Math.max(0, progress)),
+    }),
 
   completeScan: (planetId) => {
     getAudioSynth()?.playSuccess()
     return set((state) => ({
       scannedPlanets: new Set([...state.scannedPlanets, planetId]),
       scanningPlanet: null,
-      scanProgress: 0
+      scanProgress: 0,
     }))
   },
 
-  cancelScan: () => set({
-    scanningPlanet: null,
-    scanProgress: 0
-  }),
+  cancelScan: () =>
+    set({
+      scanningPlanet: null,
+      scanProgress: 0,
+    }),
 
   // Journey Mode actions
   startJourney: (tourId?: string) => {
@@ -198,7 +199,7 @@ export const useViewStore = create<ViewStore>((set, get) => ({
       journeyStep: 0,
       isJourneyPaused: false,
       activeTourId: tourId ?? null,
-      view: 'universe'
+      view: 'universe',
     })
   },
 
@@ -207,33 +208,34 @@ export const useViewStore = create<ViewStore>((set, get) => ({
     return set({
       isJourneyMode: false,
       journeyStep: 0,
-      isJourneyPaused: false
+      isJourneyPaused: false,
     })
   },
 
   nextJourneyStop: () => {
     getAudioSynth()?.playWarp()
     return set((state) => ({
-      journeyStep: state.journeyStep + 1
+      journeyStep: state.journeyStep + 1,
     }))
   },
 
   prevJourneyStop: () => {
     getAudioSynth()?.playWarp()
     return set((state) => ({
-      journeyStep: Math.max(0, state.journeyStep - 1)
+      journeyStep: Math.max(0, state.journeyStep - 1),
     }))
   },
 
   setJourneyStep: (step) => set({ journeyStep: step }),
 
-  toggleJourneyPause: () => set((state) => ({
-    isJourneyPaused: !state.isJourneyPaused
-  })),
+  toggleJourneyPause: () =>
+    set((state) => ({
+      isJourneyPaused: !state.isJourneyPaused,
+    })),
 }))
 
 // Motion preferences store - combines OS preference with manual toggle
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface MotionStore {
   manualReducedMotion: boolean | null // null = follow OS, true/false = override

@@ -1,52 +1,64 @@
 'use client'
 
+import { GenerativeHero } from '@/components/ui/GenerativeHero'
+import { ProjectBadges } from '@/components/ui/ProjectBadges'
+import { GitHubIcon } from '@/components/ui/SocialIcons'
+import { SocialProof } from '@/components/ui/SocialProofBadges'
+import { galaxies } from '@/lib/galaxyData'
+import { getMetricIcon } from '@/lib/metricIcons'
 import type { Project } from '@/lib/types'
 import { formatDateRange } from '@/lib/utils'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ExternalLink, Github, ArrowLeft } from 'lucide-react'
-import { getMetricIcon } from '@/lib/metricIcons'
-import { GitHubIcon } from '@/components/ui/SocialIcons'
-import { GenerativeHero } from '@/components/ui/GenerativeHero'
-import { ProjectBadges } from '@/components/ui/ProjectBadges'
-import { SocialProof } from '@/components/ui/SocialProofBadges'
+import { ArrowLeft, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
-import { useRef, useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Map project IDs to their screenshot paths
+// ── Space-theme helpers ────────────────────────────────────────────────────
+const STAR_CLASSIFICATION: Record<string, { label: string; description: string }> = {
+  supermassive: { label: 'Ω-Class Supergiant', description: 'Flagship system' },
+  large: { label: 'I-Class Giant', description: 'Major system' },
+  medium: { label: 'II-Class Star', description: 'Launch system' },
+  small: { label: 'III-Class Dwarf', description: 'Focused system' },
+}
+
+function getProjectGalaxy(project: Project) {
+  return galaxies.find((g) => g.id === project.galaxy) ?? null
+}
 const PROJECT_SCREENSHOTS: Record<string, string> = {
   // Enterprise
   'flo-labs': '/screenshots/flo-labs.png',
   'caipo-ai': '/screenshots/caipo-ai.webp',
   'moodchanger-ai': '/screenshots/moodchanger-ai.png',
-  'hephaestus': '/screenshots/hephaestus.png',
+  hephaestus: '/screenshots/hephaestus.png',
   'robocollective-ai': '/screenshots/robocollective-ai.webp',
   // AI Frontier
   'finance-quest': '/screenshots/finance-quest.webp',
-  'stancestream': '/screenshots/stance-stream.png',
-  'explainthiscode': '/screenshots/explain-this-code.webp',
-  'tubedigest': '/screenshots/tubedigest.png',
-  'contradictme': '/screenshots/contradictme.webp',
+  stancestream: '/screenshots/stance-stream.png',
+  explainthiscode: '/screenshots/explain-this-code.webp',
+  tubedigest: '/screenshots/tubedigest.png',
+  contradictme: '/screenshots/contradictme.webp',
   'dev-interviewer': '/screenshots/dev-interviewer.png',
   // Full-Stack
   'portfolio-pro': '/screenshots/portfolio-pro.png',
   'create-surveys': '/screenshots/create-surveys.png',
   'quantum-forge': '/screenshots/quantum-forge.webp',
   'skill-mapper': '/screenshots/skill-mapper.png',
-  'reprise': '/screenshots/reprise.webp',
+  reprise: '/screenshots/reprise.webp',
   // DevTools
-  'componentcompass': '/screenshots/componentcompass.png',
+  componentcompass: '/screenshots/componentcompass.png',
   'security-trainer': '/screenshots/security-trainer.png',
   'encryption-visualizer': '/screenshots/encryption-visualizer.png',
   // Creative
   'goodstuff-foodtruck': '/screenshots/goodstuff-foodtruck.png',
   'studio-furniture': '/screenshots/studio-furniture.png',
-  'rivet': '/screenshots/rivet.png',
+  rivet: '/screenshots/rivet.png',
   // Experimental
-  'pollyglot': '/screenshots/pollyglot.png',
+  pollyglot: '/screenshots/pollyglot.png',
   'guts-and-glory': '/screenshots/guts-and-glory.png',
   'plant-therapy': '/screenshots/plant-therapy.webp',
   'timeslip-search': '/screenshots/timeslip-search.webp',
-  'mythos': '/screenshots/mythos.webp',
+  mythos: '/screenshots/mythos.webp',
   'apoc-bnb': '/screenshots/apoc-bnb.png',
   'canvas-flow': '/screenshots/canvas-flow.png',
 }
@@ -54,39 +66,47 @@ const PROJECT_SCREENSHOTS: Record<string, string> = {
 // Tech stack badge colours by category
 const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   // Frameworks
-  'React':        { bg: 'rgba(97,218,251,0.12)',  text: '#61dafb', border: 'rgba(97,218,251,0.3)'  },
-  'Next.js':      { bg: 'rgba(255,255,255,0.08)', text: '#ffffff', border: 'rgba(255,255,255,0.2)' },
-  'Vue.js':       { bg: 'rgba(66,184,131,0.12)',  text: '#42b883', border: 'rgba(66,184,131,0.3)'  },
-  'Svelte':       { bg: 'rgba(255,62,0,0.12)',    text: '#ff3e00', border: 'rgba(255,62,0,0.3)'    },
+  React: { bg: 'rgba(97,218,251,0.12)', text: '#61dafb', border: 'rgba(97,218,251,0.3)' },
+  'Next.js': { bg: 'rgba(255,255,255,0.08)', text: '#ffffff', border: 'rgba(255,255,255,0.2)' },
+  'Vue.js': { bg: 'rgba(66,184,131,0.12)', text: '#42b883', border: 'rgba(66,184,131,0.3)' },
+  Svelte: { bg: 'rgba(255,62,0,0.12)', text: '#ff3e00', border: 'rgba(255,62,0,0.3)' },
   // Languages
-  'TypeScript':   { bg: 'rgba(49,120,198,0.15)',  text: '#4fc3f7', border: 'rgba(49,120,198,0.35)' },
-  'JavaScript':   { bg: 'rgba(247,223,30,0.12)',  text: '#f7df1e', border: 'rgba(247,223,30,0.3)'  },
-  'Python':       { bg: 'rgba(255,212,59,0.12)',  text: '#ffd43b', border: 'rgba(255,212,59,0.3)'  },
-  'Rust':         { bg: 'rgba(222,165,132,0.12)', text: '#dea584', border: 'rgba(222,165,132,0.3)' },
+  TypeScript: { bg: 'rgba(49,120,198,0.15)', text: '#4fc3f7', border: 'rgba(49,120,198,0.35)' },
+  JavaScript: { bg: 'rgba(247,223,30,0.12)', text: '#f7df1e', border: 'rgba(247,223,30,0.3)' },
+  Python: { bg: 'rgba(255,212,59,0.12)', text: '#ffd43b', border: 'rgba(255,212,59,0.3)' },
+  Rust: { bg: 'rgba(222,165,132,0.12)', text: '#dea584', border: 'rgba(222,165,132,0.3)' },
   // AI / ML
-  'AI':           { bg: 'rgba(139,92,246,0.15)',  text: '#c4b5fd', border: 'rgba(139,92,246,0.35)' },
-  'OpenAI':       { bg: 'rgba(16,163,127,0.12)',  text: '#10a37f', border: 'rgba(16,163,127,0.3)'  },
-  'Claude':       { bg: 'rgba(214,89,35,0.12)',   text: '#f97316', border: 'rgba(214,89,35,0.3)'   },
-  'LLM':          { bg: 'rgba(139,92,246,0.12)',  text: '#a78bfa', border: 'rgba(139,92,246,0.3)'  },
-  'Machine Learning': { bg: 'rgba(139,92,246,0.12)', text: '#a78bfa', border: 'rgba(139,92,246,0.3)' },
+  AI: { bg: 'rgba(139,92,246,0.15)', text: '#c4b5fd', border: 'rgba(139,92,246,0.35)' },
+  OpenAI: { bg: 'rgba(16,163,127,0.12)', text: '#10a37f', border: 'rgba(16,163,127,0.3)' },
+  Claude: { bg: 'rgba(214,89,35,0.12)', text: '#f97316', border: 'rgba(214,89,35,0.3)' },
+  LLM: { bg: 'rgba(139,92,246,0.12)', text: '#a78bfa', border: 'rgba(139,92,246,0.3)' },
+  'Machine Learning': {
+    bg: 'rgba(139,92,246,0.12)',
+    text: '#a78bfa',
+    border: 'rgba(139,92,246,0.3)',
+  },
   // Backend / DB
-  'Node.js':      { bg: 'rgba(104,160,99,0.12)',  text: '#68a063', border: 'rgba(104,160,99,0.3)'  },
-  'Supabase':     { bg: 'rgba(62,207,142,0.12)',  text: '#3ecf8e', border: 'rgba(62,207,142,0.3)'  },
-  'PostgreSQL':   { bg: 'rgba(51,103,145,0.12)',  text: '#336791', border: 'rgba(51,103,145,0.3)'  },
-  'MongoDB':      { bg: 'rgba(71,162,72,0.12)',   text: '#47a248', border: 'rgba(71,162,72,0.3)'   },
-  'Redis':        { bg: 'rgba(220,49,49,0.12)',   text: '#dc3131', border: 'rgba(220,49,49,0.3)'   },
-  'Prisma':       { bg: 'rgba(42,43,54,0.4)',     text: '#5a67d8', border: 'rgba(90,103,216,0.3)'  },
+  'Node.js': { bg: 'rgba(104,160,99,0.12)', text: '#68a063', border: 'rgba(104,160,99,0.3)' },
+  Supabase: { bg: 'rgba(62,207,142,0.12)', text: '#3ecf8e', border: 'rgba(62,207,142,0.3)' },
+  PostgreSQL: { bg: 'rgba(51,103,145,0.12)', text: '#336791', border: 'rgba(51,103,145,0.3)' },
+  MongoDB: { bg: 'rgba(71,162,72,0.12)', text: '#47a248', border: 'rgba(71,162,72,0.3)' },
+  Redis: { bg: 'rgba(220,49,49,0.12)', text: '#dc3131', border: 'rgba(220,49,49,0.3)' },
+  Prisma: { bg: 'rgba(42,43,54,0.4)', text: '#5a67d8', border: 'rgba(90,103,216,0.3)' },
   // Styling
-  'Tailwind':     { bg: 'rgba(6,182,212,0.12)',   text: '#06b6d4', border: 'rgba(6,182,212,0.3)'   },
-  'CSS':          { bg: 'rgba(236,107,175,0.12)', text: '#ec6baf', border: 'rgba(236,107,175,0.3)' },
-  'GSAP':         { bg: 'rgba(136,206,18,0.12)',  text: '#88ce12', border: 'rgba(136,206,18,0.3)'  },
-  'Three.js':     { bg: 'rgba(255,255,255,0.08)', text: '#e0e0e0', border: 'rgba(255,255,255,0.2)' },
+  Tailwind: { bg: 'rgba(6,182,212,0.12)', text: '#06b6d4', border: 'rgba(6,182,212,0.3)' },
+  CSS: { bg: 'rgba(236,107,175,0.12)', text: '#ec6baf', border: 'rgba(236,107,175,0.3)' },
+  GSAP: { bg: 'rgba(136,206,18,0.12)', text: '#88ce12', border: 'rgba(136,206,18,0.3)' },
+  'Three.js': { bg: 'rgba(255,255,255,0.08)', text: '#e0e0e0', border: 'rgba(255,255,255,0.2)' },
   // DevOps
-  'Docker':       { bg: 'rgba(36,150,237,0.12)',  text: '#2496ed', border: 'rgba(36,150,237,0.3)'  },
-  'Vercel':       { bg: 'rgba(255,255,255,0.08)', text: '#d4d4d8', border: 'rgba(255,255,255,0.15)'},
-  'Stripe':       { bg: 'rgba(99,91,255,0.12)',   text: '#635bff', border: 'rgba(99,91,255,0.3)'   },
+  Docker: { bg: 'rgba(36,150,237,0.12)', text: '#2496ed', border: 'rgba(36,150,237,0.3)' },
+  Vercel: { bg: 'rgba(255,255,255,0.08)', text: '#d4d4d8', border: 'rgba(255,255,255,0.15)' },
+  Stripe: { bg: 'rgba(99,91,255,0.12)', text: '#635bff', border: 'rgba(99,91,255,0.3)' },
 }
-const DEFAULT_TAG = { bg: 'rgba(255,255,255,0.06)', text: 'rgba(255,255,255,0.7)', border: 'rgba(255,255,255,0.15)' }
+const DEFAULT_TAG = {
+  bg: 'rgba(255,255,255,0.06)',
+  text: 'rgba(255,255,255,0.7)',
+  border: 'rgba(255,255,255,0.15)',
+}
 
 function getTagStyle(tag: string) {
   return TAG_COLORS[tag] ?? DEFAULT_TAG
@@ -115,7 +135,7 @@ function useCountUp(target: number, duration = 1400, decimals = 0) {
           requestAnimationFrame(tick)
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -125,7 +145,11 @@ function useCountUp(target: number, duration = 1400, decimals = 0) {
 }
 
 // ── Metric Card with count-up ──────────────────────────────────────────────
-function MetricCard({ label, value, color }: Readonly<{ label: string; value: string; color?: string }>) {
+function MetricCard({
+  label,
+  value,
+  color,
+}: Readonly<{ label: string; value: string; color?: string }>) {
   // Parse numeric prefix for animation (e.g. "1,200" → 1200, "84" → 84)
   const numeric = parseFloat(value.replace(/[^0-9.]/g, ''))
   const suffix = value.replace(/^[\d,. ]+/, '')
@@ -143,10 +167,7 @@ function MetricCard({ label, value, color }: Readonly<{ label: string; value: st
       className="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 hover:border-white/30 hover:from-white/15 hover:to-white/10 transition-all duration-200"
       style={{ boxShadow: color ? `0 0 20px ${color}15` : undefined }}
     >
-      <div
-        className="text-3xl font-bold mb-2 tabular-nums"
-        style={{ color: color ?? 'white' }}
-      >
+      <div className="text-3xl font-bold mb-2 tabular-nums" style={{ color: color ?? 'white' }}>
         {displayValue}
       </div>
       <div className="text-sm text-white/60 font-medium uppercase tracking-wider">{label}</div>
@@ -155,7 +176,17 @@ function MetricCard({ label, value, color }: Readonly<{ label: string; value: st
 }
 
 // ── Impact metric mini-cards ───────────────────────────────────────────────
-function ImpactMetricCard({ label, value, icon, color }: { label: string; value: string; icon?: string; color: string }) {
+function ImpactMetricCard({
+  label,
+  value,
+  icon,
+  color,
+}: {
+  label: string
+  value: string
+  icon?: string
+  color: string
+}) {
   const numeric = parseFloat(value.replace(/[^0-9.]/g, ''))
   const suffix = value.replace(/^[\d,. %x+]+/, '')
   const isNumeric = !isNaN(numeric) && numeric > 0
@@ -183,26 +214,35 @@ function ImpactMetricCard({ label, value, icon, color }: { label: string; value:
         style={{ background: `radial-gradient(circle at 50% 0%, ${color}20, transparent 70%)` }}
       />
       <div className="relative z-10">
-        {icon && (() => {
-          const Icon = getMetricIcon(icon)
-          return <Icon className="w-6 h-6 mb-2" style={{ color }} aria-hidden="true" />
-        })()}
-        <div
-          className="text-2xl md:text-3xl font-bold tabular-nums mb-1"
-          style={{ color }}
-        >
+        {icon &&
+          (() => {
+            const Icon = getMetricIcon(icon)
+            return <Icon className="w-6 h-6 mb-2" style={{ color }} aria-hidden="true" />
+          })()}
+        <div className="text-2xl md:text-3xl font-bold tabular-nums mb-1" style={{ color }}>
           {displayValue}
         </div>
-        <div className="text-xs text-white/60 font-medium uppercase tracking-wider leading-tight">{label}</div>
+        <div className="text-xs text-white/60 font-medium uppercase tracking-wider leading-tight">
+          {label}
+        </div>
       </div>
     </motion.div>
   )
 }
 
 // ── Screenshot hero with parallax ─────────────────────────────────────────
-function ScreenshotHero({ project, screenshotPath }: { project: Project; screenshotPath?: string }) {
+function ScreenshotHero({
+  project,
+  screenshotPath,
+}: {
+  project: Project
+  screenshotPath?: string
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] })
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  })
   const y = useTransform(scrollYProgress, [0, 1], ['-4%', '4%'])
 
   return (
@@ -273,7 +313,9 @@ function ScreenshotHero({ project, screenshotPath }: { project: Project; screens
 function getChallengeText(project: Project): string {
   if (project.challenge) return project.challenge
   if (project.metrics?.files) {
-    const teamPart = project.metrics.team ? ` across a team of ${project.metrics.team} developers` : ''
+    const teamPart = project.metrics.team
+      ? ` across a team of ${project.metrics.team} developers`
+      : ''
     return `Building and maintaining a large-scale application with ${project.metrics.files.toLocaleString()} files${teamPart}.`
   }
   return 'Building a production-ready application that delivers real value while maintaining code quality and user experience.'
@@ -282,7 +324,12 @@ function getChallengeText(project: Project): string {
 function getSolutionText(project: Project): string {
   if (project.solution) return project.solution
   if (project.tags.includes('AI')) {
-    const techStack = project.tags.filter(t => ['Next.js', 'React', 'TypeScript', 'Supabase', 'OpenAI', 'Claude'].includes(t)).join(', ') || 'modern web technologies'
+    const techStack =
+      project.tags
+        .filter((t) =>
+          ['Next.js', 'React', 'TypeScript', 'Supabase', 'OpenAI', 'Claude'].includes(t),
+        )
+        .join(', ') || 'modern web technologies'
     return `Built with ${techStack}, integrating AI capabilities for enhanced functionality.`
   }
   return `Architected with ${project.tags.slice(0, 3).join(', ')}, focusing on performance, accessibility, and maintainability.`
@@ -291,7 +338,9 @@ function getSolutionText(project: Project): string {
 function getImpactText(project: Project): string {
   if (project.impact) return project.impact
   if (project.metrics?.tests) {
-    const userPart = project.metrics.users ? `Serving ${project.metrics.users}.` : 'Production-ready and deployed.'
+    const userPart = project.metrics.users
+      ? `Serving ${project.metrics.users}.`
+      : 'Production-ready and deployed.'
     return `${project.metrics.tests} automated tests ensuring reliability. ${userPart}`
   }
   if (project.links?.live) {
@@ -308,8 +357,38 @@ interface ProjectCaseStudyProps {
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const screenshotPath = PROJECT_SCREENSHOTS[project.id]
 
+  const projectGalaxy = getProjectGalaxy(project)
+  const starClass = STAR_CLASSIFICATION[project.size ?? 'medium']
+
   return (
     <article className="max-w-5xl mx-auto px-6 md:px-8 py-12 md:py-16 space-y-12">
+      {/* ── Mission Context Banner ── */}
+      {projectGalaxy && (
+        <div className="flex items-center gap-2 flex-wrap mb-2">
+          {/* Galaxy origin badge */}
+          <span
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border"
+            style={{
+              backgroundColor: `${projectGalaxy.color}15`,
+              color: projectGalaxy.color,
+              borderColor: `${projectGalaxy.color}40`,
+              boxShadow: `0 0 16px ${projectGalaxy.color}20`,
+            }}
+          >
+            <span
+              className="w-1.5 h-1.5 rounded-full animate-pulse"
+              style={{ backgroundColor: projectGalaxy.color }}
+            />
+            {projectGalaxy.name}
+          </span>
+          {/* Star classification */}
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border border-white/10 bg-white/5 text-white/50">
+            <span className="opacity-60">✦</span>
+            {starClass.label}
+          </span>
+        </div>
+      )}
+
       {/* ── Header ── */}
       <header className="mb-12">
         <div className="flex items-start justify-between gap-6 mb-6">
@@ -333,14 +412,20 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
         <div className="flex flex-wrap gap-3 text-base text-white/70 mb-4">
           <span className="px-3 py-1 bg-white/5 rounded-full">{project.role}</span>
-          <span className="px-3 py-1 bg-white/5 rounded-full">{formatDateRange(project.dateRange)}</span>
+          <span className="px-3 py-1 bg-white/5 rounded-full">
+            {formatDateRange(project.dateRange)}
+          </span>
         </div>
 
         <ProjectBadges project={project} />
         <SocialProof
           githubRepo={project.links?.github?.replace('https://github.com/', '')}
-          tests={project.metrics?.tests ? { count: project.metrics.tests, passing: true } : undefined}
-          metrics={project.metrics?.users ? [{ label: 'Users', value: project.metrics.users }] : undefined}
+          tests={
+            project.metrics?.tests ? { count: project.metrics.tests, passing: true } : undefined
+          }
+          metrics={
+            project.metrics?.users ? [{ label: 'Users', value: project.metrics.users }] : undefined
+          }
         />
       </header>
 
@@ -393,36 +478,56 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* ── Overview ── */}
       <section>
-        <h2 className="text-3xl font-semibold mb-6 bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">Overview</h2>
-        <p className="text-xl leading-relaxed text-white/90 font-light mb-6">{project.description}</p>
+        <h2 className="text-3xl font-semibold mb-6 bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+          Overview
+        </h2>
+        <p className="text-xl leading-relaxed text-white/90 font-light mb-6">
+          {project.description}
+        </p>
 
         <div className="grid md:grid-cols-2 gap-6 mt-8">
-          <motion.div whileHover={{ scale: 1.02, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -4 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
           >
-            <h3 className="text-lg font-semibold mb-3">Challenge</h3>
+            <h3 className="text-lg font-semibold mb-3">Mission Brief</h3>
             <p className="text-white/70 leading-relaxed">{getChallengeText(project)}</p>
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.02, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -4 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
           >
-            <h3 className="text-lg font-semibold mb-3">Solution</h3>
+            <h3 className="text-lg font-semibold mb-3">Engineering Log</h3>
             <p className="text-white/70 leading-relaxed">{getSolutionText(project)}</p>
           </motion.div>
 
           {/* Impact hero card */}
-          <motion.div whileHover={{ scale: 1.03, y: -8 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          <motion.div
+            whileHover={{ scale: 1.03, y: -8 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             className="md:col-span-2 relative bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md border-2 border-white/30 rounded-2xl p-8 overflow-hidden group"
-            style={{ boxShadow: `0 0 40px ${project.color}40, 0 0 80px ${project.color}20, inset 0 0 60px ${project.color}10` }}
+            style={{
+              boxShadow: `0 0 40px ${project.color}40, 0 0 80px ${project.color}20, inset 0 0 60px ${project.color}10`,
+            }}
           >
-            <div className="absolute inset-0 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
-              style={{ background: `radial-gradient(circle at 50% 50%, ${project.color}60, transparent 70%)`, animation: 'pulse 3s ease-in-out infinite' }}
+            <div
+              className="absolute inset-0 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
+              style={{
+                background: `radial-gradient(circle at 50% 50%, ${project.color}60, transparent 70%)`,
+                animation: 'pulse 3s ease-in-out infinite',
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
             <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">Impact</h3>
-              <p className="text-lg text-white/90 font-medium leading-relaxed">{getImpactText(project)}</p>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                Mission Outcomes
+              </h3>
+              <p className="text-lg text-white/90 font-medium leading-relaxed">
+                {getImpactText(project)}
+              </p>
             </div>
           </motion.div>
         </div>
@@ -462,13 +567,25 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         <section>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {project.metrics.files && (
-              <MetricCard label="Files" value={project.metrics.files.toLocaleString()} color={project.color} />
+              <MetricCard
+                label="Files"
+                value={project.metrics.files.toLocaleString()}
+                color={project.color}
+              />
             )}
             {project.metrics.tests && (
-              <MetricCard label="Tests" value={project.metrics.tests.toString()} color={project.color} />
+              <MetricCard
+                label="Tests"
+                value={project.metrics.tests.toString()}
+                color={project.color}
+              />
             )}
             {project.metrics.team && (
-              <MetricCard label="Team Size" value={project.metrics.team.toString()} color={project.color} />
+              <MetricCard
+                label="Team Size"
+                value={project.metrics.team.toString()}
+                color={project.color}
+              />
             )}
             {project.metrics.users && (
               <MetricCard label="Users" value={project.metrics.users} color={project.color} />
@@ -488,13 +605,24 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             className="relative bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-8 md:p-10"
             style={{ boxShadow: `0 0 40px ${project.color}20` }}
           >
-            <div className="absolute -top-4 -left-2 text-6xl text-white/20 font-serif" aria-hidden="true">"</div>
-            <p className="text-lg md:text-xl leading-relaxed text-white/90 italic mb-6 relative z-10">{project.testimonial.quote}</p>
+            <div
+              className="absolute -top-4 -left-2 text-6xl text-white/20 font-serif"
+              aria-hidden="true"
+            >
+              "
+            </div>
+            <p className="text-lg md:text-xl leading-relaxed text-white/90 italic mb-6 relative z-10">
+              {project.testimonial.quote}
+            </p>
             <footer className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <cite className="not-italic font-semibold text-white">{project.testimonial.author}</cite>
+                <cite className="not-italic font-semibold text-white">
+                  {project.testimonial.author}
+                </cite>
                 <p className="text-white/60 text-sm">{project.testimonial.role}</p>
-                {project.testimonial.date && <p className="text-white/40 text-xs mt-1">{project.testimonial.date}</p>}
+                {project.testimonial.date && (
+                  <p className="text-white/40 text-xs mt-1">{project.testimonial.date}</p>
+                )}
               </div>
               {project.links?.testimonial && (
                 <a
@@ -514,7 +642,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* ── Tech Stack — colour-coded by category ── */}
       <section>
-        <h2 className="text-2xl font-semibold mb-6">Tech Stack</h2>
+        <h2 className="text-2xl font-semibold mb-6">System Specs</h2>
         <div className="flex flex-wrap gap-2.5">
           {project.tags.map((tag) => {
             const style = getTagStyle(tag)
@@ -539,7 +667,10 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* ── Navigation ── */}
       <nav className="pt-8 border-t border-white/10">
-        <a href="/work" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group">
+        <a
+          href="/work"
+          className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
+        >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
           Back to all projects
         </a>

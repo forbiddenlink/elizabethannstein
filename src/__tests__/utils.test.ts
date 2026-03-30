@@ -1,14 +1,14 @@
-import { describe, it, expect } from 'vitest'
 import {
-  hashCode,
-  seededRandom,
-  generateProjectPosition,
-  formatDateRange,
-  getSizeMultiplier,
-  getGalaxyCenterPosition,
-  lerp,
   cn,
+  formatDateRange,
+  generateProjectPosition,
+  getGalaxyCenterPosition,
+  getSizeMultiplier,
+  hashCode,
+  lerp,
+  seededRandom,
 } from '@/lib/utils'
+import { describe, expect, it } from 'vitest'
 
 describe('cn (class merge)', () => {
   it('merges tailwind classes', () => {
@@ -96,7 +96,7 @@ describe('formatDateRange', () => {
 describe('getSizeMultiplier', () => {
   it('returns correct multiplier for each size', () => {
     expect(getSizeMultiplier('supermassive')).toBe(3.0)
-    expect(getSizeMultiplier('large')).toBe(1.8)
+    expect(getSizeMultiplier('large')).toBe(2.0)
     expect(getSizeMultiplier('medium')).toBe(1.2)
     expect(getSizeMultiplier('small')).toBe(0.8)
   })

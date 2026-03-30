@@ -1,10 +1,10 @@
 'use client'
 
-import { useRef, useMemo, useEffect } from 'react'
-import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
 import { generateProjectPosition } from '@/lib/utils'
+import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
+import * as THREE from 'three'
 
 interface ConstellationLine {
   start: THREE.Vector3
@@ -23,18 +23,20 @@ export function AnimatedConstellation() {
 
   // Get Flo Labs project positions
   const constellationData = useMemo(() => {
-    const floLabsProjects = galaxies
-      .find(g => g.id === 'enterprise')
-      ?.projects.filter(p =>
-        p.id.includes('flo-labs') ||
-        p.id.includes('caipo') ||
-        p.id.includes('flostudios') ||
-        p.id.includes('moodchanger') ||
-        p.id.includes('hephaestus') ||
-        p.id.includes('robocollective') ||
-        p.id.includes('space-ventures') ||
-        p.id.includes('tarrl')
-      ) || []
+    const floLabsProjects =
+      galaxies
+        .find((g) => g.id === 'enterprise')
+        ?.projects.filter(
+          (p) =>
+            p.id.includes('flo-labs') ||
+            p.id.includes('caipo') ||
+            p.id.includes('flostudios') ||
+            p.id.includes('moodchanger') ||
+            p.id.includes('hephaestus') ||
+            p.id.includes('robocollective') ||
+            p.id.includes('space-ventures') ||
+            p.id.includes('tarrl'),
+        ) || []
 
     if (floLabsProjects.length < 2) return { lines: [], particleCount: 0 }
 
@@ -45,17 +47,23 @@ export function AnimatedConstellation() {
       if (idx === floLabsProjects.length - 1) return
 
       const nextProject = floLabsProjects[idx + 1]
-      const start = new THREE.Vector3(...generateProjectPosition(
-        project.id, 'enterprise', 0, idx, floLabsProjects.length
-      ))
-      const end = new THREE.Vector3(...generateProjectPosition(
-        nextProject.id, 'enterprise', 0, idx + 1, floLabsProjects.length
-      ))
+      const start = new THREE.Vector3(
+        ...generateProjectPosition(project.id, 'enterprise', 0, idx, floLabsProjects.length),
+      )
+      const end = new THREE.Vector3(
+        ...generateProjectPosition(
+          nextProject.id,
+          'enterprise',
+          0,
+          idx + 1,
+          floLabsProjects.length,
+        ),
+      )
 
       lines.push({
         start,
         end,
-        length: start.distanceTo(end)
+        length: start.distanceTo(end),
       })
     })
 
@@ -63,24 +71,31 @@ export function AnimatedConstellation() {
     if (floLabsProjects.length > 2) {
       const firstProject = floLabsProjects[0]
       const lastProject = floLabsProjects[floLabsProjects.length - 1]
-      const start = new THREE.Vector3(...generateProjectPosition(
-        lastProject.id, 'enterprise', 0, floLabsProjects.length - 1, floLabsProjects.length
-      ))
-      const end = new THREE.Vector3(...generateProjectPosition(
-        firstProject.id, 'enterprise', 0, 0, floLabsProjects.length
-      ))
+      const start = new THREE.Vector3(
+        ...generateProjectPosition(
+          lastProject.id,
+          'enterprise',
+          0,
+          floLabsProjects.length - 1,
+          floLabsProjects.length,
+        ),
+      )
+      const end = new THREE.Vector3(
+        ...generateProjectPosition(firstProject.id, 'enterprise', 0, 0, floLabsProjects.length),
+      )
 
       lines.push({
         start,
         end,
-        length: start.distanceTo(end)
+        length: start.distanceTo(end),
       })
     }
 
     // Calculate total particles for flowing effect (more particles on longer lines)
     const particlesPerUnit = 3
-    const totalParticles = lines.reduce((sum, line) =>
-      sum + Math.ceil(line.length * particlesPerUnit), 0
+    const totalParticles = lines.reduce(
+      (sum, line) => sum + Math.ceil(line.length * particlesPerUnit),
+      0,
     )
 
     return { lines, particleCount: totalParticles }
@@ -128,7 +143,7 @@ export function AnimatedConstellation() {
     if (!groupRef.current) return
 
     // Clear existing lines
-    linesRef.current.forEach(line => {
+    linesRef.current.forEach((line) => {
       line.geometry.dispose()
       ;(line.material as THREE.Material).dispose()
       groupRef.current?.remove(line)
@@ -146,8 +161,8 @@ export function AnimatedConstellation() {
       const material = new THREE.LineBasicMaterial({
         color: '#FF8C42',
         transparent: true,
-        opacity: 0.6,
-        blending: THREE.AdditiveBlending
+        opacity: 0.28,
+        blending: THREE.AdditiveBlending,
       })
 
       const lineObj = new THREE.Line(geometry, material)
@@ -158,8 +173,8 @@ export function AnimatedConstellation() {
       const glowMaterial = new THREE.LineBasicMaterial({
         color: '#FF6B35',
         transparent: true,
-        opacity: 0.25,
-        blending: THREE.AdditiveBlending
+        opacity: 0.1,
+        blending: THREE.AdditiveBlending,
       })
 
       const glowLine = new THREE.Line(geometry.clone(), glowMaterial)
@@ -246,7 +261,7 @@ export function AnimatedConstellation() {
             size={0.7}
             color="#FFAA66"
             transparent
-            opacity={0.95}
+            opacity={0.5}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
             sizeAttenuation
@@ -260,11 +275,7 @@ export function AnimatedConstellation() {
           {/* Inner core */}
           <mesh position={line.start}>
             <sphereGeometry args={[0.3, 16, 16]} />
-            <meshBasicMaterial
-              color="#FFFFFF"
-              transparent
-              opacity={0.9}
-            />
+            <meshBasicMaterial color="#FFFFFF" transparent opacity={0.7} />
           </mesh>
           {/* Middle glow */}
           <mesh position={line.start}>
@@ -272,7 +283,7 @@ export function AnimatedConstellation() {
             <meshBasicMaterial
               color="#FF8C42"
               transparent
-              opacity={0.7}
+              opacity={0.35}
               blending={THREE.AdditiveBlending}
             />
           </mesh>
@@ -282,7 +293,7 @@ export function AnimatedConstellation() {
             <meshBasicMaterial
               color="#FF6B35"
               transparent
-              opacity={0.35}
+              opacity={0.15}
               blending={THREE.AdditiveBlending}
               depthWrite={false}
             />
@@ -293,7 +304,7 @@ export function AnimatedConstellation() {
             <meshBasicMaterial
               color="#FF6B35"
               transparent
-              opacity={0.5}
+              opacity={0.22}
               side={THREE.DoubleSide}
               blending={THREE.AdditiveBlending}
               depthWrite={false}

@@ -341,15 +341,17 @@ export function RealisticPlanet({
 
       // Terminator glow (atmosphere scatters light at day/night boundary)
       float terminatorGlow = smoothstep(-0.2, 0.0, NdotL) * smoothstep(0.3, 0.0, NdotL);
-      atmosphere += atmosColor * terminatorGlow * 0.3;
+      atmosphere += atmosColor * terminatorGlow * 0.4;
 
-      // Fresnel rim
-      float fresnel = pow(1.0 - max(viewAngle, 0.0), 2.5);
-      vec3 rimLight = color * fresnel * 0.8;
+      // Enhanced Fresnel rim - stronger glow at edges
+      float fresnel = pow(1.0 - max(viewAngle, 0.0), 2.0);
+      float fresnelStrong = pow(1.0 - max(viewAngle, 0.0), 4.0);
+      vec3 rimLight = color * fresnel * 1.2;
+      vec3 rimGlow = atmosColor * fresnelStrong * 0.6;
 
-      // Combine
-      surfaceColor = surfaceColor + atmosphere + rimLight;
-      float emissive = brightness * (1.0 + fresnel * 0.5);
+      // Combine with enhanced atmospheric presence
+      surfaceColor = surfaceColor + atmosphere + rimLight + rimGlow;
+      float emissive = brightness * (1.0 + fresnel * 0.6);
 
       gl_FragColor = vec4(surfaceColor * emissive, 1.0);
     }
@@ -385,10 +387,10 @@ export function RealisticPlanet({
       coronaRef.current.scale.setScalar(1.8 * pulse)
     }
 
-    if (glowRef.current && onHover) {
-      // Subtle glow pulse when planet is hovered
-      const glowPulse = Math.sin(state.clock.elapsedTime * 2) * 0.05 + 1.0
-      glowRef.current.scale.setScalar(1.6 * glowPulse)
+    if (glowRef.current) {
+      // Gentle breathing glow animation
+      const glowPulse = Math.sin(state.clock.elapsedTime * 1.5) * 0.08 + 1.0
+      glowRef.current.scale.setScalar(1.7 * glowPulse)
     }
   })
 
@@ -479,38 +481,51 @@ export function RealisticPlanet({
         </>
       )}
 
-      {/* Inner glow - stronger for more visible atmosphere */}
-      <mesh scale={1.28}>
+      {/* Inner atmospheric glow - bright core halo */}
+      <mesh scale={1.2}>
         <sphereGeometry args={[size, 32, 32]} />
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.6}
+          opacity={0.7}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
         />
       </mesh>
 
-      {/* Outer atmosphere - more visible */}
-      <mesh ref={glowRef} scale={1.65}>
-        <sphereGeometry args={[size, 24, 24]} />
+      {/* Primary atmosphere layer */}
+      <mesh scale={1.4}>
+        <sphereGeometry args={[size, 32, 32]} />
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.4}
+          opacity={0.5}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
       </mesh>
 
-      {/* Extra atmospheric haze layer for depth */}
-      <mesh scale={2.0}>
+      {/* Outer glow halo - animated on hover */}
+      <mesh ref={glowRef} scale={1.7}>
+        <sphereGeometry args={[size, 24, 24]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={0.35}
+          side={THREE.BackSide}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+
+      {/* Distant atmospheric haze - creates depth */}
+      <mesh scale={2.2}>
         <sphereGeometry args={[size, 16, 16]} />
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.15}
+          opacity={0.12}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}

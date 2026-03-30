@@ -1,9 +1,9 @@
 'use client'
 
+import { allProjects, getProjectById } from '@/lib/galaxyData'
 import { motion } from 'framer-motion'
+import { Brain, Building2, Code2, ExternalLink, Github, Rocket, Trophy } from 'lucide-react'
 import Link from 'next/link'
-import { ExternalLink, Github, Trophy, Rocket, Code2, Building2, Brain } from 'lucide-react'
-import { getProjectById } from '@/lib/galaxyData'
 
 interface HeroProject {
   id: string
@@ -55,9 +55,9 @@ export function HeroProjects() {
         className="max-w-4xl mx-auto"
       >
         <h2 className="text-lg font-semibold text-white/80 mb-4 flex items-center gap-2">
-          <span className="w-8 h-px bg-gradient-to-r from-transparent to-white/40" />
-          Featured Work
-          <span className="w-8 h-px bg-gradient-to-l from-transparent to-white/40" />
+          <span className="w-8 h-px bg-linear-to-r from-transparent to-white/40" />
+          <span>Featured Work</span>
+          <span className="w-8 h-px bg-linear-to-l from-transparent to-white/40" />
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -77,16 +77,16 @@ export function HeroProjects() {
                   className="group block p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                 >
                   <div className="flex items-start gap-3">
-                    <div className={`p-2 rounded-lg bg-gradient-to-br ${hero.gradient} text-white shrink-0`}>
+                    <div
+                      className={`p-2 rounded-lg bg-linear-to-br ${hero.gradient} text-white shrink-0`}
+                    >
                       {hero.icon}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-white group-hover:text-white/90 truncate">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-white/60 mt-1 line-clamp-2">
-                        {hero.highlight}
-                      </p>
+                      <p className="text-sm text-white/60 mt-1 line-clamp-2">{hero.highlight}</p>
                     </div>
                   </div>
 
@@ -103,9 +103,7 @@ export function HeroProjects() {
                         Code
                       </span>
                     )}
-                    <span className="ml-auto text-xs text-white/30">
-                      {project.dateRange}
-                    </span>
+                    <span className="ml-auto text-xs text-white/30">{project.dateRange}</span>
                   </div>
                 </Link>
               </motion.div>
@@ -118,7 +116,7 @@ export function HeroProjects() {
             href="/work"
             className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
           >
-            View all 68 projects
+            View all {allProjects.length} projects
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>

@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-import { useViewStore } from '@/lib/store'
-import { galaxies, getGalaxyById } from '@/lib/galaxyData'
 import { useScanTarget } from '@/components/3d/ScanSystem'
+import { galaxies, getGalaxyById } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
+import { useCallback, useEffect, useState } from 'react'
 
 // Touch target minimum size (44x44px for accessibility)
 const TOUCH_TARGET_SIZE = 'min-h-11 min-w-11'
@@ -92,9 +92,9 @@ export function ExplorerHUD() {
 
   return (
     <div className="fixed inset-0 z-40 pointer-events-none">
-      {/* Location Indicator - Bottom Left */}
+      {/* Location Indicator - Bottom Left — above mobile nav */}
       <div
-        className={`absolute bottom-6 left-6 transition-opacity duration-500 ${
+        className={`absolute bottom-56 left-4 lg:bottom-6 lg:left-6 transition-opacity duration-500 ${
           locationVisible ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -141,8 +141,8 @@ export function ExplorerHUD() {
         </div>
       </div>
 
-      {/* Scan/Land Prompts - Center Bottom */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+      {/* Scan/Land Prompts - Center Bottom — above mobile nav */}
+      <div className="absolute bottom-56 left-1/2 -translate-x-1/2 lg:bottom-6">
         {/* Scanning Progress */}
         {isScanning && (
           <div className="flex flex-col items-center animate-in fade-in duration-200">
@@ -182,9 +182,7 @@ export function ExplorerHUD() {
                 </span>
               </div>
             </div>
-            <div className="text-sm font-mono text-white/70">
-              Scanning...
-            </div>
+            <div className="text-sm font-mono text-white/70">Scanning...</div>
           </div>
         )}
 

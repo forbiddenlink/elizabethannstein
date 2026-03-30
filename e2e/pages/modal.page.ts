@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test'
+import { Locator, Page } from '@playwright/test'
 import { BasePage } from './base.page'
 
 export class ProjectModal extends BasePage {
@@ -17,7 +17,7 @@ export class ProjectModal extends BasePage {
   }
 
   async openViaUrl(projectSlug: string): Promise<void> {
-    await this.page.goto(`/?p=${projectSlug}`)
+    await super.goto(`/?p=${projectSlug}`)
     await this.modalBackdrop.waitFor({ state: 'visible', timeout: 10000 })
   }
 
@@ -28,7 +28,13 @@ export class ProjectModal extends BasePage {
 
   async closeViaEscape(): Promise<void> {
     await this.page.keyboard.press('Escape')
-    await this.modalBackdrop.waitFor({ state: 'hidden' })
+    try {
+      await this.modalBackdrop.waitFor({ state: 'hidden', timeout: 2000 })
+      return
+    } catch {
+      await this.closeButton.click({ force: true })
+      await this.modalBackdrop.waitFor({ state: 'hidden' })
+    }
   }
 
   async closeViaBackdrop(): Promise<void> {

@@ -1,11 +1,15 @@
 'use client'
 
-import { useEffect } from 'react'
+import { allProjects, galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
-import { galaxies, allProjects } from '@/lib/galaxyData'
+import { useEffect } from 'react'
 
-function navigateList(items: { id: string }[], currentId: string | null, direction: 'next' | 'prev'): string {
-  const currentIndex = currentId ? items.findIndex(item => item.id === currentId) : -1
+function navigateList(
+  items: { id: string }[],
+  currentId: string | null,
+  direction: 'next' | 'prev',
+): string {
+  const currentIndex = currentId ? items.findIndex((item) => item.id === currentId) : -1
   if (direction === 'next') {
     return items[(currentIndex + 1) % items.length].id
   }
@@ -20,6 +24,18 @@ function isBackwardKey(key: string): boolean {
   return key === 'ArrowLeft' || key === 'ArrowUp'
 }
 
+function isEditableTarget(target: EventTarget | null): boolean {
+  const element = target as HTMLElement | null
+  if (!element) return false
+
+  return (
+    element.tagName === 'INPUT' ||
+    element.tagName === 'TEXTAREA' ||
+    element.tagName === 'SELECT' ||
+    element.isContentEditable
+  )
+}
+
 export function KeyboardNavigation() {
   const view = useViewStore((state) => state.view)
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
@@ -31,6 +47,8 @@ export function KeyboardNavigation() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isEditableTarget(e.target)) return
+
       if (e.key === 'Escape') {
         e.preventDefault()
         zoomOut()
@@ -52,7 +70,13 @@ export function KeyboardNavigation() {
       }
 
       // Arrow navigation depends on current view
-      const direction = isForwardKey(e.key) ? 'next' : isBackwardKey(e.key) ? 'prev' : null
+      let direction: 'next' | 'prev' | null = null
+      if (isForwardKey(e.key)) {
+        direction = 'next'
+      } else if (isBackwardKey(e.key)) {
+        direction = 'prev'
+      }
+
       if (!direction) return
 
       e.preventDefault()
@@ -60,7 +84,7 @@ export function KeyboardNavigation() {
       if (view === 'universe') {
         zoomToGalaxy(navigateList(galaxies, selectedGalaxy, direction))
       } else if (view === 'galaxy' && selectedGalaxy) {
-        const galaxy = galaxies.find(g => g.id === selectedGalaxy)
+        const galaxy = galaxies.find((g) => g.id === selectedGalaxy)
         if (galaxy) {
           zoomToProject(navigateList(galaxy.projects, selectedProject, direction))
         }

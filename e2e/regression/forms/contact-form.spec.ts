@@ -7,11 +7,11 @@
  * Validates:
  * - Required field validation
  * - Email format validation
- * - Form submission flow
- * - Success/error states
+ * - Draft preparation flow
+ * - Honest follow-up actions
  */
 
-import { test, expect } from '../../fixtures/test-fixtures'
+import { expect, test } from '../../fixtures/test-fixtures'
 
 test.describe('Contact Form Validation', () => {
   test.beforeEach(async ({ contactPage }) => {
@@ -72,21 +72,10 @@ test.describe('Contact Form Validation', () => {
     expect(validationMessage).toBeTruthy()
   })
 
-  test('submit button shows loading state during submission', async ({ contactPage, page }) => {
-    await contactPage.fillForm({
-      name: 'Test User',
-      email: 'test@example.com',
-      message: 'Test message',
-    })
-
-    // Click submit (don't await completion)
-    await contactPage.submitButton.click()
-
-    // Should show loading text
-    await expect(page.locator('text=Opening email')).toBeVisible({ timeout: 2000 })
-  })
-
-  test('shows success state after submission', async ({ contactPage }) => {
+  test('submit button prepares the draft actions after submission', async ({
+    contactPage,
+    page,
+  }) => {
     await contactPage.fillForm({
       name: 'Test User',
       email: 'test@example.com',
@@ -95,12 +84,23 @@ test.describe('Contact Form Validation', () => {
 
     await contactPage.submitForm()
 
-    // Wait for success state
-    await expect(contactPage.successMessage).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=Message ready to send')).toBeVisible({ timeout: 5000 })
   })
 
-  test('can send another message after success', async ({ contactPage }) => {
-    // First submission
+  test('shows open email action after submission', async ({ contactPage }) => {
+    await contactPage.fillForm({
+      name: 'Test User',
+      email: 'test@example.com',
+      message: 'Test message',
+    })
+
+    await contactPage.submitForm()
+
+    await expect(contactPage.draftReadyMessage).toBeVisible({ timeout: 5000 })
+    await expect(contactPage.openEmailAppLink).toBeVisible()
+  })
+
+  test('form remains editable after the draft is prepared', async ({ contactPage }) => {
     await contactPage.fillForm({
       name: 'Test User',
       email: 'test@example.com',
@@ -108,18 +108,12 @@ test.describe('Contact Form Validation', () => {
     })
     await contactPage.submitForm()
 
-    // Wait for success
-    await expect(contactPage.successMessage).toBeVisible({ timeout: 5000 })
-
-    // Click "Send another message"
-    await contactPage.clickSendAnother()
-
-    // Form should be visible again
     await expect(contactPage.nameInput).toBeVisible()
-    await expect(contactPage.nameInput).toHaveValue('')
+    await expect(contactPage.nameInput).toHaveValue('Test User')
+    await expect(contactPage.draftReadyMessage).toBeVisible()
   })
 
-  test('copy button appears in success state', async ({ contactPage }) => {
+  test('copy button appears in draft-ready state', async ({ contactPage }) => {
     await contactPage.fillForm({
       name: 'Test User',
       email: 'test@example.com',
@@ -127,7 +121,7 @@ test.describe('Contact Form Validation', () => {
     })
     await contactPage.submitForm()
 
-    await expect(contactPage.successMessage).toBeVisible({ timeout: 5000 })
+    await expect(contactPage.draftReadyMessage).toBeVisible({ timeout: 5000 })
     await expect(contactPage.copyButton).toBeVisible()
   })
 })

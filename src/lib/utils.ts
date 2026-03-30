@@ -43,14 +43,14 @@ export function generateProjectPosition(
   galaxyId: string,
   galaxyIndex: number,
   projectIndex: number,
-  totalProjects: number
+  totalProjects: number,
 ): [number, number, number] {
   const seed = hashCode(projectId + galaxyId)
   const rng = seededRandom(seed)
 
   // Galaxy positioning (6 galaxies in a rough circle)
   const galaxyAngle = (galaxyIndex / 6) * Math.PI * 2
-  const galaxyRadius = 25
+  const galaxyRadius = 29
   const galaxyX = Math.cos(galaxyAngle) * galaxyRadius
   const galaxyZ = Math.sin(galaxyAngle) * galaxyRadius
 
@@ -58,11 +58,12 @@ export function generateProjectPosition(
   // Use Fibonacci sphere for better distribution
   const theta = rng() * Math.PI * 2
   const phi = Math.acos(2 * rng() - 1)
-  // Increased minimum radius to reduce overlap (was 5-17, now 7-20)
-  const radius = 7 + rng() * 13
+  // Spread project fields farther from the core so planets read as distinct objects.
+  const clusterBias = totalProjects > 10 ? 1.15 : 1
+  const radius = (8.5 + rng() * 14.5) * clusterBias
 
   const x = galaxyX + radius * Math.sin(phi) * Math.cos(theta)
-  const y = radius * Math.sin(phi) * Math.sin(theta) * 0.8 // Flatten slightly for better visibility
+  const y = radius * Math.sin(phi) * Math.sin(theta) * 0.62
   const z = galaxyZ + radius * Math.cos(phi)
 
   return [x, y, z]
@@ -102,7 +103,7 @@ export function getSizeMultiplier(size: string): number {
  */
 export function getGalaxyCenterPosition(galaxyIndex: number): [number, number, number] {
   const galaxyAngle = (galaxyIndex / 6) * Math.PI * 2
-  const galaxyRadius = 25
+  const galaxyRadius = 29
   const x = Math.cos(galaxyAngle) * galaxyRadius
   const z = Math.sin(galaxyAngle) * galaxyRadius
   return [x, 0, z]

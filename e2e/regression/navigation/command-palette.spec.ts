@@ -11,7 +11,7 @@
  * - Enter selects item
  */
 
-import { test, expect } from '../../fixtures/test-fixtures'
+import { expect, test } from '../../fixtures/test-fixtures'
 
 test.describe('Command Palette', () => {
   test.beforeEach(async ({ homePage }) => {
@@ -62,7 +62,7 @@ test.describe('Command Palette', () => {
 
   test('search filters projects by title', async ({ homePage }) => {
     await homePage.openCommandPalette()
-    await homePage.searchInCommandPalette('React')
+    await homePage.searchInCommandPalette('Chronicle')
 
     // Should have fewer results than all projects
     const resultCount = await homePage.getResultCount()
@@ -119,15 +119,17 @@ test.describe('Command Palette', () => {
   test('shows category labels (Projects, Galaxies, Actions)', async ({ homePage, page }) => {
     await homePage.openCommandPalette()
 
-    await expect(page.locator('text=Projects')).toBeVisible()
-    await expect(page.locator('text=Galaxies')).toBeVisible()
-    await expect(page.locator('text=Actions')).toBeVisible()
+    const modal = page.locator('.command-palette-modal')
+    await expect(modal.getByText('Projects', { exact: true })).toBeVisible()
+    await expect(modal.getByText('Galaxies', { exact: true })).toBeVisible()
+    await expect(modal.getByText('Actions', { exact: true })).toBeVisible()
   })
 
   test('shows keyboard hints in footer', async ({ homePage, page }) => {
     await homePage.openCommandPalette()
 
-    await expect(page.locator('kbd:has-text("↵")')).toBeVisible()
-    await expect(page.locator('kbd:has-text("ESC")')).toBeVisible()
+    const modal = page.locator('.command-palette-modal')
+    await expect(modal.locator('span', { hasText: 'Select' }).locator('kbd')).toHaveText('↵')
+    await expect(modal.locator('span', { hasText: 'Close' }).locator('kbd')).toHaveText('ESC')
   })
 })

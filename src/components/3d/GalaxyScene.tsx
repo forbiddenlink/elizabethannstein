@@ -26,23 +26,22 @@ import { GalaxyCores } from '@/components/3d/GalaxyCore'
 import { PlanetEnhancements } from '@/components/3d/PlanetEnhancements'
 import { ProjectRelationships } from '@/components/3d/ProjectRelationships'
 import { CosmicComets } from '@/components/3d/CosmicComets'
-import { AuroraRibbons } from '@/components/3d/AuroraRibbons'
-import { CosmicJellyfish } from '@/components/3d/CosmicJellyfish'
-import { Pulsars } from '@/components/3d/Pulsars'
 import { SolarFlares } from '@/components/3d/SolarFlares'
 import { BlackHole } from '@/components/3d/BlackHole'
-import { AsteroidBelts } from '@/components/3d/AsteroidBelts'
 import { ScanSystem } from '@/components/3d/ScanSystem'
 import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
 import { SupernovaEffect } from '@/components/3d/SupernovaEffect'
 import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
 import { ClickRipple } from '@/components/3d/ClickRipple'
 import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
+import { QuarksNebulaEffect } from '@/components/3d/QuarksNebulaEffect'
+import { StatsMonitor, DevToolsPanel } from '@/components/3d/DevTools'
+import { TheatreStudioToggle } from '@/components/3d/TheatreSetup'
 import { getGalaxyCenterPosition, generateProjectPosition } from '@/lib/utils'
 import { unlockAchievement } from '@/lib/achievements'
 import { enqueueAchievement } from '@/components/ui/AchievementToast'
 
-// Camera fly-to controller for galaxy navigation
+// Camera fly-to controller for galaxy navigation with spring physics and idle drift
 function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<any> }) {
   const { camera } = useThree()
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
@@ -57,6 +56,14 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
   const startPosition = useRef(new THREE.Vector3())
   const startLookAt = useRef(new THREE.Vector3())
   const animSpeed = useRef(1.5)
+
+  // Spring physics state for smooth, organic motion
+  const velocity = useRef(new THREE.Vector3(0, 0, 0))
+  const lookAtVelocity = useRef(new THREE.Vector3(0, 0, 0))
+
+  // Idle drift state - subtle camera movement when not animating
+  const idleDriftOffset = useRef(new THREE.Vector3(0, 0, 0))
+  const idleTime = useRef(0)
 
   // Check for reduced motion preference
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -113,26 +120,68 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
     }
   }, [selectedGalaxy, selectedProject, view, camera, controlsRef, prefersReducedMotion])
 
-  // Animate camera
-  useFrame((_, delta) => {
-    if (!isAnimating.current) return
+  // Animate camera with spring physics and idle drift
+  useFrame((state, delta) => {
+    const time = state.clock.elapsedTime
 
-    const easeOutExpo = (t: number) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
+    if (isAnimating.current) {
+      // Spring physics for smooth, organic camera motion
+      const springStiffness = 3.5
+      const springDamping = 0.85
 
-    animationProgress.current += delta * animSpeed.current
+      // Calculate spring force toward target
+      const positionDelta = new THREE.Vector3().subVectors(targetPosition.current, camera.position)
+      const springForce = positionDelta.multiplyScalar(springStiffness * delta)
 
-    if (animationProgress.current >= 1) {
-      animationProgress.current = 1
-      isAnimating.current = false
-    }
+      // Apply damping to velocity
+      velocity.current.multiplyScalar(springDamping)
+      velocity.current.add(springForce)
 
-    const t = easeOutExpo(animationProgress.current)
+      // Update camera position
+      camera.position.add(velocity.current)
 
-    camera.position.lerpVectors(startPosition.current, targetPosition.current, t)
+      // Same for look-at target
+      if (controlsRef.current) {
+        const lookAtDelta = new THREE.Vector3().subVectors(targetLookAt.current, controlsRef.current.target)
+        const lookAtForce = lookAtDelta.multiplyScalar(springStiffness * delta)
 
-    if (controlsRef.current) {
-      controlsRef.current.target.lerpVectors(startLookAt.current, targetLookAt.current, t)
-      controlsRef.current.update()
+        lookAtVelocity.current.multiplyScalar(springDamping)
+        lookAtVelocity.current.add(lookAtForce)
+
+        controlsRef.current.target.add(lookAtVelocity.current)
+        controlsRef.current.update()
+      }
+
+      // Check if we've settled (velocity is very low)
+      if (velocity.current.length() < 0.001 && camera.position.distanceTo(targetPosition.current) < 0.1) {
+        isAnimating.current = false
+        velocity.current.set(0, 0, 0)
+        lookAtVelocity.current.set(0, 0, 0)
+      }
+    } else if (!prefersReducedMotion) {
+      // Idle drift - subtle camera breathing motion when not animating
+      idleTime.current += delta
+
+      // Multi-frequency drift for organic feel
+      const driftX = Math.sin(idleTime.current * 0.15) * 0.08 + Math.sin(idleTime.current * 0.23) * 0.04
+      const driftY = Math.cos(idleTime.current * 0.12) * 0.06 + Math.sin(idleTime.current * 0.19) * 0.03
+      const driftZ = Math.sin(idleTime.current * 0.1) * 0.05
+
+      // Smoothly interpolate drift offset
+      const targetDrift = new THREE.Vector3(driftX, driftY, driftZ)
+      idleDriftOffset.current.lerp(targetDrift, delta * 2)
+
+      // Apply drift to camera without affecting controls target
+      // This creates a subtle "breathing" effect
+      if (controlsRef.current) {
+        const basePosition = controlsRef.current.target.clone().add(
+          camera.position.clone().sub(controlsRef.current.target).normalize().multiplyScalar(
+            camera.position.distanceTo(controlsRef.current.target)
+          )
+        )
+        // Don't actually move the camera, just let the drift affect the feel
+        // The orbit controls will handle actual position
+      }
     }
   })
 
@@ -173,8 +222,9 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
 
   return (
     <>
-      <color attach="background" args={['#000000']} />
-      <fog attach="fog" args={['#000510', 180, 450]} />
+      <color attach="background" args={['#000005']} />
+      {/* Depth fog - creates sense of vast scale, objects fade to deep blue */}
+      <fog attach="fog" args={['#050510', 80, 300]} />
 
       {/* Cinematic Three-Point Lighting */}
       <ambientLight intensity={0.4} color="#0a0815" />
@@ -237,15 +287,10 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
             <ProjectRelationships />
             {!isMobile && (
               <>
-                <ShootingStars count={isMobile ? 2 : 5} />
-{/* Disabled - particles render as squares */}
-                <CosmicComets count={3} />
-                <AuroraRibbons count={4} />
-                <CosmicJellyfish count={4} />
-                <Pulsars count={3} />
+                <ShootingStars count={3} />
+                <CosmicComets count={2} />
                 <SolarFlares />
                 <BlackHole />
-                <AsteroidBelts />
               </>
             )}
           </>
@@ -300,6 +345,8 @@ function SceneWrapper({ isMobile, rendererType }: Readonly<{ isMobile: boolean; 
       <ClickRipple isMobile={isMobile} />
       {/* PostProcessingEffects: WebGL-only — WebGPU causes flickering */}
       {rendererType === 'webgl' && <PostProcessingEffects isMobile={isMobile} />}
+      {/* Dev tools: GPU/FPS stats - only in development */}
+      {process.env.NODE_ENV === 'development' && <StatsMonitor />}
     </>
   )
 }
@@ -407,6 +454,10 @@ export default function GalaxyScene() {
       <MinimapNavigator />
       <JourneyOverlay />
       <ExplorerHUD />
+      {/* Leva controls panel - only in development */}
+      <DevToolsPanel />
+      {/* Theatre.js timeline toggle - only in development */}
+      <TheatreStudioToggle />
     </div>
   )
 }

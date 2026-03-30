@@ -1,10 +1,12 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
-import { Send, CheckCircle, AlertCircle, Copy, Check } from 'lucide-react'
 import { CONTACT } from '@/lib/constants'
+import { Check, Copy, ExternalLink, Send } from 'lucide-react'
+import type { ComponentProps } from 'react'
+import { useState } from 'react'
 
-type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
+type FormStatus = 'idle' | 'ready'
+type FormSubmitEvent = Parameters<NonNullable<ComponentProps<'form'>['onSubmit']>>[0]
 
 export function ContactForm() {
   const [name, setName] = useState('')
@@ -17,85 +19,25 @@ export function ContactForm() {
     return `Hi Elizabeth,\n\n${message}\n\n---\nFrom: ${name}\nEmail: ${email}`
   }
 
+  const getMailtoUrl = () => {
+    const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`)
+    const body = encodeURIComponent(getMessageText())
+    return `mailto:${CONTACT.email}?subject=${subject}&body=${body}`
+  }
+
   const handleCopyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(getMessageText())
+      await globalThis.navigator.clipboard.writeText(getMessageText())
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea')
-      textArea.value = getMessageText()
-      document.body.appendChild(textArea)
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      setCopied(false)
     }
   }
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormSubmitEvent) => {
     e.preventDefault()
-    setStatus('submitting')
-
-    // Construct mailto URL with form data
-    const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`)
-    const body = encodeURIComponent(
-      `Hi Elizabeth,\n\n${message}\n\n---\nFrom: ${name}\nEmail: ${email}`
-    )
-    const mailtoUrl = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`
-
-    // Try to open email client
-    try {
-      window.location.href = mailtoUrl
-
-      // Show success after a brief delay (email client should have opened)
-      setTimeout(() => {
-        setStatus('success')
-      }, 500)
-    } catch {
-      setStatus('error')
-    }
-  }
-
-  if (status === 'success') {
-    return (
-      <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
-        <CheckCircle className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold mb-2">Email client opened!</h3>
-        <p className="text-white/60 mb-4">
-          Your message should be ready to send in your email app.
-        </p>
-        <p className="text-white/40 text-sm mb-4">
-          Email didn't open? Copy your message and send to{' '}
-          <a href={`mailto:${CONTACT.email}`} className="text-purple-400 hover:text-purple-300">
-            {CONTACT.email}
-          </a>
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button
-            onClick={handleCopyToClipboard}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all"
-          >
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-            {copied ? 'Copied!' : 'Copy message'}
-          </button>
-          <button
-            onClick={() => {
-              setStatus('idle')
-              setName('')
-              setEmail('')
-              setMessage('')
-              setCopied(false)
-            }}
-            className="text-emerald-400 hover:text-emerald-300 text-sm underline underline-offset-2"
-          >
-            Send another message
-          </button>
-        </div>
-      </div>
-    )
+    setStatus('ready')
   }
 
   return (
@@ -111,7 +53,7 @@ export function ContactForm() {
           onChange={(e) => setName(e.target.value)}
           required
           placeholder="Jane Smith"
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
+          className="input-glass w-full"
         />
       </div>
 
@@ -126,7 +68,7 @@ export function ContactForm() {
           onChange={(e) => setEmail(e.target.value)}
           required
           placeholder="jane@company.com"
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
+          className="input-glass w-full"
         />
       </div>
 
@@ -141,42 +83,54 @@ export function ContactForm() {
           required
           rows={5}
           placeholder="Tell me about your project or opportunity..."
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all resize-none"
+          className="input-glass w-full resize-none"
         />
       </div>
 
-      {status === 'error' && (
-        <div className="flex items-center gap-2 text-red-400 text-sm">
-          <AlertCircle className="w-4 h-4" />
-          <span>Something went wrong. Please try emailing directly.</span>
+      <button
+        type="submit"
+        className="btn btn-primary w-full py-4 text-base"
+      >
+        <Send className="w-5 h-5" />
+        <span>{status === 'ready' ? 'Update Email Draft' : 'Prepare Email Draft'}</span>
+      </button>
+
+      {status === 'ready' && (
+        <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
+          <h3 className="text-xl font-semibold mb-2">Message ready to send</h3>
+          <p className="text-white/70 mb-4">
+            This site does not send email directly. Use your email app or copy the message below.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href={getMailtoUrl()}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 rounded-lg text-sm font-medium text-emerald-200 transition-all"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Open email app
+            </a>
+            <button
+              type="button"
+              onClick={handleCopyToClipboard}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all"
+            >
+              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              {copied ? 'Copied!' : 'Copy message'}
+            </button>
+          </div>
+          <p className="text-white/40 text-sm mt-4">
+            Prefer to email directly? Send it to{' '}
+            <a href={`mailto:${CONTACT.email}`} className="text-purple-400 hover:text-purple-300">
+              {CONTACT.email}
+            </a>{' '}
+            instead.
+          </p>
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={status === 'submitting'}
-        className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500"
-      >
-        {status === 'submitting' ? (
-          <>
-            <span className="animate-spin">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-            </span>
-            <span>Opening email...</span>
-          </>
-        ) : (
-          <>
-            <Send className="w-5 h-5" />
-            <span>Send Message</span>
-          </>
-        )}
-      </button>
-
       <p className="text-white/40 text-xs text-center">
-        This will open your email client with your message pre-filled. I typically respond within 24 hours.
+        I typically respond within 24 hours. Preparing a draft keeps the flow reliable even if your
+        browser does not support direct email sending.
       </p>
     </form>
   )

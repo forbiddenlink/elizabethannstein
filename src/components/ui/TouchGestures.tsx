@@ -1,7 +1,49 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { useViewStore } from '@/lib/store'
+import { useEffect, useRef } from 'react'
+
+const GALAXY_ORDER = ['enterprise', 'ai', 'fullstack', 'devtools', 'design', 'experimental']
+const MIN_SWIPE_DISTANCE = 50
+const MAX_SWIPE_TIME = 500
+const MIN_SWIPE_VELOCITY = 0.3
+const MAX_JOURNEY_STOPS = 6
+
+function emitGestureFeedback(
+  element: HTMLDivElement | null,
+  direction: 'left' | 'right' | 'down',
+  label: string,
+) {
+  if (!element) return
+
+  element.dataset.direction = direction
+  element.dataset.visible = 'true'
+  element.textContent = label
+
+  globalThis.setTimeout(() => {
+    if (element) {
+      element.dataset.visible = 'false'
+    }
+  }, 420)
+}
+
+function isHorizontalSwipe(deltaX: number, deltaY: number, deltaTime: number): boolean {
+  const absX = Math.abs(deltaX)
+  const absY = Math.abs(deltaY)
+  const velocity = absX / deltaTime
+
+  return (
+    absX > absY &&
+    absX > MIN_SWIPE_DISTANCE &&
+    (deltaTime < MAX_SWIPE_TIME || velocity > MIN_SWIPE_VELOCITY)
+  )
+}
+
+function isDownSwipe(deltaX: number, deltaY: number): boolean {
+  const absX = Math.abs(deltaX)
+  const absY = Math.abs(deltaY)
+  return absY > MIN_SWIPE_DISTANCE * 2 && absY > absX && deltaY > 0
+}
 
 export function TouchGestures() {
   const zoomToGalaxy = useViewStore((state) => state.zoomToGalaxy)
@@ -22,19 +64,52 @@ export function TouchGestures() {
     startY: 0,
     startTime: 0,
   })
+  const feedbackRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const galaxyOrder = [
-      'enterprise',
-      'creative',
-      'ai-ml',
-      'open-source',
-      'experiments',
-      'early-work',
-    ]
+    const showFeedback = (direction: 'left' | 'right' | 'down', label: string) => {
+      emitGestureFeedback(feedbackRef.current, direction, label)
+    }
 
-    // Get the total number of tour stops (approximate for swipe bounds checking)
-    const maxJourneyStops = 6 // One featured project per galaxy
+    const handleJourneySwipe = (deltaX: number): boolean => {
+      if (!isJourneyMode) return false
+
+      if (deltaX < 0 && journeyStep < MAX_JOURNEY_STOPS - 1) {
+        nextJourneyStop()
+      } else if (deltaX > 0 && journeyStep > 0) {
+        prevJourneyStop()
+      }
+
+      return true
+    }
+
+    const handleGalaxySwipe = (deltaX: number) => {
+      if (view !== 'galaxy' || !selectedGalaxy) return
+
+      const currentIndex = GALAXY_ORDER.indexOf(selectedGalaxy)
+      if (currentIndex === -1) return
+
+      if (deltaX > 0 && currentIndex > 0) {
+        zoomToGalaxy(GALAXY_ORDER[currentIndex - 1])
+        showFeedback('right', 'Previous galaxy')
+      } else if (deltaX < 0 && currentIndex < GALAXY_ORDER.length - 1) {
+        zoomToGalaxy(GALAXY_ORDER[currentIndex + 1])
+        showFeedback('left', 'Next galaxy')
+      }
+    }
+
+    const handleDownwardSwipe = () => {
+      if (isJourneyMode) {
+        endJourney()
+        showFeedback('down', 'Exit tour')
+        return
+      }
+
+      if (view === 'galaxy' || view === 'project') {
+        reset()
+        showFeedback('down', 'Zoom out')
+      }
+    }
 
     const handleTouchStart = (e: TouchEvent) => {
       swipeRef.current = {
@@ -53,58 +128,16 @@ export function TouchGestures() {
       const deltaY = touchEndY - swipeRef.current.startY
       const deltaTime = touchEndTime - swipeRef.current.startTime
 
-      // Swipe detection thresholds
-      const minSwipeDistance = 50
-      const maxSwipeTime = 500 // ms - for quick flick detection
-      const minSwipeVelocity = 0.3 // pixels per ms
-
-      const absX = Math.abs(deltaX)
-      const absY = Math.abs(deltaY)
-      const velocity = absX / deltaTime
-
-      // Horizontal swipe detection
-      const isHorizontalSwipe = absX > absY && absX > minSwipeDistance
-      const isQuickSwipe = deltaTime < maxSwipeTime || velocity > minSwipeVelocity
-
-      if (isHorizontalSwipe && isQuickSwipe) {
-        // Journey mode swipe navigation
-        if (isJourneyMode) {
-          if (deltaX < 0) {
-            // Swipe left - next stop
-            if (journeyStep < maxJourneyStops - 1) {
-              nextJourneyStop()
-            }
-          } else if (deltaX > 0) {
-            // Swipe right - previous stop
-            if (journeyStep > 0) {
-              prevJourneyStop()
-            }
-          }
+      if (isHorizontalSwipe(deltaX, deltaY, deltaTime)) {
+        if (handleJourneySwipe(deltaX)) {
           return
         }
 
-        // Galaxy view swipe navigation
-        if (view === 'galaxy' && selectedGalaxy) {
-          const currentIndex = galaxyOrder.indexOf(selectedGalaxy)
-
-          if (deltaX > 0 && currentIndex > 0) {
-            // Swipe right - previous galaxy
-            zoomToGalaxy(galaxyOrder[currentIndex - 1])
-          } else if (deltaX < 0 && currentIndex < galaxyOrder.length - 1) {
-            // Swipe left - next galaxy
-            zoomToGalaxy(galaxyOrder[currentIndex + 1])
-          }
-        }
+        handleGalaxySwipe(deltaX)
       }
 
-      // Vertical swipe down to zoom out or exit journey
-      if (absY > minSwipeDistance * 2 && absY > absX && deltaY > 0) {
-        if (isJourneyMode) {
-          // Swipe down exits journey mode
-          endJourney()
-        } else if (view === 'galaxy' || view === 'project') {
-          reset()
-        }
+      if (isDownSwipe(deltaX, deltaY)) {
+        handleDownwardSwipe()
       }
     }
 
@@ -115,7 +148,25 @@ export function TouchGestures() {
       document.removeEventListener('touchstart', handleTouchStart)
       document.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [view, selectedGalaxy, zoomToGalaxy, reset, isJourneyMode, nextJourneyStop, prevJourneyStop, journeyStep, endJourney])
+  }, [
+    view,
+    selectedGalaxy,
+    zoomToGalaxy,
+    reset,
+    isJourneyMode,
+    nextJourneyStop,
+    prevJourneyStop,
+    journeyStep,
+    endJourney,
+  ])
 
-  return null
+  return (
+    <div
+      ref={feedbackRef}
+      className="touch-gesture-feedback fixed left-1/2 top-20 z-60 -translate-x-1/2 rounded-full border border-white/10 bg-black/75 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.24em] text-white/75 backdrop-blur-xl"
+      data-visible="false"
+      data-direction="left"
+      aria-hidden="true"
+    />
+  )
 }

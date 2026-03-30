@@ -104,12 +104,12 @@ export function InteractiveParticles({ count = 40 }: InteractiveParticlesProps) 
 
     // Mouse position
     const mouse = { x: 0, y: 0 }
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX
       mouse.y = e.clientY
     }
-    
+
     window.addEventListener('mousemove', handleMouseMove)
 
     // Animation loop
@@ -155,7 +155,7 @@ export function InteractiveParticles({ count = 40 }: InteractiveParticlesProps) 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-5 opacity-30"
+      className="fixed inset-0 pointer-events-none z-[5] opacity-30"
       style={{ mixBlendMode: 'screen' }}
       aria-hidden="true"
     />

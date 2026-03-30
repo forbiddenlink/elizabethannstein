@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, Suspense } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Text, Float, Billboard } from '@react-three/drei'
+import { Physics, RigidBody, BallCollider } from '@react-three/rapier'
 import * as THREE from 'three'
 import type { Project } from '@/lib/types'
 
@@ -234,6 +235,13 @@ export function PlanetSurfaceExplorer({
         </mesh>
       </group>
 
+      {/* Floating Physics Debris - interactive asteroids */}
+      <Suspense fallback={null}>
+        <Physics gravity={[0, -0.5, 0]} updateLoop="independent">
+          <FloatingDebris planetColor={planetColor} />
+        </Physics>
+      </Suspense>
+
       {/* Near Beacon: Holographic Overlay */}
       {nearBeacon && (
         <group position={[0, 2, -10]}>
@@ -259,6 +267,51 @@ export function PlanetSurfaceExplorer({
           </Billboard>
         </group>
       )}
+    </>
+  )
+}
+
+/**
+ * Floating debris that can be pushed around
+ */
+function FloatingDebris({ planetColor }: { planetColor: string }) {
+  const debris = useRef(
+    Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      position: [
+        (Math.random() - 0.5) * 40,
+        2 + Math.random() * 4,
+        (Math.random() - 0.5) * 40,
+      ] as [number, number, number],
+      size: 0.3 + Math.random() * 0.4,
+    }))
+  ).current
+
+  return (
+    <>
+      {debris.map((d) => (
+        <RigidBody
+          key={d.id}
+          type="dynamic"
+          position={d.position}
+          colliders={false}
+          linearDamping={0.8}
+          angularDamping={0.5}
+          gravityScale={0.1}
+        >
+          <BallCollider args={[d.size]} />
+          <mesh castShadow>
+            <icosahedronGeometry args={[d.size, 0]} />
+            <meshStandardMaterial
+              color={planetColor}
+              emissive={planetColor}
+              emissiveIntensity={0.3}
+              roughness={0.7}
+              metalness={0.3}
+            />
+          </mesh>
+        </RigidBody>
+      ))}
     </>
   )
 }

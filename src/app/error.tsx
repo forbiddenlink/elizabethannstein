@@ -1,5 +1,5 @@
 'use client'
-
+// error boundary segment
 import Link from 'next/link'
 
 export default function Error({ error, reset }: { error: Error; reset: () => void }) {

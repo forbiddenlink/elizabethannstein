@@ -1,15 +1,17 @@
-import type { Metadata, Viewport } from 'next'
-import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
+import '@/app/globals.css'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { GalaxyCursor } from '@/components/ui/GalaxyCursor'
-import { WarpTransition } from '@/components/ui/WarpTransition'
 import { AchievementToastManager } from '@/components/ui/AchievementToast'
+import { CommandPalette } from '@/components/ui/CommandPalette'
+import { GalaxyCursor } from '@/components/ui/GalaxyCursor'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
-import { SITE, CONTACT } from '@/lib/constants'
-import '@/app/globals.css'
+import { WarpTransition } from '@/components/ui/WarpTransition'
+import { CONTACT, SITE } from '@/lib/constants'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import type { Metadata, Viewport } from 'next'
+import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -68,17 +70,19 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: SITE.name,
-  url: SITE.url,
-  jobTitle: SITE.title,
-  description: SITE.shortDescription,
-  knowsAbout: [...SITE.knowsAbout],
-  sameAs: [
-    CONTACT.github,
-    CONTACT.linkedin,
-    'https://imkindageeky.com',
-  ],
+  '@type': 'ProfilePage',
+  dateCreated: '2024-01-01',
+  dateModified: new Date().toISOString().split('T')[0],
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${SITE.url}/#person`,
+    name: SITE.name,
+    url: SITE.url,
+    jobTitle: SITE.title,
+    description: SITE.shortDescription,
+    knowsAbout: [...SITE.knowsAbout],
+    sameAs: [CONTACT.github, CONTACT.linkedin, 'https://imkindageeky.com'],
+  },
 }
 
 export default function RootLayout({
@@ -88,21 +92,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`bg-black text-white antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
+      <body
+        className={`bg-black text-white antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SmoothScroll />
-        <WarpTransition />
-        <GalaxyCursor />
-        <AchievementToastManager />
-        <Analytics />
-        <ErrorBoundary>
-          {children}
-        </ErrorBoundary>
-              <VercelAnalytics />
-              <SpeedInsights />
+        <NuqsAdapter>
+          <SmoothScroll />
+          <WarpTransition />
+          <GalaxyCursor />
+          <AchievementToastManager />
+          <CommandPalette />
+          <Analytics />
+          <ErrorBoundary>{children}</ErrorBoundary>
+          <VercelAnalytics />
+          <SpeedInsights />
+        </NuqsAdapter>
       </body>
     </html>
   )

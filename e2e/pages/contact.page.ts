@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test'
+import { Locator, Page } from '@playwright/test'
 import { BasePage } from './base.page'
 
 export class ContactPage extends BasePage {
@@ -7,10 +7,9 @@ export class ContactPage extends BasePage {
   readonly emailInput: Locator
   readonly messageInput: Locator
   readonly submitButton: Locator
-  readonly successMessage: Locator
-  readonly errorMessage: Locator
+  readonly draftReadyMessage: Locator
+  readonly openEmailAppLink: Locator
   readonly copyButton: Locator
-  readonly sendAnotherButton: Locator
 
   constructor(page: Page) {
     super(page)
@@ -18,20 +17,28 @@ export class ContactPage extends BasePage {
     this.emailInput = page.locator('input#email')
     this.messageInput = page.locator('textarea#message')
     this.submitButton = page.locator('button[type="submit"]')
-    this.successMessage = page.locator('text=Email client opened!')
-    this.errorMessage = page.locator('text=Something went wrong')
+    this.draftReadyMessage = page.locator('text=Message ready to send')
+    this.openEmailAppLink = page.locator('a:has-text("Open email app")')
     this.copyButton = page.locator('button:has-text("Copy message")')
-    this.sendAnotherButton = page.locator('text=Send another message')
   }
 
   async goto(): Promise<void> {
     await this.page.goto('/contact')
+    await this.page.waitForLoadState('domcontentloaded')
+    await this.page.waitForTimeout(200)
   }
 
   async fillForm(data: { name: string; email: string; message: string }): Promise<void> {
-    await this.nameInput.fill(data.name)
-    await this.emailInput.fill(data.email)
-    await this.messageInput.fill(data.message)
+    const fillAndVerify = async (locator: Locator, value: string) => {
+      await locator.fill(value)
+      if ((await locator.inputValue()) !== value) {
+        await locator.fill(value)
+      }
+    }
+
+    await fillAndVerify(this.emailInput, data.email)
+    await fillAndVerify(this.messageInput, data.message)
+    await fillAndVerify(this.nameInput, data.name)
   }
 
   async submitForm(): Promise<void> {
@@ -42,22 +49,13 @@ export class ContactPage extends BasePage {
     return this.nameInput.isVisible()
   }
 
-  async isSuccessVisible(): Promise<boolean> {
-    return this.successMessage.isVisible()
-  }
-
-  async isErrorVisible(): Promise<boolean> {
-    return this.errorMessage.isVisible()
-  }
-
-  async clickSendAnother(): Promise<void> {
-    await this.sendAnotherButton.click()
+  async isDraftReadyVisible(): Promise<boolean> {
+    return this.draftReadyMessage.isVisible()
   }
 
   async getValidationMessage(field: 'name' | 'email' | 'message'): Promise<string> {
-    const locator = field === 'name' ? this.nameInput
-      : field === 'email' ? this.emailInput
-      : this.messageInput
+    const locator =
+      field === 'name' ? this.nameInput : field === 'email' ? this.emailInput : this.messageInput
     return locator.evaluate((el: HTMLInputElement | HTMLTextAreaElement) => el.validationMessage)
   }
 }

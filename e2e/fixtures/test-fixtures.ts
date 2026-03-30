@@ -1,10 +1,10 @@
 import { test as base, expect, Page } from '@playwright/test'
 
 // Page object imports
-import { HomePage } from '../pages/home.page'
 import { ContactPage } from '../pages/contact.page'
-import { WorkPage } from '../pages/work.page'
+import { HomePage } from '../pages/home.page'
 import { ProjectModal } from '../pages/modal.page'
+import { WorkPage } from '../pages/work.page'
 
 // Extend base test with page objects
 export const test = base.extend<{
@@ -33,10 +33,10 @@ export { expect }
 // Test data
 export const testData = {
   projects: {
-    featured: 'lumira', // Known featured project with all fields
-    sample: 'nexus-ai',
+    featured: 'chronicle',
+    sample: 'stancestream',
   },
-  galaxies: ['enterprise', 'ai', 'full-stack', 'devtools', 'creative', 'experimental'],
+  galaxies: ['enterprise', 'ai', 'fullstack', 'devtools', 'creative', 'experimental'],
   contact: {
     valid: {
       name: 'Test User',
@@ -77,9 +77,7 @@ export async function expectNoConsoleErrors(page: Page): Promise<void> {
   await page.waitForTimeout(500)
 
   // Filter out known acceptable errors (e.g., favicon 404)
-  const criticalErrors = errors.filter(
-    (e) => !e.includes('favicon') && !e.includes('404')
-  )
+  const criticalErrors = errors.filter((e) => !e.includes('favicon') && !e.includes('404'))
 
   expect(criticalErrors).toHaveLength(0)
 }

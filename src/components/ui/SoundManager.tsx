@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { Volume2, VolumeX } from 'lucide-react'
 import { useViewStore } from '@/lib/store'
+import { Volume2, VolumeX } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 export function SoundManager() {
   const [isMuted, setIsMuted] = useState(true) // Start muted by default
@@ -52,12 +52,12 @@ export function SoundManager() {
     }
   }, [isMuted, isClient])
 
-  if (!isClient) return null
+  if (!isClient || !hasEntered) return null
 
   return (
     <button
       onClick={() => setIsMuted(!isMuted)}
-      className="fixed bottom-6 left-44 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/30 transition-all duration-300 group hover:scale-110 hidden lg:flex"
+      className="fixed bottom-6 left-56 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/30 transition-all duration-300 group hover:scale-110 hidden lg:flex"
       aria-label={isMuted ? 'Unmute' : 'Mute'}
       title={isMuted ? 'Enable sound effects' : 'Disable sound effects'}
     >
@@ -129,7 +129,7 @@ class AudioSynth {
     this.droneGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.5)
 
     setTimeout(() => {
-      this.droneOscillators.forEach(o => o.stop())
+      this.droneOscillators.forEach((o) => o.stop())
       this.droneOscillators = []
       this.droneGain?.disconnect()
       this.droneGain = null

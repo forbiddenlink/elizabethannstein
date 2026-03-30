@@ -68,7 +68,7 @@ export async function POST(req: Request) {
       - Tech Stack: ${p.tags.join(', ')}
       - Galaxy: ${p.galaxy}
       - Featured: ${p.featured ? 'Yes' : 'No'}
-      ${p.links ? `- Links: ${Object.entries(p.links).map(([k, v]) => `${k}: ${v}`).join(', ')}` : ''}
+      ${p.links ? `- Links: ${(Object.entries(p.links) as [string, string | undefined][]).filter((e): e is [string, string] => e[1] != null).map(e => `${e[0]}: ${e[1]}`).join(', ')}` : ''}
     `).join('\n')}
     
     Instructions:

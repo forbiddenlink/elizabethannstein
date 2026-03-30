@@ -1,51 +1,57 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { galaxies } from '@/lib/galaxyData'
-import { Eye, EyeOff, ExternalLink, Github, ChevronRight } from 'lucide-react'
+import { useViewStore } from '@/lib/store'
+import { motion } from 'framer-motion'
+import { ChevronRight, ExternalLink, Eye, EyeOff, Github } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 // Toggle button to switch between 3D and accessible view
 // Made prominent for users who can't/won't use 3D
 export function AccessibleViewToggle({
   isAccessibleMode,
   onToggle,
-  autoEnabled = false
+  autoEnabled = false,
 }: {
   isAccessibleMode: boolean
   onToggle: () => void
   autoEnabled?: boolean
 }) {
+  const hasEntered = useViewStore((state) => state.hasEntered)
+  const view = useViewStore((state) => state.view)
+  const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
+
+  const dockIntoNavZone = view === 'universe' && !selectedGalaxy && !isAccessibleMode
+
+  // Hide before entrance (unless already in accessible mode)
+  if (!hasEntered && !isAccessibleMode) return null
+
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-2">
-      {/* Auto-enabled notification */}
-      {isAccessibleMode && autoEnabled && (
-        <span className="text-xs text-white/50 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded max-w-[200px] text-right">
-          Text view enabled for better performance on your device
-        </span>
-      )}
-      {/* Hint text - only shows on 3D mode */}
-      {!isAccessibleMode && (
-        <span className="text-xs text-white/40 bg-black/60 backdrop-blur-sm px-2 py-1 rounded hidden md:block">
-          Prefer text? Click below
-        </span>
-      )}
+    <div
+      className={`fixed z-30 flex-col items-end gap-2 transition-all duration-300 ${dockIntoNavZone ? 'hidden' : 'flex bottom-56 left-4 lg:bottom-20 lg:left-auto lg:right-8'}`}
+    >
       <button
         onClick={onToggle}
-        className="group flex items-center gap-2 px-4 py-3 rounded-xl bg-black/70 backdrop-blur-xl border border-white/30 text-sm text-white/90 hover:text-white hover:bg-black/90 hover:border-white/50 hover:scale-105 transition-all shadow-lg"
-        aria-label={isAccessibleMode ? 'Switch to 3D galaxy view' : 'Switch to accessible text list view'}
-        title={isAccessibleMode ? 'Return to interactive 3D view' : 'View as simple text list (no 3D)'}
+        className={`group flex items-center gap-2 rounded-2xl border shadow-lg backdrop-blur-xl transition-all hover:scale-[1.02] hover:text-white ${dockIntoNavZone ? 'border-white/10 bg-black/44 px-3 py-2 text-sm text-white/68 hover:border-white/22 hover:bg-black/62 lg:border-white/20 lg:bg-black/72 lg:px-4 lg:py-3 lg:text-white/88' : 'border-white/20 bg-black/72 px-3 py-2.5 text-sm text-white/88 hover:border-white/35 hover:bg-black/88 lg:px-4 lg:py-3'}`}
+        aria-label={
+          isAccessibleMode ? 'Switch to 3D galaxy view' : 'Switch to accessible text list view'
+        }
+        title={
+          isAccessibleMode ? 'Return to interactive 3D view' : 'View as simple text list (no 3D)'
+        }
       >
         {isAccessibleMode ? (
           <>
-            <Eye className="w-5 h-5" />
-            <span>3D Galaxy View</span>
+            <Eye className="h-4 w-4 lg:h-5 lg:w-5" />
+            <span className="hidden sm:inline">3D Galaxy View</span>
+            <span className="sm:hidden">3D View</span>
           </>
         ) : (
           <>
-            <EyeOff className="w-5 h-5" />
-            <span>View as List</span>
+            <EyeOff className="h-4 w-4 lg:h-5 lg:w-5" />
+            <span className="hidden sm:inline">View as List</span>
+            <span className="sm:hidden">List</span>
           </>
         )}
       </button>
@@ -76,7 +82,7 @@ export function AccessibleView() {
               className="px-3 py-1.5 rounded-full text-sm border transition-colors"
               style={{
                 borderColor: `${galaxy.color}50`,
-                color: galaxy.color
+                color: galaxy.color,
               }}
             >
               {galaxy.name}
@@ -131,9 +137,7 @@ export function AccessibleView() {
                     )}
                   </div>
 
-                  <p className="text-sm text-white/70 mb-3 line-clamp-2">
-                    {project.description}
-                  </p>
+                  <p className="text-sm text-white/70 mb-3 line-clamp-2">{project.description}</p>
 
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {project.tags.slice(0, 4).map((tag) => (
@@ -191,11 +195,20 @@ export function AccessibleView() {
       {/* Footer */}
       <footer className="border-t border-white/10 py-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-white/40 text-sm">
-          <p>Total: {galaxies.reduce((acc, g) => acc + g.projects.length, 0)} projects across {galaxies.length} categories</p>
+          <p>
+            Total: {galaxies.reduce((acc, g) => acc + g.projects.length, 0)} projects across{' '}
+            {galaxies.length} categories
+          </p>
           <div className="mt-4 flex justify-center gap-4">
-            <Link href="/about" className="hover:text-white transition-colors">About</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
-            <Link href="/work" className="hover:text-white transition-colors">All Work</Link>
+            <Link href="/about" className="hover:text-white transition-colors">
+              About
+            </Link>
+            <Link href="/contact" className="hover:text-white transition-colors">
+              Contact
+            </Link>
+            <Link href="/work" className="hover:text-white transition-colors">
+              All Work
+            </Link>
           </div>
         </div>
       </footer>
@@ -216,11 +229,15 @@ function isLowEndDevice(): boolean {
   if (memory && memory < 4) return true
 
   // Check if mobile with small screen (likely budget phone)
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  )
   const isSmallScreen = window.innerWidth < 768
 
   // Check connection quality (if available)
-  const connection = (navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } }).connection
+  const connection = (
+    navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } }
+  ).connection
   if (connection) {
     // Save data mode or slow connection
     if (connection.saveData) return true

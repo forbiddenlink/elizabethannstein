@@ -11,23 +11,37 @@
  * - Focus trapping
  */
 
-import { test, expect } from '../../fixtures/test-fixtures'
+import { expect, test } from '../../fixtures/test-fixtures'
 
 test.describe('Project Modal', () => {
+  test.beforeEach(async ({ page }) => {
+    const supportsModalDeepLink = await page.evaluate(() => {
+      const canvas = document.createElement('canvas')
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+      const prefersReducedMotion = globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches
+      return Boolean(gl) && !prefersReducedMotion
+    })
+
+    test.skip(
+      !supportsModalDeepLink,
+      'Deep-link modal path requires WebGL and non-reduced-motion environment',
+    )
+  })
+
   test('opens modal via URL deep-link (?p=slug)', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
 
     await expect(page.locator('[role="dialog"]')).toBeVisible()
   })
 
   test('updates URL when modal opens', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
 
-    expect(page.url()).toContain('?p=lumira')
+    expect(page.url()).toContain('?p=chronicle')
   })
 
   test('closes modal with ESC key', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
     await expect(page.locator('[role="dialog"]')).toBeVisible()
 
     await projectModal.closeViaEscape()
@@ -36,7 +50,7 @@ test.describe('Project Modal', () => {
   })
 
   test('closes modal with X button', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
     await expect(page.locator('[role="dialog"]')).toBeVisible()
 
     await projectModal.close()
@@ -45,7 +59,7 @@ test.describe('Project Modal', () => {
   })
 
   test('closes modal when clicking backdrop', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
     await expect(page.locator('[role="dialog"]')).toBeVisible()
 
     await projectModal.closeViaBackdrop()
@@ -59,7 +73,7 @@ test.describe('Project Modal', () => {
     await page.waitForLoadState('domcontentloaded')
 
     // Open modal via URL
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
     await expect(page.locator('[role="dialog"]')).toBeVisible()
 
     // Go back
@@ -71,14 +85,14 @@ test.describe('Project Modal', () => {
   })
 
   test('modal has aria-modal attribute', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
 
     const modal = page.locator('[role="dialog"]')
     await expect(modal).toHaveAttribute('aria-modal', 'true')
   })
 
   test('modal has descriptive aria-label', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
 
     const modal = page.locator('[role="dialog"]')
     const ariaLabel = await modal.getAttribute('aria-label')
@@ -86,16 +100,16 @@ test.describe('Project Modal', () => {
   })
 
   test('view full page link navigates to case study', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
 
     await projectModal.navigateToFullPage()
 
-    await page.waitForURL('**/work/lumira')
-    expect(page.url()).toContain('/work/lumira')
+    await page.waitForURL('**/work/chronicle')
+    expect(page.url()).toContain('/work/chronicle')
   })
 
   test('prevents body scroll when modal is open', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
 
     const bodyOverflow = await page.evaluate(() => {
       return document.body.style.overflow
@@ -105,7 +119,7 @@ test.describe('Project Modal', () => {
   })
 
   test('restores body scroll when modal closes', async ({ projectModal, page }) => {
-    await projectModal.openViaUrl('lumira')
+    await projectModal.openViaUrl('chronicle')
     await projectModal.closeViaEscape()
 
     const bodyOverflow = await page.evaluate(() => {

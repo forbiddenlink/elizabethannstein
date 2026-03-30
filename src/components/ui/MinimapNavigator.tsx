@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { galaxies } from '@/lib/galaxyData'
-import { generateProjectPosition } from '@/lib/utils'
 import { useViewStore } from '@/lib/store'
-import { Minimize2, Maximize2 } from 'lucide-react'
+import { generateProjectPosition } from '@/lib/utils'
+import { Maximize2, Minimize2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 interface ProjectPosition {
   id: string
@@ -24,6 +24,7 @@ export function MinimapNavigator() {
   const zoomToProject = useViewStore((state) => state.zoomToProject)
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
   const view = useViewStore((state) => state.view)
+  const hasEntered = useViewStore((state) => state.hasEntered)
 
   const size = isExpanded ? 300 : 180
   const padding = 20
@@ -50,10 +51,12 @@ export function MinimapNavigator() {
     ctx.strokeRect(0, 0, size, size)
 
     // Calculate bounds for all projects using actual 3D positions
-    let minX = Infinity, maxX = -Infinity
-    let minZ = Infinity, maxZ = -Infinity
+    let minX = Infinity,
+      maxX = -Infinity
+    let minZ = Infinity,
+      maxZ = -Infinity
 
-    const allPositions: Array<{ pos: [number, number, number], project: any, galaxy: any }> = []
+    const allPositions: Array<{ pos: [number, number, number]; project: any; galaxy: any }> = []
 
     galaxies.forEach((galaxy, gIdx) => {
       galaxy.projects.forEach((project, pIdx) => {
@@ -62,7 +65,7 @@ export function MinimapNavigator() {
           galaxy.id,
           gIdx,
           pIdx,
-          galaxy.projects.length
+          galaxy.projects.length,
         )
         allPositions.push({ pos, project, galaxy })
 
@@ -91,7 +94,7 @@ export function MinimapNavigator() {
         x,
         y,
         color: galaxy.color,
-        size: project.size
+        size: project.size,
       })
 
       // Determine size and color
@@ -126,11 +129,10 @@ export function MinimapNavigator() {
     ctx.beginPath()
     ctx.arc(offsetX, offsetY, 2, 0, Math.PI * 2)
     ctx.fill()
-
   }, [size, selectedProject, hoveredProject, isJourneyMode, view])
 
-  // Hide during journey mode and exploration mode - AFTER all hooks are called
-  if (isJourneyMode || view === 'exploration') return null
+  // Hide during journey mode, exploration mode, and before entrance - AFTER all hooks are called
+  if (isJourneyMode || view === 'exploration' || !hasEntered) return null
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
@@ -142,10 +144,7 @@ export function MinimapNavigator() {
 
     // Use cached positions for hit detection
     for (const project of projectPositionsRef.current) {
-      const distance = Math.sqrt(
-        Math.pow(clickX - project.x, 2) + 
-        Math.pow(clickY - project.y, 2)
-      )
+      const distance = Math.sqrt(Math.pow(clickX - project.x, 2) + Math.pow(clickY - project.y, 2))
       const hitRadius = project.size === 'supermassive' ? 10 : 8
 
       if (distance < hitRadius) {
@@ -167,10 +166,7 @@ export function MinimapNavigator() {
 
     // Use cached positions for hit detection
     for (const project of projectPositionsRef.current) {
-      const distance = Math.sqrt(
-        Math.pow(hoverX - project.x, 2) + 
-        Math.pow(hoverY - project.y, 2)
-      )
+      const distance = Math.sqrt(Math.pow(hoverX - project.x, 2) + Math.pow(hoverY - project.y, 2))
       const hitRadius = project.size === 'supermassive' ? 10 : 8
 
       if (distance < hitRadius) {
@@ -215,14 +211,12 @@ export function MinimapNavigator() {
         {/* Hovered project tooltip */}
         {hoveredProject && (
           <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-3 py-2 bg-black/90 text-white text-sm rounded-lg border border-white/20 whitespace-nowrap">
-            {galaxies.flatMap(g => g.projects).find(p => p.id === hoveredProject)?.title}
+            {galaxies.flatMap((g) => g.projects).find((p) => p.id === hoveredProject)?.title}
           </div>
         )}
 
         {/* Label */}
-        <div className="absolute -top-8 left-0 text-xs text-white/60 font-mono">
-          MINIMAP
-        </div>
+        <div className="absolute -top-8 left-0 text-xs text-white/60 font-mono">MINIMAP</div>
       </div>
     </div>
   )

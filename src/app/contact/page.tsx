@@ -1,20 +1,23 @@
-import Link from 'next/link'
-import type { Metadata } from 'next'
-import { Mail, Clock } from 'lucide-react'
+import { ContactForm } from '@/components/ui/ContactForm'
+import { SiteFooter } from '@/components/ui/SiteFooter'
+import { SiteHeader } from '@/components/ui/SiteHeader'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { StarryBackground } from '@/components/ui/StarryBackground'
-import { ContactForm } from '@/components/ui/ContactForm'
 import { CONTACT } from '@/lib/constants'
+import { Clock, Mail } from 'lucide-react'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Contact - Elizabeth Stein Portfolio',
-  description: 'Get in touch with Elizabeth Stein. Connect via email, LinkedIn, or GitHub for collaboration opportunities and project inquiries.',
+  description:
+    'Get in touch with Elizabeth Stein. Connect via email, LinkedIn, or GitHub for collaboration opportunities and project inquiries.',
   alternates: {
     canonical: '/contact',
   },
   openGraph: {
     title: 'Contact - Elizabeth Stein Portfolio',
-    description: 'Get in touch with Elizabeth Stein. Connect via email, LinkedIn, or GitHub for collaboration opportunities.',
+    description:
+      'Get in touch with Elizabeth Stein. Connect via email, LinkedIn, or GitHub for collaboration opportunities.',
     url: '/contact',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
@@ -23,52 +26,14 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-black text-white relative">
-      <a href="#contact-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium">
+      <a
+        href="#contact-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+      >
         Skip to main content
       </a>
       <StarryBackground />
-
-      {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 animate-in slide-in-from-top-4 duration-500">
-        <div
-          className="mx-auto px-6 py-4 flex items-center justify-between backdrop-blur-md bg-black/40 border-b border-white/(--border-opacity-default)"
-        >
-          <Link
-            href="/"
-            className="flex items-center gap-3 group min-h-11 min-w-11 p-2"
-          >
-            {/* Star icon */}
-            <span className="relative w-7 h-7 shrink-0 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="absolute inset-0 rounded-full bg-linear-to-br from-purple-400 to-indigo-600" />
-              <span className="absolute inset-0.5 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
-              <span className="absolute inset-1 rounded-full bg-white/80" />
-            </span>
-            <span className="text-base sm:text-2xl font-bold bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent group-hover:from-purple-200 group-hover:via-white group-hover:to-purple-200 transition-all duration-300">
-              Elizabeth Stein
-            </span>
-          </Link>
-          <nav className="flex items-center gap-2 sm:gap-4">
-            <Link
-              href="/"
-              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-3 py-3 inline-flex items-center"
-            >
-              ← Home
-            </Link>
-            <Link
-              href="/work"
-              className="text-white/(--text-opacity-secondary) hover:text-white transition-colors duration-normal text-xs sm:text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded min-h-11 px-3 py-3 inline-flex items-center"
-            >
-              Work
-            </Link>
-            <Link
-              href="/about"
-              className="px-3 py-3 min-h-11 inline-flex items-center rounded-lg bg-white/10 hover:bg-white/20 transition-all text-xs sm:text-sm font-medium hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
-            >
-              About
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-24">
         <div id="contact-content" className="space-y-12">
@@ -77,16 +42,16 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-xl text-white/70 max-w-2xl">
-              I&apos;m always interested in hearing about new projects, collaboration opportunities, or just connecting with fellow developers.
+              I&apos;m always interested in hearing about new projects, collaboration opportunities,
+              or just connecting with fellow developers.
             </p>
           </header>
 
           {/* Contact Form - Primary CTA */}
-          <section className="p-8 rounded-2xl bg-white/5 border border-white/10">
+          <section className="glass-panel p-8">
             <h2 className="text-2xl font-bold mb-2">Send a Message</h2>
             <p className="text-white/60 text-sm mb-6 flex items-center gap-2">
-              <Clock className="w-4 h-4" />
-              I typically respond within 24 hours
+              <Clock className="w-4 h-4" />I typically respond within 24 hours
             </p>
             <ContactForm />
           </section>
@@ -141,19 +106,19 @@ export default function ContactPage() {
           </section>
 
           {/* Availability Section */}
-          <section className="p-6 rounded-xl bg-linear-to-br from-purple-500/10 to-indigo-500/10 border border-purple-500/20">
+          <section className="p-6 rounded-xl bg-linear-to-br from-[var(--color-galaxy-devtools)]/10 via-emerald-500/5 to-transparent border border-[var(--color-galaxy-devtools)]/20 shadow-[0_0_30px_rgba(6,255,165,0.1)]">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 mt-1">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
+                <span className="relative flex h-3.5 w-3.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-galaxy-devtools)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[var(--color-galaxy-devtools)] shadow-[0_0_10px_var(--color-galaxy-devtools)]"></span>
                 </span>
               </div>
               <div>
-                <h2 className="text-xl font-bold mb-2">Currently Available</h2>
+                <h2 className="text-xl font-bold mb-2 text-[var(--color-galaxy-devtools)]">Currently Available</h2>
                 <p className="text-white/70 leading-relaxed">
-                  I&apos;m open to full-time roles, freelance projects, and consulting work.
-                  Looking for frontend, UX engineering, or full-stack positions with a strong product focus.
+                  I&apos;m open to full-time roles, freelance projects, and consulting work. Looking
+                  for frontend, UX engineering, or full-stack positions with a strong product focus.
                 </p>
               </div>
             </div>
@@ -161,15 +126,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <footer className="border-t border-white/(--border-opacity-default) py-6 relative z-10 bg-black/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-center gap-4 text-white/50 text-sm">
-          <p>&copy; {new Date().getFullYear()} Elizabeth Stein</p>
-          <span>•</span>
-          <Link href="/privacy" className="hover:text-white transition-colors">
-            Privacy Policy
-          </Link>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   )
 }
