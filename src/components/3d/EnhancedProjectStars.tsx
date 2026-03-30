@@ -1,7 +1,7 @@
 'use client'
 
 import { galaxies } from '@/lib/galaxyData'
-import { useViewStore } from '@/lib/store'
+import { useViewStore, useHoverGravityStore } from '@/lib/store'
 import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
@@ -427,6 +427,15 @@ function RealisticPlanet({
   const [hovered, setHovered] = useState(false)
   const isMobile = useIsMobile()
 
+  // Gravitational hover system
+  const setHoveredPlanet = useHoverGravityStore((s) => s.setHoveredPlanet)
+  const hoveredPosition = useHoverGravityStore((s) => s.hoveredPosition)
+  const hoveredPlanetId = useHoverGravityStore((s) => s.hoveredPlanetId)
+  const hoveredSize = useHoverGravityStore((s) => s.hoveredSize)
+
+  // Gravitational drift offset for small planets
+  const gravityOffset = useRef(new THREE.Vector3(0, 0, 0))
+
   // Get LOD and segment config based on device
   const lodConfig = isMobile ? LOD_CONFIG.mobile : LOD_CONFIG.desktop
   const segments = isMobile ? SEGMENTS.mobile : SEGMENTS.desktop
@@ -527,9 +536,40 @@ function RealisticPlanet({
     const newZ = galaxyCenter.y + Math.sin(currentAngle) * radius
     currentPosRef.current.set(newX, y, newZ)
 
-    // Update group position for orbital motion
+    // Gravitational drift toward hovered planet (only for smaller planets)
+    if (hoveredPosition && hoveredPlanetId !== project.id && sizeMultiplier < hoveredSize) {
+      const hoveredVec = new THREE.Vector3(hoveredPosition[0], hoveredPosition[1], hoveredPosition[2])
+      const toHovered = hoveredVec.clone().sub(currentPosRef.current)
+      const distance = toHovered.length()
+
+      // Only apply gravity within a reasonable range
+      if (distance < 30 && distance > 2) {
+        // Gravitational strength: stronger for closer planets, scaled by hovered planet size
+        const strength = (hoveredSize * 0.15) / (distance * distance) * 0.5
+        const maxDrift = 0.8 // Maximum drift amount
+
+        // Calculate drift direction and magnitude
+        toHovered.normalize().multiplyScalar(Math.min(strength, maxDrift))
+
+        // Smoothly interpolate gravity offset
+        gravityOffset.current.lerp(toHovered, 0.05)
+      } else {
+        // Decay gravity offset when out of range
+        gravityOffset.current.lerp(new THREE.Vector3(0, 0, 0), 0.1)
+      }
+    } else {
+      // Decay gravity offset when nothing is hovered
+      gravityOffset.current.lerp(new THREE.Vector3(0, 0, 0), 0.08)
+    }
+
+    // Apply gravity offset to position
+    const finalX = newX + gravityOffset.current.x
+    const finalY = y + gravityOffset.current.y
+    const finalZ = newZ + gravityOffset.current.z
+
+    // Update group position for orbital motion + gravitational drift
     if (groupRef.current) {
-      groupRef.current.position.set(newX, y, newZ)
+      groupRef.current.position.set(finalX, finalY, finalZ)
     }
 
     // Calculate distance to camera for LOD with hysteresis
@@ -661,10 +701,14 @@ function RealisticPlanet({
         onPointerEnter={() => {
           setHovered(true)
           document.body.style.cursor = isScanned ? 'pointer' : 'not-allowed'
+          // Set global hover state for gravitational effects
+          setHoveredPlanet(project.id, [currentPosRef.current.x, currentPosRef.current.y, currentPosRef.current.z], sizeMultiplier)
         }}
         onPointerLeave={() => {
           setHovered(false)
           document.body.style.cursor = 'auto'
+          // Clear global hover state
+          setHoveredPlanet(null, null)
         }}
       >
         <sphereGeometry args={[sizeMultiplier, segments.planet, segments.planet]} />

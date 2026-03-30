@@ -44,6 +44,8 @@ export function KeyboardNavigation() {
   const zoomToProject = useViewStore((state) => state.zoomToProject)
   const zoomOut = useViewStore((state) => state.zoomOut)
   const reset = useViewStore((state) => state.reset)
+  const isJourneyMode = useViewStore((state) => state.isJourneyMode)
+  const endJourney = useViewStore((state) => state.endJourney)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -51,7 +53,12 @@ export function KeyboardNavigation() {
 
       if (e.key === 'Escape') {
         e.preventDefault()
-        zoomOut()
+        // End journey mode if active, otherwise zoom out
+        if (isJourneyMode) {
+          endJourney()
+        } else {
+          zoomOut()
+        }
         return
       }
 
@@ -95,7 +102,7 @@ export function KeyboardNavigation() {
 
     globalThis.addEventListener('keydown', handleKeyDown)
     return () => globalThis.removeEventListener('keydown', handleKeyDown)
-  }, [view, selectedGalaxy, selectedProject, zoomToGalaxy, zoomToProject, zoomOut, reset])
+  }, [view, selectedGalaxy, selectedProject, zoomToGalaxy, zoomToProject, zoomOut, reset, isJourneyMode, endJourney])
 
   return null
 }

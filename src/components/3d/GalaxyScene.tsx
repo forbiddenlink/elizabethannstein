@@ -36,17 +36,20 @@ import { ClickRipple } from '@/components/3d/ClickRipple'
 import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
 import { QuarksNebulaEffect } from '@/components/3d/QuarksNebulaEffect'
 import { StatsMonitor, DevToolsPanel } from '@/components/3d/DevTools'
-import { TheatreStudioToggle } from '@/components/3d/TheatreSetup'
+import { TheatreStudioToggle, TheatreCameraController, useTheatreModeStore } from '@/components/3d/TheatreSetup'
+import { CinematicCamera, GalaxyTourButton, TourProgress } from '@/components/3d/CinematicCamera'
+import { CursorTrail } from '@/components/3d/CursorTrail'
 import { getGalaxyCenterPosition, generateProjectPosition } from '@/lib/utils'
 import { unlockAchievement } from '@/lib/achievements'
 import { enqueueAchievement } from '@/components/ui/AchievementToast'
 
 // Camera fly-to controller for galaxy navigation with spring physics and idle drift
 function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<any> }) {
-  const { camera } = useThree()
+  const { camera, mouse } = useThree()
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
   const selectedProject = useViewStore((state) => state.selectedProject)
   const view = useViewStore((state) => state.view)
+  const isTheatreMode = useTheatreModeStore((s) => s.isTheatreMode)
 
   // Animation state
   const isAnimating = useRef(false)
@@ -64,6 +67,9 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
   // Idle drift state - subtle camera movement when not animating
   const idleDriftOffset = useRef(new THREE.Vector3(0, 0, 0))
   const idleTime = useRef(0)
+
+  // Mouse drift state - camera subtly follows cursor
+  const mouseDriftOffset = useRef(new THREE.Vector3(0, 0, 0))
 
   // Check for reduced motion preference
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -122,6 +128,9 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
 
   // Animate camera with spring physics and idle drift
   useFrame((state, delta) => {
+    // Skip all camera animation when Theatre.js is controlling
+    if (isTheatreMode) return
+
     const time = state.clock.elapsedTime
 
     if (isAnimating.current) {
@@ -167,20 +176,38 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       const driftY = Math.cos(idleTime.current * 0.12) * 0.06 + Math.sin(idleTime.current * 0.19) * 0.03
       const driftZ = Math.sin(idleTime.current * 0.1) * 0.05
 
-      // Smoothly interpolate drift offset
-      const targetDrift = new THREE.Vector3(driftX, driftY, driftZ)
+      // Mouse-influenced drift - camera subtly follows cursor (5-8% influence)
+      const mouseInfluence = 0.06
+      const targetMouseDriftX = mouse.x * mouseInfluence * 3 // Horizontal follows cursor
+      const targetMouseDriftY = mouse.y * mouseInfluence * 2 // Vertical follows cursor (less)
+
+      // Smooth mouse drift interpolation
+      const targetMouseDrift = new THREE.Vector3(targetMouseDriftX, targetMouseDriftY, 0)
+      mouseDriftOffset.current.lerp(targetMouseDrift, delta * 1.5)
+
+      // Combine idle breathing + mouse following
+      const combinedDriftX = driftX + mouseDriftOffset.current.x
+      const combinedDriftY = driftY + mouseDriftOffset.current.y
+      const combinedDriftZ = driftZ
+
+      // Smoothly interpolate combined drift offset
+      const targetDrift = new THREE.Vector3(combinedDriftX, combinedDriftY, combinedDriftZ)
       idleDriftOffset.current.lerp(targetDrift, delta * 2)
 
-      // Apply drift to camera without affecting controls target
-      // This creates a subtle "breathing" effect
+      // Apply drift to orbit controls target for subtle parallax feel
       if (controlsRef.current) {
-        const basePosition = controlsRef.current.target.clone().add(
-          camera.position.clone().sub(controlsRef.current.target).normalize().multiplyScalar(
-            camera.position.distanceTo(controlsRef.current.target)
-          )
+        // Offset the look-at target slightly based on mouse position
+        // This creates a subtle parallax effect where the scene shifts with cursor
+        const lookAtOffset = new THREE.Vector3(
+          mouseDriftOffset.current.x * 0.5,
+          mouseDriftOffset.current.y * 0.3,
+          0
         )
-        // Don't actually move the camera, just let the drift affect the feel
-        // The orbit controls will handle actual position
+        controlsRef.current.target.lerp(
+          new THREE.Vector3(0, 0, 0).add(lookAtOffset),
+          delta * 0.5
+        )
+        controlsRef.current.update()
       }
     }
   })
@@ -195,6 +222,7 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
   const selectedProject = useViewStore((state) => state.selectedProject)
   const exitExploration = useViewStore((state) => state.exitExploration)
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
+  const isTheatreMode = useTheatreModeStore((s) => s.isTheatreMode)
   const [konamiActive, setKonamiActive] = useState(false)
 
   const activeProject = selectedProject ? getProjectById(selectedProject) : null
@@ -308,11 +336,11 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       {/* Journey Mode camera controller */}
       {isJourneyMode && <JourneyCameraController />}
 
-      {/* OrbitControls - enabled after entry for user interaction */}
-      {view !== 'exploration' && !isJourneyMode && (
+      {/* OrbitControls - enabled after entry for user interaction, disabled in Theatre mode */}
+      {view !== 'exploration' && !isJourneyMode && !isTheatreMode && (
         <OrbitControls
           ref={controlsRef}
-          enabled={hasEntered}
+          enabled={hasEntered && !isTheatreMode}
           enablePan={true}
           enableZoom={true}
           minDistance={10}
@@ -341,8 +369,11 @@ function SceneWrapper({ isMobile, rendererType }: Readonly<{ isMobile: boolean; 
       <PerformanceMonitor onDecline={() => {}} />
       <SceneContent isMobile={isMobile} controlsRef={controlsRef} />
       <GalaxyCameraController controlsRef={controlsRef} />
+      <CinematicCamera controlsRef={controlsRef} />
+      <TheatreCameraController />
       <HyperspaceWarp isMobile={isMobile} />
       <ClickRipple isMobile={isMobile} />
+      <CursorTrail enabled={!isMobile} />
       {/* PostProcessingEffects: WebGL-only — WebGPU causes flickering */}
       {rendererType === 'webgl' && <PostProcessingEffects isMobile={isMobile} />}
       {/* Dev tools: GPU/FPS stats - only in development */}
@@ -454,6 +485,9 @@ export default function GalaxyScene() {
       <MinimapNavigator />
       <JourneyOverlay />
       <ExplorerHUD />
+      {/* Galaxy tour UI */}
+      <GalaxyTourButton />
+      <TourProgress />
       {/* Leva controls panel - only in development */}
       <DevToolsPanel />
       {/* Theatre.js timeline toggle - only in development */}

@@ -2,10 +2,10 @@
 
 import { getProject, types } from '@theatre/core'
 import studio from '@theatre/studio'
-import { SheetProvider, editable as e, useCurrentSheet } from '@theatre/r3f'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as THREE from 'three'
+import { create } from 'zustand'
 
 // Initialize Theatre.js studio in development
 const isDev = process.env.NODE_ENV === 'development'
@@ -25,7 +25,18 @@ const galaxyProject = getProject('Galaxy Portfolio', {
 // Main camera animation sheet
 const cameraSheet = galaxyProject.sheet('Camera Animations')
 
-// Predefined camera sequences
+// Theatre mode store - controls whether Theatre.js is driving the camera
+interface TheatreModeStore {
+  isTheatreMode: boolean
+  setTheatreMode: (active: boolean) => void
+}
+
+export const useTheatreModeStore = create<TheatreModeStore>((set) => ({
+  isTheatreMode: false,
+  setTheatreMode: (active) => set({ isTheatreMode: active }),
+}))
+
+// Predefined camera sequences for reference
 export const CAMERA_SEQUENCES = {
   universeOverview: {
     position: { x: 0, y: 20, z: 60 },
@@ -49,48 +60,34 @@ export const CAMERA_SEQUENCES = {
   },
 }
 
-/**
- * Theatre.js camera controller for cinematic animations
- * Wrap your scene content with this to enable timeline-based camera control
- */
-export function TheatreCameraController({ children }: { children: React.ReactNode }) {
-  return (
-    <SheetProvider sheet={cameraSheet}>
-      {children}
-      <AnimatedCamera />
-    </SheetProvider>
-  )
-}
+// Create camera object once (singleton pattern for Theatre.js)
+const cameraObject = cameraSheet.object('Main Camera', {
+  position: types.compound({
+    x: types.number(0, { range: [-100, 100] }),
+    y: types.number(20, { range: [0, 100] }),
+    z: types.number(60, { range: [0, 150] }),
+  }),
+  target: types.compound({
+    x: types.number(0, { range: [-50, 50] }),
+    y: types.number(0, { range: [-20, 20] }),
+    z: types.number(0, { range: [-50, 50] }),
+  }),
+  fov: types.number(45, { range: [20, 90] }),
+})
 
 /**
- * Camera that can be animated via Theatre.js timeline
+ * Camera controller for Theatre.js - only active when in Theatre mode
+ * Place this inside your R3F Canvas. When theatre mode is active,
+ * it takes over camera control from OrbitControls and other controllers.
  */
-function AnimatedCamera() {
+export function TheatreCameraController() {
   const { camera } = useThree()
-  const sheet = useCurrentSheet()
-  const sequenceLength = 10 // seconds
-
-  // Create editable camera properties
-  const cameraObj = useRef(
-    cameraSheet.object('Main Camera', {
-      position: types.compound({
-        x: types.number(0, { range: [-100, 100] }),
-        y: types.number(20, { range: [0, 100] }),
-        z: types.number(60, { range: [0, 150] }),
-      }),
-      target: types.compound({
-        x: types.number(0, { range: [-50, 50] }),
-        y: types.number(0, { range: [-20, 20] }),
-        z: types.number(0, { range: [-50, 50] }),
-      }),
-      fov: types.number(45, { range: [20, 90] }),
-    })
-  )
+  const isTheatreMode = useTheatreModeStore((s) => s.isTheatreMode)
 
   useFrame(() => {
-    if (!sheet) return
+    if (!isTheatreMode) return
 
-    const values = cameraObj.current.value
+    const values = cameraObject.value
 
     // Update camera position
     camera.position.set(values.position.x, values.position.y, values.position.z)
@@ -106,19 +103,6 @@ function AnimatedCamera() {
   })
 
   return null
-}
-
-/**
- * Play a camera animation sequence
- */
-export function playCameraSequence(
-  sequenceName: keyof typeof CAMERA_SEQUENCES,
-  duration: number = 2
-) {
-  const sequence = cameraSheet.sequence
-  // Theatre.js sequence playback would be configured here
-  // For now, this is a placeholder for the animation system
-  console.log(`Playing sequence: ${sequenceName} over ${duration}s`)
 }
 
 /**
@@ -147,28 +131,33 @@ export function useTheatrePlayback() {
 
 /**
  * Toggle button for Theatre.js studio (dev only)
+ * When enabled, also activates Theatre mode so the camera is controlled by the timeline
  */
 export function TheatreStudioToggle() {
   const [isVisible, setIsVisible] = useState(false)
+  const setTheatreMode = useTheatreModeStore((s) => s.setTheatreMode)
 
   if (!isDev) return null
 
   const toggle = () => {
-    if (isVisible) {
-      studio.ui.hide()
-    } else {
+    const newVisible = !isVisible
+    if (newVisible) {
       studio.ui.restore()
+      setTheatreMode(true)
+    } else {
+      studio.ui.hide()
+      setTheatreMode(false)
     }
-    setIsVisible(!isVisible)
+    setIsVisible(newVisible)
   }
 
   return (
     <button
       onClick={toggle}
       className="fixed bottom-32 right-4 z-50 px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs rounded-lg transition-colors"
-      title="Toggle Theatre.js Studio"
+      title="Toggle Theatre.js Studio (enables camera control)"
     >
-      {isVisible ? 'Hide' : 'Show'} Timeline
+      {isVisible ? 'Exit' : 'Enter'} Animation Mode
     </button>
   )
 }

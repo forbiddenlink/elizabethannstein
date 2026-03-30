@@ -1,21 +1,31 @@
 'use client'
 
 import { useRef, useMemo } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-export function TwinklingStarfield({ count = 5000 }: { count?: number }) {
+interface StarfieldLayerProps {
+  count: number
+  radiusMin: number
+  radiusMax: number
+  parallaxSpeed: number // 0 = no movement, 1 = full camera tracking
+  sizeMultiplier?: number
+}
+
+function StarfieldLayer({ count, radiusMin, radiusMax, parallaxSpeed, sizeMultiplier = 1 }: StarfieldLayerProps) {
   const pointsRef = useRef<THREE.Points>(null)
+  const groupRef = useRef<THREE.Group>(null)
+  const { camera } = useThree()
+  const prevCameraPos = useRef(new THREE.Vector3())
 
   const [positions, colors, sizes, phases] = useMemo(() => {
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const sizes = new Float32Array(count)
-    const phases = new Float32Array(count) // For twinkle animation
+    const phases = new Float32Array(count)
 
     for (let i = 0; i < count; i++) {
-      // Distribute stars in a sphere
-      const radius = 200 + Math.random() * 300
+      const radius = radiusMin + Math.random() * (radiusMax - radiusMin)
       const theta = Math.random() * Math.PI * 2
       const phi = Math.acos(2 * Math.random() - 1)
 
@@ -54,14 +64,15 @@ export function TwinklingStarfield({ count = 5000 }: { count?: number }) {
 
       // Varied sizes (enhanced for more visible bright stars)
       const brightness = Math.random()
-      sizes[i] = brightness < 0.85 ? 0.6 + Math.random() * 1.8 : 2.5 + Math.random() * 3.5
+      const baseSize = brightness < 0.85 ? 0.6 + Math.random() * 1.8 : 2.5 + Math.random() * 3.5
+      sizes[i] = baseSize * sizeMultiplier
 
       // Random phase for twinkling
       phases[i] = Math.random() * Math.PI * 2
     }
 
     return [positions, colors, sizes, phases]
-  }, [count])
+  }, [count, radiusMin, radiusMax, sizeMultiplier])
 
   const vertexShader = `
     attribute float size;
@@ -127,54 +138,108 @@ export function TwinklingStarfield({ count = 5000 }: { count?: number }) {
   `
 
   useFrame((state) => {
-    if (!pointsRef.current) return
+    if (!pointsRef.current || !groupRef.current) return
+
+    // Update shader time
     const material = pointsRef.current.material as THREE.ShaderMaterial
     material.uniforms.time.value = state.clock.elapsedTime
+
+    // Parallax effect: move layer opposite to camera movement
+    // Far layers move less (lower parallaxSpeed), creating depth illusion
+    const cameraDelta = new THREE.Vector3().subVectors(camera.position, prevCameraPos.current)
+    const parallaxOffset = cameraDelta.multiplyScalar(parallaxSpeed - 1) // -1 to 0 range for counter-movement
+    groupRef.current.position.add(parallaxOffset)
+
+    prevCameraPos.current.copy(camera.position)
   })
 
   return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
-          args={[positions, 3]}
+    <group ref={groupRef}>
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={positions.length / 3}
+            array={positions}
+            itemSize={3}
+            args={[positions, 3]}
+          />
+          <bufferAttribute
+            attach="attributes-color"
+            count={colors.length / 3}
+            array={colors}
+            itemSize={3}
+            args={[colors, 3]}
+          />
+          <bufferAttribute
+            attach="attributes-size"
+            count={sizes.length}
+            array={sizes}
+            itemSize={1}
+            args={[sizes, 1]}
+          />
+          <bufferAttribute
+            attach="attributes-phase"
+            count={phases.length}
+            array={phases}
+            itemSize={1}
+            args={[phases, 1]}
+          />
+        </bufferGeometry>
+        <shaderMaterial
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={{
+            time: { value: 0 }
+          }}
+          transparent
+          vertexColors
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
         />
-        <bufferAttribute
-          attach="attributes-color"
-          count={colors.length / 3}
-          array={colors}
-          itemSize={3}
-          args={[colors, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-size"
-          count={sizes.length}
-          array={sizes}
-          itemSize={1}
-          args={[sizes, 1]}
-        />
-        <bufferAttribute
-          attach="attributes-phase"
-          count={phases.length}
-          array={phases}
-          itemSize={1}
-          args={[phases, 1]}
-        />
-      </bufferGeometry>
-      <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={{
-          time: { value: 0 }
-        }}
-        transparent
-        vertexColors
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
+      </points>
+    </group>
+  )
+}
+
+/**
+ * Multi-layer parallax starfield
+ * - Far layer: slowest movement, smallest stars (deep space backdrop)
+ * - Mid layer: medium movement, medium stars
+ * - Near layer: fastest movement, larger stars (foreground depth)
+ */
+export function TwinklingStarfield({ count = 5000 }: { count?: number }) {
+  // Distribute stars across 3 depth layers
+  const farCount = Math.floor(count * 0.5)   // 50% in far layer (most stars, smallest)
+  const midCount = Math.floor(count * 0.35)  // 35% in mid layer
+  const nearCount = count - farCount - midCount // 15% in near layer (fewer, larger)
+
+  return (
+    <group>
+      {/* Far layer - distant stars, minimal parallax */}
+      <StarfieldLayer
+        count={farCount}
+        radiusMin={350}
+        radiusMax={500}
+        parallaxSpeed={0.05}
+        sizeMultiplier={0.7}
       />
-    </points>
+      {/* Mid layer - medium distance */}
+      <StarfieldLayer
+        count={midCount}
+        radiusMin={200}
+        radiusMax={350}
+        parallaxSpeed={0.15}
+        sizeMultiplier={1.0}
+      />
+      {/* Near layer - closer stars, more parallax */}
+      <StarfieldLayer
+        count={nearCount}
+        radiusMin={100}
+        radiusMax={200}
+        parallaxSpeed={0.3}
+        sizeMultiplier={1.4}
+      />
+    </group>
   )
 }

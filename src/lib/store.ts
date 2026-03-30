@@ -234,6 +234,25 @@ export const useViewStore = create<ViewStore>((set, get) => ({
     })),
 }))
 
+// Hover gravity store - tracks hovered planet for gravitational effects
+interface HoverGravityStore {
+  hoveredPlanetId: string | null
+  hoveredPosition: [number, number, number] | null
+  hoveredSize: number
+  setHoveredPlanet: (id: string | null, position: [number, number, number] | null, size?: number) => void
+}
+
+export const useHoverGravityStore = create<HoverGravityStore>((set) => ({
+  hoveredPlanetId: null,
+  hoveredPosition: null,
+  hoveredSize: 1,
+  setHoveredPlanet: (id, position, size = 1) => set({
+    hoveredPlanetId: id,
+    hoveredPosition: position,
+    hoveredSize: size,
+  }),
+}))
+
 // Motion preferences store - combines OS preference with manual toggle
 import { useEffect, useState } from 'react'
 

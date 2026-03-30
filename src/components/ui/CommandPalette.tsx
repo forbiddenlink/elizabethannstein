@@ -250,7 +250,12 @@ export function CommandPalette() {
       />
 
       {/* Modal */}
-      <div className="command-palette-modal fixed top-[20vh] left-1/2 -translate-x-1/2 w-full max-w-2xl z-60 px-4">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
+        className="command-palette-modal fixed top-[20vh] left-1/2 -translate-x-1/2 w-full max-w-2xl z-60 px-4"
+      >
         <div className="bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
           {/* Search Input */}
           <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
