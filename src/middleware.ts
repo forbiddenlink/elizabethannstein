@@ -1,5 +1,6 @@
 import arcjet, { shield, detectBot } from "@arcjet/next";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 const aj = arcjet({
   key: process.env.ARCJET_KEY!,
