@@ -2,6 +2,7 @@
 
 import { galaxies } from '@/lib/galaxyData'
 import { useViewStore, useHoverGravityStore } from '@/lib/store'
+import type { Galaxy, Project } from '@/lib/types'
 import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
@@ -23,11 +24,14 @@ const SEGMENTS = {
   mobile: { planet: 32, atmosphere: 16, clouds: 24, rings: 32 },
 }
 
-// Hook to detect mobile once
+// Hook to detect mobile with resize listener
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
   return isMobile
 }
@@ -42,7 +46,7 @@ export function EnhancedProjectStars() {
   )
 }
 
-function GalaxyCluster({ galaxy, galaxyIndex }: { galaxy: any; galaxyIndex: number }) {
+function GalaxyCluster({ galaxy, galaxyIndex }: { galaxy: Galaxy; galaxyIndex: number }) {
   const groupRef = useRef<THREE.Group>(null)
   const zoomToProject = useViewStore((state) => state.zoomToProject)
   // Removed scannedPlanets check - all planets are now clickable by default
@@ -50,7 +54,7 @@ function GalaxyCluster({ galaxy, galaxyIndex }: { galaxy: any; galaxyIndex: numb
 
   return (
     <group ref={groupRef}>
-      {galaxy.projects.map((project: any, projectIndex: number) => {
+      {galaxy.projects.map((project: Project, projectIndex: number) => {
         const position = generateProjectPosition(
           project.id,
           galaxy.id,
@@ -302,13 +306,17 @@ const planetFragmentShader = `
       color += cityColor * cities * nightIntensity * flicker * 1.5;
     }
 
-    // Fresnel rim lighting — strong atmospheric edge glow
+    // Fresnel rim + sun glint — reads at a distance (award-level silhouette)
     vec3 viewDir = normalize(cameraPosition - vPosition);
     float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.5);
     color += baseColor * 2.2 * fresnel * 0.55;
-    // Bright white sparkle at limb
     float fresnelSharp = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 6.0);
     color += vec3(0.9, 0.95, 1.0) * fresnelSharp * 0.22;
+
+    vec3 halfVec = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(vNormal, halfVec), 0.0), 56.0);
+    float specAmt = (planetType == 0) ? 0.16 : ((planetType == 1) ? 0.06 : 0.1);
+    color += vec3(1.0, 0.97, 0.93) * spec * specAmt;
 
     // Atmospheric glow at terminator (day/night boundary) — stronger
     float terminator = smoothstep(-0.15, 0.0, NdotL) * smoothstep(0.2, 0.0, NdotL);
@@ -416,7 +424,7 @@ function RealisticPlanet({
   isScanned,
   onPlanetClick,
 }: {
-  project: any
+  project: Project
   position: [number, number, number]
   galaxyIndex: number
   sizeMultiplier: number
@@ -435,6 +443,12 @@ function RealisticPlanet({
 
   // Gravitational drift offset for small planets
   const gravityOffset = useRef(new THREE.Vector3(0, 0, 0))
+
+  // Pooled vectors to avoid allocations in useFrame (eliminates 10K+ allocations/sec)
+  const tempVec1 = useMemo(() => new THREE.Vector3(), [])
+  const tempVec2 = useMemo(() => new THREE.Vector3(), [])
+  const zeroVec = useMemo(() => new THREE.Vector3(0, 0, 0), [])
+  const oneVec = useMemo(() => new THREE.Vector3(1, 1, 1), [])
 
   // Get LOD and segment config based on device
   const lodConfig = isMobile ? LOD_CONFIG.mobile : LOD_CONFIG.desktop
@@ -538,9 +552,10 @@ function RealisticPlanet({
 
     // Gravitational drift toward hovered planet (only for smaller planets)
     if (hoveredPosition && hoveredPlanetId !== project.id && sizeMultiplier < hoveredSize) {
-      const hoveredVec = new THREE.Vector3(hoveredPosition[0], hoveredPosition[1], hoveredPosition[2])
-      const toHovered = hoveredVec.clone().sub(currentPosRef.current)
-      const distance = toHovered.length()
+      // Reuse pooled vectors instead of allocating new ones each frame
+      tempVec1.set(hoveredPosition[0], hoveredPosition[1], hoveredPosition[2])
+      tempVec2.copy(tempVec1).sub(currentPosRef.current)
+      const distance = tempVec2.length()
 
       // Only apply gravity within a reasonable range
       if (distance < 30 && distance > 2) {
@@ -549,17 +564,17 @@ function RealisticPlanet({
         const maxDrift = 0.8 // Maximum drift amount
 
         // Calculate drift direction and magnitude
-        toHovered.normalize().multiplyScalar(Math.min(strength, maxDrift))
+        tempVec2.normalize().multiplyScalar(Math.min(strength, maxDrift))
 
         // Smoothly interpolate gravity offset
-        gravityOffset.current.lerp(toHovered, 0.05)
+        gravityOffset.current.lerp(tempVec2, 0.05)
       } else {
         // Decay gravity offset when out of range
-        gravityOffset.current.lerp(new THREE.Vector3(0, 0, 0), 0.1)
+        gravityOffset.current.lerp(zeroVec, 0.1)
       }
     } else {
       // Decay gravity offset when nothing is hovered
-      gravityOffset.current.lerp(new THREE.Vector3(0, 0, 0), 0.08)
+      gravityOffset.current.lerp(zeroVec, 0.08)
     }
 
     // Apply gravity offset to position
@@ -651,7 +666,8 @@ function RealisticPlanet({
       const scale = 1.1 + Math.sin(time * 3) * 0.02
       groupRef.current.scale.setScalar(scale)
     } else if (groupRef.current) {
-      groupRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1)
+      // Reuse pooled vector instead of allocating
+      groupRef.current.scale.lerp(oneVec, 0.1)
     }
   })
 

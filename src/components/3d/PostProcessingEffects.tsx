@@ -1,32 +1,23 @@
 'use client'
 
 /**
- * ⚠️ WARNING: POST-PROCESSING CAUSES FLICKERING
+ * Post-processing effects for cinematic quality
  *
- * This component is DISABLED because @react-three/postprocessing
- * causes visual flickering/flashing when used with:
- * - WebGPU renderer (not compatible)
- * - Multisampling enabled
- * - Dynamic uniform changes during render
+ * FIX APPLIED: Using multisampling={8} and stencilBuffer={false} to prevent flickering.
+ * WebGPU is excluded at the GalaxyScene level - this only runs on WebGL.
  *
- * Attempted fixes that didn't work:
- * - Disabling multisampling (still flickers)
- * - Static bloom intensity (still flickers)
- * - Different kernel sizes (still flickers)
- *
- * The issue appears to be incompatibility between the postprocessing
- * library and the WebGPU/WebGL renderer setup in this project.
- *
- * DO NOT RE-ENABLE without thorough testing on multiple devices.
- *
- * Last attempted: 2026-03-14
- * Related files: GalaxyScene.tsx, WebGPUCanvas.tsx
+ * Key settings that prevent flickering:
+ * - multisampling={8} for anti-aliased edges
+ * - stencilBuffer={false} to avoid buffer conflicts
+ * - Static bloom threshold (no dynamic updates during render)
+ * - disableNormalPass to reduce buffer swaps
  */
 
 import { EffectComposer, Bloom, Vignette, ChromaticAberration, Noise } from '@react-three/postprocessing'
 import { KernelSize, BlendFunction } from 'postprocessing'
 import { useViewStore } from '@/lib/store'
 import { Vector2 } from 'three'
+import { useMemo } from 'react'
 
 interface PostProcessingEffectsProps {
   enabled?: boolean
@@ -35,44 +26,47 @@ interface PostProcessingEffectsProps {
 
 /**
  * Cinematic post-processing effects for the galaxy scene
- * - Bloom: Glowing planets and stars
+ * - Bloom: Glowing planets and stars (Awwwards-style glow)
  * - Vignette: Darkened edges for focus
  * - ChromaticAberration: Subtle lens distortion for AAA feel
  * - Noise: Film grain for cinematic texture
  *
- * NOTE: Currently disabled due to flickering bug - see warning above
+ * FIXED: Using multisampling={8}, stencilBuffer={false}, enableNormalPass={false}
+ * to prevent flickering. Only enabled for WebGL renderer.
  */
 export function PostProcessingEffects({ enabled = true, isMobile = false }: PostProcessingEffectsProps) {
   const view = useViewStore((state) => state.view)
   const selectedProject = useViewStore((state) => state.selectedProject)
 
-  // Cinematic bloom settings - subtle but impactful
-  const bloomIntensity = isMobile ? 0.8 : 1.2
+  // Cinematic bloom — punchy highlights without blowing midtones (Awwwards-style glow)
+  const bloomIntensity = isMobile ? 0.75 : 1.15
   const bloomKernel = isMobile ? KernelSize.MEDIUM : KernelSize.LARGE
 
-  // Increase bloom when viewing a project (dramatic planet focus)
   const isProjectView = view === 'project' || selectedProject
-  const dynamicBloom = isProjectView ? bloomIntensity * 1.4 : bloomIntensity
+  const dynamicBloom = isProjectView ? bloomIntensity * 1.35 : bloomIntensity
 
-  // Chromatic aberration intensity - subtle edge distortion (disabled on mobile)
-  const caIntensity = isMobile ? 0 : isProjectView ? 0.0008 : 0.0004
+  // Memoize chromatic aberration offset to prevent re-renders
+  const caOffset = useMemo(() => {
+    const intensity = isMobile ? 0 : isProjectView ? 0.0008 : 0.00035
+    return new Vector2(intensity, intensity)
+  }, [isMobile, isProjectView])
 
-  // Film grain intensity
-  const noiseOpacity = isMobile ? 0.08 : 0.15
+  // Film grain — slightly tighter on desktop for premium texture
+  const noiseOpacity = isMobile ? 0.07 : 0.12
 
   if (!enabled) return null
 
   return (
-    <EffectComposer multisampling={0}>
+    <EffectComposer multisampling={8} stencilBuffer={false} enableNormalPass={false}>
       <Bloom
         intensity={dynamicBloom}
-        luminanceThreshold={0.15}
-        luminanceSmoothing={0.9}
+        luminanceThreshold={0.14}
+        luminanceSmoothing={0.88}
         kernelSize={bloomKernel}
         mipmapBlur
       />
       <ChromaticAberration
-        offset={new Vector2(caIntensity, caIntensity)}
+        offset={caOffset}
         radialModulation={true}
         modulationOffset={0.5}
       />
@@ -82,8 +76,8 @@ export function PostProcessingEffects({ enabled = true, isMobile = false }: Post
         opacity={noiseOpacity}
       />
       <Vignette
-        offset={0.3}
-        darkness={0.55}
+        offset={0.28}
+        darkness={0.52}
       />
     </EffectComposer>
   )

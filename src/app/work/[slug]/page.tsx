@@ -6,10 +6,13 @@ import { StarryBackground } from '@/components/ui/StarryBackground'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { SITE } from '@/lib/constants'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, MessageSquare, Download } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+
+// ISR: Revalidate project pages every hour for fresh content
+export const revalidate = 3600
 
 const GALAXY_ACCENTS = {
   enterprise: {
@@ -218,6 +221,7 @@ export default async function ProjectPage({
       {/* Skip Link for Accessibility */}
       <a
         href="#project-content"
+        suppressHydrationWarning
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
       >
         Skip to main content
@@ -291,6 +295,37 @@ export default async function ProjectPage({
         </section>
 
         <ProjectCaseStudy project={project} />
+
+        {/* Hiring CTA Section */}
+        <section className="max-w-7xl mx-auto px-6 mt-16">
+          <div className="relative rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-500/10 via-indigo-500/5 to-transparent p-8 overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-purple-400/50 via-indigo-400/30 to-transparent" />
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div>
+                <h2 className="text-2xl font-bold mb-2">Like what you see?</h2>
+                <p className="text-white/60 max-w-xl">
+                  I&apos;m available for freelance projects, consulting, and full-time opportunities.
+                  Let&apos;s build something amazing together.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <Link
+                  href="/contact"
+                  className="btn btn-primary gap-2 whitespace-nowrap"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  Start a Conversation
+                </Link>
+                <Link
+                  href="/work"
+                  className="btn btn-secondary gap-2 whitespace-nowrap"
+                >
+                  See More Projects
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Jump Constellation Rail */}
         <div className="max-w-7xl mx-auto px-6 mt-12">

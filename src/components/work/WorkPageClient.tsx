@@ -235,9 +235,10 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
   return (
     <div id="work-content" className="max-w-7xl w-full mx-auto">
       {/* Header */}
-      <header className="mb-16">
+      <header className="mb-16 md:mb-20">
         <ScrollReveal direction="up" delay={0.2}>
-          <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <p className="page-hero-kicker">Browse</p>
+          <h1 className="page-hero-title text-3xl md:text-5xl lg:text-6xl mb-5">
             <SplitWords delay={0.3}>Projects & Case Studies</SplitWords>
           </h1>
         </ScrollReveal>
@@ -274,35 +275,35 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.7}>
-          <section className="mt-8 rounded-2xl border border-white/10 bg-black/30 backdrop-blur-sm p-4 md:p-5">
+          <section className="panel-top-shine mt-8 rounded-2xl border border-white/12 bg-linear-to-b from-white/[0.05] to-black/35 backdrop-blur-md p-4 md:p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
               <h2 className="text-[11px] md:text-xs tracking-[0.22em] uppercase text-white/50 font-semibold">
                 Mission Control
               </h2>
-              <span className="text-[11px] text-white/40">Recruiter fast lane</span>
+              <span className="text-[11px] text-white/60">Recruiter fast lane</span>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 mb-3">
               <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/45 mb-1">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
                   Systems
                 </p>
                 <p className="text-lg font-semibold text-white">{allProjects.length}</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/45 mb-1">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
                   Live Missions
                 </p>
                 <p className="text-lg font-semibold text-white">{missionControl.liveSystems}</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/45 mb-1">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
                   AI Sector
                 </p>
                 <p className="text-lg font-semibold text-cyan-200">{missionControl.aiSystems}</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/45 mb-1">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
                   Enterprise Sector
                 </p>
                 <p className="text-lg font-semibold text-orange-200">
@@ -312,7 +313,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] text-white/40 mr-1">Quick jumps:</span>
+              <span className="text-[11px] text-white/60 mr-1">Quick jumps:</span>
               <button
                 onClick={() => {
                   setSelectedGalaxy('enterprise')
@@ -428,7 +429,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                   <button
                     key={tag}
                     onClick={() => setSelectedTag(tag)}
-                    className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/50 text-xs hover:bg-white/10 hover:text-white/80 hover:border-white/20 transition-all"
+                    className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/70 text-xs hover:bg-white/10 hover:text-white/90 hover:border-white/20 transition-all"
                   >
                     {tag}
                   </button>
