@@ -8,6 +8,7 @@ import {
 import { AnimatedText, FadeIn } from '@/components/ui/AnimatedText'
 import { DeepLinkHandler } from '@/components/ui/DeepLinkHandler'
 import { Entrance } from '@/components/ui/Entrance'
+import { Scene3DErrorBoundary } from '@/components/ErrorBoundary'
 import { GlowOrb } from '@/components/ui/FloatingElement'
 import { GalaxyHint } from '@/components/ui/GalaxyHint'
 import { InteractiveParticles } from '@/components/ui/InteractiveParticles'
@@ -32,10 +33,6 @@ const GalaxyScene = dynamic(() => import('@/components/3d/GalaxyScene'), {
   loading: () => <LoadingProgress />,
 })
 // Lazy load heavy/modal components for better initial load
-const CommandPalette = dynamic(
-  () => import('@/components/ui/CommandPalette').then((m) => ({ default: m.CommandPalette })),
-  { ssr: false },
-)
 const ProjectModal = dynamic(
   () => import('@/components/ui/ProjectModal').then((m) => ({ default: m.ProjectModal })),
   { ssr: false },
@@ -83,7 +80,11 @@ export default function HomePage() {
   }
 
   return (
-    <main className="relative w-full h-screen overflow-hidden bg-black">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="relative w-full h-screen overflow-hidden bg-black outline-none"
+    >
       {/* Accessible View Toggle */}
       <AccessibleViewToggle
         isAccessibleMode={isAccessibleMode}
@@ -91,9 +92,10 @@ export default function HomePage() {
         autoEnabled={autoEnabled}
       />
 
-      {/* Skip Link for Accessibility */}
+      {/* Dev tools can inject attrs before hydrate */}
       <a
         href="#main-content"
+        suppressHydrationWarning
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
       >
         Skip to main content
@@ -101,7 +103,9 @@ export default function HomePage() {
 
       {/* Fullscreen 3D Scene - MUST BE FIRST for proper z-index */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
-        <GalaxyScene />
+        <Scene3DErrorBoundary maxRetries={3} retryDelay={2000}>
+          <GalaxyScene />
+        </Scene3DErrorBoundary>
       </div>
 
       {/* Ripple Effect */}
@@ -113,8 +117,7 @@ export default function HomePage() {
       {/* Touch Gestures */}
       <TouchGestures />
 
-      {/* Command Palette (CMD+K) */}
-      <CommandPalette />
+      {/* Command palette: global instance in root layout (CMD+K) */}
 
       {/* Exploration Mode Overlay */}
       <ExplorationOverlay />
@@ -149,11 +152,9 @@ export default function HomePage() {
 
       {/* Header Overlay - Top Left (hidden during tour and before entrance) */}
       <header
-        id="main-content"
-        tabIndex={-1}
         className={`absolute left-4 right-4 top-4 z-10 pointer-events-none transition-all duration-700 md:top-8 md:left-8 md:right-auto ${heroVisibility}`}
       >
-        <div className="glass-card max-w-lg rounded-[1.75rem] p-4 sm:p-5 md:p-6 lg:max-w-xl">
+        <div className="glass-card panel-top-shine max-w-lg rounded-[1.75rem] p-4 sm:p-5 md:p-6 lg:max-w-xl">
           <h1 className="mb-2 flex items-center gap-2 text-[1.75rem] leading-none font-black tracking-tight drop-shadow-2xl sm:text-4xl md:mb-3 md:gap-3 md:text-5xl lg:text-6xl">
             {/* Star icon */}
             <span className="relative inline-flex h-6 w-6 shrink-0 items-center justify-center sm:h-8 sm:w-8 md:h-10 md:w-10">
@@ -178,15 +179,15 @@ export default function HomePage() {
                 <span>{'Available for hire'}</span>
               </span>
             </div>
-            <p className="mb-3 max-w-md text-sm leading-relaxed text-white/82 drop-shadow-lg sm:text-base md:text-xl md:text-white/90">
-              I build fast, beautiful web apps with thoughtful UX and solid engineering
+            <p className="mb-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base md:text-lg md:leading-snug">
+              Production web apps: product UI, systems thinking, and AI only where it earns the screen time.
             </p>
             <div className="pointer-events-auto flex flex-wrap items-center gap-2 sm:gap-3">
               <Link
                 href="/contact"
-                className="inline-flex min-h-10 items-center rounded-lg bg-purple-600 px-3.5 py-2 text-sm font-medium text-white transition-colors duration-200 drop-shadow-md hover:bg-purple-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:px-4"
+                className="inline-flex min-h-10 items-center rounded-xl border border-white/20 bg-white px-3.5 py-2 text-sm font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:px-5"
               >
-                Let's Talk
+                Let&apos;s talk
               </Link>
               <a
                 href="/resume/elizabeth-stein-resume.pdf"

@@ -91,9 +91,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Resource hints for faster external requests */}
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body
-        className={`bg-black text-white antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+        suppressHydrationWarning
+        className={`bg-black text-white antialiased font-sans ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
       >
         <script
           type="application/ld+json"

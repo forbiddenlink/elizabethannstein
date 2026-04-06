@@ -49,9 +49,12 @@ export function ContactForm() {
         <input
           type="text"
           id="name"
+          name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          autoComplete="name"
+          autoCapitalize="words"
           placeholder="Jane Smith"
           className="input-glass w-full"
         />
@@ -64,9 +67,12 @@ export function ContactForm() {
         <input
           type="email"
           id="email"
+          name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          autoComplete="email"
+          inputMode="email"
           placeholder="jane@company.com"
           className="input-glass w-full"
         />
@@ -78,10 +84,12 @@ export function ContactForm() {
         </label>
         <textarea
           id="message"
+          name="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={5}
+          autoCapitalize="sentences"
           placeholder="Tell me about your project or opportunity..."
           className="input-glass w-full resize-none"
         />

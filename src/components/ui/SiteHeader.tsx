@@ -93,11 +93,11 @@ export function SiteHeader({ accentGalaxy }: Readonly<SiteHeaderProps>) {
             <span className="absolute inset-0.5 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
             <span className="absolute inset-1 rounded-full bg-white/80" />
           </span>
-          <span className="text-base sm:text-2xl font-bold bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent group-hover:from-purple-200 group-hover:via-white group-hover:to-purple-200 transition-all duration-300">
+          <span className="text-base sm:text-2xl font-bold text-white/95 transition-colors duration-300 group-hover:text-white">
             Elizabeth Stein
           </span>
         </Link>
-        <nav className="flex items-center gap-1 sm:gap-2">
+        <nav className="flex items-center gap-1 sm:gap-2" aria-label="Main navigation">
           <span
             className={`hidden xl:inline-flex items-center px-2.5 py-1 rounded-full text-[10px] uppercase tracking-[0.16em] border ${theme.active}`}
             aria-label={`Current sector: ${themeLabel}`}
@@ -105,11 +105,11 @@ export function SiteHeader({ accentGalaxy }: Readonly<SiteHeaderProps>) {
           >
             {themeLabel}
           </span>
-          {/* Open to work status pill */}
+          {/* Open to work status pill - links to contact for hiring funnel */}
           <Link
-            href="/about"
+            href="/contact"
             className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 hover:border-emerald-500/40 transition-all duration-200 mr-1"
-            title="Open to new opportunities"
+            title="Available for hire - let's connect!"
           >
             <span className="relative flex h-1.5 w-1.5 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -123,6 +123,7 @@ export function SiteHeader({ accentGalaxy }: Readonly<SiteHeaderProps>) {
               <Link
                 key={href}
                 href={href}
+                aria-current={isActive ? 'page' : undefined}
                 className={`relative text-xs sm:text-sm font-medium min-h-11 px-3 py-3 inline-flex items-center rounded-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 ${
                   isActive ? theme.active : `text-white/60 hover:text-white ${theme.hover}`
                 }`}
@@ -134,6 +135,7 @@ export function SiteHeader({ accentGalaxy }: Readonly<SiteHeaderProps>) {
                     style={{
                       background: 'currentColor',
                     }}
+                    aria-hidden="true"
                   />
                 )}
               </Link>
