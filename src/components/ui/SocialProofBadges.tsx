@@ -1,6 +1,6 @@
 'use client'
 
-import { Star, Trophy, Rocket, Award, TrendingUp } from 'lucide-react'
+import { Award, Rocket, Star, TrendingUp, Trophy } from 'lucide-react'
 
 interface GitHubStarsProps {
   repo: string
@@ -76,11 +76,13 @@ interface TestsBadgeProps {
 
 export function TestsBadge({ count, passing = true }: TestsBadgeProps) {
   return (
-    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs ${
-      passing
-        ? 'bg-green-500/20 border border-green-500/30 text-green-300'
-        : 'bg-red-500/20 border border-red-500/30 text-red-300'
-    }`}>
+    <div
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs ${
+        passing
+          ? 'bg-green-500/20 border border-green-500/30 text-green-300'
+          : 'bg-red-500/20 border border-red-500/30 text-red-300'
+      }`}
+    >
       <span className={`w-2 h-2 rounded-full ${passing ? 'bg-green-400' : 'bg-red-400'}`} />
       {count} tests {passing ? 'passing' : 'failing'}
     </div>
@@ -120,27 +122,20 @@ export function SocialProof({
   metrics,
   awards,
 }: SocialProofProps) {
-  const hasAnyBadge = githubRepo || contestWin || productHunt || tests || metrics?.length || awards?.length
+  const hasAnyBadge =
+    githubRepo || contestWin || productHunt || tests || metrics?.length || awards?.length
 
   if (!hasAnyBadge) return null
 
   return (
     <div className="flex flex-wrap gap-2 mt-3">
-      {contestWin && (
-        <ContestWinBadge prize={contestWin.prize} contest={contestWin.contest} />
-      )}
-      {productHunt && (
-        <ProductHuntBadge rank={productHunt.rank} votes={productHunt.votes} />
-      )}
+      {contestWin && <ContestWinBadge prize={contestWin.prize} contest={contestWin.contest} />}
+      {productHunt && <ProductHuntBadge rank={productHunt.rank} votes={productHunt.votes} />}
       {awards?.map((award) => (
         <AwardBadge key={award} title={award} />
       ))}
-      {tests && (
-        <TestsBadge count={tests.count} passing={tests.passing} />
-      )}
-      {githubRepo && (
-        <GitHubStars repo={githubRepo} stars={githubStars} />
-      )}
+      {tests && <TestsBadge count={tests.count} passing={tests.passing} />}
+      {githubRepo && <GitHubStars repo={githubRepo} stars={githubStars} />}
       {metrics?.map((metric) => (
         <MetricBadge
           key={metric.label}

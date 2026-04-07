@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { usePrefersReducedMotion } from '@/lib/store'
 
@@ -370,10 +370,5 @@ export function BlackHole() {
   // Place it roughly in the center-ish area, elevated
   const position: [number, number, number] = [0, 15, -20]
 
-  return (
-    <SingleBlackHole
-      position={position}
-      scale={prefersReducedMotion ? 1.5 : 2}
-    />
-  )
+  return <SingleBlackHole position={position} scale={prefersReducedMotion ? 1.5 : 2} />
 }

@@ -1,10 +1,10 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { galaxies, narrativeTours } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
 
 // Touch target minimum size (44x44px for accessibility)
 const TOUCH_TARGET_SIZE = 'min-h-11 min-w-11'
@@ -78,6 +78,7 @@ export function MobileGalaxyNav() {
           <div className="relative px-4 pt-3">
             <div className="flex items-center justify-center gap-2 p-1 bg-white/5 rounded-xl">
               <button
+                type="button"
                 onClick={() => {
                   setActiveTab('galaxies')
                 }}
@@ -86,12 +87,13 @@ export function MobileGalaxyNav() {
                   TOUCH_TARGET_SIZE,
                   activeTab === 'galaxies'
                     ? 'bg-white/15 text-white shadow-lg'
-                    : 'text-white/60 active:bg-white/10',
+                    : 'text-white/60 active:bg-white/10'
                 )}
               >
                 Galaxies
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setActiveTab('tours')
                 }}
@@ -100,7 +102,7 @@ export function MobileGalaxyNav() {
                   TOUCH_TARGET_SIZE,
                   activeTab === 'tours'
                     ? 'bg-linear-to-r from-indigo-500/30 to-purple-500/30 text-indigo-300 shadow-lg'
-                    : 'text-white/60 active:bg-white/10',
+                    : 'text-white/60 active:bg-white/10'
                 )}
               >
                 <span className="flex items-center justify-center gap-2">
@@ -145,20 +147,21 @@ export function MobileGalaxyNav() {
                 <div className="grid grid-cols-4 gap-2 px-2">
                   {/* All Galaxies */}
                   <button
+                    type="button"
                     onClick={reset}
                     className={cn(
                       'flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl transition-all duration-200',
                       TOUCH_TARGET_SIZE,
                       view === 'universe'
                         ? 'bg-white/20 scale-105 shadow-lg'
-                        : 'bg-white/5 active:scale-95 active:bg-white/15',
+                        : 'bg-white/5 active:scale-95 active:bg-white/15'
                     )}
                     aria-label="View all galaxies"
                   >
                     <div
                       className={cn(
                         'mobile-galaxy-nav-dot w-4 h-4 rounded-full bg-white shadow-lg',
-                        view === 'universe' && 'animate-pulse',
+                        view === 'universe' && 'animate-pulse'
                       )}
                     />
                     <span className="text-xs font-medium text-white/90">All</span>
@@ -167,6 +170,7 @@ export function MobileGalaxyNav() {
                   {/* Galaxy buttons */}
                   {galaxies.map((galaxy) => (
                     <button
+                      type="button"
                       key={galaxy.id}
                       onClick={() => zoomToGalaxy(galaxy.id)}
                       className={cn(
@@ -174,14 +178,14 @@ export function MobileGalaxyNav() {
                         TOUCH_TARGET_SIZE,
                         selectedGalaxy === galaxy.id
                           ? 'bg-white/20 scale-105 shadow-lg'
-                          : 'bg-white/5 active:scale-95 active:bg-white/15',
+                          : 'bg-white/5 active:scale-95 active:bg-white/15'
                       )}
                       aria-label={`View ${galaxy.name}`}
                     >
                       <div
                         className={cn(
                           'mobile-galaxy-nav-dot w-4 h-4 rounded-full shadow-lg transition-all duration-200',
-                          selectedGalaxy === galaxy.id && 'animate-pulse scale-110',
+                          selectedGalaxy === galaxy.id && 'animate-pulse scale-110'
                         )}
                         data-tone={getGalaxyTone(galaxy.id)}
                         data-active={selectedGalaxy === galaxy.id ? 'true' : 'false'}
@@ -206,11 +210,12 @@ export function MobileGalaxyNav() {
                 <div className="flex flex-col gap-2 max-h-50 overflow-y-auto scrollbar-hide">
                   {/* Default Galaxy Tour */}
                   <button
+                    type="button"
                     onClick={() => startJourney()}
                     className={cn(
                       'flex items-center gap-4 p-4 rounded-xl bg-white/5 transition-all duration-200',
                       'active:scale-[0.98] active:bg-white/10',
-                      TOUCH_TARGET_SIZE,
+                      TOUCH_TARGET_SIZE
                     )}
                   >
                     <span className="text-2xl" role="img" aria-label="Galaxy icon">
@@ -240,12 +245,13 @@ export function MobileGalaxyNav() {
                   {/* Narrative Tours */}
                   {narrativeTours.map((tour) => (
                     <button
+                      type="button"
                       key={tour.id}
                       onClick={() => startJourney(tour.id)}
                       className={cn(
                         'flex items-center gap-4 p-4 rounded-xl bg-white/5 transition-all duration-200',
                         'active:scale-[0.98] active:bg-white/10',
-                        TOUCH_TARGET_SIZE,
+                        TOUCH_TARGET_SIZE
                       )}
                     >
                       <span className="text-2xl" role="img" aria-label={`${tour.name} icon`}>
@@ -285,7 +291,7 @@ export function MobileGalaxyNav() {
       <div
         className={cn(
           'pointer-events-none fixed inset-x-0 bottom-42 z-30 mx-auto h-8 w-44 rounded-full bg-linear-to-r from-indigo-500/0 via-indigo-400/20 to-fuchsia-400/0 blur-2xl transition-opacity duration-300 lg:hidden',
-          panelOpen ? 'opacity-100' : 'opacity-45',
+          panelOpen ? 'opacity-100' : 'opacity-45'
         )}
         aria-hidden="true"
       />

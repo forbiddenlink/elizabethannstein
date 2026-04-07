@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import {
   cn,
   formatDateRange,
@@ -8,7 +9,6 @@ import {
   lerp,
   seededRandom,
 } from '@/lib/utils'
-import { describe, expect, it } from 'vitest'
 
 describe('cn (class merge)', () => {
   it('merges tailwind classes', () => {
@@ -115,16 +115,15 @@ describe('getGalaxyCenterPosition', () => {
 
   it('places galaxy 0 at positive x', () => {
     const [x, , z] = getGalaxyCenterPosition(0)
-    expect(x).toBe(25) // cos(0) * 25
-    expect(z).toBeCloseTo(0) // sin(0) * 25
+    expect(x).toBe(29) // cos(0) * galaxyRadius (see utils.ts)
+    expect(z).toBeCloseTo(0)
   })
 
   it('distributes galaxies in a circle', () => {
     const positions = Array.from({ length: 6 }, (_, i) => getGalaxyCenterPosition(i))
-    // Each should be at radius 25 from origin
     for (const [x, , z] of positions) {
       const radius = Math.sqrt(x * x + z * z)
-      expect(radius).toBeCloseTo(25)
+      expect(radius).toBeCloseTo(29)
     }
   })
 })

@@ -1,13 +1,13 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
 import { getGalaxyCenterPosition } from '@/lib/utils'
 
 // Distance thresholds for galaxy core LOD
-const SPIRAL_RENDER_DISTANCE = 80  // Show spiral arms only when within this distance
+const SPIRAL_RENDER_DISTANCE = 80 // Show spiral arms only when within this distance
 
 interface GalaxyCoreProps {
   position: [number, number, number]
@@ -78,7 +78,7 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
   }, [color])
 
   // Spiral arm particles
-  const spiralData = useMemo(() => {
+  const _spiralData = useMemo(() => {
     const armCount = 3
     const particlesPerArm = 280
     const totalParticles = armCount * particlesPerArm
@@ -110,7 +110,7 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
         positions[idx * 3 + 2] = Math.sin(randTheta) * randRadius
 
         // Inner third: white-tinted, middle: bright galaxy colour, outer: dim
-        let particleColor
+        let particleColor: THREE.Color
         if (t < 0.2) {
           particleColor = coreColor.clone().lerp(brightColor, t / 0.2)
         } else {
@@ -190,12 +190,7 @@ function GalaxyCoreSingle({ position, color, scale = 1 }: GalaxyCoreProps) {
       {/* Spiral arm particles - disabled due to square rendering issue */}
 
       {/* Central point light for bloom effect - reduced to prevent flash */}
-      <pointLight
-        color={color}
-        intensity={0.8}
-        distance={15}
-        decay={2}
-      />
+      <pointLight color={color} intensity={0.8} distance={15} decay={2} />
     </group>
   )
 }
@@ -216,12 +211,7 @@ export function GalaxyCores() {
   return (
     <>
       {galaxyCores.map((core) => (
-        <GalaxyCoreSingle
-          key={core.id}
-          position={core.position}
-          color={core.color}
-          scale={1.2}
-        />
+        <GalaxyCoreSingle key={core.id} position={core.position} color={core.color} scale={1.2} />
       ))}
     </>
   )

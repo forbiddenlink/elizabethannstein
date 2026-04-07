@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
 
 interface Particle {
   id: number
@@ -67,14 +66,15 @@ export function ParticleTrail() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       // Create new particles (throttle based on movement)
-      if (deltaTime > 16) { // ~60fps
+      if (deltaTime > 16) {
+        // ~60fps
         const particle: Particle = {
           id: particleId++,
           x: mouseRef.current.x,
           y: mouseRef.current.y,
           size: Math.random() * 3 + 1,
           opacity: 1,
-          color: colors[Math.floor(Math.random() * colors.length)]
+          color: colors[Math.floor(Math.random() * colors.length)],
         }
         particlesRef.current.push(particle)
 
@@ -102,12 +102,12 @@ export function ParticleTrail() {
         ctx.fillStyle = particle.color
         ctx.shadowBlur = 15
         ctx.shadowColor = particle.color
-        
+
         // Draw glow circle
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
         ctx.fill()
-        
+
         ctx.restore()
       })
 

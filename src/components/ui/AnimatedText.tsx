@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { SplitText } from 'gsap/SplitText'
-import { easingsToCss } from '@/lib/easings'
+import { useEffect, useRef } from 'react'
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -25,7 +24,7 @@ export function AnimatedText({
   delay = 0,
   type = 'chars',
   stagger = 0.03,
-  style
+  style,
 }: AnimatedTextProps) {
   const textRef = useRef<HTMLDivElement>(null)
 
@@ -34,7 +33,7 @@ export function AnimatedText({
 
     const split = new SplitText(textRef.current, {
       type,
-      linesClass: 'split-line'
+      linesClass: 'split-line',
     })
 
     // Animate each character/word/line
@@ -51,7 +50,7 @@ export function AnimatedText({
     return () => {
       split.revert()
     }
-  }, [children, delay, type, stagger])
+  }, [delay, type, stagger])
 
   return (
     <div ref={textRef} className={className} style={style}>
@@ -68,12 +67,12 @@ interface FadeInProps {
   duration?: number
 }
 
-export function FadeIn({ 
-  children, 
-  className = '', 
+export function FadeIn({
+  children,
+  className = '',
   delay = 0,
   direction = 'up',
-  duration = 0.8 
+  duration = 0.8,
 }: FadeInProps) {
   const elementRef = useRef<HTMLDivElement>(null)
 

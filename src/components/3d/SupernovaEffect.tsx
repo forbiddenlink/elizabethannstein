@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface SupernovaEffectProps {
@@ -99,11 +99,7 @@ export function SupernovaEffect({ position, color, size }: SupernovaEffectProps)
       {/* Blazing core - orange-tinted for Enterprise supernova */}
       <mesh ref={coreRef}>
         <sphereGeometry args={[size, 48, 48]} />
-        <meshBasicMaterial
-          color="#FFE4C4"
-          transparent
-          opacity={1}
-        />
+        <meshBasicMaterial color="#FFE4C4" transparent opacity={1} />
       </mesh>
 
       {/* Inner hot glow - bright orange center */}
@@ -202,7 +198,9 @@ export function SupernovaEffect({ position, color, size }: SupernovaEffectProps)
       {[0, 1, 2].map((i) => (
         <mesh
           key={`wave-${i}`}
-          ref={(el) => { if (el) waveRefs.current[i] = el }}
+          ref={(el) => {
+            if (el) waveRefs.current[i] = el
+          }}
           rotation={[Math.PI / 2, 0, 0]}
         >
           <ringGeometry args={[size * 1.4, size * 1.5, 48]} />

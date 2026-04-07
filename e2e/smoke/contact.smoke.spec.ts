@@ -9,7 +9,7 @@
  * - Submit button is present and clickable
  */
 
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Contact Form Smoke Tests', () => {
   test.beforeEach(async ({ page }) => {

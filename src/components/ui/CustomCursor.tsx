@@ -1,14 +1,14 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { useEffect, useRef, useState } from 'react'
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null)
   const cursorDotRef = useRef<HTMLDivElement>(null)
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
-  
+
   useEffect(() => {
     const cursor = cursorRef.current
     const cursorDot = cursorDotRef.current
@@ -27,7 +27,7 @@ export function CustomCursor() {
     const updatePosition = () => {
       pos.x += (mouse.x - pos.x) * speed
       pos.y += (mouse.y - pos.y) * speed
-      
+
       gsap.set(cursor, {
         x: pos.x,
         y: pos.y,
@@ -52,7 +52,7 @@ export function CustomCursor() {
 
     // Add magnetic effect to interactive elements
     const interactiveElements = document.querySelectorAll('a, button, canvas, [role="button"]')
-    
+
     interactiveElements.forEach((el) => {
       el.addEventListener('mouseenter', handleMouseEnter as EventListener)
       el.addEventListener('mouseleave', handleMouseLeave as EventListener)

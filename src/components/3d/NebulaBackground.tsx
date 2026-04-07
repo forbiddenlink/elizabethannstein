@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useViewStore } from '@/lib/store'
 
@@ -10,15 +10,15 @@ interface NebulaBackgroundProps {
 }
 
 /** Galaxy hex colors as vec3 tuples for shader uniforms */
-const GALAXY_COLORS: Record<string, [number,number,number]> = {
-  enterprise:   [1.0, 0.42, 0.21],  // #FF6B35 warm orange
-  ai:           [0.0, 0.85, 1.0],   // #00D9FF cyan
-  fullstack:    [0.62, 0.31, 0.87], // #9D4EDD purple
-  devtools:     [0.02, 1.0, 0.65],  // #06FFA5 green
-  design:       [1.0, 0.42, 0.62],  // #FF6BAD pink
-  experimental: [1.0, 0.70, 0.28],  // #FFB347 amber
+const GALAXY_COLORS: Record<string, [number, number, number]> = {
+  enterprise: [1.0, 0.42, 0.21], // #FF6B35 warm orange
+  ai: [0.0, 0.85, 1.0], // #00D9FF cyan
+  fullstack: [0.62, 0.31, 0.87], // #9D4EDD purple
+  devtools: [0.02, 1.0, 0.65], // #06FFA5 green
+  design: [1.0, 0.42, 0.62], // #FF6BAD pink
+  experimental: [1.0, 0.7, 0.28], // #FFB347 amber
 }
-const DEFAULT_GALAXY_COLOR: [number,number,number] = [0.18, 0.1, 0.48]
+const DEFAULT_GALAXY_COLOR: [number, number, number] = [0.18, 0.1, 0.48]
 
 /**
  * Nebula background with animated gradient colors.
@@ -40,7 +40,7 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
   }, [selectedGalaxy, view])
 
   const currentColor = useRef(new THREE.Vector3(...DEFAULT_GALAXY_COLOR))
-  const targetVec    = useRef(new THREE.Vector3(...targetColor))
+  const targetVec = useRef(new THREE.Vector3(...targetColor))
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return
@@ -234,9 +234,9 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={{
-          time:       { value: 0.0 },
-          cameraPos:  { value: new THREE.Vector3(0, 0, 0) },
-          octaveCount:{ value: octaves },
+          time: { value: 0.0 },
+          cameraPos: { value: new THREE.Vector3(0, 0, 0) },
+          octaveCount: { value: octaves },
           galaxyTint: { value: new THREE.Vector3(...DEFAULT_GALAXY_COLOR) },
         }}
         side={THREE.BackSide}
@@ -245,4 +245,3 @@ export function NebulaBackground({ isMobile = false }: NebulaBackgroundProps) {
     </mesh>
   )
 }
-

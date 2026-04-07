@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Play, X } from 'lucide-react'
+import Image from 'next/image'
+import { useState } from 'react'
 
 interface VideoEmbedProps {
   url: string
@@ -13,7 +14,9 @@ interface VideoEmbedProps {
 
 function getVideoId(url: string): { type: 'youtube' | 'loom' | 'vimeo' | 'unknown'; id: string } {
   // YouTube
-  const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+  const ytMatch = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+  )
   if (ytMatch) return { type: 'youtube', id: ytMatch[1] }
 
   // Loom
@@ -85,6 +88,7 @@ export function VideoEmbed({ url, title, thumbnail, aspectRatio = '16:9' }: Vide
               className="absolute inset-0 w-full h-full"
             />
             <button
+              type="button"
               onClick={() => setIsPlaying(false)}
               className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/60 hover:bg-black/80 transition-colors"
               aria-label="Close video"
@@ -101,10 +105,12 @@ export function VideoEmbed({ url, title, thumbnail, aspectRatio = '16:9' }: Vide
           >
             {/* Thumbnail */}
             {thumbnailSrc && (
-              <img
+              <Image
                 src={thumbnailSrc}
                 alt={title || 'Video thumbnail'}
+                fill
                 className="absolute inset-0 w-full h-full object-cover"
+                sizes="(max-width: 768px) 100vw, 800px"
               />
             )}
 
@@ -145,6 +151,7 @@ export function VideoButton({ url, label = 'Watch Demo' }: { url: string; label?
   return (
     <>
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-200 text-white"
       >
@@ -168,6 +175,7 @@ export function VideoButton({ url, label = 'Watch Demo' }: { url: string; label?
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
               className="absolute -top-12 right-0 p-2 text-white/60 hover:text-white transition-colors"
               aria-label="Close video"

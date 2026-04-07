@@ -1,7 +1,7 @@
 'use client'
 
-import { useViewStore } from '@/lib/store'
 import { useEffect, useRef } from 'react'
+import { useViewStore } from '@/lib/store'
 
 const GALAXY_ORDER = ['enterprise', 'ai', 'fullstack', 'devtools', 'design', 'experimental']
 const MIN_SWIPE_DISTANCE = 50
@@ -12,7 +12,7 @@ const MAX_JOURNEY_STOPS = 6
 function emitGestureFeedback(
   element: HTMLDivElement | null,
   direction: 'left' | 'right' | 'down',
-  label: string,
+  label: string
 ) {
   if (!element) return
 

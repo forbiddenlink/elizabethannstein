@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface AsteroidFieldProps {
@@ -37,18 +37,10 @@ export function AsteroidField({
       const radius = innerRadius + Math.random() * (outerRadius - innerRadius)
       const height = (Math.random() - 0.5) * 0.5 // Slight vertical spread
 
-      dummy.position.set(
-        Math.cos(angle) * radius,
-        height,
-        Math.sin(angle) * radius
-      )
+      dummy.position.set(Math.cos(angle) * radius, height, Math.sin(angle) * radius)
 
       // Random rotation
-      dummy.rotation.set(
-        Math.random() * Math.PI,
-        Math.random() * Math.PI,
-        Math.random() * Math.PI
-      )
+      dummy.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
 
       // Random scale (small asteroids)
       const scale = 0.02 + Math.random() * 0.06
@@ -81,18 +73,9 @@ export function AsteroidField({
 
   return (
     <group ref={groupRef} position={position}>
-      <instancedMesh
-        ref={asteroidsRef}
-        args={[undefined, undefined, count]}
-        frustumCulled={false}
-      >
+      <instancedMesh ref={asteroidsRef} args={[undefined, undefined, count]} frustumCulled={false}>
         <icosahedronGeometry args={[1, 0]} />
-        <meshStandardMaterial
-          color={color}
-          roughness={0.9}
-          metalness={0.1}
-          flatShading
-        />
+        <meshStandardMaterial color={color} roughness={0.9} metalness={0.1} flatShading />
       </instancedMesh>
     </group>
   )
@@ -140,22 +123,13 @@ export function OrbitingMoon({
         {/* Orbit path (subtle) */}
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <ringGeometry args={[orbitRadius - 0.02, orbitRadius + 0.02, 64]} />
-          <meshBasicMaterial
-            color="#ffffff"
-            transparent
-            opacity={0.1}
-            side={THREE.DoubleSide}
-          />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.1} side={THREE.DoubleSide} />
         </mesh>
 
         {/* Moon */}
         <mesh ref={moonRef}>
           <sphereGeometry args={[moonSize, 16, 16]} />
-          <meshStandardMaterial
-            color={color}
-            roughness={0.8}
-            metalness={0.1}
-          />
+          <meshStandardMaterial color={color} roughness={0.8} metalness={0.1} />
         </mesh>
       </group>
     </group>
@@ -217,12 +191,7 @@ export function BinaryCompanion({
       </mesh>
 
       {/* Point light */}
-      <pointLight
-        color={color}
-        intensity={1}
-        distance={10}
-        decay={2}
-      />
+      <pointLight color={color} intensity={1} distance={10} decay={2} />
     </group>
   )
 }

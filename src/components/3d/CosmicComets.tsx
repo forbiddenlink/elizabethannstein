@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { usePrefersReducedMotion } from '@/lib/store'
 
@@ -29,11 +29,6 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
   const { camera } = useThree()
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  // Don't render if user prefers reduced motion
-  if (prefersReducedMotion) {
-    return null
-  }
-
   // Initialize comets
   useMemo(() => {
     cometsRef.current = Array.from({ length: count }, () => ({
@@ -45,7 +40,7 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
       maxLifetime: 8 + Math.random() * 6,
       size: 0.8 + Math.random() * 0.6,
       color: new THREE.Color().setHSL(0.55 + Math.random() * 0.15, 0.6, 0.8),
-      tailLength: 15 + Math.random() * 10
+      tailLength: 15 + Math.random() * 10,
     }))
   }, [count])
 
@@ -65,11 +60,14 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
 
     // Velocity toward center with some variation
     const speed = 25 + Math.random() * 20
-    comet.velocity.set(
-      -comet.position.x * 0.3 + (Math.random() - 0.5) * 30,
-      -10 - Math.random() * 15,
-      -comet.position.z * 0.3 + (Math.random() - 0.5) * 30
-    ).normalize().multiplyScalar(speed)
+    comet.velocity
+      .set(
+        -comet.position.x * 0.3 + (Math.random() - 0.5) * 30,
+        -10 - Math.random() * 15,
+        -comet.position.z * 0.3 + (Math.random() - 0.5) * 30
+      )
+      .normalize()
+      .multiplyScalar(speed)
 
     comet.trail = []
     comet.active = true
@@ -95,7 +93,7 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
       uniforms: {
         uTime: { value: 0 },
         uColor: { value: new THREE.Color('#00FFFF') },
-        uOpacity: { value: 1.0 }
+        uOpacity: { value: 1.0 },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -136,11 +134,12 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
     })
   }, [])
 
   useFrame((state, delta) => {
+    if (prefersReducedMotion) return
     // Distance culling — skip expensive particle math when out of range
     if (groupRef.current) {
       const dist = state.camera.position.distanceTo(groupRef.current.position)
@@ -193,7 +192,7 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
         headMesh.visible = true
 
         // Fade out near end
-        const lifeFactor = 1 - Math.pow(comet.lifetime / comet.maxLifetime, 2)
+        const lifeFactor = 1 - (comet.lifetime / comet.maxLifetime) ** 2
         const material = headMesh.material as THREE.MeshBasicMaterial
         material.opacity = lifeFactor * 0.95
         material.color.copy(comet.color)
@@ -220,10 +219,14 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
         const material = tailMesh.material as THREE.ShaderMaterial
         material.uniforms.uTime.value = time
         material.uniforms.uColor.value.copy(comet.color)
-        material.uniforms.uOpacity.value = 1 - Math.pow(comet.lifetime / comet.maxLifetime, 3)
+        material.uniforms.uOpacity.value = 1 - (comet.lifetime / comet.maxLifetime) ** 3
       }
     })
   })
+
+  if (prefersReducedMotion) {
+    return null
+  }
 
   return (
     <group ref={groupRef}>
@@ -231,7 +234,9 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
         <group key={i}>
           {/* Comet head - bright glowing sphere */}
           <mesh
-            ref={(el) => { headMeshesRef.current[i] = el }}
+            ref={(el) => {
+              headMeshesRef.current[i] = el
+            }}
             visible={false}
           >
             <sphereGeometry args={[0.6, 16, 16]} />
@@ -257,7 +262,9 @@ export function CosmicComets({ count = 3 }: { count?: number }) {
 
           {/* Comet tail */}
           <mesh
-            ref={(el) => { tailMeshesRef.current[i] = el }}
+            ref={(el) => {
+              tailMeshesRef.current[i] = el
+            }}
             visible={false}
           >
             <bufferGeometry />

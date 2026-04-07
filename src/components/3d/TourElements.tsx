@@ -1,25 +1,31 @@
 'use client'
 
-import { useMemo, useState, useEffect, useRef } from 'react'
-import { useViewStore } from '@/lib/store'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { galaxies } from '@/lib/galaxyData'
-import { generateProjectPosition, getGalaxyCenterPosition } from '@/lib/utils'
-import { AlienCharacter, AlienVariant1, AlienVariant2, AlienVariant3, AlienVariant4, AlienVariant5 } from './AlienCharacter'
-import { SpaceStation, Satellite } from './SpaceStation'
-import { TourCometManager } from './TourComet'
+import { useViewStore } from '@/lib/store'
+import { generateProjectPosition } from '@/lib/utils'
+import {
+  AlienVariant1,
+  AlienVariant2,
+  AlienVariant3,
+  AlienVariant4,
+  AlienVariant5,
+} from './AlienCharacter'
 import { JourneyTrail } from './JourneyTrail'
+import { Satellite, SpaceStation } from './SpaceStation'
+import { TourCometManager } from './TourComet'
 import { WormholeEffect } from './WormholeEffect'
 
 // Generate tour stops data (matching JourneyMode.tsx)
 const TOUR_STOPS = galaxies.map((galaxy, galaxyIndex) => {
-  const featuredProject = galaxy.projects.find(p => p.featured) || galaxy.projects[0]
+  const featuredProject = galaxy.projects.find((p) => p.featured) || galaxy.projects[0]
 
   const galaxyAngle = (galaxyIndex / 6) * Math.PI * 2
   const galaxyRadius = 25
   const galaxyPosition = {
     x: Math.cos(galaxyAngle) * galaxyRadius,
     y: 0,
-    z: Math.sin(galaxyAngle) * galaxyRadius
+    z: Math.sin(galaxyAngle) * galaxyRadius,
   }
 
   const [px, py, pz] = generateProjectPosition(
@@ -36,7 +42,7 @@ const TOUR_STOPS = galaxies.map((galaxy, galaxyIndex) => {
     galaxyColor: galaxy.color,
     galaxyPosition,
     project: featuredProject,
-    projectPosition: { x: px, y: py, z: pz }
+    projectPosition: { x: px, y: py, z: pz },
   }
 })
 
@@ -80,16 +86,12 @@ export function TourElements() {
     if (prevStop && currentStop && prevStop.galaxyId !== currentStop.galaxyId) {
       // Set wormhole positions between galaxy centers
       setWormholePositions({
-        start: [
-          prevStop.galaxyPosition.x,
-          prevStop.galaxyPosition.y,
-          prevStop.galaxyPosition.z
-        ],
+        start: [prevStop.galaxyPosition.x, prevStop.galaxyPosition.y, prevStop.galaxyPosition.z],
         end: [
           currentStop.galaxyPosition.x,
           currentStop.galaxyPosition.y,
-          currentStop.galaxyPosition.z
-        ]
+          currentStop.galaxyPosition.z,
+        ],
       })
       setWormholeActive(true)
     }
@@ -104,49 +106,45 @@ export function TourElements() {
 
   // Calculate alien positions - near featured projects
   const alienPositions = useMemo(() => {
-    return TOUR_STOPS.map((stop, index) => {
+    return TOUR_STOPS.map((stop, _index) => {
       // Position alien slightly to the side and above the planet
-      const planetSize = stop.project.size === 'supermassive' ? 5 :
-                        stop.project.size === 'large' ? 3 : 2
+      const planetSize =
+        stop.project.size === 'supermassive' ? 5 : stop.project.size === 'large' ? 3 : 2
       return {
         position: [
           stop.projectPosition.x + planetSize + 1,
           stop.projectPosition.y + planetSize * 0.5,
-          stop.projectPosition.z
+          stop.projectPosition.z,
         ] as [number, number, number],
         scale: planetSize * 0.3,
-        galaxyId: stop.galaxyId
+        galaxyId: stop.galaxyId,
       }
     })
   }, [])
 
   // Space stations for enterprise projects
   const stationPositions = useMemo(() => {
-    return TOUR_STOPS
-      .filter(stop => stop.galaxyId === 'enterprise')
-      .map(stop => ({
-        position: [
-          stop.projectPosition.x,
-          stop.projectPosition.y,
-          stop.projectPosition.z
-        ] as [number, number, number],
-        orbitRadius: 4,
-        color: stop.galaxyColor
-      }))
+    return TOUR_STOPS.filter((stop) => stop.galaxyId === 'enterprise').map((stop) => ({
+      position: [stop.projectPosition.x, stop.projectPosition.y, stop.projectPosition.z] as [
+        number,
+        number,
+        number,
+      ],
+      orbitRadius: 4,
+      color: stop.galaxyColor,
+    }))
   }, [])
 
   // Satellites for AI projects
   const satellitePositions = useMemo(() => {
-    return TOUR_STOPS
-      .filter(stop => stop.galaxyId === 'ai')
-      .map(stop => ({
-        position: [
-          stop.projectPosition.x,
-          stop.projectPosition.y,
-          stop.projectPosition.z
-        ] as [number, number, number],
-        orbitRadius: 3
-      }))
+    return TOUR_STOPS.filter((stop) => stop.galaxyId === 'ai').map((stop) => ({
+      position: [stop.projectPosition.x, stop.projectPosition.y, stop.projectPosition.z] as [
+        number,
+        number,
+        number,
+      ],
+      orbitRadius: 3,
+    }))
   }, [])
 
   if (!isJourneyMode) return null
@@ -171,10 +169,7 @@ export function TourElements() {
       />
 
       {/* Comets during transitions */}
-      <TourCometManager
-        isJourneyMode={isJourneyMode}
-        journeyStep={journeyStep}
-      />
+      <TourCometManager isJourneyMode={isJourneyMode} journeyStep={journeyStep} />
 
       {/* Aliens waving at each tour stop */}
       {alienPositions.map((alien, index) => {

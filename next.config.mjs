@@ -53,9 +53,7 @@ const nextConfig = {
       {
         // Cache OG images for 24 hours
         source: '/api/og/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=86400, immutable' },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, immutable' }],
       },
     ]
   },
@@ -72,7 +70,4 @@ const sentryConfig = {
   disableLogger: true,
 }
 
-export default withSentryConfig(
-  withAxiom(withBundleAnalyzer(nextConfig)),
-  sentryConfig
-)
+export default withSentryConfig(withAxiom(withBundleAnalyzer(nextConfig)), sentryConfig)

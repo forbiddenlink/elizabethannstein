@@ -1,17 +1,42 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Building2, Brain, Trophy, Code2, Rocket, ArrowRight } from 'lucide-react'
+import { ArrowRight, Brain, Building2, Code2, Rocket, Trophy } from 'lucide-react'
+import Link from 'next/link'
 import { getProjectById } from '@/lib/galaxyData'
 
 // Top 5 projects to highlight for recruiters - chosen for impact/credibility
 const featuredProjects = [
-  { id: 'coulson-one', highlight: '64K+ files enterprise', icon: Building2, gradient: 'from-orange-500 to-red-600' },
-  { id: 'chronicle', highlight: 'Rust AI observability', icon: Brain, gradient: 'from-cyan-500 to-blue-600' },
-  { id: 'timeslip-search', highlight: '$750 contest winner', icon: Trophy, gradient: 'from-amber-500 to-orange-600' },
-  { id: 'flo-labs', highlight: '6 production sites', icon: Rocket, gradient: 'from-purple-500 to-pink-600' },
-  { id: 'finance-quest', highlight: '85% retention rate', icon: Code2, gradient: 'from-emerald-500 to-teal-600' },
+  {
+    id: 'coulson-one',
+    highlight: '64K+ files enterprise',
+    icon: Building2,
+    gradient: 'from-orange-500 to-red-600',
+  },
+  {
+    id: 'chronicle',
+    highlight: 'Rust AI observability',
+    icon: Brain,
+    gradient: 'from-cyan-500 to-blue-600',
+  },
+  {
+    id: 'timeslip-search',
+    highlight: '$750 contest winner',
+    icon: Trophy,
+    gradient: 'from-amber-500 to-orange-600',
+  },
+  {
+    id: 'flo-labs',
+    highlight: '6 production sites',
+    icon: Rocket,
+    gradient: 'from-purple-500 to-pink-600',
+  },
+  {
+    id: 'finance-quest',
+    highlight: '85% retention rate',
+    icon: Code2,
+    gradient: 'from-emerald-500 to-teal-600',
+  },
 ]
 
 export function FeaturedProjectsBar() {

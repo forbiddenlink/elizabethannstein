@@ -1,10 +1,10 @@
 'use client'
 
+import { Maximize2, Minimize2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 import { generateProjectPosition } from '@/lib/utils'
-import { Maximize2, Minimize2 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 
 interface ProjectPosition {
   id: string
@@ -65,7 +65,7 @@ export function MinimapNavigator() {
           galaxy.id,
           gIdx,
           pIdx,
-          galaxy.projects.length,
+          galaxy.projects.length
         )
         allPositions.push({ pos, project, galaxy })
 
@@ -144,7 +144,7 @@ export function MinimapNavigator() {
 
     // Use cached positions for hit detection
     for (const project of projectPositionsRef.current) {
-      const distance = Math.sqrt(Math.pow(clickX - project.x, 2) + Math.pow(clickY - project.y, 2))
+      const distance = Math.sqrt((clickX - project.x) ** 2 + (clickY - project.y) ** 2)
       const hitRadius = project.size === 'supermassive' ? 10 : 8
 
       if (distance < hitRadius) {
@@ -166,7 +166,7 @@ export function MinimapNavigator() {
 
     // Use cached positions for hit detection
     for (const project of projectPositionsRef.current) {
-      const distance = Math.sqrt(Math.pow(hoverX - project.x, 2) + Math.pow(hoverY - project.y, 2))
+      const distance = Math.sqrt((hoverX - project.x) ** 2 + (hoverY - project.y) ** 2)
       const hitRadius = project.size === 'supermassive' ? 10 : 8
 
       if (distance < hitRadius) {
@@ -196,6 +196,7 @@ export function MinimapNavigator() {
 
         {/* Toggle size button */}
         <button
+          type="button"
           onClick={() => setIsExpanded(!isExpanded)}
           className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-black/70 rounded-lg border border-white/10 transition-colors"
           title={isExpanded ? 'Minimize' : 'Expand'}

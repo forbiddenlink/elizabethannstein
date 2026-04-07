@@ -5,16 +5,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-pnpm dev      # Development server at http://localhost:3000
-pnpm build    # Production build
-pnpm start    # Run production server
+pnpm dev        # Development server at http://localhost:3000
+pnpm build      # Production build
+pnpm start      # Run production server
+pnpm lint       # TypeScript check (tsc --noEmit)
+pnpm test       # Vitest unit tests (src/__tests__)
+pnpm test:e2e   # Playwright E2E
+pnpm biome:check # Biome linter/formatter
 ```
-
-No lint or test commands are configured.
 
 ## Architecture
 
-This is an interactive 3D portfolio built with Next.js 16 (App Router) showcasing 68 projects across 6 galaxies. Projects are visualized as planets in a WebGL/WebGPU 3D scene.
+This is an interactive 3D portfolio built with Next.js 16 (App Router) showcasing 84 projects across 6 galaxies. Projects are visualized as planets in a WebGL/WebGPU 3D scene.
 
 ### Core Data Flow
 

@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface GalaxyFilterProps {
@@ -11,8 +10,10 @@ interface GalaxyFilterProps {
 
 export function GalaxyFilter({ galaxies, selectedGalaxy, onFilterChange }: GalaxyFilterProps) {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: div[role=group] is the correct ARIA pattern for a toggle button group
     <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
       <button
+        type="button"
         onClick={() => onFilterChange(null)}
         className={cn(
           'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 border',
@@ -28,6 +29,7 @@ export function GalaxyFilter({ galaxies, selectedGalaxy, onFilterChange }: Galax
         const isSelected = selectedGalaxy === galaxy.id
         return (
           <button
+            type="button"
             key={galaxy.id}
             onClick={() => onFilterChange(galaxy.id)}
             className={cn(
@@ -36,11 +38,15 @@ export function GalaxyFilter({ galaxies, selectedGalaxy, onFilterChange }: Galax
                 ? 'text-white'
                 : 'bg-white/5 border-white/10 text-white/50 hover:text-white/80'
             )}
-            style={isSelected ? {
-              backgroundColor: `${galaxy.color}25`,
-              borderColor: `${galaxy.color}50`,
-              boxShadow: `0 0 25px ${galaxy.color}30`,
-            } : {}}
+            style={
+              isSelected
+                ? {
+                    backgroundColor: `${galaxy.color}25`,
+                    borderColor: `${galaxy.color}50`,
+                    boxShadow: `0 0 25px ${galaxy.color}30`,
+                  }
+                : {}
+            }
             onMouseEnter={(e) => {
               if (!isSelected) {
                 e.currentTarget.style.borderColor = `${galaxy.color}40`
@@ -62,7 +68,7 @@ export function GalaxyFilter({ galaxies, selectedGalaxy, onFilterChange }: Galax
               )}
               style={{
                 backgroundColor: galaxy.color,
-                boxShadow: isSelected ? `0 0 8px ${galaxy.color}` : 'none'
+                boxShadow: isSelected ? `0 0 8px ${galaxy.color}` : 'none',
               }}
               aria-hidden="true"
             />

@@ -9,14 +9,43 @@ export interface Achievement {
 }
 
 export const ACHIEVEMENTS: Achievement[] = [
-  { id: 'first_contact',  label: 'First Contact',       icon: 'planet', desc: 'Explored your first planet' },
-  { id: 'galaxy_hopper',  label: 'Galaxy Hopper',       icon: 'galaxy', desc: 'Visited all 6 galaxies' },
-  { id: 'half_done',      label: 'Deep Space Traveler', icon: 'rocket', desc: 'Discovered 42 planets' },
-  { id: 'completionist',  label: 'Completionist',       icon: 'star', desc: 'All 84 planets discovered' },
-  { id: 'konami_master',  label: 'Konami Master',       icon: 'gamepad', desc: '↑↑↓↓←→←→BA', secret: true },
-  { id: 'speed_runner',   label: 'Speed Runner',        icon: 'zap', desc: '3 galaxies in 60 seconds', secret: true },
-  { id: 'night_owl',      label: 'Night Owl',           icon: 'moon', desc: 'Explored after midnight', secret: true },
-  { id: 'returning',      label: 'Returning Explorer',  icon: 'infinity', desc: 'Visited on 3 different days', secret: true },
+  {
+    id: 'first_contact',
+    label: 'First Contact',
+    icon: 'planet',
+    desc: 'Explored your first planet',
+  },
+  { id: 'galaxy_hopper', label: 'Galaxy Hopper', icon: 'galaxy', desc: 'Visited all 6 galaxies' },
+  { id: 'half_done', label: 'Deep Space Traveler', icon: 'rocket', desc: 'Discovered 42 planets' },
+  { id: 'completionist', label: 'Completionist', icon: 'star', desc: 'All 84 planets discovered' },
+  {
+    id: 'konami_master',
+    label: 'Konami Master',
+    icon: 'gamepad',
+    desc: '↑↑↓↓←→←→BA',
+    secret: true,
+  },
+  {
+    id: 'speed_runner',
+    label: 'Speed Runner',
+    icon: 'zap',
+    desc: '3 galaxies in 60 seconds',
+    secret: true,
+  },
+  {
+    id: 'night_owl',
+    label: 'Night Owl',
+    icon: 'moon',
+    desc: 'Explored after midnight',
+    secret: true,
+  },
+  {
+    id: 'returning',
+    label: 'Returning Explorer',
+    icon: 'infinity',
+    desc: 'Visited on 3 different days',
+    secret: true,
+  },
 ]
 
 const STORAGE_KEY = 'ea-achievements'
@@ -53,7 +82,7 @@ export function unlockAchievement(id: string): Achievement | null {
   if (unlocked.has(id)) return null
   unlocked.add(id)
   saveSet(STORAGE_KEY, unlocked)
-  return ACHIEVEMENTS.find(a => a.id === id) ?? null
+  return ACHIEVEMENTS.find((a) => a.id === id) ?? null
 }
 
 /** Track a planet visit. Returns array of newly-unlocked achievements. */
@@ -119,7 +148,7 @@ export function trackSpeedGalaxyHop(): Achievement | null {
   // Keep only last 10
   if (galaxyTimestamps.length > 10) galaxyTimestamps = galaxyTimestamps.slice(-10)
   // Check if 3 within 60s
-  const recent = galaxyTimestamps.filter(t => now - t < 60_000)
+  const recent = galaxyTimestamps.filter((t) => now - t < 60_000)
   if (recent.length >= 3) {
     return unlockAchievement('speed_runner')
   }

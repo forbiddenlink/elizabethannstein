@@ -10,7 +10,7 @@ export function PerformanceMonitor() {
     // Toggle visibility with Ctrl+Shift+P
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && e.key === 'P') {
-        setIsVisible(prev => !prev)
+        setIsVisible((prev) => !prev)
       }
     }
 
@@ -27,13 +27,13 @@ export function PerformanceMonitor() {
     const measureFPS = () => {
       frameCount++
       const currentTime = performance.now()
-      
+
       if (currentTime >= lastTime + 1000) {
-        setFps(Math.round(frameCount * 1000 / (currentTime - lastTime)))
+        setFps(Math.round((frameCount * 1000) / (currentTime - lastTime)))
         frameCount = 0
         lastTime = currentTime
       }
-      
+
       requestAnimationFrame(measureFPS)
     }
 

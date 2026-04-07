@@ -9,16 +9,14 @@
  * - API returns proper response format
  */
 
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Chat API Smoke Tests', () => {
   test('POST /api/chat accepts valid request', async ({ request }) => {
     const response = await request.post('/api/chat', {
       data: {
-        messages: [
-          { role: 'user', content: 'Hello' }
-        ]
-      }
+        messages: [{ role: 'user', content: 'Hello' }],
+      },
     })
 
     expect(response.status()).toBe(200)
@@ -32,8 +30,8 @@ test.describe('Chat API Smoke Tests', () => {
   test('POST /api/chat returns 400 for empty messages', async ({ request }) => {
     const response = await request.post('/api/chat', {
       data: {
-        messages: []
-      }
+        messages: [],
+      },
     })
 
     expect(response.status()).toBe(400)

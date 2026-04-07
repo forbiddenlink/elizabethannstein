@@ -1,9 +1,9 @@
 'use client'
 
+import { useFrame, useThree } from '@react-three/fiber'
 import { getProject, types } from '@theatre/core'
 import studio from '@theatre/studio'
-import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import * as THREE from 'three'
 import { create } from 'zustand'
 
@@ -153,6 +153,7 @@ export function TheatreStudioToggle() {
 
   return (
     <button
+      type="button"
       onClick={toggle}
       className="fixed bottom-32 right-4 z-50 px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs rounded-lg transition-colors"
       title="Toggle Theatre.js Studio (enables camera control)"

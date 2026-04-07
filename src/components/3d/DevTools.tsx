@@ -1,8 +1,8 @@
 'use client'
 
+import { useFrame, useThree } from '@react-three/fiber'
+import { folder, Leva, useControls } from 'leva'
 import { useEffect, useRef } from 'react'
-import { useThree, useFrame } from '@react-three/fiber'
-import { useControls, folder, Leva } from 'leva'
 import Stats from 'stats-gl'
 
 // Only render in development

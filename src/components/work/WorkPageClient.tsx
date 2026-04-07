@@ -1,5 +1,11 @@
 'use client'
 
+import { motion } from 'framer-motion'
+import { ExternalLink, Search, X } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { GalaxyFilter } from '@/components/ui/GalaxyFilter'
 import { ProjectBadges } from '@/components/ui/ProjectBadges'
 import { ProjectPlaceholder } from '@/components/ui/ProjectPlaceholder'
@@ -10,12 +16,6 @@ import { SplitWords } from '@/components/ui/SplitText'
 import { TiltCard } from '@/components/ui/TiltCard'
 import type { Galaxy, Project } from '@/lib/types'
 import { cn, formatDateRange } from '@/lib/utils'
-import { motion } from 'framer-motion'
-import { ExternalLink, Search, X } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
 
 // Map project IDs to their screenshot paths
 const PROJECT_SCREENSHOTS: Record<string, string> = {
@@ -130,7 +130,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
   const searchParams = useSearchParams()
   const initialGalaxyFilter = useMemo(
     () => normalizeGalaxyFilter(searchParams.get('filter'), galaxies),
-    [galaxies, searchParams],
+    [galaxies, searchParams]
   )
   const initialSearchQuery = useMemo(() => searchParams.get('q')?.trim() ?? '', [searchParams])
   const initialShowFeaturedOnly = useMemo(() => {
@@ -145,6 +145,23 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(initialShowFeaturedOnly)
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  // '/' keyboard shortcut focuses the search input
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (
+        e.key === '/' &&
+        document.activeElement?.tagName !== 'INPUT' &&
+        document.activeElement?.tagName !== 'TEXTAREA'
+      ) {
+        e.preventDefault()
+        searchInputRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   useEffect(() => {
     setSelectedGalaxy(initialGalaxyFilter)
@@ -224,7 +241,9 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
   const topTags = useMemo(() => {
     const counts = new Map<string, number>()
     allProjects.forEach((p) => {
-      p.tags.forEach((tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1))
+      p.tags.forEach((tag) => {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1)
+      })
     })
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1])
@@ -251,6 +270,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                 </span>{' '}
                 — the strongest starting points if you're skimming.{' '}
                 <button
+                  type="button"
                   onClick={() => setShowFeaturedOnly(false)}
                   className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors"
                 >
@@ -315,6 +335,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] text-white/60 mr-1">Quick jumps:</span>
               <button
+                type="button"
                 onClick={() => {
                   setSelectedGalaxy('enterprise')
                   setShowFeaturedOnly(true)
@@ -324,6 +345,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                 Enterprise missions
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setSelectedGalaxy('ai')
                   setShowFeaturedOnly(true)
@@ -333,6 +355,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                 AI frontier
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setSelectedGalaxy(null)
                   setShowFeaturedOnly(false)
@@ -353,21 +376,27 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
           <div className="relative max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
             <input
+              ref={searchInputRef}
               type="text"
-              placeholder="Search projects, technologies..."
+              placeholder="Search projects, technologies…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input-glass w-full pl-11 pr-10"
+              className="input-glass w-full pl-11 pr-16"
               aria-label="Search projects"
             />
-            {searchQuery && (
+            {searchQuery ? (
               <button
+                type="button"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
                 aria-label="Clear search"
               >
                 <X className="w-4 h-4" />
               </button>
+            ) : (
+              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/20 bg-white/5 text-[10px] font-mono text-white/30">
+                /
+              </kbd>
             )}
           </div>
 
@@ -376,12 +405,13 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
             {/* Featured Only Toggle */}
             <div className="flex items-center gap-2 p-1 bg-white/5 rounded-lg border border-white/10">
               <button
+                type="button"
                 onClick={() => setShowFeaturedOnly(true)}
                 className={cn(
                   'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
                   showFeaturedOnly
                     ? 'bg-purple-600 text-white shadow-lg'
-                    : 'text-white/60 hover:text-white/80 hover:bg-white/5',
+                    : 'text-white/60 hover:text-white/80 hover:bg-white/5'
                 )}
               >
                 <span className="flex items-center gap-2">
@@ -392,12 +422,13 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                 </span>
               </button>
               <button
+                type="button"
                 onClick={() => setShowFeaturedOnly(false)}
                 className={cn(
                   'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
                   showFeaturedOnly
                     ? 'text-white/60 hover:text-white/80 hover:bg-white/5'
-                    : 'bg-white/10 text-white shadow-lg',
+                    : 'bg-white/10 text-white shadow-lg'
                 )}
               >
                 All ({allProjects.length})
@@ -416,6 +447,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
             <div className="flex flex-wrap items-center gap-2 pt-1">
               {selectedTag && (
                 <button
+                  type="button"
                   onClick={() => setSelectedTag(null)}
                   className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-medium hover:bg-purple-500/30 transition-all"
                 >
@@ -427,6 +459,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                 .filter((tag) => tag !== selectedTag)
                 .map((tag) => (
                   <button
+                    type="button"
                     key={tag}
                     onClick={() => setSelectedTag(tag)}
                     className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/70 text-xs hover:bg-white/10 hover:text-white/90 hover:border-white/20 transition-all"
@@ -451,6 +484,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             {['React', 'AI', 'TypeScript', 'Next.js', 'Full-stack', 'Enterprise'].map((term) => (
               <button
+                type="button"
                 key={term}
                 onClick={() => setSearchQuery(term)}
                 className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/20 transition-all text-sm"
@@ -460,6 +494,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
             ))}
           </div>
           <button
+            type="button"
             onClick={() => {
               setSearchQuery('')
               setSelectedGalaxy(null)
@@ -717,10 +752,18 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                         'border-white/10 bg-linear-to-br from-white/2 to-transparent',
                         'hover:border-white/20 hover:from-white/6 hover:to-white/1',
                         'hover:shadow-[0_0_30px_var(--glow-color)]',
-                        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30',
+                        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30'
                       )}
                       style={{ '--glow-color': `${galaxy.color}25` } as React.CSSProperties}
                     >
+                      {/* Accent top line */}
+                      <div
+                        className="absolute top-0 left-0 right-0 h-px opacity-30 group-hover:opacity-70 transition-opacity"
+                        style={{
+                          background: `linear-gradient(90deg, transparent, ${galaxy.color}, transparent)`,
+                        }}
+                        aria-hidden="true"
+                      />
                       {/* Subtle accent dot */}
                       <div
                         className="absolute top-4 right-4 w-2 h-2 rounded-full opacity-40 group-hover:opacity-80 transition-opacity group-hover:scale-125"

@@ -1,9 +1,9 @@
 'use client'
 
-import { allProjects, getProjectById } from '@/lib/galaxyData'
 import { motion } from 'framer-motion'
 import { Brain, Building2, Code2, ExternalLink, Github, Rocket, Trophy } from 'lucide-react'
 import Link from 'next/link'
+import { allProjects, getProjectById } from '@/lib/galaxyData'
 
 interface HeroProject {
   id: string

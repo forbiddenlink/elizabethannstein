@@ -124,7 +124,7 @@ export function useVisitorProfile(): VisitorProfile {
     referrer: null,
     interests: [],
     viewedProjects: [],
-    timeOnSite: 0
+    timeOnSite: 0,
   })
 
   useEffect(() => {
@@ -138,7 +138,7 @@ export function useVisitorProfile(): VisitorProfile {
         referrer,
         interests: [],
         viewedProjects: [],
-        timeOnSite: 0
+        timeOnSite: 0,
       }
       saveProfile(existingProfile)
     }
@@ -149,7 +149,7 @@ export function useVisitorProfile(): VisitorProfile {
     const startTime = Date.now()
     const interval = setInterval(() => {
       const elapsed = Math.round((Date.now() - startTime) / 1000)
-      setProfile(prev => {
+      setProfile((prev) => {
         const updated = { ...prev, timeOnSite: prev.timeOnSite + elapsed }
         saveProfile(updated)
         return updated

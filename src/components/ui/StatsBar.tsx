@@ -1,12 +1,12 @@
 'use client'
 
-import { STATS } from '@/lib/constants'
 import { motion } from 'framer-motion'
+import { STATS } from '@/lib/constants'
 
 const stats = [
   { label: 'Projects Built', value: STATS.projectCount },
   { label: 'Galaxies', value: STATS.galaxyCount },
-  { label: 'Years Building', value: STATS.yearsExperience },
+  { label: 'Years shipping', value: STATS.yearsExperience },
 ]
 
 export function StatsBar() {

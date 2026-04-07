@@ -1,13 +1,13 @@
 'use client'
 
-import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
-import { GenerativeHero } from '@/components/ui/GenerativeHero'
-import { getProjectById } from '@/lib/galaxyData'
-import { useViewStore } from '@/lib/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUp, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
+import { GenerativeHero } from '@/components/ui/GenerativeHero'
+import { getProjectById } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
 import { ScrollProgress } from './ScrollProgress'
 
 function getModalTone(color?: string): string {
@@ -117,7 +117,7 @@ export function ProjectModal() {
         handleClose()
       }
     },
-    [isOpen, handleClose],
+    [isOpen, handleClose]
   )
 
   useEffect(() => {

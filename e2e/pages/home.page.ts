@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 import { BasePage } from './base.page'
 
 export class HomePage extends BasePage {
@@ -15,7 +15,7 @@ export class HomePage extends BasePage {
     this.commandPaletteModal = page.locator('.command-palette-modal')
     this.commandPaletteInput = page.locator('.command-palette-modal input[type="text"]')
     this.commandPaletteCloseButton = page.locator(
-      '.command-palette-modal button[aria-label="Close command palette"]',
+      '.command-palette-modal button[aria-label="Close command palette"]'
     )
     this.commandPaletteResults = page.locator('.command-palette-modal button[type="button"]')
   }

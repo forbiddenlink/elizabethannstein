@@ -100,7 +100,6 @@ export function SiteHeader({ accentGalaxy }: Readonly<SiteHeaderProps>) {
         <nav className="flex items-center gap-1 sm:gap-2" aria-label="Main navigation">
           <span
             className={`hidden xl:inline-flex items-center px-2.5 py-1 rounded-full text-[10px] uppercase tracking-[0.16em] border ${theme.active}`}
-            aria-label={`Current sector: ${themeLabel}`}
             title={`Current sector: ${themeLabel}`}
           >
             {themeLabel}

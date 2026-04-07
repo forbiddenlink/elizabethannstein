@@ -1,26 +1,26 @@
-'use client';
+'use client'
 
-import { useRef, useEffect, useCallback } from 'react';
-import { useGSAP } from '@gsap/react';
-import { gsap } from '@/lib/animations/gsap';
-import { fadeIn, fadeOut, scaleIn, slideIn, staggerFadeIn } from '@/lib/animations/presets';
-import type { AnimationDirection, FadeInOptions, StaggerOptions } from '@/lib/animations/presets';
+import { useGSAP } from '@gsap/react'
+import { useCallback, useEffect, useRef } from 'react'
+import { gsap } from '@/lib/animations/gsap'
+import type { AnimationDirection, FadeInOptions, StaggerOptions } from '@/lib/animations/presets'
+import { fadeIn, fadeOut, scaleIn, slideIn, staggerFadeIn } from '@/lib/animations/presets'
 
 export interface UseGsapAnimationOptions {
-  autoPlay?: boolean;
-  dependencies?: unknown[];
+  autoPlay?: boolean
+  dependencies?: unknown[]
 }
 
 export function useGsapAnimation<T extends HTMLElement = HTMLElement>(
   options: UseGsapAnimationOptions = {}
 ) {
-  const { autoPlay = false, dependencies = [] } = options;
-  const elementRef = useRef<T>(null);
-  const contextRef = useRef<gsap.Context | null>(null);
+  const { autoPlay = false, dependencies = [] } = options
+  const elementRef = useRef<T>(null)
+  const contextRef = useRef<gsap.Context | null>(null)
 
   useGSAP(
     () => {
-      if (!elementRef.current) return;
+      if (!elementRef.current) return
 
       contextRef.current = gsap.context(() => {
         if (autoPlay) {
@@ -29,59 +29,52 @@ export function useGsapAnimation<T extends HTMLElement = HTMLElement>(
             y: 20,
             duration: 0.4,
             ease: 'power2.out',
-          });
+          })
         }
-      }, elementRef);
+      }, elementRef)
 
       return () => {
-        contextRef.current?.revert();
-      };
+        contextRef.current?.revert()
+      }
     },
     { dependencies: [...dependencies, autoPlay], scope: elementRef }
-  );
+  )
 
   const animate = useCallback(
     (
       type: 'fadeIn' | 'fadeOut' | 'scaleIn' | 'slideIn',
       animOptions?: FadeInOptions & { direction?: AnimationDirection }
     ) => {
-      if (!elementRef.current) return;
+      if (!elementRef.current) return
 
       switch (type) {
         case 'fadeIn':
-          return fadeIn(elementRef.current, animOptions);
+          return fadeIn(elementRef.current, animOptions)
         case 'fadeOut':
-          return fadeOut(elementRef.current, animOptions);
+          return fadeOut(elementRef.current, animOptions)
         case 'scaleIn':
-          return scaleIn(elementRef.current, animOptions);
+          return scaleIn(elementRef.current, animOptions)
         case 'slideIn':
-          return slideIn(
-            elementRef.current,
-            animOptions?.direction || 'left',
-            animOptions
-          );
+          return slideIn(elementRef.current, animOptions?.direction || 'left', animOptions)
       }
     },
     []
-  );
+  )
 
   const animateTo = useCallback((vars: gsap.TweenVars) => {
-    if (!elementRef.current) return;
-    return gsap.to(elementRef.current, vars);
-  }, []);
+    if (!elementRef.current) return
+    return gsap.to(elementRef.current, vars)
+  }, [])
 
   const animateFrom = useCallback((vars: gsap.TweenVars) => {
-    if (!elementRef.current) return;
-    return gsap.from(elementRef.current, vars);
-  }, []);
+    if (!elementRef.current) return
+    return gsap.from(elementRef.current, vars)
+  }, [])
 
-  const animateFromTo = useCallback(
-    (fromVars: gsap.TweenVars, toVars: gsap.TweenVars) => {
-      if (!elementRef.current) return;
-      return gsap.fromTo(elementRef.current, fromVars, toVars);
-    },
-    []
-  );
+  const animateFromTo = useCallback((fromVars: gsap.TweenVars, toVars: gsap.TweenVars) => {
+    if (!elementRef.current) return
+    return gsap.fromTo(elementRef.current, fromVars, toVars)
+  }, [])
 
   return {
     ref: elementRef,
@@ -90,7 +83,7 @@ export function useGsapAnimation<T extends HTMLElement = HTMLElement>(
     animateFrom,
     animateFromTo,
     gsap,
-  };
+  }
 }
 
 export function useStaggerAnimation<T extends HTMLElement = HTMLElement>(
@@ -105,18 +98,18 @@ export function useStaggerAnimation<T extends HTMLElement = HTMLElement>(
     stagger = 0.1,
     ease = 'power2.out',
     delay = 0,
-  } = options;
+  } = options
 
-  const containerRef = useRef<T>(null);
-  const contextRef = useRef<gsap.Context | null>(null);
+  const containerRef = useRef<T>(null)
+  const contextRef = useRef<gsap.Context | null>(null)
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current) return
 
       contextRef.current = gsap.context(() => {
         if (autoPlay) {
-          const children = containerRef.current?.children;
+          const children = containerRef.current?.children
           if (children && children.length > 0) {
             staggerFadeIn(children, {
               direction,
@@ -125,23 +118,23 @@ export function useStaggerAnimation<T extends HTMLElement = HTMLElement>(
               stagger,
               ease,
               delay,
-            });
+            })
           }
         }
-      }, containerRef);
+      }, containerRef)
 
       return () => {
-        contextRef.current?.revert();
-      };
+        contextRef.current?.revert()
+      }
     },
     { dependencies: [...dependencies, autoPlay], scope: containerRef }
-  );
+  )
 
   const animateChildren = useCallback(
     (staggerOptions?: StaggerOptions) => {
-      if (!containerRef.current) return;
+      if (!containerRef.current) return
 
-      const children = containerRef.current.children;
+      const children = containerRef.current.children
       if (children && children.length > 0) {
         return staggerFadeIn(children, {
           direction,
@@ -151,37 +144,37 @@ export function useStaggerAnimation<T extends HTMLElement = HTMLElement>(
           ease,
           delay,
           ...staggerOptions,
-        });
+        })
       }
     },
     [direction, distance, duration, stagger, ease, delay]
-  );
+  )
 
   return {
     ref: containerRef,
     animateChildren,
     gsap,
-  };
+  }
 }
 
 export function useTimeline(options: gsap.TimelineVars = {}) {
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
-    timelineRef.current = gsap.timeline(options);
+    timelineRef.current = gsap.timeline(options)
 
     return () => {
-      timelineRef.current?.kill();
-    };
-  }, []);
+      timelineRef.current?.kill()
+    }
+  }, [options])
 
-  const getTimeline = useCallback(() => timelineRef.current, []);
+  const getTimeline = useCallback(() => timelineRef.current, [])
 
-  const play = useCallback(() => timelineRef.current?.play(), []);
-  const pause = useCallback(() => timelineRef.current?.pause(), []);
-  const reverse = useCallback(() => timelineRef.current?.reverse(), []);
-  const restart = useCallback(() => timelineRef.current?.restart(), []);
-  const seek = useCallback((time: number) => timelineRef.current?.seek(time), []);
+  const play = useCallback(() => timelineRef.current?.play(), [])
+  const pause = useCallback(() => timelineRef.current?.pause(), [])
+  const reverse = useCallback(() => timelineRef.current?.reverse(), [])
+  const restart = useCallback(() => timelineRef.current?.restart(), [])
+  const seek = useCallback((time: number) => timelineRef.current?.seek(time), [])
 
   return {
     timeline: timelineRef,
@@ -191,5 +184,5 @@ export function useTimeline(options: gsap.TimelineVars = {}) {
     reverse,
     restart,
     seek,
-  };
+  }
 }

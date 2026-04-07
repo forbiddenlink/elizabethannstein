@@ -1,10 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { ScrambleText } from '@/components/ui/ScrambleText'
 import { galaxies, narrativeTours } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
 
 function getGalaxyLabel(galaxy: { id: string; name: string }): string {
   if (galaxy.id === 'ai') return 'AI'
@@ -65,19 +65,20 @@ export function GalaxyNavigation() {
           <nav className="flex flex-col gap-1.5 relative z-10">
             {/* Universe view */}
             <button
+              type="button"
               onClick={reset}
               className={cn(
                 'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11',
                 view === 'universe'
                   ? 'bg-white/20 shadow-lg scale-105 backdrop-blur-sm'
-                  : 'hover:bg-white/10 hover:scale-105',
+                  : 'hover:bg-white/10 hover:scale-105'
               )}
               aria-label="View all galaxies"
             >
               <div
                 className={cn(
                   'w-3 h-3 rounded-full bg-white shadow-lg transition-all duration-300',
-                  view === 'universe' ? 'animate-pulse' : 'group-hover:scale-125',
+                  view === 'universe' ? 'animate-pulse' : 'group-hover:scale-125'
                 )}
               />
               <span className="text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap leading-none">
@@ -90,20 +91,21 @@ export function GalaxyNavigation() {
             {/* Galaxy buttons */}
             {galaxies.map((galaxy) => (
               <button
+                type="button"
                 key={galaxy.id}
                 onClick={() => zoomToGalaxy(galaxy.id)}
                 className={cn(
                   'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11',
                   selectedGalaxy === galaxy.id
                     ? 'bg-white/20 shadow-lg scale-105 backdrop-blur-sm'
-                    : 'hover:bg-white/10 hover:scale-105',
+                    : 'hover:bg-white/10 hover:scale-105'
                 )}
                 aria-label={`View ${galaxy.name}`}
               >
                 <div
                   className={cn(
                     'w-3 h-3 rounded-full shadow-lg transition-all duration-300',
-                    selectedGalaxy === galaxy.id ? 'animate-pulse' : 'group-hover:scale-125',
+                    selectedGalaxy === galaxy.id ? 'animate-pulse' : 'group-hover:scale-125'
                   )}
                   style={{
                     backgroundColor: galaxy.color,
@@ -122,12 +124,13 @@ export function GalaxyNavigation() {
             <div className="relative">
               {/* Tour Toggle Button */}
               <button
+                type="button"
                 onClick={() => setShowTourMenu(!showTourMenu)}
                 className={cn(
                   'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11 w-full',
                   showTourMenu
                     ? 'bg-linear-to-r from-indigo-500/20 to-purple-500/20'
-                    : 'hover:bg-linear-to-r hover:from-indigo-500/20 hover:to-purple-500/20 hover:scale-105',
+                    : 'hover:bg-linear-to-r hover:from-indigo-500/20 hover:to-purple-500/20 hover:scale-105'
                 )}
                 aria-label="Show tour options"
                 aria-expanded={showTourMenu}
@@ -160,7 +163,7 @@ export function GalaxyNavigation() {
                 <svg
                   className={cn(
                     'w-4 h-4 text-indigo-400 transition-transform duration-300',
-                    showTourMenu ? 'rotate-180' : '',
+                    showTourMenu ? 'rotate-180' : ''
                   )}
                   fill="none"
                   viewBox="0 0 24 24"
@@ -186,6 +189,7 @@ export function GalaxyNavigation() {
                 >
                   {/* Default Galaxy Tour */}
                   <button
+                    type="button"
                     onClick={() => {
                       startJourney()
                       setShowTourMenu(false)
@@ -204,6 +208,7 @@ export function GalaxyNavigation() {
                   {/* Narrative Tours */}
                   {narrativeTours.map((tour) => (
                     <button
+                      type="button"
                       key={tour.id}
                       onClick={() => {
                         startJourney(tour.id)

@@ -1,47 +1,50 @@
 'use client'
 
-import { useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, PerformanceMonitor } from '@react-three/drei'
-// Post-processing conditionally enabled for WebGL only (causes flickering on WebGPU)
-import { useRef, useState, useEffect, Suspense, useCallback } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { useViewStore } from '@/lib/store'
-import { WebGPUCanvas } from '@/components/3d/WebGPUCanvas'
-import { type RendererType } from '@/lib/webgpu'
-import { TwinklingStarfield } from '@/components/3d/TwinklingStarfield'
-import { NebulaBackground } from '@/components/3d/NebulaBackground'
+// Post-processing conditionally enabled for WebGL only (causes flickering on WebGPU)
+import { AmbientSpaceTraffic } from '@/components/3d/AmbientSpaceTraffic'
+import { BlackHole } from '@/components/3d/BlackHole'
+import { CinematicCamera, GalaxyTourButton, TourProgress } from '@/components/3d/CinematicCamera'
+import { ClickRipple } from '@/components/3d/ClickRipple'
+import { CosmicComets } from '@/components/3d/CosmicComets'
+import { CursorTrail } from '@/components/3d/CursorTrail'
+import { DevToolsPanel, StatsMonitor } from '@/components/3d/DevTools'
 import { EnhancedProjectStars } from '@/components/3d/EnhancedProjectStars'
-import { ShootingStars } from '@/components/3d/ShootingStars'
-import { InteractiveSpaceDust } from '@/components/3d/InteractiveSpaceDust'
-import { getProjectById, galaxies } from '@/lib/galaxyData'
+import { GalaxyCores } from '@/components/3d/GalaxyCore'
+import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
+import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
+import { NebulaBackground } from '@/components/3d/NebulaBackground'
+import { PlanetEnhancements } from '@/components/3d/PlanetEnhancements'
 import { PlanetSurfaceExplorer } from '@/components/3d/PlanetSurfaceExplorer'
+import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
+import { ProjectRelationships } from '@/components/3d/ProjectRelationships'
+import { ScanSystem } from '@/components/3d/ScanSystem'
+import { ShootingStars } from '@/components/3d/ShootingStars'
+import { SolarFlares } from '@/components/3d/SolarFlares'
+import { SupernovaEffect } from '@/components/3d/SupernovaEffect'
+import {
+  TheatreCameraController,
+  TheatreStudioToggle,
+  useTheatreModeStore,
+} from '@/components/3d/TheatreSetup'
+import { TourElements } from '@/components/3d/TourElements'
+import { TwinklingStarfield } from '@/components/3d/TwinklingStarfield'
+import { WebGPUCanvas } from '@/components/3d/WebGPUCanvas'
+import { enqueueAchievement } from '@/components/ui/AchievementToast'
+import { ExplorerHUD } from '@/components/ui/ExplorerHUD'
 import { GalaxyNavigation } from '@/components/ui/GalaxyNavigation'
+import { JourneyCameraController, JourneyOverlay } from '@/components/ui/JourneyMode'
+import { MinimapNavigator } from '@/components/ui/MinimapNavigator'
 import { MobileGalaxyNav } from '@/components/ui/MobileGalaxyNav'
 import { MotionToggle } from '@/components/ui/MotionToggle'
-import { MinimapNavigator } from '@/components/ui/MinimapNavigator'
-import { JourneyCameraController, JourneyOverlay } from '@/components/ui/JourneyMode'
-import { ExplorerHUD } from '@/components/ui/ExplorerHUD'
-import { TourElements } from '@/components/3d/TourElements'
-import { GalaxyCores } from '@/components/3d/GalaxyCore'
-import { PlanetEnhancements } from '@/components/3d/PlanetEnhancements'
-import { ProjectRelationships } from '@/components/3d/ProjectRelationships'
-import { CosmicComets } from '@/components/3d/CosmicComets'
-import { SolarFlares } from '@/components/3d/SolarFlares'
-import { BlackHole } from '@/components/3d/BlackHole'
-import { ScanSystem } from '@/components/3d/ScanSystem'
-import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
-import { SupernovaEffect } from '@/components/3d/SupernovaEffect'
-import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
-import { ClickRipple } from '@/components/3d/ClickRipple'
-import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
-import { QuarksNebulaEffect } from '@/components/3d/QuarksNebulaEffect'
-import { StatsMonitor, DevToolsPanel } from '@/components/3d/DevTools'
-import { TheatreStudioToggle, TheatreCameraController, useTheatreModeStore } from '@/components/3d/TheatreSetup'
-import { CinematicCamera, GalaxyTourButton, TourProgress } from '@/components/3d/CinematicCamera'
-import { CursorTrail } from '@/components/3d/CursorTrail'
-import { getGalaxyCenterPosition, generateProjectPosition } from '@/lib/utils'
 import { unlockAchievement } from '@/lib/achievements'
-import { enqueueAchievement } from '@/components/ui/AchievementToast'
+import { galaxies, getProjectById } from '@/lib/galaxyData'
+import { CANVAS_DPR_TIER_MULTIPLIERS, useCanvasPerformanceStore, useViewStore } from '@/lib/store'
+import { generateProjectPosition, getGalaxyCenterPosition } from '@/lib/utils'
+import type { RendererType } from '@/lib/webgpu'
 
 // Camera fly-to controller for galaxy navigation with spring physics and idle drift
 function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<any> }) {
@@ -93,9 +96,11 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       // Zoom close to the selected planet
       const project = getProjectById(selectedProject)
       if (project) {
-        const galaxyIndex = galaxies.findIndex(g => g.id === project.galaxy)
+        const galaxyIndex = galaxies.findIndex((g) => g.id === project.galaxy)
         if (galaxyIndex !== -1) {
-          const projectIndex = galaxies[galaxyIndex].projects.findIndex((p: any) => p.id === selectedProject)
+          const projectIndex = galaxies[galaxyIndex].projects.findIndex(
+            (p: any) => p.id === selectedProject
+          )
           const [px, py, pz] = generateProjectPosition(
             selectedProject,
             project.galaxy,
@@ -110,7 +115,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
         }
       }
     } else if (selectedGalaxy && view === 'galaxy') {
-      const galaxyIndex = galaxies.findIndex(g => g.id === selectedGalaxy)
+      const galaxyIndex = galaxies.findIndex((g) => g.id === selectedGalaxy)
       if (galaxyIndex !== -1) {
         const [gx, gy, gz] = getGalaxyCenterPosition(galaxyIndex)
         const cameraDistance = 35
@@ -127,11 +132,9 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
   }, [selectedGalaxy, selectedProject, view, camera, controlsRef, prefersReducedMotion])
 
   // Animate camera with spring physics and idle drift
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     // Skip all camera animation when Theatre.js is controlling
     if (isTheatreMode) return
-
-    const time = state.clock.elapsedTime
 
     if (isAnimating.current) {
       // Spring physics for smooth, organic camera motion
@@ -151,7 +154,10 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
 
       // Same for look-at target
       if (controlsRef.current) {
-        const lookAtDelta = new THREE.Vector3().subVectors(targetLookAt.current, controlsRef.current.target)
+        const lookAtDelta = new THREE.Vector3().subVectors(
+          targetLookAt.current,
+          controlsRef.current.target
+        )
         const lookAtForce = lookAtDelta.multiplyScalar(springStiffness * delta)
 
         lookAtVelocity.current.multiplyScalar(springDamping)
@@ -162,7 +168,10 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       }
 
       // Check if we've settled (velocity is very low)
-      if (velocity.current.length() < 0.001 && camera.position.distanceTo(targetPosition.current) < 0.1) {
+      if (
+        velocity.current.length() < 0.001 &&
+        camera.position.distanceTo(targetPosition.current) < 0.1
+      ) {
         isAnimating.current = false
         velocity.current.set(0, 0, 0)
         lookAtVelocity.current.set(0, 0, 0)
@@ -172,8 +181,10 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       idleTime.current += delta
 
       // Multi-frequency drift for organic feel
-      const driftX = Math.sin(idleTime.current * 0.15) * 0.08 + Math.sin(idleTime.current * 0.23) * 0.04
-      const driftY = Math.cos(idleTime.current * 0.12) * 0.06 + Math.sin(idleTime.current * 0.19) * 0.03
+      const driftX =
+        Math.sin(idleTime.current * 0.15) * 0.08 + Math.sin(idleTime.current * 0.23) * 0.04
+      const driftY =
+        Math.cos(idleTime.current * 0.12) * 0.06 + Math.sin(idleTime.current * 0.19) * 0.03
       const driftZ = Math.sin(idleTime.current * 0.1) * 0.05
 
       // Mouse-influenced drift - camera subtly follows cursor (5-8% influence)
@@ -203,10 +214,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
           mouseDriftOffset.current.y * 0.3,
           0
         )
-        controlsRef.current.target.lerp(
-          new THREE.Vector3(0, 0, 0).add(lookAtOffset),
-          delta * 0.5
-        )
+        controlsRef.current.target.lerp(new THREE.Vector3(0, 0, 0).add(lookAtOffset), delta * 0.5)
         controlsRef.current.update()
       }
     }
@@ -215,8 +223,10 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
   return null
 }
 
-function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; controlsRef: React.RefObject<any> }>) {
-  const { camera } = useThree()
+function SceneContent({
+  isMobile,
+  controlsRef,
+}: Readonly<{ isMobile: boolean; controlsRef: React.RefObject<any> }>) {
   const hasEntered = useViewStore((state) => state.hasEntered)
   const view = useViewStore((state) => state.view)
   const selectedProject = useViewStore((state) => state.selectedProject)
@@ -229,7 +239,18 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
 
   // Konami code easter egg: ↑↑↓↓←→←→BA
   useEffect(() => {
-    const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']
+    const KONAMI = [
+      'ArrowUp',
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowLeft',
+      'ArrowRight',
+      'b',
+      'a',
+    ]
     const buffer: string[] = []
     const onKey = (e: KeyboardEvent) => {
       buffer.push(e.key)
@@ -250,20 +271,22 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
 
   return (
     <>
-      <color attach="background" args={['#000005']} />
-      {/* Depth fog - creates sense of vast scale, objects fade to deep blue */}
-      <fog attach="fog" args={['#050510', 80, 300]} />
+      <color attach="background" args={['#03020c']} />
+      {/* Depth fog — cool void; slightly violet-tinted for premium depth (not flat gray) */}
+      <fog attach="fog" args={['#0a0618', 78, 315]} />
 
       {/* Cinematic Three-Point Lighting */}
       <ambientLight intensity={0.4} color="#0a0815" />
 
       {/* Key light - neutral white for true color rendering */}
       <directionalLight
-        position={[80, 60, 40]}
-        intensity={1.5}
-        color="#ffffff"
+        position={[82, 62, 44]}
+        intensity={1.62}
+        color="#fff7f2"
         castShadow
         shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.00025}
+        shadow-normalBias={0.02}
         shadow-camera-near={10}
         shadow-camera-far={400}
         shadow-camera-left={-100}
@@ -273,26 +296,13 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       />
 
       {/* Fill light - softer opposite side */}
-      <directionalLight
-        position={[-60, 20, -40]}
-        intensity={0.4}
-        color="#6366f1"
-      />
+      <directionalLight position={[-60, 20, -40]} intensity={0.4} color="#6366f1" />
 
       {/* Rim light - edge definition */}
-      <pointLight
-        position={[0, 80, -60]}
-        intensity={1.5}
-        color="#a855f7"
-        distance={200}
-      />
+      <pointLight position={[0, 80, -60]} intensity={1.5} color="#a855f7" distance={200} />
 
       {/* Hemisphere for ambient variation */}
-      <hemisphereLight
-        intensity={0.25}
-        color="#818cf8"
-        groundColor="#1e1b4b"
-      />
+      <hemisphereLight intensity={0.25} color="#818cf8" groundColor="#1e1b4b" />
 
       {/* Environment */}
       <Suspense fallback={null}>
@@ -328,10 +338,11 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
       {/* Tour interactive elements (aliens, stations, trail) */}
       <TourElements />
 
+      {/* Free-roam traffic — satellites + scout probes (universe view only) */}
+      <AmbientSpaceTraffic isMobile={isMobile} />
+
       {/* Konami easter egg: ↑↑↓↓←→←→BA triggers supernova at black hole */}
-      {konamiActive && (
-        <SupernovaEffect position={[0, 0, 0]} color="#ffffff" size={8} />
-      )}
+      {konamiActive && <SupernovaEffect position={[0, 0, 0]} color="#ffffff" size={8} />}
 
       {/* Journey Mode camera controller */}
       {isJourneyMode && <JourneyCameraController />}
@@ -355,18 +366,29 @@ function SceneContent({ isMobile, controlsRef }: Readonly<{ isMobile: boolean; c
           makeDefault
         />
       )}
-
     </>
   )
 }
 
 // Wrapper component to provide controlsRef inside Canvas
-function SceneWrapper({ isMobile, rendererType }: Readonly<{ isMobile: boolean; rendererType: RendererType | null }>) {
+function SceneWrapper({
+  isMobile,
+  rendererType,
+}: Readonly<{ isMobile: boolean; rendererType: RendererType | null }>) {
   const controlsRef = useRef<any>(null)
+  const declineTier = useCanvasPerformanceStore((s) => s.declineTier)
+  const inclineTier = useCanvasPerformanceStore((s) => s.inclineTier)
 
   return (
     <>
-      <PerformanceMonitor onDecline={() => {}} />
+      <PerformanceMonitor
+        ms={300}
+        iterations={12}
+        threshold={0.72}
+        flipflops={48}
+        onDecline={declineTier}
+        onIncline={inclineTier}
+      />
       <SceneContent isMobile={isMobile} controlsRef={controlsRef} />
       <GalaxyCameraController controlsRef={controlsRef} />
       <CinematicCamera controlsRef={controlsRef} />
@@ -386,6 +408,9 @@ export default function GalaxyScene() {
   const [dpr, setDpr] = useState(1)
   const [isMobile, setIsMobile] = useState(false)
   const [rendererType, setRendererType] = useState<RendererType | null>(null)
+  const perfTier = useCanvasPerformanceStore((s) => s.tier)
+  const tierMultiplier = CANVAS_DPR_TIER_MULTIPLIERS[perfTier]
+  const effectiveDpr = dpr * tierMultiplier
 
   // Refs to track previous values and avoid unnecessary state updates that cause re-renders
   const prevMobileRef = useRef<boolean | null>(null)
@@ -422,43 +447,66 @@ export default function GalaxyScene() {
 
   // Static fallback for browsers without WebGL support
   const WebGLFallback = (
-    <div className="w-full h-full flex items-center justify-center bg-linear-to-b from-black via-indigo-950 to-black">
-      <div className="text-center p-8 max-w-lg">
-        <div className="text-6xl mb-4">*</div>
-        <h2 className="text-2xl font-bold text-white mb-4">Welcome to My Portfolio</h2>
-        <p className="text-gray-300 mb-6">
-          This experience is best viewed in a browser with WebGL support.
-          Please try Chrome, Firefox, Safari, or Edge for the full 3D experience.
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#020108]">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(99,102,241,0.2), transparent 55%), radial-gradient(ellipse 100% 80% at 50% 100%, rgba(168,85,247,0.1), transparent 50%)',
+        }}
+      />
+      <div className="relative max-w-lg px-8 text-center">
+        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-white/40">
+          3D unavailable
+        </p>
+        <h2 className="mb-3 text-3xl font-bold tracking-tight text-white">
+          Portfolio still shines in 2D
+        </h2>
+        <p className="mb-8 text-sm leading-relaxed text-white/55">
+          This interactive galaxy needs WebGL. Open in Chrome, Edge, or Safari for the full
+          experience — or browse the project archive below.
         </p>
         <a
           href="/work"
-          className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/15 bg-white/[0.06] px-8 py-3 text-sm font-medium text-white/90 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10"
         >
-          View Projects
+          View all projects
         </a>
       </div>
     </div>
   )
 
-  // Loading state while checking WebGPU support
   const LoadingFallback = (
-    <div className="w-full h-full flex items-center justify-center bg-black">
-      <div className="text-white/50 text-sm">Initializing 3D renderer...</div>
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-[#020108] overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(99,102,241,0.12), transparent 55%), radial-gradient(ellipse 100% 80% at 50% 100%, rgba(168,85,247,0.08), transparent 50%)',
+        }}
+      />
+      <div className="relative mb-6 h-px w-32 overflow-hidden rounded-full bg-white/10">
+        <div className="h-full w-1/2 animate-pulse rounded-full bg-linear-to-r from-indigo-400/80 via-purple-400 to-fuchsia-400/80" />
+      </div>
+      <p className="relative text-[11px] font-medium uppercase tracking-[0.35em] text-white/45">
+        Calibrating renderer
+      </p>
+      <p className="relative mt-2 text-xs text-white/30">WebGL · ACES · high performance</p>
     </div>
   )
 
   return (
     <div className="w-full h-screen relative">
       <WebGPUCanvas
-        dpr={dpr}
+        dpr={effectiveDpr}
         className="w-full h-full block"
         rendererConfig={{
           antialias: true,
           alpha: false,
-          powerPreference: "high-performance",
+          powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.4,
-          outputColorSpace: THREE.SRGBColorSpace
+          toneMappingExposure: 1.38,
+          outputColorSpace: THREE.SRGBColorSpace,
         }}
         camera={{ position: [0, 20, 60], fov: 45 }}
         fallback={WebGLFallback}
@@ -474,7 +522,7 @@ export default function GalaxyScene() {
         <div
           className="absolute inset-0 pointer-events-none z-10"
           style={{
-            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)'
+            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
           }}
         />
       )}

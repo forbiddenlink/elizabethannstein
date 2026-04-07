@@ -24,7 +24,7 @@ test.describe('Project Modal', () => {
 
     test.skip(
       !supportsModalDeepLink,
-      'Deep-link modal path requires WebGL and non-reduced-motion environment',
+      'Deep-link modal path requires WebGL and non-reduced-motion environment'
     )
   })
 

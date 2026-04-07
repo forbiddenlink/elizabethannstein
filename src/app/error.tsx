@@ -2,26 +2,27 @@
 // error boundary segment
 import Link from 'next/link'
 
-export default function Error({ error, reset }: { error: Error; reset: () => void }) {
+export default function AppError({ error: _error, reset }: { error: Error; reset: () => void }) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-black text-white p-6">
-      <div className="text-center max-w-md">
-        <h2 className="text-3xl font-bold mb-4">Something went wrong</h2>
-        <p className="text-white/60 mb-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-black p-6 text-white">
+      <div className="max-w-md text-center">
+        <h2 className="mb-4 text-3xl font-bold tracking-tight">Something went wrong</h2>
+        <p className="mb-8 text-white/60">
           An unexpected error occurred. You can try again or head back to the homepage.
         </p>
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div className="flex flex-wrap justify-center gap-4">
           <button
+            type="button"
             onClick={reset}
-            className="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-medium transition-colors"
+            className="min-h-11 rounded-xl bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
           >
             Try again
           </button>
           <Link
             href="/"
-            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium transition-colors"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
           >
-            Back to Home
+            Back to home
           </Link>
         </div>
       </div>

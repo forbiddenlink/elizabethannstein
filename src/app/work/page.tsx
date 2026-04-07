@@ -1,10 +1,10 @@
+import type { Metadata } from 'next'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { WorkPageClient } from '@/components/work/WorkPageClient'
 import { SITE } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
-import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Projects & Work - Elizabeth Stein Portfolio',
@@ -48,7 +48,8 @@ export default function WorkPage() {
         {/* Skip Link for Accessibility */}
         <a
           href="#work-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+          suppressHydrationWarning
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
         >
           Skip to projects
         </a>

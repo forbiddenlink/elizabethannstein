@@ -1,11 +1,11 @@
+import { Clock, Mail } from 'lucide-react'
+import type { Metadata } from 'next'
 import { ContactForm } from '@/components/ui/ContactForm'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { CONTACT } from '@/lib/constants'
-import { Clock, Mail } from 'lucide-react'
-import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Contact - Elizabeth Stein Portfolio',
@@ -28,7 +28,8 @@ export default function ContactPage() {
     <main className="min-h-screen bg-black text-white relative">
       <a
         href="#contact-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+        suppressHydrationWarning
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
       >
         Skip to main content
       </a>
@@ -36,20 +37,19 @@ export default function ContactPage() {
       <SiteHeader />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-24">
-        <div id="contact-content" className="space-y-12">
-          <header>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-linear-to-r from-white to-white/80 bg-clip-text text-transparent">
-              Get in Touch
-            </h1>
-            <p className="text-xl text-white/70 max-w-2xl">
+        <div id="contact-content" className="space-y-12 md:space-y-16">
+          <header className="max-w-3xl">
+            <p className="page-hero-kicker">Collaborate</p>
+            <h1 className="page-hero-title text-5xl md:text-6xl lg:text-7xl mb-5">Get in Touch</h1>
+            <p className="page-hero-lede text-lg md:text-xl">
               I&apos;m always interested in hearing about new projects, collaboration opportunities,
               or just connecting with fellow developers.
             </p>
           </header>
 
           {/* Contact Form - Primary CTA */}
-          <section className="glass-panel p-8">
-            <h2 className="text-2xl font-bold mb-2">Send a Message</h2>
+          <section className="form-panel-highlight p-8 md:p-10 panel-top-shine">
+            <h2 className="text-2xl font-bold mb-2 tracking-tight">Send a Message</h2>
             <p className="text-white/60 text-sm mb-6 flex items-center gap-2">
               <Clock className="w-4 h-4" />I typically respond within 24 hours
             </p>
@@ -62,7 +62,7 @@ export default function ContactPage() {
             <div className="grid gap-4 md:grid-cols-3">
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <Mail className="w-6 h-6 text-purple-400 group-hover:text-purple-300 transition-colors" />
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 href={CONTACT.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <LinkedInIcon className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
@@ -92,7 +92,7 @@ export default function ContactPage() {
                 href={CONTACT.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <GitHubIcon className="w-6 h-6 text-white/80 group-hover:text-white transition-colors" />
@@ -115,7 +115,9 @@ export default function ContactPage() {
                 </span>
               </div>
               <div>
-                <h2 className="text-xl font-bold mb-2 text-[var(--color-galaxy-devtools)]">Currently Available</h2>
+                <h2 className="text-xl font-bold mb-2 text-[var(--color-galaxy-devtools)]">
+                  Currently Available
+                </h2>
                 <p className="text-white/70 leading-relaxed">
                   I&apos;m open to full-time roles, freelance projects, and consulting work. Looking
                   for frontend, UX engineering, or full-stack positions with a strong product focus.

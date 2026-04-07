@@ -1,29 +1,28 @@
-'use client';
+'use client'
 
-import { gsap, ScrollTrigger } from './gsap';
-import { eases, durations } from './gsap';
-import type { AnimationDirection } from './presets';
+import { durations, eases, gsap, ScrollTrigger } from './gsap'
+import type { AnimationDirection } from './presets'
 
 export interface ScrollAnimationOptions {
-  trigger: string | Element;
-  start?: string;
-  end?: string;
-  scrub?: boolean | number;
-  markers?: boolean;
-  toggleActions?: string;
-  pin?: boolean;
-  anticipatePin?: number;
-  onEnter?: () => void;
-  onLeave?: () => void;
-  onEnterBack?: () => void;
-  onLeaveBack?: () => void;
+  trigger: string | Element
+  start?: string
+  end?: string
+  scrub?: boolean | number
+  markers?: boolean
+  toggleActions?: string
+  pin?: boolean
+  anticipatePin?: number
+  onEnter?: () => void
+  onLeave?: () => void
+  onEnterBack?: () => void
+  onLeaveBack?: () => void
 }
 
 export interface ScrollFadeOptions extends ScrollAnimationOptions {
-  direction?: AnimationDirection;
-  distance?: number;
-  duration?: number;
-  ease?: string;
+  direction?: AnimationDirection
+  distance?: number
+  duration?: number
+  ease?: string
 }
 
 // Create a scroll-triggered fade in animation
@@ -46,23 +45,23 @@ export function scrollFadeIn(
     onLeave,
     onEnterBack,
     onLeaveBack,
-  } = options;
+  } = options
 
-  const from: gsap.TweenVars = { opacity: 0 };
+  const from: gsap.TweenVars = { opacity: 0 }
 
   switch (direction) {
     case 'up':
-      from.y = distance;
-      break;
+      from.y = distance
+      break
     case 'down':
-      from.y = -distance;
-      break;
+      from.y = -distance
+      break
     case 'left':
-      from.x = distance;
-      break;
+      from.x = distance
+      break
     case 'right':
-      from.x = -distance;
-      break;
+      from.x = -distance
+      break
   }
 
   return gsap.from(element, {
@@ -82,7 +81,7 @@ export function scrollFadeIn(
       onLeaveBack,
     },
     clearProps: scrub ? undefined : 'all',
-  });
+  })
 }
 
 // Create a scroll-triggered stagger animation
@@ -100,23 +99,23 @@ export function scrollStagger(
     start = 'top 80%',
     markers = false,
     toggleActions = 'play none none reverse',
-  } = options;
+  } = options
 
-  const from: gsap.TweenVars = { opacity: 0 };
+  const from: gsap.TweenVars = { opacity: 0 }
 
   switch (direction) {
     case 'up':
-      from.y = distance;
-      break;
+      from.y = distance
+      break
     case 'down':
-      from.y = -distance;
-      break;
+      from.y = -distance
+      break
     case 'left':
-      from.x = distance;
-      break;
+      from.x = distance
+      break
     case 'right':
-      from.x = -distance;
-      break;
+      from.x = -distance
+      break
   }
 
   return gsap.from(elements, {
@@ -131,17 +130,17 @@ export function scrollStagger(
       toggleActions,
     },
     clearProps: 'all',
-  });
+  })
 }
 
 // Create a parallax effect
 export function scrollParallax(
   element: gsap.TweenTarget,
   options: ScrollAnimationOptions & {
-    yPercent?: number;
-    xPercent?: number;
-    scale?: number;
-    rotation?: number;
+    yPercent?: number
+    xPercent?: number
+    scale?: number
+    rotation?: number
   }
 ): gsap.core.Tween {
   const {
@@ -154,14 +153,14 @@ export function scrollParallax(
     end = 'bottom top',
     scrub = true,
     markers = false,
-  } = options;
+  } = options
 
-  const to: gsap.TweenVars = {};
+  const to: gsap.TweenVars = {}
 
-  if (yPercent !== 0) to.yPercent = yPercent;
-  if (xPercent !== 0) to.xPercent = xPercent;
-  if (scale !== undefined) to.scale = scale;
-  if (rotation !== undefined) to.rotation = rotation;
+  if (yPercent !== 0) to.yPercent = yPercent
+  if (xPercent !== 0) to.xPercent = xPercent
+  if (scale !== undefined) to.scale = scale
+  if (rotation !== undefined) to.rotation = rotation
 
   return gsap.to(element, {
     ...to,
@@ -173,15 +172,15 @@ export function scrollParallax(
       scrub,
       markers,
     },
-  });
+  })
 }
 
 // Pin an element while scrolling
 export function scrollPin(
   element: string | Element,
   options: Omit<ScrollAnimationOptions, 'trigger' | 'pin'> & {
-    pinSpacing?: boolean;
-    pinnedContainer?: Element;
+    pinSpacing?: boolean
+    pinnedContainer?: Element
   } = {}
 ): ScrollTrigger {
   const {
@@ -195,7 +194,7 @@ export function scrollPin(
     onLeave,
     onEnterBack,
     onLeaveBack,
-  } = options;
+  } = options
 
   return ScrollTrigger.create({
     trigger: element,
@@ -210,7 +209,7 @@ export function scrollPin(
     onLeave,
     onEnterBack,
     onLeaveBack,
-  });
+  })
 }
 
 // Progress-based animation
@@ -219,12 +218,7 @@ export function scrollProgress(
   onProgress: (progress: number) => void,
   options: Partial<ScrollAnimationOptions> = {}
 ): ScrollTrigger {
-  const {
-    start = 'top bottom',
-    end = 'bottom top',
-    scrub = true,
-    markers = false,
-  } = options;
+  const { start = 'top bottom', end = 'bottom top', scrub = true, markers = false } = options
 
   return ScrollTrigger.create({
     trigger,
@@ -233,24 +227,26 @@ export function scrollProgress(
     scrub,
     markers,
     onUpdate: (self) => {
-      onProgress(self.progress);
+      onProgress(self.progress)
     },
-  });
+  })
 }
 
 // Refresh all scroll triggers (useful after dynamic content changes)
 export function refreshScrollTriggers(): void {
-  ScrollTrigger.refresh();
+  ScrollTrigger.refresh()
 }
 
 // Kill all scroll triggers
 export function killAllScrollTriggers(): void {
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  for (const trigger of ScrollTrigger.getAll()) {
+    trigger.kill()
+  }
 }
 
 // Get all scroll triggers
 export function getAllScrollTriggers(): ScrollTrigger[] {
-  return ScrollTrigger.getAll();
+  return ScrollTrigger.getAll()
 }
 
-export { ScrollTrigger };
+export { ScrollTrigger }

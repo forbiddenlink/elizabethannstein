@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { useEffect, useRef, useState } from 'react'
 import { usePrefersReducedMotion } from '@/lib/store'
 
 interface MagneticButtonProps {
@@ -21,7 +21,7 @@ export function MagneticButton({
   onClick,
   href,
   tiltStrength = 15,
-  glowOnHover = true
+  glowOnHover = true,
 }: MagneticButtonProps) {
   const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null)
   const magneticAreaRef = useRef<HTMLDivElement>(null)
@@ -112,11 +112,11 @@ export function MagneticButton({
   const Component = href ? 'a' : 'button'
 
   return (
-    <div 
+    <div
       ref={magneticAreaRef}
       className="inline-block p-5"
-            style={{
-        perspective: '1000px'
+      style={{
+        perspective: '1000px',
       }}
     >
       <Component
@@ -126,7 +126,7 @@ export function MagneticButton({
         href={href}
         style={{
           transformStyle: 'preserve-3d',
-          transition: glowOnHover ? 'box-shadow 0.3s ease' : 'none'
+          transition: glowOnHover ? 'box-shadow 0.3s ease' : 'none',
         }}
       >
         {children}

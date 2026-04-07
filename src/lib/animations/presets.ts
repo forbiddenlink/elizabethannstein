@@ -1,51 +1,47 @@
-'use client';
+'use client'
 
-import { gsap } from './gsap';
-import { eases, durations, staggers } from './gsap';
+import { durations, eases, gsap, staggers } from './gsap'
 
-export type AnimationDirection = 'up' | 'down' | 'left' | 'right';
+export type AnimationDirection = 'up' | 'down' | 'left' | 'right'
 
 export interface FadeInOptions {
-  direction?: AnimationDirection;
-  distance?: number;
-  duration?: number;
-  ease?: string;
-  delay?: number;
+  direction?: AnimationDirection
+  distance?: number
+  duration?: number
+  ease?: string
+  delay?: number
 }
 
 export interface StaggerOptions extends FadeInOptions {
-  stagger?: number;
+  stagger?: number
 }
 
 // Fade in animation preset
-export function fadeIn(
-  element: gsap.TweenTarget,
-  options: FadeInOptions = {}
-): gsap.core.Tween {
+export function fadeIn(element: gsap.TweenTarget, options: FadeInOptions = {}): gsap.core.Tween {
   const {
     direction,
     distance = 30,
     duration = durations.normal,
     ease = eases.smooth,
     delay = 0,
-  } = options;
+  } = options
 
-  const from: gsap.TweenVars = { opacity: 0 };
+  const from: gsap.TweenVars = { opacity: 0 }
 
   if (direction) {
     switch (direction) {
       case 'up':
-        from.y = distance;
-        break;
+        from.y = distance
+        break
       case 'down':
-        from.y = -distance;
-        break;
+        from.y = -distance
+        break
       case 'left':
-        from.x = distance;
-        break;
+        from.x = distance
+        break
       case 'right':
-        from.x = -distance;
-        break;
+        from.x = -distance
+        break
     }
   }
 
@@ -55,7 +51,7 @@ export function fadeIn(
     ease,
     delay,
     clearProps: 'all',
-  });
+  })
 }
 
 // Fade out animation preset
@@ -69,24 +65,24 @@ export function fadeOut(
     duration = durations.normal,
     ease = eases.smooth,
     delay = 0,
-  } = options;
+  } = options
 
-  const to: gsap.TweenVars = { opacity: 0 };
+  const to: gsap.TweenVars = { opacity: 0 }
 
   if (direction) {
     switch (direction) {
       case 'up':
-        to.y = -distance;
-        break;
+        to.y = -distance
+        break
       case 'down':
-        to.y = distance;
-        break;
+        to.y = distance
+        break
       case 'left':
-        to.x = -distance;
-        break;
+        to.x = -distance
+        break
       case 'right':
-        to.x = distance;
-        break;
+        to.x = distance
+        break
     }
   }
 
@@ -95,7 +91,7 @@ export function fadeOut(
     duration,
     ease,
     delay,
-  });
+  })
 }
 
 // Stagger entrance animation
@@ -110,23 +106,23 @@ export function staggerFadeIn(
     ease = eases.smooth,
     delay = 0,
     stagger = staggers.normal,
-  } = options;
+  } = options
 
-  const from: gsap.TweenVars = { opacity: 0 };
+  const from: gsap.TweenVars = { opacity: 0 }
 
   switch (direction) {
     case 'up':
-      from.y = distance;
-      break;
+      from.y = distance
+      break
     case 'down':
-      from.y = -distance;
-      break;
+      from.y = -distance
+      break
     case 'left':
-      from.x = distance;
-      break;
+      from.x = distance
+      break
     case 'right':
-      from.x = -distance;
-      break;
+      from.x = -distance
+      break
   }
 
   return gsap.from(elements, {
@@ -136,7 +132,7 @@ export function staggerFadeIn(
     delay,
     stagger,
     clearProps: 'all',
-  });
+  })
 }
 
 // Scale in animation
@@ -144,12 +140,7 @@ export function scaleIn(
   element: gsap.TweenTarget,
   options: Omit<FadeInOptions, 'direction' | 'distance'> & { scale?: number } = {}
 ): gsap.core.Tween {
-  const {
-    scale = 0.8,
-    duration = durations.normal,
-    ease = eases.back,
-    delay = 0,
-  } = options;
+  const { scale = 0.8, duration = durations.normal, ease = eases.back, delay = 0 } = options
 
   return gsap.from(element, {
     opacity: 0,
@@ -158,7 +149,7 @@ export function scaleIn(
     ease,
     delay,
     clearProps: 'all',
-  });
+  })
 }
 
 // Slide in animation
@@ -167,28 +158,23 @@ export function slideIn(
   direction: AnimationDirection = 'left',
   options: Omit<FadeInOptions, 'direction'> = {}
 ): gsap.core.Tween {
-  const {
-    distance = 100,
-    duration = durations.slow,
-    ease = eases.expo,
-    delay = 0,
-  } = options;
+  const { distance = 100, duration = durations.slow, ease = eases.expo, delay = 0 } = options
 
-  const from: gsap.TweenVars = { opacity: 0 };
+  const from: gsap.TweenVars = { opacity: 0 }
 
   switch (direction) {
     case 'up':
-      from.y = distance;
-      break;
+      from.y = distance
+      break
     case 'down':
-      from.y = -distance;
-      break;
+      from.y = -distance
+      break
     case 'left':
-      from.x = distance;
-      break;
+      from.x = distance
+      break
     case 'right':
-      from.x = -distance;
-      break;
+      from.x = -distance
+      break
   }
 
   return gsap.from(element, {
@@ -197,7 +183,7 @@ export function slideIn(
     ease,
     delay,
     clearProps: 'all',
-  });
+  })
 }
 
 // Text reveal animation (character by character)
@@ -205,11 +191,7 @@ export function textReveal(
   element: gsap.TweenTarget,
   options: { duration?: number; stagger?: number; ease?: string } = {}
 ): gsap.core.Tween {
-  const {
-    duration = durations.fast,
-    stagger = 0.03,
-    ease = eases.smooth,
-  } = options;
+  const { duration = durations.fast, stagger = 0.03, ease = eases.smooth } = options
 
   return gsap.from(element, {
     opacity: 0,
@@ -219,7 +201,7 @@ export function textReveal(
     stagger,
     ease,
     clearProps: 'all',
-  });
+  })
 }
 
 // Hover scale animation
@@ -233,16 +215,16 @@ export function hoverScale(
         scale,
         duration: durations.fast,
         ease: eases.smooth,
-      });
+      })
     },
     leave: () => {
       gsap.to(element, {
         scale: 1,
         duration: durations.fast,
         ease: eases.smooth,
-      });
+      })
     },
-  };
+  }
 }
 
 // Parallax transform
@@ -253,5 +235,5 @@ export function parallaxTransform(
   return gsap.to(element, {
     yPercent,
     ease: 'none',
-  });
+  })
 }

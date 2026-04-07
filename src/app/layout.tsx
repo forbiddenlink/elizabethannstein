@@ -1,4 +1,9 @@
 import '@/app/globals.css'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import type { Metadata, Viewport } from 'next'
+import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { AchievementToastManager } from '@/components/ui/AchievementToast'
@@ -7,11 +12,6 @@ import { GalaxyCursor } from '@/components/ui/GalaxyCursor'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { WarpTransition } from '@/components/ui/WarpTransition'
 import { CONTACT, SITE } from '@/lib/constants'
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import type { Metadata, Viewport } from 'next'
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -85,6 +85,25 @@ const jsonLd = {
   },
 }
 
+// WebSite schema enables rich results + sitelinks in Google
+const webSiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  name: `${SITE.name} Portfolio`,
+  url: SITE.url,
+  description: SITE.description,
+  author: { '@id': `${SITE.url}/#person` },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE.url}/work?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -107,6 +126,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
         <NuqsAdapter>
           <SmoothScroll />

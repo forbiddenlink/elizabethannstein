@@ -26,8 +26,10 @@ export function hashCode(str: string): number {
  * Returns a function that generates deterministic "random" numbers
  */
 export function seededRandom(seed: number) {
-  return function () {
-    let t = (seed += 0x6d2b79f5)
+  let state = seed
+  return () => {
+    state += 0x6d2b79f5
+    let t = state
     t = Math.imul(t ^ (t >>> 15), t | 1)
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
@@ -42,8 +44,8 @@ export function generateProjectPosition(
   projectId: string,
   galaxyId: string,
   galaxyIndex: number,
-  projectIndex: number,
-  totalProjects: number,
+  _projectIndex: number,
+  totalProjects: number
 ): [number, number, number] {
   const seed = hashCode(projectId + galaxyId)
   const rng = seededRandom(seed)
@@ -91,7 +93,6 @@ export function getSizeMultiplier(size: string): number {
       return 2.0
     case 'medium':
       return 1.2
-    case 'small':
     default:
       return 0.8
   }

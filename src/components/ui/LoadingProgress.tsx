@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
 
 interface LoadingProgressProps {
   onComplete?: () => void
@@ -40,7 +40,7 @@ export function LoadingProgress({ onComplete }: LoadingProgressProps) {
         delay: reduceMotion ? 0 : starHash(i * 4.1) * 1.8,
         scale: 0.75 + starHash(i * 5.3) * 0.5,
       })),
-    [reduceMotion],
+    [reduceMotion]
   )
 
   useEffect(() => {
@@ -211,7 +211,9 @@ export function LoadingProgress({ onComplete }: LoadingProgressProps) {
           </motion.p>
         </AnimatePresence>
 
-        <p className="mt-2 text-center font-mono text-[11px] tabular-nums text-white/35">{rounded}%</p>
+        <p className="mt-2 text-center font-mono text-[11px] tabular-nums text-white/35">
+          {rounded}%
+        </p>
       </div>
 
       <motion.div

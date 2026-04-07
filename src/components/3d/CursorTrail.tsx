@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo, useEffect, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 const MAX_PARTICLES = 80
@@ -23,7 +23,7 @@ interface Particle {
  */
 export function CursorTrail({ enabled = true }: { enabled?: boolean }) {
   const pointsRef = useRef<THREE.Points>(null)
-  const { camera, mouse, raycaster, size } = useThree()
+  const { camera, mouse, raycaster } = useThree()
 
   const [isMobile, setIsMobile] = useState(false)
 
@@ -38,13 +38,16 @@ export function CursorTrail({ enabled = true }: { enabled?: boolean }) {
   const mouseVelocity = useRef(new THREE.Vector2())
 
   // Colors for particles (cosmic palette)
-  const particleColors = useMemo(() => [
-    new THREE.Color('#ffffff'), // White
-    new THREE.Color('#a78bfa'), // Purple
-    new THREE.Color('#818cf8'), // Indigo
-    new THREE.Color('#60a5fa'), // Blue
-    new THREE.Color('#f472b6'), // Pink
-  ], [])
+  const particleColors = useMemo(
+    () => [
+      new THREE.Color('#ffffff'), // White
+      new THREE.Color('#a78bfa'), // Purple
+      new THREE.Color('#818cf8'), // Indigo
+      new THREE.Color('#60a5fa'), // Blue
+      new THREE.Color('#f472b6'), // Pink
+    ],
+    []
+  )
 
   // Buffer geometry attributes
   const [positions, colors, sizes, opacities] = useMemo(() => {

@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
@@ -11,25 +10,16 @@ export async function POST(req: Request) {
 
     // Input validation
     if (!Array.isArray(messages) || messages.length === 0 || messages.length > 50) {
-      return NextResponse.json(
-        { error: 'Invalid messages format' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Invalid messages format' }, { status: 400 })
     }
 
     // Validate each message shape and sanitize
     for (const msg of messages) {
       if (!msg.role || !msg.content || typeof msg.content !== 'string') {
-        return NextResponse.json(
-          { error: 'Invalid message structure' },
-          { status: 400 }
-        )
+        return NextResponse.json({ error: 'Invalid message structure' }, { status: 400 })
       }
       if (msg.content.length > 2000) {
-        return NextResponse.json(
-          { error: 'Message too long' },
-          { status: 400 }
-        )
+        return NextResponse.json({ error: 'Message too long' }, { status: 400 })
       }
     }
 
@@ -37,9 +27,14 @@ export async function POST(req: Request) {
 
     // Fallback if no API key - helpful for dev/demo without breaking
     if (!apiKey) {
-      return NextResponse.json({ 
-        role: 'assistant', 
-        content: "I'm sorry, I can't connect to the galaxy command center right now (Missing API Key). However, I can tell you that Elizabeth's portfolio features " + allProjects.length + " amazing projects across " + galaxies.length + " galactic sectors!" 
+      return NextResponse.json({
+        role: 'assistant',
+        content:
+          "I'm sorry, I can't connect to the galaxy command center right now (Missing API Key). However, I can tell you that Elizabeth's portfolio features " +
+          allProjects.length +
+          ' amazing projects across ' +
+          galaxies.length +
+          ' galactic sectors!',
       })
     }
 
@@ -57,10 +52,12 @@ export async function POST(req: Request) {
     - Specializes in Next.js, React, Three.js, and AI agents.
     
     Context - Portfolio Galaxy Structure:
-    ${galaxies.map(g => `- ${g.name} (${g.id}): ${g.description}`).join('\n')}
+    ${galaxies.map((g) => `- ${g.name} (${g.id}): ${g.description}`).join('\n')}
     
     Context - All Projects (Use this to answer specific questions):
-    ${allProjects.map(p => `
+    ${allProjects
+      .map(
+        (p) => `
     - Project: ${p.title}
       - ID: ${p.id}
       - Role: ${p.role}
@@ -68,8 +65,17 @@ export async function POST(req: Request) {
       - Tech Stack: ${p.tags.join(', ')}
       - Galaxy: ${p.galaxy}
       - Featured: ${p.featured ? 'Yes' : 'No'}
-      ${p.links ? `- Links: ${(Object.entries(p.links) as [string, string | undefined][]).filter((e): e is [string, string] => e[1] != null).map(e => `${e[0]}: ${e[1]}`).join(', ')}` : ''}
-    `).join('\n')}
+      ${
+        p.links
+          ? `- Links: ${(Object.entries(p.links) as [string, string | undefined][])
+              .filter((e): e is [string, string] => e[1] != null)
+              .map((e) => `${e[0]}: ${e[1]}`)
+              .join(', ')}`
+          : ''
+      }
+    `
+      )
+      .join('\n')}
     
     Instructions:
     - If asked about specific technologies (e.g., "React projects"), list relevant projects.
@@ -82,11 +88,8 @@ export async function POST(req: Request) {
     // MiniMax expects specific format. We'll map standard messages.
     // Ensure the system prompt is the first message or correctly placed.
     // MiniMax v2 usually takes 'messages' array.
-    
-    const apiMessages = [
-      { role: 'system', content: systemPrompt },
-      ...messages
-    ]
+
+    const apiMessages = [{ role: 'system', content: systemPrompt }, ...messages]
 
     // Add 15s timeout to prevent hanging if external API is slow
     const controller = new AbortController()
@@ -98,35 +101,35 @@ export async function POST(req: Request) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
+          Authorization: `Bearer ${apiKey}`,
         },
         signal: controller.signal,
         body: JSON.stringify({
           model: 'abab5.5-chat',
           stream: false,
-          messages: apiMessages.map(m => ({
-              sender_type: m.role === 'user' ? 'USER' : 'BOT',
-              sender_name: m.role === 'user' ? 'Visitor' : 'Galaxy Guide',
-              text: m.content
+          messages: apiMessages.map((m) => ({
+            sender_type: m.role === 'user' ? 'USER' : 'BOT',
+            sender_name: m.role === 'user' ? 'Visitor' : 'Galaxy Guide',
+            text: m.content,
           })),
           bot_setting: [
-              {
-                  bot_name: "Galaxy Guide",
-                  content: systemPrompt
-              }
+            {
+              bot_name: 'Galaxy Guide',
+              content: systemPrompt,
+            },
           ],
           reply_constraints: {
-              sender_type: "BOT",
-              sender_name: "Galaxy Guide"
-          }
-        })
+            sender_type: 'BOT',
+            sender_name: 'Galaxy Guide',
+          },
+        }),
       })
     } catch (fetchError) {
       clearTimeout(timeoutId)
       if (fetchError instanceof Error && fetchError.name === 'AbortError') {
         return NextResponse.json({
           role: 'assistant',
-          content: `The galaxy databanks are taking too long to respond (timeout). Elizabeth's portfolio features ${allProjects.length} projects! Try exploring the 3D scene or ask me a simpler question.`
+          content: `The galaxy databanks are taking too long to respond (timeout). Elizabeth's portfolio features ${allProjects.length} projects! Try exploring the 3D scene or ask me a simpler question.`,
         })
       }
       throw fetchError
@@ -134,13 +137,13 @@ export async function POST(req: Request) {
     clearTimeout(timeoutId)
 
     if (!response.ok) {
-        const errorText = await response.text()
-        console.error('MiniMax API Error:', response.status, errorText)
-        // Return a helpful fallback instead of throwing
-        return NextResponse.json({
-          role: 'assistant',
-          content: `I'm having trouble connecting to the galaxy databanks (API Error ${response.status}). Elizabeth's portfolio features ${allProjects.length} projects across ${galaxies.length} galactic sectors! Try asking me about specific technologies like React, AI, or TypeScript.`
-        })
+      const errorText = await response.text()
+      console.error('MiniMax API Error:', response.status, errorText)
+      // Return a helpful fallback instead of throwing
+      return NextResponse.json({
+        role: 'assistant',
+        content: `I'm having trouble connecting to the galaxy databanks (API Error ${response.status}). Elizabeth's portfolio features ${allProjects.length} projects across ${galaxies.length} galactic sectors! Try asking me about specific technologies like React, AI, or TypeScript.`,
+      })
     }
 
     const data = await response.json()
@@ -163,8 +166,12 @@ export async function POST(req: Request) {
       replyContent = data.choices[0].text
       formatUsed = 'alternative'
     } else {
-      replyContent = "I'm here to help you explore Elizabeth's portfolio! Ask me about her projects, skills, or technologies."
-      console.warn('MiniMax API: No recognized response format, using fallback. Response keys:', Object.keys(data))
+      replyContent =
+        "I'm here to help you explore Elizabeth's portfolio! Ask me about her projects, skills, or technologies."
+      console.warn(
+        'MiniMax API: No recognized response format, using fallback. Response keys:',
+        Object.keys(data)
+      )
     }
 
     if (formatUsed !== 'fallback' && process.env.NODE_ENV === 'development') {
@@ -172,12 +179,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ role: 'assistant', content: replyContent })
-
   } catch (error) {
     console.error('Chat API Error:', error)
-    return NextResponse.json(
-      { error: 'Failed to process chat request' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to process chat request' }, { status: 500 })
   }
 }

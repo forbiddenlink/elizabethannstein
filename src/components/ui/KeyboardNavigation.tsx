@@ -1,13 +1,13 @@
 'use client'
 
+import { useEffect } from 'react'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
-import { useEffect } from 'react'
 
 function navigateList(
   items: { id: string }[],
   currentId: string | null,
-  direction: 'next' | 'prev',
+  direction: 'next' | 'prev'
 ): string {
   const currentIndex = currentId ? items.findIndex((item) => item.id === currentId) : -1
   if (direction === 'next') {
@@ -69,7 +69,7 @@ export function KeyboardNavigation() {
       }
 
       // Number keys (1-6) - quick jump to galaxies
-      const num = Number.parseInt(e.key)
+      const num = Number.parseInt(e.key, 10)
       if (num >= 1 && num <= galaxies.length) {
         e.preventDefault()
         zoomToGalaxy(galaxies[num - 1].id)
@@ -102,7 +102,17 @@ export function KeyboardNavigation() {
 
     globalThis.addEventListener('keydown', handleKeyDown)
     return () => globalThis.removeEventListener('keydown', handleKeyDown)
-  }, [view, selectedGalaxy, selectedProject, zoomToGalaxy, zoomToProject, zoomOut, reset, isJourneyMode, endJourney])
+  }, [
+    view,
+    selectedGalaxy,
+    selectedProject,
+    zoomToGalaxy,
+    zoomToProject,
+    zoomOut,
+    reset,
+    isJourneyMode,
+    endJourney,
+  ])
 
   return null
 }

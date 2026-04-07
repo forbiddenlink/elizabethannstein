@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface StarfieldLayerProps {
@@ -12,7 +12,13 @@ interface StarfieldLayerProps {
   sizeMultiplier?: number
 }
 
-function StarfieldLayer({ count, radiusMin, radiusMax, parallaxSpeed, sizeMultiplier = 1 }: StarfieldLayerProps) {
+function StarfieldLayer({
+  count,
+  radiusMin,
+  radiusMax,
+  parallaxSpeed,
+  sizeMultiplier = 1,
+}: StarfieldLayerProps) {
   const pointsRef = useRef<THREE.Points>(null)
   const groupRef = useRef<THREE.Group>(null)
   const { camera } = useThree()
@@ -190,7 +196,7 @@ function StarfieldLayer({ count, radiusMin, radiusMax, parallaxSpeed, sizeMultip
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}
           uniforms={{
-            time: { value: 0 }
+            time: { value: 0 },
           }}
           transparent
           vertexColors
@@ -210,8 +216,8 @@ function StarfieldLayer({ count, radiusMin, radiusMax, parallaxSpeed, sizeMultip
  */
 export function TwinklingStarfield({ count = 5000 }: { count?: number }) {
   // Distribute stars across 3 depth layers
-  const farCount = Math.floor(count * 0.5)   // 50% in far layer (most stars, smallest)
-  const midCount = Math.floor(count * 0.35)  // 35% in mid layer
+  const farCount = Math.floor(count * 0.5) // 50% in far layer (most stars, smallest)
+  const midCount = Math.floor(count * 0.35) // 35% in mid layer
   const nearCount = count - farCount - midCount // 15% in near layer (fewer, larger)
 
   return (

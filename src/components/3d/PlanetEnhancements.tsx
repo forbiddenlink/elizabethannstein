@@ -1,10 +1,10 @@
 'use client'
 
-import { galaxies } from '@/lib/galaxyData'
-import { generateProjectPosition } from '@/lib/utils'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { galaxies } from '@/lib/galaxyData'
+import { generateProjectPosition } from '@/lib/utils'
 import { AsteroidField, BinaryCompanion, OrbitingMoon } from './AsteroidField'
 
 // Distance threshold for rendering enhancements
@@ -53,7 +53,7 @@ export function PlanetEnhancements() {
           galaxy.id,
           galaxyIndex,
           projectIndex,
-          galaxy.projects.length,
+          galaxy.projects.length
         )
         const position: [number, number, number] = [x, y, z]
 

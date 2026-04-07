@@ -1,8 +1,8 @@
 'use client'
 
+import { create } from 'zustand'
 import { enqueueAchievement } from '@/components/ui/AchievementToast'
 import { getAudioSynth } from '@/components/ui/SoundManager'
-import { create } from 'zustand'
 import { trackGalaxyVisit, trackPlanetVisit, trackSpeedGalaxyHop } from './achievements'
 import { getProjectById } from './galaxyData'
 import type { ViewState } from './types'
@@ -16,7 +16,7 @@ interface ViewStore {
   hasEntered: boolean // Track if user has entered the experience
   isWarpingIn: boolean // Hyperspace effect during initial entry
 
-  // Scan state (Explorer Phase 1)
+  // Scan state (Explorer Phase 1) - retained for ScanSystem component
   scannedPlanets: Set<string>
   scanningPlanet: string | null
   scanProgress: number // 0-1
@@ -239,18 +239,43 @@ interface HoverGravityStore {
   hoveredPlanetId: string | null
   hoveredPosition: [number, number, number] | null
   hoveredSize: number
-  setHoveredPlanet: (id: string | null, position: [number, number, number] | null, size?: number) => void
+  setHoveredPlanet: (
+    id: string | null,
+    position: [number, number, number] | null,
+    size?: number
+  ) => void
 }
 
 export const useHoverGravityStore = create<HoverGravityStore>((set) => ({
   hoveredPlanetId: null,
   hoveredPosition: null,
   hoveredSize: 1,
-  setHoveredPlanet: (id, position, size = 1) => set({
-    hoveredPlanetId: id,
-    hoveredPosition: position,
-    hoveredSize: size,
-  }),
+  setHoveredPlanet: (id, position, size = 1) =>
+    set({
+      hoveredPlanetId: id,
+      hoveredPosition: position,
+      hoveredSize: size,
+    }),
+}))
+
+/**
+ * Adaptive Canvas DPR tiers — driven by @react-three/drei `PerformanceMonitor`
+ * when sustained FPS dips (keeps interaction smooth on low-end GPUs).
+ */
+export const CANVAS_DPR_TIER_MULTIPLIERS = [1, 0.82, 0.68] as const
+
+interface CanvasPerformanceStore {
+  tier: 0 | 1 | 2
+  declineTier: () => void
+  inclineTier: () => void
+  resetTier: () => void
+}
+
+export const useCanvasPerformanceStore = create<CanvasPerformanceStore>((set) => ({
+  tier: 0,
+  declineTier: () => set((s) => ({ tier: Math.min(2, s.tier + 1) as 0 | 1 | 2 })),
+  inclineTier: () => set((s) => ({ tier: Math.max(0, s.tier - 1) as 0 | 1 | 2 })),
+  resetTier: () => set({ tier: 0 }),
 }))
 
 // Motion preferences store - combines OS preference with manual toggle

@@ -1,11 +1,11 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
-import { getGalaxyCenterPosition, seededRandom, hashCode } from '@/lib/utils'
 import { usePrefersReducedMotion } from '@/lib/store'
+import { getGalaxyCenterPosition, hashCode, seededRandom } from '@/lib/utils'
 
 interface AsteroidBeltProps {
   position: [number, number, number]
@@ -290,7 +290,7 @@ export function AsteroidBelts() {
     return selectedGalaxies.map((galaxyIndex) => {
       const [x, y, z] = getGalaxyCenterPosition(galaxyIndex)
       const galaxy = galaxies[galaxyIndex]
-      const seed = hashCode(galaxy.id + 'asteroids')
+      const seed = hashCode(`${galaxy.id}asteroids`)
 
       // Vary belt properties per galaxy
       let innerRadius: number

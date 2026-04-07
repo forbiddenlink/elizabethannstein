@@ -1,10 +1,10 @@
 'use client'
 
-import { useViewStore } from '@/lib/store'
-import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Bot, Loader2, Send, Sparkles, User, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { useViewStore } from '@/lib/store'
+import { cn } from '@/lib/utils'
 
 interface Message {
   id: string
@@ -48,9 +48,11 @@ export function GalaxyGuide() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // biome-ignore lint/correctness/useExhaustiveDependencies: scrollToBottom is stable (no deps)
   useEffect(() => {
     scrollToBottom()
-  }, [messages, isOpen])
+  }, [messages])
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -109,13 +111,14 @@ export function GalaxyGuide() {
       {/* Trigger Button - bottom-right, clear of left-side nav elements */}
       {!isOpen && (
         <button
+          type="button"
           onClick={() => setIsOpen(true)}
           aria-label="Open Galaxy Guide"
           className={cn(
-            'fixed z-40 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]',
+            'fixed z-50 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]',
             'right-4 bottom-36 flex h-12 w-12 items-center justify-center lg:bottom-8 lg:right-8 lg:h-auto lg:w-auto lg:gap-3 lg:p-4 lg:hover:scale-110',
             !showMobileTrigger &&
-              'pointer-events-none opacity-0 translate-y-3 lg:pointer-events-auto lg:opacity-100 lg:translate-y-0',
+              'pointer-events-none opacity-0 translate-y-3 lg:pointer-events-auto lg:opacity-100 lg:translate-y-0'
           )}
         >
           <div className="relative">
@@ -153,6 +156,7 @@ export function GalaxyGuide() {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => setIsOpen(false)}
                 className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors"
                 aria-label="Close galaxy guide"
@@ -168,6 +172,7 @@ export function GalaxyGuide() {
                 <div className="flex flex-wrap gap-2 mb-4">
                   {suggestedPrompts.map((prompt) => (
                     <button
+                      type="button"
                       key={prompt}
                       onClick={() => {
                         setInputValue(prompt)
@@ -185,7 +190,7 @@ export function GalaxyGuide() {
                   key={msg.id}
                   className={cn(
                     'flex gap-3 max-w-[85%]',
-                    msg.role === 'user' ? 'ml-auto flex-row-reverse' : '',
+                    msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''
                   )}
                 >
                   <div
@@ -193,7 +198,7 @@ export function GalaxyGuide() {
                       'w-8 h-8 rounded-full shrink-0 flex items-center justify-center shadow-lg mt-1',
                       msg.role === 'user'
                         ? 'bg-white/10'
-                        : 'bg-linear-to-br from-indigo-500 to-purple-600',
+                        : 'bg-linear-to-br from-indigo-500 to-purple-600'
                     )}
                   >
                     {msg.role === 'user' ? (
@@ -207,7 +212,7 @@ export function GalaxyGuide() {
                       'p-3.5 rounded-2xl text-sm leading-relaxed',
                       msg.role === 'user'
                         ? 'bg-white/10 text-white rounded-tr-sm backdrop-blur-sm border border-white/5'
-                        : 'bg-indigo-950/40 text-indigo-50 rounded-tl-sm backdrop-blur-sm border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]',
+                        : 'bg-indigo-950/40 text-indigo-50 rounded-tl-sm backdrop-blur-sm border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]'
                     )}
                   >
                     {msg.content}
@@ -234,7 +239,7 @@ export function GalaxyGuide() {
                 void handleSubmit(
                   event.nativeEvent as SubmitEvent & {
                     currentTarget: HTMLFormElement
-                  },
+                  }
                 )
               }}
               className="p-4 border-t border-white/10 bg-black/60 backdrop-blur-xl"

@@ -1,7 +1,7 @@
 'use client'
 
-import { Canvas, extend, type CanvasProps } from '@react-three/fiber'
-import { useState, useEffect, useCallback, type ReactNode } from 'react'
+import { Canvas, type CanvasProps, extend } from '@react-three/fiber'
+import { type ReactNode, useCallback, useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { checkWebGPUSupport, type RendererType } from '@/lib/webgpu'
 
@@ -79,40 +79,59 @@ export function WebGPUCanvas({
   }, [onRendererReady])
 
   // WebGPU renderer factory
-  const createWebGPURenderer = useCallback(async (props: THREE.WebGLRendererParameters) => {
-    // Dynamically import WebGPU module
-    const THREE_WEBGPU = await import('three/webgpu')
+  const createWebGPURenderer = useCallback(
+    async (props: THREE.WebGLRendererParameters) => {
+      // Dynamically import WebGPU module
+      const THREE_WEBGPU = await import('three/webgpu')
 
-    // Extend R3F with WebGPU types
-    extend(THREE_WEBGPU as any)
+      // Extend R3F with WebGPU types
+      extend(THREE_WEBGPU as any)
 
-    // Create WebGPU renderer
-    const renderer = new THREE_WEBGPU.WebGPURenderer({
-      ...props,
-      antialias: config.antialias,
-      powerPreference: config.powerPreference,
-    } as any)
+      // Create WebGPU renderer
+      const renderer = new THREE_WEBGPU.WebGPURenderer({
+        ...props,
+        antialias: config.antialias,
+        powerPreference: config.powerPreference,
+      } as any)
 
-    // Initialize WebGPU renderer (required before first render)
-    await renderer.init()
+      // Initialize WebGPU renderer (required before first render)
+      await renderer.init()
 
-    // Apply tone mapping settings
-    renderer.toneMapping = config.toneMapping
-    renderer.toneMappingExposure = config.toneMappingExposure
-    renderer.outputColorSpace = config.outputColorSpace
+      // Apply tone mapping settings
+      renderer.toneMapping = config.toneMapping
+      renderer.toneMappingExposure = config.toneMappingExposure
+      renderer.outputColorSpace = config.outputColorSpace
 
-    return renderer
-  }, [config.antialias, config.powerPreference, config.toneMapping, config.toneMappingExposure, config.outputColorSpace])
+      return renderer
+    },
+    [
+      config.antialias,
+      config.powerPreference,
+      config.toneMapping,
+      config.toneMappingExposure,
+      config.outputColorSpace,
+    ]
+  )
 
   // WebGL renderer configuration (fallback)
-  const createWebGLConfig = useCallback(() => ({
-    antialias: config.antialias,
-    alpha: config.alpha,
-    powerPreference: config.powerPreference,
-    toneMapping: config.toneMapping,
-    toneMappingExposure: config.toneMappingExposure,
-    outputColorSpace: config.outputColorSpace,
-  }), [config])
+  const createWebGLConfig = useCallback(
+    () => ({
+      antialias: config.antialias,
+      alpha: config.alpha,
+      powerPreference: config.powerPreference,
+      toneMapping: config.toneMapping,
+      toneMappingExposure: config.toneMappingExposure,
+      outputColorSpace: config.outputColorSpace,
+    }),
+    [
+      config.antialias,
+      config.alpha,
+      config.powerPreference,
+      config.toneMapping,
+      config.toneMappingExposure,
+      config.outputColorSpace,
+    ]
+  )
 
   // Show loading state while checking support
   if (isChecking) {
@@ -120,31 +139,30 @@ export function WebGPUCanvas({
   }
 
   // Configure gl prop based on renderer type
-  const glConfig = rendererType === 'webgpu'
-    ? async (props: THREE.WebGLRendererParameters) => {
-        try {
-          return await createWebGPURenderer(props)
-        } catch (error) {
-          // If WebGPU initialization fails, fall back to WebGL
-          console.warn('[WebGPUCanvas] WebGPU initialization failed, falling back to WebGL:', error)
-          setRendererType('webgl')
-          // Return undefined to use default WebGL renderer with config
-          return undefined as any
+  const glConfig =
+    rendererType === 'webgpu'
+      ? async (props: THREE.WebGLRendererParameters) => {
+          try {
+            return await createWebGPURenderer(props)
+          } catch (error) {
+            // If WebGPU initialization fails, fall back to WebGL
+            console.warn(
+              '[WebGPUCanvas] WebGPU initialization failed, falling back to WebGL:',
+              error
+            )
+            setRendererType('webgl')
+            // Return undefined to use default WebGL renderer with config
+            return undefined as any
+          }
         }
-      }
-    : createWebGLConfig()
+      : createWebGLConfig()
 
   return (
     <>
-      <Canvas
-        {...canvasProps}
-        gl={glConfig}
-      >
+      <Canvas {...canvasProps} gl={glConfig}>
         {children}
       </Canvas>
-      {showRendererIndicator && rendererType && (
-        <RendererIndicator type={rendererType} />
-      )}
+      {showRendererIndicator && rendererType && <RendererIndicator type={rendererType} />}
     </>
   )
 }
@@ -168,9 +186,7 @@ function RendererIndicator({ type }: { type: RendererType }) {
     <div
       className="fixed bottom-4 right-4 z-50 px-3 py-1.5 rounded-full text-xs font-mono backdrop-blur-sm transition-opacity duration-300"
       style={{
-        background: type === 'webgpu'
-          ? 'rgba(34, 197, 94, 0.2)'
-          : 'rgba(59, 130, 246, 0.2)',
+        background: type === 'webgpu' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(59, 130, 246, 0.2)',
         color: type === 'webgpu' ? '#22c55e' : '#3b82f6',
         border: `1px solid ${type === 'webgpu' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(59, 130, 246, 0.3)'}`,
       }}

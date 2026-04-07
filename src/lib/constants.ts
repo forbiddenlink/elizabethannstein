@@ -1,6 +1,9 @@
+import { galaxies } from './galaxyData'
+
 // Contact and social links - single source of truth
 export const CONTACT = {
-  email: 'purplegumdropz@gmail.com',
+  /** Primary inbox on your domain (configure forwarding in DNS / host as needed) */
+  email: 'hello@elizabethannstein.com',
   linkedin: 'https://linkedin.com/in/imkindageeky',
   github: 'https://github.com/forbiddenlink',
 } as const
@@ -11,9 +14,9 @@ export const SITE = {
   title: 'Full-Stack Developer & AI Integration Specialist',
   fullTitle: 'Elizabeth Stein | Full-Stack & AI Developer',
   description:
-    'Full-stack development, AI integration, design systems, and enterprise-scale applications. Explore 84 projects across 6 galaxies.',
+    'Production web apps, design systems, and AI integrations—84 projects across six galaxies. Built to be explored, not skimmed.',
   shortDescription:
-    'Full-stack development, AI integration, design systems, and enterprise-scale applications.',
+    'Production web apps, design systems, and AI integrations—shipped with product judgment and engineering rigor.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
   keywords: [
     'Full-Stack Developer',
@@ -47,10 +50,12 @@ export const SITE = {
   ],
 } as const
 
-// Portfolio stats - focused on what recruiters care about
+const totalProjects = galaxies.reduce((sum, g) => sum + g.projects.length, 0)
+
+// Portfolio stats — derived from galaxyData so counts never drift
 export const STATS = {
-  projectCount: '84',
-  galaxyCount: '6',
+  projectCount: String(totalProjects),
+  galaxyCount: String(galaxies.length),
   yearsExperience: '3',
   yearRange: '2023–2026',
 } as const

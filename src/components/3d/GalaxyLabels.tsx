@@ -1,17 +1,17 @@
 'use client'
 
-import { useRef, useMemo, useState } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
 import { Text } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
-import { getGalaxyCenterPosition } from '@/lib/utils'
 import { useViewStore } from '@/lib/store'
+import { getGalaxyCenterPosition } from '@/lib/utils'
 
-const FADE_IN_START = 60   // start fading in (far)
-const FADE_IN_END = 28     // fully visible
-const FADE_OUT_START = 22  // start fading out (close)
-const FADE_OUT_END = 10    // fully invisible when very close
+const FADE_IN_START = 60 // start fading in (far)
+const FADE_IN_END = 28 // fully visible
+const FADE_OUT_START = 22 // start fading out (close)
+const FADE_OUT_END = 10 // fully invisible when very close
 
 interface GalaxyLabelProps {
   name: string
@@ -21,7 +21,7 @@ interface GalaxyLabelProps {
   index: number
 }
 
-function GalaxyLabel({ name, projectCount, position, color, index }: GalaxyLabelProps) {
+function GalaxyLabel({ name, projectCount, position, color, index: _index }: GalaxyLabelProps) {
   const nameRef = useRef<any>(null)
   const countRef = useRef<any>(null)
   const lineRef = useRef<THREE.Mesh>(null)
@@ -30,7 +30,7 @@ function GalaxyLabel({ name, projectCount, position, color, index }: GalaxyLabel
 
   // Typewriter effect state (imperative, no re-renders)
   const typewriterRef = useRef({ chars: 0, lastTime: 0, revealed: false })
-  const [displayName, setDisplayName] = useState(name)
+  const [_displayName, setDisplayName] = useState(name)
 
   // Label sits above the galaxy core
   const labelY = position[1] + 7.5
@@ -56,7 +56,8 @@ function GalaxyLabel({ name, projectCount, position, color, index }: GalaxyLabel
     const tw = typewriterRef.current
     if (opacity > 0.05 && !tw.revealed) {
       const now = state.clock.elapsedTime
-      if (now - tw.lastTime > 0.045) { // ~22fps typewriter
+      if (now - tw.lastTime > 0.045) {
+        // ~22fps typewriter
         tw.lastTime = now
         tw.chars = Math.min(name.length, tw.chars + 1)
         setDisplayName(name.slice(0, tw.chars) + (tw.chars < name.length ? '█' : ''))

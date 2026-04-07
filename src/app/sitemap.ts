@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 import { allProjects } from '@/lib/galaxyData'
 
 export default function sitemap(): MetadataRoute.Sitemap {

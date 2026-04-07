@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useViewStore } from '@/lib/store'
 
@@ -34,13 +34,13 @@ export function ClickRipple({ isMobile = false }: ClickRippleProps) {
         id: rippleIdRef.current++,
         position: new THREE.Vector3(0, 0, 0), // Will be set by planet
         startTime: Date.now(),
-        color: new THREE.Color('#ffffff')
+        color: new THREE.Color('#ffffff'),
       }
-      setRipples(prev => [...prev, newRipple])
+      setRipples((prev) => [...prev, newRipple])
 
       // Clean up old ripples
       setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== newRipple.id))
+        setRipples((prev) => prev.filter((r) => r.id !== newRipple.id))
       }, 2000)
     }
     prevProject.current = selectedProject
@@ -48,7 +48,7 @@ export function ClickRipple({ isMobile = false }: ClickRippleProps) {
 
   return (
     <group>
-      {ripples.map(ripple => (
+      {ripples.map((ripple) => (
         <RippleRing key={ripple.id} ripple={ripple} isMobile={isMobile} />
       ))}
     </group>
@@ -69,7 +69,7 @@ function RippleRing({ ripple, isMobile }: { ripple: RippleInstance; isMobile: bo
     if (elapsed > duration) return
 
     const progress = elapsed / duration
-    const easeOut = 1 - Math.pow(1 - progress, 3)
+    const easeOut = 1 - (1 - progress) ** 3
 
     // Scale rings outward
     const scale = 1 + easeOut * 8

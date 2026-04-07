@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef, useState, useEffect, Suspense } from 'react'
+import { Billboard, Float, Text } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Text, Float, Billboard } from '@react-three/drei'
-import { Physics, RigidBody, BallCollider } from '@react-three/rapier'
+import { BallCollider, Physics, RigidBody } from '@react-three/rapier'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import type { Project } from '@/lib/types'
 
@@ -17,13 +17,15 @@ interface PlanetSurfaceExplorerProps {
 export function PlanetSurfaceExplorer({
   project,
   planetColor,
-  planetType,
-  onExit
+  planetType: _planetType,
+  onExit,
 }: PlanetSurfaceExplorerProps) {
   const { camera, gl } = useThree()
   const [position, setPosition] = useState(new THREE.Vector3(0, 2, 0))
   const [rotation, setRotation] = useState({ yaw: 0, pitch: 0 })
-  const [footprints, setFootprints] = useState<Array<{ x: number; z: number; rotation: number }>>([])
+  const [footprints, setFootprints] = useState<Array<{ x: number; z: number; rotation: number }>>(
+    []
+  )
   const [nearBeacon, setNearBeacon] = useState(false)
 
   const keys = useRef<Set<string>>(new Set())
@@ -43,9 +45,12 @@ export function PlanetSurfaceExplorer({
     // Mouse look with pointer lock
     const handleMouseMove = (e: MouseEvent) => {
       if (document.pointerLockElement === gl.domElement) {
-        setRotation(prev => ({
+        setRotation((prev) => ({
           yaw: prev.yaw - e.movementX * 0.002,
-          pitch: Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, prev.pitch - e.movementY * 0.002))
+          pitch: Math.max(
+            -Math.PI / 2.5,
+            Math.min(Math.PI / 2.5, prev.pitch - e.movementY * 0.002)
+          ),
         }))
       }
     }
@@ -66,18 +71,25 @@ export function PlanetSurfaceExplorer({
   }, [gl.domElement, onExit])
 
   // Update loop
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     // 1. Handle Movement
     const moveSpeed = (keys.current.has('shift') ? 12 : 6) * delta
     const direction = new THREE.Vector3()
-    const isMoving = keys.current.has('w') || keys.current.has('s') || keys.current.has('a') || keys.current.has('d')
+    const isMoving =
+      keys.current.has('w') ||
+      keys.current.has('s') ||
+      keys.current.has('a') ||
+      keys.current.has('d')
 
     if (keys.current.has('w')) direction.z -= 1
     if (keys.current.has('s')) direction.z += 1
     if (keys.current.has('a')) direction.x -= 1
     if (keys.current.has('d')) direction.x += 1
 
-    direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), rotation.yaw).normalize().multiplyScalar(moveSpeed)
+    direction
+      .applyAxisAngle(new THREE.Vector3(0, 1, 0), rotation.yaw)
+      .normalize()
+      .multiplyScalar(moveSpeed)
 
     const newPosition = position.clone().add(direction)
     newPosition.y = 2 // Keep attached to ground
@@ -85,9 +97,9 @@ export function PlanetSurfaceExplorer({
 
     // 2. Footprints
     if (isMoving && newPosition.distanceTo(lastFootprintPos.current) > 1.5) {
-      setFootprints(prev => [
+      setFootprints((prev) => [
         ...prev.slice(-40),
-        { x: newPosition.x, z: newPosition.z, rotation: rotation.yaw }
+        { x: newPosition.x, z: newPosition.z, rotation: rotation.yaw },
       ])
       lastFootprintPos.current.copy(newPosition)
     }
@@ -114,13 +126,15 @@ export function PlanetSurfaceExplorer({
   }
 
   // Generate random terrain features
-  const features = useRef(Array.from({ length: 80 }, () => ({
-    x: (Math.random() - 0.5) * 100,
-    z: (Math.random() - 0.5) * 100,
-    scale: 0.5 + Math.random() * 2,
-    rotation: [Math.random() * Math.PI, Math.random() * Math.PI, 0] as [number, number, number],
-    type: Math.random() > 0.7 ? 'crystal' : 'rock'
-  }))).current
+  const features = useRef(
+    Array.from({ length: 80 }, () => ({
+      x: (Math.random() - 0.5) * 100,
+      z: (Math.random() - 0.5) * 100,
+      scale: 0.5 + Math.random() * 2,
+      rotation: [Math.random() * Math.PI, Math.random() * Math.PI, 0] as [number, number, number],
+      type: Math.random() > 0.7 ? 'crystal' : 'rock',
+    }))
+  ).current
 
   return (
     <>
@@ -171,7 +185,11 @@ export function PlanetSurfaceExplorer({
       {footprints.map((fp, i) => (
         <mesh key={i} position={[fp.x, 0.02, fp.z]} rotation={[-Math.PI / 2, 0, fp.rotation]}>
           <planeGeometry args={[0.4, 0.6]} />
-          <meshBasicMaterial color={planetColor} transparent opacity={0.4 * (i / footprints.length)} />
+          <meshBasicMaterial
+            color={planetColor}
+            transparent
+            opacity={0.4 * (i / footprints.length)}
+          />
         </mesh>
       ))}
 
@@ -214,13 +232,11 @@ export function PlanetSurfaceExplorer({
           {project.tags.map((tag, i) => {
             const angle = (i / project.tags.length) * Math.PI * 2
             return (
-              <Billboard key={tag} position={[Math.sin(angle) * 5, 4 + (i % 2), Math.cos(angle) * 5]}>
-                <Text
-                  fontSize={0.6}
-                  color="#ffffff"
-                  outlineWidth={0.05}
-                  outlineColor={planetColor}
-                >
+              <Billboard
+                key={tag}
+                position={[Math.sin(angle) * 5, 4 + (i % 2), Math.cos(angle) * 5]}
+              >
+                <Text fontSize={0.6} color="#ffffff" outlineWidth={0.05} outlineColor={planetColor}>
                   {tag}
                 </Text>
               </Billboard>
@@ -255,13 +271,7 @@ export function PlanetSurfaceExplorer({
             >
               PROJECT TRANSMISSION
             </Text>
-            <Text
-              position={[0, 1, 0]}
-              fontSize={0.5}
-              color="white"
-              maxWidth={6}
-              textAlign="center"
-            >
+            <Text position={[0, 1, 0]} fontSize={0.5} color="white" maxWidth={6} textAlign="center">
               {project.description}
             </Text>
           </Billboard>
@@ -278,11 +288,11 @@ function FloatingDebris({ planetColor }: { planetColor: string }) {
   const debris = useRef(
     Array.from({ length: 15 }, (_, i) => ({
       id: i,
-      position: [
-        (Math.random() - 0.5) * 40,
-        2 + Math.random() * 4,
-        (Math.random() - 0.5) * 40,
-      ] as [number, number, number],
+      position: [(Math.random() - 0.5) * 40, 2 + Math.random() * 4, (Math.random() - 0.5) * 40] as [
+        number,
+        number,
+        number,
+      ],
       size: 0.3 + Math.random() * 0.4,
     }))
   ).current

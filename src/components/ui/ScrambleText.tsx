@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 const CHARS = '!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
@@ -38,11 +38,8 @@ export function ScrambleText({ children, className, triggerOnMount = false }: Sc
   }, [children])
 
   return (
-    <span
-      onMouseEnter={scramble}
-      className={className}
-      suppressHydrationWarning
-    >
+    // biome-ignore lint/a11y/noStaticElementInteractions: visual-only scramble on hover, not interactive
+    <span onMouseEnter={scramble} className={className} suppressHydrationWarning>
       {display || children}
     </span>
   )

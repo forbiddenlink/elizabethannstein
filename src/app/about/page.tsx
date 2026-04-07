@@ -1,13 +1,13 @@
+import { Code2, Cpu, Download, Palette, Sparkles } from 'lucide-react'
+import type { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
-import { Code2, Cpu, Download, Palette, Sparkles } from 'lucide-react'
-import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'About Me - Elizabeth Stein Portfolio',
@@ -55,7 +55,8 @@ export default function AboutPage() {
       {/* Skip Link for Accessibility */}
       <a
         href="#about-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+        suppressHydrationWarning
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
       >
         Skip to main content
       </a>
@@ -82,10 +83,9 @@ export default function AboutPage() {
                 />
               </div>
               <div>
-                <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-linear-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-                  Hi, I'm Liz
-                </h1>
-                <p className="text-2xl md:text-3xl text-white/90 leading-relaxed max-w-3xl">
+                <p className="page-hero-kicker">About</p>
+                <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
+                <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
                   I build modern web experiences with thoughtful UX and solid engineering.
                 </p>
               </div>
@@ -198,20 +198,13 @@ export default function AboutPage() {
 
             {/* Quick Actions */}
             <div className="flex flex-wrap gap-3 mt-6">
-              <a
-                href="/resume/elizabeth-stein-resume.pdf"
-                download
-                className="btn btn-primary"
-              >
+              <a href="/resume/elizabeth-stein-resume.pdf" download className="btn btn-primary">
                 <Download className="w-4 h-4" />
                 Download Resume
               </a>
-              <a
-                href={`mailto:${CONTACT.email}?subject=Job%20Opportunity`}
-                className="btn btn-secondary"
-              >
-                Schedule a Chat
-              </a>
+              <Link href="/contact" className="btn btn-secondary">
+                Send a Message
+              </Link>
             </div>
           </section>
 
@@ -503,12 +496,9 @@ export default function AboutPage() {
               development, AI integration, or design systems—I'd love to hear from you.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href={`mailto:${CONTACT.email}`}
-                className="btn btn-primary px-8"
-              >
+              <Link href="/contact" className="btn btn-primary px-8">
                 Get in Touch
-              </a>
+              </Link>
               <a
                 href="/resume/elizabeth-stein-resume.pdf"
                 download
@@ -517,10 +507,7 @@ export default function AboutPage() {
                 <Download className="w-5 h-5" />
                 Download Resume
               </a>
-              <Link
-                href="/work"
-                className="btn btn-ghost px-8 border border-white/20"
-              >
+              <Link href="/work" className="btn btn-ghost px-8 border border-white/20">
                 View My Work
               </Link>
             </div>

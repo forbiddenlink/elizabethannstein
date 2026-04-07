@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
 import Link from 'next/link'
+import React from 'react'
 
 interface ErrorBoundaryProps {
   children: React.ReactNode
@@ -45,12 +45,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                 boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
               }}
             >
-              <h1 className="text-4xl font-bold mb-4 text-white">
-                3D Experience Unavailable
-              </h1>
+              <h1 className="text-4xl font-bold mb-4 text-white">3D Experience Unavailable</h1>
               <p className="text-xl text-white/80 mb-8 leading-relaxed">
-                Your browser or device doesn't support WebGL, which is required for the 3D galaxy experience.
-                Don't worry — you can still view all my work in the traditional view.
+                Your browser or device doesn't support WebGL, which is required for the 3D galaxy
+                experience. Don't worry — you can still view all my work in the traditional view.
               </p>
               <Link
                 href="/work"
@@ -83,7 +81,10 @@ interface Scene3DErrorBoundaryState {
   isRetrying: boolean
 }
 
-export class Scene3DErrorBoundary extends React.Component<Scene3DErrorBoundaryProps, Scene3DErrorBoundaryState> {
+export class Scene3DErrorBoundary extends React.Component<
+  Scene3DErrorBoundaryProps,
+  Scene3DErrorBoundaryState
+> {
   private retryTimeoutId: ReturnType<typeof setTimeout> | null = null
 
   constructor(props: Scene3DErrorBoundaryProps) {
@@ -102,7 +103,8 @@ export class Scene3DErrorBoundary extends React.Component<Scene3DErrorBoundaryPr
     // Auto-retry for network/loading errors
     const maxRetries = this.props.maxRetries ?? 3
     const retryDelay = this.props.retryDelay ?? 2000
-    const isNetworkError = error.message.includes('fetch') ||
+    const isNetworkError =
+      error.message.includes('fetch') ||
       error.message.includes('load') ||
       error.message.includes('network') ||
       error.message.includes('Failed to fetch')
@@ -145,7 +147,8 @@ export class Scene3DErrorBoundary extends React.Component<Scene3DErrorBoundaryPr
 
     if (hasError) {
       const canRetry = retryCount < maxRetries
-      const isNetworkError = error?.message.includes('fetch') ||
+      const isNetworkError =
+        error?.message.includes('fetch') ||
         error?.message.includes('load') ||
         error?.message.includes('network')
 
@@ -187,12 +190,13 @@ export class Scene3DErrorBoundary extends React.Component<Scene3DErrorBoundaryPr
             </h2>
             <p className="mb-6 text-sm leading-relaxed text-white/55">
               {isNetworkError
-                ? 'The 3D assets couldn\'t be loaded. Check your connection and try again.'
+                ? "The 3D assets couldn't be loaded. Check your connection and try again."
                 : 'The 3D experience encountered an error. You can try again or view projects in the traditional view.'}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               {canRetry && (
                 <button
+                  type="button"
                   onClick={this.handleManualRetry}
                   className="inline-flex min-h-11 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 px-6 py-3 text-sm font-medium text-purple-300 backdrop-blur-md transition-all hover:border-purple-500/50 hover:bg-purple-500/20"
                 >

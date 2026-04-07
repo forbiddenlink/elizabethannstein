@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { useEffect, useRef } from 'react'
 
 interface FloatingElementProps {
   children: React.ReactNode
@@ -43,7 +43,12 @@ export function FloatingElement({ children, className = '', delay = 0 }: Floatin
   )
 }
 
-export function GlowOrb({ color = '#8B5CF6', size = 200, x = 50, y = 50 }: {
+export function GlowOrb({
+  color = '#8B5CF6',
+  size = 200,
+  x = 50,
+  y = 50,
+}: {
   color?: string
   size?: number
   x?: number

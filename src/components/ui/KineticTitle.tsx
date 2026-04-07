@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { useMemo, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface KineticTitleProps {
@@ -16,7 +16,7 @@ export function KineticTitle({
   text,
   className = '',
   color = '#ffffff',
-  as: Tag = 'h2'
+  as: Tag = 'h2',
 }: KineticTitleProps) {
   const [isHovered, setIsHovered] = useState(false)
 
@@ -26,10 +26,10 @@ export function KineticTitle({
       // Use character code and position for deterministic randomness
       const seed = char.charCodeAt(0) * (i + 1)
       return {
-        x: ((seed % 60) - 30),      // -30 to 30
-        y: ((seed * 7) % 40) - 20,  // -20 to 20
+        x: (seed % 60) - 30, // -30 to 30
+        y: ((seed * 7) % 40) - 20, // -20 to 20
         rotate: ((seed * 3) % 30) - 15, // -15 to 15 degrees
-        scale: 0.8 + ((seed % 4) * 0.1), // 0.8 to 1.1
+        scale: 0.8 + (seed % 4) * 0.1, // 0.8 to 1.1
       }
     })
   }, [text])
@@ -88,7 +88,7 @@ export function MagneticTitle({
   text,
   className = '',
   color = '#ffffff',
-  as: Tag = 'h2'
+  as: Tag = 'h2',
 }: KineticTitleProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
@@ -133,7 +133,8 @@ export function MagneticTitle({
               damping: 20,
             }}
             style={{
-              textShadow: isHovered && attraction > 0.3 ? `0 0 ${attraction * 20}px ${color}` : 'none',
+              textShadow:
+                isHovered && attraction > 0.3 ? `0 0 ${attraction * 20}px ${color}` : 'none',
             }}
           >
             {letter === ' ' ? '\u00A0' : letter}
@@ -149,7 +150,7 @@ export function WaveTitle({
   text,
   className = '',
   color = '#ffffff',
-  as: Tag = 'h2'
+  as: Tag = 'h2',
 }: KineticTitleProps) {
   const [isHovered, setIsHovered] = useState(false)
   const letters = text.split('')

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useCallback, useEffect, useState } from 'react'
 import type { Achievement } from '@/lib/achievements'
 import { getMetricIcon } from '@/lib/metricIcons'
 
@@ -76,7 +76,7 @@ export function AchievementToastManager() {
   const [state, setState] = useState<ToastManagerState>({ queue: [], current: null })
 
   const enqueue = useCallback((a: Achievement) => {
-    setState(prev => {
+    setState((prev) => {
       if (prev.current === null) return { queue: prev.queue, current: a }
       return { queue: [...prev.queue, a], current: prev.current }
     })
@@ -84,11 +84,13 @@ export function AchievementToastManager() {
 
   useEffect(() => {
     globalEnqueue = enqueue
-    return () => { globalEnqueue = null }
+    return () => {
+      globalEnqueue = null
+    }
   }, [enqueue])
 
   const dismiss = useCallback(() => {
-    setState(prev => {
+    setState((prev) => {
       if (prev.queue.length === 0) return { queue: [], current: null }
       const [next, ...rest] = prev.queue
       return { queue: rest, current: next }

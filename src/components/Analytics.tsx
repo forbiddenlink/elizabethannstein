@@ -42,10 +42,7 @@ function getStoredUTMParams(): Record<string, string> {
 }
 
 // Track custom events with UTM attribution
-export function trackEvent(
-  eventName: string,
-  params?: Record<string, string | number | boolean>
-) {
+export function trackEvent(eventName: string, params?: Record<string, string | number | boolean>) {
   if (typeof window !== 'undefined' && window.gtag) {
     const utmParams = getStoredUTMParams()
     window.gtag('event', eventName, { ...params, ...utmParams })
@@ -65,7 +62,12 @@ function trackWebVitals() {
       trackEvent('web_vitals', {
         metric_name: 'LCP',
         metric_value: Math.round(lastEntry.startTime),
-        metric_rating: lastEntry.startTime < 2500 ? 'good' : lastEntry.startTime < 4000 ? 'needs-improvement' : 'poor',
+        metric_rating:
+          lastEntry.startTime < 2500
+            ? 'good'
+            : lastEntry.startTime < 4000
+              ? 'needs-improvement'
+              : 'poor',
       })
     })
     lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true })
@@ -77,7 +79,12 @@ function trackWebVitals() {
         trackEvent('web_vitals', {
           metric_name: 'FID',
           metric_value: Math.round(fidEntry.processingStart - fidEntry.startTime),
-          metric_rating: fidEntry.processingStart - fidEntry.startTime < 100 ? 'good' : fidEntry.processingStart - fidEntry.startTime < 300 ? 'needs-improvement' : 'poor',
+          metric_rating:
+            fidEntry.processingStart - fidEntry.startTime < 100
+              ? 'good'
+              : fidEntry.processingStart - fidEntry.startTime < 300
+                ? 'needs-improvement'
+                : 'poor',
         })
       }
     })

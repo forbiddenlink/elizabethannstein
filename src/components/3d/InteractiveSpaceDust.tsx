@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface InteractiveSpaceDustProps {
@@ -20,7 +20,7 @@ interface InteractiveSpaceDustProps {
 export function InteractiveSpaceDust({
   count = 800,
   size = 0.15,
-  spread = 100
+  spread = 100,
 }: InteractiveSpaceDustProps) {
   const pointsRef = useRef<THREE.Points>(null)
   const { camera, pointer } = useThree()
@@ -247,7 +247,7 @@ export function InteractiveSpaceDust({
         uniforms={{
           time: { value: 0 },
           mouseWorld: { value: new THREE.Vector3() },
-          mouseInfluence: { value: 0 }
+          mouseInfluence: { value: 0 },
         }}
         transparent
         vertexColors

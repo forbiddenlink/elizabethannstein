@@ -19,7 +19,7 @@ function hashString(str: string): number {
   let hash = 0
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char
+    hash = (hash << 5) - hash + char
     hash = hash & hash
   }
   return Math.abs(hash)
@@ -56,13 +56,13 @@ export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlac
         style={{
           background: `radial-gradient(ellipse at 30% 20%, ${color}40 0%, transparent 50%),
                        radial-gradient(ellipse at 70% 80%, ${color}30 0%, transparent 50%),
-                       linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(20,10,30,0.95) 100%)`
+                       linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(20,10,30,0.95) 100%)`,
         }}
       />
 
       {/* Grid pattern */}
       <svg className="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="none">
-        {lines.map((line) => (
+        {lines.map((line) =>
           line.isHorizontal ? (
             <line
               key={line.id}
@@ -86,7 +86,7 @@ export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlac
               strokeOpacity="0.3"
             />
           )
-        ))}
+        )}
       </svg>
 
       {/* Scatter dots */}
@@ -111,7 +111,7 @@ export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlac
       <div
         className="absolute top-0 right-0 w-32 h-32"
         style={{
-          background: `radial-gradient(circle at 100% 0%, ${color}20 0%, transparent 70%)`
+          background: `radial-gradient(circle at 100% 0%, ${color}20 0%, transparent 70%)`,
         }}
       />
     </div>

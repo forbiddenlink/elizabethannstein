@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { usePrefersReducedMotion } from '@/lib/store'
 
@@ -192,12 +192,7 @@ function SingleJellyfish({ position, color = '#FF00FF', scale = 1 }: JellyfishPr
       </group>
 
       {/* Point light for bioluminescence */}
-      <pointLight
-        color={jellyfishColor}
-        intensity={1}
-        distance={8}
-        decay={2}
-      />
+      <pointLight color={jellyfishColor} intensity={1} distance={8} decay={2} />
     </group>
   )
 }
@@ -226,7 +221,7 @@ export function CosmicJellyfish({ count = 5 }: CosmicJellyfishProps) {
         position: [
           radius * Math.sin(phi) * Math.cos(theta),
           radius * Math.cos(phi) * 0.5 + 20,
-          radius * Math.sin(phi) * Math.sin(theta)
+          radius * Math.sin(phi) * Math.sin(theta),
         ] as [number, number, number],
         color: colors[i % colors.length],
         scale: 1.5 + Math.random() * 2,

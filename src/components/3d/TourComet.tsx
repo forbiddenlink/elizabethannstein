@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo, useState, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 interface TourCometProps {
@@ -20,7 +20,7 @@ export function TourComet({
   endPosition,
   color = '#00D4FF',
   speed = 40,
-  onComplete
+  onComplete,
 }: TourCometProps) {
   const groupRef = useRef<THREE.Group>(null)
   const [isFlying, setIsFlying] = useState(false)
@@ -28,17 +28,21 @@ export function TourComet({
 
   // Generate random path if not specified
   const path = useMemo(() => {
-    const start = startPosition || [
-      (Math.random() - 0.5) * 200,
-      50 + Math.random() * 50,
-      (Math.random() - 0.5) * 200
-    ] as [number, number, number]
+    const start =
+      startPosition ||
+      ([(Math.random() - 0.5) * 200, 50 + Math.random() * 50, (Math.random() - 0.5) * 200] as [
+        number,
+        number,
+        number,
+      ])
 
-    const end = endPosition || [
-      (Math.random() - 0.5) * 200,
-      -20 + Math.random() * 20,
-      (Math.random() - 0.5) * 200
-    ] as [number, number, number]
+    const end =
+      endPosition ||
+      ([(Math.random() - 0.5) * 200, -20 + Math.random() * 20, (Math.random() - 0.5) * 200] as [
+        number,
+        number,
+        number,
+      ])
 
     return { start, end }
   }, [startPosition, endPosition])
@@ -65,7 +69,7 @@ export function TourComet({
       color: new THREE.Color(color),
       transparent: true,
       opacity: 0.6,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     })
     return new THREE.Line(geometry, material)
   }, [color])
@@ -155,11 +159,7 @@ export function TourComet({
         {/* Inner glow */}
         <mesh scale={1.5}>
           <sphereGeometry args={[0.8, 16, 16]} />
-          <meshBasicMaterial
-            color={cometColor}
-            transparent
-            opacity={0.6}
-          />
+          <meshBasicMaterial color={cometColor} transparent opacity={0.6} />
         </mesh>
 
         {/* Outer glow */}
@@ -199,7 +199,7 @@ export function TourComet({
 // Manager for multiple comets during tour
 export function TourCometManager({
   isJourneyMode,
-  journeyStep
+  journeyStep,
 }: {
   isJourneyMode: boolean
   journeyStep: number
@@ -215,11 +215,11 @@ export function TourCometManager({
       // Random chance to spawn comet on transition
       if (Math.random() > 0.3) {
         const cometId = Date.now()
-        setActiveComets(prev => [...prev, cometId])
+        setActiveComets((prev) => [...prev, cometId])
 
         // Remove after animation completes
         setTimeout(() => {
-          setActiveComets(prev => prev.filter(id => id !== cometId))
+          setActiveComets((prev) => prev.filter((id) => id !== cometId))
         }, 5000)
       }
     }

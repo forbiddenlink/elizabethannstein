@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Shuffle, Sparkles } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Shuffle } from 'lucide-react'
+import { useState } from 'react'
 import type { Project } from '@/lib/types'
 
 interface RandomProjectButtonProps {

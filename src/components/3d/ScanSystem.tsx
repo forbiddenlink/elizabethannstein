@@ -1,14 +1,14 @@
 'use client'
 
-import { useRef, useState, useEffect, useMemo, useCallback } from 'react'
+import { Billboard, Text } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Text, Billboard, Ring } from '@react-three/drei'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { useViewStore } from '@/lib/store'
-import { galaxies, allProjects } from '@/lib/galaxyData'
-import { generateProjectPosition, getSizeMultiplier } from '@/lib/utils'
-import type { Project } from '@/lib/types'
 import { create } from 'zustand'
+import { galaxies } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
+import type { Project } from '@/lib/types'
+import { generateProjectPosition, getSizeMultiplier } from '@/lib/utils'
 
 // =============================================================================
 // SCAN TARGET STORE - Shared state for HUD to read
@@ -21,7 +21,11 @@ interface ScanTargetState {
   isScanning: boolean
   isScanned: boolean
   distance: number
-  setTarget: (planet: Project | null, position: [number, number, number] | null, distance: number) => void
+  setTarget: (
+    planet: Project | null,
+    position: [number, number, number] | null,
+    distance: number
+  ) => void
 }
 
 const useScanTargetStore = create<ScanTargetState>((set) => ({
@@ -31,12 +35,13 @@ const useScanTargetStore = create<ScanTargetState>((set) => ({
   isScanning: false,
   isScanned: false,
   distance: Infinity,
-  setTarget: (planet, position, distance) => set({
-    targetPlanet: planet,
-    targetPosition: position,
-    distance,
-    canScan: distance < SCAN_RANGE
-  }),
+  setTarget: (planet, position, distance) =>
+    set({
+      targetPlanet: planet,
+      targetPosition: position,
+      distance,
+      canScan: distance < SCAN_RANGE,
+    }),
 }))
 
 // =============================================================================
@@ -115,7 +120,7 @@ function ScanProgressRing({
   position,
   progress,
   color,
-  size
+  size,
 }: {
   position: [number, number, number]
   progress: number
@@ -158,12 +163,7 @@ function ScanProgressRing({
       {/* Background ring (full circle, dimmer) */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <ringGeometry args={[innerRadius, outerRadius, 64]} />
-        <meshBasicMaterial
-          color={color}
-          transparent
-          opacity={0.15}
-          side={THREE.DoubleSide}
-        />
+        <meshBasicMaterial color={color} transparent opacity={0.15} side={THREE.DoubleSide} />
       </mesh>
 
       {/* Outer decorative ring */}
@@ -187,7 +187,7 @@ function ScanProgressRing({
 
 function ScannedPlanetData({
   project,
-  position
+  position,
 }: {
   project: Project
   position: [number, number, number]
@@ -328,7 +328,7 @@ export function ScanSystem() {
   }, [isSpaceHeld, nearestPlanet, scanningPlanet, scannedPlanets, startScan, cancelScan])
 
   // Main update loop - CRITICAL: Avoid state updates unless values actually change
-  useFrame((state, delta) => {
+  useFrame((_state, _delta) => {
     // Skip in exploration mode
     if (view === 'exploration') return
 
@@ -387,12 +387,12 @@ export function ScanSystem() {
   // Get the planet being scanned for visual feedback
   const scanningPlanetData = useMemo(() => {
     if (!scanningPlanet) return null
-    return planetPositions.find(p => p.project.id === scanningPlanet) || null
+    return planetPositions.find((p) => p.project.id === scanningPlanet) || null
   }, [scanningPlanet, planetPositions])
 
   // Get all scanned planets for data display
   const scannedPlanetDataList = useMemo(() => {
-    return planetPositions.filter(p => scannedPlanets.has(p.project.id))
+    return planetPositions.filter((p) => scannedPlanets.has(p.project.id))
   }, [scannedPlanets, planetPositions])
 
   // Don't render in exploration mode

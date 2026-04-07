@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { usePrefersReducedMotion } from '@/lib/store'
 
@@ -26,11 +26,7 @@ export function AuroraRibbons({ count = 4, spread = 120 }: AuroraRibbonsProps) {
       const height = 30 + Math.random() * 40
 
       return {
-        basePosition: new THREE.Vector3(
-          Math.cos(angle) * radius,
-          height,
-          Math.sin(angle) * radius
-        ),
+        basePosition: new THREE.Vector3(Math.cos(angle) * radius, height, Math.sin(angle) * radius),
         length: 40 + Math.random() * 30,
         width: 8 + Math.random() * 6,
         speed: 0.3 + Math.random() * 0.4,
@@ -122,7 +118,7 @@ export function AuroraRibbons({ count = 4, spread = 120 }: AuroraRibbonsProps) {
 
   // Create ribbon geometries
   const ribbonGeometries = useMemo(() => {
-    return ribbonConfigs.map(config => {
+    return ribbonConfigs.map((config) => {
       const segments = 64
       const geometry = new THREE.PlaneGeometry(config.length, config.width, segments, 4)
       return geometry
@@ -149,8 +145,10 @@ export function AuroraRibbons({ count = 4, spread = 120 }: AuroraRibbonsProps) {
           material.uniforms.uTime.value = time + config.phase
 
           // Gentle overall drift
-          ribbon.position.x = config.basePosition.x + Math.sin(time * config.speed + config.phase) * 10
-          ribbon.position.z = config.basePosition.z + Math.cos(time * config.speed * 0.7 + config.phase) * 8
+          ribbon.position.x =
+            config.basePosition.x + Math.sin(time * config.speed + config.phase) * 10
+          ribbon.position.z =
+            config.basePosition.z + Math.cos(time * config.speed * 0.7 + config.phase) * 8
           ribbon.position.y = config.basePosition.y + Math.sin(time * config.speed * 0.5) * 5
 
           // Slow rotation

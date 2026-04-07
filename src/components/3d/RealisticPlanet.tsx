@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useRef } from 'react'
 import * as THREE from 'three'
 
 interface RealisticPlanetProps {
@@ -10,8 +10,8 @@ interface RealisticPlanetProps {
   size: number
   isSupernova?: boolean
   planetType?: 'rocky' | 'gas' | 'ice' | 'desert'
-  hasLife?: boolean  // Show city lights on night side
-  isScanned?: boolean  // Only allow click interaction if scanned
+  hasLife?: boolean // Show city lights on night side
+  isScanned?: boolean // Only allow click interaction if scanned
   onClick?: () => void
   onHover?: (hovered: boolean) => void
 }
@@ -25,7 +25,7 @@ export function RealisticPlanet({
   hasLife = false,
   isScanned = true,
   onClick,
-  onHover
+  onHover,
 }: RealisticPlanetProps) {
   const planetRef = useRef<THREE.Mesh>(null)
   const glowRef = useRef<THREE.Mesh>(null)
@@ -38,7 +38,7 @@ export function RealisticPlanet({
     varying vec2 vUv;
     varying vec3 vNormal;
     varying vec3 vPosition;
-    
+
     void main() {
       vUv = uv;
       vNormal = normalize(normalMatrix * normal);
@@ -397,6 +397,7 @@ export function RealisticPlanet({
   return (
     <group position={position}>
       {/* Main planet with shader */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: R3F mesh — events are Three.js pointer events, not DOM */}
       <mesh
         ref={planetRef}
         position={[0, 0, 0]}
@@ -425,8 +426,17 @@ export function RealisticPlanet({
             color: { value: new THREE.Color(color) },
             time: { value: 0 },
             brightness: { value: isSupernova ? 3.0 : 2.0 },
-            planetType: { value: planetType === 'rocky' ? 0.1 : planetType === 'gas' ? 0.4 : planetType === 'ice' ? 0.6 : 0.9 },
-            hasCities: { value: hasLife ? 1.0 : 0.0 }
+            planetType: {
+              value:
+                planetType === 'rocky'
+                  ? 0.1
+                  : planetType === 'gas'
+                    ? 0.4
+                    : planetType === 'ice'
+                      ? 0.6
+                      : 0.9,
+            },
+            hasCities: { value: hasLife ? 1.0 : 0.0 },
           }}
         />
       </mesh>
@@ -440,7 +450,7 @@ export function RealisticPlanet({
             fragmentShader={cloudFragmentShader}
             uniforms={{
               time: { value: 0 },
-              color: { value: new THREE.Color(color) }
+              color: { value: new THREE.Color(color) },
             }}
             transparent
             depthWrite={false}
@@ -453,10 +463,7 @@ export function RealisticPlanet({
       {planetType === 'gas' && (
         <>
           {/* Main ring */}
-          <mesh
-            ref={ringsRef}
-            rotation={[Math.PI / 2.5, 0, 0]}
-          >
+          <mesh ref={ringsRef} rotation={[Math.PI / 2.5, 0, 0]}>
             <ringGeometry args={[size * 1.4, size * 2.2, 64]} />
             <meshStandardMaterial
               color={color}
@@ -546,7 +553,7 @@ export function RealisticPlanet({
               blending={THREE.AdditiveBlending}
             />
           </mesh>
-          
+
           {/* Outer corona ring for supernova */}
           <mesh rotation={[Math.PI / 4, 0, 0]} scale={2.2}>
             <ringGeometry args={[size * 1.6, size * 2.0, 24]} />
@@ -580,7 +587,7 @@ export function RealisticPlanet({
               depthWrite={false}
             />
           </mesh>
-          
+
           {/* Diagonal lens flare streaks */}
           <mesh rotation={[0, 0, Math.PI / 4]}>
             <planeGeometry args={[size * 7, size * 0.3]} />
@@ -625,16 +632,9 @@ export function RealisticPlanet({
         distance={isSupernova ? 40 : 20}
         decay={2}
       />
-      
+
       {/* Extra bright core light for supernova */}
-      {isSupernova && (
-        <pointLight
-          color={color}
-          intensity={8}
-          distance={25}
-          decay={1.5}
-        />
-      )}
+      {isSupernova && <pointLight color={color} intensity={8} distance={25} decay={1.5} />}
     </group>
   )
 }

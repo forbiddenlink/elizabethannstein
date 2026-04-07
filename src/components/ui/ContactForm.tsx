@@ -1,43 +1,74 @@
 'use client'
 
-import { CONTACT } from '@/lib/constants'
-import { Check, Copy, ExternalLink, Send } from 'lucide-react'
-import type { ComponentProps } from 'react'
+import { AlertCircle, Check, Loader2, Send } from 'lucide-react'
 import { useState } from 'react'
+import { analytics } from '@/components/Analytics'
+import { CONTACT } from '@/lib/constants'
 
-type FormStatus = 'idle' | 'ready'
-type FormSubmitEvent = Parameters<NonNullable<ComponentProps<'form'>['onSubmit']>>[0]
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
+
+const MAX_MESSAGE_LENGTH = 5000
 
 export function ContactForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [sentEmail, setSentEmail] = useState('')
   const [status, setStatus] = useState<FormStatus>('idle')
-  const [copied, setCopied] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
 
-  const getMessageText = () => {
-    return `Hi Elizabeth,\n\n${message}\n\n---\nFrom: ${name}\nEmail: ${email}`
-  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setStatus('submitting')
+    setErrorMsg('')
 
-  const getMailtoUrl = () => {
-    const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`)
-    const body = encodeURIComponent(getMessageText())
-    return `mailto:${CONTACT.email}?subject=${subject}&body=${body}`
-  }
-
-  const handleCopyToClipboard = async () => {
     try {
-      await globalThis.navigator.clipboard.writeText(getMessageText())
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      })
+
+      const data = (await res.json()) as { ok?: boolean; error?: string }
+
+      if (!res.ok || !data.ok) {
+        setStatus('error')
+        setErrorMsg(data.error ?? 'Something went wrong. Please try again.')
+        return
+      }
+
+      setSentEmail(email)
+      setStatus('success')
+      analytics.contactSubmit()
+      setName('')
+      setEmail('')
+      setMessage('')
     } catch {
-      setCopied(false)
+      setStatus('error')
+      setErrorMsg('Network error. Check your connection and try again.')
     }
   }
 
-  const handleSubmit = (e: FormSubmitEvent) => {
-    e.preventDefault()
-    setStatus('ready')
+  if (status === 'success') {
+    return (
+      <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-500/20 mb-4">
+          <Check className="w-7 h-7 text-emerald-400" />
+        </div>
+        <h3 className="text-xl font-semibold mb-2">Message sent!</h3>
+        <p className="text-white/60">
+          I&apos;ll get back to you at <span className="text-white/80">{sentEmail}</span> within 24
+          hours.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus('idle')}
+          className="mt-6 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+        >
+          Send another message
+        </button>
+      </div>
+    )
   }
 
   return (
@@ -57,6 +88,7 @@ export function ContactForm() {
           autoCapitalize="words"
           placeholder="Jane Smith"
           className="input-glass w-full"
+          disabled={status === 'submitting'}
         />
       </div>
 
@@ -75,6 +107,7 @@ export function ContactForm() {
           inputMode="email"
           placeholder="jane@company.com"
           className="input-glass w-full"
+          disabled={status === 'submitting'}
         />
       </div>
 
@@ -90,55 +123,53 @@ export function ContactForm() {
           required
           rows={5}
           autoCapitalize="sentences"
+          maxLength={MAX_MESSAGE_LENGTH}
           placeholder="Tell me about your project or opportunity..."
           className="input-glass w-full resize-none"
+          disabled={status === 'submitting'}
         />
+        <div className="flex justify-end mt-1">
+          <span
+            className={`text-[10px] tabular-nums transition-colors ${
+              message.length > MAX_MESSAGE_LENGTH * 0.9 ? 'text-warning/70' : 'text-white/25'
+            }`}
+          >
+            {message.length.toLocaleString()} / {MAX_MESSAGE_LENGTH.toLocaleString()}
+          </span>
+        </div>
       </div>
 
-      <button
-        type="submit"
-        className="btn btn-primary w-full py-4 text-base"
-      >
-        <Send className="w-5 h-5" />
-        <span>{status === 'ready' ? 'Update Email Draft' : 'Prepare Email Draft'}</span>
-      </button>
-
-      {status === 'ready' && (
-        <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-          <h3 className="text-xl font-semibold mb-2">Message ready to send</h3>
-          <p className="text-white/70 mb-4">
-            This site does not send email directly. Use your email app or copy the message below.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <a
-              href={getMailtoUrl()}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 rounded-lg text-sm font-medium text-emerald-200 transition-all"
-            >
-              <ExternalLink className="w-4 h-4" />
-              Open email app
-            </a>
-            <button
-              type="button"
-              onClick={handleCopyToClipboard}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all"
-            >
-              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              {copied ? 'Copied!' : 'Copy message'}
-            </button>
-          </div>
-          <p className="text-white/40 text-sm mt-4">
-            Prefer to email directly? Send it to{' '}
-            <a href={`mailto:${CONTACT.email}`} className="text-purple-400 hover:text-purple-300">
-              {CONTACT.email}
-            </a>{' '}
-            instead.
-          </p>
+      {status === 'error' && (
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{errorMsg}</span>
         </div>
       )}
 
+      <button
+        type="submit"
+        disabled={status === 'submitting'}
+        className="btn btn-primary w-full py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+      >
+        {status === 'submitting' ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>Sending…</span>
+          </>
+        ) : (
+          <>
+            <Send className="w-5 h-5" />
+            <span>Send Message</span>
+          </>
+        )}
+      </button>
+
       <p className="text-white/40 text-xs text-center">
-        I typically respond within 24 hours. Preparing a draft keeps the flow reliable even if your
-        browser does not support direct email sending.
+        I typically respond within 24 hours. Or email me directly at{' '}
+        <a href={`mailto:${CONTACT.email}`} className="text-purple-400/70 hover:text-purple-400">
+          {CONTACT.email}
+        </a>
+        .
       </p>
     </form>
   )

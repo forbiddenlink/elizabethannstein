@@ -18,7 +18,7 @@ test.describe('Contact Form Validation', () => {
     await contactPage.goto()
   })
 
-  test('shows validation error for empty name', async ({ contactPage, page }) => {
+  test('shows validation error for empty name', async ({ contactPage }) => {
     // Fill email and message, leave name empty
     await contactPage.fillForm({
       name: '',

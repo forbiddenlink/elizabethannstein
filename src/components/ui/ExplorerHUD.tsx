@@ -1,9 +1,9 @@
 'use client'
 
+import { useCallback, useEffect, useState } from 'react'
 import { useScanTarget } from '@/components/3d/ScanSystem'
 import { galaxies, getGalaxyById } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
-import { useCallback, useEffect, useState } from 'react'
 
 // Touch target minimum size (44x44px for accessibility)
 const TOUCH_TARGET_SIZE = 'min-h-11 min-w-11'
@@ -38,7 +38,7 @@ export function ExplorerHUD() {
 
   // Get current galaxy data
   const currentGalaxy = selectedGalaxy ? getGalaxyById(selectedGalaxy) : null
-  const galaxyIndex = galaxies.findIndex((g) => g.id === selectedGalaxy)
+  const _galaxyIndex = galaxies.findIndex((g) => g.id === selectedGalaxy)
 
   // Count scanned planets in current galaxy
   const totalPlanetsInGalaxy = currentGalaxy?.projects.length ?? 0

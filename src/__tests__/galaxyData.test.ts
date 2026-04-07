@@ -1,13 +1,14 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
-  galaxies,
   allProjects,
   featuredProjects,
-  getProjectById,
+  galaxies,
   getGalaxyById,
-  narrativeTours,
   getNarrativeTourById,
+  getProjectById,
+  narrativeTours,
 } from '@/lib/galaxyData'
+import { getHighlightReel, HIGHLIGHT_REEL_IDS } from '@/lib/highlightReel'
 
 describe('galaxyData', () => {
   describe('galaxies', () => {
@@ -107,7 +108,9 @@ describe('galaxyData', () => {
       const projectIds = new Set(allProjects.map((p) => p.id))
       for (const tour of narrativeTours) {
         for (const id of tour.projectIds) {
-          expect(projectIds.has(id), `Tour "${tour.name}" references missing project "${id}"`).toBe(true)
+          expect(projectIds.has(id), `Tour "${tour.name}" references missing project "${id}"`).toBe(
+            true
+          )
         }
       }
     })
@@ -117,7 +120,7 @@ describe('galaxyData', () => {
         for (const id of tour.projectIds) {
           expect(
             tour.narrativeIntros[id],
-            `Tour "${tour.name}" missing narrative intro for "${id}"`,
+            `Tour "${tour.name}" missing narrative intro for "${id}"`
           ).toBeTruthy()
         }
       }
@@ -127,6 +130,18 @@ describe('galaxyData', () => {
       const tour = getNarrativeTourById('ai-journey')
       expect(tour).toBeDefined()
       expect(tour?.name).toBe('My AI Journey')
+    })
+  })
+
+  describe('highlight reel', () => {
+    it('lists three curated case studies with live project data', () => {
+      expect(HIGHLIGHT_REEL_IDS).toHaveLength(3)
+      const reel = getHighlightReel()
+      expect(reel).toHaveLength(3)
+      for (const item of reel) {
+        expect(getProjectById(item.id)?.title).toBe(item.title)
+        expect(item.hook.length).toBeGreaterThan(3)
+      }
     })
   })
 })

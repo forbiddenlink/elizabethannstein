@@ -1,9 +1,9 @@
 'use client'
 
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { useViewStore } from '@/lib/store'
 import { getProjectById } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
 
 export function DeepLinkHandler() {
   const searchParams = useSearchParams()
@@ -12,10 +12,10 @@ export function DeepLinkHandler() {
 
   useEffect(() => {
     const projectParam = searchParams.get('p')
-    
+
     if (projectParam) {
       const project = getProjectById(projectParam)
-      
+
       // Check for WebGL support and reduced motion preference
       const canvas = document.createElement('canvas')
       const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')

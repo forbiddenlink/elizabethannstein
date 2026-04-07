@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface SpaceStationProps {
@@ -18,7 +18,7 @@ export function SpaceStation({
   orbitRadius = 3,
   orbitSpeed = 0.3,
   scale = 0.5,
-  color = '#4A90D9'
+  color = '#4A90D9',
 }: SpaceStationProps) {
   const groupRef = useRef<THREE.Group>(null)
   const ringRef = useRef<THREE.Mesh>(null)
@@ -66,7 +66,7 @@ export function SpaceStation({
         const phase = (time * 2 + i * 1.5) % 2
         const mesh = light as THREE.Mesh
         if (mesh.material && 'opacity' in mesh.material) {
-          (mesh.material as THREE.MeshBasicMaterial).opacity = phase < 1 ? 0.3 : 1
+          ;(mesh.material as THREE.MeshBasicMaterial).opacity = phase < 1 ? 0.3 : 1
         }
       })
     }
@@ -77,11 +77,7 @@ export function SpaceStation({
       {/* Central Hub */}
       <mesh castShadow>
         <cylinderGeometry args={[0.4, 0.4, 0.8, 16]} />
-        <meshStandardMaterial
-          color={stationColor}
-          metalness={0.8}
-          roughness={0.2}
-        />
+        <meshStandardMaterial color={stationColor} metalness={0.8} roughness={0.2} />
       </mesh>
 
       {/* Central Hub Detail Ring */}
@@ -93,20 +89,12 @@ export function SpaceStation({
       {/* Rotating Habitat Ring */}
       <mesh ref={ringRef} position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.2, 0.15, 8, 48]} />
-        <meshStandardMaterial
-          color={stationColor}
-          metalness={0.7}
-          roughness={0.3}
-        />
+        <meshStandardMaterial color={stationColor} metalness={0.7} roughness={0.3} />
       </mesh>
 
       {/* Ring Support Spokes */}
       {[0, 1, 2, 3, 4, 5].map((i) => (
-        <mesh
-          key={i}
-          position={[0, 0, 0]}
-          rotation={[Math.PI / 2, 0, (i / 6) * Math.PI * 2]}
-        >
+        <mesh key={i} position={[0, 0, 0]} rotation={[Math.PI / 2, 0, (i / 6) * Math.PI * 2]}>
           <boxGeometry args={[0.05, 1.0, 0.05]} />
           <meshStandardMaterial color={stationColor} metalness={0.6} roughness={0.4} />
         </mesh>
@@ -184,11 +172,7 @@ export function SpaceStation({
       {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((angle, i) => (
         <mesh
           key={`dock-${i}`}
-          position={[
-            Math.cos(angle) * 0.5,
-            0,
-            Math.sin(angle) * 0.5
-          ]}
+          position={[Math.cos(angle) * 0.5, 0, Math.sin(angle) * 0.5]}
           rotation={[0, -angle, 0]}
         >
           <cylinderGeometry args={[0.08, 0.1, 0.15, 8]} />
@@ -225,11 +209,7 @@ export function SpaceStation({
         return (
           <pointLight
             key={`window-${i}`}
-            position={[
-              Math.cos(angle) * 1.2,
-              0,
-              Math.sin(angle) * 1.2
-            ]}
+            position={[Math.cos(angle) * 1.2, 0, Math.sin(angle) * 1.2]}
             color="#FFE4B5"
             intensity={0.1}
             distance={1}
@@ -248,7 +228,7 @@ export function Satellite({
   position,
   orbitRadius = 2,
   orbitSpeed = 0.5,
-  scale = 0.3
+  scale = 0.3,
 }: Omit<SpaceStationProps, 'color'>) {
   const groupRef = useRef<THREE.Group>(null)
   const panelRef = useRef<THREE.Group>(null)
@@ -281,11 +261,21 @@ export function Satellite({
       <group ref={panelRef}>
         <mesh position={[-0.8, 0, 0]}>
           <boxGeometry args={[1, 0.02, 0.4]} />
-          <meshStandardMaterial color="#1a237e" metalness={0.3} emissive="#1a237e" emissiveIntensity={0.1} />
+          <meshStandardMaterial
+            color="#1a237e"
+            metalness={0.3}
+            emissive="#1a237e"
+            emissiveIntensity={0.1}
+          />
         </mesh>
         <mesh position={[0.8, 0, 0]}>
           <boxGeometry args={[1, 0.02, 0.4]} />
-          <meshStandardMaterial color="#1a237e" metalness={0.3} emissive="#1a237e" emissiveIntensity={0.1} />
+          <meshStandardMaterial
+            color="#1a237e"
+            metalness={0.3}
+            emissive="#1a237e"
+            emissiveIntensity={0.1}
+          />
         </mesh>
       </group>
 

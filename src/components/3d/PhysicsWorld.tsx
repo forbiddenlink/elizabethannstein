@@ -1,8 +1,8 @@
 'use client'
 
-import { Physics, RigidBody, CuboidCollider, BallCollider } from '@react-three/rapier'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useRef, Suspense } from 'react'
+import { BallCollider, CuboidCollider, Physics, RigidBody } from '@react-three/rapier'
+import { Suspense, useRef } from 'react'
 import * as THREE from 'three'
 
 /**
@@ -53,11 +53,7 @@ export function PhysicsAsteroid({
       <BallCollider args={[size]} />
       <mesh ref={meshRef}>
         <icosahedronGeometry args={[size, 1]} />
-        <meshStandardMaterial
-          color={color}
-          roughness={0.8}
-          metalness={0.2}
-        />
+        <meshStandardMaterial color={color} roughness={0.8} metalness={0.2} />
       </mesh>
     </RigidBody>
   )
@@ -80,11 +76,7 @@ export function PhysicsPlatform({
       <CuboidCollider args={[size[0] / 2, size[1] / 2, size[2] / 2]} />
       <mesh>
         <boxGeometry args={size} />
-        <meshStandardMaterial
-          color={color}
-          roughness={0.6}
-          metalness={0.3}
-        />
+        <meshStandardMaterial color={color} roughness={0.6} metalness={0.3} />
       </mesh>
     </RigidBody>
   )
@@ -93,7 +85,7 @@ export function PhysicsPlatform({
 /**
  * Cursor-following attractor that pulls nearby physics objects
  */
-export function CursorAttractor({ strength = 5 }: { strength?: number }) {
+export function CursorAttractor({ strength: _strength = 5 }: { strength?: number }) {
   const { camera, pointer } = useThree()
   const attractorRef = useRef(new THREE.Vector3())
 
@@ -151,11 +143,7 @@ export function PhysicsAsteroidField({
  * Zero-gravity space environment
  */
 export function SpacePhysics({ children }: { children: React.ReactNode }) {
-  return (
-    <PhysicsWorld gravity={[0, 0, 0]}>
-      {children}
-    </PhysicsWorld>
-  )
+  return <PhysicsWorld gravity={[0, 0, 0]}>{children}</PhysicsWorld>
 }
 
 /**
@@ -168,9 +156,5 @@ export function PlanetSurfacePhysics({
   children: React.ReactNode
   gravityStrength?: number
 }) {
-  return (
-    <PhysicsWorld gravity={[0, -gravityStrength, 0]}>
-      {children}
-    </PhysicsWorld>
-  )
+  return <PhysicsWorld gravity={[0, -gravityStrength, 0]}>{children}</PhysicsWorld>
 }

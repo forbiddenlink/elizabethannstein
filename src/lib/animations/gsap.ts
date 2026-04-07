@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger)
 }
 
 // Default GSAP configuration
@@ -13,7 +13,7 @@ gsap.config({
   autoSleep: 60,
   force3D: true,
   nullTargetWarn: false,
-});
+})
 
 // Default ease presets
 export const eases = {
@@ -44,7 +44,7 @@ export const eases = {
   // Custom cubic bezier approximations
   spring: 'power3.out',
   swift: 'power4.out',
-} as const;
+} as const
 
 // Duration presets in seconds
 export const durations = {
@@ -54,7 +54,7 @@ export const durations = {
   slow: 0.6,
   dramatic: 0.8,
   epic: 1.2,
-} as const;
+} as const
 
 // Stagger presets
 export const staggers = {
@@ -62,6 +62,6 @@ export const staggers = {
   normal: 0.1,
   slow: 0.15,
   dramatic: 0.2,
-} as const;
+} as const
 
-export { gsap, ScrollTrigger };
+export { gsap, ScrollTrigger }

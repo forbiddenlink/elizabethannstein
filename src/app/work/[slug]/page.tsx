@@ -1,3 +1,7 @@
+import { ArrowLeft, ArrowRight, MessageSquare } from 'lucide-react'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { SiteFooter } from '@/components/ui/SiteFooter'
@@ -6,10 +10,6 @@ import { StarryBackground } from '@/components/ui/StarryBackground'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { SITE } from '@/lib/constants'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
-import { ArrowLeft, ArrowRight, MessageSquare, Download } from 'lucide-react'
-import type { Metadata } from 'next'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
 // ISR: Revalidate project pages every hour for fresh content
 export const revalidate = 3600
@@ -75,7 +75,7 @@ function normalizeDescription(desc: string, tags?: string[]): string {
   const MIN = 120
   const MAX = 160
 
-  if (desc.length > MAX) return desc.slice(0, MAX - 3).trimEnd() + '...'
+  if (desc.length > MAX) return `${desc.slice(0, MAX - 3).trimEnd()}...`
   if (desc.length >= MIN) return desc
 
   const techSuffix = tags?.length ? ` Built with ${tags.slice(0, 3).join(', ')}.` : ''
@@ -83,7 +83,7 @@ function normalizeDescription(desc: string, tags?: string[]): string {
   if (result.length > MAX) return desc
   if (result.length >= MIN) return result
 
-  const full = result + ' View project details and implementation.'
+  const full = `${result} View project details and implementation.`
   return full.length <= MAX ? full : result
 }
 
@@ -222,7 +222,7 @@ export default async function ProjectPage({
       <a
         href="#project-content"
         suppressHydrationWarning
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
       >
         Skip to main content
       </a>
@@ -304,22 +304,16 @@ export default async function ProjectPage({
               <div>
                 <h2 className="text-2xl font-bold mb-2">Like what you see?</h2>
                 <p className="text-white/60 max-w-xl">
-                  I&apos;m available for freelance projects, consulting, and full-time opportunities.
-                  Let&apos;s build something amazing together.
+                  I&apos;m available for freelance projects, consulting, and full-time
+                  opportunities. Let&apos;s build something amazing together.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                <Link
-                  href="/contact"
-                  className="btn btn-primary gap-2 whitespace-nowrap"
-                >
+                <Link href="/contact" className="btn btn-primary gap-2 whitespace-nowrap">
                   <MessageSquare className="w-4 h-4" />
                   Start a Conversation
                 </Link>
-                <Link
-                  href="/work"
-                  className="btn btn-secondary gap-2 whitespace-nowrap"
-                >
+                <Link href="/work" className="btn btn-secondary gap-2 whitespace-nowrap">
                   See More Projects
                 </Link>
               </div>

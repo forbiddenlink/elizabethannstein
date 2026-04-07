@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
 
 export function MorphingShape() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -33,7 +32,7 @@ export function MorphingShape() {
 
       // Create morphing blob
       ctx.beginPath()
-      
+
       for (let i = 0; i <= points; i++) {
         const angle = (Math.PI * 2 * i) / points
         const noise = Math.sin(time + i * 0.5) * 0.3 + 1

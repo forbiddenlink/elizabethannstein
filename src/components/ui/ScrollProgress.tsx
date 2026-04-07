@@ -57,13 +57,12 @@ export function ScrollProgress({ color, target }: ScrollProgressProps = {}) {
   }, [target])
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-white/5">
+    <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-white/5" aria-hidden="true">
       <div
-        className="scroll-progress-bar h-full transition-all duration-150 ease-out"
+        className="scroll-progress-bar h-full min-w-0 transition-[width] duration-150 ease-out"
         data-tone={tone}
-        data-progress={roundedProgress}
+        style={{ width: `${roundedProgress}%` }}
       >
-        {/* Glow effect */}
         <div className="scroll-progress-glow absolute inset-0 blur-sm" data-tone={tone} />
       </div>
     </div>

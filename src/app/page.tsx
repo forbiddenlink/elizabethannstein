@@ -1,5 +1,9 @@
 'use client'
 
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import { Suspense } from 'react'
+import { Scene3DErrorBoundary } from '@/components/ErrorBoundary'
 import {
   AccessibleView,
   AccessibleViewToggle,
@@ -8,9 +12,9 @@ import {
 import { AnimatedText, FadeIn } from '@/components/ui/AnimatedText'
 import { DeepLinkHandler } from '@/components/ui/DeepLinkHandler'
 import { Entrance } from '@/components/ui/Entrance'
-import { Scene3DErrorBoundary } from '@/components/ErrorBoundary'
 import { GlowOrb } from '@/components/ui/FloatingElement'
 import { GalaxyHint } from '@/components/ui/GalaxyHint'
+import { HeroHighlightReel } from '@/components/ui/HeroHighlightReel'
 import { InteractiveParticles } from '@/components/ui/InteractiveParticles'
 import { KeyboardNavigation } from '@/components/ui/KeyboardNavigation'
 import { KeyboardShortcutsHelp } from '@/components/ui/KeyboardShortcutsHelp'
@@ -23,9 +27,6 @@ import { SoundManager } from '@/components/ui/SoundManager'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { TouchGestures } from '@/components/ui/TouchGestures'
 import { useViewStore } from '@/lib/store'
-import dynamic from 'next/dynamic'
-import Link from 'next/link'
-import { Suspense } from 'react'
 
 // Lazy load 3D scene - critical for < 200KB landing bundle
 const GalaxyScene = dynamic(() => import('@/components/3d/GalaxyScene'), {
@@ -35,20 +36,20 @@ const GalaxyScene = dynamic(() => import('@/components/3d/GalaxyScene'), {
 // Lazy load heavy/modal components for better initial load
 const ProjectModal = dynamic(
   () => import('@/components/ui/ProjectModal').then((m) => ({ default: m.ProjectModal })),
-  { ssr: false },
+  { ssr: false }
 )
 const GalaxyGuide = dynamic(
   () => import('@/components/ui/GalaxyGuide').then((m) => ({ default: m.GalaxyGuide })),
-  { ssr: false },
+  { ssr: false }
 )
 const ExplorationOverlay = dynamic(
   () =>
     import('@/components/ui/ExplorationOverlay').then((m) => ({ default: m.ExplorationOverlay })),
-  { ssr: false },
+  { ssr: false }
 )
 const MorphingShape = dynamic(
   () => import('@/components/ui/MorphingShape').then((m) => ({ default: m.MorphingShape })),
-  { ssr: false },
+  { ssr: false }
 )
 
 function getVisibilityClasses(isJourneyMode: boolean, hasEntered: boolean): string {
@@ -180,8 +181,10 @@ export default function HomePage() {
               </span>
             </div>
             <p className="mb-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base md:text-lg md:leading-snug">
-              Production web apps: product UI, systems thinking, and AI only where it earns the screen time.
+              Production web apps: product UI, systems thinking, and AI only where it earns the
+              screen time.
             </p>
+            <HeroHighlightReel />
             <div className="pointer-events-auto flex flex-wrap items-center gap-2 sm:gap-3">
               <Link
                 href="/contact"
@@ -194,7 +197,14 @@ export default function HomePage() {
                 download="Elizabeth_Stein_Resume.pdf"
                 className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white/85 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:text-sm md:text-white/90"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  focusable="false"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -215,7 +225,14 @@ export default function HomePage() {
                 className={`inline-flex min-h-10 items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 ${isUniverseView ? 'bg-white/12 text-white/90 hover:bg-white/18 hover:text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'}`}
                 aria-label="View all projects in list view"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  focusable="false"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -230,7 +247,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="hidden items-center justify-center rounded-lg p-2.5 text-white/70 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 lg:inline-flex"
+                className="inline-flex items-center justify-center rounded-lg p-2.5 text-white/70 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
                 <LinkedInIcon className="w-4 h-4" />
               </a>
@@ -239,7 +256,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="hidden lg:inline-flex items-center justify-center p-2.5 text-white/70 hover:text-white transition-colors duration-200 hover:bg-white/10 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+                className="inline-flex items-center justify-center p-2.5 text-white/70 hover:text-white transition-colors duration-200 hover:bg-white/10 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
                 <GitHubIcon className="w-4 h-4" />
               </a>

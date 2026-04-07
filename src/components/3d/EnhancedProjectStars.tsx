@@ -1,13 +1,13 @@
 'use client'
 
-import { galaxies } from '@/lib/galaxyData'
-import { useViewStore, useHoverGravityStore } from '@/lib/store'
-import type { Galaxy, Project } from '@/lib/types'
-import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { galaxies } from '@/lib/galaxyData'
+import { useHoverGravityStore, useViewStore } from '@/lib/store'
+import type { Galaxy, Project } from '@/lib/types'
+import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
 import { AnimatedConstellation } from './AnimatedConstellation'
 import { SupernovaEffect } from './SupernovaEffect'
 
@@ -60,7 +60,7 @@ function GalaxyCluster({ galaxy, galaxyIndex }: { galaxy: Galaxy; galaxyIndex: n
           galaxy.id,
           galaxyIndex,
           projectIndex,
-          galaxy.projects.length,
+          galaxy.projects.length
         )
 
         const sizeMultiplier = getSizeMultiplier(project.size)
@@ -467,7 +467,7 @@ function RealisticPlanet({
   const { camera } = useThree()
 
   // Pre-compute position vector for distance calculation
-  const positionVec = useMemo(() => new THREE.Vector3(...position), [position])
+  const _positionVec = useMemo(() => new THREE.Vector3(...position), [position])
 
   // Determine planet characteristics - supermassive projects get rings
   const hasRings = project.size === 'supermassive'
@@ -478,7 +478,7 @@ function RealisticPlanet({
       project.featured ||
       project.galaxy === 'enterprise' ||
       ['caipo-ai', 'stancestream', 'finance-quest', 'portfolio-pro', 'codecraft'].includes(
-        project.id,
+        project.id
       )
     )
   }, [project])
@@ -560,7 +560,7 @@ function RealisticPlanet({
       // Only apply gravity within a reasonable range
       if (distance < 30 && distance > 2) {
         // Gravitational strength: stronger for closer planets, scaled by hovered planet size
-        const strength = (hoveredSize * 0.15) / (distance * distance) * 0.5
+        const strength = ((hoveredSize * 0.15) / (distance * distance)) * 0.5
         const maxDrift = 0.8 // Maximum drift amount
 
         // Calculate drift direction and magnitude
@@ -671,7 +671,7 @@ function RealisticPlanet({
     }
   })
 
-  const [clickBurst, setClickBurst] = useState(false)
+  const [_clickBurst, setClickBurst] = useState(false)
   const clickBurstRef = useRef(false)
 
   const handleClick = () => {
@@ -692,6 +692,7 @@ function RealisticPlanet({
       <group ref={groupRef} position={position}>
         <SupernovaEffect position={[0, 0, 0]} color={project.color} size={sizeMultiplier} />
         {/* Invisible clickable sphere for the supernova */}
+        {/* biome-ignore lint/a11y/noStaticElementInteractions: R3F mesh — Three.js pointer events, not DOM */}
         <mesh
           onClick={handleClick}
           onPointerEnter={() => {
@@ -711,6 +712,7 @@ function RealisticPlanet({
   return (
     <group position={position} ref={groupRef}>
       {/* Main planet with procedural surface */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: R3F mesh — Three.js pointer events, not DOM */}
       <mesh
         ref={planetRef}
         onClick={handleClick}
@@ -718,7 +720,11 @@ function RealisticPlanet({
           setHovered(true)
           document.body.style.cursor = isScanned ? 'pointer' : 'not-allowed'
           // Set global hover state for gravitational effects
-          setHoveredPlanet(project.id, [currentPosRef.current.x, currentPosRef.current.y, currentPosRef.current.z], sizeMultiplier)
+          setHoveredPlanet(
+            project.id,
+            [currentPosRef.current.x, currentPosRef.current.y, currentPosRef.current.z],
+            sizeMultiplier
+          )
         }}
         onPointerLeave={() => {
           setHovered(false)

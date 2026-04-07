@@ -1,18 +1,19 @@
 'use client'
 
-import { galaxies } from '@/lib/galaxyData'
-import { useViewStore } from '@/lib/store'
 import { motion } from 'framer-motion'
 import { ChevronRight, ExternalLink, Eye, EyeOff, Github } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { galaxies } from '@/lib/galaxyData'
+import { getHighlightReel } from '@/lib/highlightReel'
+import { useViewStore } from '@/lib/store'
 
 // Toggle button to switch between 3D and accessible view
 // Made prominent for users who can't/won't use 3D
 export function AccessibleViewToggle({
   isAccessibleMode,
   onToggle,
-  autoEnabled = false,
+  autoEnabled: _autoEnabled = false,
 }: {
   isAccessibleMode: boolean
   onToggle: () => void
@@ -29,9 +30,10 @@ export function AccessibleViewToggle({
 
   return (
     <div
-      className={`fixed z-30 flex-col items-end gap-2 transition-all duration-300 ${dockIntoNavZone ? 'hidden' : 'flex bottom-56 left-4 lg:bottom-20 lg:left-auto lg:right-8'}`}
+      className={`fixed z-30 flex-col items-end gap-2 transition-all duration-300 ${dockIntoNavZone ? 'hidden' : 'flex bottom-56 left-4 lg:bottom-56 lg:left-auto lg:right-8'}`}
     >
       <button
+        type="button"
         onClick={onToggle}
         className={`group flex items-center gap-2 rounded-2xl border shadow-lg backdrop-blur-xl transition-all hover:scale-[1.02] hover:text-white ${dockIntoNavZone ? 'border-white/10 bg-black/44 px-3 py-2 text-sm text-white/68 hover:border-white/22 hover:bg-black/62 lg:border-white/20 lg:bg-black/72 lg:px-4 lg:py-3 lg:text-white/88' : 'border-white/20 bg-black/72 px-3 py-2.5 text-sm text-white/88 hover:border-white/35 hover:bg-black/88 lg:px-4 lg:py-3'}`}
         aria-label={
@@ -91,6 +93,28 @@ export function AccessibleView() {
           ))}
         </div>
       </nav>
+
+      <section
+        className="max-w-6xl mx-auto px-4 pb-6 border-b border-white/10"
+        aria-labelledby="featured-case-studies-heading"
+      >
+        <h2 id="featured-case-studies-heading" className="text-sm font-semibold text-white/50 mb-3">
+          Featured case studies
+        </h2>
+        <ul className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-2">
+          {getHighlightReel().map((item) => (
+            <li key={item.id}>
+              <Link
+                href={`/work/${item.id}`}
+                className="text-purple-300 hover:text-purple-200 underline-offset-2 transition-colors"
+              >
+                <span className="font-medium">{item.title}</span>
+                <span className="text-white/45 text-sm ml-2">{item.hook}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {/* Projects by Galaxy */}
       <main className="max-w-6xl mx-auto px-4 pb-16">
@@ -230,7 +254,7 @@ function isLowEndDevice(): boolean {
 
   // Check if mobile with small screen (likely budget phone)
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
+    navigator.userAgent
   )
   const isSmallScreen = window.innerWidth < 768
 

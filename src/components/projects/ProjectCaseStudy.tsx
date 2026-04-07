@@ -1,5 +1,9 @@
 'use client'
 
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { ArrowLeft, ExternalLink } from 'lucide-react'
+import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import { ProjectBadges } from '@/components/ui/ProjectBadges'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
@@ -8,10 +12,6 @@ import { galaxies } from '@/lib/galaxyData'
 import { getMetricIcon } from '@/lib/metricIcons'
 import type { Project } from '@/lib/types'
 import { formatDateRange } from '@/lib/utils'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
-import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
 
 // Map project IDs to their screenshot paths
 // ── Space-theme helpers ────────────────────────────────────────────────────
@@ -128,14 +128,14 @@ function useCountUp(target: number, duration = 1400, decimals = 0) {
           const start = performance.now()
           const tick = (now: number) => {
             const progress = Math.min((now - start) / duration, 1)
-            const ease = 1 - Math.pow(1 - progress, 3) // ease-out cubic
+            const ease = 1 - (1 - progress) ** 3 // ease-out cubic
             setValue(parseFloat((ease * target).toFixed(decimals)))
             if (progress < 1) requestAnimationFrame(tick)
           }
           requestAnimationFrame(tick)
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -153,7 +153,7 @@ function MetricCard({
   // Parse numeric prefix for animation (e.g. "1,200" → 1200, "84" → 84)
   const numeric = parseFloat(value.replace(/[^0-9.]/g, ''))
   const suffix = value.replace(/^[\d,. ]+/, '')
-  const isNumeric = !isNaN(numeric) && numeric > 0
+  const isNumeric = !Number.isNaN(numeric) && numeric > 0
   const decimals = value.includes('.') ? 1 : 0
   const { value: animated, ref } = useCountUp(isNumeric ? numeric : 0, 1200, decimals)
 
@@ -189,7 +189,7 @@ function ImpactMetricCard({
 }) {
   const numeric = parseFloat(value.replace(/[^0-9.]/g, ''))
   const suffix = value.replace(/^[\d,. %x+]+/, '')
-  const isNumeric = !isNaN(numeric) && numeric > 0
+  const isNumeric = !Number.isNaN(numeric) && numeric > 0
   const decimals = value.includes('.') ? 1 : 0
   const { value: animated, ref } = useCountUp(isNumeric ? numeric : 0, 1600, decimals)
 
@@ -327,7 +327,7 @@ function getSolutionText(project: Project): string {
     const techStack =
       project.tags
         .filter((t) =>
-          ['Next.js', 'React', 'TypeScript', 'Supabase', 'OpenAI', 'Claude'].includes(t),
+          ['Next.js', 'React', 'TypeScript', 'Supabase', 'OpenAI', 'Claude'].includes(t)
         )
         .join(', ') || 'modern web technologies'
     return `Built with ${techStack}, integrating AI capabilities for enhanced functionality.`

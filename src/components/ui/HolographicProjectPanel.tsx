@@ -1,10 +1,10 @@
 'use client'
 
+import { ExternalLink, FileText, X } from 'lucide-react'
 import Link from 'next/link'
-import { useViewStore } from '@/lib/store'
-import { getProjectById } from '@/lib/galaxyData'
-import { ExternalLink, X, FileText } from 'lucide-react'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
+import { getProjectById } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
 import { KineticTitle } from './KineticTitle'
 
 export function HolographicProjectPanel({ show }: Readonly<{ show: boolean }>) {
@@ -21,16 +21,20 @@ export function HolographicProjectPanel({ show }: Readonly<{ show: boolean }>) {
         style={{
           borderColor: project.color,
           boxShadow: `0 0 60px ${project.color}40, inset 0 0 30px ${project.color}20`,
-          background: `linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,20,40,0.4) 50%, rgba(0,0,0,0.6) 100%)`
+          background: `linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,20,40,0.4) 50%, rgba(0,0,0,0.6) 100%)`,
         }}
       >
         {/* Scanline effect */}
         <div className="absolute inset-0 pointer-events-none opacity-10">
-          <div className="h-full w-full bg-linear-to-b from-transparent via-white to-transparent animate-pulse" style={{ backgroundSize: '100% 4px' }} />
+          <div
+            className="h-full w-full bg-linear-to-b from-transparent via-white to-transparent animate-pulse"
+            style={{ backgroundSize: '100% 4px' }}
+          />
         </div>
 
         {/* Close button */}
         <button
+          type="button"
           onClick={reset}
           className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 pointer-events-auto"
           aria-label="Close project panel"
@@ -64,26 +68,24 @@ export function HolographicProjectPanel({ show }: Readonly<{ show: boolean }>) {
               style={{
                 backgroundColor: project.color,
                 boxShadow: `0 0 20px ${project.color}`,
-                opacity: 0.6
+                opacity: 0.6,
               }}
             />
           </div>
 
           {/* Description */}
-          <p className="text-white/90 text-lg mb-6 leading-relaxed">
-            {project.description}
-          </p>
+          <p className="text-white/90 text-lg mb-6 leading-relaxed">{project.description}</p>
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-6">
-            {project.tags.slice(0, 6).map(tag => (
+            {project.tags.slice(0, 6).map((tag) => (
               <span
                 key={tag}
                 className="px-3 py-1 text-sm font-mono border rounded"
                 style={{
                   borderColor: `${project.color}40`,
                   color: project.color,
-                  background: `${project.color}10`
+                  background: `${project.color}10`,
                 }}
               >
                 {tag}
@@ -110,7 +112,7 @@ export function HolographicProjectPanel({ show }: Readonly<{ show: boolean }>) {
                 className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 hover:bg-white/10 transition-all duration-200"
                 style={{
                   borderColor: project.color,
-                  color: project.color
+                  color: project.color,
                 }}
               >
                 <ExternalLink className="w-4 h-4" />
@@ -139,10 +141,22 @@ export function HolographicProjectPanel({ show }: Readonly<{ show: boolean }>) {
         </div>
 
         {/* Corner accents */}
-        <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2" style={{ borderColor: project.color }} />
-        <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2" style={{ borderColor: project.color }} />
-        <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2" style={{ borderColor: project.color }} />
-        <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2" style={{ borderColor: project.color }} />
+        <div
+          className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2"
+          style={{ borderColor: project.color }}
+        />
+        <div
+          className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2"
+          style={{ borderColor: project.color }}
+        />
+        <div
+          className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2"
+          style={{ borderColor: project.color }}
+        />
+        <div
+          className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2"
+          style={{ borderColor: project.color }}
+        />
       </div>
     </div>
   )

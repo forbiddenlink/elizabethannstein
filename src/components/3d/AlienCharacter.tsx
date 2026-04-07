@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface AlienCharacterProps {
@@ -16,7 +16,7 @@ export function AlienCharacter({
   position,
   color = '#00FF88',
   scale = 1,
-  isWaving = true
+  isWaving = true,
 }: AlienCharacterProps) {
   const groupRef = useRef<THREE.Group>(null)
   const armRef = useRef<THREE.Mesh>(null)
@@ -87,12 +87,7 @@ export function AlienCharacter({
       {/* Body glow */}
       <mesh scale={1.15}>
         <sphereGeometry args={[0.5, 16, 16]} />
-        <meshBasicMaterial
-          color={colors.glow}
-          transparent
-          opacity={0.15}
-          side={THREE.BackSide}
-        />
+        <meshBasicMaterial color={colors.glow} transparent opacity={0.15} side={THREE.BackSide} />
       </mesh>
 
       {/* Head - larger oval */}
@@ -110,12 +105,7 @@ export function AlienCharacter({
       {/* Head glow */}
       <mesh position={[0, 0.6, 0]} scale={1.2}>
         <sphereGeometry args={[0.4, 16, 16]} />
-        <meshBasicMaterial
-          color={colors.glow}
-          transparent
-          opacity={0.1}
-          side={THREE.BackSide}
-        />
+        <meshBasicMaterial color={colors.glow} transparent opacity={0.1} side={THREE.BackSide} />
       </mesh>
 
       {/* Left Eye */}
@@ -175,18 +165,9 @@ export function AlienCharacter({
         {/* Antenna glow */}
         <mesh position={[0, 0.15, 0]} scale={2}>
           <sphereGeometry args={[0.06, 8, 8]} />
-          <meshBasicMaterial
-            color={colors.antenna}
-            transparent
-            opacity={0.3}
-          />
+          <meshBasicMaterial color={colors.antenna} transparent opacity={0.3} />
         </mesh>
-        <pointLight
-          position={[0, 0.15, 0]}
-          color={colors.antenna}
-          intensity={0.5}
-          distance={2}
-        />
+        <pointLight position={[0, 0.15, 0]} color={colors.antenna} intensity={0.5} distance={2} />
       </group>
 
       {/* Left Arm (waving) */}

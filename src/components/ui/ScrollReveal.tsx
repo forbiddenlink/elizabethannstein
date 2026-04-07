@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef, ReactNode } from 'react'
+import { type ReactNode, useRef } from 'react'
 import { easings } from '@/lib/easings'
 
 interface ScrollRevealProps {
@@ -19,7 +19,7 @@ export function ScrollReveal({
   delay = 0,
   direction = 'up',
   distance = 50,
-  once = true
+  once = true,
 }: ScrollRevealProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once, margin: '-100px' })
@@ -40,12 +40,16 @@ export function ScrollReveal({
         opacity: 0,
         filter: 'blur(4px)',
       }}
-      animate={isInView ? {
-        x: 0,
-        y: 0,
-        opacity: 1,
-        filter: 'blur(0px)',
-      } : undefined}
+      animate={
+        isInView
+          ? {
+              x: 0,
+              y: 0,
+              opacity: 1,
+              filter: 'blur(0px)',
+            }
+          : undefined
+      }
       transition={{
         duration: 0.5,
         delay,
@@ -61,7 +65,7 @@ export function ScrollScale({
   children,
   className = '',
   delay = 0,
-  once = true
+  once = true,
 }: {
   children: ReactNode
   className?: string
@@ -92,7 +96,7 @@ export function ScrollStagger({
   children,
   className = '',
   staggerDelay = 0.1,
-  once = true
+  once = true,
 }: {
   children: ReactNode[]
   className?: string
@@ -104,20 +108,21 @@ export function ScrollStagger({
 
   return (
     <div ref={ref} className={className}>
-      {Array.isArray(children) && children.map((child, index) => (
-        <motion.div
-          key={index}
-          initial={{ y: 20, opacity: 0, filter: 'blur(4px)' }}
-          animate={isInView ? { y: 0, opacity: 1, filter: 'blur(0px)' } : undefined}
-          transition={{
-            duration: 0.45,
-            delay: index * staggerDelay,
-            ease: easings.easeOutQuint,
-          }}
-        >
-          {child}
-        </motion.div>
-      ))}
+      {Array.isArray(children) &&
+        children.map((child, index) => (
+          <motion.div
+            key={index}
+            initial={{ y: 20, opacity: 0, filter: 'blur(4px)' }}
+            animate={isInView ? { y: 0, opacity: 1, filter: 'blur(0px)' } : undefined}
+            transition={{
+              duration: 0.45,
+              delay: index * staggerDelay,
+              ease: easings.easeOutQuint,
+            }}
+          >
+            {child}
+          </motion.div>
+        ))}
     </div>
   )
 }

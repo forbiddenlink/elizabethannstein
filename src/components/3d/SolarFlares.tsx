@@ -1,11 +1,11 @@
 'use client'
 
-import { useRef, useMemo, useState, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
-import { getGalaxyCenterPosition } from '@/lib/utils'
 import { usePrefersReducedMotion } from '@/lib/store'
+import { getGalaxyCenterPosition } from '@/lib/utils'
 
 interface FlareConfig {
   startTime: number
@@ -121,14 +121,14 @@ function GalaxySolarFlares({ position, color }: SolarFlareProps) {
         position: new THREE.Vector3(...position),
       }
 
-      setFlares(prev => [...prev.slice(-4), newFlare]) // Keep max 5 flares
+      setFlares((prev) => [...prev.slice(-4), newFlare]) // Keep max 5 flares
     }
 
     // Cleanup expired flares (separate from useFrame to avoid render loop interference)
     const cleanupFlares = () => {
       const now = performance.now() / 1000
-      setFlares(prev => {
-        const activeFlares = prev.filter(flare => {
+      setFlares((prev) => {
+        const activeFlares = prev.filter((flare) => {
           const progress = (now - flare.startTime) / flare.duration
           return progress < 1
         })
@@ -143,7 +143,8 @@ function GalaxySolarFlares({ position, color }: SolarFlareProps) {
 
     // Regular spawning
     const spawnInterval = setInterval(() => {
-      if (Math.random() < 0.3) { // 30% chance every interval
+      if (Math.random() < 0.3) {
+        // 30% chance every interval
         spawnFlare()
       }
     }, 3000)
@@ -240,11 +241,7 @@ export function SolarFlares() {
   return (
     <group>
       {galaxyCores.map((core, i) => (
-        <GalaxySolarFlares
-          key={i}
-          position={core.position}
-          color={core.color}
-        />
+        <GalaxySolarFlares key={i} position={core.position} color={core.color} />
       ))}
     </group>
   )

@@ -1,9 +1,9 @@
+import { Shield } from 'lucide-react'
+import type { Metadata } from 'next'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { CONTACT } from '@/lib/constants'
-import { Shield } from 'lucide-react'
-import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Elizabeth Stein',
@@ -27,7 +27,8 @@ export default function PrivacyPage() {
       {/* Skip Link for Accessibility */}
       <a
         href="#privacy-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+        suppressHydrationWarning
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
       >
         Skip to main content
       </a>

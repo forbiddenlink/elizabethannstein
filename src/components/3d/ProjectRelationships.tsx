@@ -1,12 +1,12 @@
 'use client'
 
-import { allProjects, galaxies } from '@/lib/galaxyData'
-import { useViewStore } from '@/lib/store'
-import { generateProjectPosition } from '@/lib/utils'
 import { Html, Line } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { allProjects, galaxies } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
+import { generateProjectPosition } from '@/lib/utils'
 
 interface ProjectConnection {
   fromId: string
@@ -67,8 +67,8 @@ function computeProjectRelationships(): ProjectConnection[] {
         project.galaxy,
         galaxyIndex,
         projectIndex,
-        totalProjects,
-      ),
+        totalProjects
+      )
     )
 
     return { ...project, position }
@@ -85,7 +85,7 @@ function computeProjectRelationships(): ProjectConnection[] {
 
       // Find shared key technologies
       const sharedTags = projectA.tags.filter(
-        (tag) => projectB.tags.includes(tag) && KEY_TECHNOLOGIES.has(tag),
+        (tag) => projectB.tags.includes(tag) && KEY_TECHNOLOGIES.has(tag)
       )
 
       // Only create connection if they share at least one key technology
@@ -99,7 +99,7 @@ function computeProjectRelationships(): ProjectConnection[] {
 
       // Determine primary color based on most significant shared tag
       const primaryTag = sharedTags.find((tag) => CONNECTION_COLORS[tag]) || 'default'
-      const color = CONNECTION_COLORS[primaryTag] || CONNECTION_COLORS['default']
+      const color = CONNECTION_COLORS[primaryTag] || CONNECTION_COLORS.default
 
       connections.push({
         fromId: projectA.id,
@@ -121,7 +121,7 @@ function computeProjectRelationships(): ProjectConnection[] {
  */
 function getProjectConnections(
   projectId: string,
-  allConnections: ProjectConnection[],
+  allConnections: ProjectConnection[]
 ): ProjectConnection[] {
   return allConnections.filter((conn) => conn.fromId === projectId || conn.toId === projectId)
 }

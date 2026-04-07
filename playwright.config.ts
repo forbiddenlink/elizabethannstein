@@ -82,7 +82,8 @@ export default defineConfig({
     : {
         command: `pnpm dev --hostname 127.0.0.1 --port ${e2ePort}`,
         url: baseURL,
-        reuseExistingServer: false,
+        // Local: attach to an already-running dev server if the port is taken.
+        reuseExistingServer: true,
         timeout: 120 * 1000,
       },
 })

@@ -1,14 +1,15 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 // Mock the audio synth before importing store
 vi.mock('@/components/ui/SoundManager', () => ({
   getAudioSynth: () => null,
 }))
 
-import { useViewStore } from '@/lib/store'
+import { useCanvasPerformanceStore, useViewStore } from '@/lib/store'
 
 describe('useViewStore', () => {
   beforeEach(() => {
+    useCanvasPerformanceStore.setState({ tier: 0 })
     // Reset store to initial state between tests
     useViewStore.setState({
       view: 'universe',
@@ -101,7 +102,11 @@ describe('useViewStore', () => {
     })
 
     it('goes from exploration to galaxy', () => {
-      useViewStore.setState({ view: 'exploration', selectedGalaxy: 'ai', selectedProject: 'lumira' })
+      useViewStore.setState({
+        view: 'exploration',
+        selectedGalaxy: 'ai',
+        selectedProject: 'lumira',
+      })
       useViewStore.getState().zoomOut()
       const state = useViewStore.getState()
       expect(state.view).toBe('galaxy')
@@ -132,14 +137,22 @@ describe('useViewStore', () => {
 
   describe('exitExploration', () => {
     it('returns to galaxy view if galaxy was selected', () => {
-      useViewStore.setState({ view: 'exploration', selectedGalaxy: 'ai', selectedProject: 'lumira' })
+      useViewStore.setState({
+        view: 'exploration',
+        selectedGalaxy: 'ai',
+        selectedProject: 'lumira',
+      })
       useViewStore.getState().exitExploration()
       expect(useViewStore.getState().view).toBe('galaxy')
       expect(useViewStore.getState().selectedProject).toBeNull()
     })
 
     it('returns to universe if no galaxy was selected', () => {
-      useViewStore.setState({ view: 'exploration', selectedGalaxy: null, selectedProject: 'lumira' })
+      useViewStore.setState({
+        view: 'exploration',
+        selectedGalaxy: null,
+        selectedProject: 'lumira',
+      })
       useViewStore.getState().exitExploration()
       expect(useViewStore.getState().view).toBe('universe')
     })
@@ -205,5 +218,32 @@ describe('useViewStore', () => {
       useViewStore.getState().startJourney('ai-journey')
       expect(useViewStore.getState().activeTourId).toBe('ai-journey')
     })
+  })
+})
+
+describe('useCanvasPerformanceStore', () => {
+  beforeEach(() => {
+    useCanvasPerformanceStore.setState({ tier: 0 })
+  })
+
+  it('starts at tier 0', () => {
+    expect(useCanvasPerformanceStore.getState().tier).toBe(0)
+  })
+
+  it('declineTier steps up to max 2', () => {
+    useCanvasPerformanceStore.getState().declineTier()
+    expect(useCanvasPerformanceStore.getState().tier).toBe(1)
+    useCanvasPerformanceStore.getState().declineTier()
+    expect(useCanvasPerformanceStore.getState().tier).toBe(2)
+    useCanvasPerformanceStore.getState().declineTier()
+    expect(useCanvasPerformanceStore.getState().tier).toBe(2)
+  })
+
+  it('inclineTier recovers toward 0', () => {
+    useCanvasPerformanceStore.setState({ tier: 2 })
+    useCanvasPerformanceStore.getState().inclineTier()
+    expect(useCanvasPerformanceStore.getState().tier).toBe(1)
+    useCanvasPerformanceStore.getState().resetTier()
+    expect(useCanvasPerformanceStore.getState().tier).toBe(0)
   })
 })

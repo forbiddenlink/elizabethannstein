@@ -1,11 +1,11 @@
 'use client'
 
-import { galaxies } from '@/lib/galaxyData'
-import { useViewStore } from '@/lib/store'
 import { gsap } from 'gsap'
 import { Globe, Keyboard, Search, X, Zap } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import { galaxies } from '@/lib/galaxyData'
+import { useViewStore } from '@/lib/store'
 
 interface CommandItem {
   id: string
@@ -43,7 +43,7 @@ export function CommandPalette() {
       }
       closePalette()
     },
-    [closePalette, hasEntered, isHomeRoute, router, zoomToProject],
+    [closePalette, hasEntered, isHomeRoute, router, zoomToProject]
   )
 
   const openGalaxy = useCallback(
@@ -58,7 +58,7 @@ export function CommandPalette() {
       }
       closePalette()
     },
-    [closePalette, hasEntered, isHomeRoute, router, zoomToProject],
+    [closePalette, hasEntered, isHomeRoute, router, zoomToProject]
   )
 
   const exploreIn3D = useCallback(
@@ -70,7 +70,7 @@ export function CommandPalette() {
       }
       closePalette()
     },
-    [closePalette, exploreProject, hasEntered, isHomeRoute, router],
+    [closePalette, exploreProject, hasEntered, isHomeRoute, router]
   )
 
   // Build command list
@@ -84,7 +84,7 @@ export function CommandPalette() {
         category: 'project' as const,
         icon: <Zap className="w-4 h-4" />,
         action: () => viewProject(project.id),
-      })),
+      }))
     ),
     // Projects - Explore Planet
     ...galaxies.flatMap((galaxy) =>
@@ -95,7 +95,7 @@ export function CommandPalette() {
         category: 'action' as const,
         icon: <Globe className="w-4 h-4" />,
         action: () => exploreIn3D(project.id),
-      })),
+      }))
     ),
     // Galaxies
     ...galaxies.map((galaxy) => ({
@@ -136,7 +136,7 @@ export function CommandPalette() {
     ? commands.filter(
         (cmd) =>
           cmd.title.toLowerCase().includes(search.toLowerCase()) ||
-          cmd.subtitle?.toLowerCase().includes(search.toLowerCase()),
+          cmd.subtitle?.toLowerCase().includes(search.toLowerCase())
       )
     : commands
 
@@ -179,7 +179,7 @@ export function CommandPalette() {
         filteredCommands[selectedIndex]?.action()
       }
     },
-    [closePalette, filteredCommands, isOpen, selectedIndex],
+    [closePalette, filteredCommands, isOpen, selectedIndex]
   )
 
   useEffect(() => {
@@ -190,7 +190,7 @@ export function CommandPalette() {
   // Reset selected index when search changes
   useEffect(() => {
     setSelectedIndex(0)
-  }, [search])
+  }, [])
 
   // Animate in/out
   useEffect(() => {
@@ -199,7 +199,7 @@ export function CommandPalette() {
       gsap.fromTo(
         '.command-palette-modal',
         { opacity: 0, y: -20, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'back.out(1.7)' },
+        { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'back.out(1.7)' }
       )
     }
   }, [isOpen])
@@ -228,7 +228,7 @@ export function CommandPalette() {
       acc[cmd.category].push(cmd)
       return acc
     },
-    {} as Record<string, CommandItem[]>,
+    {} as Record<string, CommandItem[]>
   )
 
   return (
@@ -266,9 +266,9 @@ export function CommandPalette() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects, galaxies, or actions..."
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-lg"
-              autoFocus
             />
             <button
+              type="button"
               onClick={() => {
                 closePalette()
               }}
@@ -292,7 +292,7 @@ export function CommandPalette() {
                   <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     {getCategoryLabel(category)}
                   </div>
-                  {items.map((cmd, idx) => {
+                  {items.map((cmd, _idx) => {
                     const globalIdx = filteredCommands.indexOf(cmd)
                     const isSelected = globalIdx === selectedIndex
 

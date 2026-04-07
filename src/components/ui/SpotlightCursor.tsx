@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { useEffect, useRef, useState } from 'react'
 
 export function SpotlightCursor() {
   const spotlightRef = useRef<HTMLDivElement>(null)

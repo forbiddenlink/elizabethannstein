@@ -1,10 +1,8 @@
 'use client'
 
-import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { galaxies } from '@/lib/galaxyData'
-import { generateProjectPosition, getGalaxyCenterPosition } from '@/lib/utils'
 
 interface JourneyTrailProps {
   isJourneyMode: boolean
@@ -17,11 +15,7 @@ interface JourneyTrailProps {
 }
 
 // Visual trail showing the journey path through galaxies
-export function JourneyTrail({
-  isJourneyMode,
-  journeyStep,
-  tourStops
-}: JourneyTrailProps) {
+export function JourneyTrail({ isJourneyMode, journeyStep, tourStops }: JourneyTrailProps) {
   const trailRef = useRef<THREE.Group>(null)
   const particlesRef = useRef<THREE.Points>(null)
   const progressRef = useRef(0)
@@ -30,20 +24,16 @@ export function JourneyTrail({
   const waypoints = useMemo(() => {
     const points: THREE.Vector3[] = []
 
-    tourStops.forEach((stop, index) => {
+    tourStops.forEach((stop, _index) => {
       // Galaxy center
-      points.push(new THREE.Vector3(
-        stop.galaxyPosition.x,
-        stop.galaxyPosition.y + 10,
-        stop.galaxyPosition.z
-      ))
+      points.push(
+        new THREE.Vector3(stop.galaxyPosition.x, stop.galaxyPosition.y + 10, stop.galaxyPosition.z)
+      )
 
       // Project position
-      points.push(new THREE.Vector3(
-        stop.projectPosition.x,
-        stop.projectPosition.y,
-        stop.projectPosition.z
-      ))
+      points.push(
+        new THREE.Vector3(stop.projectPosition.x, stop.projectPosition.y, stop.projectPosition.z)
+      )
     })
 
     return points
@@ -112,7 +102,7 @@ export function JourneyTrail({
       vertexColors: true,
       transparent: true,
       opacity: 0.4,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     })
 
     return new THREE.Line(geometry, material)
@@ -130,7 +120,7 @@ export function JourneyTrail({
       transparent: true,
       opacity: 0.2,
       blending: THREE.AdditiveBlending,
-      linewidth: 2
+      linewidth: 2,
     })
 
     return new THREE.Line(geometry, material)
@@ -146,7 +136,7 @@ export function JourneyTrail({
   }
 
   // Animation
-  useFrame((state, delta) => {
+  useFrame((state, _delta) => {
     const time = state.clock.getElapsedTime()
 
     if (!isJourneyMode || !curve || !particlesRef.current) return
@@ -200,14 +190,8 @@ export function JourneyTrail({
       {/* Animated particles along trail */}
       <points ref={particlesRef}>
         <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[particleData.positions, 3]}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            args={[particleData.colors, 3]}
-          />
+          <bufferAttribute attach="attributes-position" args={[particleData.positions, 3]} />
+          <bufferAttribute attach="attributes-color" args={[particleData.colors, 3]} />
         </bufferGeometry>
         <pointsMaterial
           size={0.5}

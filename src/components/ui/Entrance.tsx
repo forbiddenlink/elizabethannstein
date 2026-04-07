@@ -1,13 +1,13 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowRight, Brain, Building2, Code2, Rocket, Trophy } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { ScrambleText } from '@/components/ui/ScrambleText'
 import { getProjectById } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Brain, Building2, Code2, Rocket, Sparkles, Trophy } from 'lucide-react'
-import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
 
 const GALAXY_MARKERS = [
   { label: 'Enterprise', tone: 'enterprise' },
@@ -54,7 +54,7 @@ function StarParticles() {
         delay: seededRandom(i * 4) * 3,
         duration: 2 + seededRandom(i * 5) * 3,
       })),
-    [],
+    []
   )
 
   if (!mounted) return null
@@ -157,7 +157,7 @@ function HeroProjectsQuick() {
 function AnimatedLetter({
   char,
   index,
-  total,
+  total: _total,
 }: Readonly<{ char: string; index: number; total: number }>) {
   return (
     <motion.span
@@ -216,7 +216,7 @@ export function Entrance() {
             filter: 'blur(30px)',
           }}
           transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-100 bg-black flex flex-col items-center overflow-y-auto"
+          className="fixed inset-0 z-[100] bg-black flex flex-col items-center overflow-y-auto"
         >
           {/* Animated star particles */}
           <StarParticles />
@@ -247,26 +247,14 @@ export function Entrance() {
           <div className="relative z-10 flex flex-col items-center text-center gap-3 sm:gap-7 lg:gap-10 px-4 py-4 sm:py-8 min-h-full w-full max-w-2xl mx-auto justify-center shrink-0">
             {/* Subtitle */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex items-center justify-center gap-2 sm:gap-3 text-indigo-400/80"
+              className="flex items-center justify-center gap-2"
             >
-              <motion.div
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <Sparkles className="w-4 h-4" />
-              </motion.div>
-              <span className="text-[10px] sm:text-xs tracking-[0.24em] sm:tracking-[0.3em] font-light uppercase">
-                Full-Stack Developer Portfolio
+              <span className="text-[10px] sm:text-[11px] tracking-[0.28em] sm:tracking-[0.32em] font-medium uppercase text-white/50">
+                Six galaxies · one map of the work
               </span>
-              <motion.div
-                animate={{ rotate: [0, -15, 15, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <Sparkles className="w-4 h-4" />
-              </motion.div>
             </motion.div>
 
             {/* Main title with letter animation */}
@@ -292,7 +280,7 @@ export function Entrance() {
                       transition={{ duration: 2, repeat: Infinity }}
                     />
                   </motion.div>
-                  <span className="whitespace-nowrap bg-linear-to-r from-white via-purple-100 to-white bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                  <span className="whitespace-nowrap text-white drop-shadow-[0_0_24px_rgba(255,255,255,0.12)]">
                     {FIRST_NAME_LETTERS.map((letter) => (
                       <AnimatedLetter
                         key={letter.id}
@@ -304,7 +292,7 @@ export function Entrance() {
                   </span>
                 </div>
                 <div className="overflow-hidden pb-1">
-                  <span className="bg-linear-to-r from-purple-200 via-white to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                  <span className="text-white/92">
                     {LAST_NAME_LETTERS.map((letter) => (
                       <AnimatedLetter
                         key={letter.id}
@@ -331,12 +319,13 @@ export function Entrance() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.5 }}
-              className="text-white/72 text-[14px] md:text-[1.15rem] font-light tracking-[0.01em] max-w-[22rem] sm:max-w-xl mx-auto leading-relaxed"
+              className="text-white/70 text-[14px] md:text-[1.15rem] font-light tracking-[0.01em] max-w-[22rem] sm:max-w-xl mx-auto leading-relaxed"
             >
-              Portfolio systems for teams, products, and AI-native experiences.
+              Not a slideshow. A navigable archive: each star is a real project, grouped by how I
+              actually work.
               <br />
-              <span className="hidden sm:inline text-white/40 text-sm md:text-base">
-                Designed to feel cinematic on first contact and rigorous on every deeper read.
+              <span className="hidden sm:inline text-white/38 text-sm md:text-base">
+                Cinematic at first glance; case studies when you land.
               </span>
             </motion.p>
 
@@ -463,6 +452,7 @@ export function Entrance() {
                 View All Projects →
               </Link>
               <button
+                type="button"
                 onClick={handleEnter}
                 className="text-[11px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase"
               >

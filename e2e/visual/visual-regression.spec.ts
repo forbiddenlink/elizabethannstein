@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 /**
  * Visual regression tests for static pages
@@ -65,13 +65,10 @@ test.describe('Visual Regression', () => {
       // Open command palette
       await page.keyboard.press('Meta+k')
       await page.waitForSelector('[role="dialog"]')
-      await expect(page.locator('[role="dialog"]')).toHaveScreenshot(
-        'command-palette.png',
-        {
-          maxDiffPixelRatio: 0.02,
-          animations: 'disabled',
-        }
-      )
+      await expect(page.locator('[role="dialog"]')).toHaveScreenshot('command-palette.png', {
+        maxDiffPixelRatio: 0.02,
+        animations: 'disabled',
+      })
     })
   })
 })

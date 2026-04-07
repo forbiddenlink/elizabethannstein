@@ -13,11 +13,17 @@
  * - disableNormalPass to reduce buffer swaps
  */
 
-import { EffectComposer, Bloom, Vignette, ChromaticAberration, Noise } from '@react-three/postprocessing'
-import { KernelSize, BlendFunction } from 'postprocessing'
-import { useViewStore } from '@/lib/store'
-import { Vector2 } from 'three'
+import {
+  Bloom,
+  ChromaticAberration,
+  EffectComposer,
+  Noise,
+  Vignette,
+} from '@react-three/postprocessing'
+import { BlendFunction, KernelSize } from 'postprocessing'
 import { useMemo } from 'react'
+import { Vector2 } from 'three'
+import { useViewStore } from '@/lib/store'
 
 interface PostProcessingEffectsProps {
   enabled?: boolean
@@ -34,7 +40,10 @@ interface PostProcessingEffectsProps {
  * FIXED: Using multisampling={8}, stencilBuffer={false}, enableNormalPass={false}
  * to prevent flickering. Only enabled for WebGL renderer.
  */
-export function PostProcessingEffects({ enabled = true, isMobile = false }: PostProcessingEffectsProps) {
+export function PostProcessingEffects({
+  enabled = true,
+  isMobile = false,
+}: PostProcessingEffectsProps) {
   const view = useViewStore((state) => state.view)
   const selectedProject = useViewStore((state) => state.selectedProject)
 
@@ -65,20 +74,9 @@ export function PostProcessingEffects({ enabled = true, isMobile = false }: Post
         kernelSize={bloomKernel}
         mipmapBlur
       />
-      <ChromaticAberration
-        offset={caOffset}
-        radialModulation={true}
-        modulationOffset={0.5}
-      />
-      <Noise
-        premultiply
-        blendFunction={BlendFunction.SOFT_LIGHT}
-        opacity={noiseOpacity}
-      />
-      <Vignette
-        offset={0.28}
-        darkness={0.52}
-      />
+      <ChromaticAberration offset={caOffset} radialModulation={true} modulationOffset={0.5} />
+      <Noise premultiply blendFunction={BlendFunction.SOFT_LIGHT} opacity={noiseOpacity} />
+      <Vignette offset={0.28} darkness={0.52} />
     </EffectComposer>
   )
 }

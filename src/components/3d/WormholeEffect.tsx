@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 interface WormholeEffectProps {
@@ -16,14 +16,16 @@ export function WormholeEffect({
   isActive,
   startPosition,
   endPosition,
-  onComplete
+  onComplete,
 }: WormholeEffectProps) {
   const groupRef = useRef<THREE.Group>(null)
   const tunnelRef = useRef<THREE.Mesh>(null)
   const particlesRef = useRef<THREE.Points>(null)
   const ringsRef = useRef<THREE.Group>(null)
 
-  const [animationPhase, setAnimationPhase] = useState<'idle' | 'opening' | 'tunnel' | 'closing'>('idle')
+  const [animationPhase, setAnimationPhase] = useState<'idle' | 'opening' | 'tunnel' | 'closing'>(
+    'idle'
+  )
   const animationTime = useRef(0)
 
   // Calculate midpoint for wormhole position
@@ -31,12 +33,12 @@ export function WormholeEffect({
     return [
       (startPosition[0] + endPosition[0]) / 2,
       (startPosition[1] + endPosition[1]) / 2 + 10, // Slightly above
-      (startPosition[2] + endPosition[2]) / 2
+      (startPosition[2] + endPosition[2]) / 2,
     ] as [number, number, number]
   }, [startPosition, endPosition])
 
   // Direction vector
-  const direction = useMemo(() => {
+  const _direction = useMemo(() => {
     return new THREE.Vector3(
       endPosition[0] - startPosition[0],
       endPosition[1] - startPosition[1],
@@ -268,14 +270,8 @@ export function WormholeEffect({
         {/* Energy particles */}
         <points ref={particlesRef}>
           <bufferGeometry>
-            <bufferAttribute
-              attach="attributes-position"
-              args={[particleData.positions, 3]}
-            />
-            <bufferAttribute
-              attach="attributes-color"
-              args={[particleData.colors, 3]}
-            />
+            <bufferAttribute attach="attributes-position" args={[particleData.positions, 3]} />
+            <bufferAttribute attach="attributes-color" args={[particleData.colors, 3]} />
           </bufferGeometry>
           <pointsMaterial
             size={0.15}
@@ -331,7 +327,7 @@ export function PortalRing({
   position,
   scale = 1,
   color = '#A855F7',
-  isActive = false
+  isActive = false,
 }: {
   position: [number, number, number]
   scale?: number
@@ -378,9 +374,7 @@ export function PortalRing({
         />
       </mesh>
 
-      {isActive && (
-        <pointLight color={color} intensity={2} distance={10} />
-      )}
+      {isActive && <pointLight color={color} intensity={2} distance={10} />}
     </group>
   )
 }

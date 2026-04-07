@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { usePrefersReducedMotion } from '@/lib/store'
 
@@ -21,7 +21,7 @@ function SinglePulsar({
   color = '#FFFFFF',
   beamColor = '#00FFFF',
   scale = 1,
-  rotationSpeed = 3
+  rotationSpeed = 3,
 }: PulsarProps) {
   const groupRef = useRef<THREE.Group>(null)
   const beamsRef = useRef<THREE.Group>(null)
@@ -148,7 +148,7 @@ function SinglePulsar({
 
     // Update beam material
     if (beamsRef.current) {
-      beamsRef.current.children.forEach(beam => {
+      beamsRef.current.children.forEach((beam) => {
         if (beam instanceof THREE.Mesh) {
           const material = beam.material as THREE.ShaderMaterial
           if (material.uniforms?.uTime) {
@@ -207,12 +207,7 @@ function SinglePulsar({
       </group>
 
       {/* Central point light */}
-      <pointLight
-        color={pulsarColor}
-        intensity={2}
-        distance={15}
-        decay={2}
-      />
+      <pointLight color={pulsarColor} intensity={2} distance={15} decay={2} />
     </group>
   )
 }
@@ -242,11 +237,11 @@ export function Pulsars({ count = 3 }: PulsarsProps) {
       const height = (Math.random() - 0.5) * 60
 
       return {
-        position: [
-          Math.cos(theta) * radius,
-          height,
-          Math.sin(theta) * radius
-        ] as [number, number, number],
+        position: [Math.cos(theta) * radius, height, Math.sin(theta) * radius] as [
+          number,
+          number,
+          number,
+        ],
         color: colors[i % colors.length].core,
         beamColor: colors[i % colors.length].beam,
         scale: 1.5 + Math.random() * 1,

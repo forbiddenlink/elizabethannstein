@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { usePrefersReducedMotion } from '@/lib/store'
 
@@ -27,13 +27,9 @@ export function ShootingStars({ count = 5 }: { count?: number }) {
   const trailObjectsRef = useRef<THREE.Line[]>([])
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  // Don't render shooting stars if user prefers reduced motion
-  if (prefersReducedMotion) {
-    return null
-  }
-
   // Initialize shooting stars and trail objects
   useEffect(() => {
+    if (prefersReducedMotion) return
     starsRef.current = Array.from({ length: count }, () => ({
       position: new THREE.Vector3(),
       velocity: new THREE.Vector3(),
@@ -42,7 +38,7 @@ export function ShootingStars({ count = 5 }: { count?: number }) {
       lifetime: 0,
       maxLifetime: 2 + Math.random() * 2,
       size: 0.3 + Math.random() * 0.4,
-      color: new THREE.Color().setHSL(0.1 + Math.random() * 0.1, 0.3, 0.9)
+      color: new THREE.Color().setHSL(0.1 + Math.random() * 0.1, 0.3, 0.9),
     }))
 
     // Create trail line objects
@@ -56,7 +52,7 @@ export function ShootingStars({ count = 5 }: { count?: number }) {
         color: '#ffcc88',
         transparent: true,
         opacity: 0.6,
-        blending: THREE.AdditiveBlending
+        blending: THREE.AdditiveBlending,
       })
 
       const line = new THREE.Line(geometry, material)
@@ -66,19 +62,19 @@ export function ShootingStars({ count = 5 }: { count?: number }) {
 
     // Add trail objects to group
     if (groupRef.current) {
-      trailObjectsRef.current.forEach(trail => {
+      trailObjectsRef.current.forEach((trail) => {
         groupRef.current!.add(trail)
       })
     }
 
     return () => {
       // Cleanup
-      trailObjectsRef.current.forEach(trail => {
+      trailObjectsRef.current.forEach((trail) => {
         trail.geometry.dispose()
         ;(trail.material as THREE.Material).dispose()
       })
     }
-  }, [count])
+  }, [count, prefersReducedMotion])
 
   // Spawn a shooting star
   const spawnStar = (star: ShootingStar) => {
@@ -96,21 +92,29 @@ export function ShootingStars({ count = 5 }: { count?: number }) {
 
     // Random direction, generally inward and downward
     const speed = 80 + Math.random() * 60
-    star.velocity.set(
-      -star.position.x * 0.5 + (Math.random() - 0.5) * 50,
-      -20 - Math.random() * 30,
-      -star.position.z * 0.5 + (Math.random() - 0.5) * 50
-    ).normalize().multiplyScalar(speed)
+    star.velocity
+      .set(
+        -star.position.x * 0.5 + (Math.random() - 0.5) * 50,
+        -20 - Math.random() * 30,
+        -star.position.z * 0.5 + (Math.random() - 0.5) * 50
+      )
+      .normalize()
+      .multiplyScalar(speed)
 
     star.trail = [star.position.clone()]
     star.active = true
     star.lifetime = 0
     star.maxLifetime = 1.5 + Math.random() * 2
     star.size = 0.4 + Math.random() * 0.5
-    star.color.setHSL(0.05 + Math.random() * 0.15, 0.5 + Math.random() * 0.3, 0.85 + Math.random() * 0.15)
+    star.color.setHSL(
+      0.05 + Math.random() * 0.15,
+      0.5 + Math.random() * 0.3,
+      0.85 + Math.random() * 0.15
+    )
   }
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
+    if (prefersReducedMotion) return
     starsRef.current.forEach((star, i) => {
       // Random spawn chance for inactive stars
       if (!star.active) {
@@ -151,7 +155,7 @@ export function ShootingStars({ count = 5 }: { count?: number }) {
         meshRefs.current[i]!.visible = true
 
         // Fade out near end of lifetime
-        const lifeFactor = 1 - (star.lifetime / star.maxLifetime)
+        const lifeFactor = 1 - star.lifetime / star.maxLifetime
         const material = meshRefs.current[i]!.material as THREE.MeshBasicMaterial
         material.opacity = lifeFactor * 0.9
       }
@@ -179,13 +183,19 @@ export function ShootingStars({ count = 5 }: { count?: number }) {
     })
   })
 
+  if (prefersReducedMotion) {
+    return null
+  }
+
   return (
     <group ref={groupRef}>
       {Array.from({ length: count }).map((_, i) => (
         <group key={i}>
           {/* Star head */}
           <mesh
-            ref={(el) => { meshRefs.current[i] = el }}
+            ref={(el) => {
+              meshRefs.current[i] = el
+            }}
             visible={false}
           >
             <sphereGeometry args={[0.5, 8, 8]} />

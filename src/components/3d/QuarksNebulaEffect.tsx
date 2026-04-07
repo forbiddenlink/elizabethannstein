@@ -1,32 +1,32 @@
 'use client'
 
-import { useRef, useEffect, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import {
   BatchedParticleRenderer,
-  ParticleSystem,
+  Bezier,
+  ColorRange,
   ConeEmitter,
-  SphereEmitter,
   ConstantValue,
   IntervalValue,
+  ParticleSystem,
   PiecewiseBezier,
-  Bezier,
-  SizeOverLife,
-  RotationOverLife,
-  ColorRange,
   RenderMode,
+  RotationOverLife,
+  SizeOverLife,
+  SphereEmitter,
   Vector4,
 } from 'three.quarks'
 import { useViewStore } from '@/lib/store'
 
 // Galaxy colors for tinting
 const GALAXY_COLORS: Record<string, THREE.Color> = {
-  enterprise:   new THREE.Color('#FF6B35'),
-  ai:           new THREE.Color('#00D9FF'),
-  fullstack:    new THREE.Color('#9D4EDD'),
-  devtools:     new THREE.Color('#06FFA5'),
-  design:       new THREE.Color('#FF6BAD'),
+  enterprise: new THREE.Color('#FF6B35'),
+  ai: new THREE.Color('#00D9FF'),
+  fullstack: new THREE.Color('#9D4EDD'),
+  devtools: new THREE.Color('#06FFA5'),
+  design: new THREE.Color('#FF6BAD'),
   experimental: new THREE.Color('#FFB347'),
 }
 
@@ -47,7 +47,7 @@ export function QuarksNebulaEffect({
   position = [0, 0, -100],
   scale = 1,
   particleCount = 2000,
-  isMobile = false
+  isMobile = false,
 }: QuarksNebulaEffectProps) {
   const groupRef = useRef<THREE.Group>(null)
   const batchRendererRef = useRef<InstanceType<typeof BatchedParticleRenderer> | null>(null)
@@ -113,7 +113,7 @@ export function QuarksNebulaEffect({
         new Vector4(0.3, 0.1, 0.5, 0.15),
         new Vector4(0.2, 0.05, 0.4, 0.25)
       ),
-      emissionOverTime: new ConstantValue(actualCount * 0.3 / 10),
+      emissionOverTime: new ConstantValue((actualCount * 0.3) / 10),
       shape: new SphereEmitter({
         radius: 150 * scale,
         thickness: 1,
@@ -146,7 +146,7 @@ export function QuarksNebulaEffect({
         new Vector4(0.4, 0.15, 0.6, 0.2),
         new Vector4(0.6, 0.2, 0.7, 0.35)
       ),
-      emissionOverTime: new ConstantValue(actualCount * 0.4 / 8),
+      emissionOverTime: new ConstantValue((actualCount * 0.4) / 8),
       shape: new SphereEmitter({
         radius: 100 * scale,
         thickness: 0.8,
@@ -161,7 +161,9 @@ export function QuarksNebulaEffect({
       renderOrder: -50,
     })
 
-    midClouds.addBehavior(new SizeOverLife(new PiecewiseBezier([[new Bezier(0.5, 1, 1.2, 0.3), 0]])))
+    midClouds.addBehavior(
+      new SizeOverLife(new PiecewiseBezier([[new Bezier(0.5, 1, 1.2, 0.3), 0]]))
+    )
     midClouds.addBehavior(new RotationOverLife(new IntervalValue(-0.1, 0.1)))
 
     midClouds.emitter.name = 'midClouds'
@@ -175,11 +177,8 @@ export function QuarksNebulaEffect({
       startSpeed: new IntervalValue(0.1, 0.4),
       startSize: new IntervalValue(0.5, 3),
       startRotation: new ConstantValue(0),
-      startColor: new ColorRange(
-        new Vector4(0.8, 0.8, 1, 0.5),
-        new Vector4(1, 1, 1, 0.9)
-      ),
-      emissionOverTime: new ConstantValue(actualCount * 0.2 / 4),
+      startColor: new ColorRange(new Vector4(0.8, 0.8, 1, 0.5), new Vector4(1, 1, 1, 0.9)),
+      emissionOverTime: new ConstantValue((actualCount * 0.2) / 4),
       shape: new SphereEmitter({
         radius: 120 * scale,
         thickness: 1,
@@ -195,7 +194,9 @@ export function QuarksNebulaEffect({
     })
 
     // Pulsing size for twinkle effect
-    sparkles.addBehavior(new SizeOverLife(new PiecewiseBezier([[new Bezier(0.3, 1.5, 0.8, 0.2), 0]])))
+    sparkles.addBehavior(
+      new SizeOverLife(new PiecewiseBezier([[new Bezier(0.3, 1.5, 0.8, 0.2), 0]]))
+    )
 
     sparkles.emitter.name = 'sparkles'
     systems.push(sparkles)
@@ -212,7 +213,7 @@ export function QuarksNebulaEffect({
         new Vector4(targetColor.r, targetColor.g, targetColor.b, 0.15),
         new Vector4(targetColor.r * 1.2, targetColor.g * 1.2, targetColor.b * 1.2, 0.3)
       ),
-      emissionOverTime: new ConstantValue(actualCount * 0.1 / 6),
+      emissionOverTime: new ConstantValue((actualCount * 0.1) / 6),
       shape: new SphereEmitter({
         radius: 80 * scale,
         thickness: 0.6,
@@ -256,7 +257,7 @@ export function QuarksNebulaEffect({
 
   // Update color when galaxy changes
   useEffect(() => {
-    const accents = systemsRef.current.find(s => s.emitter.name === 'accents')
+    const accents = systemsRef.current.find((s) => s.emitter.name === 'accents')
     if (accents) {
       // Update start color for new particles
       accents.startColor = new ColorRange(
@@ -297,11 +298,7 @@ interface QuarksGalaxyCoreProps {
   readonly scale?: number
 }
 
-export function QuarksGalaxyCore({
-  position,
-  color,
-  scale = 1,
-}: QuarksGalaxyCoreProps) {
+export function QuarksGalaxyCore({ position, color, scale = 1 }: QuarksGalaxyCoreProps) {
   const groupRef = useRef<THREE.Group>(null)
   const batchRendererRef = useRef<InstanceType<typeof BatchedParticleRenderer> | null>(null)
   const systemRef = useRef<ParticleSystem | null>(null)
@@ -366,7 +363,9 @@ export function QuarksGalaxyCore({
       renderOrder: 10,
     })
 
-    spiralSystem.addBehavior(new SizeOverLife(new PiecewiseBezier([[new Bezier(0.5, 1, 0.8, 0.2), 0]])))
+    spiralSystem.addBehavior(
+      new SizeOverLife(new PiecewiseBezier([[new Bezier(0.5, 1, 0.8, 0.2), 0]]))
+    )
 
     batchRenderer.addSystem(spiralSystem)
     groupRef.current.add(spiralSystem.emitter)
@@ -467,10 +466,7 @@ export function QuarksWarpEffect({ active, intensity = 1 }: QuarksWarpEffectProp
       startSpeed: new IntervalValue(200, 400),
       startSize: new IntervalValue(0.1, 0.4),
       startRotation: new ConstantValue(0),
-      startColor: new ColorRange(
-        new Vector4(0.7, 0.8, 1, 0.5),
-        new Vector4(1, 1, 1, 1)
-      ),
+      startColor: new ColorRange(new Vector4(0.7, 0.8, 1, 0.5), new Vector4(1, 1, 1, 1)),
       emissionOverTime: new ConstantValue(0), // Start inactive
       shape: new ConeEmitter({
         radius: 2,
@@ -528,9 +524,5 @@ export function QuarksWarpEffect({ active, intensity = 1 }: QuarksWarpEffectProp
 
   if (!active) return null
 
-  return (
-    <group ref={groupRef}>
-      {/* Particle system attached imperatively */}
-    </group>
-  )
+  return <group ref={groupRef}>{/* Particle system attached imperatively */}</group>
 }

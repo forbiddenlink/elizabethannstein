@@ -1,10 +1,10 @@
 'use client'
 
-import { galaxies } from '@/lib/galaxyData'
-import { generateProjectPosition } from '@/lib/utils'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { galaxies } from '@/lib/galaxyData'
+import { generateProjectPosition } from '@/lib/utils'
 
 interface ConstellationLine {
   start: THREE.Vector3
@@ -35,7 +35,7 @@ export function AnimatedConstellation() {
             p.id.includes('hephaestus') ||
             p.id.includes('robocollective') ||
             p.id.includes('space-ventures') ||
-            p.id.includes('tarrl'),
+            p.id.includes('tarrl')
         ) || []
 
     if (floLabsProjects.length < 2) return { lines: [], particleCount: 0 }
@@ -48,16 +48,10 @@ export function AnimatedConstellation() {
 
       const nextProject = floLabsProjects[idx + 1]
       const start = new THREE.Vector3(
-        ...generateProjectPosition(project.id, 'enterprise', 0, idx, floLabsProjects.length),
+        ...generateProjectPosition(project.id, 'enterprise', 0, idx, floLabsProjects.length)
       )
       const end = new THREE.Vector3(
-        ...generateProjectPosition(
-          nextProject.id,
-          'enterprise',
-          0,
-          idx + 1,
-          floLabsProjects.length,
-        ),
+        ...generateProjectPosition(nextProject.id, 'enterprise', 0, idx + 1, floLabsProjects.length)
       )
 
       lines.push({
@@ -77,11 +71,11 @@ export function AnimatedConstellation() {
           'enterprise',
           0,
           floLabsProjects.length - 1,
-          floLabsProjects.length,
-        ),
+          floLabsProjects.length
+        )
       )
       const end = new THREE.Vector3(
-        ...generateProjectPosition(firstProject.id, 'enterprise', 0, 0, floLabsProjects.length),
+        ...generateProjectPosition(firstProject.id, 'enterprise', 0, 0, floLabsProjects.length)
       )
 
       lines.push({
@@ -95,7 +89,7 @@ export function AnimatedConstellation() {
     const particlesPerUnit = 3
     const totalParticles = lines.reduce(
       (sum, line) => sum + Math.ceil(line.length * particlesPerUnit),
-      0,
+      0
     )
 
     return { lines, particleCount: totalParticles }
