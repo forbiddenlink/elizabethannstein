@@ -3,6 +3,8 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
 
 const MINMAX_API_URL = 'https://api.minimax.io/v1/text/chatcompletion_v2'
 
+const ALLOWED_MESSAGE_ROLES = new Set(['user', 'assistant', 'system'])
+
 export async function POST(req: Request) {
   try {
     const body = await req.json()
@@ -15,7 +17,12 @@ export async function POST(req: Request) {
 
     // Validate each message shape and sanitize
     for (const msg of messages) {
-      if (!msg.role || !msg.content || typeof msg.content !== 'string') {
+      if (
+        typeof msg.role !== 'string' ||
+        !ALLOWED_MESSAGE_ROLES.has(msg.role) ||
+        !msg.content ||
+        typeof msg.content !== 'string'
+      ) {
         return NextResponse.json({ error: 'Invalid message structure' }, { status: 400 })
       }
       if (msg.content.length > 2000) {

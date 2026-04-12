@@ -44,7 +44,7 @@ test.describe('Mobile Responsive Layout', () => {
     await page.goto('/work')
     await page.waitForLoadState('domcontentloaded')
 
-    await expect(page.locator('h1')).toContainText(/Projects|Case Studies/i)
+    await expect(page.locator('h1')).toContainText(/Work|case studies/i)
     await expect(page.locator('a[href^="/work/"]').first()).toBeVisible()
   })
 

@@ -45,11 +45,8 @@ export async function POST(request: Request) {
     const safeMessage = sanitize(message)
 
     if (!process.env.RESEND_API_KEY) {
-      // Dev / demo mode — log and return success so the UI still works
-      console.warn('[contact] RESEND_API_KEY not set; email not sent:', {
-        safeName,
-        safeEmail,
-      })
+      // Dev / demo mode — avoid logging visitor PII; UI still returns success
+      console.warn('[contact] RESEND_API_KEY not set; email not sent (dev mode)')
       return NextResponse.json({ ok: true, dev: true })
     }
 

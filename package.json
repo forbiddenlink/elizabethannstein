@@ -17,6 +17,8 @@
     "test:e2e:smoke": "playwright test --project=smoke",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ci": "playwright test --project=smoke --project=visual --project=chromium --project=firefox --project=webkit --project=mobile-chrome --project=mobile-safari",
+    "test:e2e:visual": "playwright test --project=visual",
     "analyze": "ANALYZE=true next build",
     "biome:check": "biome check .",
     "biome:fix": "biome check . --write",
@@ -77,12 +79,16 @@
     "stats-gl": "^4.1.0",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
+    "vite": "^8.0.8",
     "vitest": "^4.1.0"
   },
   "pnpm": {
     "overrides": {
       "picomatch": ">=4.0.4",
-      "brace-expansion": ">=5.0.5"
+      "brace-expansion": ">=5.0.5",
+      "flatted": ">=3.4.2",
+      "lodash-es": ">=4.18.0",
+      "vite": ">=8.0.5"
     }
   },
   "engines": {

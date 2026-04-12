@@ -10,8 +10,12 @@ pnpm build      # Production build
 pnpm start      # Run production server
 pnpm lint       # TypeScript check (tsc --noEmit)
 pnpm test       # Vitest unit tests (src/__tests__)
-pnpm test:e2e   # Playwright E2E
+pnpm test:e2e   # Playwright E2E (local dev server)
+pnpm test:e2e:ci # Playwright: smoke + visual + Chromium/Firefox/WebKit/mobile (CI runs `next start` after build)
+pnpm test:e2e:visual # Playwright visual snapshots only (Chrome)
+./scripts/update-visual-snapshots-docker.sh # Regenerate Linux baselines (match GitHub Actions)
 pnpm biome:check # Biome linter/formatter
+pnpm audit      # Dependency vulnerability check
 ```
 
 ## Architecture
@@ -54,6 +58,8 @@ Camera navigation uses animated transitions between view states. Galaxy position
 - `/work` - SSG project list
 - `/work/[slug]` - SSG case study pages (slug = project.id)
 - `/about`, `/contact`, `/privacy` - Static pages
+- `/health` - JSON uptime check (no-cache)
+- API routes under `/api/*` — Arcjet shield + bot rules via `src/proxy.ts` (Next.js 16 `proxy`, not `middleware`)
 
 ### Types
 

@@ -20,6 +20,8 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', '@react-three/drei'],
+    // Native view transitions for route changes (React 19 + Next 16)
+    viewTransition: true,
   },
   // Security headers for production
   async headers() {
@@ -45,6 +47,10 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'X-XSS-Protection', value: '1; mode=block' },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Content-Security-Policy', value: cspDirectives },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
@@ -66,8 +72,11 @@ const sentryConfig = {
   widenClientFileUpload: true,
   // Hides source maps from generated client bundles
   hideSourceMaps: true,
-  // Tree-shake Sentry logger statements
-  disableLogger: true,
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
 }
 
 export default withSentryConfig(withAxiom(withBundleAnalyzer(nextConfig)), sentryConfig)

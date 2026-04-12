@@ -2,6 +2,10 @@ import { defineConfig, devices } from '@playwright/test'
 
 const e2ePort = process.env.PLAYWRIGHT_PORT || '3100'
 const baseURL = process.env.BASE_URL || `http://127.0.0.1:${e2ePort}`
+const isCI = !!process.env.CI
+
+/** Exclude visual regression specs from multi-browser runs — snapshots are Chrome-only in `visual` project */
+const ignoreVisualDir = /\/e2e\/visual\//
 
 export default defineConfig({
   testDir: './e2e',
@@ -48,19 +52,19 @@ export default defineConfig({
     {
       name: 'chromium',
       testMatch: /.*\.spec\.ts/,
-      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/],
+      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/, ignoreVisualDir],
       use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
       testMatch: /.*\.spec\.ts/,
-      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/],
+      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/, ignoreVisualDir],
       use: { ...devices['Desktop Firefox'] },
     },
     {
       name: 'webkit',
       testMatch: /.*\.spec\.ts/,
-      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/],
+      testIgnore: [/.*\.smoke\.spec\.ts/, /.*\.mobile\.spec\.ts/, ignoreVisualDir],
       use: { ...devices['Desktop Safari'] },
     },
     // Mobile viewport tests
@@ -76,13 +80,17 @@ export default defineConfig({
     },
   ],
 
-  // Run dev server before tests if not in CI
-  webServer: process.env.CI
-    ? undefined
+  // Local: dev server with reuse. CI: production server (run `pnpm build` first).
+  webServer: isCI
+    ? {
+        command: `pnpm exec next start -H 127.0.0.1 -p ${e2ePort}`,
+        url: baseURL,
+        reuseExistingServer: false,
+        timeout: 180 * 1000,
+      }
     : {
         command: `pnpm dev --hostname 127.0.0.1 --port ${e2ePort}`,
         url: baseURL,
-        // Local: attach to an already-running dev server if the port is taken.
         reuseExistingServer: true,
         timeout: 120 * 1000,
       },

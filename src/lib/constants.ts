@@ -14,9 +14,12 @@ export const SITE = {
   title: 'Full-Stack Developer & AI Integration Specialist',
   fullTitle: 'Elizabeth Stein | Full-Stack & AI Developer',
   description:
-    'Production web apps, design systems, and AI integrations—84 projects across six galaxies. Built to be explored, not skimmed.',
+    'Full-stack product work, design systems, and AI integrations—explore 84 projects across six galaxies. Built to wander through, not scroll past.',
   shortDescription:
-    'Production web apps, design systems, and AI integrations—shipped with product judgment and engineering rigor.',
+    'I build production web apps, design systems, and AI-powered features—with clear product judgment and careful engineering.',
+  /** One-line POV for hero / storytelling surfaces */
+  narrativeThesis:
+    'Ship work that survives contact with real users—systems you can evolve, interfaces people actually finish.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
   keywords: [
     'Full-Stack Developer',

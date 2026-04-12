@@ -24,8 +24,9 @@ Sentry.init({
 
   integrations: [
     Sentry.replayIntegration({
-      maskAllText: false,
-      blockAllMedia: false,
+      // Mask text in replays by default — safer for visitors on a public portfolio site
+      maskAllText: true,
+      blockAllMedia: true,
     }),
   ],
 })

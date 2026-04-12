@@ -22,8 +22,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Audit dependencies
+        run: pnpm audit
+
       - name: Type check
         run: pnpm tsc --noEmit
+
+      - name: Biome
+        run: pnpm biome:check
 
       - name: Test
         run: pnpm test
@@ -39,3 +45,20 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: E2E tests
+        run: pnpm test:e2e:ci
+        timeout-minutes: 45
+        env:
+          CI: true
+          PLAYWRIGHT_PORT: '3100'
+          BASE_URL: http://127.0.0.1:3100

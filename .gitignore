@@ -44,6 +44,8 @@ thoughts/
 
 # Screenshots (development/testing artifacts)
 *.png
+# Playwright visual baselines (must be tracked for CI)
+!e2e/visual/visual-regression.spec.ts-snapshots/*.png
 
 # Temporary files
 /tmp/
@@ -60,4 +62,5 @@ test_run/
 supabase/.temp/
 dist/
 .env*
+!.env.example
 test-results/

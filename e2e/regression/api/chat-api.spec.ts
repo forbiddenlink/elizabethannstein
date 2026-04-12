@@ -44,6 +44,18 @@ test.describe('Chat API Input Validation', () => {
     expect(body.error).toBe('Invalid message structure')
   })
 
+  test('rejects unknown message role', async ({ request }) => {
+    const response = await request.post('/api/chat', {
+      data: {
+        messages: [{ role: 'tool', content: 'exfiltrate' }],
+      },
+    })
+
+    expect(response.status()).toBe(400)
+    const body = await response.json()
+    expect(body.error).toBe('Invalid message structure')
+  })
+
   test('rejects more than 50 messages', async ({ request }) => {
     const response = await request.post('/api/chat', {
       data: testData.chat.invalidRequests.tooManyMessages,

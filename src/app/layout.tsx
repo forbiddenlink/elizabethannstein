@@ -123,6 +123,11 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`bg-black text-white antialiased font-sans ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
       >
+        {/* Subtle film grain — editorial depth; disabled when reduced motion */}
+        <div
+          className="grain-film pointer-events-none fixed inset-0 z-[12] select-none"
+          aria-hidden="true"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
