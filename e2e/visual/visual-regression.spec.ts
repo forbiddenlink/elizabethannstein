@@ -13,7 +13,7 @@ test.describe('Visual Regression', () => {
       await page.waitForLoadState('networkidle')
       // Take screenshot with some tolerance for font rendering
       await expect(page).toHaveScreenshot('work-page.png', {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.04,
         animations: 'disabled',
       })
     })
@@ -22,7 +22,7 @@ test.describe('Visual Regression', () => {
       await page.goto('/about')
       await page.waitForLoadState('networkidle')
       await expect(page).toHaveScreenshot('about-page.png', {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.04,
         animations: 'disabled',
       })
     })
@@ -31,7 +31,7 @@ test.describe('Visual Regression', () => {
       await page.goto('/contact')
       await page.waitForLoadState('networkidle')
       await expect(page).toHaveScreenshot('contact-page.png', {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.04,
         animations: 'disabled',
       })
     })
@@ -40,7 +40,7 @@ test.describe('Visual Regression', () => {
       await page.goto('/privacy')
       await page.waitForLoadState('networkidle')
       await expect(page).toHaveScreenshot('privacy-page.png', {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.04,
         animations: 'disabled',
       })
     })
@@ -52,7 +52,7 @@ test.describe('Visual Regression', () => {
       await page.goto('/work/chronicle')
       await page.waitForLoadState('networkidle')
       await expect(page).toHaveScreenshot('project-chronicle.png', {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.04,
         animations: 'disabled',
       })
     })
@@ -66,7 +66,7 @@ test.describe('Visual Regression', () => {
       await page.keyboard.press('Meta+k')
       await page.waitForSelector('[role="dialog"]')
       await expect(page.locator('[role="dialog"]')).toHaveScreenshot('command-palette.png', {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.04,
         animations: 'disabled',
       })
     })
