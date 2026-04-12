@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Brain, Building2, Code2, Rocket, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -116,7 +116,6 @@ export function Entrance() {
   const enter = useViewStore((state) => state.enter)
   const setWarpingIn = useViewStore((state) => state.setWarpingIn)
   const [isEntering, setIsEntering] = useState(false)
-  const reduceMotion = useReducedMotion()
 
   // Skip entrance on repeat visits
   useEffect(() => {
@@ -155,9 +154,6 @@ export function Entrance() {
           transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-[100] bg-black flex flex-col items-center overflow-y-auto"
         >
-
-
-
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center text-center gap-3 sm:gap-7 lg:gap-10 px-4 py-4 sm:py-8 min-h-full w-full max-w-2xl mx-auto justify-center shrink-0">
             {/* Subtitle */}
@@ -260,7 +256,10 @@ export function Entrance() {
                 ) : (
                   <>
                     <span>Enter the map</span>
-                    <ArrowRight className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true" />
+                    <ArrowRight
+                      className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
                   </>
                 )}
               </button>

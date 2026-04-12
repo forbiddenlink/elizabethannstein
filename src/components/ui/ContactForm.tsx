@@ -166,7 +166,10 @@ export function ContactForm() {
 
       <p className="text-white/40 text-xs text-center">
         I typically respond within 24 hours. Or email me directly at{' '}
-        <a href={`mailto:${CONTACT.email}`} className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]">
+        <a
+          href={`mailto:${CONTACT.email}`}
+          className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+        >
           {CONTACT.email}
         </a>
         .

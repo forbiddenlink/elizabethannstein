@@ -3,8 +3,8 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import { ProjectBadges } from '@/components/ui/ProjectBadges'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
@@ -535,7 +535,10 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           <motion.div
             {...(reducedMotion
               ? {}
-              : { whileHover: { scale: 1.01, y: -2 }, transition: { type: 'spring', stiffness: 300, damping: 25 } })}
+              : {
+                  whileHover: { scale: 1.01, y: -2 },
+                  transition: { type: 'spring', stiffness: 300, damping: 25 },
+                })}
             className="bg-white/5 border border-white/10 rounded-lg p-6 hover:bg-white/[0.07] transition-all duration-300 hover:border-white/18"
           >
             <p className="story-act-label">I · Constraint</p>
@@ -546,7 +549,10 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           <motion.div
             {...(reducedMotion
               ? {}
-              : { whileHover: { scale: 1.01, y: -2 }, transition: { type: 'spring', stiffness: 300, damping: 25 } })}
+              : {
+                  whileHover: { scale: 1.01, y: -2 },
+                  transition: { type: 'spring', stiffness: 300, damping: 25 },
+                })}
             className="bg-white/5 border border-white/10 rounded-lg p-6 hover:bg-white/[0.07] transition-all duration-300 hover:border-white/18"
           >
             <p className="story-act-label">II · Build</p>
@@ -587,11 +593,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* ── Impact Metrics (if populated) ── */}
       {project.impactMetrics && project.impactMetrics.length > 0 && (
-        <motion.section
-          id="case-signals"
-          className="scroll-mt-28 md:scroll-mt-36"
-          {...reveal}
-        >
+        <motion.section id="case-signals" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
           <p className="case-study-eyebrow">Signals</p>
           <h2 className="story-section-title flex items-center gap-3">
             <span style={{ color: project.color }} aria-hidden="true">
@@ -615,11 +617,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* ── Project Metrics (files/tests/team/users) ── */}
       {project.metrics && Object.keys(project.metrics).length > 0 && (
-        <motion.section
-          id="case-engine"
-          className="scroll-mt-28 md:scroll-mt-36"
-          {...reveal}
-        >
+        <motion.section id="case-engine" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
           <p className="case-study-eyebrow">Engine room</p>
           <h2 className="story-section-title mb-6">At a glance</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -653,11 +651,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       {/* ── Testimonial ── */}
       {project.testimonial && (
-        <motion.section
-          id="case-voice"
-          className="scroll-mt-28 md:scroll-mt-36"
-          {...reveal}
-        >
+        <motion.section id="case-voice" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
           <p className="case-study-eyebrow">Endorsement</p>
           <h2 className="story-section-title">Voice from the field</h2>
           <motion.blockquote
@@ -703,11 +697,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
       )}
 
       {/* ── Tech Stack — colour-coded by category ── */}
-      <motion.section
-        id="case-stack"
-        className="scroll-mt-28 md:scroll-mt-36"
-        {...reveal}
-      >
+      <motion.section id="case-stack" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
         <p className="case-study-eyebrow">Inventory</p>
         <h2 className="story-section-title">Stack & signals</h2>
         <div className="flex flex-wrap gap-2.5">

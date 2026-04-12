@@ -208,7 +208,10 @@ export default function AboutPage() {
           {/* Bio Section */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]" aria-hidden="true">
+              <div
+                className="p-2 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]"
+                aria-hidden="true"
+              >
                 <Sparkles className="w-6 h-6 text-[var(--color-text-secondary)]" />
               </div>
               About Me

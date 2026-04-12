@@ -109,7 +109,7 @@
   /* Named surface colors */
   --color-surface: #0a0a0a;
   --color-elevated: #111111;
-  --color-border: rgba(255, 255, 255, 0.10);
+  --color-border: rgba(255, 255, 255, 0.1);
   --color-border-subtle: rgba(255, 255, 255, 0.06);
 
   /* Accent colors — achromatic base */
@@ -156,7 +156,6 @@
   --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-magnetic: cubic-bezier(0.65, 0.05, 0.36, 1);
   --ease-image-hover: cubic-bezier(0.43, 0.13, 0.23, 0.96);
-
 
   /* ===== BORDER RADIUS ===== */
   --radius-sm: 4px;

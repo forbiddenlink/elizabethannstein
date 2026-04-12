@@ -9,6 +9,7 @@ export function WarpTransition() {
   const [isActive, setIsActive] = useState(false)
   const isFirstRoute = useRef(true)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is the intentional trigger
   useEffect(() => {
     if (isFirstRoute.current) {
       isFirstRoute.current = false

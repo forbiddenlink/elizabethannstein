@@ -136,7 +136,6 @@ export default function HomePage() {
         <MorphingShape />
       </div>
 
-
       {/* Header Overlay - Top Left (hidden during tour and before entrance) */}
       <header
         className={`absolute left-4 right-4 top-4 z-10 pointer-events-none transition-all duration-700 md:top-8 md:left-8 md:right-auto ${heroVisibility}`}

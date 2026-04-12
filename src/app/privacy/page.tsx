@@ -40,7 +40,6 @@ export default function PrivacyPage() {
         <div className="max-w-4xl mx-auto">
           {/* Hero */}
           <div className="privacy-hero-panel relative mb-12 overflow-hidden rounded-lg border border-white/12 px-6 py-8 md:px-10 md:py-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-
             <div className="relative flex items-center gap-4 mb-6">
               <div className="flex h-14 w-14 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
                 <Shield className="w-7 h-7 text-[var(--color-text-secondary)]" />

@@ -74,7 +74,7 @@ export function CaseStudyChapterRail({ accentColor }: Readonly<CaseStudyChapterR
           </a>
         </li>
       )),
-    [present, activeId, accentColor],
+    [present, activeId, accentColor]
   )
 
   if (present.length < 2) return null
