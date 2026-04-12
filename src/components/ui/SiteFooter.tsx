@@ -4,10 +4,10 @@ import { CONTACT } from '@/lib/constants'
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/[0.12] py-8 relative z-10 bg-black/30 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-white/70 text-sm">
-        <div className="flex items-center gap-4">
-          <p>&copy; {new Date().getFullYear()} Elizabeth Stein</p>
+    <footer className="border-t border-[var(--color-border)] py-10 relative z-10 bg-black">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-5 text-white/[0.68] text-[13px] tracking-[0.01em]">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+          <p className="text-white/80">&copy; {new Date().getFullYear()} Elizabeth Stein</p>
           <span className="text-white/20">·</span>
           <Link href="/contact" className="hover:text-white transition-colors">
             Contact

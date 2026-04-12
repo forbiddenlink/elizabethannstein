@@ -76,7 +76,7 @@ export function VideoEmbed({ url, title, thumbnail, aspectRatio = '16:9' }: Vide
   }
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/40">
+    <div className="relative rounded-lg overflow-hidden border border-white/10 bg-black/40">
       <div className={aspectClasses[aspectRatio]}>
         {isPlaying ? (
           <>
@@ -120,7 +120,7 @@ export function VideoEmbed({ url, title, thumbnail, aspectRatio = '16:9' }: Vide
             {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:bg-white/30 group-hover:scale-110 transition-all duration-300"
+                className="w-20 h-20 rounded-full bg-white/20 border border-white/30 flex items-center justify-center group-hover:bg-white/30 group-hover:scale-110 transition-all duration-300"
                 whileHover={{ scale: 1.1 }}
               >
                 <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />

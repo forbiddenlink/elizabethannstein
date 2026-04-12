@@ -16,11 +16,11 @@ function getModalTone(color?: string): string {
       return 'enterprise'
     case '#00d9ff':
       return 'ai'
-    case '#9d4edd':
+    case '#b47eff':
       return 'fullstack'
     case '#06ffa5':
       return 'devtools'
-    case '#ff006e':
+    case '#ff4d94':
       return 'creative'
     case '#ffb800':
       return 'experimental'
@@ -198,22 +198,22 @@ export function ProjectModal() {
                   duration: 0.5,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="project-modal-surface relative w-full max-w-5xl bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl will-change-transform"
+                className="project-modal-surface relative w-full max-w-5xl bg-[var(--color-surface)] border border-white/10 rounded-lg shadow-2xl will-change-transform"
                 data-tone={tone}
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Glass morphism inner glow */}
-                <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none z-10" />
+                <div className="absolute inset-0 rounded-lg bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none z-10" />
 
                 {/* Generative Modal Background/Header */}
-                <div className="absolute inset-x-0 top-0 h-64 overflow-hidden rounded-t-3xl opacity-20 mask-image-linear-to-b">
+                <div className="absolute inset-x-0 top-0 h-64 overflow-hidden rounded-t-lg opacity-20 mask-image-linear-to-b">
                   <GenerativeHero name={project.title} color={project.color} />
                   <div className="absolute inset-0 bg-linear-to-b from-transparent to-black" />
                 </div>
 
                 {/* Animated border glow with project color */}
                 <div
-                  className="project-modal-glow absolute inset-0 rounded-3xl blur-xl -z-10 animate-pulse"
+                  className="project-modal-glow absolute inset-0 rounded-lg blur-xl -z-10"
                   data-tone={tone}
                 />
 
@@ -223,7 +223,7 @@ export function ProjectModal() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3, duration: 0.3 }}
                   onClick={handleClose}
-                  className="fixed top-8 right-8 z-60 p-4 rounded-full bg-black/60 hover:bg-black/80 hover:scale-110 hover:rotate-90 transition-all duration-300 backdrop-blur-xl border-2 border-white/30 group shadow-2xl"
+                  className="fixed top-8 right-8 z-60 p-4 rounded-full bg-black/60 hover:bg-black/80 hover:scale-110 hover:rotate-90 transition-all duration-300 border-2 border-white/30 group shadow-2xl"
                   aria-label="Close modal"
                 >
                   <X className="w-6 h-6 text-white transition-transform group-hover:scale-110" />
@@ -250,7 +250,7 @@ export function ProjectModal() {
                 <div className="px-8 pb-8">
                   <a
                     href={`/work/${project.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-base text-white/70 hover:text-white hover:gap-3 transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-surface)] hover:bg-white/10 border border-white/20 hover:border-white/30 text-base text-white/70 hover:text-white hover:gap-3 transition-all duration-300"
                   >
                     View full page →
                   </a>

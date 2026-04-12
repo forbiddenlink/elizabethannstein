@@ -236,7 +236,7 @@ export function CommandPalette() {
       {/* Backdrop */}
       <button
         type="button"
-        className="command-palette-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-60"
+        className="command-palette-backdrop fixed inset-0 bg-black/60 z-60"
         onClick={() => {
           closePalette()
         }}
@@ -256,7 +256,7 @@ export function CommandPalette() {
         aria-label="Command palette"
         className="command-palette-modal fixed top-[20vh] left-1/2 -translate-x-1/2 w-full max-w-2xl z-60 px-4"
       >
-        <div className="bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
+        <div className="bg-gray-900/95 rounded-lg shadow-2xl border border-white/10 overflow-hidden">
           {/* Search Input */}
           <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
             <Search className="w-5 h-5 text-gray-400" />

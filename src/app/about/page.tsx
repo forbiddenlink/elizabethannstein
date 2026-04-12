@@ -70,15 +70,12 @@ export default function AboutPage() {
           <div className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
               <div className="relative shrink-0 group">
-                {/* Animated glow layers */}
-                <div className="absolute -inset-2 bg-linear-to-br from-purple-500/60 via-pink-500/40 to-cyan-500/30 rounded-2xl blur-xl opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-                <div className="absolute -inset-1 bg-linear-to-br from-purple-500/40 to-pink-500/40 rounded-2xl blur-md animate-pulse-subtle" />
                 <Image
                   src="/images/profile.jpg"
                   alt="Elizabeth Stein"
                   width={200}
                   height={200}
-                  className="relative rounded-2xl shadow-2xl shadow-purple-500/30 ring-2 ring-white/20 object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  className="relative rounded-lg border border-[var(--color-border)] object-cover"
                   priority
                 />
               </div>
@@ -95,7 +92,7 @@ export default function AboutPage() {
           {/* What I'm Looking For - FIRST for recruiters */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 fill-mode-both">
             <h2 className="text-2xl font-semibold mb-4 text-white/70">Open to Opportunities</h2>
-            <div className="bg-linear-to-br from-purple-500/15 via-pink-500/10 to-orange-500/10 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-3xl shadow-[0_0_50px_rgba(168,85,247,0.15)]">
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-6">
               <p className="text-lg text-white/90 leading-relaxed">
                 <strong className="inline-flex items-center gap-1.5 text-success mr-2">
                   <span className="relative flex h-2 w-2">
@@ -211,12 +208,12 @@ export default function AboutPage() {
           {/* Bio Section */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-accent-purple/20" aria-hidden="true">
-                <Sparkles className="w-6 h-6 text-accent-purple" />
+              <div className="p-2 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]" aria-hidden="true">
+                <Sparkles className="w-6 h-6 text-[var(--color-text-secondary)]" />
               </div>
               About Me
             </h2>
-            <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-2xl border border-white/(--border-opacity-default) backdrop-blur-sm">
+            <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-lg border border-white/(--border-opacity-default)">
               <p>
                 I'm a full-stack developer and UX/UI-minded builder who loves turning messy ideas
                 into clean, usable products. I care deeply about design details, accessibility, and
@@ -238,7 +235,7 @@ export default function AboutPage() {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-fullstack)] p-6 card-hover-lift group">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-linear-to-br from-[var(--color-galaxy-fullstack)]/20 to-purple-500/10 rounded-xl group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)]">
                     <Palette className="w-6 h-6 text-[var(--color-galaxy-fullstack)]" />
                   </div>
                   <div>
@@ -254,7 +251,7 @@ export default function AboutPage() {
 
               <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-ai)] p-6 card-hover-lift group">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-linear-to-br from-[var(--color-galaxy-ai)]/20 to-cyan-500/10 rounded-xl group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)]">
                     <Code2 className="w-6 h-6 text-[var(--color-galaxy-ai)]" />
                   </div>
                   <div>
@@ -270,7 +267,7 @@ export default function AboutPage() {
 
               <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-devtools)] p-6 card-hover-lift group">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-linear-to-br from-[var(--color-galaxy-devtools)]/20 to-emerald-500/10 rounded-xl group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)]">
                     <Cpu className="w-6 h-6 text-[var(--color-galaxy-devtools)]" />
                   </div>
                   <div>
@@ -286,7 +283,7 @@ export default function AboutPage() {
 
               <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-experimental)] p-6 card-hover-lift group">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-linear-to-br from-[var(--color-galaxy-experimental)]/20 to-amber-500/10 rounded-xl group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)]">
                     <Sparkles className="w-6 h-6 text-[var(--color-galaxy-experimental)]" />
                   </div>
                   <div>
@@ -305,7 +302,7 @@ export default function AboutPage() {
           {/* Tech Snapshot */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6">Tech Snapshot</h2>
-            <div className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-2xl p-8 hover:bg-surface-3 transition-colors">
+            <div className="bg-surface-2 border border-white/(--border-opacity-default) rounded-lg p-8 hover:bg-surface-3 transition-colors">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
@@ -366,9 +363,9 @@ export default function AboutPage() {
             className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both scroll-mt-24"
           >
             <h2 className="text-3xl font-semibold mb-6">What Clients Say</h2>
-            <blockquote className="relative bg-linear-to-br from-purple-500/10 via-pink-500/5 to-transparent border border-white/20 rounded-2xl p-8 md:p-10 backdrop-blur-sm">
+            <blockquote className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-8 md:p-10">
               <div
-                className="absolute -top-4 -left-2 text-6xl text-white/20 font-serif"
+                className="absolute -top-4 -left-2 text-6xl text-[var(--color-text-tertiary)] font-serif"
                 aria-hidden="true"
               >
                 "
@@ -405,7 +402,7 @@ export default function AboutPage() {
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-700 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6">Highlights</h2>
             <ul className="space-y-4">
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-purple-500 mt-2 shrink-0"
                   aria-hidden="true"
@@ -415,7 +412,7 @@ export default function AboutPage() {
                   full-stack, devtools, creative, and experimental work
                 </p>
               </li>
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-pink-500 mt-2 shrink-0"
                   aria-hidden="true"
@@ -425,7 +422,7 @@ export default function AboutPage() {
                   modern Next.js + Strapi architecture
                 </p>
               </li>
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0"
                   aria-hidden="true"
@@ -435,7 +432,7 @@ export default function AboutPage() {
                   to MCP tooling and local-first observability products
                 </p>
               </li>
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-emerald-500 mt-2 shrink-0"
                   aria-hidden="true"
@@ -445,7 +442,7 @@ export default function AboutPage() {
                   chapters, 30+ calculators, 85% retention rate)
                 </p>
               </li>
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-orange-500 mt-2 shrink-0"
                   aria-hidden="true"
@@ -455,7 +452,7 @@ export default function AboutPage() {
                   architectures with NestJS, Next.js, and React Native
                 </p>
               </li>
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-indigo-500 mt-2 shrink-0"
                   aria-hidden="true"
@@ -465,7 +462,7 @@ export default function AboutPage() {
                   projects full-time
                 </p>
               </li>
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0"
                   aria-hidden="true"
@@ -475,7 +472,7 @@ export default function AboutPage() {
                   machine" exploring 420,000+ pop culture records
                 </p>
               </li>
-              <li className="bg-surface-2 backdrop-blur-sm border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
                 <span
                   className="w-2 h-2 rounded-full bg-rose-500 mt-2 shrink-0"
                   aria-hidden="true"

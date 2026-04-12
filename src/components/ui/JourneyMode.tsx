@@ -365,7 +365,7 @@ export function JourneyOverlay() {
               aria-label={showInfoCard ? 'Collapse info' : 'Expand info'}
             >
               <div
-                className="rounded-2xl backdrop-blur-xl overflow-hidden transition-all duration-300"
+                className="rounded-lg overflow-hidden transition-all duration-300"
                 style={{
                   background:
                     'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(10, 5, 30, 0.85) 100%)',
@@ -541,7 +541,7 @@ export function JourneyOverlay() {
                 <button
                   type="button"
                   onClick={toggleJourneyPause}
-                  className="flex items-center justify-center p-5 rounded-2xl transition-all duration-200 active:scale-95 min-h-[56px] min-w-[56px]"
+                  className="flex items-center justify-center p-5 rounded-lg transition-all duration-200 active:scale-95 min-h-[56px] min-w-[56px]"
                   style={{
                     background: `linear-gradient(135deg, ${currentStop.galaxyColor}40 0%, ${currentStop.galaxyColor}20 100%)`,
                     border: `1px solid ${currentStop.galaxyColor}50`,
@@ -625,7 +625,7 @@ export function JourneyOverlay() {
             className="absolute top-8 left-8 pointer-events-auto max-w-sm animate-fade-in-up"
           >
             <div
-              className="rounded-2xl p-6 backdrop-blur-xl"
+              className="rounded-lg p-6"
               style={{
                 background:
                   'linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(10, 5, 30, 0.8) 100%)',
@@ -685,7 +685,7 @@ export function JourneyOverlay() {
           {/* Controls Bar - Bottom center */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-auto">
             <div
-              className="flex items-center gap-6 rounded-full px-6 py-3 backdrop-blur-xl"
+              className="flex items-center gap-6 rounded-full px-6 py-3"
               style={{
                 background:
                   'linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(10, 5, 30, 0.7) 100%)',

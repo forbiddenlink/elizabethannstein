@@ -58,7 +58,7 @@ export function GalaxyHint() {
           role="status"
           aria-live="polite"
         >
-          <div className="flex flex-col items-start gap-2.5 rounded-2xl border border-white/15 bg-black/72 px-4 py-3 shadow-2xl backdrop-blur-xl sm:flex-row sm:items-center sm:gap-4 sm:px-5">
+          <div className="flex flex-col items-start gap-2.5 rounded-lg border border-white/15 bg-black/72 px-4 py-3 shadow-2xl sm:flex-row sm:items-center sm:gap-4 sm:px-5">
             {/* Main hint */}
             <span className="text-xs text-white/75">
               Each star is a project—<span className="text-white/90">open one</span> for the full

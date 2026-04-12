@@ -74,7 +74,7 @@ export function HeroProjects() {
               >
                 <Link
                   href={`/work/${project.id}`}
-                  className="group block p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                  className="group block p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                 >
                   <div className="flex items-start gap-3">
                     <div

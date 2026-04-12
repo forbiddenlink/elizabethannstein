@@ -48,7 +48,7 @@ export default function ContactPage() {
           </header>
 
           {/* Contact Form - Primary CTA */}
-          <section className="form-panel-highlight p-8 md:p-10 panel-top-shine">
+          <section className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-8 md:p-10">
             <h2 className="text-2xl font-bold mb-2 tracking-tight">Send a Message</h2>
             <p className="text-white/60 text-sm mb-6 flex items-center gap-2">
               <Clock className="w-4 h-4" />I typically respond within 24 hours
@@ -62,7 +62,7 @@ export default function ContactPage() {
             <div className="grid gap-4 md:grid-cols-3">
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="direct-contact-card group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <Mail className="w-6 h-6 text-purple-400 group-hover:text-purple-300 transition-colors" />
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 href={CONTACT.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="direct-contact-card group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <LinkedInIcon className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
@@ -92,7 +92,7 @@ export default function ContactPage() {
                 href={CONTACT.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="direct-contact-card group p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <GitHubIcon className="w-6 h-6 text-white/80 group-hover:text-white transition-colors" />
@@ -106,16 +106,16 @@ export default function ContactPage() {
           </section>
 
           {/* Availability Section */}
-          <section className="p-6 rounded-xl bg-linear-to-br from-[var(--color-galaxy-devtools)]/10 via-emerald-500/5 to-transparent border border-[var(--color-galaxy-devtools)]/20 shadow-[0_0_30px_rgba(6,255,165,0.1)]">
+          <section className="p-6 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 mt-1">
                 <span className="relative flex h-3.5 w-3.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-galaxy-devtools)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[var(--color-galaxy-devtools)] shadow-[0_0_10px_var(--color-galaxy-devtools)]"></span>
+                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[var(--color-galaxy-devtools)] "></span>
                 </span>
               </div>
               <div>
-                <h2 className="text-xl font-bold mb-2 text-[var(--color-galaxy-devtools)]">
+                <h2 className="text-xl font-bold mb-2 text-[var(--color-text-primary)]">
                   Currently Available
                 </h2>
                 <p className="text-white/70 leading-relaxed">

@@ -256,10 +256,12 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
       {/* Header */}
       <header className="mb-16 md:mb-20">
         <ScrollReveal direction="up" delay={0.2}>
-          <p className="page-hero-kicker">Browse</p>
-          <h1 className="page-hero-title text-3xl md:text-5xl lg:text-6xl mb-5">
-            <SplitWords delay={0.3}>Projects & Case Studies</SplitWords>
-          </h1>
+          <div className="page-hero-block">
+            <p className="page-hero-kicker">Project index</p>
+            <h1 className="page-hero-title text-3xl md:text-5xl lg:text-6xl mb-5">
+              <SplitWords delay={0.3}>Work & case studies</SplitWords>
+            </h1>
+          </div>
         </ScrollReveal>
         <ScrollReveal direction="up" delay={0.4}>
           <p className="text-base md:text-lg text-white/(--text-opacity-tertiary) max-w-2xl leading-relaxed">
@@ -295,7 +297,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.7}>
-          <section className="panel-top-shine mt-8 rounded-2xl border border-white/12 bg-linear-to-b from-white/[0.05] to-black/35 backdrop-blur-md p-4 md:p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+          <section className="panel-top-shine mt-8 rounded-lg border border-white/12 bg-linear-to-b from-white/[0.05] to-black/35 p-4 md:p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
               <h2 className="text-[11px] md:text-xs tracking-[0.22em] uppercase text-white/50 font-semibold">
                 Mission Control
@@ -585,7 +587,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                     >
                       <Link
                         href={`/work/${project.id}`}
-                        className="group block h-full rounded-2xl overflow-hidden relative border-2 border-white/10 hover:border-white/25 transition-all duration-500"
+                        className="group block h-full rounded-lg overflow-hidden relative border-2 border-white/10 hover:border-white/25 transition-all duration-500"
                       >
                         {/* Background with screenshot or generative placeholder */}
                         <div className="absolute inset-0">
@@ -629,7 +631,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                               {project.tags.slice(0, 3).map((tag) => (
                                 <span
                                   key={tag}
-                                  className="px-2.5 py-1 text-[10px] md:text-xs font-medium rounded-lg bg-white/10 border border-white/20 backdrop-blur-sm"
+                                  className="px-2.5 py-1 text-[10px] md:text-xs font-medium rounded-lg bg-white/10 border border-white/20"
                                 >
                                   {tag}
                                 </span>
@@ -671,7 +673,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                     <TiltCard className="h-full">
                       <Link
                         href={`/work/${project.id}`}
-                        className="group block h-full rounded-xl border transition-all duration-300 relative overflow-hidden p-5 border-white/10 bg-linear-to-br from-white/3 to-transparent hover:border-white/25 hover:from-white/8 hover:to-white/2 hover:shadow-[0_0_40px_var(--glow-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30"
+                        className="group block h-full rounded-xl border transition-all duration-300 relative overflow-hidden p-5 border-white/10 bg-linear-to-br from-white/3 to-transparent hover:border-white/25 hover:from-white/8 hover:to-white/2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30"
                         style={{ '--glow-color': `${galaxy.color}30` } as React.CSSProperties}
                       >
                         {/* Accent border line at top */}
@@ -751,7 +753,6 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                         'group block h-full rounded-xl border transition-all duration-300 p-4 md:p-5 relative overflow-hidden',
                         'border-white/10 bg-linear-to-br from-white/2 to-transparent',
                         'hover:border-white/20 hover:from-white/6 hover:to-white/1',
-                        'hover:shadow-[0_0_30px_var(--glow-color)]',
                         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30'
                       )}
                       style={{ '--glow-color': `${galaxy.color}25` } as React.CSSProperties}

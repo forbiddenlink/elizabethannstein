@@ -99,7 +99,7 @@ export function ExplorerHUD() {
         }`}
       >
         <div
-          className="rounded-xl px-4 py-3 backdrop-blur-sm"
+          className="rounded-xl px-4 py-3"
           style={{
             background: 'rgba(0, 0, 0, 0.5)',
             border: `1px solid ${currentGalaxy?.color ?? '#ffffff'}30`,
@@ -192,7 +192,7 @@ export function ExplorerHUD() {
             className={`flex flex-col items-center animate-in fade-in duration-200 pointer-events-auto ${TOUCH_TARGET_SIZE}`}
           >
             <div
-              className="rounded-xl px-5 py-3 backdrop-blur-sm"
+              className="rounded-xl px-5 py-3"
               style={{
                 background: 'rgba(0, 0, 0, 0.5)',
                 border: '1px solid rgba(157, 78, 221, 0.3)',
@@ -224,7 +224,7 @@ export function ExplorerHUD() {
             className={`flex flex-col items-center animate-in fade-in duration-200 pointer-events-auto ${TOUCH_TARGET_SIZE}`}
           >
             <div
-              className="rounded-xl px-5 py-3 backdrop-blur-sm"
+              className="rounded-xl px-5 py-3"
               style={{
                 background: 'rgba(0, 0, 0, 0.5)',
                 border: '1px solid rgba(6, 255, 165, 0.3)',

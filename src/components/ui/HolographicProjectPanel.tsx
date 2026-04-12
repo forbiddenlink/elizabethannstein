@@ -17,7 +17,7 @@ export function HolographicProjectPanel({ show }: Readonly<{ show: boolean }>) {
   return (
     <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-auto animate-in fade-in zoom-in-95 duration-500">
       <div
-        className="relative bg-black/40 backdrop-blur-2xl border-2 rounded-2xl p-8 max-w-2xl"
+        className="relative bg-black/40 border-2 rounded-lg p-8 max-w-2xl"
         style={{
           borderColor: project.color,
           boxShadow: `0 0 60px ${project.color}40, inset 0 0 30px ${project.color}20`,

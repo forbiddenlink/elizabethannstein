@@ -12,10 +12,8 @@ import {
 import { AnimatedText, FadeIn } from '@/components/ui/AnimatedText'
 import { DeepLinkHandler } from '@/components/ui/DeepLinkHandler'
 import { Entrance } from '@/components/ui/Entrance'
-import { GlowOrb } from '@/components/ui/FloatingElement'
 import { GalaxyHint } from '@/components/ui/GalaxyHint'
 import { HeroHighlightReel } from '@/components/ui/HeroHighlightReel'
-import { InteractiveParticles } from '@/components/ui/InteractiveParticles'
 import { KeyboardNavigation } from '@/components/ui/KeyboardNavigation'
 import { KeyboardShortcutsHelp } from '@/components/ui/KeyboardShortcutsHelp'
 import { LoadingProgress } from '@/components/ui/LoadingProgress'
@@ -26,6 +24,7 @@ import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { SoundManager } from '@/components/ui/SoundManager'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { TouchGestures } from '@/components/ui/TouchGestures'
+import { SITE } from '@/lib/constants'
 import { useViewStore } from '@/lib/store'
 
 // Lazy load 3D scene - critical for < 200KB landing bundle
@@ -97,7 +96,7 @@ export default function HomePage() {
       <a
         href="#main-content"
         suppressHydrationWarning
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-5 focus:py-2.5 focus:bg-white focus:text-black focus:rounded-xl focus:font-semibold focus:outline-none focus:ring-0"
       >
         Skip to main content
       </a>
@@ -133,37 +132,20 @@ export default function HomePage() {
       <PerformanceMonitor />
       <KeyboardShortcutsHelp />
 
-      {/* Decorative Background Elements — pushed to right side to avoid header overlap */}
       <div aria-hidden="true">
         <MorphingShape />
-        {/* Ambient Glow Orbs - positioned away from header card */}
-        <div className="hidden md:block">
-          <GlowOrb color="#6366F1" size={140} x={65} y={15} />
-          <GlowOrb color="#A855F7" size={120} x={85} y={50} />
-          <GlowOrb color="#EC4899" size={100} x={55} y={80} />
-        </div>
-        <div className="md:hidden">
-          <GlowOrb color="#6366F1" size={50} x={75} y={15} />
-          <GlowOrb color="#A855F7" size={40} x={85} y={50} />
-        </div>
       </div>
 
-      {/* Interactive Particles Layer */}
-      <InteractiveParticles count={50} />
 
       {/* Header Overlay - Top Left (hidden during tour and before entrance) */}
       <header
         className={`absolute left-4 right-4 top-4 z-10 pointer-events-none transition-all duration-700 md:top-8 md:left-8 md:right-auto ${heroVisibility}`}
       >
-        <div className="glass-card panel-top-shine max-w-lg rounded-[1.75rem] p-4 sm:p-5 md:p-6 lg:max-w-xl">
+        <div className="glass-card max-w-lg rounded-lg p-4 sm:p-5 md:p-6 lg:max-w-xl">
           <h1 className="mb-2 flex items-center gap-2 text-[1.75rem] leading-none font-black tracking-tight drop-shadow-2xl sm:text-4xl md:mb-3 md:gap-3 md:text-5xl lg:text-6xl">
             {/* Star icon */}
-            <span className="relative inline-flex h-6 w-6 shrink-0 items-center justify-center sm:h-8 sm:w-8 md:h-10 md:w-10">
-              <span className="absolute inset-0 rounded-full bg-linear-to-br from-purple-400 to-indigo-600 animate-pulse" />
-              <span className="absolute inset-0.5 rounded-full bg-linear-to-br from-fuchsia-300 to-purple-500" />
-              <span className="absolute inset-1 rounded-full bg-white/80" />
-            </span>
-            <span className="text-white drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+            <span className="inline-flex h-2 w-2 shrink-0 rounded-full bg-[var(--color-text-primary)] sm:h-2.5 sm:w-2.5" />
+            <span className="text-[var(--color-text-primary)]">
               <AnimatedText type="chars" stagger={0.05}>
                 Elizabeth Stein
               </AnimatedText>
@@ -181,8 +163,7 @@ export default function HomePage() {
               </span>
             </div>
             <p className="mb-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base md:text-lg md:leading-snug">
-              Production web apps: product UI, systems thinking, and AI only where it earns the
-              screen time.
+              {SITE.narrativeThesis}
             </p>
             <HeroHighlightReel />
             <div className="pointer-events-auto flex flex-wrap items-center gap-2 sm:gap-3">

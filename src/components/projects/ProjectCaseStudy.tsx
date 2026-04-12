@@ -1,9 +1,10 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
 import { ProjectBadges } from '@/components/ui/ProjectBadges'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
@@ -11,7 +12,6 @@ import { SocialProof } from '@/components/ui/SocialProofBadges'
 import { galaxies } from '@/lib/galaxyData'
 import { getMetricIcon } from '@/lib/metricIcons'
 import type { Project } from '@/lib/types'
-import { formatDateRange } from '@/lib/utils'
 
 // Map project IDs to their screenshot paths
 // ── Space-theme helpers ────────────────────────────────────────────────────
@@ -187,6 +187,7 @@ function ImpactMetricCard({
   icon?: string
   color: string
 }) {
+  const reducedMotion = useReducedMotion()
   const numeric = parseFloat(value.replace(/[^0-9.]/g, ''))
   const suffix = value.replace(/^[\d,. %x+]+/, '')
   const isNumeric = !Number.isNaN(numeric) && numeric > 0
@@ -200,9 +201,13 @@ function ImpactMetricCard({
   return (
     <motion.div
       ref={ref}
-      whileHover={{ scale: 1.04, y: -4 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-      className="relative rounded-2xl p-5 overflow-hidden group cursor-default"
+      {...(reducedMotion
+        ? {}
+        : {
+            whileHover: { scale: 1.04, y: -4 },
+            transition: { type: 'spring' as const, stiffness: 400, damping: 25 },
+          })}
+      className="relative rounded-lg p-5 overflow-hidden group cursor-default"
       style={{
         background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)`,
         border: `1px solid ${color}30`,
@@ -230,30 +235,41 @@ function ImpactMetricCard({
   )
 }
 
-// ── Screenshot hero with parallax ─────────────────────────────────────────
+// ── Screenshot hero with optional parallax ─────────────────────────────────
 function ScreenshotHero({
   project,
   screenshotPath,
+  embedded = false,
 }: {
   project: Project
   screenshotPath?: string
+  /** Inside signature frame — outer border/shadow come from the frame */
+  embedded?: boolean
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],
   })
   const y = useTransform(scrollYProgress, [0, 1], ['-4%', '4%'])
 
+  const shellClass = embedded
+    ? 'relative group overflow-hidden rounded-xl bg-black/25'
+    : 'rounded-lg overflow-hidden border border-white/10 bg-black/40 relative group'
+
   return (
     <div
       ref={containerRef}
-      className="rounded-2xl overflow-hidden border border-white/10 bg-black/40 backdrop-blur-sm relative group"
-      style={{ boxShadow: `0 0 60px ${project.color}15` }}
+      className={shellClass}
+      style={embedded ? undefined : { boxShadow: `0 0 60px ${project.color}15` }}
     >
       <div className="aspect-video relative overflow-hidden">
         {screenshotPath ? (
-          <motion.div className="absolute inset-0 scale-110" style={{ y }}>
+          <motion.div
+            className="absolute inset-0 scale-110"
+            style={reduceMotion ? undefined : { y }}
+          >
             <Image
               src={screenshotPath}
               alt={`${project.title} application interface`}
@@ -335,6 +351,16 @@ function getSolutionText(project: Project): string {
   return `Architected with ${project.tags.slice(0, 3).join(', ')}, focusing on performance, accessibility, and maintainability.`
 }
 
+function revealProps(reduced: boolean) {
+  if (reduced) return {}
+  return {
+    initial: { opacity: 0, y: 28 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-12% 0px' },
+    transition: { duration: 0.52, ease: [0.22, 1, 0.36, 1] as const },
+  }
+}
+
 function getImpactText(project: Project): string {
   if (project.impact) return project.impact
   if (project.metrics?.tests) {
@@ -359,64 +385,30 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
   const projectGalaxy = getProjectGalaxy(project)
   const starClass = STAR_CLASSIFICATION[project.size ?? 'medium']
+  const reducedMotion = useReducedMotion()
+  const reveal = revealProps(reducedMotion === true)
 
   return (
-    <article className="max-w-5xl mx-auto px-6 md:px-8 py-12 md:py-16 space-y-12">
-      {/* ── Mission Context Banner ── */}
-      {projectGalaxy && (
-        <div className="flex items-center gap-2 flex-wrap mb-2">
-          {/* Galaxy origin badge */}
-          <span
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border"
-            style={{
-              backgroundColor: `${projectGalaxy.color}15`,
-              color: projectGalaxy.color,
-              borderColor: `${projectGalaxy.color}40`,
-              boxShadow: `0 0 16px ${projectGalaxy.color}20`,
-            }}
-          >
-            <span
-              className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ backgroundColor: projectGalaxy.color }}
-            />
-            {projectGalaxy.name}
-          </span>
-          {/* Star classification */}
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border border-white/10 bg-white/5 text-white/50">
-            <span className="opacity-60">✦</span>
+    <article
+      className="max-w-5xl mx-auto px-6 md:px-8 py-8 md:py-12 space-y-14 md:space-y-16"
+      style={{ '--case-accent': project.color } as CSSProperties}
+    >
+      {/* Title lives in the page shell — here we continue with context + proof */}
+      <div className="flex flex-col gap-6 border-b border-white/[0.08] pb-10">
+        <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-white/45">
+          {projectGalaxy && (
+            <>
+              <span style={{ color: projectGalaxy.color }}>{projectGalaxy.name}</span>
+              <span className="text-white/25" aria-hidden="true">
+                ·
+              </span>
+            </>
+          )}
+          <span className="font-mono normal-case tracking-normal text-white/55">
+            <span className="mr-1.5 opacity-60">✦</span>
             {starClass.label}
           </span>
         </div>
-      )}
-
-      {/* ── Header ── */}
-      <header className="mb-12">
-        <div className="flex items-start justify-between gap-6 mb-6">
-          <div className="flex-1">
-            <h1 className="vf-heading text-5xl md:text-6xl font-bold mb-3 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent leading-tight cursor-default">
-              {project.title}
-            </h1>
-            {project.company && (
-              <p className="text-2xl text-white/70 font-medium">{project.company}</p>
-            )}
-          </div>
-          <div
-            className="w-20 h-20 rounded-2xl shrink-0 shadow-lg"
-            style={{
-              backgroundColor: project.color,
-              opacity: project.brightness * 0.6,
-              boxShadow: `0 0 40px ${project.color}40`,
-            }}
-          />
-        </div>
-
-        <div className="flex flex-wrap gap-3 text-base text-white/70 mb-4">
-          <span className="px-3 py-1 bg-white/5 rounded-full">{project.role}</span>
-          <span className="px-3 py-1 bg-white/5 rounded-full">
-            {formatDateRange(project.dateRange)}
-          </span>
-        </div>
-
         <ProjectBadges project={project} />
         <SocialProof
           githubRepo={project.links?.github?.replace('https://github.com/', '')}
@@ -427,7 +419,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             project.metrics?.users ? [{ label: 'Users', value: project.metrics.users }] : undefined
           }
         />
-      </header>
+      </div>
 
       {/* ── Glowing Live CTA (if live URL exists) ── */}
       {project.links?.live && (
@@ -436,7 +428,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             href={project.links.live}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative flex-1 inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-lg overflow-hidden group transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            className="relative flex-1 inline-flex items-center justify-center gap-3 px-8 py-4 rounded-lg font-bold text-white text-lg overflow-hidden group transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
             style={{
               background: `linear-gradient(135deg, ${project.color}cc, ${project.color}88)`,
               boxShadow: `0 0 40px ${project.color}40, 0 8px 24px rgba(0,0,0,0.3)`,
@@ -453,7 +445,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               href={project.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-2xl border border-white/20 font-semibold hover:bg-white/10 hover:border-white/30 transition-all duration-200 backdrop-blur-sm"
+              className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg border border-white/20 font-semibold hover:bg-white/10 hover:border-white/30 transition-all duration-200"
             >
               <GitHubIcon className="w-5 h-5" />
               <span>Source Code</span>
@@ -468,7 +460,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             href={project.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-white/20 font-semibold hover:bg-white/10 hover:border-white/40 transition-all duration-200"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg border-2 border-white/20 font-semibold hover:bg-white/10 hover:border-white/40 transition-all duration-200"
           >
             <GitHubIcon className="w-5 h-5" />
             <span>View Source Code</span>
@@ -476,77 +468,136 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         </div>
       )}
 
-      {/* ── Overview ── */}
-      <section>
-        <h2 className="text-3xl font-semibold mb-6 bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-          Overview
+      {/* ── Visual proof (award portfolios lead with evidence) ── */}
+      <motion.section
+        id="case-visual"
+        aria-labelledby="case-visual-heading"
+        className="scroll-mt-28 md:scroll-mt-36"
+        {...reveal}
+      >
+        <p className="case-study-eyebrow">Evidence</p>
+        <h2 id="case-visual-heading" className="story-section-title">
+          {screenshotPath ? 'Interface & evidence' : 'System surface'}
         </h2>
-        <p className="text-xl leading-relaxed text-white/90 font-light mb-6">
-          {project.description}
+        <p className="story-lede mb-8">
+          {screenshotPath
+            ? 'A real surface area—not a mock. Scroll the story below for constraint, build, and outcome.'
+            : 'No public screenshot on file—generative preview stands in for the visual layer.'}
+        </p>
+        <div className="case-signature-frame">
+          <div className="case-signature-caption px-3 pt-3 md:px-4 md:pt-4">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
+              Signature view
+            </span>
+            {project.links?.live ? (
+              <span className="text-[10px] font-mono text-white/35 truncate max-w-[min(100%,14rem)] text-right">
+                {project.links.live.replace(/^https?:\/\//, '')}
+              </span>
+            ) : (
+              <span className="text-[10px] font-mono text-white/30">preview</span>
+            )}
+          </div>
+          <div className="case-signature-frame-inner px-1 pb-1 md:px-1.5 md:pb-1.5">
+            <ScreenshotHero embedded project={project} screenshotPath={screenshotPath} />
+          </div>
+        </div>
+      </motion.section>
+
+      {/* ── Narrative arc (description already established in page hero) ── */}
+      <motion.section
+        id="case-arc"
+        aria-labelledby="case-arc-heading"
+        className="scroll-mt-28 md:scroll-mt-36"
+        {...reveal}
+      >
+        <p className="case-study-eyebrow">Story arc</p>
+        <h2 id="case-arc-heading" className="story-section-title">
+          How this shipped
+        </h2>
+        <p className="story-lede mb-10">
+          {projectGalaxy?.narrative ? (
+            <>
+              <span className="block text-[11px] uppercase tracking-[0.22em] text-white/40 mb-2">
+                {projectGalaxy.narrative}
+              </span>
+              Three beats: what pressed against the work, how the stack answered, and what changed
+              once it was live.
+            </>
+          ) : (
+            <>
+              Three beats: what pressed against the work, how the stack answered, and what changed
+              once it was live.
+            </>
+          )}
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6 mt-8">
+        <div className="grid md:grid-cols-2 gap-6">
           <motion.div
-            whileHover={{ scale: 1.02, y: -4 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
+            {...(reducedMotion
+              ? {}
+              : { whileHover: { scale: 1.01, y: -2 }, transition: { type: 'spring', stiffness: 300, damping: 25 } })}
+            className="bg-white/5 border border-white/10 rounded-lg p-6 hover:bg-white/[0.07] transition-all duration-300 hover:border-white/18"
           >
-            <h3 className="text-lg font-semibold mb-3">Mission Brief</h3>
+            <p className="story-act-label">I · Constraint</p>
+            <h3 className="text-lg font-semibold tracking-tight text-white/95 mb-3">The brief</h3>
             <p className="text-white/70 leading-relaxed">{getChallengeText(project)}</p>
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.02, y: -4 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
+            {...(reducedMotion
+              ? {}
+              : { whileHover: { scale: 1.01, y: -2 }, transition: { type: 'spring', stiffness: 300, damping: 25 } })}
+            className="bg-white/5 border border-white/10 rounded-lg p-6 hover:bg-white/[0.07] transition-all duration-300 hover:border-white/18"
           >
-            <h3 className="text-lg font-semibold mb-3">Engineering Log</h3>
+            <p className="story-act-label">II · Build</p>
+            <h3 className="text-lg font-semibold tracking-tight text-white/95 mb-3">The craft</h3>
             <p className="text-white/70 leading-relaxed">{getSolutionText(project)}</p>
           </motion.div>
 
-          {/* Impact hero card */}
           <motion.div
-            whileHover={{ scale: 1.03, y: -8 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="md:col-span-2 relative bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md border-2 border-white/30 rounded-2xl p-8 overflow-hidden group"
+            {...(reducedMotion
+              ? {}
+              : {
+                  whileHover: { scale: 1.015, y: -3 },
+                  transition: { type: 'spring', stiffness: 300, damping: 20 },
+                })}
+            className="md:col-span-2 relative bg-gradient-to-br from-white/[0.12] to-white/[0.04] border border-white/20 rounded-lg p-8 overflow-hidden group"
             style={{
-              boxShadow: `0 0 40px ${project.color}40, 0 0 80px ${project.color}20, inset 0 0 60px ${project.color}10`,
+              boxShadow: `0 0 36px ${project.color}35, inset 0 1px 0 0 rgba(255,255,255,0.06)`,
             }}
           >
             <div
-              className="absolute inset-0 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
+              className="absolute inset-0 rounded-lg blur-2xl opacity-30 group-hover:opacity-45 transition-opacity duration-500 pointer-events-none"
               style={{
-                background: `radial-gradient(circle at 50% 50%, ${project.color}60, transparent 70%)`,
-                animation: 'pulse 3s ease-in-out infinite',
+                background: `radial-gradient(circle at 30% 20%, ${project.color}55, transparent 65%)`,
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
             <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                Mission Outcomes
+              <p className="story-act-label">III · Proof</p>
+              <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-white mb-4">
+                What moved after launch
               </h3>
-              <p className="text-lg text-white/90 font-medium leading-relaxed">
+              <p className="text-[1.05rem] text-white/88 font-normal leading-relaxed">
                 {getImpactText(project)}
               </p>
             </div>
           </motion.div>
         </div>
-      </section>
-
-      {/* ── Screenshot / Generative Hero ── */}
-      <section>
-        <h2 className="text-3xl font-semibold mb-6 bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-          {screenshotPath ? 'Live Preview' : 'System Architecture'}
-        </h2>
-        <ScreenshotHero project={project} screenshotPath={screenshotPath} />
-      </section>
+      </motion.section>
 
       {/* ── Impact Metrics (if populated) ── */}
       {project.impactMetrics && project.impactMetrics.length > 0 && (
-        <section>
-          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
-            <span style={{ color: project.color }}>◆</span>
-            <span>By the numbers</span>
+        <motion.section
+          id="case-signals"
+          className="scroll-mt-28 md:scroll-mt-36"
+          {...reveal}
+        >
+          <p className="case-study-eyebrow">Signals</p>
+          <h2 className="story-section-title flex items-center gap-3">
+            <span style={{ color: project.color }} aria-hidden="true">
+              ◆
+            </span>
+            <span>Signals & scale</span>
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {project.impactMetrics.map((m) => (
@@ -559,12 +610,18 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               />
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
       {/* ── Project Metrics (files/tests/team/users) ── */}
       {project.metrics && Object.keys(project.metrics).length > 0 && (
-        <section>
+        <motion.section
+          id="case-engine"
+          className="scroll-mt-28 md:scroll-mt-36"
+          {...reveal}
+        >
+          <p className="case-study-eyebrow">Engine room</p>
+          <h2 className="story-section-title mb-6">At a glance</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {project.metrics.files && (
               <MetricCard
@@ -591,18 +648,23 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <MetricCard label="Users" value={project.metrics.users} color={project.color} />
             )}
           </div>
-        </section>
+        </motion.section>
       )}
 
       {/* ── Testimonial ── */}
       {project.testimonial && (
-        <section>
-          <h2 className="text-2xl font-semibold mb-6">Client Testimonial</h2>
+        <motion.section
+          id="case-voice"
+          className="scroll-mt-28 md:scroll-mt-36"
+          {...reveal}
+        >
+          <p className="case-study-eyebrow">Endorsement</p>
+          <h2 className="story-section-title">Voice from the field</h2>
           <motion.blockquote
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="relative bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-8 md:p-10"
+            className="relative bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-lg p-8 md:p-10"
             style={{ boxShadow: `0 0 40px ${project.color}20` }}
           >
             <div
@@ -637,20 +699,29 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               )}
             </footer>
           </motion.blockquote>
-        </section>
+        </motion.section>
       )}
 
       {/* ── Tech Stack — colour-coded by category ── */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-6">System Specs</h2>
+      <motion.section
+        id="case-stack"
+        className="scroll-mt-28 md:scroll-mt-36"
+        {...reveal}
+      >
+        <p className="case-study-eyebrow">Inventory</p>
+        <h2 className="story-section-title">Stack & signals</h2>
         <div className="flex flex-wrap gap-2.5">
           {project.tags.map((tag) => {
             const style = getTagStyle(tag)
             return (
               <motion.span
                 key={tag}
-                whileHover={{ scale: 1.08, y: -2 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                {...(reducedMotion
+                  ? {}
+                  : {
+                      whileHover: { scale: 1.08, y: -2 },
+                      transition: { type: 'spring' as const, stiffness: 400, damping: 20 },
+                    })}
                 className="px-4 py-2 rounded-lg text-sm font-semibold cursor-default select-none"
                 style={{
                   background: style.bg,
@@ -663,7 +734,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             )
           })}
         </div>
-      </section>
+      </motion.section>
 
       {/* ── Navigation ── */}
       <nav className="pt-8 border-t border-white/10">
@@ -672,7 +743,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-          Back to all projects
+          ← Project archive
         </a>
       </nav>
     </article>

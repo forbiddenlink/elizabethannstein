@@ -37,7 +37,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         <div className="w-full h-screen bg-black flex items-center justify-center p-8">
           <div className="max-w-2xl text-center">
             <div
-              className="rounded-2xl p-12"
+              className="rounded-lg p-12"
               style={{
                 background: 'rgba(0, 0, 0, 0.6)',
                 backdropFilter: 'blur(20px) saturate(180%)',
@@ -52,7 +52,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               </p>
               <Link
                 href="/work"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-xl border border-white/30 text-white font-semibold hover:bg-white/25 hover:border-white/40 transition-all duration-300 rounded-xl shadow-2xl hover:shadow-white/20 hover:scale-105"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 border border-white/30 text-white font-semibold hover:bg-white/25 hover:border-white/40 transition-all duration-300 rounded-xl shadow-2xl hover:shadow-white/20 hover:scale-105"
               >
                 <span>View Projects</span>
                 <span className="text-2xl">→</span>
@@ -198,14 +198,14 @@ export class Scene3DErrorBoundary extends React.Component<
                 <button
                   type="button"
                   onClick={this.handleManualRetry}
-                  className="inline-flex min-h-11 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 px-6 py-3 text-sm font-medium text-purple-300 backdrop-blur-md transition-all hover:border-purple-500/50 hover:bg-purple-500/20"
+                  className="inline-flex min-h-11 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 px-6 py-3 text-sm font-medium text-purple-300 transition-all hover:border-purple-500/50 hover:bg-purple-500/20"
                 >
                   Try Again
                 </button>
               )}
               <Link
                 href="/work"
-                className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-medium text-white/90 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10"
+                className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-medium text-white/90 transition-colors hover:border-white/25 hover:bg-white/10"
               >
                 View Projects →
               </Link>

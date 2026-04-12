@@ -30,7 +30,7 @@ export function KeyboardShortcutsHelp() {
       <button
         type="button"
         onClick={() => setIsVisible(true)}
-        className={`fixed z-40 hidden lg:flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-bold text-white/70 backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:text-white lg:bottom-8 lg:right-32 ${showMobileTrigger ? 'bottom-18 right-4 opacity-100' : 'pointer-events-none bottom-16 right-4 opacity-0 translate-y-3 lg:pointer-events-auto lg:opacity-100 lg:translate-y-0'}`}
+        className={`fixed z-40 hidden lg:flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-bold text-white/70 transition-all duration-200 hover:bg-white/20 hover:text-white lg:bottom-8 lg:right-32 ${showMobileTrigger ? 'bottom-18 right-4 opacity-100' : 'pointer-events-none bottom-16 right-4 opacity-0 translate-y-3 lg:pointer-events-auto lg:opacity-100 lg:translate-y-0'}`}
         aria-label="Show keyboard shortcuts"
       >
         <span aria-hidden="true">?</span>
@@ -50,8 +50,8 @@ export function KeyboardShortcutsHelp() {
   ]
 
   return (
-    <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative bg-linear-to-br from-black/90 to-black/70 border border-white/20 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+    <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80 animate-in fade-in duration-200">
+      <div className="relative bg-linear-to-br from-black/90 to-black/70 border border-white/20 rounded-lg p-8 max-w-md w-full mx-4 shadow-2xl">
         <button
           type="button"
           onClick={() => setIsVisible(false)}

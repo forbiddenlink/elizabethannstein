@@ -115,14 +115,14 @@ export function GalaxyGuide() {
           onClick={() => setIsOpen(true)}
           aria-label="Open Galaxy Guide"
           className={cn(
-            'fixed z-50 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_50px_rgba(99,102,241,0.5)]',
+            'fixed z-50 rounded-full border border-white/20 bg-[var(--color-surface)] transition-all duration-300 hover:bg-white/20',
             'right-4 bottom-36 flex h-12 w-12 items-center justify-center lg:bottom-8 lg:right-8 lg:h-auto lg:w-auto lg:gap-3 lg:p-4 lg:hover:scale-110',
             !showMobileTrigger &&
               'pointer-events-none opacity-0 translate-y-3 lg:pointer-events-auto lg:opacity-100 lg:translate-y-0'
           )}
         >
           <div className="relative">
-            <div className="absolute inset-0 bg-indigo-500 rounded-full blur-md opacity-50 animate-pulse" />
+            <div className="absolute inset-0 bg-indigo-500 rounded-full blur-md opacity-50" />
             <Sparkles className="relative z-10 h-5 w-5 text-indigo-300 lg:h-6 lg:w-6" />
           </div>
           <span className="text-white font-medium pl-1 text-sm hidden group-hover:block animate-in fade-in slide-in-from-left-2 duration-300">
@@ -139,19 +139,19 @@ export function GalaxyGuide() {
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-4 right-4 bottom-30 z-50 flex h-[52vh] flex-col overflow-hidden rounded-3xl border border-white/10 glass-panel shadow-[0_0_80px_rgba(0,0,0,0.8)] md:left-auto md:bottom-10 md:right-8 md:h-125 md:w-100"
+            className="fixed left-4 right-4 bottom-30 z-50 flex h-[52vh] flex-col overflow-hidden rounded-lg border border-white/10 glass-panel md:left-auto md:bottom-10 md:right-8 md:h-125 md:w-100"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/10 bg-linear-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-xl">
+            <div className="flex items-center justify-between p-4 border-b border-white/10 bg-linear-to-r from-indigo-900/90 to-purple-900/90">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg relative overflow-hidden">
-                  <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                  <div className="absolute inset-0 bg-white/20" />
                   <Bot className="w-5 h-5 text-white relative z-10" />
                 </div>
                 <div>
                   <h3 className="text-white font-bold text-sm tracking-wide">GALAXY GUIDE</h3>
                   <p className="text-xs text-indigo-200/70 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" /> Online
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400" /> Online
                   </p>
                 </div>
               </div>
@@ -166,7 +166,7 @@ export function GalaxyGuide() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent bg-black/90 backdrop-blur-md">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent bg-black/90">
               {/* Suggested Prompts */}
               {showSuggestions && messages.length === 1 && (
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -209,10 +209,10 @@ export function GalaxyGuide() {
                   </div>
                   <div
                     className={cn(
-                      'p-3.5 rounded-2xl text-sm leading-relaxed',
+                      'p-3.5 rounded-lg text-sm leading-relaxed',
                       msg.role === 'user'
-                        ? 'bg-white/10 text-white rounded-tr-sm backdrop-blur-sm border border-white/5'
-                        : 'bg-indigo-950/40 text-indigo-50 rounded-tl-sm backdrop-blur-sm border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]'
+                        ? 'bg-[var(--color-surface)] text-white rounded-tr-sm border border-white/5'
+                        : 'bg-indigo-950/40 text-indigo-50 rounded-tl-sm border border-indigo-500/20'
                     )}
                   >
                     {msg.content}
@@ -224,7 +224,7 @@ export function GalaxyGuide() {
                   <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center bg-linear-to-br from-indigo-500 to-purple-600 shadow-lg mt-1">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
-                  <div className="p-3.5 rounded-2xl bg-indigo-950/40 text-indigo-50 rounded-tl-sm backdrop-blur-sm border border-indigo-500/20 flex items-center gap-2">
+                  <div className="p-3.5 rounded-lg bg-indigo-950/40 text-indigo-50 rounded-tl-sm border border-indigo-500/20 flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin text-indigo-300" />
                     <span className="text-xs opacity-70">Processing...</span>
                   </div>
@@ -242,7 +242,7 @@ export function GalaxyGuide() {
                   }
                 )
               }}
-              className="p-4 border-t border-white/10 bg-black/60 backdrop-blur-xl"
+              className="p-4 border-t border-white/10 bg-black/60"
             >
               <div className="relative flex items-center">
                 <input
@@ -252,7 +252,7 @@ export function GalaxyGuide() {
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Ask about projects..."
                   aria-label="Ask about projects"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-all font-light"
+                  className="w-full bg-[var(--color-surface)] border border-white/10 rounded-lg py-3 pl-4 pr-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-all font-light"
                 />
                 <button
                   type="submit"

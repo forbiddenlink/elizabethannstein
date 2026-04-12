@@ -46,7 +46,7 @@ export function PerformanceMonitor() {
   const fpsColor = fps >= 55 ? '#00ff00' : fps >= 30 ? '#ffaa00' : '#ff0000'
 
   return (
-    <div className="fixed top-4 right-4 z-50 bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2 font-mono text-sm">
+    <div className="fixed top-4 right-4 z-50 bg-black/80 border border-white/20 rounded-lg px-4 py-2 font-mono text-sm">
       <div className="flex items-center gap-3">
         <span className="text-white/60">FPS:</span>
         <span style={{ color: fpsColor }} className="font-bold text-lg">

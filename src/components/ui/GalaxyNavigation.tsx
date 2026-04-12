@@ -28,10 +28,10 @@ export function GalaxyNavigation() {
   return (
     <div className="fixed left-6 bottom-8 z-40 hidden lg:block max-h-[45vh] overflow-y-auto scrollbar-hide">
       {/* Animated border container */}
-      <div className="relative rounded-2xl p-px overflow-visible">
+      <div className="relative rounded-lg p-px overflow-visible">
         {/* Animated gradient border */}
         <div
-          className="absolute inset-0 rounded-2xl opacity-50"
+          className="absolute inset-0 rounded-lg opacity-50"
           style={{
             background:
               'linear-gradient(90deg, rgba(99, 102, 241, 0.5), rgba(168, 85, 247, 0.5), rgba(59, 130, 246, 0.5), rgba(99, 102, 241, 0.5))',
@@ -42,7 +42,7 @@ export function GalaxyNavigation() {
 
         {/* Inner content */}
         <div
-          className="relative rounded-2xl shadow-2xl transition-all duration-300"
+          className="relative rounded-lg shadow-2xl transition-all duration-300"
           style={{
             background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(10, 5, 30, 0.7) 100%)',
             backdropFilter: 'blur(20px) saturate(180%)',
@@ -51,11 +51,11 @@ export function GalaxyNavigation() {
           }}
         >
           {/* Glass morphism inner glow */}
-          <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
+          <div className="absolute inset-0 rounded-lg bg-linear-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
 
           {/* Subtle animated glow */}
           <div
-            className="absolute inset-0 rounded-2xl opacity-30 pointer-events-none"
+            className="absolute inset-0 rounded-lg opacity-30 pointer-events-none"
             style={{
               background:
                 'radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.3) 0%, transparent 50%)',
@@ -70,7 +70,7 @@ export function GalaxyNavigation() {
               className={cn(
                 'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11',
                 view === 'universe'
-                  ? 'bg-white/20 shadow-lg scale-105 backdrop-blur-sm'
+                  ? 'bg-white/20 shadow-lg scale-105'
                   : 'hover:bg-white/10 hover:scale-105'
               )}
               aria-label="View all galaxies"
@@ -97,7 +97,7 @@ export function GalaxyNavigation() {
                 className={cn(
                   'ripple-button group flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden min-h-11',
                   selectedGalaxy === galaxy.id
-                    ? 'bg-white/20 shadow-lg scale-105 backdrop-blur-sm'
+                    ? 'bg-white/20 shadow-lg scale-105'
                     : 'hover:bg-white/10 hover:scale-105'
                 )}
                 aria-label={`View ${galaxy.name}`}
@@ -181,7 +181,7 @@ export function GalaxyNavigation() {
               {/* Tour Options Menu */}
               {showTourMenu && (
                 <div
-                  className="absolute left-full top-0 ml-2 w-64 space-y-1 animate-fade-in max-h-90 overflow-y-auto overflow-x-hidden bg-black/80 backdrop-blur-xl rounded-xl p-2 border border-white/10 shadow-2xl"
+                  className="absolute left-full top-0 ml-2 w-64 space-y-1 animate-fade-in max-h-90 overflow-y-auto overflow-x-hidden bg-black/80 rounded-xl p-2 border border-white/10 shadow-2xl"
                   style={{
                     scrollbarWidth: 'thin',
                     scrollbarColor: 'rgba(255,255,255,0.2) transparent',

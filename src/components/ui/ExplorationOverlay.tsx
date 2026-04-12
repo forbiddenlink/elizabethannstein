@@ -39,7 +39,7 @@ export function ExplorationOverlay() {
       {!isLanding && showInstructions && (
         <div className="fixed top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none animate-in fade-in slide-in-from-top duration-500">
           <div
-            className="bg-black/60 backdrop-blur-xl border border-cyan-400/30 rounded-2xl px-8 py-6 shadow-2xl"
+            className="bg-black/60 border border-cyan-400/30 rounded-lg px-8 py-6 shadow-2xl"
             style={{
               boxShadow: '0 0 40px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
             }}

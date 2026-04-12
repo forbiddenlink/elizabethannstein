@@ -339,7 +339,7 @@ function SwipeHint() {
       exit={{ opacity: 0, y: 20 }}
       className="fixed bottom-32 left-1/2 -translate-x-1/2 z-50 lg:hidden pointer-events-none"
     >
-      <div className="flex items-center gap-3 px-4 py-3 rounded-full bg-black/80 backdrop-blur-xl border border-white/10">
+      <div className="flex items-center gap-3 px-4 py-3 rounded-full bg-black/80 border border-white/10">
         <motion.div
           animate={{ x: [0, 15, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}

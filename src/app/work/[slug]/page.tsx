@@ -1,15 +1,17 @@
 import { ArrowLeft, ArrowRight, MessageSquare } from 'lucide-react'
 import type { Metadata } from 'next'
+import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
+import { CaseStudyChapterRail } from '@/components/ui/CaseStudyChapterRail'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { SITE } from '@/lib/constants'
-import { allProjects, getProjectById } from '@/lib/galaxyData'
+import { allProjects, galaxies, getProjectById } from '@/lib/galaxyData'
 
 // ISR: Revalidate project pages every hour for fresh content
 export const revalidate = 3600
@@ -102,7 +104,7 @@ export async function generateMetadata({
   const metaDescription = normalizeDescription(project.description, project.tags)
 
   return {
-    title: `${project.title} - Project by Elizabeth Stein`,
+    title: `${project.title} · Case study · ${SITE.name}`,
     description: metaDescription,
     alternates: {
       canonical: `/work/${project.id}`,
@@ -165,6 +167,7 @@ export default async function ProjectPage({
   const currentAccent = GALAXY_ACCENTS[toGalaxyAccentKey(project.galaxy)]
   const prevAccent = GALAXY_ACCENTS[toGalaxyAccentKey(prevProject.galaxy)]
   const nextAccent = GALAXY_ACCENTS[toGalaxyAccentKey(nextProject.galaxy)]
+  const galaxyMeta = galaxies.find((g) => g.id === project.galaxy)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -222,27 +225,37 @@ export default async function ProjectPage({
       <a
         href="#project-content"
         suppressHydrationWarning
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-5 focus:py-2.5 focus:bg-white focus:text-black focus:rounded-xl focus:font-semibold focus:outline-none"
       >
         Skip to main content
       </a>
       <StarryBackground />
+      <div
+        className="case-study-aurora pointer-events-none fixed inset-0 z-0"
+        style={{ '--case-accent': project.color } as CSSProperties}
+        aria-hidden="true"
+      />
       <ScrollProgress color={project.color} />
+      <CaseStudyChapterRail accentColor={project.color} />
       <SiteHeader accentGalaxy={project.galaxy} />
 
       {/* Main Content with top padding for fixed header */}
       <main
         id="project-content"
-        className="pt-32 pb-20 animate-in fade-in slide-in-from-bottom-8 duration-700"
+        className="relative z-10 pt-32 pb-20 animate-in fade-in slide-in-from-bottom-8 duration-700"
       >
-        <section className="max-w-7xl mx-auto px-6 mb-12">
+        <section
+          className="max-w-7xl mx-auto px-6 mb-12"
+          style={{ '--case-accent': project.color } as CSSProperties}
+        >
           <div className="project-story-shell relative overflow-hidden rounded-[2rem] border border-white/10 px-6 py-8 md:px-8 md:py-10">
             <div
               className={`project-story-beam absolute inset-x-0 top-0 h-px bg-linear-to-r ${currentAccent.line} to-transparent opacity-80`}
               aria-hidden="true"
             />
-            <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div className="grid gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-start lg:gap-10">
               <div>
+                <p className="case-study-hero-kicker">Case study</p>
                 <div className="mb-4 flex flex-wrap items-center gap-2">
                   <span
                     className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.22em] ${currentAccent.badge}`}
@@ -255,17 +268,17 @@ export default async function ProjectPage({
                     </span>
                   )}
                 </div>
-                <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl">
-                  {project.title}
-                </h1>
-                <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/68 md:text-lg">
-                  {project.description}
-                </p>
+                <h1 className="case-study-hero-title max-w-[22ch]">{project.title}</h1>
+                <div className="case-study-hero-accent max-w-xl" aria-hidden="true" />
+                <p className="case-study-hero-lede">{project.description}</p>
+                {galaxyMeta?.narrative && (
+                  <p className="case-study-hero-note">{galaxyMeta.narrative}</p>
+                )}
               </div>
 
-              <div className="project-story-metadata rounded-[1.5rem] border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-                <p className="text-[10px] uppercase tracking-[0.28em] text-white/35">
-                  Project Frame
+              <div className="case-study-field-panel project-story-metadata rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 md:p-6">
+                <p className="case-study-field-heading text-[10px] uppercase tracking-[0.28em] text-white/40">
+                  Field notes
                 </p>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
                   <div>
@@ -282,10 +295,11 @@ export default async function ProjectPage({
                   )}
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.2em] text-white/35">
-                      Navigator
+                      Read order
                     </p>
                     <p className="mt-1 text-sm text-white/75">
-                      Scroll for full case study, then use the constellation rail to jump laterally.
+                      Evidence first, then constraint → build → proof. Use the chapter rail to jump
+                      sections; orbit to adjacent work from the bottom of the case study.
                     </p>
                   </div>
                 </div>
@@ -298,14 +312,17 @@ export default async function ProjectPage({
 
         {/* Hiring CTA Section */}
         <section className="max-w-7xl mx-auto px-6 mt-16">
-          <div className="relative rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-500/10 via-indigo-500/5 to-transparent p-8 overflow-hidden">
+          <div className="relative rounded-lg border border-purple-500/20 bg-gradient-to-br from-purple-500/10 via-indigo-500/5 to-transparent p-8 overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-purple-400/50 via-indigo-400/30 to-transparent" />
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
-                <h2 className="text-2xl font-bold mb-2">Like what you see?</h2>
-                <p className="text-white/60 max-w-xl">
-                  I&apos;m available for freelance projects, consulting, and full-time
-                  opportunities. Let&apos;s build something amazing together.
+                <h2 className="text-2xl font-bold mb-2 tracking-tight">
+                  Tell me what you&apos;re building
+                </h2>
+                <p className="text-white/60 max-w-xl leading-relaxed">
+                  If you need someone who can own UI, systems, and AI integration without losing the
+                  plot—I&apos;m listening. Contract, advisory, or full-time: we&apos;ll find the
+                  right shape.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -323,7 +340,7 @@ export default async function ProjectPage({
 
         {/* Jump Constellation Rail */}
         <div className="max-w-7xl mx-auto px-6 mt-12">
-          <div className="relative rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm p-4 md:p-5 overflow-hidden">
+          <div className="relative rounded-lg border border-white/10 bg-black/40 p-4 md:p-5 overflow-hidden">
             <div
               className={`absolute top-0 left-0 right-0 h-px bg-linear-to-r ${currentAccent.line} to-transparent opacity-70`}
               aria-hidden="true"
@@ -396,9 +413,7 @@ export default async function ProjectPage({
         {/* Related Projects by Tag Overlap */}
         {relatedProjects.length > 0 && (
           <div className="max-w-7xl mx-auto px-6 mt-20">
-            <h2 className="text-xl font-bold mb-6 text-white/60 tracking-wide">
-              Constellation Neighbors
-            </h2>
+            <h2 className="text-xl font-bold mb-6 text-white/70 tracking-tight">Related work</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               {relatedProjects.map(({ project: related, sharedTags, sameGalaxy, score }) => {
                 const sourceAccent = GALAXY_ACCENTS[toGalaxyAccentKey(project.galaxy)]
@@ -407,7 +422,7 @@ export default async function ProjectPage({
                   <TiltCard key={related.id}>
                     <Link
                       href={`/work/${related.id}`}
-                      className="block p-6 h-full bg-white/5 border border-white/10 rounded-2xl group hover:bg-white/10 transition-colors relative overflow-hidden"
+                      className="block p-6 h-full bg-white/5 border border-white/10 rounded-lg group hover:bg-white/10 transition-colors relative overflow-hidden"
                     >
                       {/* Constellation connector accent */}
                       <div
@@ -465,12 +480,12 @@ export default async function ProjectPage({
 
         {/* Navigation Footer */}
         <div className="max-w-7xl mx-auto px-6 mt-32">
-          <h2 className="text-2xl font-bold mb-8 text-white/70">Explore More</h2>
+          <h2 className="text-2xl font-bold mb-8 text-white/75 tracking-tight">Keep exploring</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <TiltCard className="h-full">
               <Link
                 href={`/work/${prevProject.id}`}
-                className="block p-8 h-full bg-white/5 border border-white/10 rounded-2xl group hover:bg-white/10 transition-colors"
+                className="block p-8 h-full bg-white/5 border border-white/10 rounded-lg group hover:bg-white/10 transition-colors"
               >
                 <div className="flex items-center gap-2 text-white/40 mb-4 text-sm font-mono">
                   <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -484,7 +499,7 @@ export default async function ProjectPage({
             <TiltCard className="h-full">
               <Link
                 href={`/work/${nextProject.id}`}
-                className="block p-8 h-full bg-white/5 border border-white/10 rounded-2xl group hover:bg-white/10 transition-colors"
+                className="block p-8 h-full bg-white/5 border border-white/10 rounded-lg group hover:bg-white/10 transition-colors"
               >
                 <div className="flex items-center justify-end gap-2 text-white/40 mb-4 text-sm font-mono">
                   Next Project

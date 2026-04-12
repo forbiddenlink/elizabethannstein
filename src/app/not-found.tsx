@@ -17,26 +17,10 @@ export default function NotFound() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="text-[12rem] font-bold leading-none bg-linear-to-b from-white to-white/10 bg-clip-text text-transparent select-none"
+            className="text-[12rem] font-bold leading-none text-[var(--color-text-primary)]"
           >
             404
           </motion.h1>
-          <motion.div
-            animate={{
-              opacity: [0, 0.5, 0],
-              x: [-10, 10, -5, 5, 0],
-              clipPath: ['inset(40% 0 61% 0)', 'inset(10% 0 10% 0)', 'inset(80% 0 5% 0)'],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: 'mirror',
-              times: [0, 0.2, 1],
-            }}
-            className="absolute inset-0 text-[12rem] font-bold leading-none text-red-500/50 mix-blend-screen pointer-events-none"
-          >
-            404
-          </motion.div>
         </div>
 
         <motion.p
@@ -74,28 +58,26 @@ export default function NotFound() {
         >
           <Link
             href="/"
-            className="group relative inline-flex items-center gap-2 min-h-11 px-8 py-4 bg-white text-black hover:bg-white/90 rounded-xl transition-all duration-300 font-medium"
+            className="group relative inline-flex items-center gap-2 min-h-11 px-8 py-4 bg-white text-black hover:bg-white/90 rounded-lg transition-all duration-300 font-medium"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             <span>Back to Home</span>
           </Link>
           <Link
             href="/work"
-            className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+            className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:border-white/20 transition-all duration-300"
           >
             <span>View All Projects</span>
           </Link>
           <Link
             href="/about"
-            className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+            className="group relative inline-flex items-center gap-2 min-h-11 px-6 py-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:border-white/20 transition-all duration-300"
           >
             <span>About Me</span>
           </Link>
         </motion.div>
       </div>
 
-      {/* Decorative Planet */}
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-linear-to-br from-purple-900/40 to-blue-900/10 rounded-full blur-3xl opacity-50" />
     </div>
   )
 }

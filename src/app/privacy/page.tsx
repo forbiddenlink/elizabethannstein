@@ -39,17 +39,17 @@ export default function PrivacyPage() {
       <div id="privacy-content" className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         <div className="max-w-4xl mx-auto">
           {/* Hero */}
-          <div className="privacy-hero-panel relative mb-12 overflow-hidden rounded-4xl border border-white/12 px-6 py-8 md:px-10 md:py-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <div className="privacy-hero-glow absolute inset-x-0 top-0 h-40" aria-hidden="true" />
+          <div className="privacy-hero-panel relative mb-12 overflow-hidden rounded-lg border border-white/12 px-6 py-8 md:px-10 md:py-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+
             <div className="relative flex items-center gap-4 mb-6">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-300/25 bg-cyan-400/12 shadow-[0_0_30px_rgba(34,211,238,0.12)]">
-                <Shield className="w-7 h-7 text-cyan-200" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
+                <Shield className="w-7 h-7 text-[var(--color-text-secondary)]" />
               </div>
               <div>
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-200/70">
+                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--color-text-tertiary)]">
                   Trust Layer
                 </p>
-                <h1 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
+                <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)]">
                   Privacy Policy
                 </h1>
               </div>
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
                 hosting infrastructure, and it does not collect personal information unless you
                 choose to contact me.
               </p>
-              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-sm">
+              <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-4">
                 <p className="text-[11px] uppercase tracking-[0.22em] text-white/45">
                   Last updated
                 </p>
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
 
           {/* Content */}
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
-            <section className="privacy-section-card rounded-2xl p-8">
+            <section className="privacy-section-card rounded-lg p-8">
               <h2 className="text-2xl font-semibold mb-4">Overview</h2>
               <p className="text-white/80 leading-relaxed">
                 This is a personal portfolio website showcasing my work as a software developer. I
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
               </p>
             </section>
 
-            <section className="privacy-section-card rounded-2xl p-8">
+            <section className="privacy-section-card rounded-lg p-8">
               <h2 className="text-2xl font-semibold mb-4">Information Collected</h2>
               <div className="space-y-4 text-white/80 leading-relaxed">
                 <p>
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
               </div>
             </section>
 
-            <section className="privacy-section-card rounded-2xl p-8">
+            <section className="privacy-section-card rounded-lg p-8">
               <h2 className="text-2xl font-semibold mb-4">Cookies</h2>
               <p className="text-white/80 leading-relaxed">
                 Google Analytics uses cookies to distinguish unique users and track sessions. These
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
                   href="https://tools.google.com/dlpage/gaoptout"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-200 hover:text-cyan-100 transition-colors underline decoration-cyan-300/40 underline-offset-4"
+                  className="text-[var(--color-text-primary)] hover:text-white transition-colors underline decoration-white/30 underline-offset-4"
                 >
                   Google Analytics Opt-out Browser Add-on
                 </a>{' '}
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
               </p>
             </section>
 
-            <section className="privacy-section-card rounded-2xl p-8">
+            <section className="privacy-section-card rounded-lg p-8">
               <h2 className="text-2xl font-semibold mb-4">Third-Party Services</h2>
               <div className="space-y-4 text-white/80 leading-relaxed">
                 <p>This site uses the following third-party services:</p>
@@ -147,14 +147,14 @@ export default function PrivacyPage() {
               </div>
             </section>
 
-            <section className="privacy-section-card rounded-2xl p-8">
+            <section className="privacy-section-card rounded-lg p-8">
               <h2 className="text-2xl font-semibold mb-4">Contact</h2>
               <p className="text-white/80 leading-relaxed">
                 If you have questions about this privacy policy or how your data is handled, please
                 contact me at{' '}
                 <a
                   href={`mailto:${CONTACT.email}`}
-                  className="text-cyan-200 hover:text-cyan-100 transition-colors underline decoration-cyan-300/40 underline-offset-4"
+                  className="text-[var(--color-text-primary)] hover:text-white transition-colors underline decoration-white/30 underline-offset-4"
                 >
                   {CONTACT.email}
                 </a>{' '}

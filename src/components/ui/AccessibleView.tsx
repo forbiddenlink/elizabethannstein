@@ -35,7 +35,7 @@ export function AccessibleViewToggle({
       <button
         type="button"
         onClick={onToggle}
-        className={`group flex items-center gap-2 rounded-2xl border shadow-lg backdrop-blur-xl transition-all hover:scale-[1.02] hover:text-white ${dockIntoNavZone ? 'border-white/10 bg-black/44 px-3 py-2 text-sm text-white/68 hover:border-white/22 hover:bg-black/62 lg:border-white/20 lg:bg-black/72 lg:px-4 lg:py-3 lg:text-white/88' : 'border-white/20 bg-black/72 px-3 py-2.5 text-sm text-white/88 hover:border-white/35 hover:bg-black/88 lg:px-4 lg:py-3'}`}
+        className={`group flex items-center gap-2 rounded-lg border shadow-lg transition-all hover:scale-[1.02] hover:text-white ${dockIntoNavZone ? 'border-white/10 bg-black/44 px-3 py-2 text-sm text-white/68 hover:border-white/22 hover:bg-black/62 lg:border-white/20 lg:bg-black/72 lg:px-4 lg:py-3 lg:text-white/88' : 'border-white/20 bg-black/72 px-3 py-2.5 text-sm text-white/88 hover:border-white/35 hover:bg-black/88 lg:px-4 lg:py-3'}`}
         aria-label={
           isAccessibleMode ? 'Switch to 3D galaxy view' : 'Switch to accessible text list view'
         }
@@ -66,7 +66,7 @@ export function AccessibleView() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-md border-b border-white/10">
+      <header className="sticky top-0 z-40 bg-black/80 border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <h1 className="text-2xl font-bold">Elizabeth Stein - Portfolio</h1>
           <p className="text-white/60">Full-stack developer + design systems + AI integration</p>
@@ -125,7 +125,7 @@ export function AccessibleView() {
             className="mb-16"
             aria-labelledby={`${galaxy.id}-heading`}
           >
-            <div className="sticky top-20 z-30 bg-black/80 backdrop-blur-md py-4 mb-6 -mx-4 px-4 border-b border-white/5">
+            <div className="sticky top-20 z-30 bg-black/80 py-4 mb-6 -mx-4 px-4 border-b border-white/5">
               <h2
                 id={`${galaxy.id}-heading`}
                 className="text-3xl font-bold flex items-center gap-3"

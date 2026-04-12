@@ -14,7 +14,7 @@ export function AchievementsSection() {
   const totalTests = allProjects.reduce((sum, p) => sum + (p.metrics?.tests || 0), 0)
 
   return (
-    <div className="glass-card rounded-2xl p-6 md:p-8 animate-fadeIn">
+    <div className="glass-card rounded-lg p-6 md:p-8 animate-fadeIn">
       <h2 className="text-xl md:text-2xl font-bold mb-6 text-white/90">Portfolio Highlights</h2>
 
       {/* Responsive grid: 2 cols mobile, contest wins hero on desktop */}
@@ -23,7 +23,7 @@ export function AchievementsSection() {
         <motion.div
           whileHover={{ scale: 1.03, y: -4 }}
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-          className="lg:col-span-2 lg:row-span-2 glass-card relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-amber-500/10 to-yellow-500/5 border-2 border-amber-500/20 hover:border-amber-500/40 transition-all duration-300"
+          className="lg:col-span-2 lg:row-span-2 glass-card relative overflow-hidden rounded-lg p-8 bg-gradient-to-br from-amber-500/10 to-yellow-500/5 border-2 border-amber-500/20 hover:border-amber-500/40 transition-all duration-300"
           style={{
             boxShadow: '0 0 30px rgba(251, 191, 36, 0.15)',
             animation: 'fadeInUp 0.5s ease-out 0s both',

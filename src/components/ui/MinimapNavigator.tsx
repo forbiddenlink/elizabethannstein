@@ -184,7 +184,7 @@ export function MinimapNavigator() {
         {/* Canvas */}
         <canvas
           ref={canvasRef}
-          className="rounded-lg border border-white/10 backdrop-blur-sm cursor-pointer transition-all hover:border-white/30"
+          className="rounded-lg border border-white/10 cursor-pointer transition-all hover:border-white/30"
           onClick={handleCanvasClick}
           onMouseMove={handleCanvasHover}
           onMouseLeave={() => setHoveredProject(null)}

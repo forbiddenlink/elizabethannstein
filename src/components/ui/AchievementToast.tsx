@@ -27,9 +27,8 @@ export function AchievementToast({ achievement, onDismiss }: AchievementToastPro
           exit={{ x: 120, opacity: 0, scale: 0.9 }}
           transition={{ type: 'spring', stiffness: 400, damping: 28 }}
           className="fixed top-6 right-6 z-[9999] flex items-center gap-4 
-                     bg-black/85 backdrop-blur-2xl border border-white/15
-                     rounded-2xl px-5 py-4 max-w-xs cursor-pointer
-                     shadow-[0_0_30px_rgba(255,255,255,0.06)]"
+                     bg-black/85 border border-white/15
+                     rounded-lg px-5 py-4 max-w-xs cursor-pointer"
           onClick={onDismiss}
           role="alert"
           aria-live="polite"
@@ -47,7 +46,7 @@ export function AchievementToast({ achievement, onDismiss }: AchievementToastPro
           </div>
           {/* Shimmer sweep */}
           <motion.div
-            className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none"
+            className="absolute inset-0 rounded-lg overflow-hidden pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.4, 0] }}
             transition={{ duration: 0.8, delay: 0.1 }}

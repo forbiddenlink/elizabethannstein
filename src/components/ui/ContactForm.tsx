@@ -51,8 +51,8 @@ export function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-500/20 mb-4">
+      <div className="p-8 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] text-center">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] mb-4">
           <Check className="w-7 h-7 text-emerald-400" />
         </div>
         <h3 className="text-xl font-semibold mb-2">Message sent!</h3>
@@ -63,7 +63,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setStatus('idle')}
-          className="mt-6 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+          className="mt-6 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
         >
           Send another message
         </button>
@@ -140,7 +140,7 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+        <div className="flex items-start gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
           <span>{errorMsg}</span>
         </div>
@@ -166,7 +166,7 @@ export function ContactForm() {
 
       <p className="text-white/40 text-xs text-center">
         I typically respond within 24 hours. Or email me directly at{' '}
-        <a href={`mailto:${CONTACT.email}`} className="text-purple-400/70 hover:text-purple-400">
+        <a href={`mailto:${CONTACT.email}`} className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]">
           {CONTACT.email}
         </a>
         .

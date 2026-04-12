@@ -18,7 +18,7 @@ export function GalaxyFilter({ galaxies, selectedGalaxy, onFilterChange }: Galax
         className={cn(
           'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 border',
           selectedGalaxy === null
-            ? 'bg-white/15 border-white/30 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+            ? 'bg-white/15 border-white/30 text-white'
             : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white/70 hover:border-white/20'
         )}
         aria-pressed={selectedGalaxy === null}
