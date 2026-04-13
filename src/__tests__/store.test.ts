@@ -5,10 +5,30 @@ vi.mock('@/components/ui/SoundManager', () => ({
   getAudioSynth: () => null,
 }))
 
+// Mock AchievementToast to avoid DOM dependencies
+vi.mock('@/components/ui/AchievementToast', () => ({
+  enqueueAchievement: () => {},
+}))
+
+// Mock localStorage for achievements
+const localStorageMock = (() => {
+  let store: Record<string, string> = {}
+  return {
+    getItem: (key: string) => store[key] ?? null,
+    setItem: (key: string, value: string) => { store[key] = value },
+    removeItem: (key: string) => { delete store[key] },
+    clear: () => { store = {} },
+    get length() { return Object.keys(store).length },
+    key: (i: number) => Object.keys(store)[i] ?? null,
+  }
+})()
+Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true })
+
 import { useCanvasPerformanceStore, useViewStore } from '@/lib/store'
 
 describe('useViewStore', () => {
   beforeEach(() => {
+    localStorageMock.clear()
     useCanvasPerformanceStore.setState({ tier: 0 })
     // Reset store to initial state between tests
     useViewStore.setState({
@@ -24,6 +44,8 @@ describe('useViewStore', () => {
       journeyStep: 0,
       isJourneyPaused: false,
       activeTourId: null,
+      showPostTourCTA: false,
+      showFastTrack: false,
     })
   })
 

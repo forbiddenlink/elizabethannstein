@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import {
   cn,
   formatDateRange,
@@ -9,6 +8,7 @@ import {
   lerp,
   seededRandom,
 } from '@/lib/utils'
+import { describe, expect, it } from 'vitest'
 
 describe('cn (class merge)', () => {
   it('merges tailwind classes', () => {
@@ -95,14 +95,14 @@ describe('formatDateRange', () => {
 
 describe('getSizeMultiplier', () => {
   it('returns correct multiplier for each size', () => {
-    expect(getSizeMultiplier('supermassive')).toBe(3.0)
-    expect(getSizeMultiplier('large')).toBe(2.0)
-    expect(getSizeMultiplier('medium')).toBe(1.2)
-    expect(getSizeMultiplier('small')).toBe(0.8)
+    expect(getSizeMultiplier('supermassive')).toBe(3.5)
+    expect(getSizeMultiplier('large')).toBe(2.4)
+    expect(getSizeMultiplier('medium')).toBe(1.6)
+    expect(getSizeMultiplier('small')).toBe(1.0)
   })
 
   it('defaults to small for unknown sizes', () => {
-    expect(getSizeMultiplier('unknown')).toBe(0.8)
+    expect(getSizeMultiplier('unknown')).toBe(1.0)
   })
 })
 
@@ -115,7 +115,7 @@ describe('getGalaxyCenterPosition', () => {
 
   it('places galaxy 0 at positive x', () => {
     const [x, , z] = getGalaxyCenterPosition(0)
-    expect(x).toBe(29) // cos(0) * galaxyRadius (see utils.ts)
+    expect(x).toBe(42) // cos(0) * galaxyRadius (see utils.ts)
     expect(z).toBeCloseTo(0)
   })
 
@@ -123,7 +123,7 @@ describe('getGalaxyCenterPosition', () => {
     const positions = Array.from({ length: 6 }, (_, i) => getGalaxyCenterPosition(i))
     for (const [x, , z] of positions) {
       const radius = Math.sqrt(x * x + z * z)
-      expect(radius).toBeCloseTo(29)
+      expect(radius).toBeCloseTo(42)
     }
   })
 })

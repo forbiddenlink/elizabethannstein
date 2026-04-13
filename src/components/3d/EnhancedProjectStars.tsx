@@ -1,15 +1,37 @@
 'use client'
 
-import { Html } from '@react-three/drei'
-import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
 import { useHoverGravityStore, useViewStore } from '@/lib/store'
 import type { Galaxy, Project } from '@/lib/types'
 import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
+import { Html } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import * as THREE from 'three'
 import { AnimatedConstellation } from './AnimatedConstellation'
+import { AsteroidField, BinaryCompanion, OrbitingMoon } from './AsteroidField'
 import { SupernovaEffect } from './SupernovaEffect'
+
+// Module-level cached glow texture for sprite materials
+let _glowTexture: THREE.Texture | null = null
+function getGlowTexture(): THREE.Texture {
+  if (_glowTexture) return _glowTexture
+  const size = 128
+  const canvas = document.createElement('canvas')
+  canvas.width = size
+  canvas.height = size
+  const ctx = canvas.getContext('2d')!
+  const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2)
+  gradient.addColorStop(0, 'rgba(255,255,255,1)')
+  gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)')
+  gradient.addColorStop(0.5, 'rgba(255,255,255,0.15)')
+  gradient.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, size, size)
+  _glowTexture = new THREE.CanvasTexture(canvas)
+  _glowTexture.needsUpdate = true
+  return _glowTexture
+}
 
 // LOD distance thresholds with hysteresis buffer to prevent flickering
 // Mobile uses more aggressive LOD (switch to lower detail sooner)
@@ -60,7 +82,7 @@ function GalaxyCluster({ galaxy, galaxyIndex }: { galaxy: Galaxy; galaxyIndex: n
           galaxy.id,
           galaxyIndex,
           projectIndex,
-          galaxy.projects.length
+          galaxy.projects.length,
         )
 
         const sizeMultiplier = getSizeMultiplier(project.size)
@@ -93,11 +115,16 @@ const planetVertexShader = `
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
+  varying vec3 vWorldPosition;
 
   void main() {
     vUv = uv;
-    vNormal = normalize(normalMatrix * normal);
+    // World-space normal for correct lighting regardless of planet position
+    vNormal = normalize(mat3(modelMatrix) * normal);
+    // Local-space position for deterministic noise/pattern seeding
     vPosition = position;
+    // World-space position for view direction and Fresnel calculations
+    vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `
@@ -113,6 +140,7 @@ const planetFragmentShader = `
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
+  varying vec3 vWorldPosition;
 
   // Noise functions
   float hash(vec3 p) {
@@ -281,7 +309,7 @@ const planetFragmentShader = `
       color += vec3(1.0, 0.2, 0.0) * rivers * 0.3;
     }
 
-    // Lighting
+    // Lighting — all in world space for correct results at any planet position
     vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
     float NdotL = dot(vNormal, lightDir);
     float diff = max(NdotL, 0.0);
@@ -306,8 +334,8 @@ const planetFragmentShader = `
       color += cityColor * cities * nightIntensity * flicker * 1.5;
     }
 
-    // Fresnel rim + sun glint — reads at a distance (award-level silhouette)
-    vec3 viewDir = normalize(cameraPosition - vPosition);
+    // Fresnel rim + sun glint — uses world-space view direction for correctness
+    vec3 viewDir = normalize(cameraPosition - vWorldPosition);
     float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.5);
     color += baseColor * 2.2 * fresnel * 0.55;
     float fresnelSharp = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 6.0);
@@ -342,11 +370,13 @@ const cloudVertexShader = `
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
+  varying vec3 vWorldPosition;
 
   void main() {
     vUv = uv;
-    vNormal = normalize(normalMatrix * normal);
+    vNormal = normalize(mat3(modelMatrix) * normal);
     vPosition = position;
+    vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `
@@ -359,6 +389,7 @@ const cloudFragmentShader = `
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
+  varying vec3 vWorldPosition;
 
   float hash(vec3 p) {
     p = fract(p * vec3(443.8975, 397.2973, 491.1871));
@@ -478,7 +509,7 @@ function RealisticPlanet({
       project.featured ||
       project.galaxy === 'enterprise' ||
       ['caipo-ai', 'stancestream', 'finance-quest', 'portfolio-pro', 'codecraft'].includes(
-        project.id
+        project.id,
       )
     )
   }, [project])
@@ -608,17 +639,16 @@ function RealisticPlanet({
 
     // Control visibility imperatively based on LOD - no React re-renders
     if (atmosphereRef.current) {
-      atmosphereRef.current.visible = newLod !== 'low'
-      // Progressive proximity glow — opacity strengthens as cursor approaches
-      const hoverIntensity = hovered ? 1.0 : Math.max(0, 1 - distance / 25)
+      atmosphereRef.current.visible = true
+      const hoverIntensity = hovered ? 1.0 : Math.max(0, 1 - distance / 60)
       const mat = atmosphereRef.current.material as THREE.MeshBasicMaterial
-      mat.opacity += (0.32 + hoverIntensity * 0.28 - mat.opacity) * 0.12
+      mat.opacity += (0.4 + hoverIntensity * 0.3 - mat.opacity) * 0.12
     }
     if (outerAtmosphereRef.current) {
-      outerAtmosphereRef.current.visible = newLod === 'high'
-      const hoverIntensity = hovered ? 1.0 : Math.max(0, 1 - distance / 25)
+      outerAtmosphereRef.current.visible = true
+      const hoverIntensity = hovered ? 1.0 : Math.max(0, 1 - distance / 60)
       const mat = outerAtmosphereRef.current.material as THREE.MeshBasicMaterial
-      mat.opacity += (0.2 + hoverIntensity * 0.16 - mat.opacity) * 0.12
+      mat.opacity += (0.3 + hoverIntensity * 0.2 - mat.opacity) * 0.12
     }
     if (cloudRef.current) {
       cloudRef.current.visible = newLod !== 'low'
@@ -723,7 +753,7 @@ function RealisticPlanet({
           setHoveredPlanet(
             project.id,
             [currentPosRef.current.x, currentPosRef.current.y, currentPosRef.current.z],
-            sizeMultiplier
+            sizeMultiplier,
           )
         }}
         onPointerLeave={() => {
@@ -747,6 +777,26 @@ function RealisticPlanet({
           }}
         />
       </mesh>
+
+      {/* Point light — slightly stronger to compensate for no Bloom post-processing */}
+      <pointLight
+        color={project.color}
+        intensity={3.2}
+        distance={sizeMultiplier * 20}
+        decay={1.4}
+      />
+
+      {/* Bright star glow sprite — always visible from any distance */}
+      <sprite scale={[sizeMultiplier * 5.5, sizeMultiplier * 5.5, 1]}>
+        <spriteMaterial
+          map={getGlowTexture()}
+          color={project.color}
+          transparent
+          opacity={0.6}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </sprite>
 
       {/* Atmosphere glow - visibility & opacity controlled in useFrame */}
       <mesh ref={atmosphereRef} scale={1.12} visible={false}>
@@ -906,6 +956,41 @@ function RealisticPlanet({
             </div>
           </div>
         </Html>
+      )}
+
+      {/* Planet enhancements — rendered inside the planet group so they follow orbital motion */}
+      {/* Asteroid fields for supermassive planets (rings already rendered above) */}
+      {project.size === 'supermassive' && (
+        <AsteroidField
+          position={[0, 0, 0]}
+          innerRadius={sizeMultiplier * 1.6}
+          outerRadius={sizeMultiplier * 2.4}
+          color={project.color}
+          count={52}
+          rotationSpeed={0.05}
+        />
+      )}
+
+      {/* Orbiting moon for large featured planets */}
+      {project.size === 'large' && project.featured && (
+        <OrbitingMoon
+          planetPosition={[0, 0, 0]}
+          orbitRadius={sizeMultiplier * 1.8}
+          moonSize={0.22}
+          orbitSpeed={0.32}
+          color="#C0C0C0"
+        />
+      )}
+
+      {/* Binary companion for featured AI galaxy planets */}
+      {project.galaxy === 'ai' && project.featured && project.size !== 'supermassive' && (
+        <BinaryCompanion
+          primaryPosition={[0, 0, 0]}
+          orbitRadius={sizeMultiplier * 1.5}
+          starSize={0.38}
+          orbitSpeed={0.2}
+          color="#00D9FF"
+        />
       )}
     </group>
   )
