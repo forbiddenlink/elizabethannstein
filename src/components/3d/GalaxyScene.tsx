@@ -98,14 +98,14 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
         const galaxyIndex = galaxies.findIndex((g) => g.id === project.galaxy)
         if (galaxyIndex !== -1) {
           const projectIndex = galaxies[galaxyIndex].projects.findIndex(
-            (p: any) => p.id === selectedProject,
+            (p: any) => p.id === selectedProject
           )
           const [px, py, pz] = generateProjectPosition(
             selectedProject,
             project.galaxy,
             galaxyIndex,
             projectIndex,
-            galaxies[galaxyIndex].projects.length,
+            galaxies[galaxyIndex].projects.length
           )
           // Position camera 10 units away at a slight upward angle
           targetLookAt.current.set(px, py, pz)
@@ -155,7 +155,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       if (controlsRef.current) {
         const lookAtDelta = new THREE.Vector3().subVectors(
           targetLookAt.current,
-          controlsRef.current.target,
+          controlsRef.current.target
         )
         const lookAtForce = lookAtDelta.multiplyScalar(springStiffness * delta)
 
@@ -211,7 +211,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
         const lookAtOffset = new THREE.Vector3(
           mouseDriftOffset.current.x * 0.5,
           mouseDriftOffset.current.y * 0.3,
-          0,
+          0
         )
         controlsRef.current.target.lerp(new THREE.Vector3(0, 0, 0).add(lookAtOffset), delta * 0.5)
         controlsRef.current.update()

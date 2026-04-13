@@ -51,8 +51,7 @@ const MorphingShape = dynamic(
   { ssr: false }
 )
 const FirstVisitHints = dynamic(
-  () =>
-    import('@/components/ui/FirstVisitHints').then((m) => ({ default: m.FirstVisitHints })),
+  () => import('@/components/ui/FirstVisitHints').then((m) => ({ default: m.FirstVisitHints })),
   { ssr: false }
 )
 const PostTourCTA = dynamic(
@@ -60,8 +59,7 @@ const PostTourCTA = dynamic(
   { ssr: false }
 )
 const HiringFastTrack = dynamic(
-  () =>
-    import('@/components/ui/HiringFastTrack').then((m) => ({ default: m.HiringFastTrack })),
+  () => import('@/components/ui/HiringFastTrack').then((m) => ({ default: m.HiringFastTrack })),
   { ssr: false }
 )
 

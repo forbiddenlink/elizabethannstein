@@ -9,9 +9,7 @@ import { useViewStore } from '@/lib/store'
 import type { Project } from '@/lib/types'
 
 function selectFeaturedProjects(): Project[] {
-  const allFeatured = galaxies.flatMap((g) =>
-    g.projects.filter((p) => p.featured)
-  )
+  const allFeatured = galaxies.flatMap((g) => g.projects.filter((p) => p.featured))
 
   // Pick one per galaxy first for skill diversity
   const picked: Project[] = []
@@ -72,7 +70,9 @@ export function HiringFastTrack() {
     } else {
       document.body.style.overflow = ''
     }
-    return () => { document.body.style.overflow = '' }
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [isVisible])
 
   // ESC to close
@@ -188,9 +188,7 @@ export function HiringFastTrack() {
                         </span>
                       ))}
                     </div>
-                    <p className="text-sm text-white/40 mt-3 line-clamp-2">
-                      {project.description}
-                    </p>
+                    <p className="text-sm text-white/40 mt-3 line-clamp-2">{project.description}</p>
                     <span className="inline-block mt-3 text-sm text-white/60 group-hover:text-white transition-colors">
                       View case study &rarr;
                     </span>

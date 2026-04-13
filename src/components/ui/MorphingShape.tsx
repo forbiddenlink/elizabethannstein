@@ -78,10 +78,5 @@ export function MorphingShape() {
     }
   }, [])
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none -z-10 opacity-20"
-    />
-  )
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none -z-10 opacity-20" />
 }

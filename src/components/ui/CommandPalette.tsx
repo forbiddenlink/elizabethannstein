@@ -1,7 +1,19 @@
 'use client'
 
 import { gsap } from 'gsap'
-import { Dice5, Globe, Home, Keyboard, List, MessageCircle, Rocket, Search, User, X, Zap } from 'lucide-react'
+import {
+  Dice5,
+  Globe,
+  Home,
+  Keyboard,
+  List,
+  MessageCircle,
+  Rocket,
+  Search,
+  User,
+  X,
+  Zap,
+} from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { tryAchievement } from '@/lib/achievements'

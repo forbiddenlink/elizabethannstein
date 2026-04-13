@@ -87,7 +87,13 @@ export function FirstVisitHints() {
     if (activeHint !== 2) return
 
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown' || (e.metaKey && e.key === 'k')) {
+      if (
+        e.key === 'ArrowLeft' ||
+        e.key === 'ArrowRight' ||
+        e.key === 'ArrowUp' ||
+        e.key === 'ArrowDown' ||
+        (e.metaKey && e.key === 'k')
+      ) {
         interactionCount.current++
       }
       if (interactionCount.current >= 2) {
@@ -116,7 +122,9 @@ export function FirstVisitHints() {
   const initial = reducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }
   const animate = reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const exit = reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8 }
-  const transition = reducedMotion ? undefined : { duration: 0.4, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }
+  const transition = reducedMotion
+    ? undefined
+    : { duration: 0.4, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }
 
   return (
     <AnimatePresence>

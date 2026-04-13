@@ -3,7 +3,12 @@
 import { create } from 'zustand'
 import { enqueueAchievement } from '@/components/ui/AchievementToast'
 import { getAudioSynth } from '@/components/ui/SoundManager'
-import { trackGalaxyVisit, trackPlanetVisit, trackSpeedGalaxyHop, tryAchievement } from './achievements'
+import {
+  trackGalaxyVisit,
+  trackPlanetVisit,
+  trackSpeedGalaxyHop,
+  tryAchievement,
+} from './achievements'
 import { getProjectById } from './galaxyData'
 import type { ViewState } from './types'
 

@@ -1,13 +1,13 @@
 'use client'
 
-import { galaxies } from '@/lib/galaxyData'
-import { useHoverGravityStore, useViewStore } from '@/lib/store'
-import type { Galaxy, Project } from '@/lib/types'
-import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { galaxies } from '@/lib/galaxyData'
+import { useHoverGravityStore, useViewStore } from '@/lib/store'
+import type { Galaxy, Project } from '@/lib/types'
+import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
 import { AnimatedConstellation } from './AnimatedConstellation'
 import { AsteroidField, BinaryCompanion, OrbitingMoon } from './AsteroidField'
 import { SupernovaEffect } from './SupernovaEffect'
@@ -82,7 +82,7 @@ function GalaxyCluster({ galaxy, galaxyIndex }: { galaxy: Galaxy; galaxyIndex: n
           galaxy.id,
           galaxyIndex,
           projectIndex,
-          galaxy.projects.length,
+          galaxy.projects.length
         )
 
         const sizeMultiplier = getSizeMultiplier(project.size)
@@ -509,7 +509,7 @@ function RealisticPlanet({
       project.featured ||
       project.galaxy === 'enterprise' ||
       ['caipo-ai', 'stancestream', 'finance-quest', 'portfolio-pro', 'codecraft'].includes(
-        project.id,
+        project.id
       )
     )
   }, [project])
@@ -753,7 +753,7 @@ function RealisticPlanet({
           setHoveredPlanet(
             project.id,
             [currentPosRef.current.x, currentPosRef.current.y, currentPosRef.current.z],
-            sizeMultiplier,
+            sizeMultiplier
           )
         }}
         onPointerLeave={() => {

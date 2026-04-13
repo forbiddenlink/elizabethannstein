@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import {
   cn,
   formatDateRange,
@@ -8,7 +9,6 @@ import {
   lerp,
   seededRandom,
 } from '@/lib/utils'
-import { describe, expect, it } from 'vitest'
 
 describe('cn (class merge)', () => {
   it('merges tailwind classes', () => {

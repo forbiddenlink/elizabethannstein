@@ -45,7 +45,7 @@ export function generateProjectPosition(
   galaxyId: string,
   galaxyIndex: number,
   _projectIndex: number,
-  totalProjects: number,
+  totalProjects: number
 ): [number, number, number] {
   const seed = hashCode(projectId + galaxyId)
   const rng = seededRandom(seed)

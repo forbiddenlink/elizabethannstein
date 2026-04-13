@@ -238,10 +238,7 @@ export function GalaxyCursor() {
   return (
     <>
       {/* Canvas trail + chromatic ring */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-[9997]"
-      />
+      <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[9997]" />
 
       {/* Outer glowing orb — trails with spring */}
       <div
