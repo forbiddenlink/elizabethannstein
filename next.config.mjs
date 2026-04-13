@@ -27,17 +27,8 @@ const nextConfig = {
   async headers() {
     // Content Security Policy - allows Three.js/WebGL, analytics, fonts
     const cspDirectives = [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://vitals.vercel-insights.com https://va.vercel-scripts.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
-      "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://vitals.vercel-insights.com https://va.vercel-scripts.com https://*.sentry.io https://*.ingest.sentry.io wss://*.sentry.io",
-      "worker-src 'self' blob:",
-      "child-src 'self' blob:",
+      "default-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data: https: wss:",
       "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
     ].join('; ')
 
     return [

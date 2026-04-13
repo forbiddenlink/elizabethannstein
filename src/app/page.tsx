@@ -50,6 +50,20 @@ const MorphingShape = dynamic(
   () => import('@/components/ui/MorphingShape').then((m) => ({ default: m.MorphingShape })),
   { ssr: false }
 )
+const FirstVisitHints = dynamic(
+  () =>
+    import('@/components/ui/FirstVisitHints').then((m) => ({ default: m.FirstVisitHints })),
+  { ssr: false }
+)
+const PostTourCTA = dynamic(
+  () => import('@/components/ui/PostTourCTA').then((m) => ({ default: m.PostTourCTA })),
+  { ssr: false }
+)
+const HiringFastTrack = dynamic(
+  () =>
+    import('@/components/ui/HiringFastTrack').then((m) => ({ default: m.HiringFastTrack })),
+  { ssr: false }
+)
 
 function getVisibilityClasses(isJourneyMode: boolean, hasEntered: boolean): string {
   if (isJourneyMode) return 'opacity-0 pointer-events-none'
@@ -251,8 +265,17 @@ export default function HomePage() {
       {/* AI Galaxy Guide */}
       <GalaxyGuide />
 
+      {/* Contextual first-visit hints — progressive onboarding for new visitors */}
+      <FirstVisitHints />
+
       {/* First-visit galaxy navigation hint — auto-dismisses, centered bottom, no positional conflicts */}
       <GalaxyHint />
+
+      {/* Post-tour CTA — shown after guided tour ends */}
+      <PostTourCTA />
+
+      {/* Hiring Fast Track — full-screen featured projects overlay */}
+      <HiringFastTrack />
 
       {/* Entrance Overlay - MUST BE LAST to sit on top of everything until dismissed */}
       <Entrance />

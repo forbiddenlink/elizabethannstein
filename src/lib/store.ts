@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 import { enqueueAchievement } from '@/components/ui/AchievementToast'
 import { getAudioSynth } from '@/components/ui/SoundManager'
-import { trackGalaxyVisit, trackPlanetVisit, trackSpeedGalaxyHop } from './achievements'
+import { trackGalaxyVisit, trackPlanetVisit, trackSpeedGalaxyHop, tryAchievement } from './achievements'
 import { getProjectById } from './galaxyData'
 import type { ViewState } from './types'
 
@@ -26,6 +26,14 @@ interface ViewStore {
   journeyStep: number
   isJourneyPaused: boolean
   activeTourId: string | null // null = default galaxy tour, string = narrative tour ID
+
+  // Post-tour CTA
+  showPostTourCTA: boolean
+
+  // Hiring Fast Track
+  showFastTrack: boolean
+  toggleFastTrack: () => void
+  dismissFastTrack: () => void
 
   // Actions
   setView: (view: ViewState) => void
@@ -55,6 +63,9 @@ interface ViewStore {
   prevJourneyStop: () => void
   setJourneyStep: (step: number) => void
   toggleJourneyPause: () => void
+
+  // Post-tour CTA actions
+  dismissPostTourCTA: () => void
 }
 
 export const useViewStore = create<ViewStore>((set, get) => ({
@@ -77,6 +88,12 @@ export const useViewStore = create<ViewStore>((set, get) => ({
   journeyStep: 0,
   isJourneyPaused: false,
   activeTourId: null,
+
+  // Post-tour CTA initial state
+  showPostTourCTA: false,
+
+  // Hiring Fast Track initial state
+  showFastTrack: false,
 
   // Basic setters
   setView: (view) => set({ view }),
@@ -136,6 +153,11 @@ export const useViewStore = create<ViewStore>((set, get) => ({
       selectedProject: projectId,
       isLanding: true,
     })
+    // Achievement: first time entering exploration mode
+    if (typeof window !== 'undefined') {
+      const a = tryAchievement('explorer')
+      if (a) enqueueAchievement(a)
+    }
   },
 
   // New: Exit exploration mode
@@ -205,10 +227,16 @@ export const useViewStore = create<ViewStore>((set, get) => ({
 
   endJourney: () => {
     getAudioSynth()?.playSuccess()
+    // Achievement: completed the guided tour
+    if (typeof window !== 'undefined') {
+      const a = tryAchievement('tour_complete')
+      if (a) enqueueAchievement(a)
+    }
     return set({
       isJourneyMode: false,
       journeyStep: 0,
       isJourneyPaused: false,
+      showPostTourCTA: true,
     })
   },
 
@@ -232,6 +260,13 @@ export const useViewStore = create<ViewStore>((set, get) => ({
     set((state) => ({
       isJourneyPaused: !state.isJourneyPaused,
     })),
+
+  // Post-tour CTA actions
+  dismissPostTourCTA: () => set({ showPostTourCTA: false }),
+
+  // Hiring Fast Track actions
+  toggleFastTrack: () => set((state) => ({ showFastTrack: !state.showFastTrack })),
+  dismissFastTrack: () => set({ showFastTrack: false }),
 }))
 
 // Hover gravity store - tracks hovered planet for gravitational effects

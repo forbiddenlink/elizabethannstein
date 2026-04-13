@@ -1,9 +1,10 @@
 'use client'
 
 import { gsap } from 'gsap'
-import { Globe, Keyboard, Search, X, Zap } from 'lucide-react'
+import { Dice5, Globe, Home, Keyboard, List, MessageCircle, Rocket, Search, User, X, Zap } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { tryAchievement } from '@/lib/achievements'
 import { galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 
@@ -24,7 +25,15 @@ export function CommandPalette() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const zoomToProject = useViewStore((state) => state.zoomToProject)
   const exploreProject = useViewStore((state) => state.exploreProject)
+  const toggleFastTrack = useViewStore((state) => state.toggleFastTrack)
   const hasEntered = useViewStore((state) => state.hasEntered)
+  const startJourney = useViewStore((state) => state.startJourney)
+  const reset = useViewStore((state) => state.reset)
+  const isJourneyMode = useViewStore((state) => state.isJourneyMode)
+  const view = useViewStore((state) => state.view)
+  const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
+
+  const lastRandomRef = useRef<string | null>(null)
 
   const isHomeRoute = pathname === '/'
 
@@ -108,6 +117,17 @@ export function CommandPalette() {
     })),
     // Actions
     {
+      id: 'fast-track',
+      title: 'Hiring fast track',
+      subtitle: 'Curated view of 6 best projects',
+      category: 'action' as const,
+      icon: <Zap className="w-4 h-4" />,
+      action: () => {
+        toggleFastTrack()
+        closePalette()
+      },
+    },
+    {
       id: 'view-list',
       title: 'Switch to List View',
       subtitle: 'See all projects in a list',
@@ -126,6 +146,86 @@ export function CommandPalette() {
       icon: <Globe className="w-4 h-4" />,
       action: () => {
         router.push('/')
+        closePalette()
+      },
+    },
+    {
+      id: 'random-project',
+      title: '\u{1F3B2} Random project',
+      subtitle: 'Discover a featured project at random',
+      category: 'action' as const,
+      icon: <Dice5 className="w-4 h-4" />,
+      action: () => {
+        const featured = galaxies.flatMap((g) => g.projects).filter((p) => p.featured)
+        const candidates = featured.filter((p) => p.id !== lastRandomRef.current)
+        const pick = candidates[Math.floor(Math.random() * candidates.length)]
+        if (pick) {
+          lastRandomRef.current = pick.id
+          zoomToProject(pick.id)
+        }
+        closePalette()
+      },
+    },
+    ...(!isJourneyMode
+      ? [
+          {
+            id: 'start-journey',
+            title: '\u{1F680} Start guided tour',
+            subtitle: 'Take a narrated tour through the galaxies',
+            category: 'action' as const,
+            icon: <Rocket className="w-4 h-4" />,
+            action: () => {
+              startJourney()
+              closePalette()
+            },
+          },
+        ]
+      : []),
+    ...(view !== 'universe' || selectedGalaxy
+      ? [
+          {
+            id: 'return-universe',
+            title: '\u{1F3E0} Return to universe',
+            subtitle: 'Zoom all the way out',
+            category: 'action' as const,
+            icon: <Home className="w-4 h-4" />,
+            action: () => {
+              reset()
+              closePalette()
+            },
+          },
+        ]
+      : []),
+    {
+      id: 'browse-all',
+      title: '\u{1F4CB} Browse all projects',
+      subtitle: 'See every project in a list',
+      category: 'action' as const,
+      icon: <List className="w-4 h-4" />,
+      action: () => {
+        router.push('/work')
+        closePalette()
+      },
+    },
+    {
+      id: 'get-in-touch',
+      title: '\u{1F4AC} Get in touch',
+      subtitle: 'Send a message',
+      category: 'action' as const,
+      icon: <MessageCircle className="w-4 h-4" />,
+      action: () => {
+        router.push('/contact')
+        closePalette()
+      },
+    },
+    {
+      id: 'about',
+      title: '\u{2139}\u{FE0F} About',
+      subtitle: 'Learn more about me',
+      category: 'action' as const,
+      icon: <User className="w-4 h-4" />,
+      action: () => {
+        router.push('/about')
         closePalette()
       },
     },
@@ -153,7 +253,18 @@ export function CommandPalette() {
       // Open with CMD+K or CTRL+K
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
-        setIsOpen((prev) => !prev)
+        setIsOpen((prev) => {
+          if (!prev) {
+            // Fire achievement on first open
+            const a = tryAchievement('navigator')
+            if (a) {
+              import('@/components/ui/AchievementToast').then(({ enqueueAchievement }) => {
+                enqueueAchievement(a)
+              })
+            }
+          }
+          return !prev
+        })
         return
       }
 

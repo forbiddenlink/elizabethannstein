@@ -1,5 +1,7 @@
 import { galaxies } from './galaxyData'
 
+const totalProjects = galaxies.reduce((sum, g) => sum + g.projects.length, 0)
+
 // Contact and social links - single source of truth
 export const CONTACT = {
   /** Primary inbox on your domain (configure forwarding in DNS / host as needed) */
@@ -13,8 +15,7 @@ export const SITE = {
   name: 'Elizabeth Stein',
   title: 'Full-Stack Developer & AI Integration Specialist',
   fullTitle: 'Elizabeth Stein | Full-Stack & AI Developer',
-  description:
-    'Full-stack product work, design systems, and AI integrations—explore 84 projects across six galaxies. Built to wander through, not scroll past.',
+  description: `Full-stack product work, design systems, and AI integrations—explore ${totalProjects} projects across six galaxies. Built to wander through, not scroll past.`,
   shortDescription:
     'I build production web apps, design systems, and AI-powered features—with clear product judgment and careful engineering.',
   /** One-line POV for hero / storytelling surfaces */
@@ -52,8 +53,6 @@ export const SITE = {
     'PostgreSQL',
   ],
 } as const
-
-const totalProjects = galaxies.reduce((sum, g) => sum + g.projects.length, 0)
 
 // Portfolio stats — derived from galaxyData so counts never drift
 export const STATS = {

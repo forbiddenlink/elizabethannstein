@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Bot, Loader2, Send, Sparkles, User, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { detectNavigationIntent } from '@/lib/chatNavigation'
 import { useViewStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
@@ -90,6 +91,28 @@ export function GalaxyGuide() {
       const data = await response.json()
 
       setMessages((prev) => [...prev, { id: nextId(), role: 'assistant', content: data.content }])
+
+      // Detect navigation intent and trigger camera movement
+      const intent = detectNavigationIntent(userMsg, data.content)
+      if (intent) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: nextId(),
+            role: 'assistant',
+            content: `Navigating to ${intent.label}...`,
+          },
+        ])
+        // Small delay so user sees the response first
+        setTimeout(() => {
+          const { zoomToProject, zoomToGalaxy } = useViewStore.getState()
+          if (intent.type === 'project') {
+            zoomToProject(intent.id)
+          } else {
+            zoomToGalaxy(intent.id)
+          }
+        }, 800)
+      }
     } catch (error) {
       console.error(error)
       setMessages((prev) => [

@@ -17,7 +17,6 @@ import { GalaxyCores } from '@/components/3d/GalaxyCore'
 import { GalaxyLabels } from '@/components/3d/GalaxyLabels'
 import { HyperspaceWarp } from '@/components/3d/HyperspaceWarp'
 import { NebulaBackground } from '@/components/3d/NebulaBackground'
-import { PlanetEnhancements } from '@/components/3d/PlanetEnhancements'
 import { PlanetSurfaceExplorer } from '@/components/3d/PlanetSurfaceExplorer'
 import { PostProcessingEffects } from '@/components/3d/PostProcessingEffects'
 import { ProjectRelationships } from '@/components/3d/ProjectRelationships'
@@ -99,14 +98,14 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
         const galaxyIndex = galaxies.findIndex((g) => g.id === project.galaxy)
         if (galaxyIndex !== -1) {
           const projectIndex = galaxies[galaxyIndex].projects.findIndex(
-            (p: any) => p.id === selectedProject
+            (p: any) => p.id === selectedProject,
           )
           const [px, py, pz] = generateProjectPosition(
             selectedProject,
             project.galaxy,
             galaxyIndex,
             projectIndex,
-            galaxies[galaxyIndex].projects.length
+            galaxies[galaxyIndex].projects.length,
           )
           // Position camera 10 units away at a slight upward angle
           targetLookAt.current.set(px, py, pz)
@@ -156,7 +155,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       if (controlsRef.current) {
         const lookAtDelta = new THREE.Vector3().subVectors(
           targetLookAt.current,
-          controlsRef.current.target
+          controlsRef.current.target,
         )
         const lookAtForce = lookAtDelta.multiplyScalar(springStiffness * delta)
 
@@ -212,7 +211,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
         const lookAtOffset = new THREE.Vector3(
           mouseDriftOffset.current.x * 0.5,
           mouseDriftOffset.current.y * 0.3,
-          0
+          0,
         )
         controlsRef.current.target.lerp(new THREE.Vector3(0, 0, 0).add(lookAtOffset), delta * 0.5)
         controlsRef.current.update()
@@ -321,7 +320,6 @@ function SceneContent({
             <GalaxyLabels />
             <EnhancedProjectStars />
             <ScanSystem />
-            <PlanetEnhancements />
             <ProjectRelationships />
             {!isMobile && (
               <>
@@ -370,7 +368,6 @@ function SceneContent({
   )
 }
 
-// Wrapper component to provide controlsRef inside Canvas
 function SceneWrapper({
   isMobile,
   rendererType,
@@ -517,15 +514,13 @@ export default function GalaxyScene() {
         <SceneWrapper isMobile={isMobile} rendererType={rendererType} />
       </WebGPUCanvas>
 
-      {/* CSS vignette fallback for WebGPU (post-processing causes flickering) */}
-      {rendererType === 'webgpu' && (
-        <div
-          className="absolute inset-0 pointer-events-none z-10"
-          style={{
-            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
-          }}
-        />
-      )}
+      {/* CSS vignette — always on since EffectComposer post-processing is disabled by default */}
+      <div
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
+        }}
+      />
 
       <GalaxyNavigation />
       <MobileGalaxyNav />

@@ -27,6 +27,7 @@ export function DeepLinkHandler() {
         router.replace(`/work/${projectParam}`)
       } else if (project) {
         // Show 3D mode with project modal
+        localStorage.setItem('ea-has-visited', 'true')
         zoomToProject(projectParam)
       } else {
         // Invalid project ID, remove param

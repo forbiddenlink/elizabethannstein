@@ -117,11 +117,15 @@ export function Entrance() {
   const setWarpingIn = useViewStore((state) => state.setWarpingIn)
   const [isEntering, setIsEntering] = useState(false)
 
-  // Skip entrance on repeat visits
+  // Skip entrance on repeat visits or deep links
   useEffect(() => {
     if (globalThis.window && !hasEntered) {
       const hasVisited = localStorage.getItem('ea-has-visited')
-      if (hasVisited) {
+      const deepLinkId = new URLSearchParams(window.location.search).get('p')
+      if (hasVisited || (deepLinkId && getProjectById(deepLinkId))) {
+        if (deepLinkId && getProjectById(deepLinkId)) {
+          localStorage.setItem('ea-has-visited', 'true')
+        }
         enter()
       }
     }

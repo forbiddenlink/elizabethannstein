@@ -20,7 +20,7 @@ export function StatsMonitor() {
     if (!isDev) return
 
     const stats = new Stats({
-      trackGPU: true,
+      trackGPU: false, // true conflicts with EffectComposer's WebGL timer queries
     })
     stats.init(gl)
     document.body.appendChild(stats.dom)

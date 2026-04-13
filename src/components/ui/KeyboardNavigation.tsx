@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { tryAchievement } from '@/lib/achievements'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 
@@ -46,6 +47,11 @@ export function KeyboardNavigation() {
   const reset = useViewStore((state) => state.reset)
   const isJourneyMode = useViewStore((state) => state.isJourneyMode)
   const endJourney = useViewStore((state) => state.endJourney)
+  const showFastTrack = useViewStore((state) => state.showFastTrack)
+  const toggleFastTrack = useViewStore((state) => state.toggleFastTrack)
+  const dismissFastTrack = useViewStore((state) => state.dismissFastTrack)
+  const showPostTourCTA = useViewStore((state) => state.showPostTourCTA)
+  const dismissPostTourCTA = useViewStore((state) => state.dismissPostTourCTA)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -53,8 +59,12 @@ export function KeyboardNavigation() {
 
       if (e.key === 'Escape') {
         e.preventDefault()
-        // End journey mode if active, otherwise zoom out
-        if (isJourneyMode) {
+        // Dismiss overlays first, then journey, then zoom out
+        if (showFastTrack) {
+          dismissFastTrack()
+        } else if (showPostTourCTA) {
+          dismissPostTourCTA()
+        } else if (isJourneyMode) {
           endJourney()
         } else {
           zoomOut()
@@ -68,11 +78,29 @@ export function KeyboardNavigation() {
         return
       }
 
+      // Fast Track toggle
+      if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault()
+        if (showFastTrack) {
+          dismissFastTrack()
+        } else {
+          toggleFastTrack()
+        }
+        return
+      }
+
       // Number keys (1-6) - quick jump to galaxies
       const num = Number.parseInt(e.key, 10)
       if (num >= 1 && num <= galaxies.length) {
         e.preventDefault()
         zoomToGalaxy(galaxies[num - 1].id)
+        // Achievement: used a keyboard shortcut
+        const a = tryAchievement('power_user')
+        if (a) {
+          import('@/components/ui/AchievementToast').then(({ enqueueAchievement }) => {
+            enqueueAchievement(a)
+          })
+        }
         return
       }
 
@@ -112,6 +140,11 @@ export function KeyboardNavigation() {
     reset,
     isJourneyMode,
     endJourney,
+    showFastTrack,
+    toggleFastTrack,
+    dismissFastTrack,
+    showPostTourCTA,
+    dismissPostTourCTA,
   ])
 
   return null

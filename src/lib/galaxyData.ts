@@ -53,7 +53,7 @@ export const galaxies: Galaxy[] = [
         galaxy: 'enterprise',
         // Note: Live sites owned by client
         featured: false,
-        dateRange: '2024',
+        dateRange: '2024-2026',
         challenge:
           'Led a team of 3-4 developers across 6+ production sites for a client while establishing consistent design patterns and development workflows.',
         solution:
@@ -928,6 +928,57 @@ export const galaxies: Galaxy[] = [
         impact:
           'Single-line embed for any website. Customizable themes match any brand. Dashboard simplifies testimonial management.',
       },
+      {
+        id: 'testimoniq',
+        title: 'Testimoniq',
+        description:
+          'Full SaaS platform for collecting text, video, and image testimonials with AI-powered sentiment analysis, 10 widget layouts, NPS surveys, team collaboration, email/SMS campaigns, and Stripe billing. Includes free, starter, pro, and enterprise tiers.',
+        role: 'Creator',
+        tags: ['Next.js', 'React', 'TypeScript', 'Stripe', 'AI', 'SaaS'],
+        color: '#9D4EDD',
+        brightness: 1.6,
+        size: 'large',
+        galaxy: 'fullstack',
+        links: {
+          live: 'https://testimoniq.com',
+        },
+        featured: true,
+        dateRange: '2026',
+        challenge:
+          'Collecting customer testimonials is fragmented — businesses juggle forms, emails, and manual curation. Existing solutions are expensive and lack AI-driven insights.',
+        solution:
+          'Built a complete SaaS with branded collection forms, video recording, star ratings, and image uploads. AI sentiment analysis scores and categorizes feedback automatically. 10 embeddable widget layouts (grid, masonry, carousel, marquee, and more) with single-line integration. Stripe handles free through enterprise billing tiers.',
+        impact:
+          'Full production SaaS with Stripe billing live at testimoniq.com. 10 widget layouts cover every design need. AI sentiment analysis turns raw testimonials into actionable insights.',
+        impactMetrics: [
+          { label: 'Widget Layouts', value: '10', icon: 'layout' },
+          { label: 'Revenue', value: 'Stripe Live', icon: 'dollar' },
+          { label: 'AI Analysis', value: 'Sentiment', icon: 'brain' },
+        ],
+      },
+      {
+        id: 'dwello',
+        title: 'Dwello',
+        description:
+          'Life maintenance tracking app across home, vehicles, equipment, pets, subscriptions, health, and financial domains. PWA with offline support, Stripe one-time purchase for premium, and background job processing via Trigger.dev.',
+        role: 'Creator',
+        tags: ['Next.js', 'React', 'TypeScript', 'PWA', 'Stripe', 'Trigger.dev'],
+        color: '#9D4EDD',
+        brightness: 1.3,
+        size: 'medium',
+        galaxy: 'fullstack',
+        links: {
+          live: 'https://dwello.vercel.app',
+        },
+        featured: false,
+        dateRange: '2026',
+        challenge:
+          'Home and life maintenance tasks slip through the cracks — people forget oil changes, filter replacements, and subscription renewals until something breaks.',
+        solution:
+          'Built a local-first PWA that tracks maintenance across 7 domains. Free tier includes 10 starter tasks and 3 asset profiles. Premium unlocks unlimited tasks, document storage, cost tracking, and multi-home support. Trigger.dev handles background job scheduling.',
+        impact:
+          'Offline-first PWA works without internet. JSON backup import/export for full data portability. One-time premium purchase — no subscription fatigue.',
+      },
     ],
   },
   {
@@ -1337,6 +1388,35 @@ export const galaxies: Galaxy[] = [
           'Built 65 CLI commands for file relationships, complexity hotspots, dead code, impact analysis, and bus factor. 14 MCP tools for Claude Desktop integration so AI assistants can query the codebase directly. 12 personality modes turn raw analysis into actionable narrative.',
         impact:
           'Published on npm as @purplegumdropz/specter. 14 MCP tools enable AI-native codebase exploration. 12 personalities from mentor to brutal critic — developers choose their coaching style.',
+      },
+      {
+        id: 'rocket-vitals',
+        title: 'Rocket Vitals',
+        description:
+          'Scan-first website QA tool that crawls up to 500 pages and runs 200+ checks across SEO, accessibility, performance, security, links, content, and AI readiness. Delivers prioritized reports with severity scoring, department routing, regression monitoring, and client-ready exports.',
+        role: 'Creator',
+        company: 'Rocket Park',
+        tags: ['Next.js', 'TypeScript', 'Playwright', 'QA', 'SEO', 'Accessibility'],
+        color: '#06FFA5',
+        brightness: 1.8,
+        size: 'large',
+        galaxy: 'devtools',
+        links: {
+          live: 'https://rocket-vitals.vercel.app',
+        },
+        featured: true,
+        dateRange: '2025-2026',
+        challenge:
+          'Website QA tools are either too simple (single-page checks) or too complex (enterprise-only pricing). Agencies need a scan-first tool that crawls entire sites and delivers prioritized, actionable reports their clients can understand.',
+        solution:
+          'Built a crawler that processes up to 500 pages per scan, running 200+ checks including 34 SEO, 25+ accessibility (plus 60+ axe-core runtime checks), 24 performance, 21 security, and AI readiness checks. Reports include severity scoring, department routing, regression monitoring with configurable guardrails, and issue workflow management.',
+        impact:
+          'Covers 200+ checks in a single scan. Department routing lets teams own their findings. Regression monitoring catches score drops between scans. Built at Rocket Park for production agency use.',
+        impactMetrics: [
+          { label: 'QA Checks', value: '200+', icon: 'check' },
+          { label: 'Pages per Scan', value: '500', icon: 'globe' },
+          { label: 'Check Categories', value: '7', icon: 'layers' },
+        ],
       },
     ],
   },

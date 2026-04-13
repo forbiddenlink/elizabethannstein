@@ -16,8 +16,33 @@ export const ACHIEVEMENTS: Achievement[] = [
     desc: 'Explored your first planet',
   },
   { id: 'galaxy_hopper', label: 'Galaxy Hopper', icon: 'galaxy', desc: 'Visited all 6 galaxies' },
+  { id: 'deep_diver', label: 'Deep Diver', icon: 'telescope', desc: 'Viewed 10 projects' },
   { id: 'half_done', label: 'Deep Space Traveler', icon: 'rocket', desc: 'Discovered 42 planets' },
-  { id: 'completionist', label: 'Completionist', icon: 'star', desc: 'All 84 planets discovered' },
+  { id: 'completionist', label: 'Completionist', icon: 'star', desc: 'All planets discovered' },
+  {
+    id: 'explorer',
+    label: 'Explorer',
+    icon: 'compass',
+    desc: 'Entered exploration mode',
+  },
+  {
+    id: 'navigator',
+    label: 'Navigator',
+    icon: 'keyboard',
+    desc: 'Used the command palette',
+  },
+  {
+    id: 'tour_complete',
+    label: 'Tour Complete',
+    icon: 'flag',
+    desc: 'Finished the guided tour',
+  },
+  {
+    id: 'power_user',
+    label: 'Power User',
+    icon: 'zap',
+    desc: 'Used a keyboard shortcut',
+  },
   {
     id: 'konami_master',
     label: 'Konami Master',
@@ -98,11 +123,15 @@ export function trackPlanetVisit(projectId: string): Achievement[] {
     const a = unlockAchievement('first_contact')
     if (a) newAchievements.push(a)
   }
+  if (visited.size >= 10) {
+    const a = unlockAchievement('deep_diver')
+    if (a) newAchievements.push(a)
+  }
   if (visited.size >= 42) {
     const a = unlockAchievement('half_done')
     if (a) newAchievements.push(a)
   }
-  if (visited.size >= 84) {
+  if (visited.size >= 87) {
     const a = unlockAchievement('completionist')
     if (a) newAchievements.push(a)
   }
@@ -138,6 +167,15 @@ export function trackGalaxyVisit(galaxyId: string): Achievement[] {
     if (a) return [a]
   }
   return []
+}
+
+/**
+ * Fire-and-forget achievement trigger. Safe to call anywhere (no React hooks).
+ * Returns the Achievement if newly unlocked, null otherwise.
+ */
+export function tryAchievement(id: string): Achievement | null {
+  if (typeof window === 'undefined') return null
+  return unlockAchievement(id)
 }
 
 /** Track speed runner: 3 galaxies within 60 seconds. */

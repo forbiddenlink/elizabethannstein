@@ -293,7 +293,9 @@ canvas {
 
 /* ===== GLASS MORPHISM CARD ===== */
 .glass-card {
-  background: var(--color-surface);
+  background: rgba(10, 10, 10, 0.55);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid var(--color-border);
 }
 

@@ -3,14 +3,17 @@
 /**
  * Post-processing effects for cinematic quality
  *
- * FIX APPLIED: Using multisampling={8} and stencilBuffer={false} to prevent flickering.
- * WebGPU is excluded at the GalaxyScene level - this only runs on WebGL.
+ * KNOWN ISSUE: EffectComposer can silently break the entire render pipeline,
+ * making all 3D content invisible while <Html> overlays still work (because
+ * they're DOM elements, not rendered through Three.js).
  *
- * Key settings that prevent flickering:
- * - multisampling={8} for anti-aliased edges
- * - stencilBuffer={false} to avoid buffer conflicts
- * - Static bloom threshold (no dynamic updates during render)
- * - disableNormalPass to reduce buffer swaps
+ * History:
+ * - 5eeb48c6: Removed post-processing entirely to fix flickering
+ * - Re-added with multisampling={8}, stencilBuffer={false}
+ * - Still causes invisible planets on some Three.js + postprocessing combos
+ *
+ * Current fix: Disabled by default. Set ENABLE_POST_PROCESSING=true or
+ * use ?pp=1 URL param to opt in. The 3D scene looks great without it.
  */
 
 import {
@@ -21,7 +24,7 @@ import {
   Vignette,
 } from '@react-three/postprocessing'
 import { BlendFunction, KernelSize } from 'postprocessing'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Vector2 } from 'three'
 import { useViewStore } from '@/lib/store'
 
@@ -37,8 +40,9 @@ interface PostProcessingEffectsProps {
  * - ChromaticAberration: Subtle lens distortion for AAA feel
  * - Noise: Film grain for cinematic texture
  *
- * FIXED: Using multisampling={8}, stencilBuffer={false}, enableNormalPass={false}
- * to prevent flickering. Only enabled for WebGL renderer.
+ * Disabled by default due to compatibility issues with
+ * Three.js 0.182 + postprocessing 6.38 causing invisible meshes.
+ * Enable with ?pp=1 in the URL for testing.
  */
 export function PostProcessingEffects({
   enabled = true,
@@ -46,6 +50,15 @@ export function PostProcessingEffects({
 }: PostProcessingEffectsProps) {
   const view = useViewStore((state) => state.view)
   const selectedProject = useViewStore((state) => state.selectedProject)
+
+  // Post-processing is opt-in via URL param (?pp=1) due to known rendering bugs
+  const [ppEnabled, setPpEnabled] = useState(false)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      setPpEnabled(params.get('pp') === '1')
+    }
+  }, [])
 
   // Cinematic bloom — punchy highlights without blowing midtones (Awwwards-style glow)
   const bloomIntensity = isMobile ? 0.75 : 1.15
@@ -63,7 +76,7 @@ export function PostProcessingEffects({
   // Film grain — slightly tighter on desktop for premium texture
   const noiseOpacity = isMobile ? 0.07 : 0.12
 
-  if (!enabled) return null
+  if (!enabled || !ppEnabled) return null
 
   return (
     <EffectComposer multisampling={8} stencilBuffer={false} enableNormalPass={false}>
