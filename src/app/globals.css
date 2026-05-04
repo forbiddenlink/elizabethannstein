@@ -258,7 +258,6 @@ a:active,
 }
 
 /* Ensure canvas takes full height */
-/* Ensure canvas takes full height */
 canvas {
   display: block;
   width: 100%;
@@ -646,25 +645,7 @@ img:hover {
 }
 
 /* ===== CUSTOM ANIMATIONS ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* (fadeIn & fadeInUp keyframes defined above in Journey Mode section) */
 
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out;
@@ -996,10 +977,15 @@ img:hover {
 
 /* ── Card hover lift effect ─────────────────────────────────────────────── */
 .card-hover-lift {
-  transition: background-color 0.15s var(--ease-default);
+  transition:
+    background-color 0.2s var(--ease-default),
+    transform 0.3s var(--ease-out-expo),
+    border-color 0.2s var(--ease-default);
 }
 .card-hover-lift:hover {
   background-color: var(--color-elevated);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* ── Depth fog gradient (for 3D-like depth on 2D pages) ─────────────────── */
@@ -1112,6 +1098,35 @@ img:hover {
     rgba(255, 184, 0, 0.8),
     rgba(255, 184, 0, 0.6)
   );
+}
+
+/* ── Section divider (subtle glow line between about page sections) ────── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 5%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 95%
+  );
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+/* ── Enhanced glass panel with inner glow on hover ─────────────────────── */
+.glass-panel-subtle:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Testimonial blockquote enhanced styling ──────────────────────────── */
+blockquote {
+  position: relative;
+}
+
+/* ── Skill badge hover glow ───────────────────────────────────────────── */
+.skill-glow:hover {
+  box-shadow: 0 0 12px currentColor;
 }
 
 .project-modal-surface {

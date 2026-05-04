@@ -28,24 +28,42 @@ const PROJECT_SCREENSHOTS: Record<string, string> = {
   // AI Frontier
   'finance-quest': '/screenshots/finance-quest.webp',
   stancestream: '/screenshots/stance-stream.png',
-  explainthiscode: '/screenshots/explain-this-code.webp',
+  explainthiscode: '/screenshots/explainthiscode.png',
   tubedigest: '/screenshots/tubedigest.png',
   contradictme: '/screenshots/contradictme.webp',
   'dev-interviewer': '/screenshots/dev-interviewer.png',
+  'codebase-onboarding-tool': '/screenshots/codebase-onboarding-tool.png',
+  'autodocs-ai': '/screenshots/autodocs-ai.png',
+  'mcp-server-studio': '/screenshots/mcp-server-studio.png',
+  'interview-ace': '/screenshots/interview-ace.png',
+  storyvision: '/screenshots/storyvision.png',
   // Full-Stack
+  'hire-ready': '/screenshots/hire-ready.png',
+  'ucp-guard': '/screenshots/ucp-guard.png',
+  'site-sheriff': '/screenshots/site-sheriff.png',
   'portfolio-pro': '/screenshots/portfolio-pro.png',
   'create-surveys': '/screenshots/create-surveys.png',
   'quantum-forge': '/screenshots/quantum-forge.webp',
   'skill-mapper': '/screenshots/skill-mapper.png',
   reprise: '/screenshots/reprise.webp',
+  willwise: '/screenshots/willwise.png',
+  dareuradio: '/screenshots/dareuradio.png',
+  testimoniq: '/screenshots/testimoniq.png',
+  dwello: '/screenshots/dwello.png',
   // DevTools
   componentcompass: '/screenshots/componentcompass.png',
   'security-trainer': '/screenshots/security-trainer.png',
   'encryption-visualizer': '/screenshots/encryption-visualizer.png',
+  'accessibility-checker': '/screenshots/accessibility-checker.png',
+  'consent-compass': '/screenshots/consent-compass.png',
+  'rocket-vitals': '/screenshots/rocket-vitals.png',
   // Creative
   'goodstuff-foodtruck': '/screenshots/goodstuff-foodtruck.png',
   'studio-furniture': '/screenshots/studio-furniture.png',
   rivet: '/screenshots/rivet.png',
+  'codecraft-dev': '/screenshots/codecraft-dev.png',
+  'color-studio': '/screenshots/color-studio.png',
+  'space-travel': '/screenshots/space-travel.png',
   // Experimental
   pollyglot: '/screenshots/pollyglot.png',
   'guts-and-glory': '/screenshots/guts-and-glory.png',
@@ -54,18 +72,25 @@ const PROJECT_SCREENSHOTS: Record<string, string> = {
   mythos: '/screenshots/mythos.webp',
   'apoc-bnb': '/screenshots/apoc-bnb.png',
   'canvas-flow': '/screenshots/canvas-flow.png',
+  'ocean-simulator': '/screenshots/ocean-simulator.png',
+  'competitor-stalker': '/screenshots/competitor-stalker.png',
+  'cereal-tasting': '/screenshots/cereal-tasting.png',
+  'constellation-events': '/screenshots/constellation-events.png',
+  'app-idea-miner': '/screenshots/app-idea-miner.png',
+  'ai-spend-tracker': '/screenshots/ai-spend-tracker.png',
 }
 
 // Stagger animation variants for project cards
+// Cap delay at 0.3s so filter changes don't create long waits
 const cardVariants = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: 12, filter: 'blur(3px)' },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
     transition: {
-      delay: i * 0.06,
-      duration: 0.4,
+      delay: Math.min(i * 0.04, 0.3),
+      duration: 0.3,
       ease: [0.22, 1, 0.36, 1] as const,
     },
   }),
@@ -113,6 +138,43 @@ function projectMatchesQuery(project: Project, query: string): boolean {
   )
 }
 
+type SortOrder = 'featured' | 'newest' | 'oldest'
+
+const SORT_OPTIONS: { value: SortOrder; label: string }[] = [
+  { value: 'featured', label: 'Featured first' },
+  { value: 'newest', label: 'Newest first' },
+  { value: 'oldest', label: 'Oldest first' },
+]
+
+function parseYear(dateRange: string | undefined, position: 'first' | 'last'): number {
+  if (!dateRange) return 0
+  const years = dateRange.match(/\d{4}/g)
+  if (!years?.length) return 0
+  return position === 'last'
+    ? Number.parseInt(years[years.length - 1], 10)
+    : Number.parseInt(years[0], 10)
+}
+
+function sortProjects(projects: Project[], order: SortOrder): Project[] {
+  const sorted = [...projects]
+  switch (order) {
+    case 'featured':
+      return sorted.sort((a, b) => {
+        if (a.featured && !b.featured) return -1
+        if (!a.featured && b.featured) return 1
+        return parseYear(b.dateRange, 'last') - parseYear(a.dateRange, 'last')
+      })
+    case 'newest':
+      return sorted.sort((a, b) => parseYear(b.dateRange, 'last') - parseYear(a.dateRange, 'last'))
+    case 'oldest':
+      return sorted.sort(
+        (a, b) => parseYear(a.dateRange, 'first') - parseYear(b.dateRange, 'first')
+      )
+    default:
+      return sorted
+  }
+}
+
 function normalizeGalaxyFilter(filter: string | null, galaxies: Galaxy[]): string | null {
   if (!filter) return null
 
@@ -140,11 +202,17 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
   }, [initialGalaxyFilter, searchParams])
 
   const initialTag = useMemo(() => searchParams.get('tag')?.trim() ?? null, [searchParams])
+  const initialSortOrder = useMemo((): SortOrder => {
+    const param = searchParams.get('sort')
+    if (param === 'newest' || param === 'oldest') return param
+    return 'featured'
+  }, [searchParams])
 
   const [selectedGalaxy, setSelectedGalaxy] = useState<string | null>(initialGalaxyFilter)
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(initialShowFeaturedOnly)
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag)
+  const [sortOrder, setSortOrder] = useState<SortOrder>(initialSortOrder)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   // '/' keyboard shortcut focuses the search input
@@ -168,7 +236,14 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     setSearchQuery(initialSearchQuery)
     setShowFeaturedOnly(initialShowFeaturedOnly)
     setSelectedTag(initialTag)
-  }, [initialGalaxyFilter, initialSearchQuery, initialShowFeaturedOnly, initialTag])
+    setSortOrder(initialSortOrder)
+  }, [
+    initialGalaxyFilter,
+    initialSearchQuery,
+    initialShowFeaturedOnly,
+    initialTag,
+    initialSortOrder,
+  ])
 
   useEffect(() => {
     const nextParams = new URLSearchParams()
@@ -176,6 +251,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     if (searchQuery.trim()) nextParams.set('q', searchQuery.trim())
     if (!showFeaturedOnly) nextParams.set('view', 'all')
     if (selectedTag) nextParams.set('tag', selectedTag)
+    if (sortOrder !== 'featured') nextParams.set('sort', sortOrder)
 
     const currentQuery = searchParams.toString()
     const nextQuery = nextParams.toString()
@@ -183,7 +259,16 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     if (currentQuery === nextQuery) return
 
     router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false })
-  }, [pathname, router, searchParams, searchQuery, selectedGalaxy, showFeaturedOnly, selectedTag])
+  }, [
+    pathname,
+    router,
+    searchParams,
+    searchQuery,
+    selectedGalaxy,
+    showFeaturedOnly,
+    selectedTag,
+    sortOrder,
+  ])
 
   const allProjects = useMemo(() => galaxies.flatMap((g) => g.projects), [galaxies])
   const featuredCount = useMemo(() => allProjects.filter((p) => p.featured).length, [allProjects])
@@ -220,8 +305,14 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
         .filter((g) => g.projects.length > 0)
     }
 
+    // Apply sort within each galaxy's projects
+    filtered = filtered.map((galaxy) => ({
+      ...galaxy,
+      projects: sortProjects(galaxy.projects, sortOrder),
+    }))
+
     return filtered
-  }, [galaxies, selectedGalaxy, searchQuery, showFeaturedOnly, selectedTag])
+  }, [galaxies, selectedGalaxy, searchQuery, showFeaturedOnly, selectedTag, sortOrder])
 
   const projectCount = useMemo(() => {
     return filteredGalaxies.reduce((acc, g) => acc + g.projects.length, 0)
@@ -442,6 +533,51 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
               selectedGalaxy={selectedGalaxy}
               onFilterChange={setSelectedGalaxy}
             />
+
+            {/* Sort Dropdown */}
+            <div className="relative">
+              <label htmlFor="sort-select" className="sr-only">
+                Sort projects
+              </label>
+              <svg
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                />
+              </svg>
+              <select
+                id="sort-select"
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value as SortOrder)}
+                className="appearance-none pl-8 pr-8 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-all cursor-pointer"
+              >
+                {SORT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-neutral-900 text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <svg
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
           </div>
 
           {/* Tech Tag Filter */}

@@ -165,8 +165,8 @@ export default async function ProjectPage({
     .slice(0, 3)
 
   const currentAccent = GALAXY_ACCENTS[toGalaxyAccentKey(project.galaxy)]
-  const prevAccent = GALAXY_ACCENTS[toGalaxyAccentKey(prevProject.galaxy)]
-  const nextAccent = GALAXY_ACCENTS[toGalaxyAccentKey(nextProject.galaxy)]
+  const _prevAccent = GALAXY_ACCENTS[toGalaxyAccentKey(prevProject.galaxy)]
+  const _nextAccent = GALAXY_ACCENTS[toGalaxyAccentKey(nextProject.galaxy)]
   const galaxyMeta = galaxies.find((g) => g.id === project.galaxy)
 
   const jsonLd = {
@@ -338,77 +338,7 @@ export default async function ProjectPage({
           </div>
         </section>
 
-        {/* Jump Constellation Rail */}
-        <div className="max-w-7xl mx-auto px-6 mt-12">
-          <div className="relative rounded-lg border border-white/10 bg-black/40 p-4 md:p-5 overflow-hidden">
-            <div
-              className={`absolute top-0 left-0 right-0 h-px bg-linear-to-r ${currentAccent.line} to-transparent opacity-70`}
-              aria-hidden="true"
-            />
-
-            <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-              <h2 className="text-xs md:text-sm tracking-[0.22em] uppercase text-white/50 font-semibold">
-                Jump Constellation
-              </h2>
-              <span
-                className={`px-2 py-0.5 rounded-full text-[10px] border ${currentAccent.badge}`}
-              >
-                Current system: {project.title}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-              <Link
-                href={`/work/${prevProject.id}`}
-                className="group rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors px-4 py-3"
-              >
-                <div className="flex items-center gap-2 text-xs text-white/45 mb-1">
-                  <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
-                  Previous System
-                </div>
-                <p className={`text-sm font-semibold ${prevAccent.badge.split(' ')[0]}`}>
-                  {prevProject.title}
-                </p>
-              </Link>
-
-              <div className="rounded-xl border border-white/15 bg-white/10 px-4 py-3">
-                <div className="text-xs text-white/45 mb-1">Current System</div>
-                <p className="text-sm font-semibold text-white">{project.title}</p>
-              </div>
-
-              <Link
-                href={`/work/${nextProject.id}`}
-                className="group rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors px-4 py-3"
-              >
-                <div className="flex items-center justify-end gap-2 text-xs text-white/45 mb-1">
-                  Next System
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <p className={`text-sm font-semibold text-right ${nextAccent.badge.split(' ')[0]}`}>
-                  {nextProject.title}
-                </p>
-              </Link>
-            </div>
-
-            {relatedProjects.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[11px] text-white/40 mr-1">Nearby jumps:</span>
-                {relatedProjects.map(({ project: related }) => {
-                  const accent = GALAXY_ACCENTS[toGalaxyAccentKey(related.galaxy)]
-                  return (
-                    <Link
-                      key={related.id}
-                      href={`/work/${related.id}`}
-                      className={`px-2.5 py-1 rounded-full text-[11px] border transition-colors hover:bg-white/10 ${accent.tag}`}
-                    >
-                      {related.title}
-                    </Link>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-        </div>
+        {/* Removed redundant Jump Constellation — Related Work + Keep Exploring below serve same purpose */}
 
         {/* Related Projects by Tag Overlap */}
         {relatedProjects.length > 0 && (
