@@ -1,0 +1,13 @@
+pre-push:
+  parallel: true
+  commands:
+    typecheck:
+      run: pnpm tsc --noEmit
+    lint:
+      run: pnpm biome:check
+
+pre-commit:
+  parallel: true
+  commands:
+    no-secrets:
+      run: gitleaks protect --staged --no-banner
