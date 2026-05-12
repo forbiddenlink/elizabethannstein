@@ -19,7 +19,7 @@ export const galaxies: Galaxy[] = [
           'Enterprise-scale TypeScript/React application with 64,806 files. Led architecture decisions and core feature implementation for aviation resource management.',
         role: 'Software Engineer',
         company: 'Coulson Aviation',
-        tags: ['TypeScript', 'React', 'Next.js', 'Enterprise'],
+        tags: ['TypeScript', 'React', 'Next.js'],
         color: '#FF6B35',
         brightness: 2,
         size: 'supermassive',
@@ -46,7 +46,7 @@ export const galaxies: Galaxy[] = [
           'Led a team of 3-4 developers as Design Team Lead, building and maintaining a 6-site client ecosystem. Architected a unified design system, shared component library, and modern Next.js + Strapi CMS stack from the ground up.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
-        tags: ['Next.js', 'Strapi', 'Leadership', 'CMS', 'Design Systems'],
+        tags: ['Next.js', 'Strapi', 'CMS', 'Design Systems'],
         color: '#FF6B35',
         brightness: 1.3,
         size: 'medium',
@@ -73,7 +73,7 @@ export const galaxies: Galaxy[] = [
           'Designed and built an AI-powered platform as part of the Flo Labs 6-site ecosystem. Led frontend architecture, component integration, and UX for complex AI interactions.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
-        tags: ['React', 'Next.js', 'AI', 'Strapi', 'UX Design'],
+        tags: ['React', 'Next.js', 'AI', 'Strapi'],
         color: '#FF6B35',
         brightness: 1.2,
         size: 'small',
@@ -95,7 +95,7 @@ export const galaxies: Galaxy[] = [
           'Designed and developed an AI-powered mood tracking and wellness tool. Created calming UI with soft color transitions and built AI features that respond to emotional context with personalized suggestions.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
-        tags: ['Next.js', 'Strapi', 'AI', 'Wellness', 'UX Design'],
+        tags: ['Next.js', 'Strapi', 'AI'],
         color: '#FF6B35',
         brightness: 1.1,
         size: 'small',
@@ -117,7 +117,7 @@ export const galaxies: Galaxy[] = [
           'Built a high-performance corporate website with Next.js and Strapi CMS. Balanced enterprise credibility with modern design, achieving sub-2-second page loads and a CMS workflow enabling non-technical content updates.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
-        tags: ['Next.js', 'Strapi', 'Corporate', 'Performance'],
+        tags: ['Next.js', 'Strapi', 'Performance'],
         color: '#FF6B35',
         brightness: 1.1,
         size: 'small',
@@ -224,7 +224,7 @@ export const galaxies: Galaxy[] = [
           'Designed and built an AI/robotics showcase platform with interactive demos and visualizations that make complex technical concepts accessible. Created Strapi CMS integration for easy content management.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
-        tags: ['Next.js', 'Strapi', 'AI', 'Robotics', 'Interactive'],
+        tags: ['Next.js', 'Strapi', 'AI'],
         color: '#FF6B35',
         brightness: 1,
         size: 'small',
@@ -319,7 +319,7 @@ export const galaxies: Galaxy[] = [
         description:
           'AI-powered codebase onboarding platform with interactive architecture diagrams and RAG-based Q&A.',
         role: 'Creator',
-        tags: ['TypeScript', 'AI', 'RAG', 'Onboarding'],
+        tags: ['TypeScript', 'AI', 'RAG'],
         color: '#00D9FF',
         brightness: 1.6,
         size: 'medium',
@@ -526,7 +526,7 @@ export const galaxies: Galaxy[] = [
         description:
           'AI-powered debate and critical thinking trainer that fights echo chambers. State your position and receive GPT-4 steelman counter-arguments — the strongest possible opposing case, backed by evidence and logical rebuttals. Features AI debate arena, credibility scoring, source verification, and analytics dashboard. 73 passing tests.',
         role: 'Creator',
-        tags: ['Next.js 15', 'GPT-4', 'OpenAI', 'Framer Motion', 'Critical Thinking'],
+        tags: ['Next.js 15', 'GPT-4', 'OpenAI', 'Framer Motion'],
         color: '#00D9FF',
         brightness: 1.6,
         size: 'large',
@@ -557,7 +557,7 @@ export const galaxies: Galaxy[] = [
         description:
           'AI-powered interview preparation platform with mock interviews, real-time feedback analysis, and personalized coaching.',
         role: 'Creator',
-        tags: ['AI', 'Interview Prep', 'Feedback', 'Next.js'],
+        tags: ['AI', 'Next.js'],
         color: '#00D9FF',
         brightness: 1.5,
         size: 'medium',
@@ -581,7 +581,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Technical interview simulator with AI-driven coding challenges, live code evaluation, and comprehensive skill assessment.',
         role: 'Creator',
-        tags: ['AI', 'Interview', 'Code Evaluation', 'Assessment'],
+        tags: ['AI', 'Code Evaluation'],
         color: '#00D9FF',
         brightness: 1.5,
         size: 'medium',
@@ -692,7 +692,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Comprehensive website audit tool with 230+ checks across SEO, security, accessibility (axe-core 80+ rules), performance, and content. Agency-ready reports with CSV export, client email drafts, and SSRF protection. Recent security hardening.',
         role: 'Creator',
-        tags: ['Next.js 16', 'Playwright', 'Axe-core', 'Supabase', 'SSRF Protection'],
+        tags: ['Next.js 16', 'Playwright', 'Axe-core', 'Supabase'],
         color: '#9D4EDD',
         brightness: 1.7,
         size: 'large',
@@ -774,7 +774,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Full-stack survey creation platform with real-time analytics and drag-and-drop builder.',
         role: 'Creator',
-        tags: ['TypeScript', 'Next.js', 'Analysis'],
+        tags: ['TypeScript', 'Next.js'],
         color: '#9D4EDD',
         brightness: 1.6,
         size: 'large',
@@ -827,7 +827,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Feature-rich task management app with dark/light mode, drag-and-drop, undo/redo, offline support, and task archiving.',
         role: 'Creator',
-        tags: ['JavaScript', 'PWA', 'UI/UX', 'Accessibility'],
+        tags: ['JavaScript', 'PWA', 'Accessibility'],
         color: '#9D4EDD',
         brightness: 1.3,
         size: 'small',
@@ -847,7 +847,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Interactive skills visualization platform with dynamic graphs, proficiency tracking, and career path mapping.',
         role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'Visualization', 'D3.js'],
+        tags: ['Next.js', 'TypeScript', 'D3.js'],
         color: '#9D4EDD',
         brightness: 1.5,
         size: 'medium',
@@ -871,7 +871,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Premium fitness trainer matching platform that intelligently pairs users with their ideal trainer using a multi-factor weighted scoring algorithm (Jaccard similarity, budget constraints, schedule overlap, personality compatibility, and 0–100 confidence scoring). Demonstrates sophisticated algorithm design and thoughtful UX in a focused portfolio piece.',
         role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'Algorithms', 'UX'],
+        tags: ['Next.js', 'TypeScript'],
         color: '#9D4EDD',
         brightness: 1.4,
         size: 'medium',
@@ -1008,7 +1008,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Embeddable testimonial collection and display widget for any website. Easy integration, customizable themes, and a dashboard for managing customer feedback.',
         role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'Embeddable', 'SaaS'],
+        tags: ['Next.js', 'TypeScript', 'Embeddable'],
         color: '#9D4EDD',
         brightness: 1.4,
         size: 'medium',
@@ -1029,7 +1029,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Full SaaS platform for collecting text, video, and image testimonials with AI-powered sentiment analysis, 10 widget layouts, NPS surveys, team collaboration, email/SMS campaigns, and Stripe billing. Includes free, starter, pro, and enterprise tiers.',
         role: 'Creator',
-        tags: ['Next.js', 'React', 'TypeScript', 'Stripe', 'AI', 'SaaS'],
+        tags: ['Next.js', 'React', 'TypeScript', 'Stripe', 'AI'],
         color: '#9D4EDD',
         brightness: 1.6,
         size: 'large',
@@ -1090,7 +1090,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Cinematic-grade professional accessibility suite for designers and developers. Real-time WCAG 2.1 (AA/AAA) and APCA contrast analysis, AI-driven smart color suggestions, color blindness simulation (Protanopia, Deuteranopia, and more), semantic HTML structure analyzer, keyboard navigation checker, form accessibility validator, and image alt-text auditor.',
         role: 'Creator',
-        tags: ['Accessibility', 'WCAG', 'APCA', 'Color Contrast', 'TypeScript'],
+        tags: ['Accessibility', 'TypeScript'],
         color: '#06FFA5',
         brightness: 1.5,
         size: 'medium',
@@ -1153,7 +1153,7 @@ export const galaxies: Galaxy[] = [
         title: 'Claude Quickstarts',
         description: '20+ AI agent templates for rapid Claude development and prototyping.',
         role: 'Creator',
-        tags: ['Claude', 'AI', 'Templates'],
+        tags: ['Claude', 'AI'],
         color: '#06FFA5',
         brightness: 1.2,
         size: 'small',
@@ -1194,7 +1194,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Master web development through spaced repetition using FSRS algorithm with flashcards and coding challenges.',
         role: 'Creator',
-        tags: ['Education', 'React', 'Spaced Repetition', 'Learning'],
+        tags: ['React'],
         color: '#06FFA5',
         brightness: 1.5,
         size: 'medium',
@@ -1242,7 +1242,7 @@ export const galaxies: Galaxy[] = [
         description:
           'The only free CLI tool that creates animated code GIFs with line highlighting. 250+ language support via Chroma auto-detection, laser-reveal and typing animations, customisable speed, and full scriptability for CI/CD pipelines. Competes with paid tools like Snappify ($5–30/mo) at zero cost.',
         role: 'Creator',
-        tags: ['Go', 'CLI', 'Developer Tools', 'Animation', 'Open Source'],
+        tags: ['Go', 'CLI', 'Developer Tools'],
         color: '#06FFA5',
         brightness: 1.6,
         size: 'medium',
@@ -1311,7 +1311,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Interactive educational platform for learning cryptographic algorithms through real-time step-by-step visualizations.',
         role: 'Creator',
-        tags: ['Education', 'Cryptography', 'React', 'Visualization'],
+        tags: ['Cryptography', 'React'],
         color: '#06FFA5',
         brightness: 1.5,
         size: 'medium',
@@ -1335,7 +1335,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Interactive cybersecurity training platform with hands-on exercises, vulnerability simulations, and progress tracking for developers.',
         role: 'Creator',
-        tags: ['Security', 'Education', 'Interactive', 'Next.js'],
+        tags: ['Security', 'Next.js'],
         color: '#06FFA5',
         brightness: 1.5,
         size: 'medium',
@@ -1380,7 +1380,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Self-running breaking change monitor for external APIs. Automatically detects schema changes, deprecations, and breaking updates with zero manual intervention.',
         role: 'Creator',
-        tags: ['Node.js', 'TypeScript', 'API Monitoring', 'Automation'],
+        tags: ['Node.js', 'TypeScript', 'Automation'],
         color: '#06FFA5',
         brightness: 1.5,
         size: 'medium',
@@ -1400,7 +1400,7 @@ export const galaxies: Galaxy[] = [
         description:
           'AI persona-based website testing CLI that simulates diverse user types navigating your site. Each persona (developer, senior citizen, non-native speaker, accessibility user, etc.) reports friction, confusion, and UX issues from their unique perspective.',
         role: 'Creator',
-        tags: ['TypeScript', 'CLI', 'AI', 'UX Testing', 'Personas', 'Automation'],
+        tags: ['TypeScript', 'CLI', 'AI', 'Automation'],
         color: '#06FFA5',
         brightness: 1.6,
         size: 'medium',
@@ -1466,7 +1466,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Code quality auditing tool that analyzes repositories for best practices, maintainability, and technical debt indicators.',
         role: 'Creator',
-        tags: ['Code Quality', 'Analysis', 'Node.js', 'TypeScript'],
+        tags: ['Node.js', 'TypeScript'],
         color: '#06FFA5',
         brightness: 1.4,
         size: 'medium',
@@ -1487,7 +1487,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Published npm CLI that gives your codebase a voice — speaking as it in first person. 65 commands, 14 MCP tools for Claude Desktop integration, and 12 personality modes (mentor, critic, storyteller, and more). Code archaeology, bus factor analysis, dead code detection, complexity hotspots, and impact analysis — all narrated with AI-powered context.',
         role: 'Creator',
-        tags: ['CLI', 'npm', 'MCP', 'Node.js', 'TypeScript', 'Code Intelligence'],
+        tags: ['CLI', 'npm', 'MCP', 'Node.js', 'TypeScript'],
         color: '#06FFA5',
         brightness: 1.8,
         size: 'large',
@@ -1577,7 +1577,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Advanced color manipulation tool for designers with live previews and palette generation.',
         role: 'Designer & Developer',
-        tags: ['Design Tools', 'Color Theory', 'React'],
+        tags: ['React'],
         color: '#FF006E',
         brightness: 1.5,
         size: 'medium',
@@ -1601,7 +1601,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Immersive space tourism website showcase with modern animations and parallax effects.',
         role: 'Designer & Developer',
-        tags: ['Design', 'Animation', 'Showcase', 'HTML/CSS'],
+        tags: ['HTML/CSS'],
         color: '#FF006E',
         brightness: 1.3,
         size: 'small',
@@ -1625,7 +1625,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Modern cabin rental website with nature-inspired design and booking system flow.',
         role: 'Designer & Developer',
-        tags: ['Design', 'E-commerce', 'Booking'],
+        tags: ['E-commerce'],
         color: '#FF006E',
         brightness: 1.2,
         size: 'small',
@@ -1645,7 +1645,7 @@ export const galaxies: Galaxy[] = [
         title: 'Coding Jokes',
         description: 'Fun interactive project featuring 400+ coding jokes with animations.',
         role: 'Creator',
-        tags: ['JavaScript', 'Fun', 'Interactive'],
+        tags: ['JavaScript'],
         color: '#FF006E',
         brightness: 1.1,
         size: 'small',
@@ -1669,7 +1669,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Vibrant food truck website with online ordering, menu showcase, location tracking, and modern responsive design. Full e-commerce flow.',
         role: 'Creator',
-        tags: ['Next.js', 'E-commerce', 'Responsive', 'Food Service'],
+        tags: ['Next.js', 'E-commerce'],
         color: '#FF006E',
         brightness: 1.4,
         size: 'medium',
@@ -1690,7 +1690,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Elegant furniture studio e-commerce website with product showcase, filtering, cart functionality, and modern minimalist design.',
         role: 'Creator',
-        tags: ['E-commerce', 'Design', 'React', 'Responsive'],
+        tags: ['E-commerce', 'React'],
         color: '#FF006E',
         brightness: 1.3,
         size: 'medium',
@@ -1734,7 +1734,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Modern web application framework with component-driven architecture, built-in state management, and developer-first experience.',
         role: 'Creator',
-        tags: ['Framework', 'Components', 'DX', 'TypeScript'],
+        tags: ['TypeScript'],
         color: '#FF006E',
         brightness: 1.4,
         size: 'medium',
@@ -1764,7 +1764,7 @@ export const galaxies: Galaxy[] = [
         title: 'Blackjack Game',
         description: 'Interactive blackjack game with React, card animations, and betting system.',
         role: 'Creator',
-        tags: ['Game', 'React', 'Logic'],
+        tags: ['Game', 'React'],
         color: '#FFB800',
         brightness: 1.2,
         size: 'small',
@@ -1784,7 +1784,7 @@ export const galaxies: Galaxy[] = [
         title: 'PixelForge Test',
         description: 'Pixel manipulation and generative art experiment.',
         role: 'Creator',
-        tags: ['Generative Art', 'Canvas', 'Experiment'],
+        tags: ['Canvas'],
         color: '#FFB800',
         brightness: 1,
         size: 'small',
@@ -1804,7 +1804,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Cutting-edge ocean ecosystem simulator with complex food chains, realistic physics, and emergent behaviors - rivaling AAA game engines in the browser.',
         role: 'Creator',
-        tags: ['WebGL', 'Three.js', 'Simulation', 'Physics'],
+        tags: ['WebGL', 'Three.js'],
         color: '#0EA5E9',
         brightness: 1.8,
         size: 'large',
@@ -1828,7 +1828,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Responsive blog website focused on plant care and mental wellness with modern dark mode and Tailwind CSS.',
         role: 'Creator',
-        tags: ['Blog', 'Tailwind CSS', 'Responsive'],
+        tags: ['Tailwind CSS'],
         color: '#84CC16',
         brightness: 1.1,
         size: 'small',
@@ -1849,7 +1849,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Comprehensive security audit tool for web applications with vulnerability scanning and compliance reporting.',
         role: 'Creator',
-        tags: ['Security', 'Audit', 'TypeScript', 'Compliance'],
+        tags: ['Security', 'TypeScript'],
         color: '#FFB800',
         brightness: 1.5,
         size: 'medium',
@@ -1870,7 +1870,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Interactive timeline and history visualization app for documenting personal or project milestones.',
         role: 'Creator',
-        tags: ['Timeline', 'Visualization', 'History', 'React'],
+        tags: ['React'],
         color: '#FFB800',
         brightness: 1.3,
         size: 'medium',
@@ -1890,7 +1890,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Interactive storytelling platform exploring mythology and folklore with rich narrative experiences.',
         role: 'Creator',
-        tags: ['Storytelling', 'Interactive', 'Mythology', 'React'],
+        tags: ['React'],
         color: '#FFB800',
         brightness: 1.4,
         size: 'medium',
@@ -1968,7 +1968,7 @@ export const galaxies: Galaxy[] = [
         title: 'Cereal Tasting',
         description: 'Fun cereal review and rating app with detailed tasting notes and rankings.',
         role: 'Creator',
-        tags: ['Fun', 'Reviews', 'React', 'Database'],
+        tags: ['React', 'Database'],
         color: '#FFB800',
         brightness: 1.1,
         size: 'small',
@@ -1990,7 +1990,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Competitive analysis tool for tracking competitor websites, features, and market positioning.',
         role: 'Creator',
-        tags: ['Analysis', 'Marketing', 'Scraping', 'Dashboard'],
+        tags: ['Next.js', 'Playwright', 'TypeScript'],
         color: '#FFB800',
         brightness: 1.4,
         size: 'medium',
@@ -2011,7 +2011,7 @@ export const galaxies: Galaxy[] = [
         description:
           'AI-powered translation app using GPT-4o-mini for high-quality translations across 20 languages. Features automatic language detection, formality selector (neutral/formal/casual), alternative phrasings, pronunciation guides for non-Latin scripts, text-to-speech, voice input, translation history (last 50), CSV export, and dark mode.',
         role: 'Creator',
-        tags: ['Next.js', 'OpenAI', 'GPT-4o-mini', 'TTS', 'Voice Input', 'Internationalization'],
+        tags: ['Next.js', 'OpenAI', 'GPT-4o-mini', 'Internationalization'],
         color: '#FFB800',
         brightness: 1.5,
         size: 'medium',
@@ -2035,7 +2035,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Bold, irreverent content platform showcasing creative storytelling with distinctive visual design and interactive elements.',
         role: 'Creator',
-        tags: ['Creative', 'Content', 'Design', 'Next.js'],
+        tags: ['Next.js'],
         color: '#DC2626',
         brightness: 1.3,
         size: 'medium',
@@ -2080,7 +2080,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Browser remake of the classic 1994 Mac arcade game Apeiron. Deterministic fixed-timestep engine tuned for classic mechanics, procedural pixel-art sprites (zero image files), WebAudio synthesised SFX (zero audio files), mouse-first controls, and a Classic/Enhanced gameplay mode toggle with original scoring rules.',
         role: 'Creator',
-        tags: ['JavaScript', 'Vite', 'WebAudio', 'Canvas', 'Procedural Generation', 'Game Dev'],
+        tags: ['JavaScript', 'Vite', 'WebAudio', 'Canvas'],
         color: '#FFB800',
         brightness: 1.2,
         size: 'small',
@@ -2100,7 +2100,7 @@ export const galaxies: Galaxy[] = [
         description:
           'AI-powered financial runway predictor for SaaS founders. Tracks MRR, churn, and burn rate to forecast exactly when money runs out — with scenario modelling for different growth trajectories. Dashboard UI with metric cards and predictive charts.',
         role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'AI', 'SaaS', 'Financial Modelling'],
+        tags: ['Next.js', 'TypeScript', 'AI'],
         color: '#FFB800',
         brightness: 1.4,
         size: 'medium',
@@ -2121,7 +2121,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Interactive canvas-based workflow and diagramming tool with intuitive drag-and-drop interface and real-time collaboration features.',
         role: 'Creator',
-        tags: ['Canvas', 'Workflow', 'Diagramming', 'Collaboration'],
+        tags: ['Canvas'],
         color: '#FFB800',
         brightness: 1.4,
         size: 'medium',
@@ -2145,7 +2145,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Event management platform with calendar integration, RSVPs, attendee tracking, and real-time updates for seamless event coordination.',
         role: 'Creator',
-        tags: ['Events', 'Calendar', 'Real-time', 'Next.js'],
+        tags: ['Real-time', 'Next.js'],
         color: '#FFB800',
         brightness: 1.3,
         size: 'medium',
@@ -2169,7 +2169,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Next-generation GPU particle system rendering 1M+ particles at 60fps using WebGPU compute shaders. Structure of Arrays architecture for maximum GPU cache efficiency.',
         role: 'Creator',
-        tags: ['WebGPU', 'Three.js', 'TypeScript', 'Compute Shaders', 'Performance'],
+        tags: ['WebGPU', 'Three.js', 'TypeScript', 'Performance'],
         color: '#FF6B6B',
         brightness: 1.8,
         size: 'large',
@@ -2215,7 +2215,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Track and analyze spending across OpenAI, Anthropic, and other AI providers. Budget alerts, usage breakdowns by project, and cost optimization recommendations.',
         role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'AI Cost Management', 'Analytics'],
+        tags: ['Next.js', 'TypeScript'],
         color: '#FFB800',
         brightness: 1.5,
         size: 'medium',

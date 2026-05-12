@@ -2,18 +2,37 @@
 
 import { useFrame, useThree } from '@react-three/fiber'
 import { getProject, types } from '@theatre/core'
-import studio from '@theatre/studio'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { create } from 'zustand'
 
-// Initialize Theatre.js studio in development
+// @theatre/studio is dev-only authoring UI - imported dynamically so it never
+// ships in the production bundle. Studio is in devDependencies for that reason.
 const isDev = process.env.NODE_ENV === 'development'
 
+type TheatreStudio = {
+  initialize: () => void
+  ui: { hide: () => void; restore: () => void }
+}
+
+let studioRef: TheatreStudio | null = null
+
+async function getStudio(): Promise<TheatreStudio | null> {
+  if (!isDev || typeof window === 'undefined') return null
+  if (studioRef) return studioRef
+  try {
+    const mod = (await import('@theatre/studio')) as { default: TheatreStudio }
+    studioRef = mod.default
+    studioRef.initialize()
+    studioRef.ui.hide()
+    return studioRef
+  } catch {
+    return null
+  }
+}
+
 if (isDev && typeof window !== 'undefined') {
-  studio.initialize()
-  // Hide studio by default - use toggle button to show when authoring animations
-  studio.ui.hide()
+  void getStudio()
 }
 
 // Create a Theatre.js project for the galaxy scene
@@ -135,9 +154,15 @@ export function useTheatrePlayback() {
  */
 export function TheatreStudioToggle() {
   const [isVisible, setIsVisible] = useState(false)
+  const [studio, setStudio] = useState<TheatreStudio | null>(null)
   const setTheatreMode = useTheatreModeStore((s) => s.setTheatreMode)
 
-  if (!isDev) return null
+  useEffect(() => {
+    if (!isDev) return
+    void getStudio().then(setStudio)
+  }, [])
+
+  if (!isDev || !studio) return null
 
   const toggle = () => {
     const newVisible = !isVisible
