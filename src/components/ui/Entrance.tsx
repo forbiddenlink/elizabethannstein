@@ -262,17 +262,24 @@ export function Entrance() {
                   </>
                 )}
               </button>
-              <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
                 <Link
                   href="/work"
-                  className="text-[11px] tracking-[0.2em] text-white/55 hover:text-white/85 transition-colors uppercase flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/10 hover:border-white/30 hover:bg-white/5"
+                  className="text-[11px] tracking-[0.2em] text-white/85 hover:text-white transition-colors uppercase flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/25 hover:border-white/50 hover:bg-white/10"
                 >
                   Browse the full index →
                 </Link>
+                <a
+                  href="/resume/elizabeth-stein-resume.pdf"
+                  download="Elizabeth_Stein_Resume.pdf"
+                  className="text-[11px] tracking-[0.2em] text-white/85 hover:text-white transition-colors uppercase flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/25 hover:border-white/50 hover:bg-white/10"
+                >
+                  Download resume
+                </a>
                 <button
                   type="button"
                   onClick={handleEnter}
-                  className="text-[11px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase"
+                  className="text-[11px] tracking-[0.2em] text-white/70 hover:text-white transition-colors uppercase underline-offset-4 hover:underline"
                 >
                   Skip intro
                 </button>

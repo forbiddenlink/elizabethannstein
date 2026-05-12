@@ -14,71 +14,9 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { SplitWords } from '@/components/ui/SplitText'
 import { TiltCard } from '@/components/ui/TiltCard'
+import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import type { Galaxy, Project } from '@/lib/types'
 import { cn, formatDateRange } from '@/lib/utils'
-
-// Map project IDs to their screenshot paths
-const PROJECT_SCREENSHOTS: Record<string, string> = {
-  // Enterprise
-  'flo-labs': '/screenshots/flo-labs.png',
-  'caipo-ai': '/screenshots/caipo-ai.webp',
-  'moodchanger-ai': '/screenshots/moodchanger-ai.png',
-  hephaestus: '/screenshots/hephaestus.png',
-  'robocollective-ai': '/screenshots/robocollective-ai.webp',
-  // AI Frontier
-  'finance-quest': '/screenshots/finance-quest.webp',
-  stancestream: '/screenshots/stance-stream.png',
-  explainthiscode: '/screenshots/explainthiscode.png',
-  tubedigest: '/screenshots/tubedigest.png',
-  contradictme: '/screenshots/contradictme.webp',
-  'dev-interviewer': '/screenshots/dev-interviewer.png',
-  'codebase-onboarding-tool': '/screenshots/codebase-onboarding-tool.png',
-  'autodocs-ai': '/screenshots/autodocs-ai.png',
-  'mcp-server-studio': '/screenshots/mcp-server-studio.png',
-  'interview-ace': '/screenshots/interview-ace.png',
-  storyvision: '/screenshots/storyvision.png',
-  // Full-Stack
-  'hire-ready': '/screenshots/hire-ready.png',
-  'ucp-guard': '/screenshots/ucp-guard.png',
-  'site-sheriff': '/screenshots/site-sheriff.png',
-  'portfolio-pro': '/screenshots/portfolio-pro.png',
-  'create-surveys': '/screenshots/create-surveys.png',
-  'quantum-forge': '/screenshots/quantum-forge.webp',
-  'skill-mapper': '/screenshots/skill-mapper.png',
-  reprise: '/screenshots/reprise.webp',
-  willwise: '/screenshots/willwise.png',
-  dareuradio: '/screenshots/dareuradio.png',
-  testimoniq: '/screenshots/testimoniq.png',
-  dwello: '/screenshots/dwello.png',
-  // DevTools
-  componentcompass: '/screenshots/componentcompass.png',
-  'security-trainer': '/screenshots/security-trainer.png',
-  'encryption-visualizer': '/screenshots/encryption-visualizer.png',
-  'accessibility-checker': '/screenshots/accessibility-checker.png',
-  'consent-compass': '/screenshots/consent-compass.png',
-  'rocket-vitals': '/screenshots/rocket-vitals.png',
-  // Creative
-  'goodstuff-foodtruck': '/screenshots/goodstuff-foodtruck.png',
-  'studio-furniture': '/screenshots/studio-furniture.png',
-  rivet: '/screenshots/rivet.png',
-  'codecraft-dev': '/screenshots/codecraft-dev.png',
-  'color-studio': '/screenshots/color-studio.png',
-  'space-travel': '/screenshots/space-travel.png',
-  // Experimental
-  pollyglot: '/screenshots/pollyglot.png',
-  'guts-and-glory': '/screenshots/guts-and-glory.png',
-  'plant-therapy': '/screenshots/plant-therapy.webp',
-  'timeslip-search': '/screenshots/timeslip-search.webp',
-  mythos: '/screenshots/mythos.webp',
-  'apoc-bnb': '/screenshots/apoc-bnb.png',
-  'canvas-flow': '/screenshots/canvas-flow.png',
-  'ocean-simulator': '/screenshots/ocean-simulator.png',
-  'competitor-stalker': '/screenshots/competitor-stalker.png',
-  'cereal-tasting': '/screenshots/cereal-tasting.png',
-  'constellation-events': '/screenshots/constellation-events.png',
-  'app-idea-miner': '/screenshots/app-idea-miner.png',
-  'ai-spend-tracker': '/screenshots/ai-spend-tracker.png',
-}
 
 // Stagger animation variants for project cards
 // Cap delay at 0.3s so filter changes don't create long waits
@@ -388,76 +326,56 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.7}>
-          <section className="panel-top-shine mt-8 rounded-lg border border-white/12 bg-linear-to-b from-white/[0.05] to-black/35 p-4 md:p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
-            <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-              <h2 className="text-[11px] md:text-xs tracking-[0.22em] uppercase text-white/50 font-semibold">
-                Mission Control
-              </h2>
-              <span className="text-[11px] text-white/60">Recruiter fast lane</span>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 mb-3">
-              <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
-                  Systems
-                </p>
-                <p className="text-lg font-semibold text-white">{allProjects.length}</p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
-                  Live Missions
-                </p>
-                <p className="text-lg font-semibold text-white">{missionControl.liveSystems}</p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
-                  AI Sector
-                </p>
-                <p className="text-lg font-semibold text-cyan-200">{missionControl.aiSystems}</p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/70 mb-1">
-                  Enterprise Sector
-                </p>
-                <p className="text-lg font-semibold text-orange-200">
-                  {missionControl.enterpriseSystems}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] text-white/60 mr-1">Quick jumps:</span>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedGalaxy('enterprise')
-                  setShowFeaturedOnly(true)
-                }}
-                className="px-2.5 py-1 rounded-full text-[11px] border border-orange-300/30 bg-orange-500/15 text-orange-200 hover:bg-orange-500/25 transition-colors"
-              >
-                Enterprise missions
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedGalaxy('ai')
-                  setShowFeaturedOnly(true)
-                }}
-                className="px-2.5 py-1 rounded-full text-[11px] border border-cyan-300/30 bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 transition-colors"
-              >
-                AI frontier
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedGalaxy(null)
-                  setShowFeaturedOnly(false)
-                }}
-                className="px-2.5 py-1 rounded-full text-[11px] border border-purple-300/30 bg-purple-500/15 text-purple-200 hover:bg-purple-500/25 transition-colors"
-              >
-                Full universe
-              </button>
-            </div>
+          <section className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-white/60">
+            <span className="font-semibold uppercase tracking-[0.18em] text-white/45">
+              At a glance
+            </span>
+            <span>
+              <strong className="text-white/90">{allProjects.length}</strong> systems
+            </span>
+            <span className="w-px h-3 bg-white/15" aria-hidden="true" />
+            <span>
+              <strong className="text-white/90">{missionControl.liveSystems}</strong> live
+            </span>
+            <span className="w-px h-3 bg-white/15" aria-hidden="true" />
+            <span>
+              <strong className="text-cyan-200">{missionControl.aiSystems}</strong> AI
+            </span>
+            <span className="w-px h-3 bg-white/15" aria-hidden="true" />
+            <span>
+              <strong className="text-orange-200">{missionControl.enterpriseSystems}</strong>{' '}
+              enterprise
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedGalaxy('enterprise')
+                setShowFeaturedOnly(true)
+              }}
+              className="ml-2 px-2.5 py-1 rounded-full text-[11px] border border-orange-300/30 bg-orange-500/15 text-orange-200 hover:bg-orange-500/25 transition-colors"
+            >
+              Enterprise →
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedGalaxy('ai')
+                setShowFeaturedOnly(true)
+              }}
+              className="px-2.5 py-1 rounded-full text-[11px] border border-cyan-300/30 bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 transition-colors"
+            >
+              AI →
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedGalaxy(null)
+                setShowFeaturedOnly(false)
+              }}
+              className="px-2.5 py-1 rounded-full text-[11px] border border-purple-300/30 bg-purple-500/15 text-purple-200 hover:bg-purple-500/25 transition-colors"
+            >
+              Full universe →
+            </button>
           </section>
         </ScrollReveal>
       </header>

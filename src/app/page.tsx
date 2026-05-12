@@ -178,16 +178,10 @@ export default function HomePage() {
             </p>
             <HeroHighlightReel />
             <div className="pointer-events-auto flex flex-wrap items-center gap-2 sm:gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex min-h-10 items-center rounded-xl border border-white/20 bg-white px-3.5 py-2 text-sm font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:px-5"
-              >
-                Let&apos;s talk
-              </Link>
               <a
                 href="/resume/elizabeth-stein-resume.pdf"
                 download="Elizabeth_Stein_Resume.pdf"
-                className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white/85 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:text-sm md:text-white/90"
+                className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/20 bg-white px-3.5 py-2 text-sm font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:px-5"
               >
                 <svg
                   className="w-4 h-4"
@@ -207,32 +201,17 @@ export default function HomePage() {
                 Resume
               </a>
               <Link
-                href="/about"
-                className="inline-flex min-h-10 items-center rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white/85 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:text-white/90"
+                href="/work"
+                className={`inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white/90 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 ${isUniverseView ? 'bg-white/15' : ''}`}
+                aria-label="View all projects"
               >
-                About
+                View work
               </Link>
               <Link
-                href="/work"
-                className={`inline-flex min-h-10 items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 ${isUniverseView ? 'bg-white/12 text-white/90 hover:bg-white/18 hover:text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'}`}
-                aria-label="View all projects in list view"
+                href="/contact"
+                className="inline-flex min-h-10 items-center rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white/85 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                  />
-                </svg>
-                <span className="sr-only sm:not-sr-only">List View</span>
+                Contact
               </Link>
               <a
                 href="https://linkedin.com/in/imkindageeky"

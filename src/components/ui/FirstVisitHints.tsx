@@ -45,17 +45,21 @@ export function FirstVisitHints() {
     setIsMobile(isTouchDevice())
   }, [])
 
-  // Hint 1: 4s after entrance, if no star clicked yet
+  // Hint 1: 12s after entrance — waits for GalaxyHint (1.2s show + 8s auto-dismiss) to clear
+  // before showing in the same bottom-center slot. Skipped if user already clicked a star.
   useEffect(() => {
     if (!hasEntered || hintLevel >= 1 || isReturningVisitor) return
     const timer = setTimeout(() => {
-      // If user already clicked a star, skip hint 1
       if (useViewStore.getState().view === 'project') {
         dismiss(1)
         return
       }
+      // If GalaxyHint hasn't been dismissed yet, defer.
+      if (typeof window !== 'undefined' && sessionStorage.getItem('galaxy-hint-seen') !== 'true') {
+        return
+      }
       setActiveHint(1)
-    }, 4000)
+    }, 12000)
     return () => clearTimeout(timer)
   }, [hasEntered, hintLevel, isReturningVisitor, dismiss])
 

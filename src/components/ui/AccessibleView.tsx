@@ -268,6 +268,10 @@ function isLowEndDevice(): boolean {
     if (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g') return true
   }
 
+  // Any mobile UA at phone width (≤640px) defaults to accessible view —
+  // recruiters disproportionately land on phones and the 3D scene punishes battery + bandwidth.
+  if (isMobile && window.innerWidth <= 640) return true
+
   // Mobile + small screen suggests budget device
   if (isMobile && isSmallScreen && cores <= 4) return true
 

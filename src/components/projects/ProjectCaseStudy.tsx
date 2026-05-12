@@ -25,43 +25,8 @@ const STAR_CLASSIFICATION: Record<string, { label: string; description: string }
 function getProjectGalaxy(project: Project) {
   return galaxies.find((g) => g.id === project.galaxy) ?? null
 }
-const PROJECT_SCREENSHOTS: Record<string, string> = {
-  // Enterprise
-  'flo-labs': '/screenshots/flo-labs.png',
-  'caipo-ai': '/screenshots/caipo-ai.webp',
-  'moodchanger-ai': '/screenshots/moodchanger-ai.png',
-  hephaestus: '/screenshots/hephaestus.png',
-  'robocollective-ai': '/screenshots/robocollective-ai.webp',
-  // AI Frontier
-  'finance-quest': '/screenshots/finance-quest.webp',
-  stancestream: '/screenshots/stance-stream.png',
-  explainthiscode: '/screenshots/explain-this-code.webp',
-  tubedigest: '/screenshots/tubedigest.png',
-  contradictme: '/screenshots/contradictme.webp',
-  'dev-interviewer': '/screenshots/dev-interviewer.png',
-  // Full-Stack
-  'portfolio-pro': '/screenshots/portfolio-pro.png',
-  'create-surveys': '/screenshots/create-surveys.png',
-  'quantum-forge': '/screenshots/quantum-forge.webp',
-  'skill-mapper': '/screenshots/skill-mapper.png',
-  reprise: '/screenshots/reprise.webp',
-  // DevTools
-  componentcompass: '/screenshots/componentcompass.png',
-  'security-trainer': '/screenshots/security-trainer.png',
-  'encryption-visualizer': '/screenshots/encryption-visualizer.png',
-  // Creative
-  'goodstuff-foodtruck': '/screenshots/goodstuff-foodtruck.png',
-  'studio-furniture': '/screenshots/studio-furniture.png',
-  rivet: '/screenshots/rivet.png',
-  // Experimental
-  pollyglot: '/screenshots/pollyglot.png',
-  'guts-and-glory': '/screenshots/guts-and-glory.png',
-  'plant-therapy': '/screenshots/plant-therapy.webp',
-  'timeslip-search': '/screenshots/timeslip-search.webp',
-  mythos: '/screenshots/mythos.webp',
-  'apoc-bnb': '/screenshots/apoc-bnb.png',
-  'canvas-flow': '/screenshots/canvas-flow.png',
-}
+
+import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 
 // Tech stack badge colours by category
 const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> = {
