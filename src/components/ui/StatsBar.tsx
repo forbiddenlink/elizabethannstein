@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { STATS } from '@/lib/constants'
 
 const stats = [
   { label: 'Capella GPA', value: '3.98' },

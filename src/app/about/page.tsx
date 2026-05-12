@@ -223,8 +223,8 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-lg border border-white/(--border-opacity-default)">
               <p>
-                I&apos;m the primary developer on CyberReady Clinic&apos;s MSP Ready5 Assessment —
-                a Dynamics 365 / Power Platform / Dataverse system live in production as v1.1.0.18.
+                I&apos;m the primary developer on CyberReady Clinic&apos;s MSP Ready5 Assessment — a
+                Dynamics 365 / Power Platform / Dataverse system live in production as v1.1.0.18.
                 Concurrently I run Craft CMS work at Rocketpark across a 10-site client portfolio,
                 and from 2024–2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
                 ecosystem.
@@ -236,9 +236,10 @@ export default function AboutPage() {
                 TimeSlipSearch — a conversational AI agent over 420k pop-culture records.
               </p>
               <p>
-                B.S. in Software Development from Capella University (March 2026, 3.98 GPA, Dean&apos;s
-                List every quarter, Honors Pathway). I work in small, shippable steps with clear
-                commits and documentation so future me — and teammates — don&apos;t suffer.
+                B.S. in Software Development from Capella University (March 2026, 3.98 GPA,
+                Dean&apos;s List every quarter, Honors Pathway). I work in small, shippable steps
+                with clear commits and documentation so future me — and teammates — don&apos;t
+                suffer.
               </p>
             </div>
           </section>
@@ -272,8 +273,8 @@ export default function AboutPage() {
                     <h3 className="text-xl font-semibold mb-2">Next.js + React 19 Full-Stack</h3>
                     <p className="text-white/(--text-opacity-secondary)">
                       End-to-end features from UI to API and data layer. Better Auth, MSAL, Drizzle,
-                      Neon, Supabase. Comfortable with Spring Boot, REST APIs, and
-                      production-ready backends.
+                      Neon, Supabase. Comfortable with Spring Boot, REST APIs, and production-ready
+                      backends.
                     </p>
                   </div>
                 </div>
