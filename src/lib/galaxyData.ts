@@ -288,7 +288,7 @@ export const galaxies: Galaxy[] = [
         id: 'stancestream',
         title: 'StanceStream',
         description:
-          'Enterprise-grade AI policy debate platform built for the Redis AI Challenge 2025. GPT-4 agents with persistent personalities, emotional states, and coalition analysis. All 4 Redis data models (JSON/Streams/TimeSeries/Vector), semantic caching with 85% hit rates, multi-source fact-checking, and business intelligence dashboard with ROI tracking.',
+          'Enterprise-grade AI policy debate platform built for the Redis AI Challenge 2025. GPT-4 agents with persistent personalities, emotional states, and coalition analysis. All 4 Redis data models (JSON/Streams/TimeSeries/Vector), Redis Vector-powered semantic caching, multi-source fact-checking, and business intelligence dashboard with ROI tracking.',
         role: 'Creator',
         tags: ['AI', 'Redis', 'WebSocket', 'GPT-4', 'React 19', 'Express.js'],
         color: '#00D9FF',
@@ -341,7 +341,7 @@ export const galaxies: Galaxy[] = [
         id: 'finance-quest',
         title: 'Finance Quest',
         description:
-          'Advanced financial literacy platform with 17 chapters, 30+ professional calculators, spaced-repetition learning (SM-2 algorithm), AI coaching, and WCAG 2.1 AA compliance. 85% knowledge retention rate. Major refactor removed 43K lines of dead code for a lean, maintainable codebase.',
+          'Advanced financial literacy platform with 17 chapters, 30+ professional calculators, spaced-repetition learning (SM-2 algorithm), AI coaching, and WCAG 2.1 AA compliance. Major refactor removed 43K lines of dead code for a lean, maintainable codebase.',
         role: 'Creator',
         tags: ['Next.js 15', 'React 19', 'AI', 'Zustand', 'Recharts'],
         color: '#00D9FF',
@@ -658,7 +658,7 @@ export const galaxies: Galaxy[] = [
         challenge:
           'Building a production SaaS with real-time AI voice interviews and scientifically-optimised spaced repetition while preventing financial losses from unlimited usage.',
         solution:
-          'OpenAI Realtime API for natural voice interviews with post-session analysis. FSRS-5 algorithm (same as Anki) schedules review for 85%+ retention. 1,300+ questions across company-specific tracks. Usage limits per plan prevent cost overruns. Stripe handles monthly, annual, and lifetime billing.',
+          'OpenAI Realtime API for natural voice interviews with post-session analysis. FSRS-5 algorithm (same as Anki) drives review scheduling. 1,300+ questions across company-specific tracks. Usage limits per plan prevent cost overruns. Stripe handles monthly, annual, and lifetime billing.',
         impact:
           'Live production SaaS. Voice interviews available 24/7 without scheduling. Company-specific prep covers FAANG + Stripe + Uber. FSRS-5 delivers science-backed review scheduling.',
       },

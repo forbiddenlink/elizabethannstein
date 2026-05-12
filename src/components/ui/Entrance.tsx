@@ -29,8 +29,26 @@ const LAST_NAME_LETTERS = 'STEIN'.split('').map((char, index) => ({
   index,
 }))
 
-// Hero projects for quick scan
+// Hero projects for quick scan — paid prod work + recognized wins
 const heroProjects = [
+  {
+    id: 'crc-ready5-assessment',
+    highlight: 'Dynamics 365 · v1.1.0.18 PROD',
+    icon: Building2,
+    gradient: 'from-orange-500 to-red-600',
+  },
+  {
+    id: 'timeslip-search',
+    highlight: '$750 Algolia win',
+    icon: Trophy,
+    gradient: 'from-amber-500 to-orange-600',
+  },
+  {
+    id: 'specter',
+    highlight: 'npm · MCP tools',
+    icon: Code2,
+    gradient: 'from-emerald-500 to-teal-600',
+  },
   {
     id: 'chronicle',
     highlight: 'Rust AI observability',
@@ -39,25 +57,13 @@ const heroProjects = [
   },
   {
     id: 'autodocs-ai',
-    highlight: 'Product Hunt launch',
+    highlight: 'Live SaaS · Stripe',
     icon: Rocket,
     gradient: 'from-purple-500 to-pink-600',
   },
   {
-    id: 'timeslip-search',
-    highlight: '$750 contest win',
-    icon: Trophy,
-    gradient: 'from-amber-500 to-orange-600',
-  },
-  {
-    id: 'hire-ready',
-    highlight: 'Voice AI SaaS',
-    icon: Code2,
-    gradient: 'from-emerald-500 to-teal-600',
-  },
-  {
     id: 'coulson-one',
-    highlight: '64K+ files',
+    highlight: 'Enterprise · 64K+ files',
     icon: Building2,
     gradient: 'from-orange-500 to-red-600',
   },

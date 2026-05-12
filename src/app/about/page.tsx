@@ -9,17 +9,18 @@ import { StarryBackground } from '@/components/ui/StarryBackground'
 import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
+const aboutDescription =
+  "Capella B.S. (3.98 GPA, March 2026). Primary developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, v1.1.0.18 in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
+
 export const metadata: Metadata = {
-  title: 'About Me - Elizabeth Stein Portfolio',
-  description:
-    'Full-stack engineer and UX-minded builder specializing in modern web experiences, AI integration, and thoughtful design systems.',
+  title: 'About',
+  description: aboutDescription,
   alternates: {
     canonical: '/about',
   },
   openGraph: {
-    title: 'About Me - Elizabeth Stein Portfolio',
-    description:
-      'Full-stack engineer and UX-minded builder specializing in modern web experiences, AI integration, and thoughtful design systems.',
+    title: 'About Elizabeth Stein',
+    description: aboutDescription,
     url: '/about',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
@@ -84,7 +85,9 @@ export default function AboutPage() {
                 <p className="page-hero-kicker">About</p>
                 <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
                 <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
-                  I build modern web experiences with thoughtful UX and solid engineering.
+                  Capella B.S. (3.98 GPA, March 2026). Currently shipping production code at three
+                  orgs — Dynamics 365 work at CyberReady Clinic, Craft CMS at Rocketpark, the
+                  Algolia Agent Studio winner on the side.
                 </p>
               </div>
             </div>
@@ -220,16 +223,22 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-lg border border-white/(--border-opacity-default)">
               <p>
-                I'm a full-stack developer and UX/UI-minded builder who loves turning messy ideas
-                into clean, usable products. I care deeply about design details, accessibility, and
-                making things feel fast and intuitive — but I also enjoy the backend puzzle of APIs,
-                data flows, and systems that actually hold up in real life.
+                I&apos;m the primary developer on CyberReady Clinic&apos;s MSP Ready5 Assessment —
+                a Dynamics 365 / Power Platform / Dataverse system live in production as v1.1.0.18.
+                Concurrently I run Craft CMS work at Rocketpark across a 10-site client portfolio,
+                and from 2024–2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
+                ecosystem.
               </p>
               <p>
-                I work best in small, shippable steps, with clear commits and documentation so
-                future me (and teammates) don't suffer. B.S. in Software Development from Capella
-                University (March 2026, 3.98 GPA). Previously led a design team shipping 6
-                production sites for a client ecosystem.
+                Off the clock I publish to npm (Specter — 65 CLI commands, 14 MCP tools), build
+                observability in Rust (Chronicle), and write MCP servers instead of just consuming
+                AI APIs. Won the Algolia Agent Studio Challenge ($750) in March 2026 with
+                TimeSlipSearch — a conversational AI agent over 420k pop-culture records.
+              </p>
+              <p>
+                B.S. in Software Development from Capella University (March 2026, 3.98 GPA, Dean&apos;s
+                List every quarter, Honors Pathway). I work in small, shippable steps with clear
+                commits and documentation so future me — and teammates — don&apos;t suffer.
               </p>
             </div>
           </section>
@@ -238,33 +247,33 @@ export default function AboutPage() {
           <section className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-8">What I Do</h2>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-fullstack)] p-6 card-hover-lift group">
+              <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-enterprise)] p-6 card-hover-lift group">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)]">
-                    <Palette className="w-6 h-6 text-[var(--color-galaxy-fullstack)]" />
+                    <Cpu className="w-6 h-6 text-[var(--color-galaxy-enterprise)]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">Frontend Excellence</h3>
+                    <h3 className="text-xl font-semibold mb-2">Microsoft Power Platform</h3>
                     <p className="text-white/(--text-opacity-secondary)">
-                      Polished, responsive interfaces with reusable components and consistent UI
-                      patterns. I bridge design intent and implementation details—spacing,
-                      typography, states, responsiveness.
+                      Dynamics 365 / Dataverse / Power Apps Canvas / Power Automate. Primary
+                      developer on a 12-phase assessment platform now live in production. m365 and
+                      pac CLIs are daily drivers.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-ai)] p-6 card-hover-lift group">
+              <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-fullstack)] p-6 card-hover-lift group">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)]">
-                    <Code2 className="w-6 h-6 text-[var(--color-galaxy-ai)]" />
+                    <Code2 className="w-6 h-6 text-[var(--color-galaxy-fullstack)]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">Full-Stack Features</h3>
+                    <h3 className="text-xl font-semibold mb-2">Next.js + React 19 Full-Stack</h3>
                     <p className="text-white/(--text-opacity-secondary)">
-                      End-to-end feature development from UI to API integration and data flow.
-                      Comfortable with Java/Spring Boot services, REST APIs, and production-ready
-                      backends.
+                      End-to-end features from UI to API and data layer. Better Auth, MSAL, Drizzle,
+                      Neon, Supabase. Comfortable with Spring Boot, REST APIs, and
+                      production-ready backends.
                     </p>
                   </div>
                 </div>
@@ -273,14 +282,14 @@ export default function AboutPage() {
               <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-devtools)] p-6 card-hover-lift group">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)]">
-                    <Cpu className="w-6 h-6 text-[var(--color-galaxy-devtools)]" />
+                    <Palette className="w-6 h-6 text-[var(--color-galaxy-devtools)]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">CMS & Content Systems</h3>
+                    <h3 className="text-xl font-semibold mb-2">Craft CMS &amp; Editor Workflows</h3>
                     <p className="text-white/(--text-opacity-secondary)">
-                      CMS-driven sites and content workflows, including Craft CMS environments.
-                      Content modeling, migrations, and template architecture that makes editors'
-                      lives easier.
+                      Twig templates, Composer plugins, project-config CLI, Herd-based local dev.
+                      Content modeling and template architecture that makes editors&apos; lives
+                      easier across a 10-site client portfolio.
                     </p>
                   </div>
                 </div>
@@ -292,11 +301,11 @@ export default function AboutPage() {
                     <Sparkles className="w-6 h-6 text-[var(--color-galaxy-experimental)]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">AI Integration</h3>
+                    <h3 className="text-xl font-semibold mb-2">AI Integration &amp; MCP</h3>
                     <p className="text-white/(--text-opacity-secondary)">
-                      AI-powered interfaces and workflows, from multi-agent platforms to GPT-4
-                      Vision integrations. Built autonomous AI artist with mood systems, MCP
-                      tooling, and RAG-powered documentation.
+                      I write MCP servers, not just consume LLM APIs. Algolia Agent Studio winner.
+                      Shipped 14 MCP tools on npm (Specter), Rust-backed observability (Chronicle),
+                      RAG pipelines, and multi-agent platforms.
                     </p>
                   </div>
                 </div>
@@ -312,10 +321,20 @@ export default function AboutPage() {
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
+                    Microsoft Power Platform
+                  </h3>
+                  <p className="text-white/(--text-opacity-secondary) leading-relaxed">
+                    Dynamics 365, Dataverse, Power Apps Canvas, Power Automate, Azure AD / MSAL,
+                    m365 CLI, pac CLI
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
                     Frontend
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, Three.js, GSAP
+                    Next.js 16, React 19, TypeScript, Tailwind CSS, shadcn/ui, Three.js, GSAP,
+                    Framer Motion
                   </p>
                 </div>
                 <div>
@@ -323,40 +342,32 @@ export default function AboutPage() {
                     Backend
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Node.js, Rust, Python, FastAPI, Express.js, REST APIs
+                    Node.js, Rust (Axum), Python, FastAPI, Java / Spring Boot, Express, REST APIs
                   </p>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
-                    Platforms & Auth
+                    AI &amp; Integration
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Vercel, Craft CMS, Strapi, Sanity, Better Auth, Clerk
+                    Claude / Anthropic, OpenAI GPT-4, Algolia Agent Studio, MCP Protocol, RAG
+                    pipelines, Langfuse, Hugging Face
                   </p>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
-                    AI & Integration
+                    Data &amp; Auth
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Claude/Anthropic, OpenAI GPT-4, Hugging Face, MCP Protocol, Langfuse, RAG
-                    pipelines
+                    PostgreSQL, Neon, Supabase, Drizzle, Prisma, Redis, SQLite, Better Auth, MSAL
                   </p>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
-                    Data & Infrastructure
+                    CMS &amp; Infra
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    PostgreSQL, Supabase, SQLite, Redis, Prisma, Drizzle, Docker, Inngest
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
-                    Process
-                  </h3>
-                  <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Agile/Scrum, CI/CD, testing, documentation
+                    Craft CMS, Twig, Strapi, Vercel, Railway, Docker, Inngest, Playwright, Sentry
                   </p>
                 </div>
               </div>
@@ -416,8 +427,9 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  Built a portfolio spanning {projectCount} projects across enterprise, AI,
-                  full-stack, devtools, creative, and experimental work
+                  <strong className="text-white">Primary developer</strong> on CyberReady
+                  Clinic&apos;s MSP Ready5 Assessment — Dynamics 365 / Power Platform / Dataverse
+                  system live in production as v1.1.0.18, 12 implementation phases shipped
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
@@ -427,7 +439,27 @@ export default function AboutPage() {
                 />
                 <p className="text-white/(--text-opacity-primary)">
                   Led a 4-person team shipping 6 production sites with a unified design system and
-                  modern Next.js + Strapi architecture
+                  modern Next.js + Strapi architecture (Flo Labs, 2024–2026)
+                </p>
+              </li>
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span
+                  className="w-2 h-2 rounded-full bg-orange-500 mt-2 shrink-0"
+                  aria-hidden="true"
+                />
+                <p className="text-white/(--text-opacity-primary)">
+                  Software Engineer at Rocketpark agency — Craft CMS upgrades, MCP server wrapper,
+                  Twig template architecture across 10 client sites
+                </p>
+              </li>
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span
+                  className="w-2 h-2 rounded-full bg-purple-500 mt-2 shrink-0"
+                  aria-hidden="true"
+                />
+                <p className="text-white/(--text-opacity-primary)">
+                  Built a portfolio spanning {projectCount} projects across enterprise, AI,
+                  full-stack, devtools, creative, and experimental work
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">

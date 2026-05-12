@@ -8,16 +8,16 @@ import { StarryBackground } from '@/components/ui/StarryBackground'
 import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Contact - Elizabeth Stein Portfolio',
+  title: 'Contact',
   description:
-    'Get in touch with Elizabeth Stein. Connect via email, LinkedIn, or GitHub for collaboration opportunities and project inquiries.',
+    'Get in touch with Elizabeth Stein. Open to full-time, freelance, and consulting work — frontend, UX engineering, full-stack, or Power Platform roles.',
   alternates: {
     canonical: '/contact',
   },
   openGraph: {
-    title: 'Contact - Elizabeth Stein Portfolio',
+    title: 'Contact Elizabeth Stein',
     description:
-      'Get in touch with Elizabeth Stein. Connect via email, LinkedIn, or GitHub for collaboration opportunities.',
+      'Get in touch. Open to full-time, freelance, and consulting work — frontend, UX engineering, full-stack, or Power Platform roles.',
     url: '/contact',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
@@ -119,8 +119,9 @@ export default function ContactPage() {
                   Currently Available
                 </h2>
                 <p className="text-white/70 leading-relaxed">
-                  I&apos;m open to full-time roles, freelance projects, and consulting work. Looking
-                  for frontend, UX engineering, or full-stack positions with a strong product focus.
+                  Open to full-time roles, freelance, and consulting work. Looking for frontend, UX
+                  engineering, full-stack, or Power Platform / Dynamics 365 positions with a strong
+                  product focus. Capella B.S. graduate March 2026, ready to start.
                 </p>
               </div>
             </div>

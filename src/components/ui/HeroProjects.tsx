@@ -14,6 +14,24 @@ interface HeroProject {
 
 const heroProjects: HeroProject[] = [
   {
+    id: 'crc-ready5-assessment',
+    highlight: 'Dynamics 365 / Power Platform. v1.1.0.18 in production.',
+    icon: <Building2 className="w-5 h-5" />,
+    gradient: 'from-orange-500 to-red-600',
+  },
+  {
+    id: 'timeslip-search',
+    highlight: 'Won $750 Algolia Agent Studio Challenge. 420K+ records.',
+    icon: <Trophy className="w-5 h-5" />,
+    gradient: 'from-amber-500 to-orange-600',
+  },
+  {
+    id: 'specter',
+    highlight: 'npm CLI. 65 commands. 14 MCP tools for Claude Desktop.',
+    icon: <Code2 className="w-5 h-5" />,
+    gradient: 'from-emerald-500 to-teal-600',
+  },
+  {
     id: 'chronicle',
     highlight: 'Local-first AI observability in Rust. 29 tests, 0.11s.',
     icon: <Brain className="w-5 h-5" />,
@@ -21,25 +39,13 @@ const heroProjects: HeroProject[] = [
   },
   {
     id: 'autodocs-ai',
-    highlight: 'Launched on Product Hunt. SaaS $35-239/mo.',
+    highlight: 'Production SaaS with Stripe billing ($35–239/mo).',
     icon: <Rocket className="w-5 h-5" />,
     gradient: 'from-purple-500 to-pink-600',
   },
   {
-    id: 'timeslip-search',
-    highlight: '🏆 Won $750 Algolia Challenge. 420K+ records.',
-    icon: <Trophy className="w-5 h-5" />,
-    gradient: 'from-amber-500 to-orange-600',
-  },
-  {
-    id: 'hire-ready',
-    highlight: 'Production SaaS with voice AI. Stripe live.',
-    icon: <Code2 className="w-5 h-5" />,
-    gradient: 'from-emerald-500 to-teal-600',
-  },
-  {
     id: 'coulson-one',
-    highlight: '64,806-file enterprise codebase. Aviation ops.',
+    highlight: '64,806-file enterprise codebase. Aviation operations.',
     icon: <Building2 className="w-5 h-5" />,
     gradient: 'from-orange-500 to-red-600',
   },
