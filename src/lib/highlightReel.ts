@@ -1,7 +1,7 @@
 import { getProjectById } from '@/lib/galaxyData'
 
-/** Curated for recruiters: depth, recognition, and enterprise scale */
-export const HIGHLIGHT_REEL_IDS = ['chronicle', 'timeslip-search', 'coulson-one'] as const
+/** Curated for recruiters: paid production work + recognized win */
+export const HIGHLIGHT_REEL_IDS = ['crc-ready5-assessment', 'timeslip-search', 'specter'] as const
 
 export type HighlightReelItem = {
   id: string
@@ -10,9 +10,9 @@ export type HighlightReelItem = {
 }
 
 const HOOKS: Record<(typeof HIGHLIGHT_REEL_IDS)[number], string> = {
-  chronicle: 'Rust · AI observability',
-  'timeslip-search': 'Algolia win · 420k+ records',
-  'coulson-one': 'Enterprise · 64k+ files',
+  'crc-ready5-assessment': 'Dynamics 365 · v1.1.0.18 PROD',
+  'timeslip-search': 'Algolia $750 win · 420k records',
+  specter: 'npm · 65 CLI cmds · 14 MCP tools',
 }
 
 export function getHighlightReel(): HighlightReelItem[] {

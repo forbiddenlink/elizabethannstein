@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Elizabeth Stein - Full-Stack Developer & AI Integration Specialist'
+export const alt = 'Elizabeth Stein — Full-Stack Engineer (Power Platform · Next.js · AI)'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -186,14 +186,12 @@ export default async function Image() {
 
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center', marginTop: '40px' }}>
             <span style={{ color: '#f8fafc', fontSize: '36px', fontWeight: 500 }}>
-              Full-Stack Developer
+              Power Platform
             </span>
             <span style={{ color: '#475569', fontSize: '36px' }}>/</span>
-            <span style={{ color: '#cbd5e1', fontSize: '36px', fontWeight: 500 }}>
-              AI Integration
-            </span>
+            <span style={{ color: '#cbd5e1', fontSize: '36px', fontWeight: 500 }}>Next.js</span>
             <span style={{ color: '#475569', fontSize: '36px' }}>/</span>
-            <span style={{ color: '#94a3b8', fontSize: '36px', fontWeight: 500 }}>UX Eng</span>
+            <span style={{ color: '#94a3b8', fontSize: '36px', fontWeight: 500 }}>AI</span>
           </div>
         </div>
 

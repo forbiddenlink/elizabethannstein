@@ -1,0 +1,43 @@
+# Claude Code Automated PR Review
+# Copy to .github/workflows/claude-pr-review.yml in each project
+# Requires: ANTHROPIC_API_KEY secret in repo settings
+#
+# Usage: Automatically reviews PRs on open/sync, comments inline
+# Trigger: Also responds to @claude mentions in PR comments
+
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  issue_comment:
+    types: [created]
+
+jobs:
+  review:
+    # Run on PR events, or on @claude mentions in PR comments
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request &&
+       contains(github.event.comment.body, '@claude'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-sonnet-4-6
+          track_progress: true
+          # For PR events, review the diff
+          # For comment events, respond to the question
+          prompt: |
+            ${{ github.event_name == 'pull_request' && 'Review this PR for bugs, security issues, performance, and code quality. Be concise. Focus on issues that matter, not style preferences. If everything looks good, say so briefly.' || github.event.comment.body }}

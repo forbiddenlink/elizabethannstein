@@ -3,20 +3,20 @@ import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { StarryBackground } from '@/components/ui/StarryBackground'
 import { WorkPageClient } from '@/components/work/WorkPageClient'
-import { SITE } from '@/lib/constants'
+import { SITE, STATS } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
+
+const workDescription = `Full-stack development, AI integration, design systems, and enterprise work across ${STATS.projectCount} projects. Browse the portfolio.`
 
 export const metadata: Metadata = {
   title: 'Projects & Work - Elizabeth Stein Portfolio',
-  description:
-    'Full-stack development, AI integration, design systems, and enterprise work across 84 projects. Browse the portfolio.',
+  description: workDescription,
   alternates: {
     canonical: '/work',
   },
   openGraph: {
     title: 'Projects & Work - Elizabeth Stein Portfolio',
-    description:
-      'Full-stack development, AI integration, design systems, and enterprise work across 84 projects. Browse the portfolio.',
+    description: workDescription,
     url: '/work',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },

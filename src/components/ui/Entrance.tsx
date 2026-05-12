@@ -137,12 +137,12 @@ export function Entrance() {
     if (globalThis.window) {
       localStorage.setItem('ea-has-visited', 'true')
     }
-    // Start hyperspace warp immediately, enter the galaxy after 1.4s
+    // Start hyperspace warp immediately, enter the galaxy after brief transition
     setWarpingIn(true)
     setTimeout(() => {
       enter()
       setWarpingIn(false)
-    }, 1400)
+    }, 600)
   }
 
   return (
@@ -226,12 +226,7 @@ export function Entrance() {
               transition={{ duration: 0.8, delay: 1.5 }}
               className="text-[var(--color-text-secondary)] text-base md:text-lg font-light tracking-[0.005em] max-w-[22rem] sm:max-w-xl mx-auto leading-relaxed"
             >
-              Not a slide deck—a space you can move through. Every point of light is a real project,
-              grouped the way I think about the work.
-              <br />
-              <span className="hidden sm:inline text-white/38 text-sm md:text-base">
-                Big picture first; case studies when you zoom in.
-              </span>
+              Six project galaxies. Click any star to explore.
             </motion.p>
 
             <motion.p
@@ -303,17 +298,7 @@ export function Entrance() {
               transition={{ duration: 0.65, delay: 2.18, ease: [0.22, 1, 0.36, 1] }}
               className="entrance-editorial-panel w-full max-w-3xl rounded-lg px-4 py-3.5 sm:px-5 sm:py-5 md:px-7 md:py-6"
             >
-              <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-end md:justify-between">
-                <div className="max-w-xl text-left">
-                  <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.26em] sm:tracking-[0.32em] text-white/35 mb-2 sm:mb-3">
-                    How this space works
-                  </p>
-                  <p className="text-[13px] sm:text-sm md:text-base leading-relaxed text-white/68">
-                    Galaxies group the work the way I group it in my head—then each project opens
-                    into detail when you want it. Nothing here is decoration: every light is a real
-                    build.
-                  </p>
-                </div>
+              <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-center md:justify-center">
                 <div className="grid grid-cols-2 gap-1.5 sm:gap-2 text-left sm:grid-cols-3 md:min-w-76">
                   {GALAXY_MARKERS.map((marker) => (
                     <div
@@ -327,20 +312,6 @@ export function Entrance() {
                   ))}
                 </div>
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 2.32, ease: [0.22, 1, 0.36, 1] }}
-              className="hidden sm:flex flex-col items-center gap-2.5 max-w-lg"
-            >
-              <div className="text-[10px] sm:text-[11px] tracking-[0.18em] uppercase text-white/30">
-                Built for recruiters, collaborators, and design-conscious technical teams.
-              </div>
-              <p className="text-[11px] tracking-[0.15em] text-white/25 uppercase">
-                After you enter: click any star · arrow keys to move · Cmd+K to search the site
-              </p>
             </motion.div>
           </div>
         </motion.div>

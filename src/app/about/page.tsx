@@ -67,15 +67,16 @@ export default function AboutPage() {
       <div id="about-content" className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         <div className="max-w-4xl mx-auto">
           {/* Hero */}
-          <div className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
               <div className="relative shrink-0 group">
+                <div className="absolute -inset-1 rounded-xl bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 blur-sm group-hover:from-purple-500/30 group-hover:to-cyan-500/30 transition-all duration-500" />
                 <Image
                   src="/images/profile.jpg"
                   alt="Elizabeth Stein"
                   width={200}
                   height={200}
-                  className="relative rounded-lg border border-[var(--color-border)] object-cover"
+                  className="relative rounded-xl border border-[var(--color-border)] object-cover"
                   priority
                 />
               </div>
@@ -206,7 +207,8 @@ export default function AboutPage() {
           </section>
 
           {/* Bio Section */}
-          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
+          <div className="section-divider mb-16" aria-hidden="true" />
+          <section className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
               <div
                 className="p-2 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]"
@@ -233,7 +235,7 @@ export default function AboutPage() {
           </section>
 
           {/* What I Do */}
-          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both">
+          <section className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-8">What I Do</h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="glass-panel-subtle border-l-3 border-l-[var(--color-galaxy-fullstack)] p-6 card-hover-lift group">
@@ -303,7 +305,8 @@ export default function AboutPage() {
           </section>
 
           {/* Tech Snapshot */}
-          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
+          <div className="section-divider mb-16" aria-hidden="true" />
+          <section className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6">Tech Snapshot</h2>
             <div className="bg-surface-2 border border-white/(--border-opacity-default) rounded-lg p-8 hover:bg-surface-3 transition-colors">
               <div className="grid md:grid-cols-2 gap-8">
@@ -320,15 +323,15 @@ export default function AboutPage() {
                     Backend
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Java, Spring Boot, Node.js, REST APIs, Python
+                    Node.js, Rust, Python, FastAPI, Express.js, REST APIs
                   </p>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-white/(--text-opacity-primary)">
-                    CMS & Platforms
+                    Platforms & Auth
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Craft CMS, Strapi, WordPress, Vercel, Firebase
+                    Vercel, Craft CMS, Strapi, Sanity, Better Auth, Clerk
                   </p>
                 </div>
                 <div>
@@ -336,8 +339,8 @@ export default function AboutPage() {
                     AI & Integration
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    Claude/Anthropic, OpenAI GPT-4, Stable Diffusion, MCP Protocol, Algolia Agent
-                    Studio
+                    Claude/Anthropic, OpenAI GPT-4, Hugging Face, MCP Protocol, Langfuse, RAG
+                    pipelines
                   </p>
                 </div>
                 <div>
@@ -345,7 +348,7 @@ export default function AboutPage() {
                     Data & Infrastructure
                   </h3>
                   <p className="text-white/(--text-opacity-secondary) leading-relaxed">
-                    PostgreSQL, Supabase, MongoDB, Redis, Prisma, Docker, Git/GitHub
+                    PostgreSQL, Supabase, SQLite, Redis, Prisma, Drizzle, Docker, Inngest
                   </p>
                 </div>
                 <div>
@@ -361,9 +364,10 @@ export default function AboutPage() {
           </section>
 
           {/* Testimonial */}
+          <div className="section-divider mb-16" aria-hidden="true" />
           <section
             id="testimonial"
-            className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both scroll-mt-24"
+            className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both scroll-mt-24"
           >
             <h2 className="text-3xl font-semibold mb-6">What Clients Say</h2>
             <blockquote className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-8 md:p-10">
@@ -402,7 +406,8 @@ export default function AboutPage() {
           </section>
 
           {/* Highlights */}
-          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-700 fill-mode-both">
+          <div className="section-divider mb-16" aria-hidden="true" />
+          <section className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-700 fill-mode-both">
             <h2 className="text-3xl font-semibold mb-6">Highlights</h2>
             <ul className="space-y-4">
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
@@ -441,8 +446,8 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  Created full educational platforms: Portfolio-Pro (205 lessons), Finance Quest (17
-                  chapters, 30+ calculators, 85% retention rate)
+                  Created full educational platforms: Portfolio-Pro (269 lessons, 144 projects),
+                  Finance Quest (17 chapters, 30+ calculators with SM-2 spaced repetition)
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
@@ -481,8 +486,18 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  Published npm package (ally-a11y)—accessibility CLI with real-time auto-fix, and
-                  built Rust-powered observability tools
+                  Published npm packages (ally-a11y, @purplegumdropz/specter) and built Rust-powered
+                  observability tools (Chronicle)
+                </p>
+              </li>
+              <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
+                <span
+                  className="w-2 h-2 rounded-full bg-teal-500 mt-2 shrink-0"
+                  aria-hidden="true"
+                />
+                <p className="text-white/(--text-opacity-primary)">
+                  Shipped multiple SaaS products with Stripe billing live: AutomaDocs, HireReady,
+                  Testimoniq, and Site Sheriff
                 </p>
               </li>
             </ul>

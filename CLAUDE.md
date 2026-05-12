@@ -20,7 +20,7 @@ pnpm audit      # Dependency vulnerability check
 
 ## Architecture
 
-This is an interactive 3D portfolio built with Next.js 16 (App Router) showcasing 84 projects across 6 galaxies. Projects are visualized as planets in a WebGL/WebGPU 3D scene.
+This is an interactive 3D portfolio built with Next.js 16 (App Router) showcasing 90 projects across 6 galaxies. Projects are visualized as planets in a WebGL/WebGPU 3D scene.
 
 ### Core Data Flow
 

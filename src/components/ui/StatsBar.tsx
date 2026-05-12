@@ -4,9 +4,9 @@ import { motion } from 'framer-motion'
 import { STATS } from '@/lib/constants'
 
 const stats = [
-  { label: 'Projects Built', value: STATS.projectCount },
-  { label: 'Galaxies', value: STATS.galaxyCount },
-  { label: 'Years shipping', value: STATS.yearsExperience },
+  { label: 'Capella GPA', value: '3.98' },
+  { label: 'Algolia win', value: '$750' },
+  { label: 'Live PROD', value: 'v1.1.0.18' },
 ]
 
 export function StatsBar() {

@@ -24,25 +24,42 @@ function usePrefersReducedMotion() {
   return prefersReducedMotion
 }
 
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(pointer: coarse)')
+    setIsTouch(mediaQuery.matches)
+
+    const handler = (e: MediaQueryListEvent) => setIsTouch(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  return isTouch
+}
+
 export function TiltCard({ children, className }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
   const prefersReducedMotion = usePrefersReducedMotion()
+  const isTouch = useIsTouchDevice()
+  const disabled = prefersReducedMotion || isTouch
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
-  // Spring physics for smooth tilt (disabled if user prefers reduced motion)
+  // Spring physics for smooth tilt (disabled for reduced motion or touch devices)
   const springConfig = { damping: 15, stiffness: 150, mass: 0.5 }
   const rotateX = useSpring(
-    useTransform(y, [-0.5, 0.5], prefersReducedMotion ? [0, 0] : [10, -10]),
+    useTransform(y, [-0.5, 0.5], disabled ? [0, 0] : [10, -10]),
     springConfig
   )
   const rotateY = useSpring(
-    useTransform(x, [-0.5, 0.5], prefersReducedMotion ? [0, 0] : [-10, 10]),
+    useTransform(x, [-0.5, 0.5], disabled ? [0, 0] : [-10, 10]),
     springConfig
   )
-  const scale = useSpring(hovered && !prefersReducedMotion ? 1.05 : 1, springConfig)
+  const scale = useSpring(hovered && !disabled ? 1.05 : 1, springConfig)
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return

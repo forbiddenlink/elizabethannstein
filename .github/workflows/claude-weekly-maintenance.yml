@@ -1,0 +1,41 @@
+# Claude Code Weekly Maintenance
+# Copy to .github/workflows/claude-maintenance.yml in each project
+# Runs weekly: dependency audit, stale issue check, TODO scan
+# Creates a single summary issue with findings
+
+name: Weekly Maintenance
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"  # Monday 9am UTC
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-sonnet-4-6
+          prompt: |
+            Run a weekly maintenance check on this repo. Create a single GitHub issue titled "Weekly Maintenance Report - [date]" with findings from:
+
+            1. **Dependency audit**: Run the package manager's audit command. Report vulnerabilities by severity.
+            2. **Stale branches**: List branches with no commits in 30+ days.
+            3. **TODO/FIXME scan**: Find all TODO and FIXME comments. List file and line.
+            4. **Test health**: Run the test suite if it exists. Report pass/fail/skip counts.
+            5. **Env drift**: Compare .env.example with what's expected in the codebase.
+
+            Format as a clear checklist. Skip sections with no findings. Label the issue "maintenance".
+          allowed_tools: |
+            Bash(pnpm audit:*),Bash(npm audit:*),Bash(git branch:*),Bash(git log:*),Bash(pnpm test:*),Bash(npm test:*)

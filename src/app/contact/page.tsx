@@ -62,7 +62,7 @@ export default function ContactPage() {
             <div className="grid gap-4 md:grid-cols-3">
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="direct-contact-card group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card card-hover-lift group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <Mail className="w-6 h-6 text-purple-400 group-hover:text-purple-300 transition-colors" />
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 href={CONTACT.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="direct-contact-card group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card card-hover-lift group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <LinkedInIcon className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
@@ -92,7 +92,7 @@ export default function ContactPage() {
                 href={CONTACT.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="direct-contact-card group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                className="direct-contact-card card-hover-lift group p-5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/[0.09] hover:border-white/22 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
               >
                 <div className="flex items-center gap-3">
                   <GitHubIcon className="w-6 h-6 text-white/80 group-hover:text-white transition-colors" />
