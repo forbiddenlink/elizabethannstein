@@ -1,4 +1,26 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>forbiddenlink/renovate-config"]
+  "extends": ["config:base", "schedule:weekly"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "devDeps weekly",
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "matchDepTypes": ["dependencies"],
+      "groupName": "deps patches weekly",
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "matchDepTypes": ["dependencies"],
+      "groupName": "deps minor weekly",
+      "automerge": false
+    }
+  ],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 0
 }
