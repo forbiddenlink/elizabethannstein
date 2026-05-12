@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://elizabethannstein.com
-
-# Sitemaps
-Sitemap: https://elizabethannstein.com/sitemap.xml

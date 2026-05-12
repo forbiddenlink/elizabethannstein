@@ -34,7 +34,10 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: SITE.fullTitle,
+  title: {
+    default: SITE.fullTitle,
+    template: `%s | ${SITE.name}`,
+  },
   description: SITE.description,
   metadataBase: new URL(SITE.url),
   alternates: {
@@ -49,11 +52,14 @@ export const metadata: Metadata = {
     siteName: `${SITE.name} Portfolio`,
     title: SITE.fullTitle,
     description: SITE.description,
+    url: SITE.url,
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: SITE.fullTitle }],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE.fullTitle,
     description: SITE.shortDescription,
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,
@@ -72,7 +78,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   dateCreated: '2024-01-01',
-  dateModified: new Date().toISOString().split('T')[0],
+  dateModified: '2026-05-11',
   mainEntity: {
     '@type': 'Person',
     '@id': `${SITE.url}/#person`,
