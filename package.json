@@ -2,7 +2,7 @@
   "name": "elizabethannstein",
   "version": "1.0.0",
   "private": false,
-  "description": "Elizabeth Stein's interactive 3D galaxy portfolio — projects across 6 galaxies",
+  "description": "Elizabeth Stein's interactive 3D galaxy portfolio \u2014 projects across 6 galaxies",
   "author": "Elizabeth Stein",
   "license": "MIT",
   "packageManager": "pnpm@10.26.2",
@@ -92,7 +92,11 @@
       "flatted": ">=3.4.2",
       "lodash-es": ">=4.18.0",
       "vite": ">=8.0.5",
-      "next": ">=16.2.3"
+      "next": ">=16.2.3",
+      "systeminformation": ">=5.31.6",
+      "@protobufjs/utf8": ">=1.1.1",
+      "basic-ftp": ">=5.3.1",
+      "ip-address": ">=10.1.1"
     }
   },
   "engines": {
