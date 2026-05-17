@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.0.0...v1.1.0) (2026-05-17)
+
+
+### Features
+
+* add CodeQL security analysis ([7fc1488](https://github.com/forbiddenlink/elizabethannstein/commit/7fc1488e7e094c3f408dc22064a486b754de5eba))
+
 ## 1.0.0 (2026-05-15)
 
 
