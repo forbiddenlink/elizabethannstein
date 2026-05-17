@@ -11,6 +11,8 @@ on:
       - '.gitignore'
       - '.editorconfig'
     branches: [main]
+  schedule:
+    - cron: '0 6 * * 1'
 
 jobs:
   codeql:
