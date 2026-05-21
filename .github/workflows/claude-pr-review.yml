@@ -9,6 +9,12 @@ name: Claude PR Review
 
 on:
   pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE*'
+      - '.gitignore'
+      - '.editorconfig'
     types: [opened, synchronize]
   issue_comment:
     types: [created]
