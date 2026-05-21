@@ -2,6 +2,12 @@ name: Claude Security Review
 
 on:
   pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE*'
+      - '.gitignore'
+      - '.editorconfig'
     branches: [main]
   workflow_dispatch:
 
