@@ -35,7 +35,8 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-sonnet-4-6
+          claude_args: --model claude-sonnet-4-6
+          allowed_bots: dependabot
           track_progress: true
           # For PR events, review the diff
           # For comment events, respond to the question
