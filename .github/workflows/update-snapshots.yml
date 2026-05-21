@@ -59,7 +59,7 @@ jobs:
         continue-on-error: true
 
       - name: Commit updated snapshots
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'chore: update Playwright visual snapshots'
           file_pattern: 'e2e/**/*.png tests/**/*.png **/*-snapshots/**/*.png'
