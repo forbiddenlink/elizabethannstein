@@ -49,7 +49,7 @@
     "nuqs": "^2.8.9",
     "postprocessing": "^6.38.3",
     "react": "^19.2.6",
-    "react-dom": "^19.2.3",
+    "react-dom": "^19.2.6",
     "resend": "^6.10.0",
     "server-only": "^0.0.1",
     "sharp": "^0.34.5",
