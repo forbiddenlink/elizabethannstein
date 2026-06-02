@@ -34,7 +34,7 @@
     "@react-three/fiber": "^9.6.1",
     "@react-three/postprocessing": "^3.0.4",
     "@react-three/rapier": "^2.2.0",
-    "@sentry/nextjs": "^10.55.0",
+    "@sentry/nextjs": "^10.56.0",
     "@theatre/core": "^0.7.2",
     "@theatre/r3f": "^0.7.2",
     "@vercel/analytics": "^2.0.1",
@@ -61,7 +61,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
     "@eslint/eslintrc": "^3.3.5",
-    "@next/bundle-analyzer": "^16.2.6",
+    "@next/bundle-analyzer": "^16.2.7",
     "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4.3.0",
     "@testing-library/jest-dom": "^6.9.1",
@@ -74,7 +74,7 @@
     "@vitejs/plugin-react": "^6.0.2",
     "@webgpu/types": "^0.1.70",
     "eslint": "^9.39.4",
-    "eslint-config-next": "^16.2.6",
+    "eslint-config-next": "^16.2.7",
     "jsdom": "^29.1.1",
     "leva": "^0.10.1",
     "msw": "^2.14.6",
@@ -83,8 +83,8 @@
     "stats-gl": "^4.1.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3",
-    "vite": "^8.0.14",
-    "vitest": "^4.1.7"
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8"
   },
   "pnpm": {
     "overrides": {
