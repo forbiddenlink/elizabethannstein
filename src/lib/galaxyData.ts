@@ -24,7 +24,6 @@ export const galaxies: Galaxy[] = [
         brightness: 2,
         size: 'supermassive',
         galaxy: 'enterprise',
-        links: { live: 'https://coulson-one-web-public.vercel.app' },
         metrics: { files: 64806 },
         featured: true,
         dateRange: '2023-2024',
