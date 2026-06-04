@@ -221,7 +221,7 @@ export default function AboutPage() {
                 controls
                 preload="none"
                 playsInline
-                poster="/reel-poster.png"
+                poster="/reel-poster.webp"
                 className="w-full h-auto block"
                 aria-label="30-second portfolio showreel"
               >
