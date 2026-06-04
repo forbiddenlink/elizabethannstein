@@ -209,6 +209,28 @@ export default function AboutPage() {
             </div>
           </section>
 
+          {/* 30-second reel */}
+          <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 fill-mode-both">
+            <h2 className="text-2xl font-semibold mb-2 text-white/70">The 30-Second Version</h2>
+            <p className="text-white/55 mb-5">
+              No time for the galaxy? Here is the highlight reel.
+            </p>
+            <div className="rounded-2xl overflow-hidden border border-white/10 bg-black shadow-2xl shadow-cyan-500/5 max-w-3xl">
+              {/* biome-ignore lint/a11y/useMediaCaption: silent showreel with no spoken audio; all content is on-screen text. */}
+              <video
+                controls
+                preload="none"
+                playsInline
+                poster="/reel-poster.png"
+                className="w-full h-auto block"
+                aria-label="30-second portfolio showreel"
+              >
+                <source src="/reel.webm" type="video/webm" />
+                <source src="/reel.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </section>
+
           {/* Bio Section */}
           <div className="section-divider mb-16" aria-hidden="true" />
           <section className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
