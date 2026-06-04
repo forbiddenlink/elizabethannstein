@@ -10,7 +10,7 @@ import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
 const aboutDescription =
-  "Capella B.S. (3.98 GPA, March 2026). Primary developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
+  "Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Primary developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
 
 export const metadata: Metadata = {
   title: 'About',
@@ -85,9 +85,9 @@ export default function AboutPage() {
                 <p className="page-hero-kicker">About</p>
                 <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
                 <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
-                  Capella B.S. (3.98 GPA, March 2026). Currently shipping production code at three
-                  orgs — Dynamics 365 work at CyberReady Clinic, Craft CMS at Rocketpark, the
-                  Algolia Agent Studio winner on the side.
+                  Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Currently shipping production
+                  code at three orgs — Dynamics 365 work at CyberReady Clinic, Craft CMS at
+                  Rocketpark, the Algolia Agent Studio winner on the side.
                 </p>
               </div>
             </div>
@@ -236,8 +236,9 @@ export default function AboutPage() {
                 TimeSlipSearch — a conversational AI agent over 420k pop-culture records.
               </p>
               <p>
-                B.S. in Software Development from Capella University (March 2026, 3.98 GPA,
-                Dean&apos;s List every quarter, Honors Pathway). I work in small, shippable steps
+                B.S. in Information Technology, Software Development from Capella University
+                (conferred March 2026) — Summa Cum Laude, 3.98 GPA, University Honors Pathway,
+                Dean&apos;s List every quarter. I work in small, shippable steps
                 with clear commits and documentation so future me — and teammates — don&apos;t
                 suffer.
               </p>
@@ -499,8 +500,8 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  Graduated with 3.98 GPA, Dean's List every quarter, while shipping production
-                  projects full-time
+                  Graduated Summa Cum Laude (3.98 GPA), University Honors Pathway, Dean's List
+                  every quarter, while shipping production projects full-time
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
