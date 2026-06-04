@@ -121,8 +121,9 @@ public/
 
 ## Roadmap
 
-- [ ] Additional case studies under `/work/[slug]`
-- [ ] WebGPU-only "performance mode" toggle
+- [x] Proof layer (`src/lib/proofLayer.ts`) — unified hero, 3D scene curation, `/work` proof catalog
+- [ ] Deep case studies for flagship projects (CRC, TimeSlip, Specter, HireReady, AutomaDocs)
+- [ ] WebGPU "lite FX" performance mode (postprocessing blocks full WebGPU today)
 - [ ] Audio-reactive cinematic sequences via Theatre.js
 - [x] Full Playwright 7-browser CI matrix
 - [x] WebGPU canvas with WebGL fallback

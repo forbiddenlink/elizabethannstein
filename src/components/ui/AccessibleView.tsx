@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { galaxies } from '@/lib/galaxyData'
 import { getHighlightReel } from '@/lib/highlightReel'
+import { filterGalaxiesByCatalog } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 
 // Toggle button to switch between 3D and accessible view
@@ -61,8 +62,10 @@ export function AccessibleViewToggle({
   )
 }
 
-// Full accessible view of all projects
+// Full accessible view — proof catalog by default (matches /work)
 export function AccessibleView() {
+  const proofGalaxies = filterGalaxiesByCatalog(galaxies, 'proof')
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
       {/* Header */}
@@ -77,7 +80,7 @@ export function AccessibleView() {
       <nav className="max-w-6xl mx-auto px-4 py-6" aria-label="Galaxy sections">
         <h2 className="sr-only">Jump to section</h2>
         <div className="flex flex-wrap gap-2">
-          {galaxies.map((galaxy) => (
+          {proofGalaxies.map((galaxy) => (
             <a
               key={galaxy.id}
               href={`#${galaxy.id}`}
@@ -91,6 +94,12 @@ export function AccessibleView() {
               <span className="ml-1 text-white/40">({galaxy.projects.length})</span>
             </a>
           ))}
+          <Link
+            href="/work?view=all"
+            className="px-3 py-1.5 rounded-full text-sm border border-white/15 text-white/60 hover:text-white hover:border-white/30 transition-colors"
+          >
+            Full catalog →
+          </Link>
         </div>
       </nav>
 
@@ -118,7 +127,7 @@ export function AccessibleView() {
 
       {/* Projects by Galaxy */}
       <main className="max-w-6xl mx-auto px-4 pb-16">
-        {galaxies.map((galaxy) => (
+        {proofGalaxies.map((galaxy) => (
           <section
             key={galaxy.id}
             id={galaxy.id}

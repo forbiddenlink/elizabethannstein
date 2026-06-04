@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { create } from 'zustand'
 import { galaxies } from '@/lib/galaxyData'
+import { isSceneProject } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 import type { Project } from '@/lib/types'
 import { generateProjectPosition, getSizeMultiplier } from '@/lib/utils'
@@ -92,13 +93,14 @@ function usePlanetPositions(): PlanetData[] {
     const positions: PlanetData[] = []
 
     galaxies.forEach((galaxy, galaxyIndex) => {
-      galaxy.projects.forEach((project, projectIndex) => {
+      const sceneProjects = galaxy.projects.filter((p) => isSceneProject(p.id))
+      sceneProjects.forEach((project, projectIndex) => {
         const pos = generateProjectPosition(
           project.id,
           galaxy.id,
           galaxyIndex,
           projectIndex,
-          galaxy.projects.length
+          sceneProjects.length
         )
         positions.push({
           project,

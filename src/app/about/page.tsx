@@ -10,7 +10,7 @@ import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
 const aboutDescription =
-  "Capella B.S. (3.98 GPA, March 2026). Primary developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, v1.1.0.18 in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
+  "Capella B.S. (3.98 GPA, March 2026). Primary developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
 
 export const metadata: Metadata = {
   title: 'About',
@@ -224,7 +224,7 @@ export default function AboutPage() {
             <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-lg border border-white/(--border-opacity-default)">
               <p>
                 I&apos;m the primary developer on CyberReady Clinic&apos;s MSP Ready5 Assessment — a
-                Dynamics 365 / Power Platform / Dataverse system live in production as v1.1.0.18.
+                Dynamics 365 / Power Platform / Dataverse system live in production.
                 Concurrently I run Craft CMS work at Rocketpark across a 10-site client portfolio,
                 and from 2024–2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
                 ecosystem.
@@ -430,7 +430,7 @@ export default function AboutPage() {
                 <p className="text-white/(--text-opacity-primary)">
                   <strong className="text-white">Primary developer</strong> on CyberReady
                   Clinic&apos;s MSP Ready5 Assessment — Dynamics 365 / Power Platform / Dataverse
-                  system live in production as v1.1.0.18, 12 implementation phases shipped
+                  system live in production, 12 implementation phases shipped
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">

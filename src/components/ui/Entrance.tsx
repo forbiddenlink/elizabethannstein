@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { SITE } from '@/lib/constants'
 import { getProjectById } from '@/lib/galaxyData'
+import { FAST_TRACK_IDS, SCENE_PROJECT_IDS } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 
 const GALAXY_MARKERS = [
@@ -29,45 +30,44 @@ const LAST_NAME_LETTERS = 'STEIN'.split('').map((char, index) => ({
   index,
 }))
 
-// Hero projects for quick scan — paid prod work + recognized wins
-const heroProjects = [
-  {
-    id: 'crc-ready5-assessment',
-    highlight: 'Dynamics 365 · v1.1.0.18 PROD',
+/** Visual metadata for FAST_TRACK_IDS — ids come from proofLayer only */
+const FAST_TRACK_ENTRANCE_META: Record<
+  (typeof FAST_TRACK_IDS)[number],
+  { highlight: string; icon: typeof Building2; gradient: string }
+> = {
+  'crc-ready5-assessment': {
+    highlight: 'Dynamics 365 · in production',
     icon: Building2,
     gradient: 'from-orange-500 to-red-600',
   },
-  {
-    id: 'timeslip-search',
+  'timeslip-search': {
     highlight: '$750 Algolia win',
     icon: Trophy,
     gradient: 'from-amber-500 to-orange-600',
   },
-  {
-    id: 'specter',
+  specter: {
     highlight: 'npm · MCP tools',
     icon: Code2,
     gradient: 'from-emerald-500 to-teal-600',
   },
-  {
-    id: 'chronicle',
+  chronicle: {
     highlight: 'Rust AI observability',
     icon: Brain,
     gradient: 'from-cyan-500 to-blue-600',
   },
-  {
-    id: 'autodocs-ai',
+  'autodocs-ai': {
     highlight: 'Live SaaS · Stripe',
     icon: Rocket,
     gradient: 'from-purple-500 to-pink-600',
   },
-  {
-    id: 'coulson-one',
+  'coulson-one': {
     highlight: 'Enterprise · 64K+ files',
     icon: Building2,
     gradient: 'from-orange-500 to-red-600',
   },
-]
+}
+
+const heroProjects = FAST_TRACK_IDS.map((id) => ({ id, ...FAST_TRACK_ENTRANCE_META[id] }))
 
 function HeroProjectsQuick() {
   return (
@@ -174,7 +174,7 @@ export function Entrance() {
               className="flex items-center justify-center gap-2"
             >
               <span className="text-[10px] sm:text-[11px] tracking-[0.28em] sm:tracking-[0.32em] font-medium uppercase text-white/50">
-                Six galaxies · one map of the work
+                Proof-first · {FAST_TRACK_IDS.length} flags to plant · full catalog on /work
               </span>
             </motion.div>
 
@@ -232,7 +232,7 @@ export function Entrance() {
               transition={{ duration: 0.8, delay: 1.5 }}
               className="text-[var(--color-text-secondary)] text-base md:text-lg font-light tracking-[0.005em] max-w-[22rem] sm:max-w-xl mx-auto leading-relaxed"
             >
-              Six project galaxies. Click any star to explore.
+              {SCENE_PROJECT_IDS.length} flagship systems in the galaxy. Full catalog on /work.
             </motion.p>
 
             <motion.p

@@ -24,6 +24,7 @@ export const galaxies: Galaxy[] = [
         brightness: 2,
         size: 'supermassive',
         galaxy: 'enterprise',
+        links: { live: 'https://coulson-one-web-public.vercel.app' },
         metrics: { files: 64806 },
         featured: true,
         dateRange: '2023-2024',
@@ -136,7 +137,7 @@ export const galaxies: Galaxy[] = [
         id: 'crc-ready5-assessment',
         title: 'CyberReady Clinic — MSP Ready5 Assessment',
         description:
-          'Primary developer on a Dynamics 365 / Power Platform cybersecurity-readiness assessment used by a healthcare cybersecurity nonprofit. v1.1.0.18 live in production. 12 implementation phases shipped: data model on Dataverse, Power Automate orchestration, Power Apps Canvas front-end, scored deliverables.',
+          'Primary developer on a production Dynamics 365 / Power Platform cybersecurity-readiness assessment for a healthcare-focused nonprofit. Shipped the full build across 12 phases: a governed Dataverse data model, Power Automate orchestration, a Power Apps Canvas front-end, and scored client deliverables packaged for repeatable cross-environment deploys.',
         role: 'Primary Developer (1099 → full-time accepted)',
         company: 'CyberReady Clinic',
         tags: [
@@ -158,9 +159,9 @@ export const galaxies: Galaxy[] = [
         solution:
           'Designed and shipped a 12-phase implementation on Dynamics 365 / Power Platform. Modeled the assessment in Dataverse, built scoring orchestration in Power Automate, delivered the assessor experience as a Power Apps Canvas app, and wired solution packaging for repeatable deploys across environments.',
         impact:
-          'v1.1.0.18 live in production as of 2026-05-08. Replaces ad-hoc assessment spreadsheets with a governed Dataverse model. Internal team now owns environment promotion and minor edits via the Canvas pilot path.',
+          'Live in production. Replaced ad-hoc assessment spreadsheets with a governed, maintainable platform that the internal team now owns and extends.',
         impactMetrics: [
-          { label: 'Version', value: 'v1.1.0.18 PROD', icon: 'rocket' },
+          { label: 'Status', value: 'In production', icon: 'rocket' },
           { label: 'Phases Shipped', value: '12', icon: 'layers' },
           { label: 'Platform', value: 'Dynamics 365', icon: 'building' },
         ],
@@ -169,7 +170,7 @@ export const galaxies: Galaxy[] = [
         id: 'crc-leadgen',
         title: 'CRC Lead Gen Platform',
         description:
-          'Public-facing lead generation and admin console for CyberReady Clinic. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + MSAL Azure AD. Admin console manages newsletter, volunteer, mentor, and client questionnaire pipelines; integrates Power Automate callbacks for the Dataverse handoff.',
+          'Primary developer on a production lead-generation and operations platform for a cybersecurity nonprofit. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + Microsoft Entra ID (MSAL). Unifies multiple public intake pipelines and hands structured data into the organization\'s Microsoft Power Platform via secure server-to-server callbacks.',
         role: 'Creator & Developer',
         company: 'CyberReady Clinic',
         tags: ['Next.js 16', 'Drizzle', 'Neon', 'Better Auth', 'MSAL', 'Azure AD'],
@@ -180,11 +181,11 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2025-2026',
         challenge:
-          'Build a public marketing + lead-capture site that hands structured intake straight into the CRC Dataverse environment behind the assessment platform — with Azure AD for staff and modern auth for everyone else.',
+          'Build a public marketing and lead-capture site that hands structured intake straight into the organization\'s Microsoft Power Platform behind the assessment system, with enterprise SSO for staff and modern auth for everyone else.',
         solution:
-          'Next.js 16 App Router on Vercel with Drizzle + Neon for persistence. Better Auth for public users; MSAL Azure AD for staff. Power Automate callback secret signs the handoff into the Dynamics environment so CRM stays the source of truth.',
+          'Next.js 16 App Router on Vercel with Drizzle + Neon for persistence. Better Auth for public users; Microsoft Entra ID (MSAL) for staff. A signed server-to-server callback hands the intake into the Power Platform so the CRM stays the source of truth.',
         impact:
-          'Production env on Vercel with full secret hygiene (AZURE_CLIENT_SECRET, BETTER_AUTH_SECRET, DATABASE_URL, DATAVERSE_URL, POWER_AUTOMATE_CALLBACK_SECRET). 4 form pipelines unified. Single source of truth for staff vs public auth.',
+          'Production deployment on Vercel with enterprise SSO and strict secret hygiene. Multiple public intake pipelines unified into one governed source of truth.',
         impactMetrics: [
           { label: 'Form Pipelines', value: '4', icon: 'inbox' },
           { label: 'Auth', value: 'Better Auth + MSAL', icon: 'shield' },
@@ -249,6 +250,37 @@ export const galaxies: Galaxy[] = [
     color: '#00D9FF',
     size: 2,
     projects: [
+      {
+        id: 'timeslip-search',
+        title: 'TimeSlipSearch',
+        description:
+          '🏆 Winner of Algolia Agent Studio Challenge ($750 prize) - "Conversational time machine" exploring 1958-2020 pop culture with 420,000+ records (Billboard, TMDB, FRED, Wikimedia). Featured by DEV Community for making "deep data archives feel accessible and fun."',
+        role: 'Creator',
+        tags: ['Next.js 16', 'Algolia Agent Studio', 'Chart.js', 'Framer Motion', 'AI'],
+        color: '#FFB800',
+        brightness: 2,
+        size: 'supermassive',
+        galaxy: 'ai',
+        links: {
+          live: 'https://timeslipsearch.vercel.app',
+          contestWin:
+            'https://dev.to/devteam/congrats-to-the-algolia-agent-studio-challenge-winners-3ocn',
+        },
+        metrics: { files: 420000 },
+        featured: true,
+        dateRange: '2026',
+        challenge:
+          'Indexing and searching 420,000+ cultural records spanning 60+ years while making it feel like time travel, not a search engine.',
+        solution:
+          'Built a conversational AI agent with Algolia Agent Studio that "speaks human" about pop culture history. Natural language queries like "what was trending when I was born?" return contextualized results with voice search, achievement system, and personal "Time Capsule Wrapped" analytics.',
+        impact:
+          'Won $750 USD + DEV++ Membership in Algolia Agent Studio Challenge (March 2026). Featured by DEV Community for making "deep data archives feel accessible and fun." 420,000+ records indexed. Retro CRT interface creates immersive time-travel experience.',
+        impactMetrics: [
+          { label: 'Contest Prize', value: '$750 + DEV++', icon: 'trophy' },
+          { label: 'Records Indexed', value: '420K+', icon: 'database' },
+          { label: 'Coverage', value: '1958–2020', icon: 'clock' },
+        ],
+      },
       {
         id: 'chronicle',
         title: 'Chronicle',
@@ -350,7 +382,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'ai',
         links: {
           live: 'https://financequest.fyi',
-          github: 'https://github.com/forbiddenlink/finance-quest',
         },
         featured: true,
         dateRange: '2024-2026',
@@ -457,7 +488,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'ai',
         links: {
           live: 'https://automadocs.com',
-          github: 'https://github.com/forbiddenlink/automadocs',
         },
         metrics: {
           revenue: true,
@@ -987,7 +1017,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.8,
         size: 'large',
         galaxy: 'fullstack',
-        links: { github: 'https://github.com/forbiddenlink/kindred' },
+        links: { live: 'https://quantum-forge-self.vercel.app' },
         featured: true,
         dateRange: '2025-2026',
         challenge:
@@ -1907,37 +1937,6 @@ export const galaxies: Galaxy[] = [
           'Built branching narrative engine with atmospheric visuals and sound design. Reader choices influence story paths and character fates.',
         impact:
           'Branching paths create 10+ unique story experiences per myth. Atmospheric design increases engagement. Choice-driven narrative increases replayability.',
-      },
-      {
-        id: 'timeslip-search',
-        title: 'TimeSlipSearch',
-        description:
-          '🏆 Winner of Algolia Agent Studio Challenge ($750 prize) - "Conversational time machine" exploring 1958-2020 pop culture with 420,000+ records (Billboard, TMDB, FRED, Wikimedia). Featured by DEV Community for making "deep data archives feel accessible and fun."',
-        role: 'Creator',
-        tags: ['Next.js 16', 'Algolia Agent Studio', 'Chart.js', 'Framer Motion', 'AI'],
-        color: '#FFB800',
-        brightness: 2,
-        size: 'large',
-        galaxy: 'experimental',
-        links: {
-          live: 'https://timeslipsearch.vercel.app',
-          contestWin:
-            'https://dev.to/devteam/congrats-to-the-algolia-agent-studio-challenge-winners-3ocn',
-        },
-        metrics: { files: 420000 },
-        featured: true,
-        dateRange: '2026',
-        challenge:
-          'Indexing and searching 420,000+ cultural records spanning 60+ years while making it feel like time travel, not a search engine.',
-        solution:
-          'Built a conversational AI agent with Algolia Agent Studio that "speaks human" about pop culture history. Natural language queries like "what was trending when I was born?" return contextualized results with voice search, achievement system, and personal "Time Capsule Wrapped" analytics.',
-        impact:
-          'Won $750 USD + DEV++ Membership in Algolia Agent Studio Challenge (March 2026). Featured by DEV Community for making "deep data archives feel accessible and fun." 420,000+ records indexed. Retro CRT interface creates immersive time-travel experience.',
-        impactMetrics: [
-          { label: 'Contest Prize', value: '$750 + DEV++', icon: 'trophy' },
-          { label: 'Records Indexed', value: '420K+', icon: 'database' },
-          { label: 'Coverage', value: '1958–2020', icon: 'clock' },
-        ],
       },
       {
         id: 'apoc-bnb',

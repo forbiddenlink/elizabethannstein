@@ -4,42 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef } from 'react'
-import { galaxies } from '@/lib/galaxyData'
+import { getFastTrackProjects } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
-import type { Project } from '@/lib/types'
-
-function selectFeaturedProjects(): Project[] {
-  const allFeatured = galaxies.flatMap((g) => g.projects.filter((p) => p.featured))
-
-  // Pick one per galaxy first for skill diversity
-  const picked: Project[] = []
-  const usedGalaxies = new Set<string>()
-
-  for (const galaxy of galaxies) {
-    const best = allFeatured
-      .filter((p) => p.galaxy === galaxy.id)
-      .sort((a, b) => b.brightness - a.brightness)[0]
-    if (best) {
-      picked.push(best)
-      usedGalaxies.add(galaxy.id)
-    }
-    if (picked.length >= 6) break
-  }
-
-  // Fill remaining slots with highest brightness from any galaxy
-  if (picked.length < 6) {
-    const pickedIds = new Set(picked.map((p) => p.id))
-    const remaining = allFeatured
-      .filter((p) => !pickedIds.has(p.id))
-      .sort((a, b) => b.brightness - a.brightness)
-    for (const p of remaining) {
-      if (picked.length >= 6) break
-      picked.push(p)
-    }
-  }
-
-  return picked.slice(0, 6)
-}
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -60,7 +26,7 @@ export function HiringFastTrack() {
   const overlayRef = useRef<HTMLDivElement>(null)
 
   const isVisible = showFastTrack && !isJourneyMode && view !== 'exploration'
-  const projects = selectFeaturedProjects()
+  const projects = getFastTrackProjects()
 
   // Auto-focus close button on open
   useEffect(() => {
@@ -138,7 +104,7 @@ export function HiringFastTrack() {
                   transition={{ delay: 0.05, duration: 0.4 }}
                   className="text-3xl font-light text-white"
                 >
-                  Featured work
+                  Proof of work
                 </motion.h2>
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
@@ -146,7 +112,7 @@ export function HiringFastTrack() {
                   transition={{ delay: 0.1, duration: 0.4 }}
                   className="mt-2 text-white/50 text-sm"
                 >
-                  6 projects that represent the range and depth of my work
+                  Six flagship systems — production D365, contest win, SaaS, enterprise scale
                 </motion.p>
               </div>
               <button

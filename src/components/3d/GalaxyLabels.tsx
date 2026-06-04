@@ -5,6 +5,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
+import { isSceneProject } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 import { getGalaxyCenterPosition } from '@/lib/utils'
 
@@ -136,12 +137,15 @@ export function GalaxyLabels() {
   return (
     <>
       {galaxies.map((galaxy, index) => {
+        const sceneCount = galaxy.projects.filter((p) => isSceneProject(p.id)).length
+        if (sceneCount === 0) return null
+
         const position = getGalaxyCenterPosition(index)
         return (
           <GalaxyLabel
             key={galaxy.id}
             name={galaxy.name}
-            projectCount={galaxy.projects.length}
+            projectCount={sceneCount}
             position={position}
             color={galaxy.color}
             index={index}

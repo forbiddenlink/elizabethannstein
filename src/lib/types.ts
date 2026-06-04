@@ -1,5 +1,7 @@
 // Core data types for the galaxy portfolio
 
+export type ProjectTier = 'flagship' | 'production' | 'experiment' | 'archive'
+
 export interface Project {
   id: string
   title: string
@@ -32,6 +34,8 @@ export interface Project {
     testimonial?: string // PDF or link to recommendation letter
   }
   status?: 'in-progress' | 'live' | 'archived'
+  /** Optional override; otherwise computed in proofLayer from scene/featured/archive rules */
+  tier?: ProjectTier
   featured: boolean // For homepage highlights
   dateRange: string // "2023-2024", "2022", etc.
   challenge?: string // Custom challenge text for case study page

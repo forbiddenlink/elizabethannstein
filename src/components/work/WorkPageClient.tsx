@@ -15,6 +15,7 @@ import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { SplitWords } from '@/components/ui/SplitText'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
+import { countProofCatalogProjects, isProofCatalogProject } from '@/lib/proofLayer'
 import type { Galaxy, Project } from '@/lib/types'
 import { cn, formatDateRange } from '@/lib/utils'
 
@@ -133,7 +134,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     [galaxies, searchParams]
   )
   const initialSearchQuery = useMemo(() => searchParams.get('q')?.trim() ?? '', [searchParams])
-  const initialShowFeaturedOnly = useMemo(() => {
+  const initialShowProofCatalog = useMemo(() => {
     const viewMode = searchParams.get('view')
     if (viewMode === 'all') return false
     return initialGalaxyFilter === null
@@ -148,7 +149,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
 
   const [selectedGalaxy, setSelectedGalaxy] = useState<string | null>(initialGalaxyFilter)
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(initialShowFeaturedOnly)
+  const [showProofCatalog, setShowProofCatalog] = useState(initialShowProofCatalog)
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag)
   const [sortOrder, setSortOrder] = useState<SortOrder>(initialSortOrder)
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -172,13 +173,13 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
   useEffect(() => {
     setSelectedGalaxy(initialGalaxyFilter)
     setSearchQuery(initialSearchQuery)
-    setShowFeaturedOnly(initialShowFeaturedOnly)
+    setShowProofCatalog(initialShowProofCatalog)
     setSelectedTag(initialTag)
     setSortOrder(initialSortOrder)
   }, [
     initialGalaxyFilter,
     initialSearchQuery,
-    initialShowFeaturedOnly,
+    initialShowProofCatalog,
     initialTag,
     initialSortOrder,
   ])
@@ -187,7 +188,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     const nextParams = new URLSearchParams()
     if (selectedGalaxy) nextParams.set('filter', selectedGalaxy)
     if (searchQuery.trim()) nextParams.set('q', searchQuery.trim())
-    if (!showFeaturedOnly) nextParams.set('view', 'all')
+    if (!showProofCatalog) nextParams.set('view', 'all')
     if (selectedTag) nextParams.set('tag', selectedTag)
     if (sortOrder !== 'featured') nextParams.set('sort', sortOrder)
 
@@ -203,23 +204,23 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     searchParams,
     searchQuery,
     selectedGalaxy,
-    showFeaturedOnly,
+    showProofCatalog,
     selectedTag,
     sortOrder,
   ])
 
   const allProjects = useMemo(() => galaxies.flatMap((g) => g.projects), [galaxies])
-  const featuredCount = useMemo(() => allProjects.filter((p) => p.featured).length, [allProjects])
+  const proofCatalogCount = useMemo(() => countProofCatalogProjects(allProjects), [allProjects])
 
   const filteredGalaxies = useMemo(() => {
     let filtered = selectedGalaxy ? galaxies.filter((g) => g.id === selectedGalaxy) : galaxies
 
-    // Filter to featured projects only when toggle is on
-    if (showFeaturedOnly) {
+    // Proof catalog: flagship + production tiers (see proofLayer)
+    if (showProofCatalog) {
       filtered = filtered
         .map((galaxy) => ({
           ...galaxy,
-          projects: galaxy.projects.filter((p) => p.featured),
+          projects: galaxy.projects.filter(isProofCatalogProject),
         }))
         .filter((g) => g.projects.length > 0)
     }
@@ -250,7 +251,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     }))
 
     return filtered
-  }, [galaxies, selectedGalaxy, searchQuery, showFeaturedOnly, selectedTag, sortOrder])
+  }, [galaxies, selectedGalaxy, searchQuery, showProofCatalog, selectedTag, sortOrder])
 
   const projectCount = useMemo(() => {
     return filteredGalaxies.reduce((acc, g) => acc + g.projects.length, 0)
@@ -294,18 +295,18 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
         </ScrollReveal>
         <ScrollReveal direction="up" delay={0.4}>
           <p className="text-base md:text-lg text-white/(--text-opacity-tertiary) max-w-2xl leading-relaxed">
-            {showFeaturedOnly ? (
+            {showProofCatalog ? (
               <>
                 <span className="text-white/(--text-opacity-primary) font-medium">
-                  {projectCount} featured case studies
+                  {projectCount} proof-tier projects
                 </span>{' '}
-                — the strongest starting points if you're skimming.{' '}
+                — flagship work and production systems worth a recruiter&apos;s time.{' '}
                 <button
                   type="button"
-                  onClick={() => setShowFeaturedOnly(false)}
+                  onClick={() => setShowProofCatalog(false)}
                   className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors"
                 >
-                  Show all {allProjects.length} projects →
+                  Full catalog ({allProjects.length}) →
                 </button>
               </>
             ) : (
@@ -350,7 +351,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
               type="button"
               onClick={() => {
                 setSelectedGalaxy('enterprise')
-                setShowFeaturedOnly(true)
+                setShowProofCatalog(true)
               }}
               className="ml-2 px-2.5 py-1 rounded-full text-[11px] border border-orange-300/30 bg-orange-500/15 text-orange-200 hover:bg-orange-500/25 transition-colors"
             >
@@ -360,7 +361,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
               type="button"
               onClick={() => {
                 setSelectedGalaxy('ai')
-                setShowFeaturedOnly(true)
+                setShowProofCatalog(true)
               }}
               className="px-2.5 py-1 rounded-full text-[11px] border border-cyan-300/30 bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 transition-colors"
             >
@@ -370,7 +371,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
               type="button"
               onClick={() => {
                 setSelectedGalaxy(null)
-                setShowFeaturedOnly(false)
+                setShowProofCatalog(false)
               }}
               className="px-2.5 py-1 rounded-full text-[11px] border border-purple-300/30 bg-purple-500/15 text-purple-200 hover:bg-purple-500/25 transition-colors"
             >
@@ -417,10 +418,10 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
             <div className="flex items-center gap-2 p-1 bg-white/5 rounded-lg border border-white/10">
               <button
                 type="button"
-                onClick={() => setShowFeaturedOnly(true)}
+                onClick={() => setShowProofCatalog(true)}
                 className={cn(
                   'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
-                  showFeaturedOnly
+                  showProofCatalog
                     ? 'bg-purple-600 text-white shadow-lg'
                     : 'text-white/60 hover:text-white/80 hover:bg-white/5'
                 )}
@@ -429,20 +430,20 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                  Featured ({featuredCount})
+                  Proof ({proofCatalogCount})
                 </span>
               </button>
               <button
                 type="button"
-                onClick={() => setShowFeaturedOnly(false)}
+                onClick={() => setShowProofCatalog(false)}
                 className={cn(
                   'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
-                  showFeaturedOnly
+                  showProofCatalog
                     ? 'text-white/60 hover:text-white/80 hover:bg-white/5'
                     : 'bg-white/10 text-white shadow-lg'
                 )}
               >
-                All ({allProjects.length})
+                Full catalog ({allProjects.length})
               </button>
             </div>
 
@@ -554,7 +555,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
             onClick={() => {
               setSearchQuery('')
               setSelectedGalaxy(null)
-              setShowFeaturedOnly(false)
+              setShowProofCatalog(false)
               setSelectedTag(null)
             }}
             className="px-4 py-2 bg-surface-3 border border-white/(--border-opacity-strong) rounded-lg text-white/(--text-opacity-secondary) hover:bg-surface-4 hover:text-white transition-all text-sm"

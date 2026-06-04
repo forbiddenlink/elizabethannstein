@@ -9,6 +9,7 @@ import {
   AccessibleViewToggle,
   useAccessibleView,
 } from '@/components/ui/AccessibleView'
+import { AchievementsSection } from '@/components/ui/AchievementsSection'
 import { AnimatedText, FadeIn } from '@/components/ui/AnimatedText'
 import { DeepLinkHandler } from '@/components/ui/DeepLinkHandler'
 import { Entrance } from '@/components/ui/Entrance'
@@ -232,15 +233,16 @@ export default function HomePage() {
                 <GitHubIcon className="w-4 h-4" />
               </a>
             </div>
-            <div className="mt-3 md:mt-4">
+            <div className="mt-3 md:mt-4 space-y-4">
               <StatsBar />
+              <AchievementsSection />
             </div>
           </FadeIn>
         </div>
       </header>
 
-      {/* AI Galaxy Guide */}
-      <GalaxyGuide />
+      {/* Galaxy Guide — after entrance so proof path stays first */}
+      {hasEntered && <GalaxyGuide />}
 
       {/* Contextual first-visit hints — progressive onboarding for new visitors */}
       <FirstVisitHints />

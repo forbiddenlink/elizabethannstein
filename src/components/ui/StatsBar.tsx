@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 const stats = [
   { label: 'Capella GPA', value: '3.98' },
   { label: 'Algolia win', value: '$750' },
-  { label: 'Live PROD', value: 'v1.1.0.18' },
+  { label: 'Live PROD', value: 'Dynamics 365' },
 ]
 
 export function StatsBar() {

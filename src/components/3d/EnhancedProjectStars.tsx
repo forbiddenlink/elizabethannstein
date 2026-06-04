@@ -5,6 +5,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { galaxies } from '@/lib/galaxyData'
+import { isSceneProject } from '@/lib/proofLayer'
 import { useHoverGravityStore, useViewStore } from '@/lib/store'
 import type { Galaxy, Project } from '@/lib/types'
 import { generateProjectPosition, getGalaxyCenterPosition, getSizeMultiplier } from '@/lib/utils'
@@ -61,9 +62,18 @@ function useIsMobile() {
 export function EnhancedProjectStars() {
   return (
     <group>
-      {galaxies.map((galaxy, galaxyIndex) => (
-        <GalaxyCluster key={galaxy.id} galaxy={galaxy} galaxyIndex={galaxyIndex} />
-      ))}
+      {galaxies.map((galaxy, galaxyIndex) => {
+        const sceneProjects = galaxy.projects.filter((p) => isSceneProject(p.id))
+        if (sceneProjects.length === 0) return null
+
+        return (
+          <GalaxyCluster
+            key={galaxy.id}
+            galaxy={{ ...galaxy, projects: sceneProjects }}
+            galaxyIndex={galaxyIndex}
+          />
+        )
+      })}
     </group>
   )
 }

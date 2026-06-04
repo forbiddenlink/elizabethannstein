@@ -8,7 +8,7 @@ import {
   getProjectById,
   narrativeTours,
 } from '@/lib/galaxyData'
-import { getHighlightReel, HIGHLIGHT_REEL_IDS } from '@/lib/highlightReel'
+import { getHighlightReel, PRIMARY_PROOF_IDS } from '@/lib/highlightReel'
 
 describe('galaxyData', () => {
   describe('galaxies', () => {
@@ -135,7 +135,7 @@ describe('galaxyData', () => {
 
   describe('highlight reel', () => {
     it('lists three curated case studies with live project data', () => {
-      expect(HIGHLIGHT_REEL_IDS).toHaveLength(3)
+      expect(PRIMARY_PROOF_IDS).toHaveLength(3)
       const reel = getHighlightReel()
       expect(reel).toHaveLength(3)
       for (const item of reel) {

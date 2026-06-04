@@ -5,6 +5,7 @@ import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { allProjects, galaxies } from '@/lib/galaxyData'
+import { isSceneProject } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 import { generateProjectPosition } from '@/lib/utils'
 
@@ -55,11 +56,14 @@ function computeProjectRelationships(): ProjectConnection[] {
   const seenPairs = new Set<string>()
 
   // Get all projects with their positions
-  const projectsWithPositions = allProjects.map((project) => {
+  const sceneProjects = allProjects.filter((p) => isSceneProject(p.id))
+
+  const projectsWithPositions = sceneProjects.map((project) => {
     const galaxy = galaxies.find((g) => g.id === project.galaxy)
     const galaxyIndex = galaxies.findIndex((g) => g.id === project.galaxy)
-    const projectIndex = galaxy?.projects.findIndex((p) => p.id === project.id) ?? 0
-    const totalProjects = galaxy?.projects.length ?? 1
+    const sceneInGalaxy = galaxy?.projects.filter((p) => isSceneProject(p.id)) ?? []
+    const projectIndex = sceneInGalaxy.findIndex((p) => p.id === project.id)
+    const totalProjects = sceneInGalaxy.length || 1
 
     const position = new THREE.Vector3(
       ...generateProjectPosition(
