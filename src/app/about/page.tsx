@@ -85,9 +85,9 @@ export default function AboutPage() {
                 <p className="page-hero-kicker">About</p>
                 <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
                 <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
-                  Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Currently shipping production
-                  code at three orgs — Dynamics 365 work at CyberReady Clinic, Craft CMS at
-                  Rocketpark, the Algolia Agent Studio winner on the side.
+                  Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Currently shipping production code
+                  at three orgs — Dynamics 365 work at CyberReady Clinic, Craft CMS at Rocketpark,
+                  the Algolia Agent Studio winner on the side.
                 </p>
               </div>
             </div>
@@ -224,9 +224,9 @@ export default function AboutPage() {
             <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-lg border border-white/(--border-opacity-default)">
               <p>
                 I&apos;m the primary developer on CyberReady Clinic&apos;s MSP Ready5 Assessment — a
-                Dynamics 365 / Power Platform / Dataverse system live in production.
-                Concurrently I run Craft CMS work at Rocketpark across a 10-site client portfolio,
-                and from 2024–2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
+                Dynamics 365 / Power Platform / Dataverse system live in production. Concurrently I
+                run Craft CMS work at Rocketpark across a 10-site client portfolio, and from
+                2024–2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
                 ecosystem.
               </p>
               <p>
@@ -238,9 +238,8 @@ export default function AboutPage() {
               <p>
                 B.S. in Information Technology, Software Development from Capella University
                 (conferred March 2026) — Summa Cum Laude, 3.98 GPA, University Honors Pathway,
-                Dean&apos;s List every quarter. I work in small, shippable steps
-                with clear commits and documentation so future me — and teammates — don&apos;t
-                suffer.
+                Dean&apos;s List every quarter. I work in small, shippable steps with clear commits
+                and documentation so future me — and teammates — don&apos;t suffer.
               </p>
             </div>
           </section>
@@ -500,8 +499,8 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  Graduated Summa Cum Laude (3.98 GPA), University Honors Pathway, Dean's List
-                  every quarter, while shipping production projects full-time
+                  Graduated Summa Cum Laude (3.98 GPA), University Honors Pathway, Dean's List every
+                  quarter, while shipping production projects full-time
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">

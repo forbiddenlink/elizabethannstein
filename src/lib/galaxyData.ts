@@ -170,7 +170,7 @@ export const galaxies: Galaxy[] = [
         id: 'crc-leadgen',
         title: 'CRC Lead Gen Platform',
         description:
-          'Primary developer on a production lead-generation and operations platform for a cybersecurity nonprofit. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + Microsoft Entra ID (MSAL). Unifies multiple public intake pipelines and hands structured data into the organization\'s Microsoft Power Platform via secure server-to-server callbacks.',
+          "Primary developer on a production lead-generation and operations platform for a cybersecurity nonprofit. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + Microsoft Entra ID (MSAL). Unifies multiple public intake pipelines and hands structured data into the organization's Microsoft Power Platform via secure server-to-server callbacks.",
         role: 'Creator & Developer',
         company: 'CyberReady Clinic',
         tags: ['Next.js 16', 'Drizzle', 'Neon', 'Better Auth', 'MSAL', 'Azure AD'],
@@ -181,7 +181,7 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2025-2026',
         challenge:
-          'Build a public marketing and lead-capture site that hands structured intake straight into the organization\'s Microsoft Power Platform behind the assessment system, with enterprise SSO for staff and modern auth for everyone else.',
+          "Build a public marketing and lead-capture site that hands structured intake straight into the organization's Microsoft Power Platform behind the assessment system, with enterprise SSO for staff and modern auth for everyone else.",
         solution:
           'Next.js 16 App Router on Vercel with Drizzle + Neon for persistence. Better Auth for public users; Microsoft Entra ID (MSAL) for staff. A signed server-to-server callback hands the intake into the Power Platform so the CRM stays the source of truth.',
         impact:
