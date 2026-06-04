@@ -591,10 +591,6 @@ export const galaxies: Galaxy[] = [
         brightness: 1.5,
         size: 'medium',
         galaxy: 'ai',
-        links: {
-          live: 'https://interview-ace-self.vercel.app',
-          github: 'https://github.com/forbiddenlink/interview-ace',
-        },
         featured: false,
         dateRange: '2025',
         challenge:
@@ -1552,7 +1548,7 @@ export const galaxies: Galaxy[] = [
         size: 'large',
         galaxy: 'devtools',
         links: {
-          live: 'https://rocket-vitals.vercel.app',
+          live: 'https://rocketvitals.com',
         },
         featured: false,
         dateRange: '2025-2026',
