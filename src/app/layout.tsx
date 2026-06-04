@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     description: SITE.description,
     url: SITE.url,
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: SITE.fullTitle }],
-    videos: [{ url: '/reel.mp4', width: 1920, height: 1080, type: 'video/mp4' }],
+    videos: [{ url: `${SITE.url}/reel.mp4`, width: 1920, height: 1080, type: 'video/mp4' }],
   },
   twitter: {
     card: 'summary_large_image',
