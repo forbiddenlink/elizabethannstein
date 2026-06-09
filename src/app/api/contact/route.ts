@@ -9,7 +9,13 @@ const FORWARD_TO = process.env.CONTACT_FORWARD_TO ?? 'purplegumdropz@gmail.com'
 
 // Simple HTML sanitizer — strips tags, normalises whitespace
 function sanitize(value: string): string {
-  return value.replace(/<[^>]*>/g, '').trim()
+  let out = value
+  let prev: string
+  do {
+    prev = out
+    out = out.replace(/<[^>]*>/g, '')
+  } while (out !== prev)
+  return out.trim()
 }
 
 export async function POST(request: Request) {
