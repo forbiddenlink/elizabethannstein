@@ -17,42 +17,49 @@ interface VisitorProfile {
 function detectVisitorType(referrer: string | null): VisitorType {
   if (!referrer) return 'unknown'
 
-  const ref = referrer.toLowerCase()
+  // Parse referrer into host + path so matches anchor to the real hostname,
+  // not an arbitrary URL substring (includes('github.com') also matches
+  // 'github.com.attacker.io').
+  let host = ''
+  let path = ''
+  try {
+    const url = new URL(referrer)
+    host = url.hostname.toLowerCase()
+    path = url.pathname.toLowerCase()
+  } catch {
+    return 'unknown'
+  }
+
+  const onHost = (domain: string) => host === domain || host.endsWith('.' + domain)
+  const hasLabel = (label: string) =>
+    host === label || host.startsWith(label + '.') || host.includes('.' + label + '.')
 
   // Recruiter indicators
   if (
-    ref.includes('linkedin.com') ||
-    ref.includes('indeed.com') ||
-    ref.includes('greenhouse.io') ||
-    ref.includes('lever.co') ||
-    ref.includes('workday.com') ||
-    ref.includes('jobs.') ||
-    ref.includes('careers.')
+    onHost('linkedin.com') ||
+    onHost('indeed.com') ||
+    onHost('greenhouse.io') ||
+    onHost('lever.co') ||
+    onHost('workday.com') ||
+    hasLabel('jobs') ||
+    hasLabel('careers')
   ) {
     return 'recruiter'
   }
 
   // Developer indicators
   if (
-    ref.includes('github.com') ||
-    ref.includes('stackoverflow.com') ||
-    ref.includes('dev.to') ||
-    ref.includes('hackernews') ||
-    ref.includes('reddit.com/r/programming') ||
-    ref.includes('reddit.com/r/webdev') ||
-    ref.includes('reddit.com/r/typescript') ||
-    ref.includes('reddit.com/r/reactjs')
+    onHost('github.com') ||
+    onHost('stackoverflow.com') ||
+    onHost('dev.to') ||
+    onHost('ycombinator.com') ||
+    (onHost('reddit.com') && /^\/r\/(programming|webdev|typescript|reactjs)\b/.test(path))
   ) {
     return 'developer'
   }
 
   // Client/business indicators
-  if (
-    ref.includes('clutch.co') ||
-    ref.includes('upwork.com') ||
-    ref.includes('toptal.com') ||
-    ref.includes('fiverr.com')
-  ) {
+  if (onHost('clutch.co') || onHost('upwork.com') || onHost('toptal.com') || onHost('fiverr.com')) {
     return 'client'
   }
 
