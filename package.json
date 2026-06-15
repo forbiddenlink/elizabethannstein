@@ -38,7 +38,7 @@
     "@theatre/core": "^0.7.2",
     "@theatre/r3f": "^0.7.2",
     "@vercel/analytics": "^2.0.1",
-    "@vercel/speed-insights": "^1.3.1",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",
     "gsap": "^3.15.0",
