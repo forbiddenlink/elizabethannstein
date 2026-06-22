@@ -1,0 +1,5 @@
+# Security contact for elizabethannstein.com (RFC 9116)
+Contact: mailto:hello@elizabethannstein.com
+Expires: 2027-06-21T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://elizabethannstein.com/.well-known/security.txt

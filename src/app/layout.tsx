@@ -125,6 +125,16 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Identity verification across platforms (rel=me) — AX readiness */}
+        <link rel="me" href={CONTACT.github} />
+        <link rel="me" href={CONTACT.linkedin} />
+        <link rel="me" href={`mailto:${CONTACT.email}`} />
+        {/* LLM-optimized content discovery */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content" />
+        {/* AI agent hints */}
+        <meta name="ai:summary" content={SITE.shortDescription} />
+        <meta name="ai:content_type" content="website" />
+        <meta name="ai:author" content={SITE.name} />
       </head>
       <body
         suppressHydrationWarning
