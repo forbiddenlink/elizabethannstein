@@ -168,9 +168,6 @@ export function ProjectModal() {
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-50 gpu-accelerated"
           onClick={handleClose}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${project.title} project details`}
         >
           {/* Backdrop with blur-in */}
           <motion.div
@@ -190,6 +187,9 @@ export function ProjectModal() {
               {/* Content with zoom + slide-up */}
               <motion.div
                 ref={modalRef}
+                role="dialog"
+                aria-modal="true"
+                aria-label={`${project.title} project details`}
                 initial={{ opacity: 0, scale: 0.95, y: 40 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 40 }}

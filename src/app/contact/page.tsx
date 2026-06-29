@@ -110,7 +110,7 @@ export default function ContactPage() {
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 mt-1">
                 <span className="relative flex h-3.5 w-3.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-galaxy-devtools)] opacity-75"></span>
+                  <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-galaxy-devtools)] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[var(--color-galaxy-devtools)] "></span>
                 </span>
               </div>

@@ -53,6 +53,9 @@ export function GalaxyCursor() {
   useEffect(() => {
     if (!isReady) return
 
+    // Respect prefers-reduced-motion — skip all animation loops
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const orb = orbRef.current
     const dot = dotRef.current
     const ring = ringRef.current

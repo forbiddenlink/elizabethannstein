@@ -168,7 +168,7 @@ export default function HomePage() {
             <div className="mb-2 flex items-center gap-2 md:mb-3">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/20 px-2.5 py-1 text-[11px] font-medium text-emerald-300 md:px-3 md:text-xs">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
                 <span>{'Available for hire'}</span>
@@ -182,7 +182,7 @@ export default function HomePage() {
               <a
                 href="/resume/elizabeth-stein-resume.pdf"
                 download="Elizabeth_Stein_Resume.pdf"
-                className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/20 bg-white px-3.5 py-2 text-sm font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 md:px-5"
+                className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-white/20 bg-white px-3.5 py-2 text-sm font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:px-5"
               >
                 <svg
                   className="w-4 h-4"
@@ -203,14 +203,14 @@ export default function HomePage() {
               </a>
               <Link
                 href="/work"
-                className={`inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white/90 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11 ${isUniverseView ? 'bg-white/15' : ''}`}
+                className={`inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white/90 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 ${isUniverseView ? 'bg-white/15' : ''}`}
                 aria-label="View all projects"
               >
                 View work
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex min-h-10 items-center rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white/85 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50 md:min-h-11"
+                className="inline-flex min-h-11 items-center rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white/85 transition-colors duration-200 drop-shadow-md hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
                 Contact
               </Link>
@@ -219,7 +219,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="inline-flex items-center justify-center rounded-lg p-2.5 text-white/70 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg p-2.5 text-white/70 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
                 <LinkedInIcon className="w-4 h-4" />
               </a>
@@ -228,7 +228,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="inline-flex items-center justify-center p-2.5 text-white/70 hover:text-white transition-colors duration-200 hover:bg-white/10 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center p-2.5 text-white/70 hover:text-white transition-colors duration-200 hover:bg-white/10 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
               >
                 <GitHubIcon className="w-4 h-4" />
               </a>

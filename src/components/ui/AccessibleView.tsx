@@ -67,7 +67,7 @@ export function AccessibleView() {
   const proofGalaxies = filterGalaxiesByCatalog(galaxies, 'proof')
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
+    <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-black/80 border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 py-4">
