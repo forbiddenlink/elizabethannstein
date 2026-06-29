@@ -78,23 +78,13 @@ const config: Config = {
         normal: 'var(--duration-normal)',
         medium: 'var(--duration-medium)',
         slow: 'var(--duration-slow)',
-        slower: 'var(--duration-slower)',
       },
       transitionTimingFunction: {
         'out-expo': 'var(--ease-out-expo)',
         'out-quint': 'var(--ease-out-quint)',
         'out-quart': 'var(--ease-out-quart)',
-        'out-back': 'var(--ease-out-back)',
         'in-out-cubic': 'var(--ease-in-out-cubic)',
         magnetic: 'var(--ease-magnetic)',
-        spring: 'var(--ease-spring)',
-      },
-      boxShadow: {
-        'glow-purple': 'var(--shadow-glow-purple)',
-        'glow-blue': 'var(--shadow-glow-blue)',
-      },
-      backdropBlur: {
-        glass: 'var(--glass-blur)',
       },
       opacity: {
         'text-primary': 'var(--text-opacity-primary)',
