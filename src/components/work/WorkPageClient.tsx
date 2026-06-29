@@ -584,7 +584,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                   {/* Animated pulsing star indicator */}
                   <span className="relative flex h-3 w-3 shrink-0" aria-hidden="true">
                     <span
-                      className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                      className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
                       style={{ backgroundColor: galaxy.color }}
                     />
                     <span

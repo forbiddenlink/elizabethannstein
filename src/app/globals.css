@@ -1007,7 +1007,15 @@ img:hover {
 
 /* ── Text gradient utilities ────────────────────────────────────────────── */
 .text-gradient-galaxy {
-  background: linear-gradient(135deg, #ff6b35, #00d9ff, var(--color-galaxy-fullstack), #06ffa5, var(--color-galaxy-creative), #ffb800);
+  background: linear-gradient(
+    135deg,
+    #ff6b35,
+    #00d9ff,
+    var(--color-galaxy-fullstack),
+    #06ffa5,
+    var(--color-galaxy-creative),
+    #ffb800
+  );
   background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1033,7 +1041,12 @@ img:hover {
 }
 
 .scroll-progress-bar[data-tone="fullstack"] {
-  background: linear-gradient(to right, rgba(var(--color-galaxy-fullstack-rgb), 0.6), var(--color-galaxy-fullstack), rgba(var(--color-galaxy-fullstack-rgb), 0.85));
+  background: linear-gradient(
+    to right,
+    rgba(var(--color-galaxy-fullstack-rgb), 0.6),
+    var(--color-galaxy-fullstack),
+    rgba(var(--color-galaxy-fullstack-rgb), 0.85)
+  );
 }
 
 .scroll-progress-bar[data-tone="devtools"] {
@@ -1041,7 +1054,12 @@ img:hover {
 }
 
 .scroll-progress-bar[data-tone="creative"] {
-  background: linear-gradient(to right, rgba(var(--color-galaxy-creative-rgb), 0.6), var(--color-galaxy-creative), rgba(var(--color-galaxy-creative-rgb), 0.85));
+  background: linear-gradient(
+    to right,
+    rgba(var(--color-galaxy-creative-rgb), 0.6),
+    var(--color-galaxy-creative),
+    rgba(var(--color-galaxy-creative-rgb), 0.85)
+  );
 }
 
 .scroll-progress-bar[data-tone="experimental"] {
@@ -1202,7 +1220,11 @@ blockquote {
 }
 
 .project-modal-glow[data-tone="fullstack"] {
-  background: radial-gradient(circle at 50% 0%, rgba(var(--color-galaxy-fullstack-rgb), 0.22), transparent 70%);
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(var(--color-galaxy-fullstack-rgb), 0.22),
+    transparent 70%
+  );
 }
 
 .project-modal-glow[data-tone="devtools"] {
@@ -1210,7 +1232,11 @@ blockquote {
 }
 
 .project-modal-glow[data-tone="creative"] {
-  background: radial-gradient(circle at 50% 0%, rgba(var(--color-galaxy-creative-rgb), 0.22), transparent 70%);
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(var(--color-galaxy-creative-rgb), 0.22),
+    transparent 70%
+  );
 }
 
 .project-modal-glow[data-tone="experimental"] {

@@ -253,7 +253,7 @@ export function GalaxyCursor() {
           /* Scanner crosshair for planets */
           <div className="relative" style={{ width: 48, height: 48 }}>
             <div
-              className="absolute inset-0 rounded-full border border-white/30 animate-ping"
+              className="absolute inset-0 rounded-full border border-white/30 motion-safe:animate-ping"
               style={{ animationDuration: '1.5s' }}
             />
             <div className="absolute inset-2 rounded-full border border-cyan-400/60" />

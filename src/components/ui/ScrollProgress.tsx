@@ -13,11 +13,11 @@ function getProgressTone(color?: string): string {
       return 'enterprise'
     case '#00d9ff':
       return 'ai'
-    case '#9d4edd':
+    case '#b47eff':
       return 'fullstack'
     case '#06ffa5':
       return 'devtools'
-    case '#ff006e':
+    case '#ff4d94':
       return 'creative'
     case '#ffb800':
       return 'experimental'
