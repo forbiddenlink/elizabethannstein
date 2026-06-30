@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Brain, Building2, Code2, ExternalLink, Github, Rocket, Trophy } from 'lucide-react'
+import { Brain, Building2, Code2, ExternalLink, GitBranch, Rocket, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
 
@@ -105,7 +105,7 @@ export function HeroProjects() {
                     )}
                     {project.links?.github && (
                       <span className="inline-flex items-center gap-1 text-xs text-white/40 group-hover:text-white/60">
-                        <Github className="w-3 h-3" />
+                        <GitBranch className="w-3 h-3" />
                         Code
                       </span>
                     )}

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, ExternalLink, Eye, EyeOff, Github } from 'lucide-react'
+import { ChevronRight, ExternalLink, Eye, EyeOff, GitBranch } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { galaxies } from '@/lib/galaxyData'
@@ -213,7 +213,7 @@ export function AccessibleView() {
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-sm text-white/60 hover:text-white transition-colors"
                       >
-                        <Github className="w-3 h-3" />
+                        <GitBranch className="w-3 h-3" />
                         Code
                       </a>
                     )}
