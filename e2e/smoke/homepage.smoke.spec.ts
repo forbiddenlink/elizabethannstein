@@ -46,7 +46,9 @@ test.describe('Homepage Smoke Tests', () => {
     })
 
     await gotoHomeReady(page)
-    await page.waitForLoadState('networkidle')
+    // Use 'load' rather than 'networkidle': the 3D WebGL galaxy scene keeps
+    // continuous GPU/network activity that prevents networkidle from firing.
+    await page.waitForLoadState('load')
 
     // Allow WebGL context errors on systems without GPU
     const criticalErrors = errors.filter((e) => !e.includes('WebGL') && !e.includes('GPU'))
@@ -71,8 +73,12 @@ test.describe('Homepage Smoke Tests', () => {
 
     const modal = page.locator('[role="dialog"]')
 
-    // On low-capability environments, app may redirect to canonical project page.
-    if (await modal.isVisible({ timeout: 2000 }).catch(() => false)) {
+    // Two valid outcomes:
+    // 1. 3D mode (WebGL available): modal opens in-page
+    // 2. Fallback (no WebGL or reduced-motion): app redirects to /work/chronicle
+    // Give the 3D scene enough time to initialize in headless CI before
+    // falling through to the redirect check.
+    if (await modal.isVisible({ timeout: 8000 }).catch(() => false)) {
       await expect(modal).toBeVisible()
       return
     }
