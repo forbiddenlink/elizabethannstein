@@ -67,6 +67,10 @@ test.describe('Homepage Smoke Tests', () => {
   })
 
   test('project modal opens via URL deep-link', async ({ page }) => {
+    // Headless CI ships software WebGL (swiftshader), so the app takes the 3D
+    // path where the modal can't reliably mount. Force reduced-motion so the
+    // deep-link deterministically takes the redirect escape-hatch we assert on.
+    await page.emulateMedia({ reducedMotion: 'reduce' })
     // Use a known project slug.
     await page.goto('/?p=chronicle')
     await page.waitForLoadState('domcontentloaded')
