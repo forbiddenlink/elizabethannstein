@@ -23,10 +23,10 @@ jobs:
           max-files: "500"
           output: ".ally"
       - name: Upload report
-        if: always()
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v7
         with:
           name: ally-a11y-report
           path: ".ally/**"
           if-no-files-found: warn
-          retention-days: 30
+          retention-days: 7

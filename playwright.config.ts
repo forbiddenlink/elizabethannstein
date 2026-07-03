@@ -19,9 +19,9 @@ export default defineConfig({
 
   use: {
     baseURL,
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'on-first-retry',
+    video: 'retain-on-failure',
   },
 
   // Configure visual regression snapshot settings
