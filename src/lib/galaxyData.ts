@@ -82,9 +82,9 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2024',
         challenge:
-          'Building a production AI platform that integrates seamlessly with the Flo Labs ecosystem while maintaining consistent design language.',
+          'Building a production AI platform that connects cleanly into the Flo Labs ecosystem while maintaining consistent design language.',
         solution:
-          'Leveraged shared component library and design system. Implemented AI features with careful UX consideration for complex interactions and designed intuitive workflows for non-technical users.',
+          'Used a shared component library and design system. Implemented AI features with careful UX consideration for complex interactions and designed intuitive workflows for non-technical users.',
         impact:
           'Launched as part of 6-site ecosystem. Consistent design language reduces user friction across platforms. AI features integrated with zero learning curve.',
       },
@@ -235,11 +235,11 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2024',
         challenge:
-          'Showcasing cutting-edge robotics and AI capabilities in an accessible, non-intimidating way for diverse audiences.',
+          'Showcasing robotics and AI capabilities in an accessible, non-intimidating way for diverse audiences.',
         solution:
           'Created interactive demos and visualizations that make complex AI/robotics concepts tangible. Built Strapi backend for easy showcase updates by non-technical team members.',
         impact:
-          'Interactive demos increase visitor engagement. Clear explanations make technical concepts accessible. Seamless integration with Flo Labs ecosystem.',
+          'Interactive demos increase visitor engagement. Clear explanations make technical concepts accessible. Integrated with the Flo Labs ecosystem.',
       },
     ],
   },
@@ -992,7 +992,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built on Yjs CRDTs for conflict-free real-time sync that works offline. BlockNote + Tiptap editor provides Notion-like blocks. Native AI integration for intelligent queries. Supertags enable flexible organization.',
         impact:
-          'True offline-first with seamless sync. Real-time collaboration without conflict resolution headaches. Cinematic Dark Mode with snappy motion UI.',
+          'Offline-first with automatic background sync. Real-time collaboration without conflict resolution headaches. Cinematic Dark Mode with snappy motion UI.',
         impactMetrics: [
           { label: 'Sync', value: 'Yjs CRDTs', icon: 'refresh' },
           { label: 'Editor', value: 'BlockNote + Tiptap', icon: 'edit' },
@@ -1141,7 +1141,7 @@ export const galaxies: Galaxy[] = [
         challenge:
           'Claude Code sessions lose context on clear, forcing developers to re-explain project state repeatedly.',
         solution:
-          'Built hooks, ledgers, and handoff documents that automatically preserve session state and enable seamless context restoration.',
+          'Built hooks, ledgers, and handoff documents that automatically preserve session state and enable reliable context restoration.',
         impact:
           'Eliminates context re-establishment time after session clears. Handoff documents capture learnings for future sessions. Used daily in my own development workflow.',
       },
@@ -1885,7 +1885,7 @@ export const galaxies: Galaxy[] = [
         id: 'ocean-simulator',
         title: 'Ocean Ecosystem Simulator',
         description:
-          'Cutting-edge ocean ecosystem simulator with complex food chains, realistic physics, and emergent behaviors - rivaling AAA game engines in the browser.',
+          'Ocean ecosystem simulator with complex food chains, realistic physics, and emergent behaviors, running entirely in the browser.',
         role: 'Creator',
         tags: ['WebGL', 'Three.js'],
         color: '#0EA5E9',
@@ -1922,7 +1922,7 @@ export const galaxies: Galaxy[] = [
         challenge:
           'Creating a calming blog experience that reflects the wellness theme while maintaining excellent readability.',
         solution:
-          'Soft green palette with seamless dark mode toggle. Tailwind CSS for consistent spacing and typography. Optimized images for fast loading.',
+          'Soft green palette with a dark mode toggle. Tailwind CSS for consistent spacing and typography. Optimized images for fast loading.',
         impact:
           'Dark mode reduces eye strain for evening readers. Soft color palette reinforces wellness theme. 95+ Lighthouse accessibility score.',
       },
@@ -1965,7 +1965,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built interactive timeline with branching paths, event connections, and zoomable detail levels. Rich media attachments preserve context.',
         impact:
-          'Branching timelines reveal causal relationships. Zoom from decades to days seamlessly. Rich attachments preserve full context of each milestone.',
+          'Branching timelines reveal causal relationships. Zoom from decades to days. Rich attachments preserve full context of each milestone.',
       },
       {
         id: 'mythos',
@@ -2193,7 +2193,7 @@ export const galaxies: Galaxy[] = [
         id: 'constellation-events',
         title: 'Constellation Events',
         description:
-          'Event management platform with calendar integration, RSVPs, attendee tracking, and real-time updates for seamless event coordination.',
+          'Event management platform with calendar integration, RSVPs, attendee tracking, and real-time updates for event coordination.',
         role: 'Creator',
         tags: ['Real-time', 'Next.js'],
         color: '#FFB800',
@@ -2217,7 +2217,7 @@ export const galaxies: Galaxy[] = [
         id: 'nova-particles',
         title: 'Nova Particles',
         description:
-          'Next-generation GPU particle system rendering 1M+ particles at 60fps using WebGPU compute shaders. Structure of Arrays architecture for maximum GPU cache efficiency.',
+          'GPU particle system rendering 1M+ particles at 60fps using WebGPU compute shaders. Structure of Arrays architecture for maximum GPU cache efficiency.',
         role: 'Creator',
         tags: ['WebGPU', 'Three.js', 'TypeScript', 'Performance'],
         color: '#FF6B6B',

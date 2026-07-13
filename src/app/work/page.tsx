@@ -9,7 +9,7 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
 const workDescription = `Full-stack development, AI integration, design systems, and enterprise work across ${STATS.projectCount} projects. Browse the portfolio.`
 
 export const metadata: Metadata = {
-  title: 'Projects & Work - Elizabeth Stein Portfolio',
+  title: 'Projects & Work',
   description: workDescription,
   alternates: {
     canonical: '/work',

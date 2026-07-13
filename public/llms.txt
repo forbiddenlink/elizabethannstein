@@ -1,20 +1,23 @@
-# Elizabeth Ann Stein
+# Elizabeth Stein
 
-> Full-stack developer and designer building SaaS products and open-source tools.
+> Full-stack engineer shipping production code across three orgs. Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on CyberReady Clinic's Dynamics 365 / Power Platform assessment, live in production. Algolia Agent Studio Challenge winner, npm publisher, and MCP server author.
 
 ## About
-elizabethannstein.com is the personal portfolio and blog of Elizabeth Ann Stein, a full-stack developer specializing in Next.js, TypeScript, and modern web technologies. The site showcases projects, writing, and professional work.
+elizabethannstein.com is the portfolio of Elizabeth Stein, a full-stack engineer specializing in Microsoft Power Platform (Dynamics 365, Dataverse), Next.js, React, TypeScript, and AI integration (Claude, MCP servers, RAG). The site presents her work as an interactive 3D "galaxy" of roughly 90 projects, with a recruiter fast-track to the strongest, verifiable proof.
 
-## Key Features
-- Project portfolio and case studies
-- Technical blog and articles
-- Open-source contributions
-- Contact and hiring information
+## Proof
+- CyberReady Clinic MSP Ready5 Assessment: sole developer on a production Dynamics 365 / Power Platform assessment, front-end externalized to a Next.js app at msp.cyberready.clinic.
+- TimeSlipSearch: Algolia Agent Studio Challenge winner ($750), search over 420k records.
+- Specter: published npm package, 65 CLI commands, 14 MCP tools.
+- Trace: DEV.to GitHub Finish-Up-A-Thon winner. Turns a screenshot into a runnable React component using Google Gemini grounded in a shadcn catalog.
 
-## Documentation
-- [Homepage](https://elizabethannstein.com)
-- [Projects](https://elizabethannstein.com/projects)
-- [Blog](https://elizabethannstein.com/blog)
+## Pages
+- [Home](https://elizabethannstein.com)
+- [Work](https://elizabethannstein.com/work)
+- [About](https://elizabethannstein.com/about)
+- [Contact](https://elizabethannstein.com/contact)
 
 ## Contact
 - hello@elizabethannstein.com
+- https://github.com/forbiddenlink
+- https://linkedin.com/in/imkindageeky

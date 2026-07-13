@@ -403,7 +403,7 @@ export default function AboutPage() {
             id="testimonial"
             className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-600 fill-mode-both scroll-mt-24"
           >
-            <h2 className="text-3xl font-semibold mb-6">What Clients Say</h2>
+            <h2 className="text-3xl font-semibold mb-6">What a Client Says</h2>
             <blockquote className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-8 md:p-10">
               <div
                 className="absolute -top-4 -left-2 text-6xl text-[var(--color-text-tertiary)] font-serif"

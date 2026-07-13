@@ -98,13 +98,16 @@ export async function generateMetadata({
   const project = getProjectById(slug)
 
   if (!project) {
-    return {}
+    return {
+      title: 'Project not found',
+      robots: { index: false, follow: true },
+    }
   }
 
   const metaDescription = normalizeDescription(project.description, project.tags)
 
   return {
-    title: `${project.title} · Case study · ${SITE.name}`,
+    title: `${project.title} · Case study`,
     description: metaDescription,
     alternates: {
       canonical: `/work/${project.id}`,

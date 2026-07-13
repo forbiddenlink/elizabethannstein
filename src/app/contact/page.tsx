@@ -42,8 +42,9 @@ export default function ContactPage() {
             <p className="page-hero-kicker">Collaborate</p>
             <h1 className="page-hero-title text-5xl md:text-6xl lg:text-7xl mb-5">Get in Touch</h1>
             <p className="page-hero-lede text-lg md:text-xl">
-              I&apos;m always interested in hearing about new projects, collaboration opportunities,
-              or just connecting with fellow developers.
+              I&apos;m actively looking for frontend, UX-engineering, and full-stack roles. If
+              you&apos;re hiring, or want to talk through a project, reach out. I read every
+              message.
             </p>
           </header>
 

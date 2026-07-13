@@ -7,7 +7,8 @@ import { CONTACT, SITE } from '@/lib/constants'
 // (defaults to purplegumdropz@gmail.com when the env var isn't set).
 const FORWARD_TO = process.env.CONTACT_FORWARD_TO ?? 'purplegumdropz@gmail.com'
 
-// Simple HTML sanitizer — strips tags, normalises whitespace
+// Simple sanitizer: strips HTML tags, then removes control chars and CR/LF
+// so a crafted name/email cannot inject headers into the email subject.
 function sanitize(value: string): string {
   let out = value
   let prev: string
@@ -15,6 +16,8 @@ function sanitize(value: string): string {
     prev = out
     out = out.replace(/<[^>]*>/g, '')
   } while (out !== prev)
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: intentionally stripping control chars
+  out = out.replace(/[\u0000-\u001f\u007f]/g, ' ')
   return out.trim()
 }
 

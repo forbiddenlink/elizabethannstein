@@ -63,13 +63,7 @@ export default function PrivacyPage() {
                 <p className="text-[11px] uppercase tracking-[0.22em] text-white/45">
                   Last updated
                 </p>
-                <p className="mt-2 text-sm font-medium text-white/80">
-                  {new Date().toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
-                </p>
+                <p className="mt-2 text-sm font-medium text-white/80">July 13, 2026</p>
               </div>
             </div>
           </div>

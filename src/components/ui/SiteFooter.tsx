@@ -26,7 +26,7 @@ export function SiteFooter() {
               href={CONTACT.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
+              className="inline-flex items-center justify-center min-h-11 min-w-11 hover:text-white transition-colors"
             >
               <GitHubIcon className="w-5 h-5" aria-hidden="true" />
               <span className="sr-only">GitHub</span>
@@ -35,7 +35,7 @@ export function SiteFooter() {
               href={CONTACT.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
+              className="inline-flex items-center justify-center min-h-11 min-w-11 hover:text-white transition-colors"
             >
               <LinkedInIcon className="w-5 h-5" aria-hidden="true" />
               <span className="sr-only">LinkedIn</span>

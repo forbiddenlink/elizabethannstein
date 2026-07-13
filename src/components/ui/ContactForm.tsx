@@ -51,7 +51,11 @@ export function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="p-8 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] text-center">
+      <div
+        role="status"
+        aria-live="polite"
+        className="p-8 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] text-center"
+      >
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] mb-4">
           <Check className="w-7 h-7 text-emerald-400" />
         </div>
@@ -131,7 +135,7 @@ export function ContactForm() {
         <div className="flex justify-end mt-1">
           <span
             className={`text-[10px] tabular-nums transition-colors ${
-              message.length > MAX_MESSAGE_LENGTH * 0.9 ? 'text-warning/70' : 'text-white/25'
+              message.length > MAX_MESSAGE_LENGTH * 0.9 ? 'text-warning/80' : 'text-white/55'
             }`}
           >
             {message.length.toLocaleString()} / {MAX_MESSAGE_LENGTH.toLocaleString()}
@@ -140,7 +144,11 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <div className="flex items-start gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="flex items-start gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm"
+        >
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
           <span>{errorMsg}</span>
         </div>
