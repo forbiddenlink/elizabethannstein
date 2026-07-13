@@ -24,7 +24,13 @@ function sanitize(value: string): string {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, message } = body as Record<string, unknown>
+    const { name, email, message, company } = body as Record<string, unknown>
+
+    // Honeypot: real users never fill the hidden "company" field. If it's
+    // populated, silently accept without sending so bots get no signal.
+    if (typeof company === 'string' && company.trim() !== '') {
+      return NextResponse.json({ ok: true })
+    }
 
     // Validate required fields
     if (

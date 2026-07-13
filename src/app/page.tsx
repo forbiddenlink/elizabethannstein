@@ -96,7 +96,7 @@ export default function HomePage() {
     <main
       id="main-content"
       tabIndex={-1}
-      className="relative w-full h-screen overflow-hidden bg-black outline-none"
+      className="relative w-full h-dvh overflow-hidden bg-black outline-none"
     >
       {/* Accessible View Toggle */}
       <AccessibleViewToggle

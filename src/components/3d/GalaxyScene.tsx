@@ -493,7 +493,7 @@ export default function GalaxyScene() {
   )
 
   return (
-    <div className="w-full h-screen relative">
+    <div className="w-full h-dvh relative">
       <WebGPUCanvas
         dpr={effectiveDpr}
         className="w-full h-full block"

@@ -16,6 +16,8 @@ export function ContactForm() {
   const [sentEmail, setSentEmail] = useState('')
   const [status, setStatus] = useState<FormStatus>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  // Honeypot: hidden from real users; only bots fill it.
+  const [company, setCompany] = useState('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -26,7 +28,7 @@ export function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, company }),
       })
 
       const data = (await res.json()) as { ok?: boolean; error?: string }
@@ -77,6 +79,17 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Honeypot field: real users never see or fill this; bots do. */}
+      <input
+        type="text"
+        name="company"
+        value={company}
+        onChange={(e) => setCompany(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+      />
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
           Your Name
