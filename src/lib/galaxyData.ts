@@ -136,7 +136,7 @@ export const galaxies: Galaxy[] = [
         id: 'crc-ready5-assessment',
         title: 'CyberReady Clinic: MSP Ready5 Assessment',
         description:
-          "Sole developer on a production MSP cybersecurity-readiness assessment for a healthcare-focused nonprofit. Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app (live at msp.cyberready.clinic) that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.",
+          'Sole developer on a production MSP cybersecurity-readiness assessment for a healthcare-focused nonprofit. Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app (live at msp.cyberready.clinic) that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.',
         role: 'Sole Developer (1099 → full-time)',
         company: 'CyberReady Clinic',
         tags: [

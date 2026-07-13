@@ -86,8 +86,8 @@ export default function AboutPage() {
                 <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
                 <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
                   Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Currently shipping
-                  production code at three orgs: Dynamics 365 work at CyberReady Clinic, Craft CMS at
-                  Rocketpark, the Algolia Agent Studio winner on the side.
+                  production code at three orgs: Dynamics 365 work at CyberReady Clinic, Craft CMS
+                  at Rocketpark, the Algolia Agent Studio winner on the side.
                 </p>
               </div>
             </div>
@@ -450,9 +450,9 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  <strong className="text-white">Sole developer</strong> on CyberReady
-                  Clinic&apos;s MSP Ready5 Assessment: Dynamics 365 / Power Platform / Dataverse
-                  system live in production, 12 implementation phases shipped
+                  <strong className="text-white">Sole developer</strong> on CyberReady Clinic&apos;s
+                  MSP Ready5 Assessment: Dynamics 365 / Power Platform / Dataverse system live in
+                  production, 12 implementation phases shipped
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
