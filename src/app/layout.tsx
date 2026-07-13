@@ -79,7 +79,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   dateCreated: '2024-01-01',
-  dateModified: '2026-05-11',
+  dateModified: '2026-07-13',
   mainEntity: {
     '@type': 'Person',
     '@id': `${SITE.url}/#person`,

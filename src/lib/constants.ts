@@ -15,12 +15,12 @@ export const SITE = {
   name: 'Elizabeth Stein',
   title: 'Full-Stack Engineer | Power Platform · Next.js · AI',
   fullTitle: 'Elizabeth Stein | Full-Stack Engineer (Power Platform · Next.js · AI)',
-  description: `Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Primary developer on a cybersecurity nonprofit's Dynamics 365 platform — in production. Algolia Agent Studio Challenge winner. ${totalProjects} projects across six galaxies.`,
+  description: `Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's Dynamics 365 platform, live in production. Algolia Agent Studio Challenge winner. ${totalProjects} projects across six galaxies.`,
   shortDescription:
-    'Full-stack engineer shipping production code at three orgs. B.S. Summa Cum Laude. Primary dev on a Dynamics 365 / Power Platform assessment live in production, $750 Algolia Agent Studio winner, npm publisher, MCP server author.',
+    'Full-stack engineer shipping production code at three orgs. B.S. Summa Cum Laude, conferred March 2026. Sole developer on a Dynamics 365 / Power Platform assessment live in production, $750 Algolia Agent Studio winner, npm publisher, MCP server author.',
   /** One-line POV for hero / storytelling surfaces */
   narrativeThesis:
-    'Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Primary dev on CyberReady Clinic Dynamics 365 — in production. Won Algolia Agent Studio. Publish to npm. Ship MCP servers, not just consume them.',
+    'Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on CyberReady Clinic Dynamics 365, live in production. Won Algolia Agent Studio. Publish to npm. Ship MCP servers, not just consume them.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
   keywords: [
     'Full-Stack Engineer',
@@ -82,5 +82,5 @@ export const STATS = {
   projectCount: String(totalProjects),
   galaxyCount: String(galaxies.length),
   yearsExperience: '3',
-  yearRange: '2023–2026',
+  yearRange: '2023-2026',
 } as const

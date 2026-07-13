@@ -321,7 +321,7 @@ export default async function ProjectPage({
                 </h2>
                 <p className="text-white/60 max-w-xl leading-relaxed">
                   If you need someone who can own UI, systems, and AI integration without losing the
-                  plot—I&apos;m listening. Contract, advisory, or full-time: we&apos;ll find the
+                  plot, I&apos;m listening. Contract, advisory, or full-time: we&apos;ll find the
                   right shape.
                 </p>
               </div>

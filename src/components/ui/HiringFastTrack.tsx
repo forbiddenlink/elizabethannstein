@@ -112,7 +112,7 @@ export function HiringFastTrack() {
                   transition={{ delay: 0.1, duration: 0.4 }}
                   className="mt-2 text-white/50 text-sm"
                 >
-                  Six flagship systems — production D365, contest win, SaaS, enterprise scale
+                  Six flagship systems: production D365, contest win, SaaS, enterprise scale
                 </motion.p>
               </div>
               <button

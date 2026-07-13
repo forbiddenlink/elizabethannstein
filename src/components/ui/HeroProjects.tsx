@@ -39,7 +39,7 @@ const heroProjects: HeroProject[] = [
   },
   {
     id: 'autodocs-ai',
-    highlight: 'Production SaaS with Stripe billing ($35–239/mo).',
+    highlight: 'Production SaaS with Stripe billing ($35-239/mo).',
     icon: <Rocket className="w-5 h-5" />,
     gradient: 'from-purple-500 to-pink-600',
   },

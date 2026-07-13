@@ -15,7 +15,7 @@ import {
 describe('proofLayer', () => {
   it('defines non-empty proof sets', () => {
     expect(PRIMARY_PROOF_IDS.length).toBe(3)
-    expect(FAST_TRACK_IDS.length).toBe(6)
+    expect(FAST_TRACK_IDS.length).toBe(7)
     expect(SCENE_PROJECT_IDS.length).toBe(15)
   })
 

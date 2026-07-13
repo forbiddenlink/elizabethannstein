@@ -300,7 +300,7 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
                 <span className="text-white/(--text-opacity-primary) font-medium">
                   {projectCount} proof-tier projects
                 </span>{' '}
-                — flagship work and production systems worth a recruiter&apos;s time.{' '}
+                : flagship work and production systems worth a recruiter&apos;s time.{' '}
                 <button
                   type="button"
                   onClick={() => setShowProofCatalog(false)}

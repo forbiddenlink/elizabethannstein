@@ -61,7 +61,7 @@ export function GalaxyHint() {
           <div className="flex flex-col items-start gap-2.5 rounded-lg border border-white/15 bg-black/72 px-4 py-3 shadow-2xl sm:flex-row sm:items-center sm:gap-4 sm:px-5">
             {/* Main hint */}
             <span className="text-xs text-white/75">
-              Each star is a project—<span className="text-white/90">open one</span> for the full
+              Each star is a project, <span className="text-white/90">open one</span> for the full
               case study.
             </span>
             <span className="w-px h-3 bg-white/15 hidden sm:block" aria-hidden="true" />

@@ -10,7 +10,7 @@ import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
 const aboutDescription =
-  "Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Primary developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
+  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
 
 export const metadata: Metadata = {
   title: 'About',
@@ -85,9 +85,9 @@ export default function AboutPage() {
                 <p className="page-hero-kicker">About</p>
                 <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
                 <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
-                  Capella B.S., Summa Cum Laude (3.98 GPA, 2026). Currently shipping production code
-                  at three orgs — Dynamics 365 work at CyberReady Clinic, Craft CMS at Rocketpark,
-                  the Algolia Agent Studio winner on the side.
+                  Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Currently shipping
+                  production code at three orgs: Dynamics 365 work at CyberReady Clinic, Craft CMS at
+                  Rocketpark, the Algolia Agent Studio winner on the side.
                 </p>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function AboutPage() {
                 Looking for <strong className="text-white">frontend</strong>,{' '}
                 <strong className="text-white">UX engineering</strong>, or{' '}
                 <strong className="text-white">full-stack</strong> roles with a strong product
-                focus—where I can blend UI craftsmanship with solid engineering.
+                focus, where I can blend UI craftsmanship with solid engineering.
               </p>
             </div>
           </section>
@@ -245,23 +245,23 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-lg border border-white/(--border-opacity-default)">
               <p>
-                I&apos;m the primary developer on CyberReady Clinic&apos;s MSP Ready5 Assessment — a
+                I&apos;m the sole developer on CyberReady Clinic&apos;s MSP Ready5 Assessment, a
                 Dynamics 365 / Power Platform / Dataverse system live in production. Concurrently I
                 run Craft CMS work at Rocketpark across a 10-site client portfolio, and from
-                2024–2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
+                2024-2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
                 ecosystem.
               </p>
               <p>
-                Off the clock I publish to npm (Specter — 65 CLI commands, 14 MCP tools), build
+                Off the clock I publish to npm (Specter: 65 CLI commands, 14 MCP tools), build
                 observability in Rust (Chronicle), and write MCP servers instead of just consuming
                 AI APIs. Won the Algolia Agent Studio Challenge ($750) in March 2026 with
-                TimeSlipSearch — a conversational AI agent over 420k pop-culture records.
+                TimeSlipSearch, a conversational AI agent over 420k pop-culture records.
               </p>
               <p>
                 B.S. in Information Technology, Software Development from Capella University
-                (conferred March 2026) — Summa Cum Laude, 3.98 GPA, University Honors Pathway,
+                (conferred March 2026), Summa Cum Laude, 3.98 GPA, University Honors Pathway,
                 Dean&apos;s List every quarter. I work in small, shippable steps with clear commits
-                and documentation so future me — and teammates — don&apos;t suffer.
+                and documentation so future me, and teammates, don&apos;t suffer.
               </p>
             </div>
           </section>
@@ -450,8 +450,8 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  <strong className="text-white">Primary developer</strong> on CyberReady
-                  Clinic&apos;s MSP Ready5 Assessment — Dynamics 365 / Power Platform / Dataverse
+                  <strong className="text-white">Sole developer</strong> on CyberReady
+                  Clinic&apos;s MSP Ready5 Assessment: Dynamics 365 / Power Platform / Dataverse
                   system live in production, 12 implementation phases shipped
                 </p>
               </li>
@@ -462,7 +462,7 @@ export default function AboutPage() {
                 />
                 <p className="text-white/(--text-opacity-primary)">
                   Led a 4-person team shipping 6 production sites with a unified design system and
-                  modern Next.js + Strapi architecture (Flo Labs, 2024–2026)
+                  modern Next.js + Strapi architecture (Flo Labs, 2024-2026)
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">
@@ -471,7 +471,7 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  Software Engineer at Rocketpark agency — Craft CMS upgrades, MCP server wrapper,
+                  Software Engineer at Rocketpark agency: Craft CMS upgrades, MCP server wrapper,
                   Twig template architecture across 10 client sites
                 </p>
               </li>
@@ -531,7 +531,7 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  Won $750 Algolia Agent Studio Challenge with TimeSlipSearch—"conversational time
+                  Won $750 Algolia Agent Studio Challenge with TimeSlipSearch, "conversational time
                   machine" exploring 420,000+ pop culture records
                 </p>
               </li>
@@ -563,7 +563,7 @@ export default function AboutPage() {
             <h2 className="text-3xl font-semibold mb-6">Let's Build Something</h2>
             <p className="text-xl text-white/(--text-opacity-secondary) mb-8 max-w-2xl mx-auto">
               Whether you're looking to collaborate on a project or just want to chat about web
-              development, AI integration, or design systems—I'd love to hear from you.
+              development, AI integration, or design systems, I'd love to hear from you.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact" className="btn btn-primary px-8">

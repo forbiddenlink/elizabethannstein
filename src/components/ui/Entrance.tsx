@@ -50,6 +50,11 @@ const FAST_TRACK_ENTRANCE_META: Record<
     icon: Code2,
     gradient: 'from-emerald-500 to-teal-600',
   },
+  trace: {
+    highlight: 'Contest winner · screenshot to React',
+    icon: Trophy,
+    gradient: 'from-lime-500 to-emerald-600',
+  },
   chronicle: {
     highlight: 'Rust AI observability',
     icon: Brain,

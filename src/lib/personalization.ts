@@ -74,7 +74,7 @@ export function getRecommendedProjectIds(type: VisitorType): string[] {
       return ['coulson-one', 'flo-labs', 'hire-ready', 'autodocs-ai', 'chronicle']
     case 'developer':
       // Show technical projects, open source, interesting tech
-      return ['chronicle', 'timeslip-search', 'autodocs-ai', 'quantum-forge', 'componentcompass']
+      return ['chronicle', 'timeslip-search', 'autodocs-ai', 'quantum-forge', 'trace']
     case 'client':
       // Show shipped products, revenue-generating, polished UX
       return ['autodocs-ai', 'hire-ready', 'flo-labs', 'caipo-ai', 'coulson-one']

@@ -48,7 +48,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               <h1 className="text-4xl font-bold mb-4 text-white">3D Experience Unavailable</h1>
               <p className="text-xl text-white/80 mb-8 leading-relaxed">
                 Your browser or device doesn't support WebGL, which is required for the 3D galaxy
-                experience. Don't worry — you can still view all my work in the traditional view.
+                experience. Don't worry, you can still view all my work in the traditional view.
               </p>
               <Link
                 href="/work"

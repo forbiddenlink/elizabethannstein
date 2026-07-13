@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Elizabeth Stein — Full-Stack Engineer (Power Platform · Next.js · AI)'
+export const alt = 'Elizabeth Stein: Full-Stack Engineer (Power Platform · Next.js · AI)'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 

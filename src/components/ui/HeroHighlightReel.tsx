@@ -13,7 +13,7 @@ export function HeroHighlightReel() {
   return (
     <div className="pointer-events-auto mb-3 max-w-xl border-t border-white/10 pt-3 md:mb-4 md:pt-4">
       <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.24em] text-white/42">
-        Start here — proof, not pitch
+        Start here: proof, not pitch
       </p>
       <ul className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-x-3 sm:gap-y-2">
         {items.map((item) => (

@@ -461,7 +461,7 @@ export default function GalaxyScene() {
         </h2>
         <p className="mb-8 text-sm leading-relaxed text-white/55">
           This interactive galaxy needs WebGL. Open in Chrome, Edge, or Safari for the full
-          experience — or browse the project archive below.
+          experience, or browse the project archive below.
         </p>
         <a
           href="/work"

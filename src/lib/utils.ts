@@ -77,7 +77,7 @@ export function generateProjectPosition(
 export function formatDateRange(dateRange: string): string {
   if (dateRange.includes('-')) {
     const [start, end] = dateRange.split('-')
-    return `${start}–${end}`
+    return `${start}-${end}`
   }
   return dateRange
 }

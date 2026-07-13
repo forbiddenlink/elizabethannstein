@@ -134,42 +134,44 @@ export const galaxies: Galaxy[] = [
       },
       {
         id: 'crc-ready5-assessment',
-        title: 'CyberReady Clinic — MSP Ready5 Assessment',
+        title: 'CyberReady Clinic: MSP Ready5 Assessment',
         description:
-          'Primary developer on a production Dynamics 365 / Power Platform cybersecurity-readiness assessment for a healthcare-focused nonprofit. Shipped the full build across 12 phases: a governed Dataverse data model, Power Automate orchestration, a Power Apps Canvas front-end, and scored client deliverables packaged for repeatable cross-environment deploys.',
-        role: 'Primary Developer (1099 → full-time accepted)',
+          "Sole developer on a production MSP cybersecurity-readiness assessment for a healthcare-focused nonprofit. Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app (live at msp.cyberready.clinic) that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.",
+        role: 'Sole Developer (1099 → full-time)',
         company: 'CyberReady Clinic',
         tags: [
-          'Dynamics 365',
-          'Power Apps',
-          'Power Automate',
+          'Next.js 16',
+          'React 19',
           'Dataverse',
-          'Power Platform',
+          'Power Automate',
+          'Dynamics 365',
           'Cybersecurity',
         ],
         color: '#FF6B35',
         brightness: 2,
         size: 'supermassive',
         galaxy: 'enterprise',
+        links: { live: 'https://msp.cyberready.clinic' },
+        status: 'live',
         featured: true,
         dateRange: '2025-2026',
         challenge:
-          'A healthcare cybersecurity nonprofit needed a structured MSP-readiness assessment with auditable scoring, multi-stakeholder flows, and a maintenance path their internal team could own.',
+          'A healthcare cybersecurity nonprofit needed a structured MSP-readiness assessment with auditable scoring and multi-stakeholder flows. The original in-CRM Power Apps front-end hit customization limits, so the assessor experience needed to move out of Dynamics without giving up Dataverse as the source of truth.',
         solution:
-          'Designed and shipped a 12-phase implementation on Dynamics 365 / Power Platform. Modeled the assessment in Dataverse, built scoring orchestration in Power Automate, delivered the assessor experience as a Power Apps Canvas app, and wired solution packaging for repeatable deploys across environments.',
+          'Built the platform in two arcs. First, a 12-phase Dynamics 365 / Power Platform implementation: a governed Dataverse data model, Power Automate scoring orchestration, and repeatable cross-environment solution packaging. Then externalized the front-end into a Next.js 16 + React 19 app on Vercel that reads and writes Dataverse directly, replacing the in-CRM Power Apps Canvas UI while keeping Dynamics 365 as the system of record.',
         impact:
-          'Live in production. Replaced ad-hoc assessment spreadsheets with a governed, maintainable platform that the internal team now owns and extends.',
+          'Live in production at msp.cyberready.clinic. Externalizing the front-end removed the Power Apps customization ceiling and put the assessor UI fully under version control, while the internal team keeps ownership of the Dataverse platform behind it.',
         impactMetrics: [
           { label: 'Status', value: 'In production', icon: 'rocket' },
+          { label: 'Front-end', value: 'Next.js + Dataverse', icon: 'atom' },
           { label: 'Phases Shipped', value: '12', icon: 'layers' },
-          { label: 'Platform', value: 'Dynamics 365', icon: 'building' },
         ],
       },
       {
         id: 'crc-leadgen',
         title: 'CRC Lead Gen Platform',
         description:
-          "Primary developer on a production lead-generation and operations platform for a cybersecurity nonprofit. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + Microsoft Entra ID (MSAL). Unifies multiple public intake pipelines and hands structured data into the organization's Microsoft Power Platform via secure server-to-server callbacks.",
+          "Sole developer on a production lead-generation and operations platform for a cybersecurity nonprofit. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + Microsoft Entra ID (MSAL). Unifies multiple public intake pipelines and hands structured data into the organization's Microsoft Power Platform via secure server-to-server callbacks.",
         role: 'Creator & Developer',
         company: 'CyberReady Clinic',
         tags: ['Next.js 16', 'Drizzle', 'Neon', 'Better Auth', 'MSAL', 'Azure AD'],
@@ -193,7 +195,7 @@ export const galaxies: Galaxy[] = [
       },
       {
         id: 'rocketpark-craft-ecosystem',
-        title: 'Rocketpark Agency — Craft CMS Ecosystem',
+        title: 'Rocketpark Agency: Craft CMS Ecosystem',
         description:
           'Client-side delivery on a 10-site Craft CMS portfolio at a small agency. Twig templating, Composer-managed plugins, project-config workflows, Herd-based local dev, and Bitbucket-hosted source. Sites span service, e-commerce, and content-driven layouts.',
         role: 'Developer',
@@ -277,7 +279,7 @@ export const galaxies: Galaxy[] = [
         impactMetrics: [
           { label: 'Contest Prize', value: '$750 + DEV++', icon: 'trophy' },
           { label: 'Records Indexed', value: '420K+', icon: 'database' },
-          { label: 'Coverage', value: '1958–2020', icon: 'clock' },
+          { label: 'Coverage', value: '1958-2020', icon: 'clock' },
         ],
       },
       {
@@ -409,7 +411,7 @@ export const galaxies: Galaxy[] = [
         galaxy: 'ai',
         links: { live: 'https://explainthiscode.ai' },
         featured: false,
-        dateRange: '2024',
+        dateRange: '2024-2026',
         challenge:
           'Building a full SaaS platform from scratch with AI-powered code analysis, subscription billing, and team collaboration features.',
         solution:
@@ -434,7 +436,8 @@ export const galaxies: Galaxy[] = [
         brightness: 1.2,
         size: 'small',
         galaxy: 'ai',
-        // Note: GitHub repo is private
+        // GitHub repo archived 2026-06
+        status: 'archived',
         featured: false,
         dateRange: '2024',
         challenge:
@@ -500,7 +503,7 @@ export const galaxies: Galaxy[] = [
         impact:
           'Live production SaaS with Stripe billing ($35-239/mo). Documentation auto-updates on git push via GitHub webhooks. RAG chat (Pinecone + BM25) answers questions about the codebase directly.',
         impactMetrics: [
-          { label: 'Pricing', value: '$35–239/mo', icon: 'dollar' },
+          { label: 'Pricing', value: '$35-239/mo', icon: 'dollar' },
           { label: 'Stack', value: 'Claude + RAG', icon: 'bot' },
           { label: 'Status', value: 'Live SaaS', icon: 'rocket' },
           { label: 'Sync', value: 'Auto on Push', icon: 'refresh' },
@@ -553,7 +556,7 @@ export const galaxies: Galaxy[] = [
         id: 'contradictme',
         title: 'ContradictMe',
         description:
-          'AI-powered debate and critical thinking trainer that fights echo chambers. State your position and receive GPT-4 steelman counter-arguments — the strongest possible opposing case, backed by evidence and logical rebuttals. Features AI debate arena, credibility scoring, source verification, and analytics dashboard. 73 passing tests.',
+          'AI-powered debate and critical thinking trainer that fights echo chambers. State your position and receive GPT-4 steelman counter-arguments: the strongest possible opposing case, backed by evidence and logical rebuttals. Features AI debate arena, credibility scoring, source verification, and analytics dashboard. 73 passing tests.',
         role: 'Creator',
         tags: ['Next.js 15', 'GPT-4', 'OpenAI', 'Framer Motion'],
         color: '#00D9FF',
@@ -570,7 +573,7 @@ export const galaxies: Galaxy[] = [
         challenge:
           'Fighting echo chambers by presenting the strongest opposing viewpoints without bias or strawmanning.',
         solution:
-          'GPT-4 generates steelman arguments — the best possible version of the opposing case. Built credibility scoring, source verification, AI debate arena, and analytics dashboard tracking argument quality over time.',
+          'GPT-4 generates steelman arguments: the best possible version of the opposing case. Built credibility scoring, source verification, AI debate arena, and analytics dashboard tracking argument quality over time.',
         impact:
           '73 automated tests ensure argument quality. Steelman framing exposes users to the strongest opposing case rather than strawman versions. Live with credibility scoring, source verification, and analytics dashboard.',
         impactMetrics: [
@@ -700,6 +703,7 @@ export const galaxies: Galaxy[] = [
         galaxy: 'fullstack',
         links: {
           live: 'https://ucpguard.com',
+          github: 'https://github.com/forbiddenlink/ucp-monitor',
         },
         featured: false,
         status: 'in-progress',
@@ -710,33 +714,6 @@ export const galaxies: Galaxy[] = [
           'Built UCP validator (10KB engine), store management API, monitoring cron (runs every 5 min), Stripe checkout, and white-label reports. Vercel cron + Stripe automation. All 27 env vars configured.',
         impact:
           'Pre-launch. Validator engine + cron + Stripe flow shipped. White-label report templates ready for agency tier. Cron endpoint verified working (200 OK).',
-      },
-      {
-        id: 'site-sheriff',
-        title: 'Site Sheriff',
-        description:
-          'Comprehensive website audit tool with 230+ checks across SEO, security, accessibility (axe-core 80+ rules), performance, and content. Agency-ready reports with CSV export, client email drafts, and SSRF protection. Recent security hardening.',
-        role: 'Creator',
-        tags: ['Next.js 16', 'Playwright', 'Axe-core', 'Supabase'],
-        color: '#9D4EDD',
-        brightness: 1.7,
-        size: 'large',
-        galaxy: 'fullstack',
-        links: {
-          github: 'https://github.com/forbiddenlink/site-sheriff',
-        },
-        metrics: {
-          checks: 230,
-          score: '9.0/10',
-        },
-        featured: false,
-        dateRange: '2026',
-        challenge:
-          'Building a production-grade audit tool that matches Screaming Frog ($259/yr) and Ahrefs ($129/mo) while remaining free and adding agency features.',
-        solution:
-          'Implemented 230+ checks (SEO, security, a11y, performance), recent security hardening (SSRF protection, rate limiting, injection prevention), technology detection (34 frameworks), and agency-ready features (white-label reports, CSV export, client email drafts).',
-        impact:
-          '9.0/10 production-ready. 100+ static + 80+ dynamic checks. Agency white-label tier ($199/mo). All 6 core env vars configured.',
       },
       {
         id: 'carefulship',
@@ -779,7 +756,7 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://www.portfoliopro.dev' },
         metrics: { tests: 111 },
         featured: true,
-        dateRange: '2023-2024',
+        dateRange: '2023-2026',
         challenge:
           'Creating a comprehensive AI development learning platform with interactive coding, subscription management, and custom tooling.',
         solution:
@@ -830,7 +807,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.7,
         size: 'large',
         galaxy: 'fullstack',
-        links: { live: 'https://quantum-forge-self.vercel.app' },
+        links: {},
         featured: false,
         dateRange: '2024',
         challenge:
@@ -894,7 +871,7 @@ export const galaxies: Galaxy[] = [
         id: 'reprise',
         title: 'RepRise',
         description:
-          'Premium fitness trainer matching platform that intelligently pairs users with their ideal trainer using a multi-factor weighted scoring algorithm (Jaccard similarity, budget constraints, schedule overlap, personality compatibility, and 0–100 confidence scoring). Demonstrates sophisticated algorithm design and thoughtful UX in a focused portfolio piece.',
+          'Premium fitness trainer matching platform that intelligently pairs users with their ideal trainer using a multi-factor weighted scoring algorithm (Jaccard similarity, budget constraints, schedule overlap, personality compatibility, and 0-100 confidence scoring). Demonstrates sophisticated algorithm design and thoughtful UX in a focused portfolio piece.',
         role: 'Creator',
         tags: ['Next.js', 'TypeScript'],
         color: '#9D4EDD',
@@ -905,14 +882,14 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025',
         challenge:
-          'Matching people with fitness trainers requires weighing incommensurable factors — schedule, budget, personality, goals — in a way that feels trustworthy rather than arbitrary.',
+          'Matching people with fitness trainers requires weighing incommensurable factors (schedule, budget, personality, goals) in a way that feels trustworthy rather than arbitrary.',
         solution:
-          'Multi-factor weighted scoring with Jaccard similarity for goal overlap, budget constraint logic as a hard filter, schedule conflict detection, and a 0–100 confidence score driven by profile completeness.',
+          'Multi-factor weighted scoring with Jaccard similarity for goal overlap, budget constraint logic as a hard filter, schedule conflict detection, and a 0-100 confidence score driven by profile completeness.',
         impact:
           'Matching algorithm handles edge cases gracefully. Confidence scoring gives users a clear signal of match quality. Clean UX makes a complex algorithm feel effortless.',
         impactMetrics: [
           { label: 'Algorithm', value: 'Jaccard', icon: 'calculator' },
-          { label: 'Score Range', value: '0–100', icon: 'target' },
+          { label: 'Score Range', value: '0-100', icon: 'target' },
           { label: 'Factors', value: '5+', icon: 'scale' },
         ],
       },
@@ -988,7 +965,7 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025-2026',
         challenge:
-          'Building a fully functional, professional-grade website for an active digital media brand with live radio, mobile app presence, and real commercial ambitions—not a classroom exercise, but real-world deliverable work.',
+          'Building a fully functional, professional-grade website for an active digital media brand with live radio, mobile app presence, and real commercial ambitions, not a classroom exercise, but real-world deliverable work.',
         solution:
           'Designed and built complete platform with built-in streaming player, show programming architecture, app download integration, social connectivity, and content-ready Sanity CMS. Maintained clear communication in remote, multi-stakeholder environment.',
         impact:
@@ -1065,7 +1042,7 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2026',
         challenge:
-          'Collecting customer testimonials is fragmented — businesses juggle forms, emails, and manual curation. Existing solutions are expensive and lack AI-driven insights.',
+          'Collecting customer testimonials is fragmented: businesses juggle forms, emails, and manual curation. Existing solutions are expensive and lack AI-driven insights.',
         solution:
           'Built a complete SaaS with branded collection forms, video recording, star ratings, and image uploads. AI sentiment analysis scores and categorizes feedback automatically. 10 embeddable widget layouts (grid, masonry, carousel, marquee, and more) with single-line integration. Stripe handles free through enterprise billing tiers.',
         impact:
@@ -1093,11 +1070,11 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2026',
         challenge:
-          'Home and life maintenance tasks slip through the cracks — people forget oil changes, filter replacements, and subscription renewals until something breaks.',
+          'Home and life maintenance tasks slip through the cracks: people forget oil changes, filter replacements, and subscription renewals until something breaks.',
         solution:
           'Built a local-first PWA that tracks maintenance across 7 domains. Free tier includes 10 starter tasks and 3 asset profiles. Premium unlocks unlimited tasks, document storage, cost tracking, and multi-home support. Trigger.dev handles background job scheduling.',
         impact:
-          'Offline-first PWA works without internet. JSON backup import/export for full data portability. One-time premium purchase — no subscription fatigue.',
+          'Offline-first PWA works without internet. JSON backup import/export for full data portability. One-time premium purchase, no subscription fatigue.',
       },
     ],
   },
@@ -1174,25 +1151,6 @@ export const galaxies: Galaxy[] = [
           'Eliminates context re-establishment time after session clears. Handoff documents capture learnings for future sessions. Used daily in my own development workflow.',
       },
       {
-        id: 'claude-quickstarts',
-        title: 'Claude Quickstarts',
-        description: '20+ AI agent templates for rapid Claude development and prototyping.',
-        role: 'Creator',
-        tags: ['Claude', 'AI'],
-        color: '#06FFA5',
-        brightness: 1.2,
-        size: 'small',
-        galaxy: 'devtools',
-        featured: false,
-        dateRange: '2024',
-        challenge:
-          'Starting new AI agent projects requires boilerplate setup and understanding of best practices each time.',
-        solution:
-          'Created 20+ production-ready templates covering common agent patterns: research, code review, planning, debugging, and more.',
-        impact:
-          '20+ templates reduce project setup from hours to minutes. Best practices baked in by default. Actively used and refined through real projects.',
-      },
-      {
         id: 'mcp-wrapper',
         title: 'MCP Wrapper',
         description:
@@ -1234,38 +1192,116 @@ export const galaxies: Galaxy[] = [
           'FSRS adaptive scheduling drives review timing based on individual recall. Covers React, TypeScript, and modern CSS. Combines flashcards with coding challenges so practice and recall reinforce each other.',
       },
       {
-        id: 'componentcompass',
-        title: 'ComponentCompass',
+        id: 'trace',
+        title: 'Trace',
         description:
-          'AI design system navigator for shadcn/ui with GPT-4 Vision screenshot analysis, multi-index search (components, code, accessibility), and streaming responses. 24 passing tests.',
+          'Paste a screenshot, get a real runnable React component. Google Gemini recreates the layout grounded in a shadcn-style catalog, renders it live in an editable Sandpack sandbox, and shows which pixels became which component with honest confidence tags. Won the DEV.to GitHub Finish-Up-A-Thon.',
         role: 'Creator',
-        tags: ['React 19', 'Algolia Agent Studio', 'GPT-4 Vision', 'AI SDK'],
+        tags: ['Next.js', 'React 19', 'TypeScript', 'Google Gemini', 'Sandpack', 'axe-core'],
         color: '#06FFA5',
-        brightness: 1.6,
+        brightness: 1.8,
         size: 'large',
         galaxy: 'devtools',
-        links: { live: 'https://componentcompass.vercel.app' },
-        metrics: { tests: 24 },
-        featured: false,
-        dateRange: '2025',
+        links: {
+          live: 'https://trace-liz.vercel.app',
+          github: 'https://github.com/forbiddenlink/trace',
+          contestWin:
+            'https://dev.to/liztacular/my-ai-tool-generated-garbage-jsx-so-i-grounded-it-in-shadcnui-and-finally-shipped-it-1i1n',
+        },
+        metrics: { tests: 38 },
+        status: 'live',
+        tier: 'flagship',
+        featured: true,
+        dateRange: '2026',
         challenge:
-          'Helping developers find the right shadcn/ui components without reading through extensive documentation.',
+          'AI screenshot-to-code tools invent generic markup that ignores your design system, and they hide how they got there. Developers get garbage JSX with no way to trust or steer it.',
         solution:
-          'Built GPT-4 Vision screenshot analysis for visual component matching. Multi-index Algolia search across components, code samples, and accessibility patterns.',
+          'Grounded generation in a real component catalog via an in-prompt whitelist (no vector DB, no credentials). Added "what the AI sees" inspector with per-element confidence and grounded/inferred/guessed tags, a Sandpack live-editable preview, a compile-check self-repair loop, and an axe-core accessibility score with one-click fixes.',
         impact:
-          '24 automated tests ensure accuracy. Screenshot-to-component matching in <2 seconds. Multi-index search covers 40+ component patterns.',
+          'Won the DEV.to GitHub Finish-Up-A-Thon. 38 tests. Reuses real components instead of inventing markup, renders live and editable, and self-repairs both compile errors and accessibility violations on one click.',
         impactMetrics: [
-          { label: 'Tests', value: '24', icon: 'check' },
-          { label: 'Match Speed', value: '<2s', icon: 'zap' },
-          { label: 'AI', value: 'GPT-4 Vision', icon: 'eye' },
-          { label: 'Patterns', value: '40+', icon: 'puzzle' },
+          { label: 'Contest', value: 'Winner', icon: 'trophy' },
+          { label: 'Tests', value: '38', icon: 'check' },
+          { label: 'AI', value: 'Gemini + shadcn grounding', icon: 'eye' },
+          { label: 'A11y', value: 'axe-core score + fix', icon: 'shield' },
         ],
+      },
+      {
+        id: 'hq',
+        title: 'hq',
+        description:
+          'Personal dev-ops CLI that aggregates live state across ~90 repos and the services behind them (GitHub, Vercel, Sentry, Stripe, Notion, ClickUp, UptimeRobot, Railway, Jira) into work contexts, surfacing only what is broken, blocking, or worth attention. No dashboards, just the next thing to do.',
+        role: 'Creator',
+        tags: ['TypeScript', 'Bun', 'CLI', 'Developer Tools', 'DevOps'],
+        color: '#06FFA5',
+        brightness: 1.6,
+        size: 'medium',
+        galaxy: 'devtools',
+        links: { github: 'https://github.com/forbiddenlink/hq' },
+        metrics: { tests: 216 },
+        featured: true,
+        dateRange: '2026',
+        challenge:
+          'State is scattered across ~90 repos and a dozen services. Checking what is broken or blocking meant opening ten dashboards every morning.',
+        solution:
+          'Built a single CLI in TypeScript on Bun that pulls from 10 service APIs, groups everything into CRC / Rocketpark / Personal contexts, and prints only the actionable signal.',
+        impact:
+          'One command replaces a morning of dashboard-hopping. 216 tests. Used daily as the entry point to every work context.',
+        impactMetrics: [
+          { label: 'Tests', value: '216', icon: 'check' },
+          { label: 'Services', value: '10 APIs', icon: 'globe' },
+          { label: 'Repos tracked', value: '~90', icon: 'folder' },
+        ],
+      },
+      {
+        id: 'ccscope',
+        title: 'ccscope',
+        description:
+          'Attributes Claude Code token cost to individual skills, MCP servers, and plugins, then surfaces the ones not earning their context budget so you can trim them.',
+        role: 'Creator',
+        tags: ['TypeScript', 'CLI', 'Claude Code', 'Developer Tools'],
+        color: '#06FFA5',
+        brightness: 1.3,
+        size: 'small',
+        galaxy: 'devtools',
+        links: { github: 'https://github.com/forbiddenlink/ccscope' },
+        metrics: { tests: 26 },
+        featured: false,
+        dateRange: '2026',
+        challenge:
+          'Claude Code loads dozens of skills and MCP servers, each eating context budget, with no visibility into which ones actually pay rent.',
+        solution:
+          'Built a CLI that parses session data to attribute token cost per skill, MCP, and plugin, then flags trim candidates.',
+        impact:
+          'Turns an invisible cost into a ranked list. 26 tests. Directly informed cutting unused skills from the setup.',
+      },
+      {
+        id: 'recall',
+        title: 'recall',
+        description:
+          'Local, privacy-first search engine over your Claude Code transcripts. Find past decisions, approaches, and dead ends across every prior session without anything leaving your machine.',
+        role: 'Creator',
+        tags: ['TypeScript', 'CLI', 'Search', 'Local-first'],
+        color: '#06FFA5',
+        brightness: 1.3,
+        size: 'small',
+        galaxy: 'devtools',
+        links: { github: 'https://github.com/forbiddenlink/recall' },
+        metrics: { tests: 17 },
+        featured: false,
+        dateRange: '2026',
+        challenge:
+          'Months of Claude Code sessions hold useful reasoning, but it is trapped in plaintext logs with no way to search across them.',
+        solution:
+          'Built a local search index over the transcript files so past sessions are queryable, entirely on-device with no cloud upload.',
+        impact:
+          'Past reasoning becomes searchable in seconds. 17 tests. Privacy-first: transcripts never leave the machine.',
       },
       {
         id: 'gif-my-code',
         title: 'gif-my-code',
         description:
-          'The only free CLI tool that creates animated code GIFs with line highlighting. 250+ language support via Chroma auto-detection, laser-reveal and typing animations, customisable speed, and full scriptability for CI/CD pipelines. Competes with paid tools like Snappify ($5–30/mo) at zero cost.',
+          'The only free CLI tool that creates animated code GIFs with line highlighting. 250+ language support via Chroma auto-detection, laser-reveal and typing animations, customisable speed, and full scriptability for CI/CD pipelines. Competes with paid tools like Snappify ($5-30/mo) at zero cost.',
         role: 'Creator',
         tags: ['Go', 'CLI', 'Developer Tools'],
         color: '#06FFA5',
@@ -1280,7 +1316,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built Go CLI with Chroma for 250+ language syntax highlighting and auto-detection from file extensions. Laser-reveal and typing animations with configurable speed. Fully scriptable for CI/CD.',
         impact:
-          'Free alternative to $5–30/mo paid tools. 250+ languages covered. CLI-first design enables automated GIF generation in CI pipelines and documentation workflows.',
+          'Free alternative to $5-30/mo paid tools. 250+ languages covered. CLI-first design enables automated GIF generation in CI pipelines and documentation workflows.',
       },
       {
         id: 'repro-in-a-box',
@@ -1436,7 +1472,7 @@ export const galaxies: Galaxy[] = [
         challenge:
           'Real user testing is expensive and slow. Developers need fast, diverse feedback on UX without recruiting actual testers for every iteration.',
         solution:
-          'Built CLI that spawns AI personas with distinct backgrounds, abilities, and goals. Each persona navigates the site autonomously and reports issues from their perspective — surfacing problems a single developer would never catch alone.',
+          'Built CLI that spawns AI personas with distinct backgrounds, abilities, and goals. Each persona navigates the site autonomously and reports issues from their perspective, surfacing problems a single developer would never catch alone.',
         impact:
           'Catches accessibility, i18n, and UX friction issues without recruiting testers. Personas provide diverse perspectives in seconds. CLI integrates into CI/CD for continuous UX regression testing.',
       },
@@ -1510,7 +1546,7 @@ export const galaxies: Galaxy[] = [
         id: 'specter',
         title: 'Specter',
         description:
-          'Published npm CLI that gives your codebase a voice — speaking as it in first person. 65 commands, 14 MCP tools for Claude Desktop integration, and 12 personality modes (mentor, critic, storyteller, and more). Code archaeology, bus factor analysis, dead code detection, complexity hotspots, and impact analysis — all narrated with AI-powered context.',
+          'Published npm CLI that gives your codebase a voice, speaking as it in first person. 65 commands, 14 MCP tools for Claude Desktop integration, and 12 personality modes (mentor, critic, storyteller, and more). Code archaeology, bus factor analysis, dead code detection, complexity hotspots, and impact analysis, all narrated with AI-powered context.',
         role: 'Creator',
         tags: ['CLI', 'npm', 'MCP', 'Node.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1524,11 +1560,11 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2025',
         challenge:
-          'Code metrics without context are noise. Developers need their codebase to explain itself — not just spit out numbers.',
+          'Code metrics without context are noise. Developers need their codebase to explain itself, not just spit out numbers.',
         solution:
           'Built 65 CLI commands for file relationships, complexity hotspots, dead code, impact analysis, and bus factor. 14 MCP tools for Claude Desktop integration so AI assistants can query the codebase directly. 12 personality modes turn raw analysis into actionable narrative.',
         impact:
-          'Published on npm as @purplegumdropz/specter. 14 MCP tools enable AI-native codebase exploration. 12 personalities from mentor to brutal critic — developers choose their coaching style.',
+          'Published on npm as @purplegumdropz/specter. 14 MCP tools enable AI-native codebase exploration. 12 personalities from mentor to brutal critic: developers choose their coaching style.',
         impactMetrics: [
           { label: 'CLI Commands', value: '65', icon: 'terminal' },
           { label: 'MCP Tools', value: '14', icon: 'plug' },
@@ -1747,7 +1783,7 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025',
         challenge:
-          'Building a production-grade e-commerce PWA without a modern framework — proving full-stack fundamentals with vanilla JS, a custom Express API, and raw SQL.',
+          'Building a production-grade e-commerce PWA without a modern framework, proving full-stack fundamentals with vanilla JS, a custom Express API, and raw SQL.',
         solution:
           'REST API with JWT auth, role-based access control, SQLite migrations, and relationship modelling (users, products, reviews, wishlists, cart items). Real-time WebSocket integration for live analytics. 300ms debounced search. PWA with app shortcuts and offline support.',
         impact:
@@ -1784,6 +1820,34 @@ export const galaxies: Galaxy[] = [
     color: '#FFB800',
     size: 1,
     projects: [
+      {
+        id: 'snacktrap',
+        title: 'Snacktrap',
+        description:
+          "A cozy nocturnal heist built for Reddit's Devvit platform: a raccoon tiptoes across a dark kitchen grid toward a snack while hidden traps lurk. The room signals danger through the raccoon and lighting instead of numbers, and every board is authored by a real player, so playing is authoring.",
+        role: 'Creator',
+        tags: ['TypeScript', 'Devvit', 'Reddit', 'Game', 'UGC'],
+        color: '#FFB800',
+        brightness: 1.6,
+        size: 'medium',
+        galaxy: 'experimental',
+        links: { github: 'https://github.com/forbiddenlink/snacktrap' },
+        metrics: { tests: 141 },
+        featured: false,
+        status: 'in-progress',
+        dateRange: '2026',
+        challenge:
+          'Design a Reddit game where the community is the content engine and no board can be unfair, so every player both plays and builds the next challenge.',
+        solution:
+          'Built a proximity-signal heist on Devvit: safe steps telegraph the nearest trap through the raccoon and room lighting, greed mechanics reward pushing deeper, and a server-side solver rejects any layout that would force a guess before it can publish.',
+        impact:
+          'Every run ends with the player authoring the next board, watched live by a ghost of a past solver. 141 tests. Server-validated solvable layouts keep the user-generated loop fair.',
+        impactMetrics: [
+          { label: 'Platform', value: 'Reddit Devvit', icon: 'gamepad' },
+          { label: 'Tests', value: '141', icon: 'check' },
+          { label: 'Loop', value: 'Play = author', icon: 'refresh' },
+        ],
+      },
       {
         id: 'blackjack',
         title: 'Blackjack Game',
@@ -2066,7 +2130,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Computer vision detects the "Server Full" popup, loading screens, and kick-back states at any resolution via multi-scale template matching. Bezier curve mouse movement and Gaussian timing mimic human input. Discord webhook fires when you\'re in.',
         impact:
-          'Fully automated server queue — join attempts continue unattended. Human-mimicking input patterns avoid anti-cheat flags. Discord notification means you can do something else while waiting.',
+          'Fully automated server queue: join attempts continue unattended. Human-mimicking input patterns avoid anti-cheat flags. Discord notification means you can do something else while waiting.',
       },
       {
         id: 'apeiron-remake',
@@ -2082,17 +2146,17 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025',
         challenge:
-          'Recreating a 1994 Mac game faithfully in the browser with zero assets — sprites and sounds all generated procedurally in code.',
+          'Recreating a 1994 Mac game faithfully in the browser with zero assets: sprites and sounds all generated procedurally in code.',
         solution:
-          'Fixed-timestep game loop for deterministic physics. Procedural pixel-art sprites drawn entirely with Canvas API — no image files. WebAudio API synthesises all SFX from scratch. Classic mode preserves original scoring: extra life every 20,000 pts, up to 8 lives.',
+          'Fixed-timestep game loop for deterministic physics. Procedural pixel-art sprites drawn entirely with Canvas API, no image files. WebAudio API synthesises all SFX from scratch. Classic mode preserves original scoring: extra life every 20,000 pts, up to 8 lives.',
         impact:
-          'Zero external assets — entire game in pure code. Fixed-timestep ensures identical behaviour across frame rates. Classic mode is accurate to 1994 original. Demonstrates low-level browser graphics and audio APIs.',
+          'Zero external assets: entire game in pure code. Fixed-timestep ensures identical behaviour across frame rates. Classic mode is accurate to 1994 original. Demonstrates low-level browser graphics and audio APIs.',
       },
       {
         id: 'runwayos',
         title: 'RunwayOS',
         description:
-          'AI-powered financial runway predictor for SaaS founders. Tracks MRR, churn, and burn rate to forecast exactly when money runs out — with scenario modelling for different growth trajectories. Dashboard UI with metric cards and predictive charts.',
+          'AI-powered financial runway predictor for SaaS founders. Tracks MRR, churn, and burn rate to forecast exactly when money runs out, with scenario modelling for different growth trajectories. Dashboard UI with metric cards and predictive charts.',
         role: 'Creator',
         tags: ['Next.js', 'TypeScript', 'AI'],
         color: '#FFB800',
@@ -2103,7 +2167,7 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2026',
         challenge:
-          'SaaS founders are often surprised by runway — MRR, churn, and burn are tracked in separate spreadsheets with no single predictive view.',
+          'SaaS founders are often surprised by runway: MRR, churn, and burn are tracked in separate spreadsheets with no single predictive view.',
         solution:
           'Unified dashboard pulling MRR, customer count, churn rate, and burn into a single AI-powered forecast engine. Scenario modelling lets founders stress-test growth vs burn assumptions.',
         impact:
@@ -2276,7 +2340,7 @@ export const narrativeTours: NarrativeTour[] = [
       'tubedigest', // Content summarization
       'contradictme', // Argument analysis
       'stancestream', // Multi-agent coordination
-      'componentcompass', // GPT-4 Vision
+      'trace', // Gemini screenshot-to-component
       'lumira', // Autonomous AI artist
     ],
     narrativeIntros: {
@@ -2285,13 +2349,13 @@ export const narrativeTours: NarrativeTour[] = [
       tubedigest:
         'Then I wondered: what if AI could extract the essence of any content? TubeDigest was born from hours of watching tutorials.',
       contradictme:
-        'Fighting echo chambers became personal. ContradictMe uses AI to find the strongest counterarguments—not strawmen.',
+        'Fighting echo chambers became personal. ContradictMe uses AI to find the strongest counterarguments, not strawmen.',
       stancestream:
         'What if multiple AIs could debate in real-time? StanceStream coordinates AI agents like an orchestra conductor.',
-      componentcompass:
-        'Vision models opened new doors. Show ComponentCompass a screenshot and it finds the right component instantly.',
+      trace:
+        'Vision models opened new doors. Show Trace a screenshot and it returns a real, runnable React component grounded in your design system.',
       lumira:
-        "The culmination: an AI that doesn't just generate—it creates with personality, mood, and memory. Lumira is an artist with a Rust-powered soul.",
+        "The culmination: an AI that doesn't just generate, it creates with personality, mood, and memory. Lumira is an artist with a Rust-powered soul.",
     },
   },
   {
@@ -2327,13 +2391,13 @@ export const narrativeTours: NarrativeTour[] = [
     name: 'Building Developer Tools',
     tagline: 'Tools I wish existed, so I built them',
     description:
-      "From accessibility checkers to image optimizers—building tools that make other developers' lives easier.",
+      "From accessibility checkers to image optimizers, building tools that make other developers' lives easier.",
     color: '#06FFA5',
     icon: 'code',
     projectIds: [
       'accessibility-checker', // Start: A11y automation
       'codememory', // Learning tools
-      'componentcompass', // Component discovery
+      'trace', // Screenshot to component
       'imgzen', // Rust performance
       'encryption-visualizer', // Education
     ],
@@ -2342,8 +2406,8 @@ export const narrativeTours: NarrativeTour[] = [
         "Accessibility shouldn't require expertise. I built a tool that surfaces WCAG 2.1 violations automatically with AI palette fixes.",
       codememory:
         'Learning web dev is hard. CodeMemory uses FSRS spaced repetition to schedule reviews so knowledge actually sticks.',
-      componentcompass:
-        "Finding the right component shouldn't mean reading docs for hours. Screenshot → component in 2 seconds.",
+      trace:
+        "Building UI from a mockup shouldn't mean hand-translating pixels. Screenshot → a real, runnable component you can edit and ship.",
       imgzen:
         'Image optimization was always manual. ImgZen automates it in Rust with zero configuration.',
       'encryption-visualizer':

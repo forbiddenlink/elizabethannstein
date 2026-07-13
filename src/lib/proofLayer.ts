@@ -16,6 +16,7 @@ export const FAST_TRACK_IDS = [
   'crc-ready5-assessment',
   'timeslip-search',
   'specter',
+  'trace',
   'chronicle',
   'autodocs-ai',
   'coulson-one',
@@ -29,13 +30,13 @@ export const SCENE_PROJECT_IDS = [
   'flo-labs',
   'timeslip-search',
   'specter',
+  'trace',
   'chronicle',
   'autodocs-ai',
   'hire-ready',
   'finance-quest',
   'stancestream',
   'mcp-server-studio',
-  'site-sheriff',
   'ucp-guard',
   'portfolio-pro',
 ] as const
@@ -49,6 +50,8 @@ export const ARCHIVE_PROJECT_IDS = [
   'competitor-stalker',
   'app-idea-miner',
   'guts-and-glory',
+  'dev-assistant-pro',
+  'codealpha-todolist',
 ] as const
 
 export type PrimaryProofId = (typeof PRIMARY_PROOF_IDS)[number]

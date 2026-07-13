@@ -446,8 +446,8 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         </h2>
         <p className="story-lede mb-8">
           {screenshotPath
-            ? 'A real surface area—not a mock. Scroll the story below for constraint, build, and outcome.'
-            : 'No public screenshot on file—generative preview stands in for the visual layer.'}
+            ? 'A real surface area, not a mock. Scroll the story below for constraint, build, and outcome.'
+            : 'No public screenshot on file, generative preview stands in for the visual layer.'}
         </p>
         <div className="case-signature-frame">
           <div className="case-signature-caption px-3 pt-3 md:px-4 md:pt-4">

@@ -84,8 +84,8 @@ describe('generateProjectPosition', () => {
 })
 
 describe('formatDateRange', () => {
-  it('formats a range with en-dash', () => {
-    expect(formatDateRange('2023-2024')).toBe('2023–2024')
+  it('formats a range with a hyphen', () => {
+    expect(formatDateRange('2023-2024')).toBe('2023-2024')
   })
 
   it('returns single year as-is', () => {
