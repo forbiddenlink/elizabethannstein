@@ -416,6 +416,17 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <span>Source Code</span>
             </a>
           )}
+          {project.links?.contestWin && (
+            <a
+              href={project.links.contestWin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg border border-white/20 font-semibold hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+            >
+              <ExternalLink className="w-5 h-5" />
+              <span>Read the Writeup</span>
+            </a>
+          )}
         </div>
       )}
       {/* GitHub only (no live URL) */}
