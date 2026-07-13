@@ -4,14 +4,18 @@ import { NextResponse } from 'next/server'
 
 const arcjetKey = process.env.ARCJET_KEY
 
-// Baseline protection for every /api/* route: WAF shield + bot detection.
-const aj = arcjetKey
+// WAF shield on every /api/* route. Cheap, and never blocks legit crawlers.
+const ajShield = arcjetKey ? arcjet({ key: arcjetKey, rules: [shield({ mode: 'LIVE' })] }) : null
+
+// Bot detection for API routes — but NOT /api/og. Those routes render Open
+// Graph preview images that are fetched by social / link-preview crawlers
+// (Twitterbot, facebookexternalhit, LinkedInBot, Slackbot). detectBot would
+// 403 them and break link previews on every shared page, so /api/og is exempt
+// and guarded by shield only.
+const ajBot = arcjetKey
   ? arcjet({
       key: arcjetKey,
-      rules: [
-        shield({ mode: 'LIVE' }),
-        detectBot({ mode: 'LIVE', allow: ['CATEGORY:SEARCH_ENGINE'] }),
-      ],
+      rules: [detectBot({ mode: 'LIVE', allow: ['CATEGORY:SEARCH_ENGINE'] })],
     })
   : null
 
@@ -28,12 +32,20 @@ const ajRateLimited = arcjetKey
 const RATE_LIMITED_PATHS = ['/api/contact', '/api/chat']
 
 export async function proxy(request: NextRequest) {
-  if (!aj) {
+  if (!ajShield) {
     return NextResponse.next()
   }
-  const decision = await aj.protect(request)
-  if (decision.isDenied()) {
+  // WAF shield runs on every /api/* route.
+  const shieldDecision = await ajShield.protect(request)
+  if (shieldDecision.isDenied()) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+  // Bot detection everywhere except the crawler-facing OG image endpoint.
+  if (ajBot && !request.nextUrl.pathname.startsWith('/api/og')) {
+    const botDecision = await ajBot.protect(request)
+    if (botDecision.isDenied()) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
   }
   if (
     ajRateLimited &&
