@@ -359,7 +359,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'ai',
         links: {
           live: 'https://codebase-onboarding-tool.vercel.app',
-          github: 'https://github.com/forbiddenlink/codebase-onboarding-tool',
         },
         featured: false,
         dateRange: '2024',
@@ -460,7 +459,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'ai',
         links: {
           live: 'https://tube-digest-ivory.vercel.app',
-          github: 'https://github.com/forbiddenlink/tube-digest',
         },
         featured: false,
         dateRange: '2024',
@@ -703,7 +701,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'fullstack',
         links: {
           live: 'https://ucpguard.com',
-          github: 'https://github.com/forbiddenlink/ucp-monitor',
         },
         featured: false,
         status: 'in-progress',
@@ -927,7 +924,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'fullstack',
         links: {
           live: 'https://myaqualog.com',
-          github: 'https://github.com/forbiddenlink/myaqualog',
         },
         featured: false,
         dateRange: '2025-2026',
@@ -959,7 +955,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'fullstack',
         links: {
           live: 'https://dareuradio.com',
-          github: 'https://github.com/forbiddenlink/dareuradio',
           testimonial: '/testimonials/brenna-martin-dareu-radio.pdf',
         },
         featured: false,
@@ -1015,7 +1010,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.4,
         size: 'medium',
         galaxy: 'fullstack',
-        links: { github: 'https://github.com/forbiddenlink/testimonial-widget' },
+        links: {},
         featured: false,
         dateRange: '2026',
         challenge:
@@ -1237,7 +1232,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.6,
         size: 'medium',
         galaxy: 'devtools',
-        links: { github: 'https://github.com/forbiddenlink/hq' },
+        links: {},
         metrics: { tests: 216 },
         featured: true,
         dateRange: '2026',
@@ -1264,7 +1259,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.3,
         size: 'small',
         galaxy: 'devtools',
-        links: { github: 'https://github.com/forbiddenlink/ccscope' },
+        links: {},
         metrics: { tests: 26 },
         featured: false,
         dateRange: '2026',
@@ -1286,7 +1281,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.3,
         size: 'small',
         galaxy: 'devtools',
-        links: { github: 'https://github.com/forbiddenlink/recall' },
+        links: {},
         metrics: { tests: 17 },
         featured: false,
         dateRange: '2026',
@@ -1466,7 +1461,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.6,
         size: 'medium',
         galaxy: 'devtools',
-        links: { github: 'https://github.com/forbiddenlink/multipersonas' },
+        links: {},
         featured: false,
         dateRange: '2026',
         challenge:
@@ -1758,7 +1753,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'design',
         links: {
           live: 'https://studio-furniture.vercel.app',
-          github: 'https://github.com/forbiddenlink/studio-furniture',
         },
         featured: false,
         dateRange: '2025',
@@ -1831,10 +1825,10 @@ export const galaxies: Galaxy[] = [
         brightness: 1.6,
         size: 'medium',
         galaxy: 'experimental',
-        links: { github: 'https://github.com/forbiddenlink/snacktrap' },
+        links: {},
         metrics: { tests: 141 },
+        tier: 'production',
         featured: false,
-        status: 'in-progress',
         dateRange: '2026',
         challenge:
           'Design a Reddit game where the community is the content engine and no board can be unfair, so every player both plays and builds the next challenge.',
@@ -2100,7 +2094,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'experimental',
         links: {
           live: 'https://guts-and-glory.vercel.app',
-          github: 'https://github.com/forbiddenlink/guts-and-glory',
         },
         featured: false,
         dateRange: '2025',
@@ -2186,7 +2179,6 @@ export const galaxies: Galaxy[] = [
         galaxy: 'experimental',
         links: {
           live: 'https://canvas-flow-kappa.vercel.app',
-          github: 'https://github.com/forbiddenlink/canvas-flow',
         },
         featured: false,
         dateRange: '2025',
