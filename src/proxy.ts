@@ -4,6 +4,15 @@ import { NextResponse } from 'next/server'
 
 const arcjetKey = process.env.ARCJET_KEY
 
+// Fail loud in production: with no key, the shield, bot detection, AND the
+// per-IP rate limiter below all silently no-op (fail-open). This surfaces the
+// deploy-config mistake in logs/Sentry instead of shipping unprotected APIs.
+if (!arcjetKey && process.env.NODE_ENV === 'production') {
+  console.error(
+    '[proxy] ARCJET_KEY is not set in production — API shield, bot detection, and rate limiting are DISABLED.'
+  )
+}
+
 // WAF shield on every /api/* route. Cheap, and never blocks legit crawlers.
 const ajShield = arcjetKey ? arcjet({ key: arcjetKey, rules: [shield({ mode: 'LIVE' })] }) : null
 

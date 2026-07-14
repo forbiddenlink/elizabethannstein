@@ -68,10 +68,12 @@ export function GalaxyHint() {
             {/* Keyboard hints */}
             <span className="flex flex-wrap items-center gap-2.5 text-xs text-white/58 sm:gap-3">
               <span className="flex items-center gap-1.5">
-                <kbd className="text-[10px] bg-white/10 border border-white/10 px-1.5 py-0.5 rounded text-white/50">
+                <kbd className="hidden text-[10px] bg-white/10 border border-white/10 px-1.5 py-0.5 rounded text-white/50 md:inline">
                   ←→↑↓
                 </kbd>
                 <span className="hidden md:inline">navigate</span>
+                {/* Touch devices have no keyboard — surface the swipe gesture instead */}
+                <span className="md:hidden">Swipe to explore</span>
               </span>
               <span className="hidden sm:flex items-center gap-1.5">
                 <kbd className="text-[10px] bg-white/10 border border-white/10 px-1.5 py-0.5 rounded text-white/50">

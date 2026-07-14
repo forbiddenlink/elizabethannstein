@@ -1,8 +1,14 @@
 'use client'
 // error boundary segment
+import * as Sentry from '@sentry/nextjs'
 import Link from 'next/link'
+import { useEffect } from 'react'
 
-export default function AppError({ error: _error, reset }: { error: Error; reset: () => void }) {
+export default function AppError({ error, reset }: { error: Error; reset: () => void }) {
+  useEffect(() => {
+    Sentry.captureException(error)
+  }, [error])
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-black p-6 text-white">
       <div className="max-w-md text-center">

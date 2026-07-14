@@ -46,6 +46,8 @@ export function CommandPalette() {
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
 
   const lastRandomRef = useRef<string | null>(null)
+  const modalRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const isHomeRoute = pathname === '/'
 
@@ -310,6 +312,37 @@ export function CommandPalette() {
     return () => globalThis.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
 
+  // Focus the search input on open and trap Tab within the modal (WAI-ARIA
+  // dialog pattern — matches ProjectModal's focus handling).
+  useEffect(() => {
+    if (!isOpen) return
+    const focusTimer = setTimeout(() => inputRef.current?.focus(), 50)
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !modalRef.current) return
+      const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, textarea, select'
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    const modal = modalRef.current
+    modal?.addEventListener('keydown', handleTab)
+    return () => {
+      clearTimeout(focusTimer)
+      modal?.removeEventListener('keydown', handleTab)
+    }
+  }, [isOpen])
+
   // Reset selected index when search changes
   useEffect(() => {
     setSelectedIndex(0)
@@ -374,6 +407,7 @@ export function CommandPalette() {
 
       {/* Modal */}
       <div
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
@@ -384,6 +418,7 @@ export function CommandPalette() {
           <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
             <Search className="w-5 h-5 text-gray-400" />
             <input
+              ref={inputRef}
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

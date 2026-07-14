@@ -1,5 +1,6 @@
 'use client'
 
+import * as Sentry from '@sentry/nextjs'
 import Link from 'next/link'
 import React from 'react'
 
@@ -25,6 +26,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo)
+    Sentry.captureException(error, { extra: { componentStack: errorInfo.componentStack } })
   }
 
   render() {
@@ -99,6 +101,10 @@ export class Scene3DErrorBoundary extends React.Component<
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('[Scene3D] Error caught:', error.message)
     console.debug('[Scene3D] Error info:', errorInfo)
+    Sentry.captureException(error, {
+      tags: { boundary: 'scene3d' },
+      extra: { componentStack: errorInfo.componentStack },
+    })
 
     // Auto-retry for network/loading errors
     const maxRetries = this.props.maxRetries ?? 3

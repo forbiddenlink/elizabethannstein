@@ -178,7 +178,7 @@ export function Entrance() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex items-center justify-center gap-2"
             >
-              <span className="text-[10px] sm:text-[11px] tracking-[0.28em] sm:tracking-[0.32em] font-medium uppercase text-white/50">
+              <span className="text-xs tracking-[0.28em] sm:tracking-[0.32em] font-medium uppercase text-white/50">
                 Proof-first · {FAST_TRACK_IDS.length} flags to plant · full catalog on /work
               </span>
             </motion.div>

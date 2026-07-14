@@ -65,3 +65,4 @@ dist/
 !.env.example
 test-results/
 .pnpm-store/
+.audit-report.md

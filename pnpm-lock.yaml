@@ -27,12 +27,6 @@ importers:
       '@arcjet/next':
         specifier: ^1.5.0
         version: 1.5.0(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))
-      '@gsap/react':
-        specifier: ^2.1.2
-        version: 2.1.2(gsap@3.15.0)(react@19.2.7)
-      '@react-three/a11y':
-        specifier: ^3.0.0
-        version: 3.0.0(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)
       '@react-three/drei':
         specifier: ^10.7.7
         version: 10.7.7(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0))(@types/react@19.2.17)(@types/three@0.185.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)
@@ -51,9 +45,6 @@ importers:
       '@theatre/core':
         specifier: ^0.7.2
         version: 0.7.2
-      '@theatre/r3f':
-        specifier: ^0.7.2
-        version: 0.7.2(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0))(@theatre/core@0.7.2)(@theatre/studio@0.7.2(@theatre/core@0.7.2))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)
       '@vercel/analytics':
         specifier: ^2.0.1
         version: 2.0.1(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
@@ -78,9 +69,6 @@ importers:
       next-axiom:
         specifier: ^1.5.0
         version: 1.10.0(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
-      next-safe-action:
-        specifier: ^8.5.5
-        version: 8.5.5(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       nuqs:
         specifier: ^2.8.9
         version: 2.8.9(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
@@ -96,9 +84,6 @@ importers:
       resend:
         specifier: ^6.16.0
         version: 6.16.0
-      server-only:
-        specifier: ^0.0.1
-        version: 0.0.1
       sharp:
         specifier: ^0.35.3
         version: 0.35.3(@types/node@25.9.4)
@@ -108,9 +93,6 @@ importers:
       three:
         specifier: ^0.185.0
         version: 0.185.0
-      three.quarks:
-        specifier: ^0.17.1
-        version: 0.17.1(three@0.185.0)
       zustand:
         specifier: ^5.0.14
         version: 5.0.14(@types/react@19.2.17)(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
@@ -572,12 +554,6 @@ packages:
 
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
-
-  '@gsap/react@2.1.2':
-    resolution: {integrity: sha512-JqliybO1837UcgH2hVOM4VO+38APk3ECNrsuSM4MuXp+rbf+/2IG2K1YJiqfTcXQHH7XlA0m3ykniFYstfq0Iw==}
-    peerDependencies:
-      gsap: ^3.12.5
-      react: '>=17'
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1361,15 +1337,6 @@ packages:
   '@react-spring/types@9.7.5':
     resolution: {integrity: sha512-HVj7LrZ4ReHWBimBvu2SKND3cDVUPWKLqRTmWe/fNY6o1owGOX0cAHbdPDTMelgBlVbrTKrre6lFkhqGZErK/g==}
 
-  '@react-three/a11y@3.0.0':
-    resolution: {integrity: sha512-lnKIK8oPQBDWdzVMKm4kNi7W8RoGE7s5sHbw7Wz++MhyXih5L4aLyNkWedCn9v/PjRl2x3zIbzzZIWqoabwkJA==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      '@react-three/fiber': '>=8.0'
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      three: '>=0.133.0'
-
   '@react-three/drei@10.7.7':
     resolution: {integrity: sha512-ff+J5iloR0k4tC++QtD/j9u3w5fzfgFAWDtAGQah9pF2B1YgOq/5JxqY0/aVoQG5r3xSZz0cv5tk2YuBob4xEQ==}
     peerDependencies:
@@ -1949,16 +1916,6 @@ packages:
 
   '@theatre/dataverse@0.7.2':
     resolution: {integrity: sha512-YyfoyX7EyhFUY2OM5fsM0LPrs1SdgLwpiTMkkvTIoZLdOwvQhstjYq4Yz/8ZncJlRoTWvakfmgvCaBN+QuBYxg==}
-
-  '@theatre/r3f@0.7.2':
-    resolution: {integrity: sha512-HpBA40F5WMFlUITQjBNX+O2WzwKTx6aRbxkl2iB2UDtq7aqxr1L3beBXL/s7uJIFiT51JNOuw5Mvwf3ZeO+KCQ==}
-    peerDependencies:
-      '@react-three/fiber': ^8.13.6
-      '@theatre/core': '*'
-      '@theatre/studio': '*'
-      react: '>=17.0.2'
-      react-dom: '>=17.0.2'
-      three: '>=0.155.0'
 
   '@theatre/studio@0.7.2':
     resolution: {integrity: sha512-p6LTKzJWVlcHkpGzIlNHh9AkGbB3E+0q9Pjxv+OJoTDe1IK+CMKW695Wp+1//lB4vfC9qShe4z/p+Zaj1q8KtA==}
@@ -3738,14 +3695,6 @@ packages:
       next: '>=16.2.3'
       react: '>=18.0.0'
 
-  next-safe-action@8.5.5:
-    resolution: {integrity: sha512-y6h2w5VFVsy4+LqbEI1xW0coUu1uWH+1xXXlXn8ZTXMVusT392jQq98cpATZEYaG2kFet2tlcOn8U/H4BL5rTQ==}
-    engines: {node: '>=18.17'}
-    peerDependencies:
-      next: '>=16.2.3'
-      react: '>= 18.2.0'
-      react-dom: '>= 18.2.0'
-
   next@16.2.10:
     resolution: {integrity: sha512-2som5AVXb3kE6Yjine3/mNbBayYF58eguBWIVVUdr1y/L426xyVEgYxgBG+1QC34P2x5E+tcDup6XkuOAX3dCA==}
     engines: {node: '>=20.9.0'}
@@ -3957,9 +3906,6 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  quarks.core@0.17.1:
-    resolution: {integrity: sha512-WkY2Ipw/2uapCXRqA0UQm3U3SOh4TRIKYCVq2I8XolxF3wTLyC0c7XxIzZOYSpjkCDxqFTaM2+DZoRZom8NCdA==}
-
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -4119,9 +4065,6 @@ packages:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
     engines: {node: '>=10'}
     hasBin: true
-
-  server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
 
   set-cookie-parser@3.1.0:
     resolution: {integrity: sha512-kjnC1DXBHcxaOaOXBHBeRtltsDG2nUiUni+jP92M9gYdW12rsmx92UsfpH7o5tDRs7I1ZZPSQJQGv3UaRfCiuw==}
@@ -4402,11 +4345,6 @@ packages:
     resolution: {integrity: sha512-XyGQrFmNQ5O/IoKm556ftwKsBg11TIb301MB5dWNicziQBEs2g3gtOYIf7pFiLa0zI2gUwhtCjv9fmjnxKZ1Cg==}
     peerDependencies:
       three: '>=0.128.0'
-
-  three.quarks@0.17.1:
-    resolution: {integrity: sha512-HiyORXkPZTfy7OBA/IRJqTcNxpo53yctgV3N8dSUG/jdisiVciDFGyf6hVnOLQDrIEmzU0yOtNFvzo+JHCjc7A==}
-    peerDependencies:
-      three: '>=0.182.0'
 
   three@0.185.0:
     resolution: {integrity: sha512-+yRrcRO2iZa8uzvNNl0d7cL4huhgKgBvVJ0njcTe8xFqZ6DMAFZdCKDP91SEAuj25bNAj7k1QQdf+srZywVK6w==}
@@ -5227,11 +5165,6 @@ snapshots:
 
   '@floating-ui/utils@0.2.11': {}
 
-  '@gsap/react@2.1.2(gsap@3.15.0)(react@19.2.7)':
-    dependencies:
-      gsap: 3.15.0
-      react: 19.2.7
-
   '@humanfs/core@0.19.1': {}
 
   '@humanfs/node@0.16.7':
@@ -5876,15 +5809,6 @@ snapshots:
 
   '@react-spring/types@9.7.5': {}
 
-  '@react-three/a11y@3.0.0(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)':
-    dependencies:
-      '@react-three/fiber': 9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      three: 0.185.0
-      utility-types: 3.11.0
-      zustand: 3.7.2(react@19.2.7)
-
   '@react-three/drei@10.7.7(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0))(@types/react@19.2.17)(@types/three@0.185.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)':
     dependencies:
       '@babel/runtime': 7.28.6
@@ -6441,15 +6365,6 @@ snapshots:
   '@theatre/dataverse@0.7.2':
     dependencies:
       lodash-es: 4.18.1
-
-  '@theatre/r3f@0.7.2(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0))(@theatre/core@0.7.2)(@theatre/studio@0.7.2(@theatre/core@0.7.2))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)':
-    dependencies:
-      '@react-three/fiber': 9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.185.0)
-      '@theatre/core': 0.7.2
-      '@theatre/studio': 0.7.2(@theatre/core@0.7.2)
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      three: 0.185.0
 
   '@theatre/studio@0.7.2(@theatre/core@0.7.2)':
     dependencies:
@@ -8312,12 +8227,6 @@ snapshots:
     transitivePeerDependencies:
       - '@aws-sdk/credential-provider-web-identity'
 
-  next-safe-action@8.5.5(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
-    dependencies:
-      next: 16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-
   next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
       '@next/env': 16.2.10
@@ -8512,8 +8421,6 @@ snapshots:
   proxy-from-env@1.1.0: {}
 
   punycode@2.3.1: {}
-
-  quarks.core@0.17.1: {}
 
   queue-microtask@1.2.3: {}
 
@@ -8720,8 +8627,6 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.8.5: {}
-
-  server-only@0.0.1: {}
 
   set-cookie-parser@3.1.0: {}
 
@@ -9044,11 +8949,6 @@ snapshots:
       draco3d: 1.5.7
       fflate: 0.6.10
       potpack: 1.0.2
-      three: 0.185.0
-
-  three.quarks@0.17.1(three@0.185.0):
-    dependencies:
-      quarks.core: 0.17.1
       three: 0.185.0
 
   three@0.185.0: {}

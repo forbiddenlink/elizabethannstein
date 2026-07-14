@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Scene3DErrorBoundary } from '@/components/ErrorBoundary'
 import {
   AccessibleView,
@@ -77,6 +77,26 @@ export default function HomePage() {
   const { isAccessibleMode, toggle: toggleAccessibleMode, autoEnabled } = useAccessibleView()
   const heroVisibility = getVisibilityClasses(isJourneyMode, hasEntered)
   const isUniverseView = view === 'universe'
+
+  // Global "T" shortcut toggles the text-only accessible view. ScreenReaderAnnouncer
+  // advertises this key to screen-reader users, so it must actually be wired.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 't' && e.key !== 'T') return
+      const t = e.target as HTMLElement | null
+      if (
+        t?.tagName === 'INPUT' ||
+        t?.tagName === 'TEXTAREA' ||
+        t?.tagName === 'SELECT' ||
+        t?.isContentEditable
+      )
+        return
+      e.preventDefault()
+      toggleAccessibleMode()
+    }
+    globalThis.addEventListener('keydown', onKey)
+    return () => globalThis.removeEventListener('keydown', onKey)
+  }, [toggleAccessibleMode])
 
   // Render accessible text-only view if user prefers it
   if (isAccessibleMode) {

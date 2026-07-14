@@ -346,7 +346,10 @@ export default async function ProjectPage({
         {/* Related Projects by Tag Overlap */}
         {relatedProjects.length > 0 && (
           <div className="max-w-7xl mx-auto px-6 mt-20">
-            <h2 className="text-xl font-bold mb-6 text-white/70 tracking-tight">Related work</h2>
+            <h2 className="text-xl font-bold mb-2 text-white/70 tracking-tight">Related work</h2>
+            <p className="mb-6 text-xs text-white/35">
+              Signal = how many tags a project shares with this one.
+            </p>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               {relatedProjects.map(({ project: related, sharedTags, sameGalaxy, score }) => {
                 const sourceAccent = GALAXY_ACCENTS[toGalaxyAccentKey(project.galaxy)]

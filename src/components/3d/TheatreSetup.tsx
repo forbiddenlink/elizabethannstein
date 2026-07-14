@@ -1,13 +1,14 @@
 'use client'
 
 import { useFrame, useThree } from '@react-three/fiber'
-import { getProject, types } from '@theatre/core'
 import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { create } from 'zustand'
 
-// @theatre/studio is dev-only authoring UI - imported dynamically so it never
-// ships in the production bundle. Studio is in devDependencies for that reason.
+// Theatre.js (@theatre/core + @theatre/studio) is a dev-only camera authoring
+// tool. BOTH are imported dynamically and gated behind isDev, so neither ships in
+// the production bundle. End users can never enter Theatre mode (the toggle is
+// dev-only), so the camera sheet/object below are only ever built in dev.
 const isDev = process.env.NODE_ENV === 'development'
 
 type TheatreStudio = {
@@ -15,12 +16,58 @@ type TheatreStudio = {
   ui: { hide: () => void; restore: () => void }
 }
 
+// Minimal structural types for the lazily-loaded Theatre.js objects, so the rest
+// of the file stays typed without a static @theatre/core import.
+type TheatreCameraObject = {
+  value: {
+    position: { x: number; y: number; z: number }
+    target: { x: number; y: number; z: number }
+    fov: number
+  }
+}
+type TheatreSheet = {
+  sequence: {
+    play: (opts: { iterationCount: number }) => void
+    pause: () => void
+    position: number
+  }
+}
+
 let studioRef: TheatreStudio | null = null
+let cameraSheet: TheatreSheet | null = null
+let cameraObject: TheatreCameraObject | null = null
+
+// Build the Theatre.js project/sheet/camera object (dev only). @theatre/core is
+// dynamically imported here so it is dead-code-eliminated from prod bundles.
+async function initTheatre(): Promise<void> {
+  if (!isDev || typeof window === 'undefined' || cameraObject) return
+  try {
+    const { getProject, types } = await import('@theatre/core')
+    const sheet = getProject('Galaxy Portfolio').sheet('Camera Animations')
+    cameraSheet = sheet as unknown as TheatreSheet
+    cameraObject = sheet.object('Main Camera', {
+      position: types.compound({
+        x: types.number(0, { range: [-100, 100] }),
+        y: types.number(20, { range: [0, 100] }),
+        z: types.number(60, { range: [0, 150] }),
+      }),
+      target: types.compound({
+        x: types.number(0, { range: [-50, 50] }),
+        y: types.number(0, { range: [-20, 20] }),
+        z: types.number(0, { range: [-50, 50] }),
+      }),
+      fov: types.number(45, { range: [20, 90] }),
+    }) as unknown as TheatreCameraObject
+  } catch {
+    // Theatre.js failed to load; the dev camera tool is simply unavailable.
+  }
+}
 
 async function getStudio(): Promise<TheatreStudio | null> {
   if (!isDev || typeof window === 'undefined') return null
   if (studioRef) return studioRef
   try {
+    await initTheatre()
     const mod = (await import('@theatre/studio')) as { default: TheatreStudio }
     studioRef = mod.default
     studioRef.initialize()
@@ -34,15 +81,6 @@ async function getStudio(): Promise<TheatreStudio | null> {
 if (isDev && typeof window !== 'undefined') {
   void getStudio()
 }
-
-// Create a Theatre.js project for the galaxy scene
-const galaxyProject = getProject('Galaxy Portfolio', {
-  // In production, you'd load saved state here:
-  // state: savedState
-})
-
-// Main camera animation sheet
-const cameraSheet = galaxyProject.sheet('Camera Animations')
 
 // Theatre mode store - controls whether Theatre.js is driving the camera
 interface TheatreModeStore {
@@ -79,21 +117,6 @@ export const CAMERA_SEQUENCES = {
   },
 }
 
-// Create camera object once (singleton pattern for Theatre.js)
-const cameraObject = cameraSheet.object('Main Camera', {
-  position: types.compound({
-    x: types.number(0, { range: [-100, 100] }),
-    y: types.number(20, { range: [0, 100] }),
-    z: types.number(60, { range: [0, 150] }),
-  }),
-  target: types.compound({
-    x: types.number(0, { range: [-50, 50] }),
-    y: types.number(0, { range: [-20, 20] }),
-    z: types.number(0, { range: [-50, 50] }),
-  }),
-  fov: types.number(45, { range: [20, 90] }),
-})
-
 /**
  * Camera controller for Theatre.js - only active when in Theatre mode
  * Place this inside your R3F Canvas. When theatre mode is active,
@@ -104,7 +127,7 @@ export function TheatreCameraController() {
   const isTheatreMode = useTheatreModeStore((s) => s.isTheatreMode)
 
   useFrame(() => {
-    if (!isTheatreMode) return
+    if (!isTheatreMode || !cameraObject) return
 
     const values = cameraObject.value
 
@@ -131,17 +154,17 @@ export function useTheatrePlayback() {
   const [isPlaying, setIsPlaying] = useState(false)
 
   const play = () => {
-    cameraSheet.sequence.play({ iterationCount: 1 })
+    cameraSheet?.sequence.play({ iterationCount: 1 })
     setIsPlaying(true)
   }
 
   const pause = () => {
-    cameraSheet.sequence.pause()
+    cameraSheet?.sequence.pause()
     setIsPlaying(false)
   }
 
   const reset = () => {
-    cameraSheet.sequence.position = 0
+    if (cameraSheet) cameraSheet.sequence.position = 0
     setIsPlaying(false)
   }
 

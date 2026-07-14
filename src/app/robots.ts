@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/chat', '/api/contact', '/api/health'],
+        disallow: ['/api/chat', '/api/contact', '/health'],
       },
       {
         // Explicitly welcome core AI crawlers so the site is discoverable to
