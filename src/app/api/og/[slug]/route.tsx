@@ -1,5 +1,5 @@
-import { ImageResponse } from 'next/og'
 import * as Sentry from '@sentry/nextjs'
+import { ImageResponse } from 'next/og'
 import { galaxies } from '@/lib/galaxyData'
 
 export const runtime = 'edge'
@@ -45,10 +45,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
         {project.title}
       </div>
 
-      {/* Subtitle */}
+      {/* Subtitle. Satori requires explicit display on any div with >1 child, and
+          the `: ''` branch below still counts as one even when company is unset. */}
       <div
         style={{
           fontSize: 32,
+          display: 'flex',
           color: '#94a3b8',
           marginBottom: 40,
           textAlign: 'center',
