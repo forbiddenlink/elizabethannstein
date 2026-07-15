@@ -167,6 +167,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
     Sentry.captureException(error, {
       tags: { route: 'api/og/[slug]', slug },
     })
+    // Edge functions terminate on return, which kills the in-flight send, so the
+    // event has to be flushed before responding or it never reaches Sentry.
+    await Sentry.flush(2000)
     return new Response('Failed to render OG image', { status: 500 })
   }
 }
