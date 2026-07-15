@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import * as Sentry from '@sentry/nextjs'
 import { galaxies } from '@/lib/galaxyData'
 
 export const runtime = 'edge'
@@ -16,7 +17,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
   // Find galaxy
   const galaxy = galaxies.find((g) => g.projects.some((p) => p.id === slug))
 
-  return new ImageResponse(
+  const image = new ImageResponse(
     <div
       style={{
         height: '100%',
@@ -153,4 +154,19 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
       height: 630,
     }
   )
+
+  // ImageResponse streams: Satori renders as the runtime drains the body, which is
+  // after the 200 has shipped and after onRequestError can still observe a throw.
+  // A render failure therefore surfaces as 200 with an empty body and reaches no
+  // error handler. Draining it here keeps the render on this stack, so failures
+  // become a real 500 and a Sentry event instead of a silent empty image.
+  try {
+    const png = await image.arrayBuffer()
+    return new Response(png, { headers: image.headers })
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: { route: 'api/og/[slug]', slug },
+    })
+    return new Response('Failed to render OG image', { status: 500 })
+  }
 }
