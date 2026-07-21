@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.1.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.0.0...v1.1.0) (2026-07-21)
+
+
+### Features
+
+* add CodeQL security analysis ([7fc1488](https://github.com/forbiddenlink/elizabethannstein/commit/7fc1488e7e094c3f408dc22064a486b754de5eba))
+* add top-tier project screenshots, prune dead screenshot map ([d32ce4f](https://github.com/forbiddenlink/elizabethannstein/commit/d32ce4f897dd8a5a3c26ab76ac2bab211906e24c))
+* embed 30-second showreel on /about and as OG video ([95dcaf9](https://github.com/forbiddenlink/elizabethannstein/commit/95dcaf9d3e41e6ee325bbd1e89bad242c79422f7))
+* rate-limiting, reduced-motion gate, honeypot, mobile fixes ([7131b07](https://github.com/forbiddenlink/elizabethannstein/commit/7131b07fbd72efc899d2d180707c07b1650695df))
+* recruiter-ready proof layer, project curation, and privacy scrub ([def9e9c](https://github.com/forbiddenlink/elizabethannstein/commit/def9e9ceb91b582f7798bf815f296acd221f0166))
+* render contestWin link on case-study pages ([52b7ef0](https://github.com/forbiddenlink/elizabethannstein/commit/52b7ef0908b6e2639687258d3bba268477641a09))
+* **seo:** improve AI-agent (AX) readiness ([ad8edb1](https://github.com/forbiddenlink/elizabethannstein/commit/ad8edb190b8cd775752e5198205d9e6e6e292be1))
+* surface Summa Cum Laude credential across About and site metadata ([5bc1e3b](https://github.com/forbiddenlink/elizabethannstein/commit/5bc1e3b5e6f8d09cd1fc3563b757db5a26e5cc27))
+
+
+### Bug Fixes
+
+* **a11y,ui:** gate motion for reduced-motion, modal ARIA, galaxy token drift, 44px targets ([e4a2d78](https://github.com/forbiddenlink/elizabethannstein/commit/e4a2d786f28d5dc65c125662291254b2ed2e417b))
+* **a11y:** gate remaining animate-ping, fix ScrollProgress galaxy tone mapping ([71227ba](https://github.com/forbiddenlink/elizabethannstein/commit/71227ba3873e3c364f942e2babbe07a7f1878d5e))
+* audit-pack findings — SEO, a11y, security, copy ([7e74e6a](https://github.com/forbiddenlink/elizabethannstein/commit/7e74e6a6225bcbe6b4bccafdec4065867782acfb))
+* audit-pack launch-hardening (observability, a11y, bundle, dead-code) ([0221272](https://github.com/forbiddenlink/elizabethannstein/commit/022127282bb7880d9b94dae45bac95d604443357))
+* **ci:** replace removed model: input with claude_args, allow Dependabot ([#24](https://github.com/forbiddenlink/elizabethannstein/issues/24)) ([8ccfb3a](https://github.com/forbiddenlink/elizabethannstein/commit/8ccfb3a362769e436d2c96ab9f583ed5a2fce14f))
+* **deps:** align react-dom to react 19.2.6 to fix Vercel prod build ([99f3076](https://github.com/forbiddenlink/elizabethannstein/commit/99f30760b172278fcca041965aa3923b6704806e))
+* **deps:** override undici + js-yaml to patched versions ([fcc86f9](https://github.com/forbiddenlink/elizabethannstein/commit/fcc86f9d5d344a264c6480d486420b3140dfc621))
+* **deps:** patch undici + js-yaml CVEs (7 alerts) ([2a1189f](https://github.com/forbiddenlink/elizabethannstein/commit/2a1189f8c8680fe7cbd65f51c1396620707ab965))
+* drop Coulson One live link (public demo gates behind login) ([1a0d0f1](https://github.com/forbiddenlink/elizabethannstein/commit/1a0d0f14dec4c48fad950a2d3805200292e98474))
+* **e2e:** fix smoke test timeouts for 3D WebGL portfolio ([#50](https://github.com/forbiddenlink/elizabethannstein/issues/50)) ([f31ebd5](https://github.com/forbiddenlink/elizabethannstein/commit/f31ebd55ef3cdc871a447578214dd2a83c9764a4))
+* force secure transitive dep versions via pnpm overrides ([50fc15f](https://github.com/forbiddenlink/elizabethannstein/commit/50fc15f404364a67a54079466f23d3e967a33231))
+* remove dead github buttons and surface snacktrap ([41e6e5e](https://github.com/forbiddenlink/elizabethannstein/commit/41e6e5eb2f837c9830683268be7daf7b739c7392))
+* repair dead project links from link audit ([cac14f9](https://github.com/forbiddenlink/elizabethannstein/commit/cac14f902b43b902861dbb54d1316b613d292255))
+* **security:** exempt /api/og from Arcjet bot-detection so social crawlers can fetch OG images ([efd7aef](https://github.com/forbiddenlink/elizabethannstein/commit/efd7aef01ad970fad9df647ff5d709f4ca6a0cf1))
+* **security:** resolve CodeQL url-substring + multi-char sanitization alerts ([#43](https://github.com/forbiddenlink/elizabethannstein/issues/43)) ([8b7c052](https://github.com/forbiddenlink/elizabethannstein/commit/8b7c05255753a92fd72a97cfebfd374eed312475))
+* **styles:** define missing radius vars, drop dead tailwind tokens ([3fa1093](https://github.com/forbiddenlink/elizabethannstein/commit/3fa10939f30e8bb95e8719ba4e0b5b1af12d0ee2))
+* **types:** restore WebGPU Navigator typing after vite/tsconfig drift ([3a8e517](https://github.com/forbiddenlink/elizabethannstein/commit/3a8e51740bf14f55fa868a108218c7b3b5bb68c5))
+* use absolute URL for og:video so social crawlers resolve it ([7fe107c](https://github.com/forbiddenlink/elizabethannstein/commit/7fe107c602964471d86097563bf53defd43939bb))
+* use webp poster for reel (png is gitignored) ([7936aec](https://github.com/forbiddenlink/elizabethannstein/commit/7936aecbfceb65d54c78e68b6b4f2ebb374b0d02))
+
+
+### Performance Improvements
+
+* **ci:** move heavy checks to push-main + workflow_dispatch only ([#26](https://github.com/forbiddenlink/elizabethannstein/issues/26)) ([8a9b40f](https://github.com/forbiddenlink/elizabethannstein/commit/8a9b40f37cec90dafe32c1ed1ed6d6f21fe0e643))
+* **ci:** skip workflows for docs-only PRs ([#28](https://github.com/forbiddenlink/elizabethannstein/issues/28)) ([87658a9](https://github.com/forbiddenlink/elizabethannstein/commit/87658a95b015d48ff18d6ea031b6ea1507ed9b2d))
+
 ## 1.0.0 (2026-05-15)
 
 
