@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { AskAIAboutMe } from '@/components/ui/AskAIAboutMe'
+import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { CONTACT } from '@/lib/constants'
 
 export function SiteFooter() {
