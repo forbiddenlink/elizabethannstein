@@ -10,6 +10,24 @@ export const CONTACT = {
   github: 'https://github.com/forbiddenlink',
 } as const
 
+/**
+ * "Ask AI about me" — recruiters increasingly vet candidates through an assistant
+ * before ever landing here. These deep links open a chat prefilled with a prompt that
+ * points the model at this site + its AI-readable profile (public/llms.txt), so the
+ * answer is grounded in real, verifiable proof rather than a hallucination.
+ */
+export const ASK_AI = {
+  /** Prefilled prompt; each provider URL appends `encodeURIComponent(prompt)`. */
+  prompt:
+    'Tell me about Elizabeth Stein, a full-stack engineer (Power Platform, Next.js, AI). Her portfolio is https://elizabethannstein.com and her AI-readable profile is https://elizabethannstein.com/llms.txt. What are her strongest, most verifiable projects and skills?',
+  /** `{q}` is replaced with the encoded prompt at render time. */
+  providers: [
+    { label: 'Claude', href: 'https://claude.ai/new?q={q}' },
+    { label: 'ChatGPT', href: 'https://chatgpt.com/?q={q}' },
+    { label: 'Perplexity', href: 'https://www.perplexity.ai/search?q={q}' },
+  ],
+} as const
+
 // Site metadata - single source of truth
 export const SITE = {
   name: 'Elizabeth Stein',

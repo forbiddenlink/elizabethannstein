@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
+import { AskAIAboutMe } from '@/components/ui/AskAIAboutMe'
 import { CONTACT } from '@/lib/constants'
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-[var(--color-border)] py-10 relative z-10 bg-black">
       <div className="max-w-7xl mx-auto px-6 flex flex-col gap-6 text-white/[0.68] text-[13px] tracking-[0.01em]">
+        <AskAIAboutMe />
+        <div className="h-px bg-[var(--color-border-subtle)]" aria-hidden="true" />
         <div className="flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <p className="text-white/80">&copy; {new Date().getFullYear()} Elizabeth Stein</p>
