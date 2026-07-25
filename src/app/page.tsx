@@ -67,7 +67,9 @@ const HiringFastTrack = dynamic(
 function getVisibilityClasses(isJourneyMode: boolean, hasEntered: boolean): string {
   if (isJourneyMode) return 'opacity-0 pointer-events-none'
   if (hasEntered) return 'opacity-100 translate-y-0'
-  return 'opacity-0 translate-y-4'
+  // Pre-entry: keep the hero VISIBLE on first paint so it's the LCP element in the
+  // SSR HTML (was opacity-0, which delayed LCP to ~11s until the 3D bundle hydrated).
+  return 'opacity-100 translate-y-0'
 }
 
 export default function HomePage() {
