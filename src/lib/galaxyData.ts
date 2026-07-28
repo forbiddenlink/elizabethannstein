@@ -794,53 +794,6 @@ export const galaxies: Galaxy[] = [
         ],
       },
       {
-        id: 'quantum-forge',
-        title: 'Quantum Forge',
-        description:
-          'Modern employee portal with Next.js 15, React 19, PostgreSQL database, AI-powered interactions, and glass-morphism design.',
-        role: 'Creator',
-        tags: ['Next.js 15', 'React 19', 'PostgreSQL', 'AI', 'TypeScript'],
-        color: '#9D4EDD',
-        brightness: 1.7,
-        size: 'large',
-        galaxy: 'fullstack',
-        links: {},
-        featured: false,
-        dateRange: '2024',
-        challenge:
-          'Building a modern employee portal that feels native while handling complex data relationships and AI interactions.',
-        solution:
-          'Architected with Next.js 15 and React 19 for optimal performance. PostgreSQL for relational data, AI-powered search and recommendations, glass-morphism design for modern aesthetics.',
-        impact:
-          'Production-ready portal with sub-100ms page loads. AI-powered search short-circuits navigation paths to common employee questions. Glass-morphism UI praised for modern, accessible design.',
-        impactMetrics: [
-          { label: 'Page Load', value: '<100ms', icon: 'zap' },
-          { label: 'Search', value: 'AI-powered', icon: 'bot' },
-          { label: 'Stack', value: 'React 19', icon: 'atom' },
-          { label: 'DB', value: 'PostgreSQL', icon: 'database' },
-        ],
-      },
-      {
-        id: 'codealpha-todolist',
-        title: 'Enhanced To-Do List',
-        description:
-          'Feature-rich task management app with dark/light mode, drag-and-drop, undo/redo, offline support, and task archiving.',
-        role: 'Creator',
-        tags: ['JavaScript', 'PWA', 'Accessibility'],
-        color: '#9D4EDD',
-        brightness: 1.3,
-        size: 'small',
-        galaxy: 'fullstack',
-        featured: false,
-        dateRange: '2024',
-        challenge:
-          "Most to-do apps lack offline support, undo/redo, and proper accessibility. Simple tools shouldn't sacrifice power user features.",
-        solution:
-          'Built PWA with service worker for offline support. Undo/redo with 50-step history. Full keyboard navigation and WCAG compliance.',
-        impact:
-          'Works offline with automatic sync on reconnect. Undo/redo prevents accidental data loss. Full keyboard navigation for accessibility.',
-      },
-      {
         id: 'skill-mapper',
         title: 'Skill Mapper',
         description:
@@ -1000,27 +953,6 @@ export const galaxies: Galaxy[] = [
         ],
       },
       {
-        id: 'testimonial-widget',
-        title: 'Testimonial Widget',
-        description:
-          'Embeddable testimonial collection and display widget for any website. Easy integration, customizable themes, and a dashboard for managing customer feedback.',
-        role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'Embeddable'],
-        color: '#9D4EDD',
-        brightness: 1.4,
-        size: 'medium',
-        galaxy: 'fullstack',
-        links: {},
-        featured: false,
-        dateRange: '2026',
-        challenge:
-          'Collecting and displaying testimonials requires custom code or expensive SaaS. Small businesses need simple, embeddable solutions.',
-        solution:
-          'Built drop-in widget with single script tag integration. Dashboard for collecting, moderating, and customizing testimonial display.',
-        impact:
-          'Single-line embed for any website. Customizable themes match any brand. Dashboard simplifies testimonial management.',
-      },
-      {
         id: 'testimoniq',
         title: 'Testimoniq',
         description:
@@ -1104,46 +1036,6 @@ export const galaxies: Galaxy[] = [
           'Built real-time WCAG 2.1 and APCA compliance checking with AI palette suggestions that maintain aesthetic intent. Color blindness simulation shows exactly how your design appears to each vision type. Semantic structure and keyboard nav checks surface issues beyond color alone.',
         impact:
           'Covers WCAG 2.1 and newer APCA standard in one tool. Color blindness simulation covers 6+ vision deficiency types. AI suggestions fix accessibility issues without destroying the design system.',
-      },
-      {
-        id: 'mutahunter',
-        title: 'Mutahunter',
-        description:
-          'Language-agnostic mutation testing tool using Tree-sitter for precise code analysis.',
-        role: 'Contributor',
-        tags: ['Python', 'Testing', 'Tree-sitter'],
-        color: '#06FFA5',
-        brightness: 1.4,
-        size: 'medium',
-        galaxy: 'devtools',
-        featured: false,
-        dateRange: '2024',
-        challenge:
-          "Code coverage metrics lie - 100% coverage doesn't mean tests are actually catching bugs. Mutation testing reveals test quality.",
-        solution:
-          'Tree-sitter parses code into AST for precise mutations. Language-agnostic design supports JavaScript, Python, Go, and more.',
-        impact:
-          'Exposes weak tests that pass despite broken code. Tree-sitter accuracy reduces false positives. Supports 10+ programming languages.',
-      },
-      {
-        id: 'claude-continuity-kit',
-        title: 'Claude Continuity Kit',
-        description:
-          'Session continuity tooling for Claude Code to maintain context across sessions.',
-        role: 'Creator',
-        tags: ['Claude', 'AI', 'Developer Tools'],
-        color: '#06FFA5',
-        brightness: 1.3,
-        size: 'small',
-        galaxy: 'devtools',
-        featured: false,
-        dateRange: '2024',
-        challenge:
-          'Claude Code sessions lose context on clear, forcing developers to re-explain project state repeatedly.',
-        solution:
-          'Built hooks, ledgers, and handoff documents that automatically preserve session state and enable reliable context restoration.',
-        impact:
-          'Eliminates context re-establishment time after session clears. Handoff documents capture learnings for future sessions. Used daily in my own development workflow.',
       },
       {
         id: 'mcp-wrapper',
@@ -1595,6 +1487,35 @@ export const galaxies: Galaxy[] = [
           { label: 'Check Categories', value: '7', icon: 'layers' },
         ],
       },
+      {
+        id: 'site-sheriff',
+        title: 'Site Sheriff',
+        description:
+          'Drop a URL and get an agency-grade website QA report in under two minutes. Crawls up to 500 pages across 10 levels, running 100+ static checks plus 80+ axe-core accessibility rules on desktop and mobile. Delivers a prioritized, severity-weighted report with fix instructions, effort estimates, and a copy-paste client email.',
+        role: 'Creator',
+        tags: ['Next.js', 'TypeScript', 'Tailwind', 'QA', 'SEO', 'Accessibility'],
+        color: '#06FFA5',
+        brightness: 1.7,
+        size: 'large',
+        galaxy: 'devtools',
+        links: {
+          live: 'https://site-sheriff.vercel.app',
+          github: 'https://github.com/forbiddenlink/site-sheriff',
+        },
+        featured: false,
+        dateRange: '2026',
+        challenge:
+          'Agencies need to prove website quality fast, but QA tooling is either shallow single-page checks or enterprise suites nobody has time to configure. The gap is a scan-first tool that crawls a whole site and returns something a client can act on.',
+        solution:
+          'Built a crawler that walks up to 500 pages and runs 100+ static checks across SEO, security, and performance, plus 80+ axe-core WCAG rules on desktop and mobile viewports. Findings are severity-weighted with fix instructions, effort estimates, and a generated client-ready summary email.',
+        impact:
+          'Turns a raw URL into a prioritized QA report in under two minutes. Covers 180+ total checks in a single pass. The copy-paste client email closes the loop from scan to deliverable.',
+        impactMetrics: [
+          { label: 'Checks', value: '180+', icon: 'check' },
+          { label: 'Pages per Scan', value: '500', icon: 'globe' },
+          { label: 'A11y Rules', value: '80+ axe', icon: 'zap' },
+        ],
+      },
     ],
   },
   {
@@ -1863,25 +1784,6 @@ export const galaxies: Galaxy[] = [
           'Casino-accurate rules pass all edge cases. Card animations run at 60fps. Betting system tracks bankroll across sessions.',
       },
       {
-        id: 'pixelforge',
-        title: 'PixelForge Test',
-        description: 'Pixel manipulation and generative art experiment.',
-        role: 'Creator',
-        tags: ['Canvas'],
-        color: '#FFB800',
-        brightness: 1,
-        size: 'small',
-        galaxy: 'experimental',
-        featured: false,
-        dateRange: '2023',
-        challenge:
-          'Exploring generative art through direct pixel manipulation without relying on existing libraries.',
-        solution:
-          'Built custom Canvas API wrapper for pixel-level control. Implemented noise functions, color gradients, and procedural patterns from scratch.',
-        impact:
-          'Learned low-level graphics programming fundamentals. Custom noise functions create unique organic patterns. Foundation for later Three.js work.',
-      },
-      {
         id: 'ocean-simulator',
         title: 'Ocean Ecosystem Simulator',
         description:
@@ -1946,26 +1848,6 @@ export const galaxies: Galaxy[] = [
           'Built automated scanning for OWASP Top 10 vulnerabilities, dependency analysis for known CVEs, and compliance reporting against security frameworks.',
         impact:
           'Scans complete in under 60 seconds. Covers OWASP Top 10 detection rules + dependency CVE analysis. Generates compliance reports for SOC2 and OWASP standards.',
-      },
-      {
-        id: 'milestone-arc',
-        title: 'Milestone Arc',
-        description:
-          'Interactive timeline and history visualization app for documenting personal or project milestones.',
-        role: 'Creator',
-        tags: ['React'],
-        color: '#FFB800',
-        brightness: 1.3,
-        size: 'medium',
-        galaxy: 'experimental',
-        featured: false,
-        dateRange: '2024',
-        challenge:
-          'Linear timelines fail to show connections between events. Project histories lose context when documented as flat lists.',
-        solution:
-          'Built interactive timeline with branching paths, event connections, and zoomable detail levels. Rich media attachments preserve context.',
-        impact:
-          'Branching timelines reveal causal relationships. Zoom from decades to days. Rich attachments preserve full context of each milestone.',
       },
       {
         id: 'mythos',
@@ -2361,7 +2243,7 @@ export const narrativeTours: NarrativeTour[] = [
     projectIds: [
       'create-surveys', // Start: First real SaaS
       'portfolio-pro', // Comprehensive platform
-      'quantum-forge', // Modern architecture
+      'kindred', // Modern architecture
       'willwise', // Real-world SaaS
       'coulson-one', // Enterprise scale
     ],
@@ -2370,8 +2252,8 @@ export const narrativeTours: NarrativeTour[] = [
         'Every full-stack developer remembers their first real SaaS. Create Surveys taught me the full loop: build, ship, iterate.',
       'portfolio-pro':
         'Portfolio-Pro was ambitious: 269 lessons, Stripe integration, Monaco editor. It proved I could build comprehensive platforms.',
-      'quantum-forge':
-        'Modern architecture matters. Quantum Forge combines Next.js 15, React 19, and PostgreSQL with glass-morphism design.',
+      kindred:
+        'Modern architecture matters. Kindred pairs Next.js 16 and React 19 with Yjs CRDTs for real-time, offline-first collaboration.',
       willwise:
         'WillWise tackled a real-world problem: modernizing estate planning for the digital age. Full SaaS with Stripe, Supabase, and PDF generation.',
       'coulson-one':

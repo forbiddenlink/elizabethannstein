@@ -51,7 +51,6 @@ export const ARCHIVE_PROJECT_IDS = [
   'app-idea-miner',
   'guts-and-glory',
   'dev-assistant-pro',
-  'codealpha-todolist',
 ] as const
 
 export type PrimaryProofId = (typeof PRIMARY_PROOF_IDS)[number]

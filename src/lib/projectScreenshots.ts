@@ -23,7 +23,6 @@ export const PROJECT_SCREENSHOTS: Record<string, string> = {
   'ucp-guard': '/screenshots/ucp-guard.webp',
   'portfolio-pro': '/screenshots/portfolio-pro.webp',
   kindred: '/screenshots/kindred.webp',
-  'quantum-forge': '/screenshots/quantum-forge.webp',
   reprise: '/screenshots/reprise.webp',
   // Experimental / Creative
   mythos: '/screenshots/mythos.webp',
