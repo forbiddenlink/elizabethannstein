@@ -133,7 +133,7 @@ export const galaxies: Galaxy[] = [
           'Sub-2-second page loads. Content updates require zero developer involvement. Professional design increases client trust.',
       },
       {
-        id: 'crc-ready5-assessment',
+        id: 'security-readiness-platform',
         title: 'Security Readiness Platform',
         description:
           'Sole developer on a production cybersecurity-readiness assessment for a nonprofit (client confidential). Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.',

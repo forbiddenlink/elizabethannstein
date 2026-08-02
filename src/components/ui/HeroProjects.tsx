@@ -14,7 +14,7 @@ interface HeroProject {
 
 const heroProjects: HeroProject[] = [
   {
-    id: 'crc-ready5-assessment',
+    id: 'security-readiness-platform',
     highlight: 'Dynamics 365 / Power Platform. In production.',
     icon: <Building2 className="w-5 h-5" />,
     gradient: 'from-orange-500 to-red-600',

@@ -9,11 +9,15 @@ import type { Galaxy, Project, ProjectTier } from '@/lib/types'
 export type { ProjectTier }
 
 /** Top of funnel: three receipts recruiters should click first */
-export const PRIMARY_PROOF_IDS = ['crc-ready5-assessment', 'timeslip-search', 'specter'] as const
+export const PRIMARY_PROOF_IDS = [
+  'security-readiness-platform',
+  'timeslip-search',
+  'specter',
+] as const
 
 /** Entrance pills + hiring fast track (same order, same story) */
 export const FAST_TRACK_IDS = [
-  'crc-ready5-assessment',
+  'security-readiness-platform',
   'timeslip-search',
   'specter',
   'trace',
@@ -24,7 +28,7 @@ export const FAST_TRACK_IDS = [
 
 /** Planets rendered in the WebGL scene (~15 max for performance + clarity) */
 export const SCENE_PROJECT_IDS = [
-  'crc-ready5-assessment',
+  'security-readiness-platform',
   'crc-leadgen',
   'coulson-one',
   'flo-labs',
@@ -62,7 +66,7 @@ const SCENE_SET = new Set<string>(SCENE_PROJECT_IDS)
 const ARCHIVE_SET = new Set<string>(ARCHIVE_PROJECT_IDS)
 
 const PROOF_HOOKS: Record<PrimaryProofId, string> = {
-  'crc-ready5-assessment': 'Dynamics 365 · in production',
+  'security-readiness-platform': 'Dynamics 365 · in production',
   'timeslip-search': 'Algolia $750 win · 420k records',
   specter: 'npm · 65 CLI cmds · 14 MCP tools',
 }

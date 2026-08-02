@@ -35,7 +35,7 @@ const FAST_TRACK_ENTRANCE_META: Record<
   (typeof FAST_TRACK_IDS)[number],
   { highlight: string; icon: typeof Building2; gradient: string }
 > = {
-  'crc-ready5-assessment': {
+  'security-readiness-platform': {
     highlight: 'Dynamics 365 · in production',
     icon: Building2,
     gradient: 'from-orange-500 to-red-600',

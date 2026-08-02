@@ -44,7 +44,7 @@ export interface Flagship {
 
 export const FLAGSHIPS: Flagship[] = [
   {
-    id: 'crc-ready5-assessment',
+    id: 'security-readiness-platform',
     title: 'Security Readiness Platform',
     org: 'Cybersecurity nonprofit · Sole Developer',
     years: '2025–26',

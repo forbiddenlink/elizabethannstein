@@ -23,6 +23,16 @@ const nextConfig = {
     // Native view transitions for route changes (React 19 + Next 16)
     viewTransition: true,
   },
+  // Preserve the old case-study URL after the confidentiality rename.
+  async redirects() {
+    return [
+      {
+        source: '/work/crc-ready5-assessment',
+        destination: '/work/security-readiness-platform',
+        permanent: true,
+      },
+    ]
+  },
   // Security headers for production
   async headers() {
     // Content Security Policy - allows Three.js/WebGL, analytics, fonts
