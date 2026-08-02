@@ -9,11 +9,6 @@ import styles from './LiveSystemsIndex.module.css'
 
 type StatusPhase = 'checking' | 'live' | 'down' | 'static'
 
-interface Props {
-  /** Live-ping results keyed by statusUrl, gathered server-side. */
-  statuses: Record<string, LiveResult>
-}
-
 function respondingCount(statuses: Record<string, LiveResult>): number {
   return FLAGSHIPS.reduce((n, f) => {
     if (f.status === 'live') return n + (f.statusUrl && statuses[f.statusUrl]?.up ? 1 : 0)
@@ -72,27 +67,43 @@ function StatusCell({
   )
 }
 
-export function LiveSystemsIndex({ statuses }: Props) {
+export function LiveSystemsIndex() {
   const [entered, setEntered] = useState(false)
   const [open, setOpen] = useState<Record<string, boolean>>({})
+  const [statuses, setStatuses] = useState<Record<string, LiveResult>>({})
   const [phases, setPhases] = useState<Record<string, StatusPhase>>(() =>
     Object.fromEntries(FLAGSHIPS.map((f) => [f.id, f.status === 'live' ? 'checking' : 'static']))
   )
 
   useEffect(() => {
     setEntered(true)
+  }, [])
+
+  // Fetch live status off the render path; resolve each dot as the result arrives.
+  useEffect(() => {
+    let cancelled = false
     const reduce =
       typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
     const timers: ReturnType<typeof setTimeout>[] = []
-    FLAGSHIPS.forEach((f, i) => {
-      if (f.status !== 'live') return
-      const result = f.statusUrl ? statuses[f.statusUrl] : undefined
-      const settle = () => setPhases((p) => ({ ...p, [f.id]: result?.up ? 'live' : 'down' }))
-      if (reduce) settle()
-      else timers.push(setTimeout(settle, 420 + i * 240))
-    })
-    return () => timers.forEach(clearTimeout)
-  }, [statuses])
+    fetch('/api/status')
+      .then((r) => (r.ok ? r.json() : {}))
+      .catch(() => ({}))
+      .then((data: Record<string, LiveResult>) => {
+        if (cancelled) return
+        setStatuses(data)
+        FLAGSHIPS.forEach((f, i) => {
+          if (f.status !== 'live') return
+          const result = f.statusUrl ? data[f.statusUrl] : undefined
+          const settle = () => setPhases((p) => ({ ...p, [f.id]: result?.up ? 'live' : 'down' }))
+          if (reduce) settle()
+          else timers.push(setTimeout(settle, 200 + i * 220))
+        })
+      })
+    return () => {
+      cancelled = true
+      timers.forEach(clearTimeout)
+    }
+  }, [])
 
   const up = respondingCount(statuses)
 

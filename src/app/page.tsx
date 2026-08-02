@@ -1,10 +1,5 @@
 import type { Metadata } from 'next'
 import { LiveSystemsIndex } from '@/components/home/LiveSystemsIndex'
-import { FLAGSHIPS } from '@/lib/flagships'
-import { checkMany } from '@/lib/liveStatus'
-
-// Live-status pings are cached and refreshed every 5 minutes.
-export const revalidate = 300
 
 export const metadata: Metadata = {
   title: { absolute: 'Elizabeth Stein — Full-stack developer & designer' },
@@ -13,8 +8,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 }
 
-export default async function HomePage() {
-  const urls = FLAGSHIPS.flatMap((f) => (f.status === 'live' && f.statusUrl ? [f.statusUrl] : []))
-  const statuses = await checkMany(urls)
-  return <LiveSystemsIndex statuses={statuses} />
+// The page renders statically and instantly; live status is fetched client-side
+// from /api/status so external pings never block first paint.
+export default function HomePage() {
+  return <LiveSystemsIndex />
 }
