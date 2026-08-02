@@ -2,7 +2,7 @@ import '@/app/globals.css'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { Fraunces, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
@@ -25,6 +25,14 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
+})
+
+// Expressive variable serif for the editorial home display type.
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  style: ['normal', 'italic'],
 })
 
 export const viewport: Viewport = {
@@ -138,7 +146,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`bg-black text-white antialiased font-sans ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+        className={`bg-black text-white antialiased font-sans ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${fraunces.variable}`}
       >
         {/* Subtle film grain — editorial depth; disabled when reduced motion */}
         <div

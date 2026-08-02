@@ -367,7 +367,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Auto-generates interactive architecture diagrams from code analysis. RAG-powered Q&A answers questions by searching through indexed codebase context.',
         impact:
-          'Reduces onboarding time from weeks to days. Architecture diagrams update automatically as code changes. Q&A answers 80% of common codebase questions.',
+          'Aims to cut onboarding from weeks to days. Architecture diagrams update automatically as code changes, and RAG-based Q&A answers questions about how the codebase fits together.',
       },
       {
         id: 'finance-quest',
@@ -743,7 +743,7 @@ export const galaxies: Galaxy[] = [
         id: 'portfolio-pro',
         title: 'Portfolio-Pro',
         description:
-          'AI development learning platform with 269 lessons, 144 projects, custom MCP servers, Monaco Editor for live coding, subscription tiers with Stripe, and 87% test coverage. Quality Score: 9.3/10.',
+          'AI development learning platform with 269 lessons, 144 projects, custom MCP servers, Monaco Editor for live coding, subscription tiers with Stripe, and 87% test coverage.',
         role: 'Creator',
         tags: ['Next.js 15', 'Supabase', 'Stripe', 'OpenAI', 'Radix UI'],
         color: '#9D4EDD',
@@ -757,14 +757,12 @@ export const galaxies: Galaxy[] = [
         challenge:
           'Creating a comprehensive AI development learning platform with interactive coding, subscription management, and custom tooling.',
         solution:
-          'Built 269 lessons across 144 projects with Monaco Editor for live coding. Integrated custom MCP servers, Stripe subscriptions with multiple tiers, and achieved 87% test coverage with a 9.3/10 quality score.',
-        impact:
-          '269 lessons, 144 projects, 87% test coverage. Quality score 9.3/10 from automated analysis. Live production platform with paying subscribers.',
+          'Built 269 lessons across 144 projects with Monaco Editor for live coding. Integrated custom MCP servers, Stripe subscriptions with multiple tiers, and achieved 87% test coverage.',
+        impact: '269 lessons, 144 projects, and 87% test coverage on a live production platform.',
         impactMetrics: [
           { label: 'Lessons', value: '269', icon: 'book' },
           { label: 'Projects', value: '144', icon: 'building' },
           { label: 'Test Coverage', value: '87%', icon: 'check' },
-          { label: 'Quality Score', value: '9.3/10', icon: 'star' },
         ],
       },
       {
@@ -862,7 +860,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built 7-step questionnaire covering digital and physical assets. State-specific PDF generation for CA, TX, FL, NY, WA with Stripe payments.',
         impact:
-          'Complete will in 45 minutes vs weeks with lawyers. Digital asset inventory ensures crypto and accounts are properly handled. GDPR compliant with data export.',
+          'Draft a will in about 45 minutes instead of weeks with lawyers. Digital asset inventory keeps crypto and accounts accounted for. Data export built in.',
       },
       {
         id: 'aqualog',
@@ -1251,7 +1249,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built zero-config GitHub Action in Rust for maximum performance. Generates AVIF and WebP variants automatically on push.',
         impact:
-          '90% average file size reduction. Zero configuration required. Processes 100+ images in under 30 seconds via GitHub Actions.',
+          'Generates AVIF/WebP variants automatically on every push with no config to maintain. Built in Rust for fast batch processing in CI.',
       },
       {
         id: 'encryption-visualizer',
@@ -1296,7 +1294,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built sandboxed vulnerability simulations developers can exploit safely. Hands-on exercises teach OWASP Top 10 through practice.',
         impact:
-          'Hands-on exercises increase retention 3x vs reading. Sandboxed environments eliminate setup friction. Progress tracking identifies knowledge gaps.',
+          'Hands-on exercises build retention better than passive reading. Sandboxed environments eliminate setup friction. Progress tracking surfaces knowledge gaps.',
       },
       {
         id: 'ally-a11y',
@@ -1388,7 +1386,7 @@ export const galaxies: Galaxy[] = [
         id: 'consent-compass',
         title: 'Consent Compass',
         description:
-          'GDPR and CCPA compliant cookie consent solution. Drop-in banner with preference management, granular consent categories, and compliance audit trail.',
+          'Cookie consent widget built for GDPR/CCPA requirements. Drop-in banner with preference management, granular consent categories, and a consent audit trail.',
         role: 'Creator',
         tags: ['Privacy', 'GDPR', 'CCPA', 'Next.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1402,7 +1400,7 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025',
         challenge:
-          'Cookie consent implementations are either non-compliant dark patterns or ugly banners. True GDPR compliance requires audit trails.',
+          'Most cookie consent implementations are either dark patterns or ugly banners. Doing it properly requires real preference management and audit trails.',
         solution:
           'Built compliant consent banner with granular categories (necessary, analytics, marketing). Full audit trail for compliance verification. Easy integration.',
         impact:
@@ -1688,7 +1686,7 @@ export const galaxies: Galaxy[] = [
         id: 'spiralsounds',
         title: 'Spiral Sounds',
         description:
-          'Full-stack Progressive Web App for vinyl record enthusiasts. RESTful Express.js API with JWT authentication, role-based access control, SQLite database with migrations, real-time WebSocket updates, debounced search, persistent cart, wishlist, and A+ security rating. 95%+ test coverage with Jest.',
+          'Full-stack Progressive Web App for vinyl record enthusiasts. RESTful Express.js API with JWT authentication, role-based access control, SQLite database with migrations, real-time WebSocket updates, debounced search, persistent cart, and wishlist.',
         role: 'Creator',
         tags: ['Node.js', 'Express.js', 'SQLite', 'PWA', 'JWT', 'WebSocket', 'Jest'],
         color: '#FF006E',
@@ -1702,7 +1700,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'REST API with JWT auth, role-based access control, SQLite migrations, and relationship modelling (users, products, reviews, wishlists, cart items). Real-time WebSocket integration for live analytics. 300ms debounced search. PWA with app shortcuts and offline support.',
         impact:
-          '95%+ Jest test coverage. A+ security rating. PWA works offline and installable. Real-time WebSocket updates deliver live inventory changes without polling.',
+          'Built with vanilla JS and a custom Express API to prove full-stack fundamentals without a framework. PWA works offline and is installable. Real-time WebSocket updates deliver live inventory changes without polling.',
       },
       {
         id: 'rivet',
