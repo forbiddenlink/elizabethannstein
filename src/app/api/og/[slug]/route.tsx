@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import { ImageResponse } from 'next/og'
 import { galaxies } from '@/lib/galaxyData'
 
@@ -16,7 +17,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
   // Find galaxy
   const galaxy = galaxies.find((g) => g.projects.some((p) => p.id === slug))
 
-  return new ImageResponse(
+  const image = new ImageResponse(
     <div
       style={{
         height: '100%',
@@ -44,10 +45,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
         {project.title}
       </div>
 
-      {/* Subtitle */}
+      {/* Subtitle. Satori requires explicit display on any div with >1 child, and
+          the `: ''` branch below still counts as one even when company is unset. */}
       <div
         style={{
           fontSize: 32,
+          display: 'flex',
           color: '#94a3b8',
           marginBottom: 40,
           textAlign: 'center',
@@ -153,4 +156,22 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
       height: 630,
     }
   )
+
+  // ImageResponse streams: Satori renders as the runtime drains the body, which is
+  // after the 200 has shipped and after onRequestError can still observe a throw.
+  // A render failure therefore surfaces as 200 with an empty body and reaches no
+  // error handler. Draining it here keeps the render on this stack, so failures
+  // become a real 500 and a Sentry event instead of a silent empty image.
+  try {
+    const png = await image.arrayBuffer()
+    return new Response(png, { headers: image.headers })
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: { route: 'api/og/[slug]', slug },
+    })
+    // Edge functions terminate on return, which kills the in-flight send, so the
+    // event has to be flushed before responding or it never reaches Sentry.
+    await Sentry.flush(2000)
+    return new Response('Failed to render OG image', { status: 500 })
+  }
 }
