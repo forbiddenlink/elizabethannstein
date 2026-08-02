@@ -66,3 +66,9 @@ dist/
 test-results/
 .pnpm-store/
 .audit-report.md
+
+# react-doctor agent-skill dumps (from `react-doctor install` 2026-07-30; tooling, not portfolio content)
+.agents/
+.continue/
+.goose/
+skills/

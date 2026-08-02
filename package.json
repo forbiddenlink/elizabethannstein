@@ -24,7 +24,8 @@
     "biome:fix": "biome check . --write",
     "biome:format": "biome format . --write",
     "test:coverage": "vitest run --coverage",
-    "screenshots": "tsx scripts/capture-screenshots.ts"
+    "screenshots": "tsx scripts/capture-screenshots.ts",
+    "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
     "@arcjet/next": "^1.5.0",
@@ -74,6 +75,7 @@
     "msw": "^2.14.6",
     "postcss": "^8.5.18",
     "r3f-perf": "^7.2.3",
+    "react-doctor": "^0.9.2",
     "stats-gl": "^4.1.0",
     "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3",
