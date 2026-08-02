@@ -187,11 +187,10 @@
 .line > span {
   display: block;
   transform: translateY(105%);
-}
-.in .line > span {
+  /* Runs on load (CSS-driven), so the LCP headline is not gated on JS hydration. */
   animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.in .line:nth-child(2) > span {
+.line:nth-child(2) > span {
   animation-delay: 0.08s;
 }
 .name em {
@@ -212,17 +211,15 @@
 .reveal {
   opacity: 0;
   transform: translateY(12px);
-}
-.in .reveal {
   animation: fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.in .d1 {
+.d1 {
   animation-delay: 0.34s;
 }
-.in .d2 {
+.d2 {
   animation-delay: 0.42s;
 }
-.in .d3 {
+.d3 {
   animation-delay: 0.5s;
 }
 

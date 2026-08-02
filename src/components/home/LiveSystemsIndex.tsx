@@ -68,16 +68,11 @@ function StatusCell({
 }
 
 export function LiveSystemsIndex() {
-  const [entered, setEntered] = useState(false)
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [statuses, setStatuses] = useState<Record<string, LiveResult>>({})
   const [phases, setPhases] = useState<Record<string, StatusPhase>>(() =>
     Object.fromEntries(FLAGSHIPS.map((f) => [f.id, f.status === 'live' ? 'checking' : 'static']))
   )
-
-  useEffect(() => {
-    setEntered(true)
-  }, [])
 
   // Fetch live status off the render path; resolve each dot as the result arrives.
   useEffect(() => {
@@ -108,11 +103,7 @@ export function LiveSystemsIndex() {
   const up = respondingCount(statuses)
 
   return (
-    <main
-      id="main-content"
-      tabIndex={-1}
-      className={`${styles.page} ${entered ? styles.in : ''} outline-none`}
-    >
+    <main id="main-content" tabIndex={-1} className={`${styles.page} outline-none`}>
       <div className={styles.wrap}>
         <div className={`${styles.statusbar} ${styles.reveal}`}>
           <span className={styles.statusName}>Elizabeth Stein</span>
