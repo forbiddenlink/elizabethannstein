@@ -49,8 +49,13 @@ export async function proxy(request: NextRequest) {
   if (shieldDecision.isDenied()) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
-  // Bot detection everywhere except the crawler-facing OG image endpoint.
-  if (ajBot && !request.nextUrl.pathname.startsWith('/api/og')) {
+  // Bot detection everywhere except two public, read-only endpoints:
+  //  - /api/og: fetched by social / link-preview crawlers
+  //  - /api/status: fetched client-side by the home page to render live uptime;
+  //    it exposes only up/latency for public URLs, so bot-blocking it would only
+  //    break the feature with no security benefit. Shield still guards both.
+  const botExempt = ['/api/og', '/api/status']
+  if (ajBot && !botExempt.some((p) => request.nextUrl.pathname.startsWith(p))) {
     const botDecision = await ajBot.protect(request)
     if (botDecision.isDenied()) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
