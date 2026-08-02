@@ -33,12 +33,12 @@ export const SITE = {
   name: 'Elizabeth Stein',
   title: 'Full-Stack Engineer | Power Platform · Next.js · AI',
   fullTitle: 'Elizabeth Stein | Full-Stack Engineer (Power Platform · Next.js · AI)',
-  description: `Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's Dynamics 365 platform, live in production. Algolia Agent Studio Challenge winner. ${totalProjects} projects across six galaxies.`,
+  description: `Full-stack developer and designer. Sole developer on a Dynamics 365 platform live in production, Algolia Agent Studio winner, npm publisher. B.S. Summa Cum Laude. ${totalProjects} projects shipped; the eight that matter are on the front page.`,
   shortDescription:
-    'Full-stack engineer shipping production code at three orgs. B.S. Summa Cum Laude, conferred March 2026. Sole developer on a Dynamics 365 / Power Platform assessment live in production, $750 Algolia Agent Studio winner, npm publisher, MCP server author.',
-  /** One-line POV for hero / storytelling surfaces */
+    'Full-stack developer and designer shipping production software across three organizations. Dynamics 365 platform in production, $750 Algolia Agent Studio winner, npm publisher, MCP author.',
+  /** One-line POV for hero / storytelling surfaces (the /explore galaxy + entrance). */
   narrativeThesis:
-    'Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on CyberReady Clinic Dynamics 365, live in production. Won Algolia Agent Studio. Publish to npm. Ship MCP servers, not just consume them.',
+    "I design and build software that's actually running in production. Sole developer on a Dynamics 365 platform, Algolia Agent Studio winner, and I ship MCP servers instead of just consuming them.",
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
   keywords: [
     'Full-Stack Engineer',

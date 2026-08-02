@@ -114,17 +114,22 @@ export const FLAGSHIPS: Flagship[] = [
     // note: write-up link set below to the real DEV.to announcement
     cases: [
       {
-        heading: 'The build',
-        body: 'An LLM agent over 420k records with Algolia retrieval — ask it anything in natural language and it reasons across the catalogue instead of keyword-matching.',
+        heading: 'The idea',
+        body: 'Enter any date from 1958 to 2020 and get the cultural snapshot — the #1 song, the movies, the prices, the news — synthesized into an era-aware narrative. Not “what was #1 in 1975” but what that day felt like.',
+      },
+      {
+        heading: 'How it works',
+        body: 'A date is parsed, then four Algolia indices (Billboard, TMDB, FRED prices, Wikimedia events) are queried in parallel and an LLM synthesizes the results into one narrative, rendered in a shareable CRT/VHS aesthetic. Next.js 16 with Upstash rate-limiting and Langfuse LLM observability.',
       },
       {
         heading: 'Why it matters',
-        body: 'The one project here with an externally-verified outcome: it won a real, judged competition against a field of entries.',
+        body: 'The one project here with an externally-verified outcome: it won the Algolia Agent Studio Challenge against a judged field of entries.',
       },
     ],
     metrics: [
       { value: '$750', label: 'Algolia Agent Studio win' },
       { value: '420K', label: 'Records searched' },
+      { value: '4', label: 'Data sources fused' },
     ],
     links: [
       { label: 'Try it live', href: 'https://timeslipsearch.vercel.app', external: true },

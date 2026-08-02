@@ -85,9 +85,10 @@ export default function AboutPage() {
                 <p className="page-hero-kicker">About</p>
                 <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
                 <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
-                  Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Currently shipping
-                  production code at three orgs: Dynamics 365 work at CyberReady Clinic, Craft CMS
-                  at Rocketpark, the Algolia Agent Studio winner on the side.
+                  I design and build software that actually ships, then keep the receipts. Right now
+                  that&apos;s a Dynamics 365 platform in production at CyberReady Clinic, Craft CMS
+                  sites at Rocketpark, and a stack of side projects, one of which won the Algolia
+                  Agent Studio.
                 </p>
               </div>
             </div>
