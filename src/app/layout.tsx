@@ -27,12 +27,14 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ['400', '500', '600', '700'],
 })
 
-// Expressive variable serif for the editorial home display type.
+// Expressive variable serif for the editorial home display type. Normal-only +
+// preload so the marquee headline's LCP isn't gated on a slow font swap.
 const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  style: ['normal', 'italic'],
+  preload: true,
+  adjustFontFallback: true,
 })
 
 export const viewport: Viewport = {
