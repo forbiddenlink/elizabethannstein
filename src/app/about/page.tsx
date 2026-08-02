@@ -10,7 +10,7 @@ import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
 const aboutDescription =
-  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on CyberReady Clinic's MSP Ready5 Assessment (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
+  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's security-readiness platform (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
 
 export const metadata: Metadata = {
   title: 'About',
@@ -86,9 +86,9 @@ export default function AboutPage() {
                 <h1 className="page-hero-title text-5xl md:text-7xl mb-5">Hi, I&apos;m Liz</h1>
                 <p className="text-2xl md:text-3xl text-white/88 leading-snug max-w-3xl tracking-tight">
                   I design and build software that actually ships, then keep the receipts. Right now
-                  that&apos;s a Dynamics 365 platform in production at CyberReady Clinic, Craft CMS
-                  sites at Rocketpark, and a stack of side projects, one of which won the Algolia
-                  Agent Studio.
+                  that&apos;s a Dynamics 365 platform in production for a cybersecurity nonprofit,
+                  Craft CMS sites at Rocketpark, and a stack of side projects, one of which won the
+                  Algolia Agent Studio.
                 </p>
               </div>
             </div>
@@ -246,10 +246,10 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-4 text-lg text-white/(--text-opacity-primary) leading-relaxed bg-surface-2 p-8 rounded-lg border border-white/(--border-opacity-default)">
               <p>
-                I&apos;m the sole developer on CyberReady Clinic&apos;s MSP Ready5 Assessment, a
-                Dynamics 365 / Power Platform / Dataverse system live in production. Concurrently I
-                run Craft CMS work at Rocketpark across a 10-site client portfolio, and from
-                2024-2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
+                I&apos;m the sole developer on a cybersecurity nonprofit&apos;s security-readiness
+                platform, a Dynamics 365 / Power Platform / Dataverse system live in production.
+                Concurrently I run Craft CMS work at Rocketpark across a 10-site client portfolio,
+                and from 2024-2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
                 ecosystem.
               </p>
               <p>
@@ -451,9 +451,9 @@ export default function AboutPage() {
                   aria-hidden="true"
                 />
                 <p className="text-white/(--text-opacity-primary)">
-                  <strong className="text-white">Sole developer</strong> on CyberReady Clinic&apos;s
-                  MSP Ready5 Assessment: Dynamics 365 / Power Platform / Dataverse system live in
-                  production, 12 implementation phases shipped
+                  <strong className="text-white">Sole developer</strong> on a cybersecurity
+                  nonprofit&apos;s security-readiness platform: Dynamics 365 / Power Platform /
+                  Dataverse system live in production, 12 implementation phases shipped
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">

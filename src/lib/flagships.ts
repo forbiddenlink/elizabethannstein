@@ -45,15 +45,14 @@ export interface Flagship {
 export const FLAGSHIPS: Flagship[] = [
   {
     id: 'crc-ready5-assessment',
-    title: 'Ready5 Assessment',
-    org: 'CyberReady Clinic · Sole Developer',
+    title: 'Security Readiness Platform',
+    org: 'Cybersecurity nonprofit · Sole Developer',
     years: '2025–26',
     summary:
-      'A cybersecurity-readiness platform on Dynamics 365 and Next.js — sole developer, twelve phases, live in production for a nonprofit.',
+      'A cybersecurity-readiness assessment platform on Dynamics 365 and Next.js — sole developer, twelve phases, live in production for a nonprofit (client confidential).',
     proof: 'In production',
-    status: 'live',
-    statusUrl: 'https://msp.cyberready.clinic',
-    statusSub: 'msp.cyberready.clinic',
+    status: 'sites',
+    statusSub: 'Dynamics 365',
     cases: [
       {
         heading: 'The problem',
@@ -73,7 +72,7 @@ export const FLAGSHIPS: Flagship[] = [
       { value: '1', label: 'Developer (me)' },
       { value: 'Prod', label: 'Status' },
     ],
-    links: [{ label: 'Visit live', href: 'https://msp.cyberready.clinic', external: true }],
+    links: [],
   },
   {
     id: 'rocketpark-craft-ecosystem',

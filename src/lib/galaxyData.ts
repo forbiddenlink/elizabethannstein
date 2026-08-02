@@ -134,11 +134,11 @@ export const galaxies: Galaxy[] = [
       },
       {
         id: 'crc-ready5-assessment',
-        title: 'CyberReady Clinic: MSP Ready5 Assessment',
+        title: 'Security Readiness Platform',
         description:
-          'Sole developer on a production MSP cybersecurity-readiness assessment for a healthcare-focused nonprofit. Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app (live at msp.cyberready.clinic) that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.',
+          'Sole developer on a production cybersecurity-readiness assessment for a nonprofit (client confidential). Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.',
         role: 'Sole Developer (1099 → full-time)',
-        company: 'CyberReady Clinic',
+        company: 'Cybersecurity nonprofit (confidential)',
         tags: [
           'Next.js 16',
           'React 19',
@@ -151,7 +151,7 @@ export const galaxies: Galaxy[] = [
         brightness: 2,
         size: 'supermassive',
         galaxy: 'enterprise',
-        links: { live: 'https://msp.cyberready.clinic' },
+        links: {},
         status: 'live',
         featured: true,
         dateRange: '2025-2026',
@@ -160,7 +160,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built the platform in two arcs. First, a 12-phase Dynamics 365 / Power Platform implementation: a governed Dataverse data model, Power Automate scoring orchestration, and repeatable cross-environment solution packaging. Then externalized the front-end into a Next.js 16 + React 19 app on Vercel that reads and writes Dataverse directly, replacing the in-CRM Power Apps Canvas UI while keeping Dynamics 365 as the system of record.',
         impact:
-          'Live in production at msp.cyberready.clinic. Externalizing the front-end removed the Power Apps customization ceiling and put the assessor UI fully under version control, while the internal team keeps ownership of the Dataverse platform behind it.',
+          'Live in production. Externalizing the front-end removed the Power Apps customization ceiling and put the assessor UI fully under version control, while the internal team keeps ownership of the Dataverse platform behind it.',
         impactMetrics: [
           { label: 'Status', value: 'In production', icon: 'rocket' },
           { label: 'Front-end', value: 'Next.js + Dataverse', icon: 'atom' },
@@ -169,11 +169,11 @@ export const galaxies: Galaxy[] = [
       },
       {
         id: 'crc-leadgen',
-        title: 'CRC Lead Gen Platform',
+        title: 'Lead-Gen & Ops Platform',
         description:
           "Sole developer on a production lead-generation and operations platform for a cybersecurity nonprofit. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + Microsoft Entra ID (MSAL). Unifies multiple public intake pipelines and hands structured data into the organization's Microsoft Power Platform via secure server-to-server callbacks.",
         role: 'Creator & Developer',
-        company: 'CyberReady Clinic',
+        company: 'Cybersecurity nonprofit (confidential)',
         tags: ['Next.js 16', 'Drizzle', 'Neon', 'Better Auth', 'MSAL', 'Azure AD'],
         color: '#FF6B35',
         brightness: 1.6,
