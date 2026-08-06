@@ -77,7 +77,9 @@ export default function AboutPage() {
                   alt="Elizabeth Stein"
                   width={200}
                   height={200}
+                  sizes="200px"
                   className="relative rounded-xl border border-[var(--color-border)] object-cover"
+                  style={{ filter: 'grayscale(100%) sepia(60%) hue-rotate(240deg) saturate(180%)' }}
                   priority
                 />
               </div>
@@ -96,7 +98,7 @@ export default function AboutPage() {
 
           {/* What I'm Looking For - FIRST for recruiters */}
           <section className="mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 fill-mode-both">
-            <h2 className="text-2xl font-semibold mb-4 text-white/70">Open to Opportunities</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-white/70">Open to Contract</h2>
             <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-6">
               <p className="text-lg text-white/90 leading-relaxed">
                 <strong className="inline-flex items-center gap-1.5 text-success mr-2">
@@ -106,10 +108,9 @@ export default function AboutPage() {
                   </span>{' '}
                   <span>Available now</span>
                 </strong>{' '}
-                Looking for <strong className="text-white">frontend</strong>,{' '}
-                <strong className="text-white">UX engineering</strong>, or{' '}
-                <strong className="text-white">full-stack</strong> roles with a strong product
-                focus, where I can blend UI craftsmanship with solid engineering.
+                Open to <strong className="text-white">contract</strong> and{' '}
+                <strong className="text-white">advisory</strong> engagements — frontend, full-stack,
+                AI integration, or Power Platform.
               </p>
             </div>
           </section>
@@ -248,7 +249,7 @@ export default function AboutPage() {
               <p>
                 I&apos;m the sole developer on a cybersecurity nonprofit&apos;s security-readiness
                 platform, a Dynamics 365 / Power Platform / Dataverse system live in production.
-                Concurrently I run Craft CMS work at Rocketpark across a 10-site client portfolio,
+                Concurrently I run Craft CMS work at Rocketpark across a 11-site client portfolio,
                 and from 2024-2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
                 ecosystem.
               </p>
@@ -313,7 +314,7 @@ export default function AboutPage() {
                     <p className="text-white/(--text-opacity-secondary)">
                       Twig templates, Composer plugins, project-config CLI, Herd-based local dev.
                       Content modeling and template architecture that makes editors&apos; lives
-                      easier across a 10-site client portfolio.
+                      easier across a 11-site client portfolio.
                     </p>
                   </div>
                 </div>
@@ -473,7 +474,7 @@ export default function AboutPage() {
                 />
                 <p className="text-white/(--text-opacity-primary)">
                   Software Engineer at Rocketpark agency: Craft CMS upgrades, MCP server wrapper,
-                  Twig template architecture across 10 client sites
+                  Twig template architecture across 11 client sites
                 </p>
               </li>
               <li className="bg-surface-2 border border-white/(--border-opacity-default) rounded-xl p-6 hover:bg-surface-3 transition-all hover:translate-x-2 flex items-start gap-4">

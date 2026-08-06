@@ -168,8 +168,6 @@ export default async function ProjectPage({
     .slice(0, 3)
 
   const currentAccent = GALAXY_ACCENTS[toGalaxyAccentKey(project.galaxy)]
-  const _prevAccent = GALAXY_ACCENTS[toGalaxyAccentKey(prevProject.galaxy)]
-  const _nextAccent = GALAXY_ACCENTS[toGalaxyAccentKey(nextProject.galaxy)]
   const galaxyMeta = galaxies.find((g) => g.id === project.galaxy)
 
   const jsonLd = {

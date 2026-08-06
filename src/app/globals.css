@@ -852,7 +852,7 @@ img:hover {
 
 .btn-ghost {
   background: transparent;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.82);
   padding: 0 0.75rem;
 }
 .btn-ghost:hover {
@@ -1493,7 +1493,7 @@ blockquote {
 }
 
 .page-hero-lede {
-  color: rgb(255 255 255 / 0.72);
+  color: rgb(255 255 255 / 0.82);
   line-height: 1.65;
   max-width: 42rem;
 }
@@ -1511,7 +1511,7 @@ blockquote {
 .story-lede {
   font-size: 1.0625rem;
   line-height: 1.65;
-  color: rgb(255 255 255 / 0.72);
+  color: rgb(255 255 255 / 0.82);
   max-width: 40rem;
 }
 
@@ -1562,7 +1562,7 @@ blockquote {
   font-size: clamp(1.04rem, 1.9vw, 1.22rem);
   line-height: 1.62;
   font-weight: 400;
-  color: rgb(255 255 255 / 0.76);
+  color: rgb(255 255 255 / 0.82);
   max-width: 42rem;
   text-wrap: pretty;
 }

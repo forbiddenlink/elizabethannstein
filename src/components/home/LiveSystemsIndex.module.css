@@ -240,6 +240,106 @@
   gap: 0.5rem;
 }
 
+/* magnetic CTA */
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2rem;
+  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.5rem;
+  border-radius: 2px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  will-change: transform;
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease;
+}
+.ctaPrimary {
+  background: var(--le-rule-strong);
+  color: var(--le-paper);
+  border: 1.5px solid var(--le-rule-strong);
+}
+.ctaPrimary:hover {
+  background: var(--le-accent-ink);
+  border-color: var(--le-accent-ink);
+  color: var(--le-paper);
+}
+.ctaPrimary span {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ctaPrimary:hover span {
+  transform: translateX(4px);
+}
+.ctaSecondary {
+  background: transparent;
+  color: var(--le-ink);
+  border: 1.5px solid var(--le-rule-strong);
+}
+.ctaSecondary:hover {
+  background: var(--le-tint);
+  color: var(--le-accent-ink);
+  border-color: var(--le-accent-ink);
+}
+
+/* bento proof grid */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  gap: 1px;
+  margin-top: 2.6rem;
+  background: var(--le-rule);
+  border: 1px solid var(--le-rule);
+}
+.bTile {
+  background: var(--le-paper-2);
+  padding: clamp(1.1rem, 2.4vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.bNum {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.1rem, 4.2vw, 2.9rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--le-accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+.bNumSub {
+  font-size: 0.5em;
+  color: var(--le-muted);
+  margin-left: 0.1em;
+}
+.bLabel {
+  margin-top: 0.5rem;
+  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--le-ink);
+}
+.bSub {
+  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--le-muted);
+}
+
 /* index */
 .idxHead {
   display: flex;
