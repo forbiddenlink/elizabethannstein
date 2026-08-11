@@ -80,10 +80,10 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Rocketpark Agency · Developer',
     years: '2024–26',
     summary:
-      'Ten live client websites on Craft CMS — PHP, Twig, and a shared component system across the agency portfolio.',
-    proof: '10 live sites',
+      'Eleven live client websites on Craft CMS — PHP, Twig, and a shared component system across the agency portfolio.',
+    proof: '11 live sites',
     status: 'sites',
-    statusSub: '10 live sites',
+    statusSub: '11 live sites',
     cases: [
       {
         heading: 'Context',
@@ -91,11 +91,11 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'What I do',
-        body: 'Build and maintain ten Craft CMS sites in PHP and Twig, with reusable components and content models tuned for non-technical editors.',
+        body: 'Build and maintain eleven Craft CMS sites in PHP and Twig, with reusable components and content models tuned for non-technical editors.',
       },
     ],
     metrics: [
-      { value: '10', label: 'Live client sites' },
+      { value: '11', label: 'Live client sites' },
       { value: 'PHP', label: '/ Twig / Craft' },
     ],
     links: [],
@@ -223,7 +223,7 @@ export const FLAGSHIPS: Flagship[] = [
     summary: 'The dev-ops CLI I actually run every day — one command across ~90 repos and 10 APIs.',
     proof: '216 tests · daily driver',
     status: 'cli',
-    statusSub: 'daily driver',
+    statusSub: 'personal CLI',
     cases: [
       {
         heading: 'Why it exists',

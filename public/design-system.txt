@@ -1,0 +1,48 @@
+# elizabethannstein.com — Design System (AI-readable index)
+
+> Machine-readable token + component contract for AI coding agents (Claude, Cursor, v0).
+> Recruiter-facing portfolio. "Arresting + credible." Pure-dark achromatic base; color ONLY via the galaxy palette (6 project categories = 6 semantic colors).
+> When generating UI: pick ONLY from the named tokens below. Never emit ad-hoc hex/px.
+> Token SoT = src/app/globals.css (:root). Philosophy = .impeccable.md.
+
+Site: https://elizabethannstein.com
+Stack: Next.js 16.2, React 19.2, Tailwind CSS v4 (zero-config, @import "tailwindcss"; tokens in :root NOT @theme), Three.js + @react-three/fiber (3D galaxy), GSAP, Framer Motion. Source in src/.
+NOT shadcn — buttons/cards are hand-rolled CSS classes in globals.css (.btn, .btn-primary/-secondary/-ghost, .btn-galaxy-*, .glass-card, .glass-panel). No cva/radix.
+Colors are hex + RGB triples (no OKLCH/HSL).
+
+## Fonts (next/font/google)
+- Body / sans: Space Grotesk — --font-space-grotesk (weights 300-700)
+- Display / editorial serif: Fraunces — --font-display (variable, preloaded)
+- Code / mono: JetBrains Mono — --font-jetbrains-mono (400-700)
+
+## Color tokens (closed set — src/app/globals.css)
+Base: --background #000000, --color-surface #0a0a0a, --color-elevated #111111
+Text: --color-text-primary #f0f0f0, --color-text-secondary #999999, --color-text-tertiary #666666
+Accent: --color-accent #f0f0f0 (achromatic — accent is NOT a color here)
+Galaxy palette (SEMANTIC LAW — 6 categories, each its own hue + RGB variant, never mix across categories):
+  --color-galaxy-enterprise #ff6b35, --color-galaxy-ai #00d9ff, --color-galaxy-fullstack #b47eff,
+  --color-galaxy-devtools #06ffa5, --color-galaxy-creative #ff4d94, --color-galaxy-experimental #ffb800
+UI accents (purple/indigo/blue/pink) + semantic success/warning/error/info: RGB triples in :root.
+
+## Scale tokens
+- Type (1.25 ratio): --text-xs 0.75rem … --text-6xl 3.75rem (+ line-heights, weights)
+- Spacing (4px base): --space-1 … --space-32 (+ section / card-padding aliases)
+- Radius: --radius-sm/md/lg/xl/2xl = 4/8/12/16/24px (xl + 2xl ARE defined)
+- Motion: duration 50-400ms tokens, 7 named eases
+- Z-index: 10-level scale
+- SHADOWS: none — "elevation via color shift + border only" (glass is the only elevation model). Do NOT add shadow-*.
+
+## Components — src/components/ui/ (hand-rolled, NOT shadcn)
+The stable API is CSS classes, not component names (component set is mid-refactor — verify src/components/ui/ before referencing a specific file):
+- Buttons: .btn / .btn-primary / .btn-secondary / .btn-ghost / .btn-galaxy-<category>
+- Cards / elevation: .glass-card / .glass-panel
+
+## Hard rules (.impeccable.md)
+- Named tokens only. Galaxy colors are semantic law — never mixed across categories.
+- Glass is the ONLY elevation model (no shadows). 44px touch targets non-negotiable.
+- Anti-references (banned): generic AI-SaaS gradient-blob-on-white templates, gimmicky over-designed noise, "resume-in-a-box."
+
+## Deep references
+- src/app/globals.css — canonical tokens
+- .impeccable.md — philosophy (NOTE: its "Current System" section wrongly says Tailwind v3 — repo is v4 CSS-first; ignore that stale claim)
+- src/lib/proofLayer.ts — project-curation SoT (which projects surface where) — NOT a design-token file

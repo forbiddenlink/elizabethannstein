@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useGsapReveal } from '@/hooks/useGsapReveal'
+import { useMagnetic } from '@/hooks/useMagnetic'
 import { CONTACT } from '@/lib/constants'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import type { LiveResult } from '@/lib/liveStatus'
@@ -101,6 +103,8 @@ export function LiveSystemsIndex() {
   }, [])
 
   const up = respondingCount(statuses)
+  const ctaRef = useMagnetic<HTMLAnchorElement>(0.32)
+  const bentoRef = useGsapReveal<HTMLDivElement>({ selector: `.${styles.bTile}`, stagger: 0.07 })
 
   return (
     <main id="main-content" tabIndex={-1} className={`${styles.page} outline-none`}>
@@ -151,11 +155,52 @@ export function LiveSystemsIndex() {
           <div className={`${styles.standfirst} ${styles.reveal} ${styles.d2}`}>
             <span className={styles.avail}>
               <span className={styles.livedot} aria-hidden="true" />
-              Open to frontend, UX-engineering &amp; full-stack roles
+              Open to contract work
             </span>
             <span>Enterprise · AI · Full-stack · Dev tools</span>
           </div>
         </header>
+
+        <div className={`${styles.cta} ${styles.reveal} ${styles.d2}`}>
+          <a ref={ctaRef} className={styles.ctaPrimary} href={`mailto:${CONTACT.email}`}>
+            Get in touch <span aria-hidden="true">→</span>
+          </a>
+          <a
+            className={styles.ctaSecondary}
+            href="/resume/elizabeth-stein-resume.pdf"
+            download="Elizabeth_Stein_Resume.pdf"
+          >
+            Download résumé
+          </a>
+        </div>
+
+        <section aria-label="At a glance">
+          <div className={styles.bento} ref={bentoRef}>
+            <div className={styles.bTile}>
+              <div className={styles.bNum}>
+                {up}
+                <span className={styles.bNumSub}>/{FLAGSHIPS.length}</span>
+              </div>
+              <div className={styles.bLabel}>Live systems responding</div>
+              <div className={styles.bSub}>Checked in real time, right now</div>
+            </div>
+            <div className={styles.bTile}>
+              <div className={styles.bNum}>86</div>
+              <div className={styles.bLabel}>Projects shipped</div>
+              <div className={styles.bSub}>Enterprise · AI · full-stack · dev tools</div>
+            </div>
+            <div className={styles.bTile}>
+              <div className={styles.bNum}>3</div>
+              <div className={styles.bLabel}>Organisations</div>
+              <div className={styles.bSub}>Production code, three teams</div>
+            </div>
+            <div className={styles.bTile}>
+              <div className={styles.bNum}>3.98</div>
+              <div className={styles.bLabel}>GPA, Summa Cum Laude</div>
+              <div className={styles.bSub}>B.S. Software Development, Capella</div>
+            </div>
+          </div>
+        </section>
 
         <section aria-label="Selected work">
           <div className={`${styles.idxHead} ${styles.reveal} ${styles.d3}`}>
@@ -263,7 +308,10 @@ export function LiveSystemsIndex() {
               <b>B.S. Information Technology, Software Development</b> &mdash; Capella University,
               Summa Cum Laude (3.98 GPA). Shipping production code across three organisations.
             </p>
-            <nav className={styles.links} aria-label="Contact">
+            <nav className={styles.links} aria-label="Navigation">
+              <Link href="/about">About</Link>
+              <Link href="/work">Work</Link>
+              <Link href="/contact">Contact</Link>
               <a href="/resume/elizabeth-stein-resume.pdf" download="Elizabeth_Stein_Resume.pdf">
                 Résumé
               </a>
