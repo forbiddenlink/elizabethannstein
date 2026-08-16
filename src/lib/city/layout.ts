@@ -67,20 +67,28 @@ export function crystalShards(seed: number, height: number): CrystalShard[] {
 
 // Biome cluster centre for district `index` of `count`, placed on a ring so
 // each district reads as its own region rather than one merged spiral.
-export function districtCenter(index: number, count: number, spread = 9): [number, number] {
+export function districtCenter(index: number, count: number, spread = 12): [number, number] {
   if (count <= 1) return [0, 0]
   const angle = (index / count) * Math.PI * 2
   return [Math.cos(angle) * spread, Math.sin(angle) * spread]
 }
 
+// Cluster radius grows with node count so a biome's packing density stays roughly
+// constant instead of overcrowding (a 30-repo biome must not stack into one blob).
+export function districtRadius(nodeCount: number): number {
+  return Math.min(6.5, Math.max(3, 1.24 * Math.sqrt(Math.max(1, nodeCount))))
+}
+
 export function layoutPositions(model: CityModel): Map<string, [number, number, number]> {
   const out = new Map<string, [number, number, number]>()
   const districtIndex = new Map(model.districts.map((d, i) => [d.id, i]))
+  const counts = new Map<string, number>()
+  for (const n of model.nodes) counts.set(n.districtId, (counts.get(n.districtId) ?? 0) + 1)
   const count = model.districts.length
-  const localRadius = 3.5
   for (const node of model.nodes) {
     const di = districtIndex.get(node.districtId) ?? 0
     const [cx, cz] = districtCenter(di, count)
+    const localRadius = districtRadius(counts.get(node.districtId) ?? 1)
     const s = seedFromId(node.id)
     // Deterministic golden-angle spiral packing within the district biome.
     const idx = s % 997

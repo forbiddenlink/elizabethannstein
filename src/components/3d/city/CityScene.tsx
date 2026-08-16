@@ -29,7 +29,7 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
   const reducedMotion = usePrefersReducedMotion()
   const [dragging, setDragging] = useState(false)
   return (
-    <WebGPUCanvas camera={{ position: [14, 9, 16], fov: 50 }} dpr={[1, 2]}>
+    <WebGPUCanvas camera={{ position: [19, 12, 21], fov: 50 }} dpr={[1, 2]}>
       <color attach="background" args={['#02040a']} />
       <fog attach="fog" args={['#02040a', 18, 60]} />
       <DayNightLight activity={activity} reducedMotion={reducedMotion} />
@@ -46,7 +46,7 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
           onSelectNode(null)
         }}
       >
-        <circleGeometry args={[20, 64]} />
+        <circleGeometry args={[26, 64]} />
         <meshStandardMaterial color="#03060d" roughness={1} />
       </mesh>
       <Filaments model={model} positions={positions} />
@@ -78,7 +78,7 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
         onStart={() => setDragging(true)}
         onEnd={() => setDragging(false)}
         minDistance={6}
-        maxDistance={30}
+        maxDistance={45}
         maxPolarAngle={Math.PI / 2.1}
       />
     </WebGPUCanvas>

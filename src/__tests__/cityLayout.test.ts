@@ -3,6 +3,7 @@ import { demoCity } from '@/lib/city/demoCity'
 import {
   crystalShards,
   districtCenter,
+  districtRadius,
   fleetActivity,
   glowIntensity,
   layoutPositions,
@@ -48,12 +49,14 @@ describe('district biomes', () => {
     const centers = new Map(
       demoCity.districts.map((d, i) => [d.id, districtCenter(i, demoCity.districts.length)])
     )
+    const counts = new Map<string, number>()
+    for (const n of demoCity.nodes) counts.set(n.districtId, (counts.get(n.districtId) ?? 0) + 1)
     const pos = layoutPositions(demoCity)
     for (const n of demoCity.nodes) {
       const [x, , z] = pos.get(n.id)!
       const [cx, cz] = centers.get(n.districtId)!
       const dist = Math.hypot(x - cx, z - cz)
-      expect(dist).toBeLessThanOrEqual(4)
+      expect(dist).toBeLessThanOrEqual(districtRadius(counts.get(n.districtId)!) + 0.001)
     }
   })
   it('demoCity has multiple biomes', () => {
