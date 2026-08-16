@@ -22,10 +22,15 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
       <hemisphereLight args={['#20406a', '#010208', 0.35]} />
       <pointLight position={[0, 12, 0]} intensity={20} distance={60} color="#39ffd0" />
       {/* ground */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: R3F mesh — Three.js pointer events, not DOM */}
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}
         position={[0, 0, 0]}
         onPointerMissed={() => onSelectNode(null)}
+        onClick={(e) => {
+          e.stopPropagation()
+          onSelectNode(null)
+        }}
       >
         <circleGeometry args={[16, 64]} />
         <meshStandardMaterial color="#03060d" roughness={1} />

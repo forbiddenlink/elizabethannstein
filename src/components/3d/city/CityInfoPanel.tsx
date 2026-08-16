@@ -12,22 +12,12 @@ export function CityInfoPanel({
   return (
     <aside
       data-testid="city-info-panel"
-      style={{
-        position: 'absolute',
-        right: 24,
-        top: 24,
-        width: 260,
-        padding: 16,
-        borderRadius: 12,
-        background: 'rgba(3,8,16,0.8)',
-        color: '#cfeee6',
-        border: `1px solid ${district?.palette.glow ?? '#39ffd0'}`,
-        backdropFilter: 'blur(8px)',
-      }}
+      style={{ borderColor: district?.palette.glow ?? '#39ffd0' }}
+      className="absolute right-6 top-6 w-65 rounded-xl border bg-black/80 p-4 text-[#cfeee6] backdrop-blur-md"
     >
-      <h2 style={{ margin: 0, fontSize: 16 }}>{node.id}</h2>
-      <p style={{ margin: '4px 0 12px', opacity: 0.7 }}>{district?.label ?? node.districtId}</p>
-      <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 4, fontSize: 13 }}>
+      <h2 className="m-0 text-base">{node.id}</h2>
+      <p className="mt-1 mb-3 opacity-70">{district?.label ?? node.districtId}</p>
+      <dl className="grid grid-cols-[1fr_auto] gap-1 text-sm">
         <dt>Activity</dt>
         <dd>{Math.round(node.metrics.activityScore * 100)}%</dd>
         <dt>Size</dt>
