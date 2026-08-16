@@ -46,7 +46,7 @@ function mulberry32(seed: number): () => number {
 // arranged deterministically around its base. Faceted-crystal form language.
 export function crystalShards(seed: number, height: number): CrystalShard[] {
   const rand = mulberry32(seed)
-  const baseR = 0.28 + rand() * 0.1
+  const baseR = 0.4 + rand() * 0.14
   const shards: CrystalShard[] = [
     { offset: [0, 0, 0], scale: [baseR, height, baseR], rotation: [0, rand() * Math.PI, 0] },
   ]
