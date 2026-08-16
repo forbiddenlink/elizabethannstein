@@ -18,11 +18,23 @@ committed static snapshot. If one client/CRC name, repo URL, secret, or error/re
 reaches that committed JSON, it is published. So the sanitizer is built and proven BEFORE any
 real data flows, and the first real snapshot gets manual review + Liz sign-off.
 
-### Accountability contract (to fill at ship)
-- **Checklist:** sanitizer allowlist reviewed; fail-closed test green; first snapshot eyeballed.
-- **Evidence:** the forbidden-pattern scan output on the real emitted JSON.
+### Accountability contract (filled at ship — 1b, 2026-08-16)
+- **Checklist:** scope set to PERSONAL-PUBLIC only (Liz sign-off); allowlist = hashed id +
+  generic label + palette + normalized metrics; fail-closed gate green (196 tests incl.
+  planted-leak catch); sanitizer hardened after security review (429d55c1); first snapshot
+  manually reviewed.
+- **Evidence:** `assertClean` passed in-generator ("gate: clean"); grep of committed
+  `snapshot.json` for repo names / urls / secret prefixes = zero hits; districts show hashed
+  ids + "Biome A-D" labels only.
 - **Owner:** Liz.
-- **Status after:** committed snapshot + wire cadence + rollback = revert snapshot commit.
+- **Status after:** `src/lib/city/snapshot.json` committed @ 2295fde1 (52 nodes / 4 biomes),
+  live at `/city`. Rollback = revert that commit. Regenerate = `pnpm city:snapshot`.
+  Refresh cadence not yet automated → 1c.
+
+## Status
+- **1a ✅** @ 1f3e6b34 (+ hardening 429d55c1) — sanitizer + fail-closed gate.
+- **1b ✅** @ 2295fde1 — adapter + real snapshot + wired /city + real-scale layout/glow tuning.
+- **1c** [next] — automation wire to refresh the snapshot on a schedule.
 
 ## Slices
 
