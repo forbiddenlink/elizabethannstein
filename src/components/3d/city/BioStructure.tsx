@@ -1,6 +1,6 @@
 'use client'
 import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 type Props = {
@@ -23,6 +23,7 @@ export function BioStructure({
   onSelect,
 }: Props) {
   const core = useRef<THREE.Mesh>(null)
+  const glowColorObj = useMemo(() => new THREE.Color(glowColor), [glowColor])
   useFrame((state) => {
     // Gentle breathing pulse; brighter when selected.
     const t = state.clock.elapsedTime
@@ -33,17 +34,19 @@ export function BioStructure({
   return (
     <group position={[position[0], height / 2, position[2]]}>
       {/* core */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: R3F mesh — Three.js pointer events, not DOM */}
       <mesh
         ref={core}
         onPointerDown={(e) => {
           e.stopPropagation()
           onSelect?.()
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         <cylinderGeometry args={[0.18, 0.32, height, 6]} />
         <meshStandardMaterial
           color={color}
-          emissive={new THREE.Color(glowColor)}
+          emissive={glowColorObj}
           emissiveIntensity={glow}
           roughness={0.4}
           metalness={0.1}
@@ -53,7 +56,7 @@ export function BioStructure({
       <mesh scale={[1.6, 1.05, 1.6]}>
         <cylinderGeometry args={[0.22, 0.4, height, 6]} />
         <meshBasicMaterial
-          color={new THREE.Color(glowColor)}
+          color={glowColorObj}
           transparent
           opacity={0.18}
           blending={THREE.AdditiveBlending}
