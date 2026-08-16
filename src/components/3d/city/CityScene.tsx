@@ -2,10 +2,18 @@
 import { OrbitControls } from '@react-three/drei'
 import { useMemo } from 'react'
 import WebGPUCanvas from '@/components/3d/WebGPUCanvas'
-import { glowIntensity, layoutPositions, seedFromId, structureHeight } from '@/lib/city/layout'
+import {
+  fleetActivity,
+  glowIntensity,
+  layoutPositions,
+  seedFromId,
+  structureHeight,
+} from '@/lib/city/layout'
 import type { CityModel } from '@/lib/city/types'
 import { usePrefersReducedMotion } from '@/lib/store'
 import { BioStructure } from './BioStructure'
+import { DayNightLight } from './DayNightLight'
+import { Filaments } from './Filaments'
 import { Motes } from './Motes'
 
 type Props = {
@@ -17,12 +25,13 @@ type Props = {
 export default function CityScene({ model, selectedId, onSelectNode }: Props) {
   const positions = useMemo(() => layoutPositions(model), [model])
   const districtById = useMemo(() => new Map(model.districts.map((d) => [d.id, d])), [model])
+  const activity = useMemo(() => fleetActivity(model), [model])
   const reducedMotion = usePrefersReducedMotion()
   return (
     <WebGPUCanvas camera={{ position: [14, 9, 16], fov: 50 }} dpr={[1, 2]}>
       <color attach="background" args={['#02040a']} />
       <fog attach="fog" args={['#02040a', 18, 60]} />
-      <hemisphereLight args={['#20406a', '#010208', 0.35]} />
+      <DayNightLight activity={activity} reducedMotion={reducedMotion} />
       <Motes reducedMotion={reducedMotion} />
       <pointLight position={[0, 12, 0]} intensity={20} distance={60} color="#39ffd0" />
       {/* ground */}
@@ -36,9 +45,10 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
           onSelectNode(null)
         }}
       >
-        <circleGeometry args={[16, 64]} />
+        <circleGeometry args={[20, 64]} />
         <meshStandardMaterial color="#03060d" roughness={1} />
       </mesh>
+      <Filaments model={model} positions={positions} />
       {model.nodes.map((n) => {
         const p = positions.get(n.id)
         const d = districtById.get(n.districtId)
