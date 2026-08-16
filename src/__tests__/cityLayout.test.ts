@@ -3,6 +3,7 @@ import { demoCity } from '@/lib/city/demoCity'
 import {
   crystalShards,
   districtCenter,
+  fleetActivity,
   glowIntensity,
   layoutPositions,
   seedFromId,
@@ -57,6 +58,29 @@ describe('district biomes', () => {
   })
   it('demoCity has multiple biomes', () => {
     expect(demoCity.districts.length).toBeGreaterThanOrEqual(3)
+  })
+})
+
+describe('fleet activity (day-night driver)', () => {
+  it('is 0 for an empty fleet', () => {
+    expect(fleetActivity({ generatedAt: '', districts: [], nodes: [], edges: [] })).toBe(0)
+  })
+  it('averages node activity into 0..1', () => {
+    const a = fleetActivity(demoCity)
+    expect(a).toBeGreaterThan(0)
+    expect(a).toBeLessThanOrEqual(1)
+  })
+  it('computes the mean', () => {
+    const model = {
+      generatedAt: '',
+      districts: [{ id: 'x', label: 'X', palette: { base: '#000', glow: '#fff' } }],
+      nodes: [
+        { id: 'a', districtId: 'x', metrics: { ageDays: 1, activityScore: 0.2, sizeScore: 0.5 } },
+        { id: 'b', districtId: 'x', metrics: { ageDays: 1, activityScore: 0.8, sizeScore: 0.5 } },
+      ],
+      edges: [],
+    }
+    expect(fleetActivity(model)).toBeCloseTo(0.5)
   })
 })
 

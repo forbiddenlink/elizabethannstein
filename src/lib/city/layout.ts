@@ -18,6 +18,13 @@ export function glowIntensity(activityScore: number): number {
   return 0.15 + activityScore * 1.85
 }
 
+// Mean activity across the fleet (0..1) — drives the reef's day-night ambient:
+// a livelier fleet glows brighter. Commit rhythm, aggregated.
+export function fleetActivity(model: CityModel): number {
+  if (model.nodes.length === 0) return 0
+  return model.nodes.reduce((sum, n) => sum + n.metrics.activityScore, 0) / model.nodes.length
+}
+
 export type CrystalShard = {
   offset: [number, number, number]
   scale: [number, number, number]
