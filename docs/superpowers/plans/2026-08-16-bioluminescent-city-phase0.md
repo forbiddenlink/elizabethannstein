@@ -598,3 +598,13 @@ git commit -m "test(city): phase-0 visual baseline + go/no-go verdict"
 - Task 3: read `src/components/3d/WebGPUCanvas.tsx` to confirm export style + accepted props (`camera`, `dpr`, `fallback`); adapt import/props to match. Mirror `src/app/explore/page.tsx` for the dynamic-import + error-boundary pattern.
 - Task 3/4: confirm `playwright.config.ts` starts a webServer for `/city`; if not, run `pnpm dev` alongside or add the config.
 - Confirm the `@/` path alias resolves to `src/` (used throughout) — check `tsconfig.json`.
+
+## Phase 0 verdict (2026-08-16): GO
+
+Direction has legs — approved to proceed toward Phase 2 art. Evidence:
+- `/city` route renders 8 bioluminescent structures; height + glow driven by real `demoCity` metrics; gentle breathing pulse; glow via emissive + additive halo (the buggy `PostProcessingEffects` correctly avoided).
+- Click → structure brightens + glassy info panel shows the node's metrics (verified `n3` = Activity 85% / Size 90% / Age 5d, matching the fixture).
+- `pnpm build` compiles `/city`; both Playwright behavioral tests pass (canvas smoke + click→panel); biome clean on all 9 city files; vitest 10/10; zero console errors.
+- Honest caveat: spike-level art (plain tapered cylinders, single teal biome, sparse, no atmosphere/filaments). "Promising," not yet "extraordinary" — organic forms, biomes, fog, and connective filaments are Phase 2.
+
+**Ruling — visual baseline deferred.** A strict `toHaveScreenshot` pixel baseline on an animated WebGL canvas is cross-platform-flaky, and this repo's CI uses Docker-generated Linux baselines (`scripts/update-visual-snapshots-docker.sh`). A mac-local baseline would fail CI. Baseline deferred to Phase 2 (art-stable), to be generated via the docker script. Behavioral e2e tests cover Phase 0 instead. Cost if wrong: no pixel-regression guard on the spike art (which is throwaway anyway).
