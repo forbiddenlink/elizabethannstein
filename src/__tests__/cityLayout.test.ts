@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { demoCity } from '@/lib/city/demoCity'
-import { seedFromId, structureHeight, glowIntensity, layoutPositions } from '@/lib/city/layout'
+import { glowIntensity, layoutPositions, seedFromId, structureHeight } from '@/lib/city/layout'
 
 describe('city layout', () => {
   it('seedFromId is stable and non-negative', () => {
