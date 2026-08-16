@@ -135,7 +135,7 @@ The snapshot sanitizer is the one true security boundary of the public skin.
 
 - **Phase 0 — spike (days). GOAL: nail the look.** R3F scene, one hand-authored `CityModel`, one bioluminescent structure type, glow + dark scene + one biome, click→info. **Go/no-go gate:** if the spike is not visibly extraordinary, rethink the art before investing weeks. Throwaway-friendly.
 - **Phase 1 — hero.** Snapshot adapter + sanitizer + fail-closed test → real sanitized reef live on the portfolio.
-- **Phase 2 — beauty.** Full shader/glow pass, all biomes, day-night tied to commit rhythm, particle systems.
+- **Phase 2 — beauty.** Form language = **crystalline-bio** (faceted glowing crystal-organisms; sharper/premium, not soft coral). Full shader/glow pass, all biomes, day-night tied to commit rhythm, particle systems. **Art-first: iterate the look on demo data; real sanitized fleet data (Phase 1) is wired AFTER the look lands.** (Decided 2026-08-16.)
 - **Phase 3 — interactivity.** Time-scrub, unfold-to-detail, camera polish, reduced-motion + mobile fallback.
 
 Value ships at Phase 1. Phases 2-3 are optional polish, not prerequisites.
