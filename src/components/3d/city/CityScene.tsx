@@ -4,7 +4,9 @@ import { useMemo } from 'react'
 import WebGPUCanvas from '@/components/3d/WebGPUCanvas'
 import { glowIntensity, layoutPositions, seedFromId, structureHeight } from '@/lib/city/layout'
 import type { CityModel } from '@/lib/city/types'
+import { usePrefersReducedMotion } from '@/lib/store'
 import { BioStructure } from './BioStructure'
+import { Motes } from './Motes'
 
 type Props = {
   model: CityModel
@@ -15,11 +17,13 @@ type Props = {
 export default function CityScene({ model, selectedId, onSelectNode }: Props) {
   const positions = useMemo(() => layoutPositions(model), [model])
   const districtById = useMemo(() => new Map(model.districts.map((d) => [d.id, d])), [model])
+  const reducedMotion = usePrefersReducedMotion()
   return (
-    <WebGPUCanvas camera={{ position: [10, 8, 12], fov: 50 }} dpr={[1, 2]}>
+    <WebGPUCanvas camera={{ position: [14, 9, 16], fov: 50 }} dpr={[1, 2]}>
       <color attach="background" args={['#02040a']} />
-      <fog attach="fog" args={['#02040a', 14, 40]} />
+      <fog attach="fog" args={['#02040a', 18, 60]} />
       <hemisphereLight args={['#20406a', '#010208', 0.35]} />
+      <Motes reducedMotion={reducedMotion} />
       <pointLight position={[0, 12, 0]} intensity={20} distance={60} color="#39ffd0" />
       {/* ground */}
       {/* biome-ignore lint/a11y/noStaticElementInteractions: R3F mesh — Three.js pointer events, not DOM */}
@@ -48,6 +52,7 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
             color={d.palette.base}
             glowColor={d.palette.glow}
             seed={seedFromId(n.id)}
+            reducedMotion={reducedMotion}
             selected={selectedId === n.id}
             onSelect={() => onSelectNode(n.id)}
           />

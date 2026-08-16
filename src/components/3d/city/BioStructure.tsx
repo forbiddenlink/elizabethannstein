@@ -12,6 +12,7 @@ type Props = {
   glowColor: string
   seed: number
   selected?: boolean
+  reducedMotion?: boolean
   onSelect?: () => void
 }
 
@@ -23,6 +24,7 @@ export function BioStructure({
   glowColor,
   seed,
   selected,
+  reducedMotion,
   onSelect,
 }: Props) {
   const cores = useRef<THREE.MeshStandardMaterial[]>([])
@@ -33,7 +35,7 @@ export function BioStructure({
   useFrame((state) => {
     // Gentle breathing pulse; brighter when selected.
     const t = state.clock.elapsedTime
-    const pulse = 0.85 + Math.sin(t * 1.5 + position[0]) * 0.15
+    const pulse = reducedMotion ? 1 : 0.85 + Math.sin(t * 1.5 + position[0]) * 0.15
     const intensity = glow * pulse * (selected ? 1.8 : 1)
     for (const mat of cores.current) {
       if (mat) mat.emissiveIntensity = intensity
