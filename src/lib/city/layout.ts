@@ -58,18 +58,28 @@ export function crystalShards(seed: number, height: number): CrystalShard[] {
   return shards
 }
 
+// Biome cluster centre for district `index` of `count`, placed on a ring so
+// each district reads as its own region rather than one merged spiral.
+export function districtCenter(index: number, count: number, spread = 9): [number, number] {
+  if (count <= 1) return [0, 0]
+  const angle = (index / count) * Math.PI * 2
+  return [Math.cos(angle) * spread, Math.sin(angle) * spread]
+}
+
 export function layoutPositions(model: CityModel): Map<string, [number, number, number]> {
   const out = new Map<string, [number, number, number]>()
-  const radius = 8
+  const districtIndex = new Map(model.districts.map((d, i) => [d.id, i]))
+  const count = model.districts.length
+  const localRadius = 3.5
   for (const node of model.nodes) {
+    const di = districtIndex.get(node.districtId) ?? 0
+    const [cx, cz] = districtCenter(di, count)
     const s = seedFromId(node.id)
-    // Deterministic golden-angle spiral packing on the ground plane.
+    // Deterministic golden-angle spiral packing within the district biome.
     const idx = s % 997
     const angle = idx * 2.399963 // golden angle (radians)
-    const r = radius * Math.sqrt(((s >>> 5) % 100) / 100)
-    const x = Math.cos(angle) * r
-    const z = Math.sin(angle) * r
-    out.set(node.id, [x, 0, z])
+    const r = localRadius * Math.sqrt(((s >>> 5) % 100) / 100)
+    out.set(node.id, [cx + Math.cos(angle) * r, 0, cz + Math.sin(angle) * r])
   }
   return out
 }
