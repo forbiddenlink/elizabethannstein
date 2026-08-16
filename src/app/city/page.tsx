@@ -37,6 +37,14 @@ export default function CityPage() {
           <CityScene model={demoCity} selectedId={selectedId} onSelectNode={setSelectedId} />
         </Scene3DErrorBoundary>
       </div>
+      {/* Vignette — deepens the reef edges, cheap depth without a composer. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[5]"
+        style={{
+          background: 'radial-gradient(ellipse at center, transparent 45%, rgba(2,4,10,0.55) 100%)',
+        }}
+      />
       <CityInfoPanel node={selectedNode} district={district} />
     </main>
   )

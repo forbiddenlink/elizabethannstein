@@ -13,7 +13,7 @@ export function CityInfoPanel({
     <aside
       data-testid="city-info-panel"
       style={{ borderColor: district?.palette.glow ?? '#39ffd0' }}
-      className="absolute right-6 top-6 w-65 rounded-xl border bg-black/80 p-4 text-[#cfeee6] backdrop-blur-md"
+      className="absolute right-6 top-6 z-10 w-65 rounded-xl border bg-black/80 p-4 text-[#cfeee6] backdrop-blur-md"
     >
       <h2 className="m-0 text-base">{node.id}</h2>
       <p className="mt-1 mb-3 opacity-70">{district?.label ?? node.districtId}</p>
