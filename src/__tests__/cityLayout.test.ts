@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { demoCity } from '@/lib/city/demoCity'
 import { seedFromId, structureHeight, glowIntensity, layoutPositions } from '@/lib/city/layout'
 
