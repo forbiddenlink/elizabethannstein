@@ -1,7 +1,8 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { CityInfoPanel } from '@/components/3d/city/CityInfoPanel'
 import { Scene3DErrorBoundary } from '@/components/ErrorBoundary'
 import { demoCity } from '@/lib/city/demoCity'
 
@@ -17,6 +18,14 @@ const CityScene = dynamic(() => import('@/components/3d/city/CityScene'), {
 
 export default function CityPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const selectedNode = useMemo(
+    () => demoCity.nodes.find((n) => n.id === selectedId) ?? null,
+    [selectedId]
+  )
+  const district = useMemo(
+    () => demoCity.districts.find((d) => d.id === selectedNode?.districtId) ?? null,
+    [selectedNode]
+  )
   return (
     <main
       id="main-content"
@@ -28,6 +37,7 @@ export default function CityPage() {
           <CityScene model={demoCity} selectedId={selectedId} onSelectNode={setSelectedId} />
         </Scene3DErrorBoundary>
       </div>
+      <CityInfoPanel node={selectedNode} district={district} />
     </main>
   )
 }
