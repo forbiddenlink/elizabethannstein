@@ -1,6 +1,6 @@
 'use client'
 import { OrbitControls } from '@react-three/drei'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import WebGPUCanvas from '@/components/3d/WebGPUCanvas'
 import {
   fleetActivity,
@@ -27,6 +27,7 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
   const districtById = useMemo(() => new Map(model.districts.map((d) => [d.id, d])), [model])
   const activity = useMemo(() => fleetActivity(model), [model])
   const reducedMotion = usePrefersReducedMotion()
+  const [dragging, setDragging] = useState(false)
   return (
     <WebGPUCanvas camera={{ position: [14, 9, 16], fov: 50 }} dpr={[1, 2]}>
       <color attach="background" args={['#02040a']} />
@@ -70,6 +71,12 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
       })}
       <OrbitControls
         enablePan={false}
+        enableDamping
+        dampingFactor={0.08}
+        autoRotate={!reducedMotion && !dragging && selectedId === null}
+        autoRotateSpeed={0.3}
+        onStart={() => setDragging(true)}
+        onEnd={() => setDragging(false)}
         minDistance={6}
         maxDistance={30}
         maxPolarAngle={Math.PI / 2.1}
