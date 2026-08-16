@@ -35,6 +35,26 @@ If any of the three is cut to save time, the project has become a clone. Stop an
 - **No live private feed on the public site.** Public skin renders a committed static snapshot only.
 - **No client/confidential data** (see Confidentiality Gate).
 - Not the "one engine, four skins" synthesis — that was dropped when the tracks were split. This spec is the City alone.
+- **Do not modify the existing galaxy** (`GalaxyScene.tsx`, `galaxyData.ts`, `/explore`). The city is additive.
+
+## Existing-system reconciliation (verified 2026-08-16, branch `feat/bioluminescent-city`)
+
+The portfolio already has a large 3D system. Verdict from a full read: **ship the city as a NEW mode/route, reuse only the rendering substrate.**
+
+- **Existing `/explore`** = a hand-curated *galaxy* — 86 `Project` objects in `src/lib/galaxyData.ts` (~2195 lines, narrative-authored, single source of truth per repo CLAUDE.md). Metaphor: projects as stars in 6 themed galaxies, with tour/journey modes (`src/components/3d/GalaxyScene.tsx`). This is portfolio *highlights*, a different truth-source from the city's *fleet telemetry*. Reskinning it would gut its curated storytelling — so the city is separate.
+- **REUSE (do not rebuild):**
+  - `src/components/3d/WebGPUCanvas.tsx` — generic WebGPU/WebGL-fallback Canvas wrapper, zero galaxy logic (`:35-168`). City mounts through it.
+  - `src/lib/webgpu.ts` `checkWebGPUSupport()` — renderer detection.
+  - Route pattern: `src/app/explore/page.tsx` loads its scene via `dynamic(..., { ssr: false })` inside an error boundary. City route (`/city`) mirrors this.
+- **DO NOT TOUCH:** `GalaxyScene.tsx`, `galaxyData.ts`, and everything galaxy-specific (star meshes, camera state machine, tour system).
+
+### Known gotcha — glow (affects Phase 0 directly)
+
+`src/components/3d/PostProcessingEffects.tsx` is the existing bloom/postprocessing path: WebGL-only (`@react-three/postprocessing` classic EffectComposer, **not** TSL nodes), carries a documented flicker/invisible-render bug, and ships **disabled by default**. The bioluminescent glow therefore CANNOT depend on it. Phase 0 must achieve glow via emissive materials + a WebGPU/TSL bloom (or another verified path), and proving that glow works is part of the look go/no-go.
+
+### Data-staleness finding (Liz's accuracy ask)
+
+`galaxyData.ts` holds **86** projects; repo `CLAUDE.md` claims 90; the real fleet is ~90-97 repos. The existing galaxy is already stale vs reality. Reconciling `galaxyData.ts` against the live fleet is a **separate task** (it touches the galaxy, out of City scope) — tracked, not done here unless chosen.
 
 ## Art direction — bioluminescent-organic
 
@@ -49,9 +69,9 @@ If any of the three is cut to save time, the project has become a clone. Stop an
 - **Next 16 · React 19** (existing portfolio).
 - **React Three Fiber 9.6 + `three` 0.185** — already in `package.json`. No new core dep required.
 - **Three WebGPU/TSL renderer** for glow/shader work (feature-detect; fall back to WebGL renderer where WebGPU is unavailable).
-- `@react-three/drei` for camera/controls/helpers (confirm presence; add if missing).
+- `@react-three/drei` — present (used by `GalaxyScene` PerformanceMonitor).
 - Deploy: Vercel (existing).
-- **Open item for planning:** the repo already imports `three`/R3F — investigate existing 3D usage before adding, integrate rather than duplicate (do not assume; read the code in the plan phase).
+- **Resolved:** existing 3D usage read (see Existing-system reconciliation). City reuses `WebGPUCanvas.tsx` + `webgpu.ts`; does not add a second renderer layer.
 
 ## Architecture
 
@@ -130,11 +150,13 @@ Value ships at Phase 1. Phases 2-3 are optional polish, not prerequisites.
 - **Effort risk.** Making it not-generic is the hard 80%. Mitigated by phasing + shipping at Phase 1.
 - **Gource-equivalence risk.** Managed by the anti-Gource thesis being a hard constraint.
 - **Confidentiality risk.** Managed by the fail-closed sanitizer gate.
-- **Perf risk.** WebGPU availability + mobile. Mitigated by WebGL fallback + reduced experience path.
+- **Glow-path risk.** The existing bloom (`PostProcessingEffects`) is buggy + disabled; the city's whole look depends on glow working. Mitigated by proving emissive + WebGPU/TSL bloom in Phase 0 (part of the go/no-go).
+- **Perf risk.** WebGPU availability + mobile. Mitigated by the existing `WebGPUCanvas` WebGL fallback + reduced experience path.
 
 ## Open questions
 
-- UNCONFIRMED: existing `three`/R3F usage in the repo — extend or stand alone? (Read in plan phase.)
+- RESOLVED: extend or stand alone → **new mode/route (`/city`), reuse `WebGPUCanvas` + `webgpu.ts` only** (see reconciliation).
+- RESOLVED: branch → `feat/bioluminescent-city` (created off `feat/award-tier-polish`).
 - UNCONFIRMED: which services beyond GitHub feed v1 metrics (GitHub-only is fine for Phase 1).
 - UNCONFIRMED: exact biome palette values (Liz's design call).
-- UNCONFIRMED: branch/commit strategy for landing this alongside `feat/award-tier-polish`.
+- UNCONFIRMED: whether to also reconcile the stale `galaxyData.ts` (86 vs ~90-97 real) — separate task, Liz's call.
