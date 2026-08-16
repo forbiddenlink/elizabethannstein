@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { demoCity } from '@/lib/city/demoCity'
 import {
   crystalShards,
+  districtCenter,
   glowIntensity,
   layoutPositions,
   seedFromId,
@@ -31,6 +32,31 @@ describe('city layout', () => {
       expect(pos.has(n.id)).toBe(true)
       expect(pos.get(n.id)![1]).toBe(0)
     }
+  })
+})
+
+describe('district biomes', () => {
+  it('districtCenter collapses to origin for a single district', () => {
+    expect(districtCenter(0, 1)).toEqual([0, 0])
+  })
+  it('districtCenter is deterministic and distinct per index', () => {
+    expect(districtCenter(0, 3)).toEqual(districtCenter(0, 3))
+    expect(districtCenter(0, 3)).not.toEqual(districtCenter(1, 3))
+  })
+  it('clusters every node within its district biome region', () => {
+    const centers = new Map(
+      demoCity.districts.map((d, i) => [d.id, districtCenter(i, demoCity.districts.length)])
+    )
+    const pos = layoutPositions(demoCity)
+    for (const n of demoCity.nodes) {
+      const [x, , z] = pos.get(n.id)!
+      const [cx, cz] = centers.get(n.districtId)!
+      const dist = Math.hypot(x - cx, z - cz)
+      expect(dist).toBeLessThanOrEqual(4)
+    }
+  })
+  it('demoCity has multiple biomes', () => {
+    expect(demoCity.districts.length).toBeGreaterThanOrEqual(3)
   })
 })
 
