@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { demoCity } from '@/lib/city/demoCity'
-import { glowIntensity, layoutPositions, seedFromId, structureHeight } from '@/lib/city/layout'
+import {
+  crystalShards,
+  glowIntensity,
+  layoutPositions,
+  seedFromId,
+  structureHeight,
+} from '@/lib/city/layout'
 
 describe('city layout', () => {
   it('seedFromId is stable and non-negative', () => {
@@ -25,5 +31,29 @@ describe('city layout', () => {
       expect(pos.has(n.id)).toBe(true)
       expect(pos.get(n.id)![1]).toBe(0)
     }
+  })
+})
+
+describe('crystal shards', () => {
+  it('is deterministic for a given seed', () => {
+    expect(crystalShards(12345, 2.5)).toEqual(crystalShards(12345, 2.5))
+  })
+  it('returns a main shard plus 1-2 secondaries (2 or 3 total)', () => {
+    for (const seed of [1, 2, 3, 4, 999]) {
+      const shards = crystalShards(seed, 2)
+      expect(shards.length).toBeGreaterThanOrEqual(2)
+      expect(shards.length).toBeLessThanOrEqual(3)
+    }
+  })
+  it('main shard is first, centered at origin, and tallest', () => {
+    const shards = crystalShards(777, 3)
+    const main = shards[0]
+    expect(main.offset).toEqual([0, 0, 0])
+    for (const s of shards.slice(1)) {
+      expect(main.scale[1]).toBeGreaterThan(s.scale[1])
+    }
+  })
+  it('varies across seeds', () => {
+    expect(crystalShards(1, 2)).not.toEqual(crystalShards(2, 2))
   })
 })
