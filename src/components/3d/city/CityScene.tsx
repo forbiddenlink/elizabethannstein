@@ -2,7 +2,7 @@
 import { OrbitControls } from '@react-three/drei'
 import { useMemo } from 'react'
 import WebGPUCanvas from '@/components/3d/WebGPUCanvas'
-import { glowIntensity, layoutPositions, structureHeight } from '@/lib/city/layout'
+import { glowIntensity, layoutPositions, seedFromId, structureHeight } from '@/lib/city/layout'
 import type { CityModel } from '@/lib/city/types'
 import { BioStructure } from './BioStructure'
 
@@ -47,6 +47,7 @@ export default function CityScene({ model, selectedId, onSelectNode }: Props) {
             glow={glowIntensity(n.metrics.activityScore)}
             color={d.palette.base}
             glowColor={d.palette.glow}
+            seed={seedFromId(n.id)}
             selected={selectedId === n.id}
             onSelect={() => onSelectNode(n.id)}
           />
