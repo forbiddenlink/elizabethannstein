@@ -5,6 +5,14 @@ import { useMemo, useState } from 'react'
 import { CityInfoPanel } from '@/components/3d/city/CityInfoPanel'
 import { Scene3DErrorBoundary } from '@/components/ErrorBoundary'
 import { demoCity } from '@/lib/city/demoCity'
+import snapshot from '@/lib/city/snapshot.json'
+import type { CityModel } from '@/lib/city/types'
+
+// Real sanitized fleet snapshot (committed, refreshed by scripts/city-snapshot.mts);
+// fall back to demo data if the snapshot is empty.
+const cityModel: CityModel = (snapshot as CityModel).nodes.length
+  ? (snapshot as CityModel)
+  : demoCity
 
 // Lazy load 3D scene — mirrors the /explore pattern (keeps this route's bundle lean).
 const CityScene = dynamic(() => import('@/components/3d/city/CityScene'), {
@@ -19,11 +27,11 @@ const CityScene = dynamic(() => import('@/components/3d/city/CityScene'), {
 export default function CityPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const selectedNode = useMemo(
-    () => demoCity.nodes.find((n) => n.id === selectedId) ?? null,
+    () => cityModel.nodes.find((n) => n.id === selectedId) ?? null,
     [selectedId]
   )
   const district = useMemo(
-    () => demoCity.districts.find((d) => d.id === selectedNode?.districtId) ?? null,
+    () => cityModel.districts.find((d) => d.id === selectedNode?.districtId) ?? null,
     [selectedNode]
   )
   return (
@@ -34,7 +42,7 @@ export default function CityPage() {
     >
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <Scene3DErrorBoundary maxRetries={3} retryDelay={2000}>
-          <CityScene model={demoCity} selectedId={selectedId} onSelectNode={setSelectedId} />
+          <CityScene model={cityModel} selectedId={selectedId} onSelectNode={setSelectedId} />
         </Scene3DErrorBoundary>
       </div>
       {/* Vignette — deepens the reef edges, cheap depth without a composer. */}

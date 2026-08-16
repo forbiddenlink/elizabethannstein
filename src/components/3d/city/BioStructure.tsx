@@ -45,7 +45,7 @@ export function BioStructure({
       if (mat) mat.emissiveIntensity = intensity
     }
     const h = halo.current?.material as THREE.SpriteMaterial | undefined
-    if (h) h.opacity = (0.22 + life * 0.5) * pulse * (selected ? 1.5 : 1)
+    if (h) h.opacity = (0.14 + life * 0.32) * pulse * (selected ? 1.6 : 1)
   })
 
   return (
@@ -108,7 +108,7 @@ export function BioStructure({
           map={ground}
           color={glowColorObj}
           transparent
-          opacity={0.18 + life * 0.32}
+          opacity={0.12 + life * 0.22}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
