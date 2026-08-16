@@ -1,8 +1,12 @@
 import { seedFromId } from './layout'
 import type { CityModel } from './types'
 
-// Opaque, deterministic token — hides the source id (repo/client name) while
-// staying stable for layout seeding. Not cryptographic; enough to strip identity.
+// Opaque, deterministic token that replaces the source id in the emitted model.
+// NOTE: this is display-opacity, NOT a cryptographic control — FNV is reversible by
+// dictionary attack. The actual confidentiality boundary is (1) source-scoping to
+// PERSONAL, PUBLIC repos (whose names are already public, so reversal reveals nothing
+// private) and (2) the forbidden-name gate below. Do not rely on hashId to hide a
+// secret or a private/client name; scope + gate must guarantee those never arrive.
 export function hashId(id: string): string {
   return `x${seedFromId(id).toString(36)}`
 }
@@ -12,11 +16,15 @@ const SECRET_PATTERNS: RegExp[] = [
   /sk_[a-z0-9]/i,
   /gh[posru]_/i,
   /github_pat_/i,
+  /glpat-/i,
   /npm_/i,
   /xox[baprs]-/i,
   /napi_/i,
   /[pr]k_live/i,
   /AKIA[0-9A-Z]{16}/,
+  /AIza[0-9A-Za-z_-]{10,}/, // Google API key
+  /eyJ[a-zA-Z0-9_-]{10,}/, // JWT
+  /-----BEGIN [A-Z ]*PRIVATE KEY-----/, // PEM
   /https?:\/\//i,
   /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i,
 ]
@@ -45,18 +53,34 @@ function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-// Returns a list of every forbidden pattern/name found in the serialized model.
+// Recursively collect every string primitive in the model. Scanning actual field
+// values (not JSON.stringify output) avoids serialization-escaping differentials —
+// an escaped `http` or unicode homoglyph in the source string is tested as its
+// real value here, not its escaped serialized form.
+function collectStrings(v: unknown, out: string[]): void {
+  if (typeof v === 'string') out.push(v)
+  else if (Array.isArray(v)) for (const x of v) collectStrings(x, out)
+  else if (v && typeof v === 'object') for (const x of Object.values(v)) collectStrings(x, out)
+}
+
+// Returns a list of every forbidden pattern/name found in the model's string values.
 // Empty = clean.
 export function findLeaks(model: CityModel, forbiddenNames = DEFAULT_FORBIDDEN_NAMES): string[] {
-  const json = JSON.stringify(model)
-  const hits: string[] = []
-  for (const re of SECRET_PATTERNS) {
-    if (re.test(json)) hits.push(`pattern:${re.source}`)
+  const strings: string[] = []
+  collectStrings(model, strings)
+  const nameRes = forbiddenNames.map(
+    (name) => [name, new RegExp(`\\b${escapeRegExp(name)}\\b`, 'i')] as const
+  )
+  const hits = new Set<string>()
+  for (const s of strings) {
+    for (const re of SECRET_PATTERNS) {
+      if (re.test(s)) hits.add(`pattern:${re.source}`)
+    }
+    for (const [name, re] of nameRes) {
+      if (re.test(s)) hits.add(`name:${name}`)
+    }
   }
-  for (const name of forbiddenNames) {
-    if (new RegExp(`\\b${escapeRegExp(name)}\\b`, 'i').test(json)) hits.push(`name:${name}`)
-  }
-  return hits
+  return [...hits]
 }
 
 // Fail-closed gate: throws if the model contains anything forbidden.

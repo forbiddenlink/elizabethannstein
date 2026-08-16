@@ -60,4 +60,19 @@ describe('city sanitizer (confidentiality gate)', () => {
   it('is deterministic', () => {
     expect(sanitizeCity(dirty)).toEqual(sanitizeCity(dirty))
   })
+  it('catches expanded secret shapes (JWT) in any string value', () => {
+    const withJwt: CityModel = {
+      generatedAt: '2026-01-01T00:00:00.000Z',
+      districts: [{ id: 'a', label: 'A', palette: { base: '#111', glow: '#222' } }],
+      nodes: [
+        {
+          id: 'eyJhbGciOiJIUzI1NiJ9.payload.sig',
+          districtId: 'a',
+          metrics: { ageDays: 1, activityScore: 0.5, sizeScore: 0.5 },
+        },
+      ],
+      edges: [],
+    }
+    expect(findLeaks(withJwt)).toContain('pattern:eyJ[a-zA-Z0-9_-]{10,}')
+  })
 })
