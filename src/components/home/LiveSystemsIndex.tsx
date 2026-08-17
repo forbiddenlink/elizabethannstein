@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { CONTACT } from '@/lib/constants'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
+import { getProjectById } from '@/lib/galaxyData'
 import type { LiveResult } from '@/lib/liveStatus'
 import styles from './LiveSystemsIndex.module.css'
 
@@ -73,6 +74,13 @@ export function LiveSystemsIndex() {
   const [phases, setPhases] = useState<Record<string, StatusPhase>>(() =>
     Object.fromEntries(FLAGSHIPS.map((f) => [f.id, f.status === 'live' ? 'checking' : 'static']))
   )
+
+  useEffect(() => {
+    const projectParam = new URLSearchParams(window.location.search).get('p')
+    if (!projectParam || !getProjectById(projectParam)) return
+
+    window.location.replace(`/work/${projectParam}`)
+  }, [])
 
   // Fetch live status off the render path; resolve each dot as the result arrives.
   useEffect(() => {
