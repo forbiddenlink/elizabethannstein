@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.1.0...v1.2.0) (2026-08-11)
+
+
+### Features
+
+* award-tier-polish ([1136d57](https://github.com/forbiddenlink/elizabethannstein/commit/1136d57006c8bcfeeb3fab6808163dbf135683ec))
+
 ## [1.1.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.0.0...v1.1.0) (2026-08-02)
 
 
