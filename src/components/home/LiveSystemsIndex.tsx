@@ -112,7 +112,11 @@ export function LiveSystemsIndex() {
 
   const up = respondingCount(statuses)
   const ctaRef = useMagnetic<HTMLAnchorElement>(0.32)
-  const bentoRef = useGsapReveal<HTMLDivElement>({ selector: `.${styles.bTile}`, stagger: 0.07 })
+  const bentoRef = useGsapReveal<HTMLDivElement>({
+    selector: `.${styles.bTile}`,
+    stagger: 0.07,
+    scroll: false,
+  })
 
   return (
     <main id="main-content" tabIndex={-1} className={`${styles.page} outline-none`}>
@@ -295,7 +299,7 @@ export function LiveSystemsIndex() {
 
         <div className={`${styles.lab} ${styles.reveal}`}>
           <div className={styles.labBig}>
-            &plus; <b>78 more</b>, shipped.
+            + <b>78 more</b>, shipped.
           </div>
           <div className={styles.labNote}>
             Experiments, dev tools, and games &mdash; the lab where the eight above got their reps.{' '}
