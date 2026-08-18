@@ -25,11 +25,10 @@ function hashString(str: string): number {
   return Math.abs(hash)
 }
 
+const r4 = (n: number) => Math.round(n * 10000) / 10000
+
 export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlaceholderProps) {
   const seed = hashString(title)
-
-  // Generate consistent "noise" dots based on project title
-  const r4 = (n: number) => Math.round(n * 10000) / 10000
 
   const dots = useMemo(() => {
     return Array.from({ length: 30 }, (_, i) => ({
