@@ -30,9 +30,9 @@ function detectVisitorType(referrer: string | null): VisitorType {
     return 'unknown'
   }
 
-  const onHost = (domain: string) => host === domain || host.endsWith('.' + domain)
+  const onHost = (domain: string) => host === domain || host.endsWith(`.${domain}`)
   const hasLabel = (label: string) =>
-    host === label || host.startsWith(label + '.') || host.includes('.' + label + '.')
+    host === label || host.startsWith(`${label}.`) || host.includes(`.${label}.`)
 
   // Recruiter indicators
   if (
