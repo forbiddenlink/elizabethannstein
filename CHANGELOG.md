@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.2.0...v1.3.0) (2026-08-18)
+
+
+### Features
+
+* **portfolio:** unify content site under one editorial design system ([5c0947d](https://github.com/forbiddenlink/elizabethannstein/commit/5c0947d6a86f213de596bf3c287d5da8c2059af0))
+
+
+### Bug Fixes
+
+* font preload warnings, hydration precision, duplicate arrow ([#69](https://github.com/forbiddenlink/elizabethannstein/issues/69)) ([adb6530](https://github.com/forbiddenlink/elizabethannstein/commit/adb65305959828759dbf0c10019853c185faaffd))
+* **home:** reveal desktop stat tiles and render literal plus sign ([7068a0f](https://github.com/forbiddenlink/elizabethannstein/commit/7068a0f1291c5039133601123618e370fac46f80))
+* **portfolio:** flag archived projects + correct project count (90-&gt;86) ([#67](https://github.com/forbiddenlink/elizabethannstein/issues/67)) ([6054e2f](https://github.com/forbiddenlink/elizabethannstein/commit/6054e2f160f1d31dd5e86bde605138104af5a3d4))
+
 ## [1.2.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.1.0...v1.2.0) (2026-08-11)
 
 
