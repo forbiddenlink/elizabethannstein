@@ -357,9 +357,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.6,
         size: 'medium',
         galaxy: 'ai',
-        links: {
-          live: 'https://codebase-onboarding-tool.vercel.app',
-        },
+        status: 'archived',
         featured: false,
         dateRange: '2024',
         challenge:
@@ -592,6 +590,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.5,
         size: 'medium',
         galaxy: 'ai',
+        status: 'archived',
         featured: false,
         dateRange: '2025',
         challenge:
@@ -1496,8 +1495,8 @@ export const galaxies: Galaxy[] = [
         brightness: 1.7,
         size: 'large',
         galaxy: 'devtools',
+        status: 'archived',
         links: {
-          live: 'https://site-sheriff.vercel.app',
           github: 'https://github.com/forbiddenlink/site-sheriff',
         },
         featured: false,
@@ -2036,7 +2035,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.4,
         size: 'medium',
         galaxy: 'experimental',
-        status: 'in-progress',
+        status: 'archived',
         featured: false,
         dateRange: '2026',
         challenge:
