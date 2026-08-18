@@ -1,9 +1,10 @@
 'use client'
 
-import { AlertCircle, Check, Loader2, Send } from 'lucide-react'
+import { AlertCircle, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { analytics } from '@/components/Analytics'
 import { CONTACT } from '@/lib/constants'
+import styles from './ContactForm.module.css'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -53,32 +54,25 @@ export function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div
-        role="status"
-        aria-live="polite"
-        className="p-8 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] text-center"
-      >
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] mb-4">
-          <Check className="w-7 h-7 text-emerald-400" />
-        </div>
-        <h3 className="text-xl font-semibold mb-2">Message sent!</h3>
-        <p className="text-white/60">
-          I&apos;ll get back to you at <span className="text-white/80">{sentEmail}</span> within 24
-          hours.
+      <div role="status" aria-live="polite" className={styles.success}>
+        <p className="eLabel" style={{ color: 'var(--le-live-ink)' }}>
+          <span className="eDot" aria-hidden="true" style={{ marginRight: '0.5rem' }} />
+          Sent
         </p>
-        <button
-          type="button"
-          onClick={() => setStatus('idle')}
-          className="mt-6 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
-        >
-          Send another message
+        <h3 className={styles.successTitle}>Message received.</h3>
+        <p className={styles.successText}>
+          I&apos;ll reply to <strong style={{ color: 'var(--le-ink)' }}>{sentEmail}</strong> within
+          24 hours.
+        </p>
+        <button type="button" onClick={() => setStatus('idle')} className={styles.successAgain}>
+          Send another &rarr;
         </button>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className={styles.form}>
       {/* Honeypot field: real users never see or fill this; bots do. */}
       <input
         type="text"
@@ -90,8 +84,8 @@ export function ContactForm() {
         aria-hidden="true"
         className="absolute -left-[9999px] h-0 w-0 opacity-0"
       />
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
+      <div className={styles.field}>
+        <label htmlFor="name" className={styles.label}>
           Your Name
         </label>
         <input
@@ -104,13 +98,13 @@ export function ContactForm() {
           autoComplete="name"
           autoCapitalize="words"
           placeholder="Jane Smith"
-          className="input-glass w-full"
+          className={styles.input}
           disabled={status === 'submitting'}
         />
       </div>
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
+      <div className={styles.field}>
+        <label htmlFor="email" className={styles.label}>
           Your Email
         </label>
         <input
@@ -123,13 +117,13 @@ export function ContactForm() {
           autoComplete="email"
           inputMode="email"
           placeholder="jane@company.com"
-          className="input-glass w-full"
+          className={styles.input}
           disabled={status === 'submitting'}
         />
       </div>
 
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">
+      <div className={styles.field}>
+        <label htmlFor="message" className={styles.label}>
           Message
         </label>
         <textarea
@@ -142,13 +136,13 @@ export function ContactForm() {
           autoCapitalize="sentences"
           maxLength={MAX_MESSAGE_LENGTH}
           placeholder="Tell me about your project or opportunity..."
-          className="input-glass w-full resize-none"
+          className={styles.textarea}
           disabled={status === 'submitting'}
         />
         <div className="flex justify-end mt-1">
           <span
-            className={`text-[10px] tabular-nums transition-colors ${
-              message.length > MAX_MESSAGE_LENGTH * 0.9 ? 'text-warning/80' : 'text-white/55'
+            className={`${styles.count} ${
+              message.length > MAX_MESSAGE_LENGTH * 0.9 ? styles.countWarn : ''
             }`}
           >
             {message.length.toLocaleString()} / {MAX_MESSAGE_LENGTH.toLocaleString()}
@@ -157,11 +151,7 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <div
-          role="alert"
-          aria-live="assertive"
-          className="flex items-start gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm"
-        >
+        <div role="alert" aria-live="assertive" className={styles.error}>
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
           <span>{errorMsg}</span>
         </div>
@@ -170,27 +160,24 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="btn btn-primary w-full py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+        className={`eBtn eBtnPrimary ${styles.submit}`}
       >
         {status === 'submitting' ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
-            <span>Sending…</span>
+            <span>Sending</span>
           </>
         ) : (
           <>
-            <Send className="w-5 h-5" />
             <span>Send Message</span>
+            <span className="arrow">&rarr;</span>
           </>
         )}
       </button>
 
-      <p className="text-white/40 text-xs text-center">
+      <p className={styles.note}>
         I typically respond within 24 hours. Or email me directly at{' '}
-        <a
-          href={`mailto:${CONTACT.email}`}
-          className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-        >
+        <a href={`mailto:${CONTACT.email}`} className="eLink">
           {CONTACT.email}
         </a>
         .

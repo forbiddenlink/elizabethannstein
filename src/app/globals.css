@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/editorial.css";
 
 /* Actually render the loaded webfonts. Space Grotesk + JetBrains Mono are loaded in
    layout.tsx but were never applied, so text fell back to the system stack. This

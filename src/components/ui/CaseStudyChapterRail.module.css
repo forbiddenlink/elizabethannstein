@@ -1,0 +1,114 @@
+/* Editorial marginalia chapter rail: fixed left column on desktop, a
+   bottom strip on mobile. Mono chapter numbers, cobalt active state. */
+.desktop {
+  position: fixed;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 45;
+  display: none;
+  pointer-events: auto;
+}
+@media (min-width: 768px) {
+  .desktop {
+    display: block;
+  }
+}
+@media (min-width: 1024px) {
+  .desktop {
+    left: 1.5rem;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.85rem 0;
+  border-left: 1.5px solid var(--le-rule);
+}
+
+.link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.3rem 0 0.3rem 0.85rem;
+  margin-left: -1.5px;
+  border-left: 1.5px solid transparent;
+  font-family: var(--le-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+  text-decoration: none;
+  transition:
+    color 0.2s var(--le-ease),
+    border-color 0.2s var(--le-ease);
+}
+.link:hover {
+  color: var(--le-ink-2);
+}
+.linkActive {
+  color: var(--le-accent-ink);
+  border-left-color: var(--le-accent);
+}
+.num {
+  font-family: var(--le-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--le-muted);
+}
+.linkActive .num {
+  color: var(--le-accent-ink);
+}
+
+/* mobile: bottom strip */
+.mobile {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  z-index: 45;
+  max-width: calc(100vw - 2rem);
+  pointer-events: auto;
+}
+@media (min-width: 768px) {
+  .mobile {
+    display: none;
+  }
+}
+.mobileList {
+  display: flex;
+  gap: 0.2rem;
+  max-width: 100%;
+  overflow-x: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem;
+  background: var(--le-paper-2);
+  border: 1px solid var(--le-rule-strong);
+  border-radius: 2px;
+}
+.mobileItem {
+  flex: none;
+}
+.mobileLink {
+  display: block;
+  padding: 0.4rem 0.65rem;
+  min-height: 2rem;
+  border-radius: 2px;
+  font-family: var(--le-sans);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mobileLinkActive {
+  color: var(--le-paper);
+  background: var(--le-rule-strong);
+}

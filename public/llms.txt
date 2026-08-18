@@ -3,7 +3,7 @@
 > Full-stack developer and designer shipping production code across three orgs. Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's Dynamics 365 / Power Platform assessment, live in production. Algolia Agent Studio Challenge winner, npm publisher, and MCP server author.
 
 ## About
-elizabethannstein.com is the portfolio of Elizabeth Stein, a full-stack engineer specializing in Microsoft Power Platform (Dynamics 365, Dataverse), Next.js, React, TypeScript, and AI integration (Claude, MCP servers, RAG). The site presents her work as an interactive 3D "galaxy" of roughly 90 projects, with a recruiter fast-track to the strongest, verifiable proof.
+elizabethannstein.com is the portfolio of Elizabeth Stein, a full-stack engineer specializing in Microsoft Power Platform (Dynamics 365, Dataverse), Next.js, React, TypeScript, and AI integration (Claude, MCP servers, RAG). The site presents her work as an editorial index of 86 shipped projects, with a recruiter fast-track to the strongest, verifiable proof, plus an optional interactive 3D "galaxy" view at /explore.
 
 ## Proof
 - Security readiness platform (cybersecurity nonprofit, client confidential): sole developer on a production Dynamics 365 / Power Platform assessment, front-end externalized to a Next.js app.

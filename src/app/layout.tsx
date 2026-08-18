@@ -8,9 +8,8 @@ import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { AchievementToastManager } from '@/components/ui/AchievementToast'
 import { CommandPalette } from '@/components/ui/CommandPalette'
-import { GalaxyCursor } from '@/components/ui/GalaxyCursor'
+import { GalaxyChrome } from '@/components/ui/GalaxyChrome'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
-import { WarpTransition } from '@/components/ui/WarpTransition'
 import { CONTACT, SITE } from '@/lib/constants'
 
 const spaceGrotesk = Space_Grotesk({
@@ -150,11 +149,8 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`bg-black text-white antialiased font-sans ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${fraunces.variable}`}
       >
-        {/* Subtle film grain — editorial depth; disabled when reduced motion */}
-        <div
-          className="grain-film pointer-events-none fixed inset-0 z-[12] select-none"
-          aria-hidden="true"
-        />
+        {/* Galaxy ambient chrome (grain, cursor, warp) — only on the /explore showcase */}
+        <GalaxyChrome />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -165,8 +161,6 @@ export default function RootLayout({
         />
         <NuqsAdapter>
           <SmoothScroll />
-          <WarpTransition />
-          <GalaxyCursor />
           <AchievementToastManager />
           <CommandPalette />
           <Analytics />

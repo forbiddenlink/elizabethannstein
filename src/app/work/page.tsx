@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
-import { StarryBackground } from '@/components/ui/StarryBackground'
 import { WorkPageClient } from '@/components/work/WorkPageClient'
 import { SITE, STATS } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
@@ -43,20 +42,21 @@ export default function WorkPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteHeader />
-      <main className="min-h-screen overflow-auto px-6 py-28 relative flex justify-center">
+      <div className="editorial">
         {/* Skip Link for Accessibility */}
         <a
           href="#work-content"
           suppressHydrationWarning
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-medium"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded"
         >
           Skip to projects
         </a>
-        <StarryBackground />
-        <WorkPageClient galaxies={galaxies} />
-      </main>
-      <SiteFooter />
+        <SiteHeader />
+        <main id="work-content" className="eWrap">
+          <WorkPageClient galaxies={galaxies} />
+        </main>
+        <SiteFooter />
+      </div>
     </>
   )
 }

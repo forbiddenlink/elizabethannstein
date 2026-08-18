@@ -1,9 +1,32 @@
 export default function Loading() {
   return (
-    <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-[50]">
-      <div className="w-48 max-w-full">
-        <div className="h-0.5 overflow-hidden rounded-full bg-white/[0.08]">
-          <div className="h-full w-1/3 rounded-full bg-[var(--color-text-primary)] animate-[shimmer-slide_1.5s_ease-in-out_infinite]" />
+    <div
+      className="editorial"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 50,
+      }}
+    >
+      <div style={{ width: '12rem', maxWidth: '80%' }}>
+        <div
+          style={{
+            height: '2px',
+            overflow: 'hidden',
+            background: 'var(--le-rule)',
+          }}
+        >
+          <div
+            style={{
+              height: '100%',
+              width: '33%',
+              background: 'var(--le-accent)',
+              animation: 'shimmer-slide 1.5s ease-in-out infinite',
+            }}
+          />
         </div>
       </div>
     </div>

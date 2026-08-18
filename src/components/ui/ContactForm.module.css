@@ -1,0 +1,109 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.label {
+  font-family: var(--le-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+}
+.input,
+.textarea {
+  width: 100%;
+  font-family: var(--le-display);
+  font-size: 1.05rem;
+  color: var(--le-ink);
+  background: var(--le-paper);
+  border: 0;
+  border-bottom: 1.5px solid var(--le-rule-strong);
+  padding: 0.6rem 0.1rem;
+  transition: border-color 0.2s var(--le-ease);
+}
+.textarea {
+  resize: vertical;
+  min-height: 8rem;
+  line-height: 1.5;
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--le-muted);
+  opacity: 0.7;
+}
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--le-accent);
+}
+.count {
+  align-self: flex-end;
+  font-family: var(--le-mono);
+  font-size: 0.66rem;
+  color: var(--le-muted);
+  font-variant-numeric: tabular-nums;
+}
+.countWarn {
+  color: var(--le-cat-experimental);
+}
+.submit {
+  justify-content: center;
+  width: 100%;
+  min-height: 3.1rem;
+}
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.note {
+  font-family: var(--le-sans);
+  font-size: 0.75rem;
+  color: var(--le-muted);
+  text-align: center;
+}
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in oklab, var(--le-cat-creative) 45%, var(--le-rule));
+  background: color-mix(in oklab, var(--le-cat-creative) 8%, var(--le-paper));
+  color: var(--le-cat-creative);
+  font-family: var(--le-sans);
+  font-size: 0.85rem;
+}
+.success {
+  padding: 2.2rem 1.5rem;
+  border: 1px solid var(--le-rule-strong);
+  background: var(--le-paper-2);
+}
+.successTitle {
+  font-family: var(--le-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0.4rem 0 0.4rem;
+}
+.successText {
+  font-family: var(--le-sans);
+  font-size: 0.9rem;
+  color: var(--le-ink-2);
+}
+.successAgain {
+  margin-top: 1.2rem;
+  font-family: var(--le-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--le-accent-ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}

@@ -4,22 +4,21 @@ import { useMemo } from 'react'
 
 interface ProjectPlaceholderProps {
   title: string
-  color: string
+  /** Retained for API compatibility; the editorial placeholder uses paper tokens, not galaxy hues. */
+  color?: string
   className?: string
 }
 
-// Generate a seeded random number for consistent patterns
+// Seeded random for a stable, per-project pattern (no hydration mismatch).
 function seededRandom(seed: number) {
   const x = Math.sin(seed * 9999) * 10000
   return x - Math.floor(x)
 }
 
-// Hash a string to a number for seeding
 function hashString(str: string): number {
   let hash = 0
   for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i)
-    hash = (hash << 5) - hash + char
+    hash = (hash << 5) - hash + str.charCodeAt(i)
     hash = hash & hash
   }
   return Math.abs(hash)
@@ -27,71 +26,55 @@ function hashString(str: string): number {
 
 const r4 = (n: number) => Math.round(n * 10000) / 10000
 
-export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlaceholderProps) {
+export function ProjectPlaceholder({ title, className = '' }: ProjectPlaceholderProps) {
   const seed = hashString(title)
+  const initial = title.trim().charAt(0).toUpperCase()
 
-  const dots = useMemo(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: r4(seededRandom(seed + i * 1) * 100),
-      y: r4(seededRandom(seed + i * 2) * 100),
-      size: r4(seededRandom(seed + i * 3) * 4 + 1),
-      opacity: r4(seededRandom(seed + i * 4) * 0.3 + 0.1),
-    }))
-  }, [seed])
+  const dots = useMemo(
+    () =>
+      Array.from({ length: 26 }, (_, i) => ({
+        id: i,
+        x: r4(seededRandom(seed + i) * 100),
+        y: r4(seededRandom(seed + i * 2) * 100),
+        size: r4(seededRandom(seed + i * 3) * 3 + 1),
+        opacity: r4(seededRandom(seed + i * 4) * 0.18 + 0.06),
+      })),
+    [seed]
+  )
 
-  // Generate grid lines
-  const lines = useMemo(() => {
-    return Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      offset: r4(seededRandom(seed + i * 10) * 100),
-      isHorizontal: seededRandom(seed + i * 11) > 0.5,
-    }))
-  }, [seed])
+  const lines = useMemo(
+    () =>
+      Array.from({ length: 7 }, (_, i) => ({
+        id: i,
+        offset: r4(seededRandom(seed + i * 10) * 100),
+        isHorizontal: seededRandom(seed + i * 11) > 0.5,
+      })),
+    [seed]
+  )
 
   return (
-    <div className={`absolute inset-0 overflow-hidden ${className}`}>
-      {/* Base gradient */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `radial-gradient(ellipse at 30% 20%, ${color}40 0%, transparent 50%),
-                       radial-gradient(ellipse at 70% 80%, ${color}30 0%, transparent 50%),
-                       linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(20,10,30,0.95) 100%)`,
-        }}
-      />
-
-      {/* Grid pattern */}
-      <svg className="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="none">
-        {lines.map((line) =>
-          line.isHorizontal ? (
-            <line
-              key={line.id}
-              x1="0%"
-              y1={`${line.offset}%`}
-              x2="100%"
-              y2={`${line.offset}%`}
-              stroke={color}
-              strokeWidth="0.5"
-              strokeOpacity="0.3"
-            />
-          ) : (
-            <line
-              key={line.id}
-              x1={`${line.offset}%`}
-              y1="0%"
-              x2={`${line.offset}%`}
-              y2="100%"
-              stroke={color}
-              strokeWidth="0.5"
-              strokeOpacity="0.3"
-            />
-          )
-        )}
+    <div
+      className={`absolute inset-0 overflow-hidden ${className}`}
+      style={{ background: 'var(--le-paper-2)' }}
+    >
+      {/* technical grid, hairline ink */}
+      <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" aria-hidden="true">
+        {lines.map((line) => (
+          <line
+            key={line.id}
+            x1={line.isHorizontal ? '0%' : `${line.offset}%`}
+            y1={line.isHorizontal ? `${line.offset}%` : '0%'}
+            x2={line.isHorizontal ? '100%' : `${line.offset}%`}
+            y2={line.isHorizontal ? `${line.offset}%` : '100%'}
+            stroke="var(--le-ink)"
+            strokeWidth="0.5"
+            strokeOpacity="0.1"
+          />
+        ))}
       </svg>
 
-      {/* Scatter dots */}
-      <div className="absolute inset-0">
+      {/* scatter dots in ink */}
+      <div className="absolute inset-0" aria-hidden="true">
         {dots.map((dot) => (
           <div
             key={dot.id}
@@ -101,20 +84,32 @@ export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlac
               top: `${dot.y}%`,
               width: dot.size,
               height: dot.size,
-              backgroundColor: color,
+              backgroundColor: 'var(--le-ink)',
               opacity: dot.opacity,
             }}
           />
         ))}
       </div>
 
-      {/* Corner accent */}
-      <div
-        className="absolute top-0 right-0 w-32 h-32"
+      {/* large serif initial watermark */}
+      <span
+        aria-hidden="true"
         style={{
-          background: `radial-gradient(circle at 100% 0%, ${color}20 0%, transparent 70%)`,
+          position: 'absolute',
+          right: '4%',
+          bottom: '-8%',
+          fontFamily: 'var(--le-display)',
+          fontSize: 'clamp(8rem, 26vw, 20rem)',
+          fontWeight: 500,
+          lineHeight: 1,
+          color: 'var(--le-accent)',
+          opacity: 0.1,
+          letterSpacing: '-0.04em',
+          userSelect: 'none',
         }}
-      />
+      >
+        {initial}
+      </span>
     </div>
   )
 }

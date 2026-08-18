@@ -1,69 +1,14 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ExternalLink, Search, X } from 'lucide-react'
-import Image from 'next/image'
+import { Search, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { GalaxyFilter } from '@/components/ui/GalaxyFilter'
-import { ProjectBadges } from '@/components/ui/ProjectBadges'
-import { ProjectPlaceholder } from '@/components/ui/ProjectPlaceholder'
 import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
-import { ScrollReveal } from '@/components/ui/ScrollReveal'
-import { GitHubIcon } from '@/components/ui/SocialIcons'
-import { SplitWords } from '@/components/ui/SplitText'
-import { TiltCard } from '@/components/ui/TiltCard'
-import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import { countProofCatalogProjects, isProofCatalogProject } from '@/lib/proofLayer'
 import type { Galaxy, Project } from '@/lib/types'
 import { cn, formatDateRange } from '@/lib/utils'
-
-// Stagger animation variants for project cards
-// Cap delay at 0.3s so filter changes don't create long waits
-const cardVariants = {
-  hidden: { opacity: 0, y: 12, filter: 'blur(3px)' },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: {
-      delay: Math.min(i * 0.04, 0.3),
-      duration: 0.3,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  }),
-}
-
-function ProjectLinks({ project }: Readonly<{ project: Project }>) {
-  if (!project.links) return null
-  const hasLive = !!project.links.live
-  const hasGithub = !!project.links.github
-  if (!hasLive && !hasGithub) return null
-
-  return (
-    <div className="flex items-center gap-2">
-      {hasLive && (
-        <span
-          className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-success/10 text-success text-[10px] border border-success/20 group-hover:bg-success/20 group-hover:border-success/30 transition-all"
-          title="Live demo available"
-        >
-          <ExternalLink className="w-3 h-3" />
-          <span className="hidden sm:inline">Live demo</span>
-        </span>
-      )}
-      {hasGithub && (
-        <span
-          className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-purple/10 text-accent-purple text-[10px] border border-accent-purple/20 group-hover:bg-accent-purple/20 group-hover:border-accent-purple/30 transition-all"
-          title="Source code available"
-        >
-          <GitHubIcon className="w-3 h-3" />
-          <span className="hidden sm:inline">Source code</span>
-        </span>
-      )}
-    </div>
-  )
-}
+import styles from './WorkPageClient.module.css'
 
 interface WorkPageClientProps {
   galaxies: Galaxy[]
@@ -84,6 +29,17 @@ const SORT_OPTIONS: { value: SortOrder; label: string }[] = [
   { value: 'newest', label: 'Newest first' },
   { value: 'oldest', label: 'Oldest first' },
 ]
+
+// Maps a galaxy id to the shared editorial category-hue token (see src/styles/editorial.css).
+// The "design" galaxy reads as "creative" in the editorial palette.
+const CATEGORY_DOT: Record<string, string> = {
+  enterprise: '--le-cat-enterprise',
+  ai: '--le-cat-ai',
+  fullstack: '--le-cat-fullstack',
+  devtools: '--le-cat-devtools',
+  design: '--le-cat-creative',
+  experimental: '--le-cat-experimental',
+}
 
 function parseYear(dateRange: string | undefined, position: 'first' | 'last'): number {
   if (!dateRange) return 0
@@ -123,6 +79,21 @@ function normalizeGalaxyFilter(filter: string | null, galaxies: Galaxy[]): strin
 
   const normalized = aliases[filter.toLowerCase()] ?? filter.toLowerCase()
   return galaxies.some((galaxy) => galaxy.id === normalized) ? normalized : null
+}
+
+/** Status label + whether it should read as "shipped" (live dot) vs. neutral. */
+function getRowStatus(project: Project): { label: string; tone: 'live' | 'progress' | 'neutral' } {
+  if (project.links?.live) return { label: 'live', tone: 'live' }
+  if (project.tags.includes('npm')) return { label: 'npm', tone: 'live' }
+  if (project.status === 'in-progress') return { label: 'in progress', tone: 'progress' }
+  if (project.status === 'archived') return { label: 'archived', tone: 'neutral' }
+  return { label: 'in production', tone: 'neutral' }
+}
+
+function orgLine(project: Project): string {
+  const parts = [project.company, project.role].filter(Boolean)
+  const dated = formatDateRange(project.dateRange)
+  return dated ? `${parts.join(' · ')} · ${dated}` : parts.join(' · ')
 }
 
 export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
@@ -210,52 +181,32 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
   ])
 
   const allProjects = useMemo(() => galaxies.flatMap((g) => g.projects), [galaxies])
+  const galaxyById = useMemo(() => new Map(galaxies.map((g) => [g.id, g])), [galaxies])
   const proofCatalogCount = useMemo(() => countProofCatalogProjects(allProjects), [allProjects])
 
-  const filteredGalaxies = useMemo(() => {
-    let filtered = selectedGalaxy ? galaxies.filter((g) => g.id === selectedGalaxy) : galaxies
+  const filteredProjects = useMemo(() => {
+    let list = allProjects
+
+    if (selectedGalaxy) {
+      list = list.filter((p) => p.galaxy === selectedGalaxy)
+    }
 
     // Proof catalog: flagship + production tiers (see proofLayer)
     if (showProofCatalog) {
-      filtered = filtered
-        .map((galaxy) => ({
-          ...galaxy,
-          projects: galaxy.projects.filter(isProofCatalogProject),
-        }))
-        .filter((g) => g.projects.length > 0)
+      list = list.filter(isProofCatalogProject)
     }
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered
-        .map((galaxy) => ({
-          ...galaxy,
-          projects: galaxy.projects.filter((project) => projectMatchesQuery(project, query)),
-        }))
-        .filter((g) => g.projects.length > 0)
+      list = list.filter((project) => projectMatchesQuery(project, query))
     }
 
     if (selectedTag) {
-      filtered = filtered
-        .map((galaxy) => ({
-          ...galaxy,
-          projects: galaxy.projects.filter((p) => p.tags.includes(selectedTag)),
-        }))
-        .filter((g) => g.projects.length > 0)
+      list = list.filter((p) => p.tags.includes(selectedTag))
     }
 
-    // Apply sort within each galaxy's projects
-    filtered = filtered.map((galaxy) => ({
-      ...galaxy,
-      projects: sortProjects(galaxy.projects, sortOrder),
-    }))
-
-    return filtered
-  }, [galaxies, selectedGalaxy, searchQuery, showProofCatalog, selectedTag, sortOrder])
-
-  const projectCount = useMemo(() => {
-    return filteredGalaxies.reduce((acc, g) => acc + g.projects.length, 0)
-  }, [filteredGalaxies])
+    return sortProjects(list, sortOrder)
+  }, [allProjects, selectedGalaxy, showProofCatalog, searchQuery, selectedTag, sortOrder])
 
   const missionControl = useMemo(() => {
     const liveSystems = allProjects.filter((p) => p.links?.live).length
@@ -281,592 +232,241 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
       .map(([tag]) => tag)
   }, [allProjects])
 
-  return (
-    <div id="work-content" className="max-w-7xl w-full mx-auto">
-      {/* Header */}
-      <header className="mb-16 md:mb-20">
-        <ScrollReveal direction="up" delay={0.2}>
-          <div className="page-hero-block">
-            <p className="page-hero-kicker">Project index</p>
-            <h1 className="page-hero-title text-3xl md:text-5xl lg:text-6xl mb-5">
-              <SplitWords delay={0.3}>Work & case studies</SplitWords>
-            </h1>
-          </div>
-        </ScrollReveal>
-        <ScrollReveal direction="up" delay={0.4}>
-          <p className="text-base md:text-lg text-white/(--text-opacity-tertiary) max-w-2xl leading-relaxed">
-            {showProofCatalog ? (
-              <>
-                <span className="text-white/(--text-opacity-primary) font-medium">
-                  {projectCount} proof-tier projects
-                </span>{' '}
-                : flagship work and production systems worth a recruiter&apos;s time.{' '}
-                <button
-                  type="button"
-                  onClick={() => setShowProofCatalog(false)}
-                  className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors"
-                >
-                  Full catalog ({allProjects.length}) →
-                </button>
-              </>
-            ) : (
-              <>
-                <span className="text-white/(--text-opacity-primary) font-medium">
-                  {projectCount} projects
-                </span>{' '}
-                spanning enterprise applications, AI integration, full-stack development, and
-                creative experiments.
-              </>
-            )}
-          </p>
-        </ScrollReveal>
-        <ScrollReveal direction="up" delay={0.6}>
-          <div className="mt-8">
-            <RandomProjectButton projects={allProjects} />
-          </div>
-        </ScrollReveal>
+  function resetFilters() {
+    setSearchQuery('')
+    setSelectedGalaxy(null)
+    setShowProofCatalog(false)
+    setSelectedTag(null)
+  }
 
-        <ScrollReveal direction="up" delay={0.7}>
-          <section className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-white/60">
-            <span className="font-semibold uppercase tracking-[0.18em] text-white/45">
-              At a glance
-            </span>
-            <span>
-              <strong className="text-white/90">{allProjects.length}</strong> systems
-            </span>
-            <span className="w-px h-3 bg-white/15" aria-hidden="true" />
-            <span>
-              <strong className="text-white/90">{missionControl.liveSystems}</strong> live
-            </span>
-            <span className="w-px h-3 bg-white/15" aria-hidden="true" />
-            <span>
-              <strong className="text-cyan-200">{missionControl.aiSystems}</strong> AI
-            </span>
-            <span className="w-px h-3 bg-white/15" aria-hidden="true" />
-            <span>
-              <strong className="text-orange-200">{missionControl.enterpriseSystems}</strong>{' '}
-              enterprise
-            </span>
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedGalaxy('enterprise')
-                setShowProofCatalog(true)
-              }}
-              className="ml-2 px-2.5 py-1 rounded-full text-[11px] border border-orange-300/30 bg-orange-500/15 text-orange-200 hover:bg-orange-500/25 transition-colors"
-            >
-              Enterprise →
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedGalaxy('ai')
-                setShowProofCatalog(true)
-              }}
-              className="px-2.5 py-1 rounded-full text-[11px] border border-cyan-300/30 bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 transition-colors"
-            >
-              AI →
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedGalaxy(null)
-                setShowProofCatalog(false)
-              }}
-              className="px-2.5 py-1 rounded-full text-[11px] border border-purple-300/30 bg-purple-500/15 text-purple-200 hover:bg-purple-500/25 transition-colors"
-            >
-              Full universe →
-            </button>
-          </section>
-        </ScrollReveal>
+  return (
+    <>
+      <header className="eHeader">
+        <p className="eEyebrow">Project index</p>
+        <h1 className="eTitle">
+          Work &amp; <em>case studies</em>
+        </h1>
+        <p className="eLede" style={{ marginTop: '1.2rem' }}>
+          {showProofCatalog ? (
+            <>
+              <strong>{filteredProjects.length} proof-tier projects</strong>: flagship work and
+              production systems worth a recruiter&apos;s time.{' '}
+              <button
+                type="button"
+                className={styles.inlineLink}
+                onClick={() => setShowProofCatalog(false)}
+              >
+                Full catalog ({allProjects.length}) &rarr;
+              </button>
+            </>
+          ) : (
+            <>
+              <strong>{filteredProjects.length} projects</strong> spanning enterprise applications,
+              AI integration, full-stack development, and creative experiments.
+            </>
+          )}
+        </p>
+
+        <div className={styles.headerActions}>
+          <RandomProjectButton projects={allProjects} className="eBtnGhost" />
+        </div>
+
+        <div className={styles.glance}>
+          <span className="eLabel">At a glance</span>
+          <span className={styles.glanceItem}>
+            <b className="eMono">{allProjects.length}</b> systems
+          </span>
+          <span className={styles.glanceDivider} aria-hidden="true" />
+          <span className={styles.glanceItem}>
+            <b className="eMono">{missionControl.liveSystems}</b> live
+          </span>
+          <span className={styles.glanceDivider} aria-hidden="true" />
+          <span className={styles.glanceItem}>
+            <b className="eMono">{missionControl.aiSystems}</b> AI
+          </span>
+          <span className={styles.glanceDivider} aria-hidden="true" />
+          <span className={styles.glanceItem}>
+            <b className="eMono">{missionControl.enterpriseSystems}</b> enterprise
+          </span>
+        </div>
       </header>
 
-      {/* Search and Filter */}
-      <ScrollReveal direction="up" delay={0.7}>
-        <div className="mb-12 space-y-4">
-          {/* Search Input */}
-          <div className="relative max-w-md">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Search projects, technologies…"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="input-glass w-full pl-11 pr-16"
-              aria-label="Search projects"
-            />
-            {searchQuery ? (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
-                aria-label="Clear search"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            ) : (
-              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/20 bg-white/5 text-[10px] font-mono text-white/30">
-                /
-              </kbd>
-            )}
-          </div>
-
-          {/* Featured Toggle + Galaxy Filter */}
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Featured Only Toggle */}
-            <div className="flex items-center gap-2 p-1 bg-white/5 rounded-lg border border-white/10">
-              <button
-                type="button"
-                onClick={() => setShowProofCatalog(true)}
-                className={cn(
-                  'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
-                  showProofCatalog
-                    ? 'bg-purple-600 text-white shadow-lg'
-                    : 'text-white/60 hover:text-white/80 hover:bg-white/5'
-                )}
-              >
-                <span className="flex items-center gap-2">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  Proof ({proofCatalogCount})
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowProofCatalog(false)}
-                className={cn(
-                  'min-h-9 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
-                  showProofCatalog
-                    ? 'text-white/60 hover:text-white/80 hover:bg-white/5'
-                    : 'bg-white/10 text-white shadow-lg'
-                )}
-              >
-                Full catalog ({allProjects.length})
-              </button>
-            </div>
-
-            <GalaxyFilter
-              galaxies={galaxies.map((g) => ({ id: g.id, name: g.name, color: g.color }))}
-              selectedGalaxy={selectedGalaxy}
-              onFilterChange={setSelectedGalaxy}
-            />
-
-            {/* Sort Dropdown */}
-            <div className="relative">
-              <label htmlFor="sort-select" className="sr-only">
-                Sort projects
-              </label>
-              <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-                />
-              </svg>
-              <select
-                id="sort-select"
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value as SortOrder)}
-                className="appearance-none pl-8 pr-8 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-all cursor-pointer"
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value} className="bg-neutral-900 text-white">
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-              <svg
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-          </div>
-
-          {/* Tech Tag Filter */}
-          {!searchQuery.trim() && (
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              {selectedTag && (
-                <button
-                  type="button"
-                  onClick={() => setSelectedTag(null)}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-medium hover:bg-purple-500/30 transition-all"
-                >
-                  <X className="w-3 h-3" />
-                  {selectedTag}
-                </button>
-              )}
-              {topTags
-                .filter((tag) => tag !== selectedTag)
-                .map((tag) => (
-                  <button
-                    type="button"
-                    key={tag}
-                    onClick={() => setSelectedTag(tag)}
-                    className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/70 text-xs hover:bg-white/10 hover:text-white/90 hover:border-white/20 transition-all"
-                  >
-                    {tag}
-                  </button>
-                ))}
-            </div>
+      <section className={styles.filters} aria-label="Filter and sort projects">
+        <div className={styles.searchWrap}>
+          <Search className={styles.searchIcon} aria-hidden="true" />
+          <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Search projects, technologies…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={styles.searchInput}
+            aria-label="Search projects"
+          />
+          {searchQuery ? (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className={styles.clearBtn}
+              aria-label="Clear search"
+            >
+              <X className={styles.clearIcon} />
+            </button>
+          ) : (
+            <kbd className={styles.kbd}>/</kbd>
           )}
         </div>
-      </ScrollReveal>
 
-      {/* No Results Message */}
-      {filteredGalaxies.length === 0 && (
-        <div className="text-center py-16">
-          <p className="text-white/(--text-opacity-tertiary) text-lg mb-2">
-            No projects found for "{searchQuery}"
-          </p>
-          <p className="text-white/(--text-opacity-muted) text-sm mb-6">
-            Try one of these popular searches:
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
-            {['React', 'AI', 'TypeScript', 'Next.js', 'Full-stack', 'Enterprise'].map((term) => (
+        <div className={styles.filterRow}>
+          <div className={styles.toggle} role="group" aria-label="Catalog view">
+            <button
+              type="button"
+              aria-pressed={showProofCatalog}
+              className={cn(styles.toggleBtn, showProofCatalog && styles.toggleBtnActive)}
+              onClick={() => setShowProofCatalog(true)}
+            >
+              Proof <span className="eMono">({proofCatalogCount})</span>
+            </button>
+            <button
+              type="button"
+              aria-pressed={!showProofCatalog}
+              className={cn(styles.toggleBtn, !showProofCatalog && styles.toggleBtnActive)}
+              onClick={() => setShowProofCatalog(false)}
+            >
+              Full catalog <span className="eMono">({allProjects.length})</span>
+            </button>
+          </div>
+
+          <div className={styles.chips} role="group" aria-label="Filter by category">
+            <button
+              type="button"
+              aria-pressed={selectedGalaxy === null}
+              className={cn(styles.chip, selectedGalaxy === null && styles.chipActive)}
+              onClick={() => setSelectedGalaxy(null)}
+            >
+              All
+            </button>
+            {galaxies.map((galaxy) => (
               <button
                 type="button"
-                key={term}
-                onClick={() => setSearchQuery(term)}
-                className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/20 transition-all text-sm"
+                key={galaxy.id}
+                aria-pressed={selectedGalaxy === galaxy.id}
+                className={cn(styles.chip, selectedGalaxy === galaxy.id && styles.chipActive)}
+                onClick={() => setSelectedGalaxy(galaxy.id)}
               >
-                {term}
+                <span
+                  className={styles.chipDot}
+                  aria-hidden="true"
+                  style={{ background: `var(${CATEGORY_DOT[galaxy.id] ?? '--le-muted'})` }}
+                />
+                {galaxy.name}
               </button>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              setSearchQuery('')
-              setSelectedGalaxy(null)
-              setShowProofCatalog(false)
-              setSelectedTag(null)
-            }}
-            className="px-4 py-2 bg-surface-3 border border-white/(--border-opacity-strong) rounded-lg text-white/(--text-opacity-secondary) hover:bg-surface-4 hover:text-white transition-all text-sm"
-          >
-            Clear all filters
+
+          <div className={styles.sortWrap}>
+            <label htmlFor="sort-select" className="sr-only">
+              Sort projects
+            </label>
+            <select
+              id="sort-select"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as SortOrder)}
+              className={styles.sortSelect}
+            >
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {!searchQuery.trim() && topTags.length > 0 && (
+          <div className={styles.tagRow}>
+            {selectedTag && (
+              <button
+                type="button"
+                onClick={() => setSelectedTag(null)}
+                className={cn(styles.tag, styles.tagActive)}
+              >
+                <X className={styles.tagIcon} aria-hidden="true" />
+                {selectedTag}
+              </button>
+            )}
+            {topTags
+              .filter((tag) => tag !== selectedTag)
+              .map((tag) => (
+                <button
+                  type="button"
+                  key={tag}
+                  onClick={() => setSelectedTag(tag)}
+                  className={styles.tag}
+                >
+                  {tag}
+                </button>
+              ))}
+          </div>
+        )}
+      </section>
+
+      {filteredProjects.length === 0 ? (
+        <div className={styles.empty}>
+          <p className="eLede">
+            No projects match{searchQuery.trim() ? ` “${searchQuery.trim()}”` : ' these filters'}.
+          </p>
+          <button type="button" className="eBtnGhost" onClick={resetFilters}>
+            Reset filters
           </button>
         </div>
-      )}
+      ) : (
+        <div className={styles.list} role="list" aria-label="Projects">
+          {filteredProjects.map((project, idx) => {
+            const galaxy = galaxyById.get(project.galaxy)
+            const status = getRowStatus(project)
+            const revealClass =
+              idx < 5 ? `eReveal eR${idx + 1}` : idx < 8 ? 'eReveal eR5' : undefined
 
-      {/* Projects by Galaxy - Bento Grid */}
-      {filteredGalaxies.map((galaxy, galaxyIdx) => {
-        const featured = galaxy.projects.filter((p) => p.featured)
-        const regular = galaxy.projects.filter((p) => !p.featured)
-
-        return (
-          <section key={galaxy.id} className="mb-20">
-            <ScrollReveal direction="up" delay={galaxyIdx * 0.1}>
-              <div className="relative mb-8 pb-3">
-                {/* Nebula ambient glow behind the header */}
-                <div
-                  className="absolute -left-4 top-1/2 -translate-y-1/2 w-48 h-12 opacity-15 blur-3xl rounded-full pointer-events-none"
-                  style={{ backgroundColor: galaxy.color }}
-                  aria-hidden="true"
-                />
-                <div className="relative flex items-center gap-3">
-                  {/* Animated pulsing star indicator */}
-                  <span className="relative flex h-3 w-3 shrink-0" aria-hidden="true">
-                    <span
-                      className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
-                      style={{ backgroundColor: galaxy.color }}
-                    />
-                    <span
-                      className="relative inline-flex rounded-full h-3 w-3"
-                      style={{ backgroundColor: galaxy.color }}
-                    />
+            return (
+              <div key={project.id} role="listitem" className={styles.row}>
+                <Link href={`/work/${project.id}`} className={cn(styles.rowLink, revealClass)}>
+                  <span className={styles.num}>{String(idx + 1).padStart(2, '0')}</span>
+                  <span>
+                    <span className={styles.title}>{project.title}</span>
+                    <span className={styles.org}>{orgLine(project)}</span>
                   </span>
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-xl font-bold text-white leading-tight">{galaxy.name}</h2>
-                    <p className="text-xs text-white/40 mt-0.5">{galaxy.description}</p>
-                  </div>
-                  {/* Systems count badge */}
-                  <span
-                    className="shrink-0 text-[11px] font-mono px-2.5 py-1 rounded-full border"
-                    style={{
-                      color: galaxy.color,
-                      borderColor: `${galaxy.color}30`,
-                      backgroundColor: `${galaxy.color}10`,
-                    }}
-                  >
-                    {galaxy.projects.length} {galaxy.projects.length === 1 ? 'system' : 'systems'}
-                  </span>
-                </div>
-                {/* Galaxy-colored gradient separator */}
-                <div
-                  className="mt-4 h-px opacity-25"
-                  style={{
-                    background: `linear-gradient(90deg, ${galaxy.color}, ${galaxy.color}40, transparent)`,
-                  }}
-                  aria-hidden="true"
-                />
-              </div>
-            </ScrollReveal>
-
-            {/* Bento Grid with stagger animation */}
-            <motion.div
-              className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
-            >
-              {/* Featured projects span 2 columns */}
-              {featured.map((project, idx) => {
-                const screenshotPath = PROJECT_SCREENSHOTS[project.id]
-                const isHero = idx === 0 && featured.length > 0
-
-                // MAGAZINE-STYLE HERO CARD
-                if (isHero) {
-                  return (
-                    <motion.div
-                      key={project.id}
-                      custom={idx}
-                      variants={cardVariants}
-                      className="md:col-span-2 md:row-span-1 h-full min-h-[320px] md:min-h-[400px]"
-                    >
-                      <Link
-                        href={`/work/${project.id}`}
-                        className="group block h-full rounded-lg overflow-hidden relative border-2 border-white/10 hover:border-white/25 transition-all duration-500"
-                      >
-                        {/* Background with screenshot or generative placeholder */}
-                        <div className="absolute inset-0">
-                          {screenshotPath ? (
-                            <Image
-                              src={screenshotPath}
-                              alt=""
-                              fill
-                              className="object-cover opacity-30 group-hover:opacity-40 group-hover:scale-105 transition-all duration-500"
-                            />
-                          ) : (
-                            <ProjectPlaceholder
-                              title={project.title}
-                              color={project.color}
-                              className="opacity-60 group-hover:opacity-80 transition-opacity duration-500"
-                            />
-                          )}
-
-                          {/* Overlay gradient (dark at bottom for text readability) */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
-                        </div>
-
-                        {/* Content */}
-                        <div className="relative z-10 flex flex-col justify-between h-full p-8">
-                          {/* Badges at top */}
-                          <div className="flex justify-end">
-                            <ProjectBadges project={project} />
-                          </div>
-
-                          {/* Title + Description at bottom */}
-                          <div>
-                            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4 group-hover:text-gradient transition-all">
-                              {project.title}
-                            </h3>
-                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 mb-6 line-clamp-3 md:line-clamp-2 leading-relaxed">
-                              {project.description}
-                            </p>
-
-                            {/* Tags */}
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              {project.tags.slice(0, 3).map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="px-2.5 py-1 text-[10px] md:text-xs font-medium rounded-lg bg-white/10 border border-white/20"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-
-                            {/* CTA */}
-                            <div className="flex items-center gap-3 text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider text-white/60 group-hover:text-white transition-colors px-3 py-2 bg-white/5 rounded-lg group-hover:bg-white/10 group-hover:shadow-lg">
-                              <span>See Case Study</span>
-                              <svg
-                                className="w-5 h-5 transform group-hover:translate-x-2 transition-transform"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  )
-                }
-
-                // REGULAR FEATURED CARDS (idx > 0)
-                return (
-                  <motion.div
-                    key={project.id}
-                    custom={idx}
-                    variants={cardVariants}
-                    className="h-full"
-                  >
-                    <TiltCard className="h-full">
-                      <Link
-                        href={`/work/${project.id}`}
-                        className="group block h-full rounded-xl border transition-all duration-300 relative overflow-hidden p-5 border-white/10 bg-linear-to-br from-white/3 to-transparent hover:border-white/25 hover:from-white/8 hover:to-white/2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30"
-                        style={{ '--glow-color': `${galaxy.color}30` } as React.CSSProperties}
-                      >
-                        {/* Accent border line at top */}
-                        <div
-                          className="absolute top-0 left-0 right-0 h-0.5 opacity-60 group-hover:opacity-100 transition-opacity"
+                  <span className={styles.desc}>{project.description}</span>
+                  <span className={styles.status}>
+                    <span className={styles.statusLine}>
+                      <span
+                        className={cn(
+                          styles.statusDot,
+                          status.tone === 'live' && styles.statusDotLive,
+                          status.tone === 'progress' && styles.statusDotProgress
+                        )}
+                      />
+                      <span className={styles.statusLabel}>{status.label}</span>
+                    </span>
+                    {galaxy && (
+                      <span className={styles.catLine}>
+                        <span
+                          className={styles.catDot}
+                          aria-hidden="true"
                           style={{
-                            background: `linear-gradient(90deg, transparent, ${galaxy.color}, transparent)`,
+                            background: `var(${CATEGORY_DOT[galaxy.id] ?? '--le-muted'})`,
                           }}
                         />
-
-                        <div className="mb-3 flex-1">
-                          <span
-                            className="inline-block px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider rounded mb-2 shrink-0"
-                            style={{
-                              backgroundColor: `${galaxy.color}30`,
-                              color: galaxy.color,
-                              border: `1px solid ${galaxy.color}50`,
-                              boxShadow: `0 0 12px ${galaxy.color}20`,
-                            }}
-                          >
-                            ⭐ Featured
-                          </span>
-                        </div>
-                        <div>
-                          <h3
-                            className="text-base md:text-lg font-semibold transition-colors mb-2"
-                            style={{ color: 'white' }}
-                          >
-                            <span className="group-hover:bg-linear-to-r group-hover:from-white group-hover:to-white/70 group-hover:bg-clip-text group-hover:text-transparent transition-all">
-                              {project.title}
-                            </span>
-                          </h3>
-                        </div>
-
-                        <p className="text-xs md:text-sm text-white/(--text-opacity-tertiary) mb-4 line-clamp-3 md:line-clamp-2 leading-relaxed group-hover:text-white/(--text-opacity-secondary) transition-colors">
-                          {project.description}
-                        </p>
-
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                          {project.tags.slice(0, 3).map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-2 py-0.5 text-[10px] rounded transition-all duration-150 hover:scale-105"
-                              style={{
-                                backgroundColor: `${galaxy.color}10`,
-                                color: `${galaxy.color}cc`,
-                                border: `1px solid ${galaxy.color}20`,
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        <div className="flex items-center justify-between text-[11px] text-white/(--text-opacity-muted) font-mono mt-auto pt-3 border-t border-white/(--border-opacity-default)">
-                          <span>{formatDateRange(project.dateRange)}</span>
-                          <ProjectLinks project={project} />
-                        </div>
-                      </Link>
-                    </TiltCard>
-                  </motion.div>
-                )
-              })}
-
-              {/* Regular projects */}
-              {regular.map((project, idx) => (
-                <motion.div
-                  key={project.id}
-                  custom={featured.length + idx}
-                  variants={cardVariants}
-                  className="h-full"
-                >
-                  <TiltCard className="h-full">
-                    <Link
-                      href={`/work/${project.id}`}
-                      className={cn(
-                        'group block h-full rounded-xl border transition-all duration-300 p-4 md:p-5 relative overflow-hidden',
-                        'border-white/10 bg-linear-to-br from-white/2 to-transparent',
-                        'hover:border-white/20 hover:from-white/6 hover:to-white/1',
-                        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30'
-                      )}
-                      style={{ '--glow-color': `${galaxy.color}25` } as React.CSSProperties}
-                    >
-                      {/* Accent top line */}
-                      <div
-                        className="absolute top-0 left-0 right-0 h-px opacity-30 group-hover:opacity-70 transition-opacity"
-                        style={{
-                          background: `linear-gradient(90deg, transparent, ${galaxy.color}, transparent)`,
-                        }}
-                        aria-hidden="true"
-                      />
-                      {/* Subtle accent dot */}
-                      <div
-                        className="absolute top-4 right-4 w-2 h-2 rounded-full opacity-40 group-hover:opacity-80 transition-opacity group-hover:scale-125"
-                        style={{ backgroundColor: galaxy.color }}
-                      />
-
-                      <h3 className="text-sm md:text-lg font-semibold mb-2 text-white group-hover:text-white transition-colors">
-                        {project.title}
-                      </h3>
-
-                      <p className="text-xs md:text-sm text-white/(--text-opacity-tertiary) mb-4 line-clamp-3 md:line-clamp-2 leading-relaxed group-hover:text-white/(--text-opacity-secondary) transition-colors">
-                        {project.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {project.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-0.5 text-[10px] rounded transition-all duration-150 hover:scale-105"
-                            style={{
-                              backgroundColor: `${galaxy.color}08`,
-                              color: `${galaxy.color}aa`,
-                              border: `1px solid ${galaxy.color}15`,
-                            }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                        {project.tags.length > 3 && (
-                          <span className="text-[10px] text-white/(--text-opacity-muted)">
-                            +{project.tags.length - 3}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center justify-between text-[10px] md:text-[11px] text-white/(--text-opacity-muted) font-mono mt-auto pt-3 border-t border-white/(--border-opacity-subtle)">
-                        <span>{formatDateRange(project.dateRange)}</span>
-                        <ProjectLinks project={project} />
-                      </div>
-                    </Link>
-                  </TiltCard>
-                </motion.div>
-              ))}
-            </motion.div>
-          </section>
-        )
-      })}
-    </div>
+                        {galaxy.name}
+                      </span>
+                    )}
+                  </span>
+                </Link>
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </>
   )
 }

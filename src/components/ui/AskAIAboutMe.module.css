@@ -1,0 +1,46 @@
+.band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem 1.4rem;
+}
+.heading {
+  margin: 0;
+  font-family: var(--le-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+}
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--le-rule-strong);
+  border-radius: 2px;
+  font-family: var(--le-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--le-ink);
+  text-decoration: none;
+  transition:
+    background-color 0.2s var(--le-ease),
+    color 0.2s var(--le-ease),
+    border-color 0.2s var(--le-ease);
+}
+.chip:hover {
+  background: var(--le-tint);
+  color: var(--le-accent-ink);
+  border-color: var(--le-accent-ink);
+}

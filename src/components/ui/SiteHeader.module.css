@@ -1,0 +1,107 @@
+/* Editorial masthead — shared across content pages. Tokens (--le-*) resolve from
+   the .editorial ancestor each page wraps its header/main/footer in. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in oklab, var(--le-paper) 88%, transparent);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1.5px solid var(--le-rule-strong);
+}
+.inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.7rem var(--le-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.1rem;
+  text-decoration: none;
+  color: var(--le-ink);
+  font-family: var(--le-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.brand .dot {
+  color: var(--le-accent-ink);
+  font-family: var(--le-display);
+  font-weight: 600;
+  font-size: 1.1em;
+  line-height: 0;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem 0.2rem;
+  font-family: var(--le-sans);
+}
+.live {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 0.6rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--le-live-ink);
+  font-weight: 600;
+}
+@media (min-width: 640px) {
+  .live {
+    display: inline-flex;
+  }
+}
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--le-muted);
+  transition: color 0.2s var(--le-ease);
+}
+.link:hover {
+  color: var(--le-accent-ink);
+}
+.linkActive {
+  color: var(--le-ink);
+}
+.linkActive::after {
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.55rem;
+  height: 1.5px;
+  background: var(--le-accent);
+}
+.toggle {
+  font-family: var(--le-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0 0.4rem;
+  min-height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.toggle:hover {
+  color: var(--le-accent-ink);
+}

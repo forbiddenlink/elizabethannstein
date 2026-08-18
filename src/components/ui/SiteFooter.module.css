@@ -1,0 +1,81 @@
+/* Editorial colophon footer. Tokens resolve from the .editorial page wrapper. */
+.footer {
+  border-top: 1.5px solid var(--le-rule-strong);
+  background: var(--le-paper);
+}
+.inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2.4rem var(--le-gutter) 2.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.hair {
+  height: 1px;
+  background: var(--le-rule);
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem 2.5rem;
+  font-family: var(--le-sans);
+}
+.left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1.1rem;
+  font-size: 0.78rem;
+  color: var(--le-ink-2);
+}
+.left b {
+  color: var(--le-ink);
+  font-weight: 600;
+}
+.sep {
+  color: var(--le-muted);
+}
+.navlink {
+  color: var(--le-muted);
+  text-decoration: none;
+  transition: color 0.2s var(--le-ease);
+}
+.navlink:hover {
+  color: var(--le-accent-ink);
+}
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.right a {
+  color: var(--le-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s var(--le-ease);
+}
+.right a:hover {
+  color: var(--le-accent-ink);
+}
+.workLink {
+  color: var(--le-accent-ink) !important;
+}
+.colophon {
+  font-family: var(--le-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--le-muted);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}

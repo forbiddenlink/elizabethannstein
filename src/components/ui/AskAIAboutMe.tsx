@@ -1,4 +1,5 @@
 import { ASK_AI } from '@/lib/constants'
+import styles from './AskAIAboutMe.module.css'
 
 /**
  * "Ask AI about me" — a small band of deep links that open an AI assistant with a
@@ -10,24 +11,21 @@ export function AskAIAboutMe() {
   const encoded = encodeURIComponent(ASK_AI.prompt)
 
   return (
-    <section
-      aria-labelledby="ask-ai-heading"
-      className="flex flex-col items-center gap-3 text-center"
-    >
-      <h2 id="ask-ai-heading" className="text-white/80 text-[13px] tracking-[0.01em]">
+    <section aria-labelledby="ask-ai-heading" className={styles.band}>
+      <h2 id="ask-ai-heading" className={styles.heading}>
         Curious? Ask an AI about me
       </h2>
-      <ul className="flex flex-wrap items-center justify-center gap-2.5">
+      <ul className={styles.list}>
         {ASK_AI.providers.map(({ label, href }) => (
           <li key={label}>
             <a
               href={href.replace('{q}', encoded)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white/85 transition-colors duration-200 hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+              className={styles.chip}
             >
               {label}
-              <span className="sr-only"> — opens {label} with a prompt about Elizabeth Stein</span>
+              <span className="sr-only">: opens {label} with a prompt about Elizabeth Stein</span>
             </a>
           </li>
         ))}

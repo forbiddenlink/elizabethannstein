@@ -1,10 +1,16 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import styles from './ScrollProgress.module.css'
 
 interface ScrollProgressProps {
   color?: string
   target?: HTMLElement | null
+  /**
+   * Editorial system (/work/[slug]): ignores `color`/tone entirely and renders a thin
+   * cobalt bar in a running head, driven by `--le-*` tokens only (no hardcoded galaxy hex).
+   */
+  editorial?: boolean
 }
 
 function getProgressTone(color?: string): string {
@@ -26,7 +32,7 @@ function getProgressTone(color?: string): string {
   }
 }
 
-export function ScrollProgress({ color, target }: ScrollProgressProps = {}) {
+export function ScrollProgress({ color, target, editorial = false }: ScrollProgressProps = {}) {
   const [scrollProgress, setScrollProgress] = useState(0)
   const tone = getProgressTone(color)
   const roundedProgress = Math.max(0, Math.min(100, Math.round(scrollProgress)))
@@ -55,6 +61,14 @@ export function ScrollProgress({ color, target }: ScrollProgressProps = {}) {
       eventTarget.removeEventListener('scroll', updateScrollProgress)
     }
   }, [target])
+
+  if (editorial) {
+    return (
+      <div className={styles.track} aria-hidden="true">
+        <div className={styles.bar} style={{ transform: `scaleX(${roundedProgress / 100})` }} />
+      </div>
+    )
+  }
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-white/5" aria-hidden="true">
