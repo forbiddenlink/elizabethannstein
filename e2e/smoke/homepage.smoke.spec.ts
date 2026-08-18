@@ -10,6 +10,7 @@
  * - Core UI elements are present
  */
 
+import { argosScreenshot } from '@argos-ci/playwright'
 import { expect, test } from '@playwright/test'
 
 async function gotoHomeReady(page: import('@playwright/test').Page): Promise<void> {
@@ -37,6 +38,7 @@ test.describe('Homepage Smoke Tests', () => {
   test('homepage has correct title', async ({ page }) => {
     await gotoHomeReady(page)
     await expect(page).toHaveTitle(/Elizabeth Stein/)
+    await argosScreenshot(page, 'home-hero')
   })
 
   test('no unhandled JavaScript errors on load', async ({ page }) => {
@@ -64,6 +66,7 @@ test.describe('Homepage Smoke Tests', () => {
     // Should see the search input
     const searchInput = page.locator('.command-palette-modal input[type="text"]')
     await expect(searchInput).toBeVisible({ timeout: 5000 })
+    await argosScreenshot(page, 'command-palette-open')
   })
 
   test('project modal opens via URL deep-link', async ({ page }) => {

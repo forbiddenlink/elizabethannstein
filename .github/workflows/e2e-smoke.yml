@@ -46,6 +46,7 @@ jobs:
         env:
           CI: true
           PLAYWRIGHT_PORT: '3100'
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
 
       - name: Preserve browser results
         if: always()

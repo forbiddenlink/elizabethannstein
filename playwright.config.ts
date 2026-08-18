@@ -2,6 +2,7 @@ import './scripts/qa-preflight.mjs'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { realpathSync } from 'node:fs'
+import { createArgosReporterOptions } from '@argos-ci/playwright/reporter'
 import { defineConfig, devices } from '@playwright/test'
 
 // Give separate worktrees their own port; retain the CI origin used by auth fixtures.
@@ -35,11 +36,18 @@ export default defineConfig({
         ['github'],
         ['html', { open: 'never' }],
         ['json', { outputFile: 'test-results/results.json' }],
+        // Upload screenshots to Argos for visual review (CI only, and only when
+        // ARGOS_TOKEN is configured — skips cleanly otherwise so CI stays green).
+        [
+          '@argos-ci/playwright/reporter',
+          createArgosReporterOptions({ uploadToArgos: !!process.env.ARGOS_TOKEN }),
+        ],
       ]
     : [
         ['list'],
         ['html', { open: 'never' }],
         ['json', { outputFile: 'test-results/results.json' }],
+        ['@argos-ci/playwright/reporter', createArgosReporterOptions({ uploadToArgos: false })],
       ],
 
   use: {
@@ -65,13 +73,19 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         // Consistent viewport for snapshots
         viewport: { width: 1280, height: 720 },
+        // Stabilize font rendering for Argos screenshots (Argos recommended flags)
+        launchOptions: { args: ['--disable-lcd-text', '--font-render-hinting=none'] },
       },
     },
     // Smoke tests run first on Chrome only
     {
       name: 'smoke',
       testMatch: /.*\.smoke\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        // Stabilize font rendering for Argos screenshots (Argos recommended flags)
+        launchOptions: { args: ['--disable-lcd-text', '--font-render-hinting=none'] },
+      },
     },
     // Regression tests on multiple browsers
     {

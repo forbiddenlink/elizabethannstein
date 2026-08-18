@@ -1,3 +1,4 @@
+import { argosScreenshot } from '@argos-ci/playwright'
 import { expect, test } from '@playwright/test'
 
 /**
@@ -16,6 +17,7 @@ test.describe('Visual Regression', () => {
         maxDiffPixelRatio: 0.04,
         animations: 'disabled',
       })
+      await argosScreenshot(page, 'work-page')
     })
 
     test('about page matches snapshot', async ({ page }) => {
