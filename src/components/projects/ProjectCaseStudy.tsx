@@ -1,296 +1,35 @@
-'use client'
-
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
-import type { CSSProperties } from 'react'
-import { useEffect, useRef, useState } from 'react'
-import { GenerativeHero } from '@/components/ui/GenerativeHero'
-import { ProjectBadges } from '@/components/ui/ProjectBadges'
+import { ProjectPlaceholder } from '@/components/ui/ProjectPlaceholder'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
-import { SocialProof } from '@/components/ui/SocialProofBadges'
 import { galaxies } from '@/lib/galaxyData'
-import { getMetricIcon } from '@/lib/metricIcons'
+import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
+import styles from './ProjectCaseStudy.module.css'
 
-// Map project IDs to their screenshot paths
-// ── Space-theme helpers ────────────────────────────────────────────────────
-const STAR_CLASSIFICATION: Record<string, { label: string; description: string }> = {
-  supermassive: { label: 'Ω-Class Supergiant', description: 'Flagship system' },
-  large: { label: 'I-Class Giant', description: 'Major system' },
-  medium: { label: 'II-Class Star', description: 'Launch system' },
-  small: { label: 'III-Class Dwarf', description: 'Focused system' },
+// Maps a galaxy id to the shared editorial category-hue token (see src/styles/editorial.css).
+// The "design" galaxy reads as "creative" in the editorial palette.
+const CATEGORY_DOT: Record<string, string> = {
+  enterprise: '--le-cat-enterprise',
+  ai: '--le-cat-ai',
+  fullstack: '--le-cat-fullstack',
+  devtools: '--le-cat-devtools',
+  design: '--le-cat-creative',
+  experimental: '--le-cat-experimental',
 }
 
 function getProjectGalaxy(project: Project) {
   return galaxies.find((g) => g.id === project.galaxy) ?? null
 }
 
-import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
-
-// Tech stack badge colours by category
-const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  // Frameworks
-  React: { bg: 'rgba(97,218,251,0.12)', text: '#61dafb', border: 'rgba(97,218,251,0.3)' },
-  'Next.js': { bg: 'rgba(255,255,255,0.08)', text: '#ffffff', border: 'rgba(255,255,255,0.2)' },
-  'Vue.js': { bg: 'rgba(66,184,131,0.12)', text: '#42b883', border: 'rgba(66,184,131,0.3)' },
-  Svelte: { bg: 'rgba(255,62,0,0.12)', text: '#ff3e00', border: 'rgba(255,62,0,0.3)' },
-  // Languages
-  TypeScript: { bg: 'rgba(49,120,198,0.15)', text: '#4fc3f7', border: 'rgba(49,120,198,0.35)' },
-  JavaScript: { bg: 'rgba(247,223,30,0.12)', text: '#f7df1e', border: 'rgba(247,223,30,0.3)' },
-  Python: { bg: 'rgba(255,212,59,0.12)', text: '#ffd43b', border: 'rgba(255,212,59,0.3)' },
-  Rust: { bg: 'rgba(222,165,132,0.12)', text: '#dea584', border: 'rgba(222,165,132,0.3)' },
-  // AI / ML
-  AI: { bg: 'rgba(139,92,246,0.15)', text: '#c4b5fd', border: 'rgba(139,92,246,0.35)' },
-  OpenAI: { bg: 'rgba(16,163,127,0.12)', text: '#10a37f', border: 'rgba(16,163,127,0.3)' },
-  Claude: { bg: 'rgba(214,89,35,0.12)', text: '#f97316', border: 'rgba(214,89,35,0.3)' },
-  LLM: { bg: 'rgba(139,92,246,0.12)', text: '#a78bfa', border: 'rgba(139,92,246,0.3)' },
-  'Machine Learning': {
-    bg: 'rgba(139,92,246,0.12)',
-    text: '#a78bfa',
-    border: 'rgba(139,92,246,0.3)',
-  },
-  // Backend / DB
-  'Node.js': { bg: 'rgba(104,160,99,0.12)', text: '#68a063', border: 'rgba(104,160,99,0.3)' },
-  Supabase: { bg: 'rgba(62,207,142,0.12)', text: '#3ecf8e', border: 'rgba(62,207,142,0.3)' },
-  PostgreSQL: { bg: 'rgba(51,103,145,0.12)', text: '#336791', border: 'rgba(51,103,145,0.3)' },
-  MongoDB: { bg: 'rgba(71,162,72,0.12)', text: '#47a248', border: 'rgba(71,162,72,0.3)' },
-  Redis: { bg: 'rgba(220,49,49,0.12)', text: '#dc3131', border: 'rgba(220,49,49,0.3)' },
-  Prisma: { bg: 'rgba(42,43,54,0.4)', text: '#5a67d8', border: 'rgba(90,103,216,0.3)' },
-  // Styling
-  Tailwind: { bg: 'rgba(6,182,212,0.12)', text: '#06b6d4', border: 'rgba(6,182,212,0.3)' },
-  CSS: { bg: 'rgba(236,107,175,0.12)', text: '#ec6baf', border: 'rgba(236,107,175,0.3)' },
-  GSAP: { bg: 'rgba(136,206,18,0.12)', text: '#88ce12', border: 'rgba(136,206,18,0.3)' },
-  'Three.js': { bg: 'rgba(255,255,255,0.08)', text: '#e0e0e0', border: 'rgba(255,255,255,0.2)' },
-  // DevOps
-  Docker: { bg: 'rgba(36,150,237,0.12)', text: '#2496ed', border: 'rgba(36,150,237,0.3)' },
-  Vercel: { bg: 'rgba(255,255,255,0.08)', text: '#d4d4d8', border: 'rgba(255,255,255,0.15)' },
-  Stripe: { bg: 'rgba(99,91,255,0.12)', text: '#635bff', border: 'rgba(99,91,255,0.3)' },
-}
-const DEFAULT_TAG = {
-  bg: 'rgba(255,255,255,0.06)',
-  text: 'rgba(255,255,255,0.7)',
-  border: 'rgba(255,255,255,0.15)',
+function getStatusLabel(project: Project): string {
+  if (project.links?.live) return 'Live'
+  if (project.tags.includes('npm')) return 'On npm'
+  if (project.status === 'in-progress') return 'In progress'
+  if (project.status === 'archived') return 'Archived'
+  return 'In production'
 }
 
-function getTagStyle(tag: string) {
-  return TAG_COLORS[tag] ?? DEFAULT_TAG
-}
-
-// ── Animated count-up hook ─────────────────────────────────────────────────
-function useCountUp(target: number, duration = 1400, decimals = 0) {
-  const [value, setValue] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const started = useRef(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true
-          const start = performance.now()
-          const tick = (now: number) => {
-            const progress = Math.min((now - start) / duration, 1)
-            const ease = 1 - (1 - progress) ** 3 // ease-out cubic
-            setValue(parseFloat((ease * target).toFixed(decimals)))
-            if (progress < 1) requestAnimationFrame(tick)
-          }
-          requestAnimationFrame(tick)
-        }
-      },
-      { threshold: 0.3 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [target, duration, decimals])
-
-  return { value, ref }
-}
-
-// ── Metric Card with count-up ──────────────────────────────────────────────
-function MetricCard({
-  label,
-  value,
-  color,
-}: Readonly<{ label: string; value: string; color?: string }>) {
-  // Parse numeric prefix for animation (e.g. "1,200" → 1200, "84" → 84)
-  const numeric = parseFloat(value.replace(/[^0-9.]/g, ''))
-  const suffix = value.replace(/^[\d,. ]+/, '')
-  const isNumeric = !Number.isNaN(numeric) && numeric > 0
-  const decimals = value.includes('.') ? 1 : 0
-  const { value: animated, ref } = useCountUp(isNumeric ? numeric : 0, 1200, decimals)
-
-  const displayValue = isNumeric
-    ? `${animated.toLocaleString(undefined, { maximumFractionDigits: decimals })}${suffix}`
-    : value
-
-  return (
-    <div
-      ref={ref}
-      className="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 hover:border-white/30 hover:from-white/15 hover:to-white/10 transition-all duration-200"
-      style={{ boxShadow: color ? `0 0 20px ${color}15` : undefined }}
-    >
-      <div className="text-3xl font-bold mb-2 tabular-nums" style={{ color: color ?? 'white' }}>
-        {displayValue}
-      </div>
-      <div className="text-sm text-white/60 font-medium uppercase tracking-wider">{label}</div>
-    </div>
-  )
-}
-
-// ── Impact metric mini-cards ───────────────────────────────────────────────
-function ImpactMetricCard({
-  label,
-  value,
-  icon,
-  color,
-}: {
-  label: string
-  value: string
-  icon?: string
-  color: string
-}) {
-  const reducedMotion = useReducedMotion()
-  const numeric = parseFloat(value.replace(/[^0-9.]/g, ''))
-  const suffix = value.replace(/^[\d,. %x+]+/, '')
-  const isNumeric = !Number.isNaN(numeric) && numeric > 0
-  const decimals = value.includes('.') ? 1 : 0
-  const { value: animated, ref } = useCountUp(isNumeric ? numeric : 0, 1600, decimals)
-
-  const displayValue = isNumeric
-    ? `${animated.toLocaleString(undefined, { maximumFractionDigits: decimals })}${suffix}`
-    : value
-
-  return (
-    <motion.div
-      ref={ref}
-      {...(reducedMotion
-        ? {}
-        : {
-            whileHover: { scale: 1.04, y: -4 },
-            transition: { type: 'spring' as const, stiffness: 400, damping: 25 },
-          })}
-      className="relative rounded-lg p-5 overflow-hidden group cursor-default"
-      style={{
-        background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)`,
-        border: `1px solid ${color}30`,
-        boxShadow: `0 0 20px ${color}10`,
-      }}
-    >
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: `radial-gradient(circle at 50% 0%, ${color}20, transparent 70%)` }}
-      />
-      <div className="relative z-10">
-        {icon &&
-          (() => {
-            const Icon = getMetricIcon(icon)
-            return <Icon className="w-6 h-6 mb-2" style={{ color }} aria-hidden="true" />
-          })()}
-        <div className="text-2xl md:text-3xl font-bold tabular-nums mb-1" style={{ color }}>
-          {displayValue}
-        </div>
-        <div className="text-xs text-white/60 font-medium uppercase tracking-wider leading-tight">
-          {label}
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
-// ── Screenshot hero with optional parallax ─────────────────────────────────
-function ScreenshotHero({
-  project,
-  screenshotPath,
-  embedded = false,
-}: {
-  project: Project
-  screenshotPath?: string
-  /** Inside signature frame — outer border/shadow come from the frame */
-  embedded?: boolean
-}) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  })
-  const y = useTransform(scrollYProgress, [0, 1], ['-4%', '4%'])
-
-  const shellClass = embedded
-    ? 'relative group overflow-hidden rounded-xl bg-black/25'
-    : 'rounded-lg overflow-hidden border border-white/10 bg-black/40 relative group'
-
-  return (
-    <div
-      ref={containerRef}
-      className={shellClass}
-      style={embedded ? undefined : { boxShadow: `0 0 60px ${project.color}15` }}
-    >
-      <div className="aspect-video relative overflow-hidden">
-        {screenshotPath ? (
-          <motion.div
-            className="absolute inset-0 scale-110"
-            style={reduceMotion ? undefined : { y }}
-          >
-            <Image
-              src={screenshotPath}
-              alt={`${project.title} application interface`}
-              width={1280}
-              height={800}
-              priority
-              className="object-cover object-top w-full h-full"
-              sizes="(max-width: 768px) 100vw, 896px"
-            />
-          </motion.div>
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-black to-gray-900">
-            <GenerativeHero name={project.title} color={project.color} />
-          </div>
-        )}
-
-        {/* Gradient overlay — lighter at top, more at bottom for text legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10 pointer-events-none" />
-
-        {/* Live URL overlay CTA */}
-        {project.links?.live && (
-          <div className="absolute inset-0 flex items-end justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <a
-              href={project.links.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-transform duration-200 hover:scale-105 active:scale-95"
-              style={{
-                background: `linear-gradient(135deg, ${project.color}, ${project.color}cc)`,
-                color: 'white',
-                boxShadow: `0 0 30px ${project.color}60`,
-              }}
-            >
-              <ExternalLink className="w-4 h-4" />
-              Open Live Site
-            </a>
-          </div>
-        )}
-
-        {/* Browser chrome top bar — makes it feel like a real browser screenshot */}
-        <div className="absolute top-0 left-0 right-0 h-7 bg-gradient-to-b from-black/40 to-transparent flex items-center px-3 gap-1.5 pointer-events-none">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-          <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-          {project.links?.live && (
-            <div className="ml-2 flex-1 max-w-xs bg-white/10 rounded text-[10px] text-white/40 px-2 py-0.5 truncate font-mono">
-              {project.links.live.replace('https://', '')}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ── Helper text generators ─────────────────────────────────────────────────
+// ── Helper text generators (unchanged fallback logic) ──────────────────────
 function getChallengeText(project: Project): string {
   if (project.challenge) return project.challenge
   if (project.metrics?.files) {
@@ -316,16 +55,6 @@ function getSolutionText(project: Project): string {
   return `Architected with ${project.tags.slice(0, 3).join(', ')}, focusing on performance, accessibility, and maintainability.`
 }
 
-function revealProps(reduced: boolean) {
-  if (reduced) return {}
-  return {
-    initial: { opacity: 0, y: 28 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: '-12% 0px' },
-    transition: { duration: 0.52, ease: [0.22, 1, 0.36, 1] as const },
-  }
-}
-
 function getImpactText(project: Project): string {
   if (project.impact) return project.impact
   if (project.metrics?.tests) {
@@ -340,6 +69,16 @@ function getImpactText(project: Project): string {
   return `Completed as a learning project, demonstrating proficiency in ${project.tags.slice(0, 2).join(' and ')}.`
 }
 
+// ── Ledger tile (spec-sheet metric: Fraunces number + mono label) ──────────
+function MetricTile({ label, value }: Readonly<{ label: string; value: string }>) {
+  return (
+    <div className="eTile">
+      <div className="eTileNum">{value}</div>
+      <div className="eLabel">{label}</div>
+    </div>
+  )
+}
+
 // ── Main component ─────────────────────────────────────────────────────────
 interface ProjectCaseStudyProps {
   readonly project: Project
@@ -347,73 +86,97 @@ interface ProjectCaseStudyProps {
 
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const screenshotPath = PROJECT_SCREENSHOTS[project.id]
-
   const projectGalaxy = getProjectGalaxy(project)
-  const starClass = STAR_CLASSIFICATION[project.size ?? 'medium']
-  const reducedMotion = useReducedMotion()
-  const reveal = revealProps(reducedMotion === true)
+  const statusLabel = getStatusLabel(project)
+
+  const engineMetrics: Array<{ label: string; value: string }> = []
+  if (project.metrics?.files) {
+    engineMetrics.push({ label: 'Files', value: project.metrics.files.toLocaleString() })
+  }
+  if (project.metrics?.tests) {
+    engineMetrics.push({ label: 'Tests', value: project.metrics.tests.toString() })
+  }
+  if (project.metrics?.team) {
+    engineMetrics.push({ label: 'Team size', value: project.metrics.team.toString() })
+  }
+  if (project.metrics?.users) {
+    engineMetrics.push({ label: 'Users', value: project.metrics.users })
+  }
 
   return (
-    <article
-      className="max-w-5xl mx-auto px-6 md:px-8 py-8 md:py-12 space-y-14 md:space-y-16"
-      style={{ '--case-accent': project.color } as CSSProperties}
-    >
-      {/* Title lives in the page shell — here we continue with context + proof */}
-      <div className="flex flex-col gap-6 border-b border-white/[0.08] pb-10">
-        <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-white/45">
+    <div className={styles.caseStudy}>
+      {/* ── Masthead ── */}
+      <header className={`eHeader ${styles.masthead}`}>
+        <div className={styles.mastheadTop}>
+          <p className="eEyebrow" style={{ margin: 0 }}>
+            Case study
+          </p>
           {projectGalaxy && (
-            <>
-              <span style={{ color: projectGalaxy.color }}>{projectGalaxy.name}</span>
-              <span className="text-white/25" aria-hidden="true">
-                ·
-              </span>
-            </>
+            <span className={styles.category}>
+              <span
+                className={styles.categoryDot}
+                aria-hidden="true"
+                style={{ background: `var(${CATEGORY_DOT[projectGalaxy.id] ?? '--le-muted'})` }}
+              />
+              {projectGalaxy.name}
+            </span>
           )}
-          <span className="font-mono normal-case tracking-normal text-white/55">
-            <span className="mr-1.5 opacity-60">✦</span>
-            {starClass.label}
-          </span>
         </div>
-        <ProjectBadges project={project} />
-        <SocialProof
-          githubRepo={project.links?.github?.replace('https://github.com/', '')}
-          tests={
-            project.metrics?.tests ? { count: project.metrics.tests, passing: true } : undefined
-          }
-          metrics={
-            project.metrics?.users ? [{ label: 'Users', value: project.metrics.users }] : undefined
-          }
-        />
-      </div>
 
-      {/* ── Glowing Live CTA (if live URL exists) ── */}
-      {project.links?.live && (
-        <div className="flex flex-col sm:flex-row gap-3 mb-4">
-          <a
-            href={project.links.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative flex-1 inline-flex items-center justify-center gap-3 px-8 py-4 rounded-lg font-bold text-white text-lg overflow-hidden group transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
-            style={{
-              background: `linear-gradient(135deg, ${project.color}cc, ${project.color}88)`,
-              boxShadow: `0 0 40px ${project.color}40, 0 8px 24px rgba(0,0,0,0.3)`,
-              border: `1px solid ${project.color}50`,
-            }}
-          >
-            {/* Animated shimmer */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
-            <ExternalLink className="w-5 h-5 relative z-10" />
-            <span className="relative z-10">View Live Site</span>
-          </a>
+        <h1 className="eTitle">{project.title}</h1>
+        <p className="eLede" style={{ marginTop: '1.2rem' }}>
+          {project.description}
+        </p>
+        {projectGalaxy?.narrative && <p className={styles.narrative}>{projectGalaxy.narrative}</p>}
+
+        <dl className={styles.specSheet}>
+          <div className={styles.specRow}>
+            <dt className={styles.specLabel}>Role</dt>
+            <dd className={styles.specValue}>{project.role}</dd>
+          </div>
+          {project.company && (
+            <div className={styles.specRow}>
+              <dt className={styles.specLabel}>Client / org</dt>
+              <dd className={styles.specValue}>{project.company}</dd>
+            </div>
+          )}
+          <div className={styles.specRow}>
+            <dt className={styles.specLabel}>Year</dt>
+            <dd className={`${styles.specValue} eMono`}>{project.dateRange}</dd>
+          </div>
+          <div className={styles.specRow}>
+            <dt className={styles.specLabel}>Status</dt>
+            <dd className={styles.specValue}>{statusLabel}</dd>
+          </div>
+          <div className={styles.specRow}>
+            <dt className={styles.specLabel}>Stack</dt>
+            <dd className={`${styles.specValue} eMono`}>{project.tags.join(', ')}</dd>
+          </div>
+        </dl>
+
+        <div className={styles.actions}>
+          {project.links?.live && (
+            <a
+              href={project.links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="eBtn eBtnPrimary"
+            >
+              View live site{' '}
+              <span className="arrow" aria-hidden="true">
+                &rarr;
+              </span>
+            </a>
+          )}
           {project.links?.github && (
             <a
               href={project.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg border border-white/20 font-semibold hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+              className="eBtn eBtnGhost"
             >
-              <GitHubIcon className="w-5 h-5" />
-              <span>Source Code</span>
+              <GitHubIcon className={styles.btnIcon} aria-hidden="true" />
+              Source code
             </a>
           )}
           {project.links?.contestWin && (
@@ -421,239 +184,118 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               href={project.links.contestWin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg border border-white/20 font-semibold hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+              className="eLink"
             >
-              <ExternalLink className="w-5 h-5" />
-              <span>Read the Writeup</span>
+              Read the writeup &#8599;
             </a>
           )}
         </div>
-      )}
-      {/* GitHub only (no live URL) */}
-      {!project.links?.live && project.links?.github && (
-        <div className="mb-4">
-          <a
-            href={project.links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg border-2 border-white/20 font-semibold hover:bg-white/10 hover:border-white/40 transition-all duration-200"
-          >
-            <GitHubIcon className="w-5 h-5" />
-            <span>View Source Code</span>
-          </a>
-        </div>
-      )}
+      </header>
 
-      {/* ── Visual proof (award portfolios lead with evidence) ── */}
-      <motion.section
-        id="case-visual"
-        aria-labelledby="case-visual-heading"
-        className="scroll-mt-28 md:scroll-mt-36"
-        {...reveal}
-      >
-        <p className="case-study-eyebrow">Evidence</p>
-        <h2 id="case-visual-heading" className="story-section-title">
-          {screenshotPath ? 'Interface & evidence' : 'System surface'}
+      {/* ── Media: evidence ── */}
+      <section id="case-visual" aria-labelledby="case-visual-heading" className={styles.section}>
+        <p className="eEyebrow">Evidence</p>
+        <h2 id="case-visual-heading" className={styles.h2}>
+          {screenshotPath ? 'Interface' : 'System surface'}
         </h2>
-        <p className="story-lede mb-8">
-          {screenshotPath
-            ? 'A real surface area, not a mock. Scroll the story below for constraint, build, and outcome.'
-            : 'No public screenshot on file, generative preview stands in for the visual layer.'}
-        </p>
-        <div className="case-signature-frame">
-          <div className="case-signature-caption px-3 pt-3 md:px-4 md:pt-4">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
-              Signature view
-            </span>
-            {project.links?.live ? (
-              <span className="text-[10px] font-mono text-white/35 truncate max-w-[min(100%,14rem)] text-right">
-                {project.links.live.replace(/^https?:\/\//, '')}
-              </span>
+        <figure className={styles.frame}>
+          <div className={styles.frameInner}>
+            {screenshotPath ? (
+              <Image
+                src={screenshotPath}
+                alt={`${project.title} application interface`}
+                width={1280}
+                height={800}
+                priority
+                className={styles.frameImage}
+                sizes="(max-width: 900px) 100vw, 1180px"
+              />
             ) : (
-              <span className="text-[10px] font-mono text-white/30">preview</span>
+              <ProjectPlaceholder title={project.title} color={project.color} />
             )}
           </div>
-          <div className="case-signature-frame-inner px-1 pb-1 md:px-1.5 md:pb-1.5">
-            <ScreenshotHero embedded project={project} screenshotPath={screenshotPath} />
-          </div>
-        </div>
-      </motion.section>
-
-      {/* ── Narrative arc (description already established in page hero) ── */}
-      <motion.section
-        id="case-arc"
-        aria-labelledby="case-arc-heading"
-        className="scroll-mt-28 md:scroll-mt-36"
-        {...reveal}
-      >
-        <p className="case-study-eyebrow">Story arc</p>
-        <h2 id="case-arc-heading" className="story-section-title">
-          How this shipped
-        </h2>
-        <p className="story-lede mb-10">
-          {projectGalaxy?.narrative ? (
-            <>
-              <span className="block text-[11px] uppercase tracking-[0.22em] text-white/40 mb-2">
-                {projectGalaxy.narrative}
-              </span>
-              Three beats: what pressed against the work, how the stack answered, and what changed
-              once it was live.
-            </>
-          ) : (
-            <>
-              Three beats: what pressed against the work, how the stack answered, and what changed
-              once it was live.
-            </>
-          )}
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <motion.div
-            {...(reducedMotion
-              ? {}
-              : {
-                  whileHover: { scale: 1.01, y: -2 },
-                  transition: { type: 'spring', stiffness: 300, damping: 25 },
-                })}
-            className="bg-white/5 border border-white/10 rounded-lg p-6 hover:bg-white/[0.07] transition-all duration-300 hover:border-white/18"
-          >
-            <p className="story-act-label">I · Constraint</p>
-            <h3 className="text-lg font-semibold tracking-tight text-white/95 mb-3">The brief</h3>
-            <p className="text-white/70 leading-relaxed">{getChallengeText(project)}</p>
-          </motion.div>
-
-          <motion.div
-            {...(reducedMotion
-              ? {}
-              : {
-                  whileHover: { scale: 1.01, y: -2 },
-                  transition: { type: 'spring', stiffness: 300, damping: 25 },
-                })}
-            className="bg-white/5 border border-white/10 rounded-lg p-6 hover:bg-white/[0.07] transition-all duration-300 hover:border-white/18"
-          >
-            <p className="story-act-label">II · Build</p>
-            <h3 className="text-lg font-semibold tracking-tight text-white/95 mb-3">The craft</h3>
-            <p className="text-white/70 leading-relaxed">{getSolutionText(project)}</p>
-          </motion.div>
-
-          <motion.div
-            {...(reducedMotion
-              ? {}
-              : {
-                  whileHover: { scale: 1.015, y: -3 },
-                  transition: { type: 'spring', stiffness: 300, damping: 20 },
-                })}
-            className="md:col-span-2 relative bg-gradient-to-br from-white/[0.12] to-white/[0.04] border border-white/20 rounded-lg p-8 overflow-hidden group"
-            style={{
-              boxShadow: `0 0 36px ${project.color}35, inset 0 1px 0 0 rgba(255,255,255,0.06)`,
-            }}
-          >
-            <div
-              className="absolute inset-0 rounded-lg blur-2xl opacity-30 group-hover:opacity-45 transition-opacity duration-500 pointer-events-none"
-              style={{
-                background: `radial-gradient(circle at 30% 20%, ${project.color}55, transparent 65%)`,
-              }}
-            />
-            <div className="relative z-10">
-              <p className="story-act-label">III · Proof</p>
-              <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-white mb-4">
-                What moved after launch
-              </h3>
-              <p className="text-[1.05rem] text-white/88 font-normal leading-relaxed">
-                {getImpactText(project)}
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* ── Impact Metrics (if populated) ── */}
-      {project.impactMetrics && project.impactMetrics.length > 0 && (
-        <motion.section id="case-signals" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
-          <p className="case-study-eyebrow">Signals</p>
-          <h2 className="story-section-title flex items-center gap-3">
-            <span style={{ color: project.color }} aria-hidden="true">
-              ◆
+          <figcaption className={styles.caption}>
+            <span>Signature view</span>
+            <span className="eMono">
+              {project.links?.live
+                ? project.links.live.replace(/^https?:\/\//, '')
+                : 'preview, no public screenshot on file'}
             </span>
-            <span>Signals & scale</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      {/* ── Story: brief / build / outcome ── */}
+      <section id="case-arc" aria-label="Story" className={styles.section}>
+        <p className="eEyebrow">Story · how this shipped</p>
+        <div className={`eProse ${styles.prose}`}>
+          <section>
+            <h2>The brief</h2>
+            <p className={styles.dropcap}>{getChallengeText(project)}</p>
+          </section>
+          <section>
+            <h2>The build</h2>
+            <p>{getSolutionText(project)}</p>
+          </section>
+          <section>
+            <h2>What shipped</h2>
+            <p>{getImpactText(project)}</p>
+          </section>
+        </div>
+      </section>
+
+      {/* ── Signals: quantified impact ── */}
+      {project.impactMetrics && project.impactMetrics.length > 0 && (
+        <section
+          id="case-signals"
+          aria-labelledby="case-signals-heading"
+          className={styles.section}
+        >
+          <p className="eEyebrow">Signals</p>
+          <h2 id="case-signals-heading" className={styles.h2}>
+            Scale &amp; impact
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="eLedger">
             {project.impactMetrics.map((m) => (
-              <ImpactMetricCard
-                key={m.label}
-                label={m.label}
-                value={m.value}
-                icon={m.icon}
-                color={project.color}
-              />
+              <MetricTile key={m.label} label={m.label} value={m.value} />
             ))}
           </div>
-        </motion.section>
+        </section>
       )}
 
-      {/* ── Project Metrics (files/tests/team/users) ── */}
-      {project.metrics && Object.keys(project.metrics).length > 0 && (
-        <motion.section id="case-engine" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
-          <p className="case-study-eyebrow">Engine room</p>
-          <h2 className="story-section-title mb-6">At a glance</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {project.metrics.files && (
-              <MetricCard
-                label="Files"
-                value={project.metrics.files.toLocaleString()}
-                color={project.color}
-              />
-            )}
-            {project.metrics.tests && (
-              <MetricCard
-                label="Tests"
-                value={project.metrics.tests.toString()}
-                color={project.color}
-              />
-            )}
-            {project.metrics.team && (
-              <MetricCard
-                label="Team Size"
-                value={project.metrics.team.toString()}
-                color={project.color}
-              />
-            )}
-            {project.metrics.users && (
-              <MetricCard label="Users" value={project.metrics.users} color={project.color} />
-            )}
+      {/* ── Engine room: files / tests / team / users ── */}
+      {engineMetrics.length > 0 && (
+        <section id="case-engine" aria-labelledby="case-engine-heading" className={styles.section}>
+          <p className="eEyebrow">Engine room</p>
+          <h2 id="case-engine-heading" className={styles.h2}>
+            At a glance
+          </h2>
+          <div className="eLedger">
+            {engineMetrics.map((m) => (
+              <MetricTile key={m.label} label={m.label} value={m.value} />
+            ))}
           </div>
-        </motion.section>
+        </section>
       )}
 
-      {/* ── Testimonial ── */}
+      {/* ── Voice: testimonial pull-quote ── */}
       {project.testimonial && (
-        <motion.section id="case-voice" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
-          <p className="case-study-eyebrow">Endorsement</p>
-          <h2 className="story-section-title">Voice from the field</h2>
-          <motion.blockquote
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="relative bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-lg p-8 md:p-10"
-            style={{ boxShadow: `0 0 40px ${project.color}20` }}
-          >
-            <div
-              className="absolute -top-4 -left-2 text-6xl text-white/20 font-serif"
-              aria-hidden="true"
-            >
-              "
-            </div>
-            <p className="text-lg md:text-xl leading-relaxed text-white/90 italic mb-6 relative z-10">
-              {project.testimonial.quote}
-            </p>
-            <footer className="flex items-center justify-between flex-wrap gap-4">
+        <section id="case-voice" aria-labelledby="case-voice-heading" className={styles.section}>
+          <p className="eEyebrow">Endorsement</p>
+          <h2 id="case-voice-heading" className={styles.h2}>
+            Voice from the field
+          </h2>
+          <blockquote className={styles.quoteBlock}>
+            <span className={styles.quoteMark} aria-hidden="true">
+              &ldquo;
+            </span>
+            <p className={styles.quoteText}>{project.testimonial.quote}</p>
+            <footer className={styles.quoteFooter}>
               <div>
-                <cite className="not-italic font-semibold text-white">
-                  {project.testimonial.author}
-                </cite>
-                <p className="text-white/60 text-sm">{project.testimonial.role}</p>
+                <cite className={styles.quoteCite}>{project.testimonial.author}</cite>
+                <span className={styles.quoteRole}>{project.testimonial.role}</span>
                 {project.testimonial.date && (
-                  <p className="text-white/40 text-xs mt-1">{project.testimonial.date}</p>
+                  <span className={styles.quoteDate}>{project.testimonial.date}</span>
                 )}
               </div>
               {project.links?.testimonial && (
@@ -661,57 +303,30 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                   href={project.links.testimonial}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm font-medium hover:bg-white/20 hover:border-white/30 transition-all duration-200"
+                  className="eBtn eBtnGhost"
                 >
-                  <ExternalLink className="w-4 h-4" />
-                  View Full Letter
+                  View full letter
                 </a>
               )}
             </footer>
-          </motion.blockquote>
-        </motion.section>
+          </blockquote>
+        </section>
       )}
 
-      {/* ── Tech Stack — colour-coded by category ── */}
-      <motion.section id="case-stack" className="scroll-mt-28 md:scroll-mt-36" {...reveal}>
-        <p className="case-study-eyebrow">Inventory</p>
-        <h2 className="story-section-title">Stack & signals</h2>
-        <div className="flex flex-wrap gap-2.5">
-          {project.tags.map((tag) => {
-            const style = getTagStyle(tag)
-            return (
-              <motion.span
-                key={tag}
-                {...(reducedMotion
-                  ? {}
-                  : {
-                      whileHover: { scale: 1.08, y: -2 },
-                      transition: { type: 'spring' as const, stiffness: 400, damping: 20 },
-                    })}
-                className="px-4 py-2 rounded-lg text-sm font-semibold cursor-default select-none"
-                style={{
-                  background: style.bg,
-                  color: style.text,
-                  border: `1px solid ${style.border}`,
-                }}
-              >
-                {tag}
-              </motion.span>
-            )
-          })}
+      {/* ── Stack & signals ── */}
+      <section id="case-stack" aria-labelledby="case-stack-heading" className={styles.section}>
+        <p className="eEyebrow">Inventory</p>
+        <h2 id="case-stack-heading" className={styles.h2}>
+          Stack &amp; signals
+        </h2>
+        <div className={styles.tagRow}>
+          {project.tags.map((tag) => (
+            <span key={tag} className={styles.tag}>
+              {tag}
+            </span>
+          ))}
         </div>
-      </motion.section>
-
-      {/* ── Navigation ── */}
-      <nav className="pt-8 border-t border-white/10">
-        <a
-          href="/work"
-          className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-          Project archive
-        </a>
-      </nav>
-    </article>
+      </section>
+    </div>
   )
 }

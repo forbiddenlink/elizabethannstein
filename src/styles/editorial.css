@@ -1,0 +1,532 @@
+/* ============================================================================
+   EDITORIAL SYSTEM — shared design language for the content site.
+   The home page established this; every content page (/work, /work/[slug],
+   /about, /contact, /privacy) now shares it. Scoped under `.editorial` so the
+   dark galaxy base (/explore + src/components/3d/*) is left untouched.
+
+   Three typefaces, each with a job:
+     --le-display  Fraunces (variable, opsz axis) — display + reading body
+     --le-mono     JetBrains Mono — spec-sheet data: folios, datelines, key:value
+     --le-sans     Space Grotesk — uppercase micro-labels / eyebrows / nav
+   Palette: cream paper, near-black ink, cobalt accent. Light + dark, hand-tuned.
+   ========================================================================== */
+
+.editorial {
+  /* light (default) */
+  --le-paper: #efeadf;
+  --le-paper-2: #e6e0d2;
+  --le-paper-3: #ddd6c4;
+  --le-ink: #191510;
+  --le-ink-2: #4d473b;
+  --le-muted: #8a8271;
+  --le-rule: #cfc7b4;
+  --le-rule-2: #ded7c6;
+  --le-rule-strong: #191510;
+  --le-accent: #1b34c9;
+  --le-accent-ink: #142699;
+  --le-accent-wash: #e4e2f0;
+  --le-live: #2f7d4f;
+  --le-live-ink: #1f5c39;
+  --le-tint: #e9e3d6;
+
+  /* category hues, re-toned for paper — semantic dots, never neon fills */
+  --le-cat-enterprise: #b4552a;
+  --le-cat-ai: #1f6f86;
+  --le-cat-fullstack: #6a4bb0;
+  --le-cat-devtools: #1f7a58;
+  --le-cat-creative: #b23a6b;
+  --le-cat-experimental: #a8791d;
+
+  --le-display:
+    var(--font-display), "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --le-sans:
+    var(--font-space-grotesk), "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  --le-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --le-gutter: clamp(1.15rem, 5vw, 3.75rem);
+  --le-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  min-height: 100dvh;
+  background: var(--le-paper);
+  color: var(--le-ink);
+  font-family: var(--le-display);
+  font-size: 18px;
+  line-height: 1.5;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* dark set — OS-dark default and explicit toggle share it */
+@media (prefers-color-scheme: dark) {
+  .editorial {
+    --le-paper: #141109;
+    --le-paper-2: #1c1810;
+    --le-paper-3: #241f15;
+    --le-ink: #f0eadb;
+    --le-ink-2: #b6af9c;
+    --le-muted: #7f7864;
+    --le-rule: #2f2a1f;
+    --le-rule-2: #262117;
+    --le-rule-strong: #f0eadb;
+    --le-accent: #97a6ff;
+    --le-accent-ink: #b7c2ff;
+    --le-accent-wash: #20233a;
+    --le-live: #5fce8e;
+    --le-live-ink: #7ed9a3;
+    --le-tint: #1c1810;
+    --le-cat-enterprise: #e8895f;
+    --le-cat-ai: #6fc6dd;
+    --le-cat-fullstack: #b3a0ee;
+    --le-cat-devtools: #6cd6a6;
+    --le-cat-creative: #ec84ac;
+    --le-cat-experimental: #e6c069;
+  }
+}
+:root[data-theme="dark"] .editorial {
+  --le-paper: #141109;
+  --le-paper-2: #1c1810;
+  --le-paper-3: #241f15;
+  --le-ink: #f0eadb;
+  --le-ink-2: #b6af9c;
+  --le-muted: #7f7864;
+  --le-rule: #2f2a1f;
+  --le-rule-2: #262117;
+  --le-rule-strong: #f0eadb;
+  --le-accent: #97a6ff;
+  --le-accent-ink: #b7c2ff;
+  --le-accent-wash: #20233a;
+  --le-live: #5fce8e;
+  --le-live-ink: #7ed9a3;
+  --le-tint: #1c1810;
+  --le-cat-enterprise: #e8895f;
+  --le-cat-ai: #6fc6dd;
+  --le-cat-fullstack: #b3a0ee;
+  --le-cat-devtools: #6cd6a6;
+  --le-cat-creative: #ec84ac;
+  --le-cat-experimental: #e6c069;
+}
+/* explicit light toggle wins back over the media query */
+:root[data-theme="light"] .editorial {
+  --le-paper: #efeadf;
+  --le-paper-2: #e6e0d2;
+  --le-paper-3: #ddd6c4;
+  --le-ink: #191510;
+  --le-ink-2: #4d473b;
+  --le-muted: #8a8271;
+  --le-rule: #cfc7b4;
+  --le-rule-2: #ded7c6;
+  --le-rule-strong: #191510;
+  --le-accent: #1b34c9;
+  --le-accent-ink: #142699;
+  --le-accent-wash: #e4e2f0;
+  --le-live: #2f7d4f;
+  --le-live-ink: #1f5c39;
+  --le-tint: #e9e3d6;
+  --le-cat-enterprise: #b4552a;
+  --le-cat-ai: #1f6f86;
+  --le-cat-fullstack: #6a4bb0;
+  --le-cat-devtools: #1f7a58;
+  --le-cat-creative: #b23a6b;
+  --le-cat-experimental: #a8791d;
+}
+
+/* --- reading defaults ------------------------------------------------------ */
+.editorial :where(h1, h2, h3, h4) {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+.editorial :where(p) {
+  text-wrap: pretty;
+}
+.editorial :where(a) {
+  color: inherit;
+}
+
+/* --- layout shell ---------------------------------------------------------- */
+.eWrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3.5vw, 3rem) var(--le-gutter) 4rem;
+}
+.eWrapNarrow {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3.5vw, 3rem) var(--le-gutter) 4rem;
+}
+
+/* --- micro-typography primitives ------------------------------------------- */
+.eSans {
+  font-family: var(--le-sans);
+}
+.eMono {
+  font-family: var(--le-mono);
+  font-variant-numeric: tabular-nums;
+}
+.eNum {
+  font-variant-numeric: tabular-nums;
+}
+/* uppercase section kicker with trailing rule */
+.eEyebrow {
+  font-family: var(--le-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--le-accent-ink);
+  margin: 0 0 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.eEyebrow::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--le-rule);
+}
+/* small standalone label */
+.eLabel {
+  font-family: var(--le-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+}
+/* magazine folio, e.g. "No. 03" */
+.eFolio {
+  font-family: var(--le-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+  font-variant-numeric: tabular-nums;
+}
+/* display headline */
+.eDisplay {
+  font-family: var(--le-display);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+.eDisplay em {
+  font-style: italic;
+  color: var(--le-accent-ink);
+}
+.eLede {
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--le-ink-2);
+  max-width: 42ch;
+}
+.eLede em,
+.eLede .q {
+  color: var(--le-muted);
+  font-style: italic;
+}
+
+/* horizontal rules that read like a masthead */
+.eRule {
+  height: 1px;
+  background: var(--le-rule);
+  border: 0;
+  margin: 0;
+}
+.eRuleStrong {
+  height: 1.5px;
+  background: var(--le-rule-strong);
+  border: 0;
+  margin: 0;
+}
+
+/* --- live status dot ------------------------------------------------------- */
+.eDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--le-live);
+  display: inline-block;
+  position: relative;
+  flex: none;
+}
+.eDot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--le-live);
+  animation: eping 2.4s ease-out infinite;
+}
+@keyframes eping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* --- buttons --------------------------------------------------------------- */
+.eBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.5rem;
+  border-radius: 2px;
+  font-family: var(--le-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  will-change: transform;
+  transition:
+    background-color 0.22s var(--le-ease),
+    border-color 0.22s var(--le-ease),
+    color 0.22s var(--le-ease);
+}
+.eBtn .arrow {
+  transition: transform 0.22s var(--le-ease);
+}
+.eBtn:hover .arrow {
+  transform: translateX(4px);
+}
+.eBtnPrimary {
+  background: var(--le-rule-strong);
+  color: var(--le-paper);
+  border: 1.5px solid var(--le-rule-strong);
+}
+.eBtnPrimary:hover {
+  background: var(--le-accent-ink);
+  border-color: var(--le-accent-ink);
+  color: var(--le-paper);
+}
+.eBtnGhost {
+  background: transparent;
+  color: var(--le-ink);
+  border: 1.5px solid var(--le-rule-strong);
+}
+.eBtnGhost:hover {
+  background: var(--le-tint);
+  color: var(--le-accent-ink);
+  border-color: var(--le-accent-ink);
+}
+
+/* --- link with cobalt underline ------------------------------------------- */
+.eLink {
+  color: var(--le-accent-ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--le-accent-ink) 45%, transparent);
+  transition: border-color 0.2s var(--le-ease);
+}
+.eLink:hover {
+  border-color: var(--le-accent-ink);
+}
+
+/* --- ledger grid (bordered tiles, 1px hairline gaps) ---------------------- */
+.eLedger {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1px;
+  background: var(--le-rule);
+  border: 1px solid var(--le-rule);
+}
+.eTile {
+  background: var(--le-paper-2);
+  padding: clamp(1.1rem, 2.4vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.eTileNum {
+  font-family: var(--le-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--le-accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- staggered reveal (CSS-driven, no JS gate) ---------------------------- */
+.eReveal {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: efade 0.8s var(--le-ease) forwards;
+}
+.eR1 {
+  animation-delay: 0.06s;
+}
+.eR2 {
+  animation-delay: 0.14s;
+}
+.eR3 {
+  animation-delay: 0.22s;
+}
+.eR4 {
+  animation-delay: 0.3s;
+}
+.eR5 {
+  animation-delay: 0.38s;
+}
+@keyframes efade {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* headline line-mask reveal */
+.eLineMask {
+  display: block;
+  overflow: hidden;
+}
+.eLineMask > span {
+  display: block;
+  transform: translateY(105%);
+  animation: erise 0.9s var(--le-ease) forwards;
+}
+@keyframes erise {
+  to {
+    transform: none;
+  }
+}
+
+/* --- page masthead block --------------------------------------------------- */
+.eHeader {
+  padding: clamp(2.4rem, 6vw, 4.5rem) 0 clamp(1.6rem, 3.5vw, 2.6rem);
+}
+.eHeader .eTitle {
+  font-family: var(--le-display);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  margin: 0.6rem 0 0;
+}
+.eHeader .eTitle em {
+  font-style: italic;
+  color: var(--le-accent-ink);
+}
+.eDateline {
+  font-family: var(--le-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- long-form reading column ---------------------------------------------- */
+.eProse > section {
+  padding: 1.6rem 0;
+  border-top: 1px solid var(--le-rule);
+}
+.eProse > section:first-child {
+  border-top: 0;
+}
+.eProse h2 {
+  font-family: var(--le-display);
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.8rem;
+}
+.eProse h3 {
+  font-family: var(--le-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--le-accent-ink);
+  margin: 1.4rem 0 0.5rem;
+}
+.eProse p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--le-ink-2);
+  margin: 0 0 1rem;
+  max-width: 62ch;
+}
+.eProse p:last-child {
+  margin-bottom: 0;
+}
+.eProse strong {
+  color: var(--le-ink);
+  font-weight: 600;
+}
+.eProse ul {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  max-width: 62ch;
+}
+.eProse li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--le-ink-2);
+}
+.eProse li::before {
+  content: "";
+  position: absolute;
+  left: 0.1rem;
+  top: 0.72em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--le-accent);
+}
+.eProse a:not(.eBtn) {
+  color: var(--le-accent-ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--le-accent-ink) 40%, transparent);
+}
+.eProse a:not(.eBtn):hover {
+  border-color: var(--le-accent-ink);
+}
+
+/* --- focus + motion + print ------------------------------------------------ */
+.editorial a:focus-visible,
+.editorial button:focus-visible,
+.editorial input:focus-visible,
+.editorial textarea:focus-visible {
+  outline: 2px solid var(--le-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .editorial *,
+  .editorial *::after,
+  .editorial *::before {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .eReveal {
+    opacity: 1;
+    transform: none;
+  }
+  .eLineMask > span {
+    transform: none;
+  }
+}
+@media print {
+  .editorial {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+  .editorial [data-print-hide] {
+    display: none !important;
+  }
+}

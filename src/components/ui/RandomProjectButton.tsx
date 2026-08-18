@@ -8,9 +8,14 @@ import type { Project } from '@/lib/types'
 
 interface RandomProjectButtonProps {
   projects: Project[]
+  /** Override the default dark-chrome styling, e.g. with the editorial `eBtnGhost` class. */
+  className?: string
 }
 
-export function RandomProjectButton({ projects }: Readonly<RandomProjectButtonProps>) {
+const DEFAULT_CLASSES =
+  'min-h-11 px-5 py-3 bg-linear-to-r from-purple-500/10 to-indigo-500/10 border border-purple-500/20 hover:border-purple-500/30 hover:from-purple-500/15 hover:to-indigo-500/15 rounded-lg transition-all duration-200 text-white/70 hover:text-white text-sm flex items-center gap-2 disabled:opacity-70'
+
+export function RandomProjectButton({ projects, className }: Readonly<RandomProjectButtonProps>) {
   const router = useRouter()
   const [isShuffling, setIsShuffling] = useState(false)
 
@@ -30,7 +35,7 @@ export function RandomProjectButton({ projects }: Readonly<RandomProjectButtonPr
       disabled={isShuffling}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="min-h-11 px-5 py-3 bg-linear-to-r from-purple-500/10 to-indigo-500/10 border border-purple-500/20 hover:border-purple-500/30 hover:from-purple-500/15 hover:to-indigo-500/15 rounded-lg transition-all duration-200 text-white/70 hover:text-white text-sm flex items-center gap-2 disabled:opacity-70"
+      className={className ?? DEFAULT_CLASSES}
     >
       <AnimatePresence mode="wait">
         {isShuffling ? (
@@ -40,7 +45,7 @@ export function RandomProjectButton({ projects }: Readonly<RandomProjectButtonPr
             animate={{ rotate: 360, scale: [1, 1.2, 1] }}
             transition={{ duration: 0.4, ease: 'easeInOut' }}
           >
-            <Shuffle className="w-3.5 h-3.5 text-purple-400" />
+            <Shuffle className="w-3.5 h-3.5" />
           </motion.div>
         ) : (
           <motion.div

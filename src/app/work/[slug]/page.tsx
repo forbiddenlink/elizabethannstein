@@ -1,71 +1,17 @@
-import { ArrowLeft, ArrowRight, MessageSquare } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import type { CSSProperties } from 'react'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
 import { CaseStudyChapterRail } from '@/components/ui/CaseStudyChapterRail'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
-import { StarryBackground } from '@/components/ui/StarryBackground'
-import { TiltCard } from '@/components/ui/TiltCard'
 import { SITE } from '@/lib/constants'
-import { allProjects, galaxies, getProjectById } from '@/lib/galaxyData'
+import { allProjects, getProjectById } from '@/lib/galaxyData'
+import styles from './page.module.css'
 
 // ISR: Revalidate project pages every hour for fresh content
 export const revalidate = 3600
-
-const GALAXY_ACCENTS = {
-  enterprise: {
-    line: 'from-orange-400/70',
-    badge: 'text-orange-200 border-orange-300/30 bg-orange-500/15',
-    tag: 'bg-orange-500/10 border-orange-400/20 text-orange-200',
-  },
-  ai: {
-    line: 'from-cyan-400/70',
-    badge: 'text-cyan-200 border-cyan-300/30 bg-cyan-500/15',
-    tag: 'bg-cyan-500/10 border-cyan-400/20 text-cyan-200',
-  },
-  fullstack: {
-    line: 'from-purple-400/70',
-    badge: 'text-purple-200 border-purple-300/30 bg-purple-500/15',
-    tag: 'bg-purple-500/10 border-purple-400/20 text-purple-200',
-  },
-  devtools: {
-    line: 'from-emerald-400/70',
-    badge: 'text-emerald-200 border-emerald-300/30 bg-emerald-500/15',
-    tag: 'bg-emerald-500/10 border-emerald-400/20 text-emerald-200',
-  },
-  design: {
-    line: 'from-pink-400/70',
-    badge: 'text-pink-200 border-pink-300/30 bg-pink-500/15',
-    tag: 'bg-pink-500/10 border-pink-400/20 text-pink-200',
-  },
-  experimental: {
-    line: 'from-amber-400/70',
-    badge: 'text-amber-200 border-amber-300/30 bg-amber-500/15',
-    tag: 'bg-amber-500/10 border-amber-400/20 text-amber-200',
-  },
-} as const
-
-type GalaxyAccentKey = keyof typeof GALAXY_ACCENTS
-
-function toGalaxyAccentKey(value: string): GalaxyAccentKey {
-  return value in GALAXY_ACCENTS ? (value as GalaxyAccentKey) : 'fullstack'
-}
-
-function getSignalStrengthLabel(score: number): string {
-  if (score >= 5) return 'High'
-  if (score >= 3) return 'Medium'
-  return 'Low'
-}
-
-function getSignalStrengthWidth(score: number): string {
-  if (score >= 5) return 'w-full'
-  if (score >= 3) return 'w-2/3'
-  return 'w-1/3'
-}
 
 export async function generateStaticParams() {
   return allProjects.map((project) => ({
@@ -167,9 +113,6 @@ export default async function ProjectPage({
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
 
-  const currentAccent = GALAXY_ACCENTS[toGalaxyAccentKey(project.galaxy)]
-  const galaxyMeta = galaxies.find((g) => g.id === project.galaxy)
-
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
@@ -213,7 +156,7 @@ export default async function ProjectPage({
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative">
+    <div className="editorial">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -222,231 +165,103 @@ export default async function ProjectPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {/* Skip Link for Accessibility */}
       <a
         href="#project-content"
         suppressHydrationWarning
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-5 focus:py-2.5 focus:bg-white focus:text-black focus:rounded-xl focus:font-semibold focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded"
       >
         Skip to main content
       </a>
-      <StarryBackground />
-      <div
-        className="case-study-aurora pointer-events-none fixed inset-0 z-0"
-        style={{ '--case-accent': project.color } as CSSProperties}
-        aria-hidden="true"
-      />
-      <ScrollProgress color={project.color} />
-      <CaseStudyChapterRail accentColor={project.color} />
-      <SiteHeader accentGalaxy={project.galaxy} />
+      <ScrollProgress editorial />
+      <CaseStudyChapterRail />
+      <SiteHeader />
 
-      {/* Main Content with top padding for fixed header */}
-      <main
-        id="project-content"
-        className="relative z-10 pt-32 pb-20 animate-in fade-in slide-in-from-bottom-8 duration-700"
-      >
-        <section
-          className="max-w-7xl mx-auto px-6 mb-12"
-          style={{ '--case-accent': project.color } as CSSProperties}
-        >
-          <div className="project-story-shell relative overflow-hidden rounded-[2rem] border border-white/10 px-6 py-8 md:px-8 md:py-10">
-            <div
-              className={`project-story-beam absolute inset-x-0 top-0 h-px bg-linear-to-r ${currentAccent.line} to-transparent opacity-80`}
-              aria-hidden="true"
-            />
-            <div className="grid gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-start lg:gap-10">
-              <div>
-                <p className="case-study-hero-kicker">Case study</p>
-                <div className="mb-4 flex flex-wrap items-center gap-2">
-                  <span
-                    className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.22em] ${currentAccent.badge}`}
-                  >
-                    {project.galaxy}
-                  </span>
-                  {project.dateRange && (
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-white/45">
-                      {project.dateRange}
-                    </span>
-                  )}
-                </div>
-                <h1 className="case-study-hero-title max-w-[22ch]">{project.title}</h1>
-                <div className="case-study-hero-accent max-w-xl" aria-hidden="true" />
-                <p className="case-study-hero-lede">{project.description}</p>
-                {galaxyMeta?.narrative && (
-                  <p className="case-study-hero-note">{galaxyMeta.narrative}</p>
-                )}
-              </div>
-
-              <div className="case-study-field-panel project-story-metadata rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 md:p-6">
-                <p className="case-study-field-heading text-[10px] uppercase tracking-[0.28em] text-white/40">
-                  Field notes
-                </p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                  <div>
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/35">Role</p>
-                    <p className="mt-1 text-sm text-white/75">{project.role}</p>
-                  </div>
-                  {project.company && (
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-white/35">
-                        Context
-                      </p>
-                      <p className="mt-1 text-sm text-white/75">{project.company}</p>
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/35">
-                      Read order
-                    </p>
-                    <p className="mt-1 text-sm text-white/75">
-                      Evidence first, then constraint → build → proof. Use the chapter rail to jump
-                      sections; orbit to adjacent work from the bottom of the case study.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
+      <main id="project-content" className="eWrap">
         <ProjectCaseStudy project={project} />
 
-        {/* Hiring CTA Section */}
-        <section className="max-w-7xl mx-auto px-6 mt-16">
-          <div className="relative rounded-lg border border-purple-500/20 bg-gradient-to-br from-purple-500/10 via-indigo-500/5 to-transparent p-8 overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-purple-400/50 via-indigo-400/30 to-transparent" />
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div>
-                <h2 className="text-2xl font-bold mb-2 tracking-tight">
-                  Tell me what you&apos;re building
-                </h2>
-                <p className="text-white/60 max-w-xl leading-relaxed">
-                  If you need someone who can own UI, systems, and AI integration without losing the
-                  plot, I&apos;m listening. Contract, advisory, or full-time: we&apos;ll find the
-                  right shape.
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                <Link href="/contact" className="btn btn-primary gap-2 whitespace-nowrap">
-                  <MessageSquare className="w-4 h-4" />
-                  Start a Conversation
-                </Link>
-                <Link href="/work" className="btn btn-secondary gap-2 whitespace-nowrap">
-                  See More Projects
-                </Link>
-              </div>
-            </div>
+        {/* Hiring CTA */}
+        <section className={styles.hiring} aria-labelledby="hiring-heading">
+          <p className="eLabel">Let&apos;s talk</p>
+          <h2 id="hiring-heading" className={styles.hiringTitle}>
+            Tell me what you&apos;re building
+          </h2>
+          <p className={`eLede ${styles.hiringLede}`}>
+            If you need someone who can own UI, systems, and AI integration without losing the plot,
+            I&apos;m listening. Contract, advisory, or full-time: we&apos;ll find the right shape.
+          </p>
+          <div className={styles.hiringActions}>
+            <Link href="/contact" className="eBtn eBtnPrimary">
+              Start a conversation{' '}
+              <span className="arrow" aria-hidden="true">
+                &rarr;
+              </span>
+            </Link>
+            <Link href="/work" className="eBtn eBtnGhost">
+              See more projects
+            </Link>
           </div>
         </section>
-
-        {/* Removed redundant Jump Constellation — Related Work + Keep Exploring below serve same purpose */}
 
         {/* Related Projects by Tag Overlap */}
         {relatedProjects.length > 0 && (
-          <div className="max-w-7xl mx-auto px-6 mt-20">
-            <h2 className="text-xl font-bold mb-2 text-white/70 tracking-tight">Related work</h2>
-            <p className="mb-6 text-xs text-white/35">
+          <section className={styles.related} aria-labelledby="related-heading">
+            <p className="eLabel" id="related-heading" style={{ marginBottom: '0.4rem' }}>
+              Related work
+            </p>
+            <p className={styles.relatedNote}>
               Signal = how many tags a project shares with this one.
             </p>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {relatedProjects.map(({ project: related, sharedTags, sameGalaxy, score }) => {
-                const sourceAccent = GALAXY_ACCENTS[toGalaxyAccentKey(project.galaxy)]
-                const relatedAccent = GALAXY_ACCENTS[toGalaxyAccentKey(related.galaxy)]
-                return (
-                  <TiltCard key={related.id}>
-                    <Link
-                      href={`/work/${related.id}`}
-                      className="block p-6 h-full bg-white/5 border border-white/10 rounded-lg group hover:bg-white/10 transition-colors relative overflow-hidden"
-                    >
-                      {/* Constellation connector accent */}
-                      <div
-                        className={`absolute top-0 left-0 right-0 h-px opacity-70 bg-linear-to-r ${sourceAccent.line} ${relatedAccent.line.replace('from-', 'via-')} to-transparent`}
-                        aria-hidden="true"
-                      />
-
-                      <div className="flex items-center justify-between mb-3">
-                        {sameGalaxy ? (
-                          <span
-                            className={`px-2 py-0.5 rounded-full text-[10px] border ${relatedAccent.badge}`}
-                          >
-                            Same cluster
-                          </span>
-                        ) : (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] border border-white/15 text-white/40 bg-white/5">
-                            Nearby system
-                          </span>
-                        )}
-                        <span className="text-[10px] font-mono text-white/40">signal {score}</span>
-                      </div>
-
-                      <div className="mb-3">
-                        <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
-                          <div
-                            className={`h-full rounded-full bg-linear-to-r ${relatedAccent.line} to-white/20 ${getSignalStrengthWidth(score)}`}
-                          />
-                        </div>
-                        <div className="mt-1 text-[10px] text-white/35">
-                          Signal: {getSignalStrengthLabel(score)}
-                        </div>
-                      </div>
-
-                      <div className="flex flex-wrap gap-1 mb-3">
-                        {sharedTags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className={`px-2 py-0.5 rounded-full border text-[10px] ${relatedAccent.tag}`}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2 transition-colors">
-                        {related.title}
-                      </h3>
-                      <p className="text-white/50 text-sm line-clamp-2">{related.description}</p>
-                    </Link>
-                  </TiltCard>
-                )
-              })}
+            <div className="eLedger">
+              {relatedProjects.map(({ project: related, sharedTags, sameGalaxy, score }) => (
+                <Link
+                  key={related.id}
+                  href={`/work/${related.id}`}
+                  className={`eTile ${styles.relatedTile}`}
+                >
+                  <span className={styles.relatedMeta}>
+                    <span>{sameGalaxy ? 'Same cluster' : 'Nearby system'}</span>
+                    <span className="eMono">signal {score}</span>
+                  </span>
+                  <span className={styles.relatedTitle}>{related.title}</span>
+                  <span className={styles.relatedDesc}>{related.description}</span>
+                  <span className={styles.relatedTags}>
+                    {sharedTags.slice(0, 3).map((tag) => (
+                      <span key={tag} className={styles.relatedTag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </span>
+                </Link>
+              ))}
             </div>
-          </div>
+          </section>
         )}
 
-        {/* Navigation Footer */}
-        <div className="max-w-7xl mx-auto px-6 mt-32">
-          <h2 className="text-2xl font-bold mb-8 text-white/75 tracking-tight">Keep exploring</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <TiltCard className="h-full">
-              <Link
-                href={`/work/${prevProject.id}`}
-                className="block p-8 h-full bg-white/5 border border-white/10 rounded-lg group hover:bg-white/10 transition-colors"
-              >
-                <div className="flex items-center gap-2 text-white/40 mb-4 text-sm font-mono">
-                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                  Previous Project
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{prevProject.title}</h3>
-                <p className="text-white/60 line-clamp-2">{prevProject.description}</p>
-              </Link>
-            </TiltCard>
-
-            <TiltCard className="h-full">
-              <Link
-                href={`/work/${nextProject.id}`}
-                className="block p-8 h-full bg-white/5 border border-white/10 rounded-lg group hover:bg-white/10 transition-colors"
-              >
-                <div className="flex items-center justify-end gap-2 text-white/40 mb-4 text-sm font-mono">
-                  Next Project
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2 text-right">
-                  {nextProject.title}
-                </h3>
-                <p className="text-white/60 line-clamp-2 text-right">{nextProject.description}</p>
-              </Link>
-            </TiltCard>
+        {/* Prev / next navigation */}
+        <nav className={styles.keepExploring} aria-label="More case studies">
+          <p className="eLabel" style={{ marginBottom: '0.9rem' }}>
+            Keep exploring
+          </p>
+          <div className={styles.navGrid}>
+            <Link href={`/work/${prevProject.id}`} className={styles.navLink}>
+              <span className={styles.navDirection}>
+                <span aria-hidden="true">&larr;</span> Previous project
+              </span>
+              <span className={styles.navTitle}>{prevProject.title}</span>
+              <span className={styles.navDesc}>{prevProject.description}</span>
+            </Link>
+            <Link
+              href={`/work/${nextProject.id}`}
+              className={`${styles.navLink} ${styles.navLinkRight}`}
+            >
+              <span className={styles.navDirection}>
+                Next project <span aria-hidden="true">&rarr;</span>
+              </span>
+              <span className={styles.navTitle}>{nextProject.title}</span>
+              <span className={styles.navDesc}>{nextProject.description}</span>
+            </Link>
           </div>
-        </div>
+        </nav>
       </main>
 
       <SiteFooter />

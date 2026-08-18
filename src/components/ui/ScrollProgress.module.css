@@ -1,0 +1,24 @@
+/* Editorial variant only. The default (dark galaxy) bar stays in globals.css
+   (.scroll-progress-bar / [data-tone]) for ProjectModal. This is a running-head
+   strip: thin, cobalt, driven by --le-* tokens so it tracks light/dark automatically. */
+.track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 2px;
+  background: var(--le-rule);
+}
+.bar {
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  background: var(--le-accent);
+  transition: transform 0.15s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+}

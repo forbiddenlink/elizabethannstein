@@ -12,11 +12,12 @@ import styles from './LiveSystemsIndex.module.css'
 
 type StatusPhase = 'checking' | 'live' | 'down' | 'static'
 
-function respondingCount(statuses: Record<string, LiveResult>): number {
-  return FLAGSHIPS.reduce((n, f) => {
-    if (f.status === 'live') return n + (f.statusUrl && statuses[f.statusUrl]?.up ? 1 : 0)
-    return n + 1 // npm / cli / sites always count as "responding"
-  }, 0)
+// Optimistic + honest: every shipped system counts as responding unless a live probe
+// has actively confirmed it down. This keeps the first paint (and anything a crawler or AI
+// agent reads before client probes resolve) showing the true "all live" state instead of a
+// transient "checking…/N-of-8". A real outage still downgrades the specific row.
+function respondingCount(phases: Record<string, StatusPhase>): number {
+  return FLAGSHIPS.reduce((n, f) => n + (phases[f.id] === 'down' ? 0 : 1), 0)
 }
 
 function StatusCell({
@@ -73,8 +74,10 @@ function StatusCell({
 export function LiveSystemsIndex() {
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [statuses, setStatuses] = useState<Record<string, LiveResult>>({})
+  // Start every live system as 'live' (its shipped state per data). A probe only ever
+  // downgrades a row to 'down' on a confirmed failure, and adds latency (ms) on success.
   const [phases, setPhases] = useState<Record<string, StatusPhase>>(() =>
-    Object.fromEntries(FLAGSHIPS.map((f) => [f.id, f.status === 'live' ? 'checking' : 'static']))
+    Object.fromEntries(FLAGSHIPS.map((f) => [f.id, f.status === 'live' ? 'live' : 'static']))
   )
 
   useEffect(() => {
@@ -110,7 +113,7 @@ export function LiveSystemsIndex() {
     }
   }, [])
 
-  const up = respondingCount(statuses)
+  const up = respondingCount(phases)
   const ctaRef = useMagnetic<HTMLAnchorElement>(0.32)
   const bentoRef = useGsapReveal<HTMLDivElement>({
     selector: `.${styles.bTile}`,
@@ -119,7 +122,7 @@ export function LiveSystemsIndex() {
   })
 
   return (
-    <main id="main-content" tabIndex={-1} className={`${styles.page} outline-none`}>
+    <main id="main-content" tabIndex={-1} className={`editorial ${styles.page} outline-none`}>
       <div className={styles.wrap}>
         <div className={`${styles.statusbar} ${styles.reveal}`}>
           <span className={styles.statusName}>Elizabeth Stein</span>
@@ -161,7 +164,7 @@ export function LiveSystemsIndex() {
           <p className={`${styles.thesis} ${styles.reveal} ${styles.d1}`}>
             I design and build software that&rsquo;s actually running in production.{' '}
             <span className={styles.q}>
-              Eighty-six things shipped &mdash; here are the eight that matter, live right now.
+              Eighty-six things shipped. Here are the eight that matter, live right now.
             </span>
           </p>
           <div className={`${styles.standfirst} ${styles.reveal} ${styles.d2}`}>
@@ -216,7 +219,7 @@ export function LiveSystemsIndex() {
 
         <section aria-label="Selected work">
           <div className={`${styles.idxHead} ${styles.reveal} ${styles.d3}`}>
-            <span>Selected work — 08 / 86</span>
+            <span>Selected work · 08 / 86</span>
             <span>
               <b>click a row</b> to open the case
             </span>
@@ -302,7 +305,7 @@ export function LiveSystemsIndex() {
             + <b>78 more</b>, shipped.
           </div>
           <div className={styles.labNote}>
-            Experiments, dev tools, and games &mdash; the lab where the eight above got their reps.{' '}
+            Experiments, dev tools, and games: the lab where the eight above got their reps.{' '}
             <Link className={styles.labLink} href="/work">
               Browse the full catalogue
             </Link>
@@ -317,8 +320,8 @@ export function LiveSystemsIndex() {
         <footer className={styles.footer}>
           <div className={styles.fg}>
             <p className={styles.cred}>
-              <b>B.S. Information Technology, Software Development</b> &mdash; Capella University,
-              Summa Cum Laude (3.98 GPA). Shipping production code across three organisations.
+              <b>B.S. Information Technology, Software Development</b>, Capella University, Summa
+              Cum Laude (3.98 GPA). Shipping production code across three organisations.
             </p>
             <nav className={styles.links} aria-label="Navigation">
               <Link href="/about">About</Link>
@@ -337,7 +340,7 @@ export function LiveSystemsIndex() {
             </nav>
           </div>
           <div className={styles.signoff}>
-            <span>Elizabeth Stein — 2026</span>
+            <span>Elizabeth Stein · 2026</span>
             <Link className={styles.labLink} href="/explore">
               Enter the galaxy →
             </Link>

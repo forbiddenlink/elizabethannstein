@@ -1,0 +1,404 @@
+/* /about — editorial system. Composes the global .e* primitives from
+   src/styles/editorial.css; only page-specific layout lives here. */
+
+/* --- hero: portrait + masthead ------------------------------------------- */
+.heroRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: clamp(1.5rem, 4vw, 2.75rem);
+}
+.photoFrame {
+  flex: none;
+  border: 1.5px solid var(--le-rule-strong);
+  padding: 6px;
+  background: var(--le-paper-2);
+}
+.photoFrame :global(img) {
+  display: block;
+  width: 148px;
+  height: 148px;
+  object-fit: cover;
+}
+.heroText {
+  flex: 1 1 26rem;
+  min-width: 0;
+}
+.heroText .eLede {
+  margin-top: 1.2rem;
+  max-width: 54ch;
+  font-size: clamp(1.1rem, 1.9vw, 1.3rem);
+}
+
+/* --- availability banner --------------------------------------------------- */
+.availBanner {
+  margin-top: clamp(1.6rem, 3.5vw, 2.4rem);
+  padding: 1.1rem clamp(1.1rem, 2.6vw, 1.6rem);
+  border: 1px solid var(--le-rule);
+  background: var(--le-paper-2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+}
+.availHead {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--le-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--le-live-ink);
+}
+.availBody {
+  margin: 0;
+  font-family: var(--le-sans);
+  font-size: 0.92rem;
+  color: var(--le-ink-2);
+}
+.availBody strong {
+  color: var(--le-ink);
+  font-weight: 600;
+}
+
+/* --- quick glance: skills + focus index -------------------------------- */
+.info {
+  margin-top: clamp(2rem, 4.5vw, 3rem);
+}
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+@media (max-width: 780px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.specList {
+  margin: 0.9rem 0 0;
+  border-top: 1px solid var(--le-rule-strong);
+}
+.specRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--le-rule);
+}
+.specTerm {
+  font-family: var(--le-mono);
+  font-size: 0.85rem;
+  color: var(--le-ink);
+}
+.specDef {
+  font-family: var(--le-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--le-accent-ink);
+  text-align: right;
+  flex: none;
+}
+
+.focusList {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--le-rule-strong);
+}
+.focusLink {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.15rem;
+  border-bottom: 1px solid var(--le-rule);
+  text-decoration: none;
+  color: var(--le-ink);
+  font-family: var(--le-sans);
+  font-size: 0.92rem;
+  transition: padding-left 0.2s var(--le-ease);
+}
+.focusLink:hover {
+  padding-left: 0.5rem;
+  color: var(--le-accent-ink);
+}
+.focusCount {
+  font-family: var(--le-mono);
+  font-size: 0.74rem;
+  color: var(--le-muted);
+  flex: none;
+}
+.viewAll {
+  display: inline-block;
+  margin-top: 0.9rem;
+  font-family: var(--le-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--le-accent-ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--le-accent-ink) 45%, transparent);
+}
+.viewAll:hover {
+  border-color: var(--le-accent-ink);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+/* --- 30-second reel ------------------------------------------------------- */
+.reel {
+  margin-top: clamp(2.4rem, 5vw, 3.4rem);
+}
+.reelNote {
+  margin: 0.5rem 0 1.2rem;
+  color: var(--le-ink-2);
+  font-size: 0.98rem;
+  max-width: 52ch;
+}
+.reelFrame {
+  border: 1.5px solid var(--le-rule-strong);
+  background: var(--le-paper-2);
+  max-width: 42rem;
+}
+.reelFrame video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- long-form sections: numbered, rule-divided rhythm --------------------- */
+.section {
+  margin-top: clamp(2.6rem, 5.5vw, 3.8rem);
+  padding-top: clamp(2rem, 4vw, 2.8rem);
+  border-top: 1.5px solid var(--le-rule-strong);
+}
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: 1.4rem;
+}
+.sectionTitle {
+  font-family: var(--le-display);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* About Me body copy */
+.bioText {
+  max-width: 62ch;
+}
+.bioText p {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--le-ink-2);
+  margin: 0 0 1.1rem;
+}
+.bioText p:last-child {
+  margin-bottom: 0;
+}
+
+/* What I Do — asymmetric index rows, not a card grid */
+.doList {
+  display: flex;
+  flex-direction: column;
+}
+.doRow {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: clamp(0.8rem, 2vw, 1.6rem);
+  padding: clamp(1.1rem, 2.4vw, 1.5rem) 0;
+  border-top: 1px solid var(--le-rule);
+}
+.doRow:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.doNum {
+  font-family: var(--le-mono);
+  font-size: 0.78rem;
+  color: var(--le-muted);
+  padding-top: 0.35rem;
+  font-variant-numeric: tabular-nums;
+}
+.doTitle {
+  font-family: var(--le-display);
+  font-weight: 500;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  letter-spacing: -0.01em;
+  margin: 0 0 0.4rem;
+}
+.doBody {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--le-ink-2);
+  max-width: 60ch;
+}
+
+/* Tech Snapshot — mono spec sheet */
+.specSheet {
+  border-top: 1px solid var(--le-rule-strong);
+}
+.specSheetRow {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: 0.5rem 1.5rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--le-rule);
+}
+@media (max-width: 640px) {
+  .specSheetRow {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+}
+.specSheetLabel {
+  font-family: var(--le-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+  padding-top: 0.15rem;
+}
+.specSheetValue {
+  font-family: var(--le-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--le-ink-2);
+}
+
+/* Testimonial — real pull-quote, hanging punctuation, no card chrome */
+.quoteBlock {
+  margin: 0;
+  max-width: 58ch;
+}
+.quoteMark {
+  display: block;
+  font-family: var(--le-display);
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  line-height: 0.6;
+  color: var(--le-accent-ink);
+  margin-left: -0.05em;
+  opacity: 0.85;
+}
+.quoteText {
+  font-family: var(--le-display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--le-ink);
+  hanging-punctuation: first;
+  margin: 0.4rem 0 1.6rem;
+}
+.quoteFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--le-rule);
+}
+.quoteCite {
+  font-family: var(--le-sans);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--le-ink);
+}
+.quoteRole {
+  display: block;
+  font-family: var(--le-sans);
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--le-muted);
+  margin-top: 0.2rem;
+}
+.quoteHonorific {
+  display: block;
+  font-family: var(--le-sans);
+  font-size: 0.72rem;
+  color: var(--le-muted);
+  margin-top: 0.15rem;
+  letter-spacing: 0.03em;
+}
+
+/* Highlights — numbered ledger list */
+.hlList {
+  border-top: 1px solid var(--le-rule-strong);
+}
+.hlRow {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--le-rule);
+  transition: padding-left 0.2s var(--le-ease);
+}
+.hlRow:hover {
+  padding-left: 0.4rem;
+}
+.hlNum {
+  font-family: var(--le-mono);
+  font-size: 0.78rem;
+  color: var(--le-muted);
+  padding-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.hlText {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--le-ink-2);
+}
+.hlText strong {
+  color: var(--le-ink);
+  font-weight: 600;
+}
+
+/* --- closing CTA ------------------------------------------------------------ */
+.cta {
+  margin-top: clamp(2.8rem, 6vw, 4rem);
+  padding-top: clamp(2.2rem, 4.5vw, 3rem);
+  border-top: 1.5px solid var(--le-rule-strong);
+  text-align: center;
+}
+.ctaLede {
+  max-width: 46ch;
+  margin: 1rem auto 0;
+}
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: clamp(1.8rem, 3.5vw, 2.4rem);
+}
+.socialRow {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.socialRow a {
+  color: var(--le-muted);
+  transition: color 0.2s var(--le-ease);
+}
+.socialRow a:hover {
+  color: var(--le-accent-ink);
+}

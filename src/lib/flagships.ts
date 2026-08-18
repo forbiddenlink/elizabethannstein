@@ -47,16 +47,16 @@ export const FLAGSHIPS: Flagship[] = [
     id: 'security-readiness-platform',
     title: 'Security Readiness Platform',
     org: 'Cybersecurity nonprofit · Sole Developer',
-    years: '2025–26',
+    years: '2025-26',
     summary:
-      'A cybersecurity-readiness assessment platform on Dynamics 365 and Next.js — sole developer, twelve phases, live in production for a nonprofit (client confidential).',
+      'A cybersecurity-readiness assessment platform on Dynamics 365 and Next.js: sole developer, twelve phases, live in production for a nonprofit (client confidential).',
     proof: 'In production',
     status: 'sites',
     statusSub: 'Dynamics 365',
     cases: [
       {
         heading: 'The problem',
-        body: 'Managed-service providers had no fast, credible way to measure a client’s cybersecurity readiness — assessments lived in spreadsheets and consultants’ heads.',
+        body: 'Managed-service providers had no fast, credible way to measure a client’s cybersecurity readiness: assessments lived in spreadsheets and consultants’ heads.',
       },
       {
         heading: 'What I built',
@@ -64,7 +64,7 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'Proof',
-        body: 'Live in production and in use by a cybersecurity nonprofit. Sole developer — data model, business logic, front end, and deploys.',
+        body: 'Live in production and in use by a cybersecurity nonprofit. Sole developer: data model, business logic, front end, and deploys.',
       },
     ],
     metrics: [
@@ -78,16 +78,16 @@ export const FLAGSHIPS: Flagship[] = [
     id: 'rocketpark-craft-ecosystem',
     title: 'Craft CMS Ecosystem',
     org: 'Rocketpark Agency · Developer',
-    years: '2024–26',
+    years: '2024-26',
     summary:
-      'Eleven live client websites on Craft CMS — PHP, Twig, and a shared component system across the agency portfolio.',
+      'Eleven live client websites on Craft CMS: PHP, Twig, and a shared component system across the agency portfolio.',
     proof: '11 live sites',
     status: 'sites',
     statusSub: '11 live sites',
     cases: [
       {
         heading: 'Context',
-        body: 'Agency work — a portfolio of client sites that each need to ship fast, stay maintainable, and share a design language without becoming copy-paste.',
+        body: 'Agency work: a portfolio of client sites that each need to ship fast, stay maintainable, and share a design language without becoming copy-paste.',
       },
       {
         heading: 'What I do',
@@ -114,7 +114,7 @@ export const FLAGSHIPS: Flagship[] = [
     cases: [
       {
         heading: 'The idea',
-        body: 'Enter any date from 1958 to 2020 and get the cultural snapshot — the #1 song, the movies, the prices, the news — synthesized into an era-aware narrative. Not “what was #1 in 1975” but what that day felt like.',
+        body: 'Enter any date from 1958 to 2020 and get the cultural snapshot (the #1 song, the movies, the prices, the news) synthesized into an era-aware narrative. Not “what was #1 in 1975” but what that day felt like.',
       },
       {
         heading: 'How it works',
@@ -172,7 +172,7 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Personal · Creator',
     years: '2026',
     summary:
-      'Turns a screenshot into React — grounded against a real component catalogue so the output is usable, not hallucinated.',
+      'Turns a screenshot into React, grounded against a real component catalogue so the output is usable, not hallucinated.',
     proof: '★ DEV.to winner',
     status: 'live',
     statusUrl: 'https://trace-liz.vercel.app',
@@ -196,7 +196,7 @@ export const FLAGSHIPS: Flagship[] = [
     id: 'autodocs-ai',
     title: 'AutomaDocs',
     org: 'Personal · Creator',
-    years: '2024–26',
+    years: '2024-26',
     summary:
       'A documentation SaaS built on retrieval-augmented generation, with tiered Stripe billing.',
     proof: 'Live SaaS',
@@ -206,7 +206,7 @@ export const FLAGSHIPS: Flagship[] = [
     cases: [
       {
         heading: 'What it is',
-        body: 'Feed it your sources and it answers documentation questions with RAG — a full product with subscription tiers, auth, and Stripe billing wired in, not a demo.',
+        body: 'Feed it your sources and it answers documentation questions with RAG: a full product with subscription tiers, auth, and Stripe billing wired in, not a demo.',
       },
     ],
     metrics: [
@@ -220,14 +220,14 @@ export const FLAGSHIPS: Flagship[] = [
     title: 'hq',
     org: 'Personal · Creator',
     years: '2026',
-    summary: 'The dev-ops CLI I actually run every day — one command across ~90 repos and 10 APIs.',
+    summary: 'The dev-ops CLI I actually run every day: one command across ~90 repos and 10 APIs.',
     proof: '216 tests · daily driver',
     status: 'cli',
     statusSub: 'personal CLI',
     cases: [
       {
         heading: 'Why it exists',
-        body: 'The most lived-in thing here: the command-line tool I built to run my own operation — one interface over ~90 repositories and 10 services. I use it every day, which is the real test.',
+        body: 'The most lived-in thing here: the command-line tool I built to run my own operation: one interface over ~90 repositories and 10 services. I use it every day, which is the real test.',
       },
     ],
     metrics: [

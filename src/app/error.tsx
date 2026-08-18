@@ -10,28 +10,32 @@ export default function AppError({ error, reset }: { error: Error; reset: () => 
   }, [error])
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-black p-6 text-white">
-      <div className="max-w-md text-center">
-        <h2 className="mb-4 text-3xl font-bold tracking-tight">Something went wrong</h2>
-        <p className="mb-8 text-white/60">
+    <div className="editorial">
+      <main
+        className="eWrap"
+        style={{
+          minHeight: '80dvh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
+        <p className="eEyebrow">Error</p>
+        <h1 className="eTitle" style={{ fontSize: 'clamp(2.6rem, 8vw, 5rem)' }}>
+          Something went wrong<span style={{ color: 'var(--le-accent-ink)' }}>.</span>
+        </h1>
+        <p className="eLede" style={{ marginTop: '1.4rem' }}>
           An unexpected error occurred. You can try again or head back to the homepage.
         </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <button
-            type="button"
-            onClick={reset}
-            className="min-h-11 rounded-xl bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
-          >
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.9rem', marginTop: '2.2rem' }}>
+          <button type="button" onClick={reset} className="eBtn eBtnPrimary">
             Try again
           </button>
-          <Link
-            href="/"
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
-          >
+          <Link href="/" className="eBtn eBtnGhost">
             Back to home
           </Link>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

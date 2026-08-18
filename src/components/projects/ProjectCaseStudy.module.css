@@ -1,0 +1,237 @@
+/* /work/[slug]: editorial case study. Composes the global .e* primitives from
+   src/styles/editorial.css; only case-study-specific layout lives here. */
+
+.caseStudy {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- masthead --------------------------------------------------------------- */
+.masthead {
+  padding-top: 0;
+}
+.mastheadTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+.category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--le-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+}
+.categoryDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.narrative {
+  margin: 0.6rem 0 0;
+  max-width: 42ch;
+  font-family: var(--le-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--le-muted);
+}
+
+/* spec sheet: mono key:value masthead strip */
+.specSheet {
+  margin: clamp(1.6rem, 3.5vw, 2.4rem) 0 0;
+  border-top: 1px solid var(--le-rule-strong);
+}
+.specRow {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 0.5rem 1.5rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--le-rule);
+}
+@media (max-width: 640px) {
+  .specRow {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+.specLabel {
+  margin: 0;
+  font-family: var(--le-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+  padding-top: 0.1rem;
+}
+.specValue {
+  margin: 0;
+  font-family: var(--le-sans);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--le-ink-2);
+}
+.specValue:global(.eMono) {
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: center;
+  margin-top: clamp(1.6rem, 3vw, 2.2rem);
+}
+.btnIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* --- shared section rhythm --------------------------------------------------- */
+.section {
+  margin-top: clamp(2.8rem, 6vw, 4rem);
+  padding-top: clamp(2.2rem, 4.5vw, 3rem);
+  border-top: 1.5px solid var(--le-rule-strong);
+  scroll-margin-top: 6rem;
+}
+.h2 {
+  font-family: var(--le-display);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* --- media frame: evidence --------------------------------------------------- */
+.frame {
+  margin: 0;
+  border: 1.5px solid var(--le-rule-strong);
+  background: var(--le-paper-2);
+}
+.frameInner {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.frameImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  padding: 0.75rem clamp(1rem, 2.5vw, 1.4rem);
+  border-top: 1px solid var(--le-rule);
+  font-family: var(--le-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--le-muted);
+}
+.caption :global(.eMono) {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+/* --- story prose: brief / build / outcome ------------------------------------ */
+.prose {
+  margin-top: 1.6rem;
+}
+/* tasteful, single use: first paragraph of "The brief" gets a drop cap */
+.dropcap::first-letter {
+  font-family: var(--le-display);
+  font-weight: 500;
+  color: var(--le-accent-ink);
+  initial-letter: 3;
+  -webkit-initial-letter: 3;
+  margin-right: 0.35rem;
+}
+
+/* --- pull quote: testimonial, hanging punctuation, no card chrome ------------ */
+.quoteBlock {
+  margin: 0;
+  max-width: 58ch;
+}
+.quoteMark {
+  display: block;
+  font-family: var(--le-display);
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  line-height: 0.6;
+  color: var(--le-accent-ink);
+  margin-left: -0.05em;
+  opacity: 0.85;
+}
+.quoteText {
+  font-family: var(--le-display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--le-ink);
+  hanging-punctuation: first;
+  margin: 0.4rem 0 1.6rem;
+}
+.quoteFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--le-rule);
+}
+.quoteCite {
+  font-family: var(--le-sans);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--le-ink);
+}
+.quoteRole {
+  display: block;
+  font-family: var(--le-sans);
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--le-muted);
+  margin-top: 0.2rem;
+}
+.quoteDate {
+  display: block;
+  font-family: var(--le-mono);
+  font-size: 0.7rem;
+  color: var(--le-muted);
+  margin-top: 0.15rem;
+}
+
+/* --- tags: mono chips, no color-coded fills ---------------------------------- */
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--le-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--le-ink-2);
+  background: transparent;
+  border: 1px solid var(--le-rule);
+  border-radius: 2px;
+  padding: 0.4rem 0.7rem;
+}

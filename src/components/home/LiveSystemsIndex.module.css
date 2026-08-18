@@ -72,7 +72,7 @@
 }
 
 .sans {
-  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
 }
 
 .wrap {
@@ -90,7 +90,7 @@
   flex-wrap: wrap;
   padding-bottom: 0.8rem;
   border-bottom: 1.5px solid var(--le-rule-strong);
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -156,7 +156,7 @@
   padding: clamp(2.2rem, 6vw, 5rem) 0 clamp(1.8rem, 4vw, 3rem);
 }
 .eyebrow {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.7rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -228,7 +228,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem 1.5rem;
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.82rem;
   color: var(--le-ink-2);
 }
@@ -246,7 +246,7 @@
   flex-wrap: wrap;
   gap: 0.9rem;
   margin-top: 2rem;
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
 }
 .ctaPrimary,
 .ctaSecondary {
@@ -326,7 +326,7 @@
 }
 .bLabel {
   margin-top: 0.5rem;
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -334,7 +334,7 @@
   color: var(--le-ink);
 }
 .bSub {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.72rem;
   line-height: 1.4;
   color: var(--le-muted);
@@ -345,7 +345,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.68rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -397,7 +397,7 @@
   background: var(--le-tint);
 }
 .num {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.72rem;
   color: var(--le-muted);
   letter-spacing: 0.05em;
@@ -405,22 +405,25 @@
   font-variant-numeric: tabular-nums;
 }
 .title {
+  display: block;
   font-size: clamp(1.35rem, 2.6vw, 1.95rem);
   font-weight: 500;
   line-height: 1.08;
   letter-spacing: -0.01em;
   transition: color 0.2s;
+  text-wrap: balance;
 }
 .row:hover .title,
 .row.open .title {
   color: var(--le-accent-ink);
 }
 .org {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  display: block;
+  font-family: var(--le-sans);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--le-muted);
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
   text-transform: uppercase;
 }
 .desc {
@@ -430,7 +433,7 @@
   max-width: 44ch;
 }
 .hint {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -449,7 +452,7 @@
 
 /* status cell */
 .status {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   justify-self: end;
   text-align: right;
   min-width: 8rem;
@@ -527,7 +530,7 @@
 }
 .cs h4 {
   margin: 0 0 0.35rem;
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.66rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -554,7 +557,7 @@
   color: var(--le-ink);
 }
 .metricL {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.66rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -565,7 +568,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.3rem;
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.72rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -603,7 +606,7 @@
   font-weight: 500;
 }
 .labNote {
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   font-size: 0.82rem;
   color: var(--le-ink-2);
   max-width: 40ch;
@@ -625,7 +628,7 @@
   gap: 1.3rem 2.5rem;
   justify-content: space-between;
   align-items: baseline;
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
 }
 .cred {
   font-size: 0.82rem;
@@ -657,7 +660,7 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--le-muted);
-  font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--le-sans);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
