@@ -17,7 +17,8 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
+  preload: false,
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -25,15 +26,14 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
+  preload: false,
 })
 
-// Expressive variable serif for the editorial home display type. Normal-only +
-// preload so the marquee headline's LCP isn't gated on a slow font swap.
 const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  preload: true,
+  preload: false,
   adjustFontFallback: true,
 })
 

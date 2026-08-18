@@ -29,13 +29,15 @@ export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlac
   const seed = hashString(title)
 
   // Generate consistent "noise" dots based on project title
+  const r4 = (n: number) => Math.round(n * 10000) / 10000
+
   const dots = useMemo(() => {
     return Array.from({ length: 30 }, (_, i) => ({
       id: i,
-      x: seededRandom(seed + i * 1) * 100,
-      y: seededRandom(seed + i * 2) * 100,
-      size: seededRandom(seed + i * 3) * 4 + 1,
-      opacity: seededRandom(seed + i * 4) * 0.3 + 0.1,
+      x: r4(seededRandom(seed + i * 1) * 100),
+      y: r4(seededRandom(seed + i * 2) * 100),
+      size: r4(seededRandom(seed + i * 3) * 4 + 1),
+      opacity: r4(seededRandom(seed + i * 4) * 0.3 + 0.1),
     }))
   }, [seed])
 
@@ -43,7 +45,7 @@ export function ProjectPlaceholder({ title, color, className = '' }: ProjectPlac
   const lines = useMemo(() => {
     return Array.from({ length: 8 }, (_, i) => ({
       id: i,
-      offset: seededRandom(seed + i * 10) * 100,
+      offset: r4(seededRandom(seed + i * 10) * 100),
       isHorizontal: seededRandom(seed + i * 11) > 0.5,
     }))
   }, [seed])

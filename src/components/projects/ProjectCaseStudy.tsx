@@ -709,7 +709,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-          ← Project archive
+          Project archive
         </a>
       </nav>
     </article>
