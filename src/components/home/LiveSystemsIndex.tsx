@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGsapReveal } from '@/hooks/useGsapReveal'
 import { useMagnetic } from '@/hooks/useMagnetic'
 import { CONTACT } from '@/lib/constants'
@@ -12,10 +12,6 @@ import styles from './LiveSystemsIndex.module.css'
 
 type StatusPhase = 'checking' | 'live' | 'down' | 'static'
 
-// Optimistic + honest: every shipped system counts as responding unless a live probe
-// has actively confirmed it down. This keeps the first paint (and anything a crawler or AI
-// agent reads before client probes resolve) showing the true "all live" state instead of a
-// transient "checking…/N-of-8". A real outage still downgrades the specific row.
 function respondingCount(phases: Record<string, StatusPhase>): number {
   return FLAGSHIPS.reduce((n, f) => n + (phases[f.id] === 'down' ? 0 : 1), 0)
 }
@@ -74,8 +70,7 @@ function StatusCell({
 export function LiveSystemsIndex() {
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [statuses, setStatuses] = useState<Record<string, LiveResult>>({})
-  // Start every live system as 'live' (its shipped state per data). A probe only ever
-  // downgrades a row to 'down' on a confirmed failure, and adds latency (ms) on success.
+  const [isProbing, setIsProbing] = useState(false)
   const [phases, setPhases] = useState<Record<string, StatusPhase>>(() =>
     Object.fromEntries(FLAGSHIPS.map((f) => [f.id, f.status === 'live' ? 'live' : 'static']))
   )
@@ -87,33 +82,49 @@ export function LiveSystemsIndex() {
     window.location.replace(`/work/${projectParam}`)
   }, [])
 
-  // Fetch live status off the render path; resolve each dot as the result arrives.
-  useEffect(() => {
-    let cancelled = false
-    const reduce =
-      typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
-    const timers: ReturnType<typeof setTimeout>[] = []
+  const triggerProbe = useCallback(() => {
+    setIsProbing(true)
+    // Mark live URLs as checking
+    setPhases((prev) => {
+      const next = { ...prev }
+      FLAGSHIPS.forEach((f) => {
+        if (f.status === 'live') next[f.id] = 'checking'
+      })
+      return next
+    })
+
     fetch('/api/status')
       .then((r) => (r.ok ? r.json() : {}))
       .catch(() => ({}))
       .then((data: Record<string, LiveResult>) => {
-        if (cancelled) return
         setStatuses(data)
         FLAGSHIPS.forEach((f, i) => {
           if (f.status !== 'live') return
           const result = f.statusUrl ? data[f.statusUrl] : undefined
-          const settle = () => setPhases((p) => ({ ...p, [f.id]: result?.up ? 'live' : 'down' }))
-          if (reduce) settle()
-          else timers.push(setTimeout(settle, 200 + i * 220))
+          setTimeout(() => {
+            setPhases((p) => ({ ...p, [f.id]: result?.up ? 'live' : 'down' }))
+            if (i === FLAGSHIPS.length - 1) setIsProbing(false)
+          }, 150 + i * 180)
         })
       })
-    return () => {
-      cancelled = true
-      timers.forEach(clearTimeout)
-    }
   }, [])
 
+  // Initial probe on mount
+  useEffect(() => {
+    triggerProbe()
+  }, [triggerProbe])
+
   const up = respondingCount(phases)
+
+  // Calculate average latency among live pinged endpoints
+  const avgLatency = useMemo(() => {
+    const latencies = Object.values(statuses)
+      .map((s) => s.ms)
+      .filter((ms): ms is number => typeof ms === 'number' && ms > 0)
+    if (latencies.length === 0) return null
+    return Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
+  }, [statuses])
+
   const ctaRef = useMagnetic<HTMLAnchorElement>(0.32)
   const bentoRef = useGsapReveal<HTMLDivElement>({
     selector: `.${styles.bTile}`,
@@ -130,7 +141,18 @@ export function LiveSystemsIndex() {
             <span className={styles.livedot} aria-hidden="true" />
             <span>
               <b>{up}</b>/{FLAGSHIPS.length} systems responding
+              {avgLatency !== null && <span className="eMono"> · ~{avgLatency}ms</span>}
             </span>
+            &nbsp;·&nbsp;
+            <button
+              type="button"
+              className={styles.probeBtn}
+              onClick={triggerProbe}
+              disabled={isProbing}
+              title="Ping all live flagship endpoints"
+            >
+              {isProbing ? '⟳ probing…' : '⟳ re-probe'}
+            </button>
             &nbsp;·&nbsp;
             <button
               className={styles.tt}
@@ -187,6 +209,10 @@ export function LiveSystemsIndex() {
           >
             Download résumé
           </a>
+          <Link className={styles.ctaExplore} href="/explore">
+            <span className={styles.orbitMini} aria-hidden="true" />
+            3D Galaxy View →
+          </Link>
         </div>
 
         <section aria-label="At a glance">
@@ -197,7 +223,9 @@ export function LiveSystemsIndex() {
                 <span className={styles.bNumSub}>/{FLAGSHIPS.length}</span>
               </div>
               <div className={styles.bLabel}>Live systems responding</div>
-              <div className={styles.bSub}>Checked in real time, right now</div>
+              <div className={styles.bSub}>
+                {avgLatency ? `Verified ~${avgLatency}ms latency` : 'Checked in real time, right now'}
+              </div>
             </div>
             <div className={styles.bTile}>
               <div className={styles.bNum}>86</div>
@@ -311,7 +339,7 @@ export function LiveSystemsIndex() {
             </Link>
             , or{' '}
             <Link className={styles.labLink} href="/explore">
-              explore it as a galaxy
+              explore it as a 3D galaxy
             </Link>
             .
           </div>
@@ -327,6 +355,7 @@ export function LiveSystemsIndex() {
               <Link href="/about">About</Link>
               <Link href="/work">Work</Link>
               <Link href="/contact">Contact</Link>
+              <Link href="/explore">Galaxy 3D</Link>
               <a href="/resume/elizabeth-stein-resume.pdf" download="Elizabeth_Stein_Resume.pdf">
                 Résumé
               </a>
@@ -342,7 +371,7 @@ export function LiveSystemsIndex() {
           <div className={styles.signoff}>
             <span>Elizabeth Stein · 2026</span>
             <Link className={styles.labLink} href="/explore">
-              Enter the galaxy →
+              Enter the 3D galaxy →
             </Link>
           </div>
         </footer>

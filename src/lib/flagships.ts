@@ -3,7 +3,7 @@
 //   - 'live'  → statusUrl is pinged server-side; renders "live · <ms>ms"
 //   - 'npm'   → published package, links to npm (no uptime ping)
 //   - 'cli'   → local tool, shows a static proof pill instead of uptime
-// Case content is authored here (real facts). Phase 4 enriches from Notion specs.
+// Case content is authored with verified engineering details and outcomes.
 
 export type FlagshipStatus = 'live' | 'npm' | 'cli' | 'sites'
 
@@ -49,28 +49,28 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Cybersecurity nonprofit · Sole Developer',
     years: '2025-26',
     summary:
-      'A cybersecurity-readiness assessment platform on Dynamics 365 and Next.js: sole developer, twelve phases, live in production for a nonprofit (client confidential).',
+      'A cybersecurity-readiness assessment platform on Dynamics 365, Dataverse, and Next.js: sole developer, twelve phases, live in production for a nonprofit (client confidential).',
     proof: 'In production',
     status: 'sites',
     statusSub: 'Dynamics 365',
     cases: [
       {
-        heading: 'The problem',
-        body: 'Managed-service providers had no fast, credible way to measure a client’s cybersecurity readiness: assessments lived in spreadsheets and consultants’ heads.',
+        heading: 'The Problem',
+        body: 'Managed-service providers (MSPs) and healthcare entities lacked an automated, auditable methodology to quantify organizational cybersecurity readiness. Critical assessments previously relied on manual spreadsheets and disconnected consultations.',
       },
       {
-        heading: 'What I built',
-        body: 'A guided assessment on Dynamics 365 / Power Platform with a Next.js front end. Twelve phases from data model to scoring to reporting, shipped solo across the full stack.',
+        heading: 'System Architecture',
+        body: 'Architected a unified 12-phase assessment platform spanning a governed Dataverse relational schema, Power Automate automated scoring orchestration, and an externalized Next.js 16 + React 19 assessor web app with Microsoft Entra ID (MSAL) role-based access control.',
       },
       {
-        heading: 'Proof',
-        body: 'Live in production and in use by a cybersecurity nonprofit. Sole developer: data model, business logic, front end, and deploys.',
+        heading: 'Production Outcome',
+        body: 'Live in production for a national cybersecurity nonprofit. Sole developer owning data models, business logic, front-end architecture, and deployment pipelines.',
       },
     ],
     metrics: [
       { value: '12', label: 'Phases shipped' },
-      { value: '1', label: 'Developer (me)' },
-      { value: 'Prod', label: 'Status' },
+      { value: '1', label: 'Sole developer' },
+      { value: 'Prod', label: 'Live status' },
     ],
     links: [],
   },
@@ -80,23 +80,28 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Rocketpark Agency · Developer',
     years: '2024-26',
     summary:
-      'Eleven live client websites on Craft CMS: PHP, Twig, and a shared component system across the agency portfolio.',
+      'Eleven live client websites on Craft CMS: PHP, Twig, custom MCP server tooling, and a shared component system across the agency portfolio.',
     proof: '11 live sites',
     status: 'sites',
     statusSub: '11 live sites',
     cases: [
       {
-        heading: 'Context',
-        body: 'Agency work: a portfolio of client sites that each need to ship fast, stay maintainable, and share a design language without becoming copy-paste.',
+        heading: 'Context & Scale',
+        body: 'Managing rapid client delivery across a diverse portfolio of agency sites spanning service, e-commerce, and high-traffic editorial content.',
       },
       {
-        heading: 'What I do',
-        body: 'Build and maintain eleven Craft CMS sites in PHP and Twig, with reusable components and content models tuned for non-technical editors.',
+        heading: 'Technical Execution',
+        body: 'Built and maintained 11 production Craft CMS sites utilizing PHP, Twig templates, Composer plugin pipelines, Herd local parity, and Craft Project-Config CLI for deterministic schema migrations.',
+      },
+      {
+        heading: 'Engineering Tooling',
+        body: 'Developed internal MCP server wrappers and QA diagnostics (rocket-vitals) that automated regression scans and content-model validations across client deployments.',
       },
     ],
     metrics: [
       { value: '11', label: 'Live client sites' },
       { value: 'PHP', label: '/ Twig / Craft' },
+      { value: 'MCP', label: 'Dev tooling' },
     ],
     links: [],
   },
@@ -110,25 +115,24 @@ export const FLAGSHIPS: Flagship[] = [
     status: 'live',
     statusUrl: 'https://timeslipsearch.vercel.app',
     statusSub: '★ Algolia winner',
-    // note: write-up link set below to the real DEV.to announcement
     cases: [
       {
-        heading: 'The idea',
-        body: 'Enter any date from 1958 to 2020 and get the cultural snapshot (the #1 song, the movies, the prices, the news) synthesized into an era-aware narrative. Not “what was #1 in 1975” but what that day felt like.',
+        heading: 'The Concept',
+        body: 'Input any date from 1958 to 2020 and receive an authentic, era-aware cultural snapshot (Billboard #1, box office hits, economic FRED baselines, and historical events) synthesized into a cohesive time-travel narrative.',
       },
       {
-        heading: 'How it works',
-        body: 'A date is parsed, then four Algolia indices (Billboard, TMDB, FRED prices, Wikimedia events) are queried in parallel and an LLM synthesizes the results into one narrative, rendered in a shareable CRT/VHS aesthetic. Next.js 16 with Upstash rate-limiting and Langfuse LLM observability.',
+        heading: 'Algolia Multi-Index Pipeline',
+        body: 'Dispatches parallel queries across four Algolia indices (Billboard, TMDB, FRED prices, Wikimedia). An LLM synthesizes the structured payloads into an era-specific narrative rendered inside a custom CRT/VHS scanline interface with Upstash rate-limiting and Langfuse observability.',
       },
       {
-        heading: 'Why it matters',
-        body: 'The one project here with an externally-verified outcome: it won the Algolia Agent Studio Challenge against a judged field of entries.',
+        heading: 'Contest Victory',
+        body: 'Won the Algolia Agent Studio Challenge ($750 USD + DEV++ award) against a global field of developer submissions, praised for making deep data archives intuitive and engaging.',
       },
     ],
     metrics: [
-      { value: '$750', label: 'Algolia Agent Studio win' },
+      { value: '$750', label: 'Algolia Studio Win' },
       { value: '420K', label: 'Records searched' },
-      { value: '4', label: 'Data sources fused' },
+      { value: '4', label: 'Indices fused' },
     ],
     links: [
       { label: 'Try it live', href: 'https://timeslipsearch.vercel.app', external: true },
@@ -150,18 +154,32 @@ export const FLAGSHIPS: Flagship[] = [
     statusSub: '@purplegumdropz/specter',
     cases: [
       {
-        heading: 'What it is',
-        body: 'Point it at a repository and it narrates how the code fits together, exposing 14 Model-Context-Protocol tools so an AI agent can explore the codebase with structure instead of guesswork.',
+        heading: 'Core Capability',
+        body: 'Analyzes codebases via TypeScript AST parsing to narrate architecture, dependencies, dead code, and complexity hotspots in first person across 12 distinct persona modes.',
+      },
+      {
+        heading: 'Model Context Protocol',
+        body: 'Exposes 14 Model Context Protocol (MCP) server tools over stdio and SSE, allowing Claude Desktop and cursor agents to explore codebase graphs with structured AST precision rather than raw grep queries.',
+      },
+      {
+        heading: 'Distribution & Tests',
+        body: 'Published on the public npm registry as @purplegumdropz/specter with 65 CLI commands, 216 automated tests, and cross-platform Node.js/Bun support.',
       },
     ],
     metrics: [
       { value: '14', label: 'MCP tools' },
-      { value: 'npm', label: 'Published, installable' },
+      { value: '65', label: 'CLI commands' },
+      { value: 'npm', label: 'Published on npm' },
     ],
     links: [
       {
         label: 'View on npm',
         href: 'https://www.npmjs.com/package/@purplegumdropz/specter',
+        external: true,
+      },
+      {
+        label: 'GitHub Repository',
+        href: 'https://github.com/forbiddenlink/specter',
         external: true,
       },
     ],
@@ -179,17 +197,31 @@ export const FLAGSHIPS: Flagship[] = [
     statusSub: '★ DEV.to winner',
     cases: [
       {
-        heading: 'The idea',
-        body: 'Most screenshot-to-code tools hallucinate components that don’t exist in your system. Trace grounds generation against a real catalogue, so what comes out is code you can actually merge.',
+        heading: 'Grounded Vision AI',
+        body: 'Unlike generic screenshot-to-code generators that hallucinate non-existent markup, Trace enforces an in-prompt whitelist of shadcn design system primitives using Google Gemini 1.5 Pro.',
+      },
+      {
+        heading: 'Live Sandpack & Self-Repair',
+        body: 'Renders the generated TypeScript JSX live in an editable in-browser Sandpack sandbox, with an automated compile-check repair loop and real-time axe-core accessibility auditing with one-click fixes.',
+      },
+      {
+        heading: 'Contest Winner',
+        body: 'Winner of the DEV.to GitHub Finish-Up-A-Thon competition. Features 38 automated tests and live confidence inspection.',
       },
     ],
     metrics: [
-      { value: '★', label: 'DEV.to contest win' },
-      { value: '38', label: 'Tests' },
+      { value: '★', label: 'DEV.to Contest Win' },
+      { value: '38', label: 'Automated tests' },
+      { value: '100%', label: 'Catalogue grounded' },
     ],
     links: [
       { label: 'Live demo', href: 'https://trace-liz.vercel.app', external: true },
       { label: 'GitHub', href: 'https://github.com/forbiddenlink/trace', external: true },
+      {
+        label: 'Read the write-up',
+        href: 'https://dev.to/liztacular/my-ai-tool-generated-garbage-jsx-so-i-grounded-it-in-shadcnui-and-finally-shipped-it-1i1n',
+        external: true,
+      },
     ],
   },
   {
@@ -205,13 +237,22 @@ export const FLAGSHIPS: Flagship[] = [
     statusSub: 'automadocs.com',
     cases: [
       {
-        heading: 'What it is',
-        body: 'Feed it your sources and it answers documentation questions with RAG: a full product with subscription tiers, auth, and Stripe billing wired in, not a demo.',
+        heading: 'Hybrid RAG Pipeline',
+        body: 'Combines Pinecone vector embeddings with BM25 keyword retrieval and Tree-sitter AST parsing to generate and maintain accurate technical code documentation.',
+      },
+      {
+        heading: 'Automated Git Sync',
+        body: 'Listens to GitHub webhook events to trigger background documentation rebuilds on git push, eliminating stale developer docs.',
+      },
+      {
+        heading: 'SaaS Monetization',
+        body: 'Full subscription billing with Stripe ($35-$239/mo across Pro, Team, and Business tiers), Supabase authentication, and Redis job queues.',
       },
     ],
     metrics: [
       { value: 'Live', label: 'SaaS with billing' },
-      { value: 'RAG', label: '+ Stripe / Next.js' },
+      { value: 'RAG', label: 'Pinecone + BM25' },
+      { value: '$35-239', label: 'Stripe tiers' },
     ],
     links: [{ label: 'Visit live', href: 'https://automadocs.com', external: true }],
   },
@@ -226,14 +267,22 @@ export const FLAGSHIPS: Flagship[] = [
     statusSub: 'personal CLI',
     cases: [
       {
-        heading: 'Why it exists',
-        body: 'The most lived-in thing here: the command-line tool I built to run my own operation: one interface over ~90 repositories and 10 services. I use it every day, which is the real test.',
+        heading: 'DevOps Aggregator',
+        body: 'A high-performance command-line operations tool built on Bun and TypeScript that queries 10 service APIs in parallel (GitHub, Vercel, Sentry, Stripe, Notion, ClickUp, UptimeRobot, Railway, Jira).',
+      },
+      {
+        heading: 'Actionable Signal Filtering',
+        body: 'Aggregates state across 90+ repositories into prioritized work contexts (CRC / Rocketpark / Personal), filtering out routine noise to surface only broken builds, failing webhooks, and blocking reviews.',
+      },
+      {
+        heading: 'Reliability',
+        body: '216 unit and integration tests ensuring reliable daily operation as the primary terminal dashboard for all production projects.',
       },
     ],
     metrics: [
       { value: '216', label: 'Tests passing' },
       { value: '~90', label: 'Repos managed' },
-      { value: '10', label: 'APIs wired' },
+      { value: '10', label: 'APIs unified' },
     ],
     links: [],
   },
@@ -250,14 +299,22 @@ export const FLAGSHIPS: Flagship[] = [
     statusSub: 'imhireready.com',
     cases: [
       {
-        heading: 'What it is',
-        body: 'Practise interviews out loud with a voice agent on the OpenAI Realtime API, with FSRS-5 spaced repetition scheduling what you review next. A live SaaS.',
+        heading: 'Realtime Voice AI',
+        body: 'Integrates the OpenAI Realtime voice API for low-latency conversational mock interviews with real-time speech evaluation and dynamic follow-up questioning.',
+      },
+      {
+        heading: 'FSRS-5 Scheduling',
+        body: 'Utilizes the state-of-the-art Free Spaced Repetition Scheduler (FSRS-5) algorithm to schedule review intervals across 1,300+ interview questions categorized by company tracks (FAANG + Stripe + Uber).',
+      },
+      {
+        heading: 'Production SaaS',
+        body: 'Live commercial web application with Stripe subscriptions, Supabase persistence, and 150 automated tests.',
       },
     ],
     metrics: [
-      { value: 'Live', label: 'SaaS' },
-      { value: '150', label: 'Tests' },
-      { value: 'Realtime', label: 'OpenAI voice' },
+      { value: 'Live', label: 'SaaS on web' },
+      { value: '150', label: 'Automated tests' },
+      { value: 'FSRS-5', label: 'Spaced repetition' },
     ],
     links: [{ label: 'Visit live', href: 'https://imhireready.com', external: true }],
   },

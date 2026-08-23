@@ -6,6 +6,10 @@ import styles from './CaseStudyChapterRail.module.css'
 type Chapter = { id: string; label: string }
 
 const CHAPTER_DEF: readonly Chapter[] = [
+  { id: 'case-timeslip', label: 'Sandbox' },
+  { id: 'case-trace', label: 'Inspector' },
+  { id: 'case-hireready', label: 'Voice AI' },
+  { id: 'case-terminal', label: 'Terminal' },
   { id: 'case-visual', label: 'Evidence' },
   { id: 'case-arc', label: 'Story' },
   { id: 'case-signals', label: 'Scale' },

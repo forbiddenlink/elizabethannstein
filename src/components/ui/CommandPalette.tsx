@@ -49,7 +49,7 @@ export function CommandPalette() {
   const modalRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const isHomeRoute = pathname === '/'
+  const isExploreRoute = pathname?.startsWith('/explore')
 
   const closePalette = useCallback(() => {
     setIsOpen(false)
@@ -59,19 +59,19 @@ export function CommandPalette() {
 
   const viewProject = useCallback(
     (projectId: string) => {
-      if (isHomeRoute && hasEntered) {
+      if (isExploreRoute && hasEntered) {
         zoomToProject(projectId)
       } else {
         router.push(`/work/${projectId}`)
       }
       closePalette()
     },
-    [closePalette, hasEntered, isHomeRoute, router, zoomToProject]
+    [closePalette, hasEntered, isExploreRoute, router, zoomToProject]
   )
 
   const openGalaxy = useCallback(
     (galaxyId: string) => {
-      if (isHomeRoute && hasEntered) {
+      if (isExploreRoute && hasEntered) {
         const galaxy = galaxies.find((item) => item.id === galaxyId)
         if (galaxy?.projects[0]) {
           zoomToProject(galaxy.projects[0].id)
@@ -81,19 +81,19 @@ export function CommandPalette() {
       }
       closePalette()
     },
-    [closePalette, hasEntered, isHomeRoute, router, zoomToProject]
+    [closePalette, hasEntered, isExploreRoute, router, zoomToProject]
   )
 
   const exploreIn3D = useCallback(
     (projectId: string) => {
-      if (isHomeRoute && hasEntered) {
+      if (isExploreRoute && hasEntered) {
         exploreProject(projectId)
       } else {
-        router.push(`/?p=${projectId}`)
+        router.push(`/explore?p=${projectId}`)
       }
       closePalette()
     },
-    [closePalette, exploreProject, hasEntered, isHomeRoute, router]
+    [closePalette, exploreProject, hasEntered, isExploreRoute, router]
   )
 
   // Build command list
@@ -114,7 +114,7 @@ export function CommandPalette() {
       galaxy.projects.map((project) => ({
         id: `explore-${project.id}`,
         title: `🚀 Explore ${project.title}`,
-        subtitle: `Land on planet and walk around • ${galaxy.name}`,
+        subtitle: `Land on planet in 3D universe • ${galaxy.name}`,
         category: 'action' as const,
         icon: <Globe className="w-4 h-4" />,
         action: () => exploreIn3D(project.id),
@@ -129,7 +129,40 @@ export function CommandPalette() {
       icon: <Globe className="w-4 h-4" />,
       action: () => openGalaxy(galaxy.id),
     })),
-    // Actions
+    // Navigation Actions
+    {
+      id: 'view-home',
+      title: 'Home · Live Systems Index',
+      subtitle: 'Return to editorial overview at /',
+      category: 'action' as const,
+      icon: <Home className="w-4 h-4" />,
+      action: () => {
+        router.push('/')
+        closePalette()
+      },
+    },
+    {
+      id: 'view-3d',
+      title: 'Enter 3D Galaxy Showcase',
+      subtitle: 'Fly through the interactive universe at /explore',
+      category: 'action' as const,
+      icon: <Globe className="w-4 h-4" />,
+      action: () => {
+        router.push('/explore')
+        closePalette()
+      },
+    },
+    {
+      id: 'view-list',
+      title: 'Switch to List View',
+      subtitle: 'See all projects in a list at /work',
+      category: 'action' as const,
+      icon: <Keyboard className="w-4 h-4" />,
+      action: () => {
+        router.push('/work')
+        closePalette()
+      },
+    },
     {
       id: 'fast-track',
       title: 'Hiring fast track',
@@ -142,30 +175,8 @@ export function CommandPalette() {
       },
     },
     {
-      id: 'view-list',
-      title: 'Switch to List View',
-      subtitle: 'See all projects in a list',
-      category: 'action' as const,
-      icon: <Keyboard className="w-4 h-4" />,
-      action: () => {
-        router.push('/work')
-        closePalette()
-      },
-    },
-    {
-      id: 'view-3d',
-      title: 'Switch to 3D View',
-      subtitle: 'Explore the galaxy',
-      category: 'action' as const,
-      icon: <Globe className="w-4 h-4" />,
-      action: () => {
-        router.push('/')
-        closePalette()
-      },
-    },
-    {
       id: 'random-project',
-      title: '\u{1F3B2} Random project',
+      title: '🎲 Random project',
       subtitle: 'Discover a featured project at random',
       category: 'action' as const,
       icon: <Dice5 className="w-4 h-4" />,
@@ -175,16 +186,20 @@ export function CommandPalette() {
         const pick = candidates[Math.floor(Math.random() * candidates.length)]
         if (pick) {
           lastRandomRef.current = pick.id
-          zoomToProject(pick.id)
+          if (isExploreRoute && hasEntered) {
+            zoomToProject(pick.id)
+          } else {
+            router.push(`/work/${pick.id}`)
+          }
         }
         closePalette()
       },
     },
-    ...(!isJourneyMode
+    ...(!isJourneyMode && isExploreRoute
       ? [
           {
             id: 'start-journey',
-            title: '\u{1F680} Start guided tour',
+            title: '🚀 Start guided tour',
             subtitle: 'Take a narrated tour through the galaxies',
             category: 'action' as const,
             icon: <Rocket className="w-4 h-4" />,
@@ -195,11 +210,11 @@ export function CommandPalette() {
           },
         ]
       : []),
-    ...(view !== 'universe' || selectedGalaxy
+    ...(isExploreRoute && (view !== 'universe' || selectedGalaxy)
       ? [
           {
             id: 'return-universe',
-            title: '\u{1F3E0} Return to universe',
+            title: '🏠 Return to universe',
             subtitle: 'Zoom all the way out',
             category: 'action' as const,
             icon: <Home className="w-4 h-4" />,
@@ -212,8 +227,8 @@ export function CommandPalette() {
       : []),
     {
       id: 'browse-all',
-      title: '\u{1F4CB} Browse all projects',
-      subtitle: 'See every project in a list',
+      title: '📋 Browse all projects',
+      subtitle: 'See every project in the catalog',
       category: 'action' as const,
       icon: <List className="w-4 h-4" />,
       action: () => {
@@ -223,8 +238,8 @@ export function CommandPalette() {
     },
     {
       id: 'get-in-touch',
-      title: '\u{1F4AC} Get in touch',
-      subtitle: 'Send a message',
+      title: '💬 Get in touch',
+      subtitle: 'Send a message or collaborate',
       category: 'action' as const,
       icon: <MessageCircle className="w-4 h-4" />,
       action: () => {
@@ -234,8 +249,8 @@ export function CommandPalette() {
     },
     {
       id: 'about',
-      title: '\u{2139}\u{FE0F} About',
-      subtitle: 'Learn more about me',
+      title: 'ℹ️ About Elizabeth',
+      subtitle: 'Bio, education, and credentials',
       category: 'action' as const,
       icon: <User className="w-4 h-4" />,
       action: () => {
@@ -422,7 +437,7 @@ export function CommandPalette() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search projects, galaxies, or actions..."
+              placeholder="Search projects, galaxies, actions, or type CMD+K..."
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-lg"
             />
             <button
@@ -442,7 +457,7 @@ export function CommandPalette() {
           <div className="max-h-[60vh] overflow-y-auto">
             {filteredCommands.length === 0 ? (
               <div className="px-4 py-12 text-center text-gray-500">
-                No results found for "{search}"
+                No results found for &ldquo;{search}&rdquo;
               </div>
             ) : (
               Object.entries(groupedCommands).map(([category, items]) => (
@@ -450,7 +465,7 @@ export function CommandPalette() {
                   <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     {getCategoryLabel(category)}
                   </div>
-                  {items.map((cmd, _idx) => {
+                  {items.map((cmd) => {
                     const globalIdx = filteredCommands.indexOf(cmd)
                     const isSelected = globalIdx === selectedIndex
 

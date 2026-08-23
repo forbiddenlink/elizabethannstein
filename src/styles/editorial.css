@@ -48,7 +48,8 @@
   --le-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   min-height: 100dvh;
-  background: var(--le-paper);
+  background-color: var(--le-paper);
+  background-image: radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--le-accent-wash) 35%, transparent) 0%, transparent 65%);
   color: var(--le-ink);
   font-family: var(--le-display);
   font-size: 18px;
@@ -146,6 +147,20 @@
   color: inherit;
 }
 
+/* --- dropcap --------------------------------------------------------------- */
+.editorial .eDropcap::first-letter,
+.eDropcap::first-letter {
+  font-family: var(--le-display);
+  font-size: 3.5em;
+  float: left;
+  line-height: 0.82;
+  margin-right: 0.12em;
+  margin-top: 0.04em;
+  color: var(--le-accent-ink);
+  font-style: italic;
+  font-weight: 500;
+}
+
 /* --- layout shell ---------------------------------------------------------- */
 .eWrap {
   max-width: 1180px;
@@ -169,6 +184,16 @@
 .eNum {
   font-variant-numeric: tabular-nums;
 }
+.eCode {
+  font-family: var(--le-mono);
+  font-size: 0.85em;
+  background: var(--le-paper-2);
+  border: 1px solid var(--le-rule);
+  padding: 0.12em 0.4em;
+  border-radius: 3px;
+  color: var(--le-accent-ink);
+}
+
 /* uppercase section kicker with trailing rule */
 .eEyebrow {
   font-family: var(--le-sans);
@@ -346,6 +371,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  transition: background 0.2s var(--le-ease);
+}
+.eTile:hover {
+  background: color-mix(in oklab, var(--le-paper-2) 92%, var(--le-accent-wash));
 }
 .eTileNum {
   font-family: var(--le-display);
@@ -522,11 +551,17 @@
 }
 @media print {
   .editorial {
-    background: #fff;
-    color: #000;
-    font-size: 11pt;
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt !important;
   }
-  .editorial [data-print-hide] {
+  .editorial [data-print-hide],
+  .editorial header,
+  .editorial footer {
     display: none !important;
+  }
+  .eWrap {
+    padding: 0 !important;
+    max-width: 100% !important;
   }
 }

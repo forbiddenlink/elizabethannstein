@@ -1,4 +1,9 @@
 import Image from 'next/image'
+import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
+import { InteractiveTerminal } from '@/components/projects/InteractiveTerminal'
+import { TheReceiptsDrawer } from '@/components/projects/TheReceiptsDrawer'
+import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
+import { TraceComparison } from '@/components/projects/TraceComparison'
 import { ProjectPlaceholder } from '@/components/ui/ProjectPlaceholder'
 import { GitHubIcon } from '@/components/ui/SocialIcons'
 import { galaxies } from '@/lib/galaxyData'
@@ -29,7 +34,7 @@ function getStatusLabel(project: Project): string {
   return 'In production'
 }
 
-// ── Helper text generators (unchanged fallback logic) ──────────────────────
+// ── Helper text generators ──────────────────────────────────────────────────
 function getChallengeText(project: Project): string {
   if (project.challenge) return project.challenge
   if (project.metrics?.files) {
@@ -69,7 +74,7 @@ function getImpactText(project: Project): string {
   return `Completed as a learning project, demonstrating proficiency in ${project.tags.slice(0, 2).join(' and ')}.`
 }
 
-// ── Ledger tile (spec-sheet metric: Fraunces number + mono label) ──────────
+// ── Ledger tile ─────────────────────────────────────────────────────────────
 function MetricTile({ label, value }: Readonly<{ label: string; value: string }>) {
   return (
     <div className="eTile">
@@ -88,6 +93,16 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const screenshotPath = PROJECT_SCREENSHOTS[project.id]
   const projectGalaxy = getProjectGalaxy(project)
   const statusLabel = getStatusLabel(project)
+
+  const isCliOrTool =
+    project.id === 'specter' ||
+    project.id === 'hq' ||
+    project.id === 'chronicle' ||
+    project.tags.includes('CLI')
+
+  const isTimeSlip = project.id === 'timeslip-search'
+  const isTrace = project.id === 'trace'
+  const isHireReady = project.id === 'hire-ready'
 
   const engineMetrics: Array<{ label: string; value: string }> = []
   if (project.metrics?.files) {
@@ -192,38 +207,70 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         </div>
       </header>
 
-      {/* ── Media: evidence ── */}
-      <section id="case-visual" aria-labelledby="case-visual-heading" className={styles.section}>
-        <p className="eEyebrow">Evidence</p>
-        <h2 id="case-visual-heading" className={styles.h2}>
-          {screenshotPath ? 'Interface' : 'System surface'}
-        </h2>
-        <figure className={styles.frame}>
-          <div className={styles.frameInner}>
-            {screenshotPath ? (
-              <Image
-                src={screenshotPath}
-                alt={`${project.title} application interface`}
-                width={1280}
-                height={800}
-                priority
-                className={styles.frameImage}
-                sizes="(max-width: 900px) 100vw, 1180px"
-              />
-            ) : (
-              <ProjectPlaceholder title={project.title} color={project.color} />
-            )}
-          </div>
-          <figcaption className={styles.caption}>
-            <span>Signature view</span>
-            <span className="eMono">
-              {project.links?.live
-                ? project.links.live.replace(/^https?:\/\//, '')
-                : 'preview, no public screenshot on file'}
-            </span>
-          </figcaption>
-        </figure>
-      </section>
+      {/* ── Interactive Sandbox / Evidence ── */}
+      {isTimeSlip ? (
+        <section id="case-timeslip" aria-label="Interactive Demo" className={styles.section}>
+          <p className="eEyebrow">Interactive Demo · Algolia Winner</p>
+          <h2 className={styles.h2}>Live Multi-Index Time Machine</h2>
+          <TimeSlipScrubber />
+        </section>
+      ) : isTrace ? (
+        <section id="case-trace" aria-label="Interactive Grounding Demo" className={styles.section}>
+          <p className="eEyebrow">Interactive Demo · DEV.to Winner</p>
+          <h2 className={styles.h2}>Screenshot-to-Code Grounding Inspector</h2>
+          <TraceComparison />
+        </section>
+      ) : isHireReady ? (
+        <section id="case-hireready" aria-label="Voice AI Simulator" className={styles.section}>
+          <p className="eEyebrow">Interactive Voice AI Sandbox</p>
+          <h2 className={styles.h2}>Realtime Interview &amp; Spaced Repetition</h2>
+          <HireReadySimulator />
+        </section>
+      ) : isCliOrTool ? (
+        <section id="case-terminal" aria-label="Interactive Terminal" className={styles.section}>
+          <p className="eEyebrow">Live Terminal Simulation</p>
+          <h2 className={styles.h2}>Interactive Engine Sandbox</h2>
+          <InteractiveTerminal
+            projectName={project.title}
+            initialCommand={project.id === 'specter' ? 'specter explain' : 'help'}
+          />
+        </section>
+      ) : (
+        <section id="case-visual" aria-labelledby="case-visual-heading" className={styles.section}>
+          <p className="eEyebrow">Evidence</p>
+          <h2 id="case-visual-heading" className={styles.h2}>
+            {screenshotPath ? 'Interface' : 'System surface'}
+          </h2>
+          <figure className={styles.frame}>
+            <div className={styles.frameInner}>
+              {screenshotPath ? (
+                <Image
+                  src={screenshotPath}
+                  alt={`${project.title} application interface`}
+                  width={1280}
+                  height={800}
+                  priority
+                  className={styles.frameImage}
+                  sizes="(max-width: 900px) 100vw, 1180px"
+                />
+              ) : (
+                <ProjectPlaceholder title={project.title} color={project.color} />
+              )}
+            </div>
+            <figcaption className={styles.caption}>
+              <span>Signature view</span>
+              <span className="eMono">
+                {project.links?.live
+                  ? project.links.live.replace(/^https?:\/\//, '')
+                  : 'spec drawing // verified implementation'}
+              </span>
+            </figcaption>
+          </figure>
+        </section>
+      )}
+
+      {/* ── The Receipts Verification Drawer ── */}
+      <TheReceiptsDrawer project={project} />
 
       {/* ── Story: brief / build / outcome ── */}
       <section id="case-arc" aria-label="Story" className={styles.section}>

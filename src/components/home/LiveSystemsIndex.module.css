@@ -105,11 +105,33 @@
   align-items: center;
   gap: 0.55rem;
   color: var(--le-muted);
+  flex-wrap: wrap;
 }
 .sys b {
   color: var(--le-live-ink);
   font-weight: 700;
 }
+.probeBtn {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--le-accent-ink);
+  background: color-mix(in oklab, var(--le-accent-wash) 60%, transparent);
+  border: 1px solid color-mix(in oklab, var(--le-accent-ink) 25%, transparent);
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0.15rem 0.45rem;
+  transition: all 0.2s ease;
+}
+.probeBtn:hover:not(:disabled) {
+  background: var(--le-accent-ink);
+  color: var(--le-paper);
+}
+.probeBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 .livedot {
   width: 7px;
   height: 7px;
@@ -187,7 +209,6 @@
 .line > span {
   display: block;
   transform: translateY(105%);
-  /* Runs on load (CSS-driven), so the LCP headline is not gated on JS hydration. */
   animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .line:nth-child(2) > span {
@@ -244,12 +265,14 @@
 .cta {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.9rem;
   margin-top: 2rem;
   font-family: var(--le-sans);
 }
 .ctaPrimary,
-.ctaSecondary {
+.ctaSecondary,
+.ctaExplore {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -265,7 +288,8 @@
   transition:
     background-color 0.22s ease,
     border-color 0.22s ease,
-    color 0.22s ease;
+    color 0.22s ease,
+    transform 0.22s ease;
 }
 .ctaPrimary {
   background: var(--le-rule-strong);
@@ -292,6 +316,26 @@
   background: var(--le-tint);
   color: var(--le-accent-ink);
   border-color: var(--le-accent-ink);
+}
+.ctaExplore {
+  background: color-mix(in oklab, var(--le-accent-wash) 70%, transparent);
+  color: var(--le-accent-ink);
+  border: 1.5px solid color-mix(in oklab, var(--le-accent-ink) 35%, transparent);
+}
+.ctaExplore:hover {
+  background: var(--le-accent-ink);
+  color: var(--le-paper);
+  border-color: var(--le-accent-ink);
+  transform: translateY(-1px);
+}
+.orbitMini {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--le-accent);
+}
+.ctaExplore:hover .orbitMini {
+  background: var(--le-paper);
 }
 
 /* bento proof grid */

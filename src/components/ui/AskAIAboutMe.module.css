@@ -4,6 +4,11 @@
   align-items: center;
   gap: 0.9rem 1.4rem;
 }
+.headGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
 .heading {
   margin: 0;
   font-family: var(--le-sans);
@@ -16,7 +21,8 @@
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  align-items: center;
+  gap: 0.5rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -24,23 +30,37 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  min-height: 2.25rem;
-  padding: 0 0.9rem;
-  border: 1px solid var(--le-rule-strong);
+  gap: 0.35rem;
+  min-height: 2.1rem;
+  padding: 0 0.85rem;
+  border: 1px solid var(--le-rule);
   border-radius: 2px;
+  background: var(--le-paper-2);
   font-family: var(--le-sans);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   color: var(--le-ink);
   text-decoration: none;
+  cursor: pointer;
   transition:
     background-color 0.2s var(--le-ease),
     color 0.2s var(--le-ease),
-    border-color 0.2s var(--le-ease);
+    border-color 0.2s var(--le-ease),
+    transform 0.2s var(--le-ease);
 }
 .chip:hover {
   background: var(--le-tint);
   color: var(--le-accent-ink);
   border-color: var(--le-accent-ink);
+  transform: translateY(-1px);
+}
+.chipPrimary {
+  background: color-mix(in oklab, var(--le-accent-wash) 70%, transparent);
+  border-color: color-mix(in oklab, var(--le-accent-ink) 30%, transparent);
+  color: var(--le-accent-ink);
+}
+.chipPrimary:hover {
+  background: var(--le-accent-ink);
+  color: var(--le-paper);
 }

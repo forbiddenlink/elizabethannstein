@@ -31,7 +31,7 @@ export function DeepLinkHandler() {
         zoomToProject(projectParam)
       } else {
         // Invalid project ID, remove param
-        router.replace('/')
+        router.replace('/explore')
       }
     }
   }, [searchParams, router, zoomToProject])

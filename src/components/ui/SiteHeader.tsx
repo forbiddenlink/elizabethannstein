@@ -35,8 +35,9 @@ export function SiteHeader(_props: Readonly<SiteHeaderProps>) {
         <nav className={styles.nav} aria-label="Main navigation">
           <Link href="/contact" className={styles.live} title="Open to contract and full-time work">
             <span className="eDot" aria-hidden="true" />
-            Open to work
+            <span>Open to work</span>
           </Link>
+
           {navLinks.map(({ href, label }) => {
             const isActive = pathname === href || pathname.startsWith(`${href}/`)
             return (
@@ -50,6 +51,16 @@ export function SiteHeader(_props: Readonly<SiteHeaderProps>) {
               </Link>
             )
           })}
+
+          <Link
+            href="/explore"
+            className={styles.galaxyPill}
+            title="Launch interactive 3D WebGPU Galaxy view"
+          >
+            <span className={styles.orbitDot} aria-hidden="true" />
+            <span className={styles.galaxyLabel}>3D Galaxy</span>
+          </Link>
+
           <button
             type="button"
             className={styles.toggle}

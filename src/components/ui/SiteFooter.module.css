@@ -65,8 +65,9 @@
 .right a:hover {
   color: var(--le-accent-ink);
 }
-.workLink {
-  color: var(--le-accent-ink) !important;
+.right .workLink {
+  color: var(--le-accent-ink);
+  font-weight: 600;
 }
 .colophon {
   font-family: var(--le-mono);

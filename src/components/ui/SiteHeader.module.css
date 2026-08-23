@@ -15,7 +15,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.8rem;
+  flex-wrap: wrap;
 }
 .brand {
   display: inline-flex;
@@ -41,6 +42,7 @@
   align-items: center;
   gap: 0.35rem 0.2rem;
   font-family: var(--le-sans);
+  flex-wrap: wrap;
 }
 .live {
   display: none;
@@ -52,6 +54,7 @@
   text-transform: uppercase;
   color: var(--le-live-ink);
   font-weight: 600;
+  text-decoration: none;
 }
 @media (min-width: 640px) {
   .live {
@@ -63,7 +66,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 2.5rem;
-  padding: 0 0.7rem;
+  padding: 0 0.65rem;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -81,12 +84,70 @@
 .linkActive::after {
   content: "";
   position: absolute;
-  left: 0.7rem;
-  right: 0.7rem;
+  left: 0.65rem;
+  right: 0.65rem;
   bottom: 0.55rem;
   height: 1.5px;
   background: var(--le-accent);
 }
+
+/* 3D Galaxy interactive pill */
+.galaxyPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  margin: 0 0.3rem;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--le-accent-wash) 65%, transparent);
+  border: 1px solid color-mix(in oklab, var(--le-accent) 40%, transparent);
+  color: var(--le-accent-ink);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.22s var(--le-ease);
+}
+.galaxyPill:hover {
+  background: var(--le-accent-ink);
+  color: var(--le-paper);
+  border-color: var(--le-accent-ink);
+  transform: translateY(-1px);
+}
+.orbitDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--le-accent);
+  position: relative;
+}
+.galaxyPill:hover .orbitDot {
+  background: var(--le-paper);
+}
+.orbitDot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid var(--le-accent);
+  opacity: 0.6;
+  animation: orbitPing 2s infinite ease-out;
+}
+@keyframes orbitPing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+.galaxyLabel {
+  font-family: var(--le-sans);
+}
+
 .toggle {
   font-family: var(--le-sans);
   font-size: 0.66rem;
@@ -104,4 +165,19 @@
 }
 .toggle:hover {
   color: var(--le-accent-ink);
+}
+
+@media (max-width: 480px) {
+  .inner {
+    padding: 0.5rem 1rem;
+  }
+  .link {
+    padding: 0 0.4rem;
+    font-size: 0.65rem;
+  }
+  .galaxyPill {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.62rem;
+    margin: 0 0.1rem;
+  }
 }
