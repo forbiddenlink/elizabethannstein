@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
 import { TheReceiptsDrawer } from '@/components/projects/TheReceiptsDrawer'
 import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
 import { TraceComparison } from '@/components/projects/TraceComparison'
-import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
 import { AskAIAboutMe } from '@/components/ui/AskAIAboutMe'
 import { getProjectById } from '@/lib/galaxyData'
 
@@ -31,7 +31,9 @@ describe('Interactive Project Components & Utilities', () => {
     it('renders cultural years and updates snapshot on year click', () => {
       render(<TimeSlipScrubber />)
 
-      expect(screen.getByText(/TimeSlipSearch — Interactive Cultural Snapshot Engine/i)).toBeDefined()
+      expect(
+        screen.getByText(/TimeSlipSearch — Interactive Cultural Snapshot Engine/i)
+      ).toBeDefined()
       expect(screen.getAllByText(/1985/i).length).toBeGreaterThan(0)
 
       // Click on 1969
@@ -65,7 +67,9 @@ describe('Interactive Project Components & Utilities', () => {
     it('renders question tracks and voice simulation trigger', () => {
       render(<HireReadySimulator />)
 
-      expect(screen.getByText(/HireReady — OpenAI Realtime Voice & FSRS-5 Simulator/i)).toBeDefined()
+      expect(
+        screen.getByText(/HireReady — OpenAI Realtime Voice & FSRS-5 Simulator/i)
+      ).toBeDefined()
       expect(screen.getByText(/Stripe/i)).toBeDefined()
       expect(screen.getByText(/Google/i)).toBeDefined()
 
@@ -90,7 +94,9 @@ describe('Interactive Project Components & Utilities', () => {
       fireEvent.click(briefBtn)
 
       expect(screen.getByText(/Candidate Brief · Elizabeth Stein/i)).toBeDefined()
-      expect(screen.getByText(/Capella University, B\.S\. in Information Technology/i)).toBeDefined()
+      expect(
+        screen.getByText(/Capella University, B\.S\. in Information Technology/i)
+      ).toBeDefined()
     })
   })
 })
