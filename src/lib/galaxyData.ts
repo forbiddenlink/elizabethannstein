@@ -1858,7 +1858,7 @@ export const galaxies: Galaxy[] = [
         size: 'medium',
         galaxy: 'experimental',
         links: {
-          live: 'https://mythos-web-seven.vercel.app',
+          live: 'https://mythosatlas.com',
           github: 'https://github.com/forbiddenlink/mythos',
         },
         featured: false,
@@ -2015,6 +2015,9 @@ export const galaxies: Galaxy[] = [
         brightness: 1.2,
         size: 'small',
         galaxy: 'experimental',
+        links: {
+          github: 'https://github.com/forbiddenlink/apeiron-remake',
+        },
         featured: false,
         dateRange: '2025',
         challenge:
@@ -2023,6 +2026,54 @@ export const galaxies: Galaxy[] = [
           'Fixed-timestep game loop for deterministic physics. Procedural pixel-art sprites drawn entirely with Canvas API, no image files. WebAudio API synthesises all SFX from scratch. Classic mode preserves original scoring: extra life every 20,000 pts, up to 8 lives.',
         impact:
           'Zero external assets: entire game in pure code. Fixed-timestep ensures identical behaviour across frame rates. Classic mode is accurate to 1994 original. Demonstrates low-level browser graphics and audio APIs.',
+      },
+      {
+        id: 'critter-vale',
+        title: 'Critter Vale',
+        description:
+          'Browser-based 3D creature-collector built with Three.js. Explore a hand-crafted world, discover and befriend critters, and battle in real time, all rendered in WebGL with zero native install.',
+        role: 'Creator',
+        tags: ['Three.js', 'JavaScript', 'WebGL', 'Vite'],
+        color: '#FFB800',
+        brightness: 1.6,
+        size: 'large',
+        galaxy: 'experimental',
+        links: {
+          live: 'https://critter-vale.vercel.app',
+          github: 'https://github.com/forbiddenlink/critter-vale',
+        },
+        featured: true,
+        dateRange: '2026',
+        challenge:
+          '3D creature-collector games are usually native or engine-heavy (Unity/Unreal). Building one that runs entirely in the browser at real-time framerates was the core technical bet.',
+        solution:
+          'Built a full 3D world with Three.js: custom creature models, exploration mechanics, and real-time combat, all in WebGL with no plugins or native install required.',
+        impact:
+          'Playable end-to-end in any modern browser. Demonstrates real-time 3D rendering, game-state management, and physics-driven combat without a game engine dependency.',
+      },
+      {
+        id: 'pass-game',
+        title: 'PASS',
+        description:
+          'Alan Turing interrogation tribute built for a game jam. A live Gemini AI writes the questions, judges how human your answers sound, and presses back on weak replies, racing you to convincingly "pass" before the solstice sun sets.',
+        role: 'Creator',
+        tags: ['Next.js', 'Google Gemini', 'TypeScript', 'Game Jam'],
+        color: '#FFB800',
+        brightness: 1.5,
+        size: 'medium',
+        galaxy: 'experimental',
+        links: {
+          live: 'https://pass-game-elizabeth-emersons-projects.vercel.app',
+          github: 'https://github.com/forbiddenlink/pass-game',
+        },
+        featured: true,
+        dateRange: '2026',
+        challenge:
+          'Turing-test style games usually script canned dialogue. Building one where an AI genuinely judges believability in real time, with no fixed answer key to game, raised the design and prompt-engineering bar.',
+        solution:
+          'Google Gemini both generates enciphered interrogation questions and judges each reply for how convincingly human it sounds, pressing back on weak answers. Ships with an offline fallback (question bank + heuristic judge) so the game is playable with zero API key.',
+        impact:
+          'Built and shipped for the June Solstice Game Jam. Graceful degrade to offline mode means anyone can play instantly. Demonstrates live LLM-as-judge game design, not scripted branching.',
       },
       {
         id: 'runwayos',
@@ -2096,7 +2147,7 @@ export const galaxies: Galaxy[] = [
         id: 'nova-particles',
         title: 'Nova Particles',
         description:
-          'GPU particle system rendering 1M+ particles at 60fps using WebGPU compute shaders. Structure of Arrays architecture for maximum GPU cache efficiency.',
+          'GPU particle system rendering 1M+ particles at 60fps using WebGPU compute shaders. Structure of Arrays architecture for maximum GPU cache efficiency. Published on npm as @nova-particles/core.',
         role: 'Creator',
         tags: ['WebGPU', 'Three.js', 'TypeScript', 'Performance'],
         color: '#FF6B6B',
