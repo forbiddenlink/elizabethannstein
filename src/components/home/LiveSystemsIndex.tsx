@@ -101,10 +101,13 @@ export function LiveSystemsIndex() {
         FLAGSHIPS.forEach((f, i) => {
           if (f.status !== 'live') return
           const result = f.statusUrl ? data[f.statusUrl] : undefined
-          setTimeout(() => {
-            setPhases((p) => ({ ...p, [f.id]: result?.up ? 'live' : 'down' }))
-            if (i === FLAGSHIPS.length - 1) setIsProbing(false)
-          }, 150 + i * 180)
+          setTimeout(
+            () => {
+              setPhases((p) => ({ ...p, [f.id]: result?.up ? 'live' : 'down' }))
+              if (i === FLAGSHIPS.length - 1) setIsProbing(false)
+            },
+            150 + i * 180
+          )
         })
       })
   }, [])
@@ -224,7 +227,9 @@ export function LiveSystemsIndex() {
               </div>
               <div className={styles.bLabel}>Live systems responding</div>
               <div className={styles.bSub}>
-                {avgLatency ? `Verified ~${avgLatency}ms latency` : 'Checked in real time, right now'}
+                {avgLatency
+                  ? `Verified ~${avgLatency}ms latency`
+                  : 'Checked in real time, right now'}
               </div>
             </div>
             <div className={styles.bTile}>
