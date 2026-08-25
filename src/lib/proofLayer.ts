@@ -21,9 +21,9 @@ export const FAST_TRACK_IDS = [
   'timeslip-search',
   'specter',
   'trace',
-  'chronicle',
-  'autodocs-ai',
-  'coulson-one',
+  'hire-ready',
+  'testimoniq',
+  'rocket-vitals',
 ] as const
 
 /** Planets rendered in the WebGL scene (~15 max for performance + clarity) */
@@ -40,21 +40,24 @@ export const SCENE_PROJECT_IDS = [
   'hire-ready',
   'finance-quest',
   'stancestream',
-  'mcp-server-studio',
-  'ucp-guard',
+  'testimoniq',
+  'rocket-vitals',
   'portfolio-pro',
 ] as const
 
 /** Lab / joke / low-signal — hidden from default catalog */
 export const ARCHIVE_PROJECT_IDS = [
   'cereal-tasting',
-  'zoom-grid-mayhem',
   'plant-therapy',
   'ocean-simulator',
   'competitor-stalker',
   'app-idea-miner',
   'guts-and-glory',
   'dev-assistant-pro',
+  'scenic-forests',
+  'studio-furniture',
+  'spiralsounds',
+  'reprise',
 ] as const
 
 export type PrimaryProofId = (typeof PRIMARY_PROOF_IDS)[number]
@@ -123,6 +126,7 @@ export function getSceneGalaxies(): Galaxy[] {
 
 export function getProjectTier(project: Project): ProjectTier {
   if (project.tier) return project.tier
+  if (project.status === 'archived') return 'archive'
   if (SCENE_SET.has(project.id)) return 'flagship'
   if (ARCHIVE_SET.has(project.id)) return 'archive'
   if (project.featured) return 'production'

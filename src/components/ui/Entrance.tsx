@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Brain, Building2, Code2, Rocket, Trophy } from 'lucide-react'
+import { ArrowRight, Building2, Code2, Gauge, Rocket, Sparkles, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { SITE } from '@/lib/constants'
@@ -55,20 +55,20 @@ const FAST_TRACK_ENTRANCE_META: Record<
     icon: Trophy,
     gradient: 'from-lime-500 to-emerald-600',
   },
-  chronicle: {
-    highlight: 'Rust AI observability',
-    icon: Brain,
-    gradient: 'from-cyan-500 to-blue-600',
-  },
-  'autodocs-ai': {
-    highlight: 'Live SaaS · Stripe',
+  'hire-ready': {
+    highlight: 'Live SaaS · Stripe revenue',
     icon: Rocket,
-    gradient: 'from-purple-500 to-pink-600',
+    gradient: 'from-violet-500 to-purple-600',
   },
-  'coulson-one': {
-    highlight: 'Enterprise · 64K+ files',
-    icon: Building2,
-    gradient: 'from-orange-500 to-red-600',
+  testimoniq: {
+    highlight: 'Live SaaS · Stripe revenue',
+    icon: Sparkles,
+    gradient: 'from-fuchsia-500 to-pink-600',
+  },
+  'rocket-vitals': {
+    highlight: '200+ QA checks · live',
+    icon: Gauge,
+    gradient: 'from-green-500 to-emerald-600',
   },
 }
 
