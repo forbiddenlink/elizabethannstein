@@ -1,0 +1,33 @@
+{
+  "allowedForCodex": false,
+  "automationLevel": "manual",
+  "confidentialContext": "secrets",
+  "context": "personal",
+  "hosting": [
+    "vercel"
+  ],
+  "kind": "app",
+  "lastReviewedAt": "2026-08-27",
+  "lifecycle": "active",
+  "notes": "Personal portfolio/site repo with root private env files. Keep in registry, but route code inspection and changes outside Codex until secrets are removed or explicitly scrubbed.",
+  "observability": [
+    "sentry"
+  ],
+  "ownerContext": "personal",
+  "source": "owned",
+  "surface": "product",
+  "systems": [
+    "solo-control-tower",
+    "portfolio"
+  ],
+  "tags": [
+    "next",
+    "playwright",
+    "resend",
+    "sentry",
+    "vercel"
+  ],
+  "urls": {
+    "repository": "https://github.com/forbiddenlink/elizabethannstein"
+  }
+}
