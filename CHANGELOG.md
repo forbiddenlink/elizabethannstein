@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.3.0...v1.3.1) (2026-08-29)
+
+
+### Bug Fixes
+
+* **deps:** bump next to 16.3.3 for AVIF image RCE ([#77](https://github.com/forbiddenlink/elizabethannstein/issues/77)) ([f313fa7](https://github.com/forbiddenlink/elizabethannstein/commit/f313fa7dc1402cf9cb1edefdf28f427060acc8b6))
+
 ## [1.3.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.2.0...v1.3.0) (2026-08-29)
 
 
