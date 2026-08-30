@@ -25,6 +25,7 @@
     "biome:format": "biome format . --write",
     "test:coverage": "vitest run --coverage",
     "screenshots": "tsx scripts/capture-screenshots.ts",
+    "city:snapshot": "tsx scripts/city-snapshot.mts",
     "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
