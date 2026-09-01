@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.4.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.3.1...v1.4.0) (2026-09-01)
+
+
+### Features
+
+* **city:** add CityModel types + demo fixture with invariant tests ([f567249](https://github.com/forbiddenlink/elizabethannstein/commit/f5672497bdd56d838629b2df0300472355d998e4))
+* **city:** add deterministic layout + metric mappings ([7f90ae3](https://github.com/forbiddenlink/elizabethannstein/commit/7f90ae3a9cc4f8a250fe625ef6188ed454a4c7c4))
+* **city:** atmosphere pass — motes, fog depth, vignette (Phase 2c) ([a1890f0](https://github.com/forbiddenlink/elizabethannstein/commit/a1890f0eea9f678d059ec9b6458e6ac456923cfd))
+* **city:** bioluminescent city home with sanitized fleet snapshot ([97e61d1](https://github.com/forbiddenlink/elizabethannstein/commit/97e61d187c8c88d3f1abbab7ade2d0dbd86e1955))
+* **city:** bioluminescent glow pass — bloom halos + light pools ([c4bf365](https://github.com/forbiddenlink/elizabethannstein/commit/c4bf3656e6928c98b2d48b251379a7e8c43d2ce8))
+* **city:** bioluminescent structures + scene on /city route ([4d11414](https://github.com/forbiddenlink/elizabethannstein/commit/4d1141431d2ca80896d6ab1af6ebf85afd8c7e12))
+* **city:** biome districts with distinct palettes (Phase 2b) ([40c1370](https://github.com/forbiddenlink/elizabethannstein/commit/40c13707dbfd16d2dd3ce9980dc35d18c6b870e2))
+* **city:** camera polish — damped idle orbit (Phase 3a) ([add3a3c](https://github.com/forbiddenlink/elizabethannstein/commit/add3a3c0f7adae2c8145358d9a0e895f4fe8561a))
+* **city:** click-to-inspect info overlay ([0f4aaec](https://github.com/forbiddenlink/elizabethannstein/commit/0f4aaec6c277bb934cf2036bbd77f55fbd4d2e27))
+* **city:** confidentiality sanitizer + fail-closed gate (Phase 1a) ([76d912c](https://github.com/forbiddenlink/elizabethannstein/commit/76d912c9d5f558e04fe201df115260edee7306da))
+* **city:** crystalline-bio form language (Phase 2a) ([c8f4d59](https://github.com/forbiddenlink/elizabethannstein/commit/c8f4d594637056a223621099a2cc478bcc2c3757))
+* **city:** dependency filaments + day-night ambient (Phase 2d) ([b45054f](https://github.com/forbiddenlink/elizabethannstein/commit/b45054f75329867e935171b35c7af744e775a598))
+* **city:** wire real sanitized fleet snapshot (Phase 1b) ([3954913](https://github.com/forbiddenlink/elizabethannstein/commit/3954913bf6044ee244ecb242f9cbf8ab60e30eca))
+
+
+### Bug Fixes
+
+* **city:** ground-click deselect + memo glow color + tailwind info panel ([170494e](https://github.com/forbiddenlink/elizabethannstein/commit/170494e1ad2eaf92521928bd39568b39344a0407))
+* **city:** harden confidentiality sanitizer per security review ([e4e4c06](https://github.com/forbiddenlink/elizabethannstein/commit/e4e4c06cc66bf1552b67edf9acc6d49dcea3de6d))
+
 ## [1.3.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.3.0...v1.3.1) (2026-08-29)
 
 
