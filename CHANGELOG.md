@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.4.0...v1.4.1) (2026-09-02)
+
+
+### Bug Fixes
+
+* **ci:** let pnpm/action-setup read the version from packageManager ([3e3c4de](https://github.com/forbiddenlink/elizabethannstein/commit/3e3c4dea6e06e09cec271a292a4cd95326e2b3fb))
+
 ## [1.4.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.3.1...v1.4.0) (2026-09-01)
 
 
