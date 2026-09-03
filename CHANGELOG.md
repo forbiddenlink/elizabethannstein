@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.4.1...v1.4.2) (2026-09-03)
+
+
+### Bug Fixes
+
+* **home:** correct project counts and derive the remainder ([#83](https://github.com/forbiddenlink/elizabethannstein/issues/83)) ([8a5a5b6](https://github.com/forbiddenlink/elizabethannstein/commit/8a5a5b6142e0f058bf55c09d4ccb339c4e8ce1e0))
+
 ## [1.4.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.4.0...v1.4.1) (2026-09-02)
 
 
