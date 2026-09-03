@@ -1,3 +1,4 @@
+import { FLAGSHIPS } from './flagships'
 import { galaxies } from './galaxyData'
 
 const totalProjects = galaxies.reduce((sum, g) => sum + g.projects.length, 0)
@@ -99,6 +100,8 @@ export const SITE = {
 export const STATS = {
   projectCount: String(totalProjects),
   galaxyCount: String(galaxies.length),
+  /** Everything not surfaced as a flagship. Derived so the copy cannot drift. */
+  moreCount: String(totalProjects - FLAGSHIPS.length),
   yearsExperience: '3',
   yearRange: '2023-2026',
 } as const

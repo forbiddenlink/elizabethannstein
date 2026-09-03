@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGsapReveal } from '@/hooks/useGsapReveal'
 import { useMagnetic } from '@/hooks/useMagnetic'
-import { CONTACT } from '@/lib/constants'
+import { CONTACT, STATS } from '@/lib/constants'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import { getProjectById } from '@/lib/galaxyData'
 import type { LiveResult } from '@/lib/liveStatus'
@@ -189,7 +189,7 @@ export function LiveSystemsIndex() {
           <p className={`${styles.thesis} ${styles.reveal} ${styles.d1}`}>
             I design and build software that&rsquo;s actually running in production.{' '}
             <span className={styles.q}>
-              Eighty-six things shipped. Here are the eight that matter, live right now.
+              Eighty-eight things shipped. Here are the eight that matter, live right now.
             </span>
           </p>
           <div className={`${styles.standfirst} ${styles.reveal} ${styles.d2}`}>
@@ -335,7 +335,7 @@ export function LiveSystemsIndex() {
 
         <div className={`${styles.lab} ${styles.reveal}`}>
           <div className={styles.labBig}>
-            + <b>78 more</b>, shipped.
+            + <b>{STATS.moreCount} more</b>, shipped.
           </div>
           <div className={styles.labNote}>
             Experiments, dev tools, and games: the lab where the eight above got their reps.{' '}

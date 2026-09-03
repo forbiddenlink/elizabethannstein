@@ -4,7 +4,7 @@ import { LiveSystemsIndex } from '@/components/home/LiveSystemsIndex'
 export const metadata: Metadata = {
   title: { absolute: 'Elizabeth Stein — Full-stack developer & designer' },
   description:
-    'Full-stack developer and designer. Eighty-six things shipped — here are the eight that matter, live in production right now. Sole developer on a Dynamics 365 platform, Algolia Agent Studio winner, npm publisher.',
+    'Full-stack developer and designer. Eighty-eight things shipped — here are the eight that matter, live in production right now. Sole developer on a Dynamics 365 platform, Algolia Agent Studio winner, npm publisher.',
   alternates: { canonical: '/' },
 }
 
