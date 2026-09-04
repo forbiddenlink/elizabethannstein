@@ -16,7 +16,7 @@ on:
 
 jobs:
   codeql:
-    uses: forbiddenlink/.github/.github/workflows/codeql.yml@main
+    uses: forbiddenlink/.github/.github/workflows/codeql.yml@7de75a0dd043de01cfda71644f54f48a8d4d07ed # main as of 2026-09-04
     permissions:
       actions: read
       contents: read
