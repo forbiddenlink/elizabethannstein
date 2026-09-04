@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: anthropics/claude-code-security-review@main
+      - uses: anthropics/claude-code-security-review@0c6a49f1fa56a1d472575da86a94dbc1edb78eda # main as of 2026-09-04
         with:
           comment-pr: true
           upload-results: true
