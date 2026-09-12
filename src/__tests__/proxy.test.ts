@@ -49,4 +49,33 @@ describe('proxy', () => {
     expect(authHeaders).toEqual(['Bearer ajkey_test'])
     expect(res.status).toBe(403)
   })
+
+  // Arcjet fails open: when decide errors, the request is allowed. That is the
+  // right default for availability, but it must not be silent, or a broken
+  // transport or key disables the shield, bot check and rate limit unnoticed.
+  it('fails open on a decide error but logs it', async () => {
+    server.use(
+      http.post(DECIDE_URL, () =>
+        HttpResponse.json({ code: 'internal', message: 'decide unavailable' }, { status: 500 })
+      )
+    )
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const proxy = await loadProxy()
+
+    const res = await proxy(
+      new NextRequest('https://elizabethannstein.com/api/chat', {
+        headers: {
+          'user-agent': 'Mozilla/5.0 (Macintosh) AppleWebKit/537.36 Chrome/140.0 Safari/537.36',
+          'x-forwarded-for': '8.8.8.8',
+        },
+      })
+    )
+
+    expect(res.status).toBe(200)
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[proxy] Arcjet'),
+      expect.stringContaining('decide unavailable')
+    )
+    errorSpy.mockRestore()
+  })
 })
