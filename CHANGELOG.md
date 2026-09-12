@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.4](https://github.com/forbiddenlink/elizabethannstein/compare/v1.4.3...v1.4.4) (2026-09-12)
+
+
+### Bug Fixes
+
+* **deps:** bump @arcjet/next to 1.12.0 to stop idle GOAWAY crashes ([#107](https://github.com/forbiddenlink/elizabethannstein/issues/107)) ([85cec0c](https://github.com/forbiddenlink/elizabethannstein/commit/85cec0c15d83f80e78aaa1f6abebe34337c70d1e))
+* **proxy:** send Arcjet decide calls over fetch, not node:http2 ([#108](https://github.com/forbiddenlink/elizabethannstein/issues/108)) ([a112ced](https://github.com/forbiddenlink/elizabethannstein/commit/a112cedff510a0de6fb9e9e6b86a930016f89e55))
+* **sentry:** ship the client SDK under Turbopack and load instrumentation ([#105](https://github.com/forbiddenlink/elizabethannstein/issues/105)) ([76ad11f](https://github.com/forbiddenlink/elizabethannstein/commit/76ad11f04f42c5dd639c399d8ecdca73cc067886))
+
 ## [1.4.3](https://github.com/forbiddenlink/elizabethannstein/compare/v1.4.2...v1.4.3) (2026-09-09)
 
 
