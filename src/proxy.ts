@@ -1,6 +1,8 @@
+import type { ArcjetDecision } from '@arcjet/next'
 import arcjet, { detectBot, shield, slidingWindow } from '@arcjet/next'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { arcjetClient } from '@/lib/arcjetClient'
 
 const arcjetKey = process.env.ARCJET_KEY
 
@@ -14,7 +16,9 @@ if (!arcjetKey && process.env.NODE_ENV === 'production') {
 }
 
 // WAF shield on every /api/* route. Cheap, and never blocks legit crawlers.
-const ajShield = arcjetKey ? arcjet({ key: arcjetKey, rules: [shield({ mode: 'LIVE' })] }) : null
+const ajShield = arcjetKey
+  ? arcjet({ key: arcjetKey, client: arcjetClient, rules: [shield({ mode: 'LIVE' })] })
+  : null
 
 // Bot detection for API routes — but NOT /api/og. Those routes render Open
 // Graph preview images that are fetched by social / link-preview crawlers
@@ -24,6 +28,7 @@ const ajShield = arcjetKey ? arcjet({ key: arcjetKey, rules: [shield({ mode: 'LI
 const ajBot = arcjetKey
   ? arcjet({
       key: arcjetKey,
+      client: arcjetClient,
       rules: [detectBot({ mode: 'LIVE', allow: ['CATEGORY:SEARCH_ENGINE'] })],
     })
   : null
@@ -34,11 +39,21 @@ const ajBot = arcjetKey
 const ajRateLimited = arcjetKey
   ? arcjet({
       key: arcjetKey,
+      client: arcjetClient,
       rules: [slidingWindow({ mode: 'LIVE', interval: '1m', max: 10 })],
     })
   : null
 
 const RATE_LIMITED_PATHS = ['/api/contact', '/api/chat']
+
+// Arcjet fails open: an errored decision (decide API down, bad key, broken
+// transport) allows the request. Keep that for availability, but log it, or
+// the shield, bot check, and rate limit can all be off with nothing to show.
+function logIfErrored(check: string, decision: ArcjetDecision) {
+  if (decision.reason.isError()) {
+    console.error(`[proxy] Arcjet ${check} check errored and failed open:`, decision.reason.message)
+  }
+}
 
 export async function proxy(request: NextRequest) {
   if (!ajShield) {
@@ -46,6 +61,7 @@ export async function proxy(request: NextRequest) {
   }
   // WAF shield runs on every /api/* route.
   const shieldDecision = await ajShield.protect(request)
+  logIfErrored('shield', shieldDecision)
   if (shieldDecision.isDenied()) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
@@ -57,6 +73,7 @@ export async function proxy(request: NextRequest) {
   const botExempt = ['/api/og', '/api/status']
   if (ajBot && !botExempt.some((p) => request.nextUrl.pathname.startsWith(p))) {
     const botDecision = await ajBot.protect(request)
+    logIfErrored('bot', botDecision)
     if (botDecision.isDenied()) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
@@ -66,6 +83,7 @@ export async function proxy(request: NextRequest) {
     RATE_LIMITED_PATHS.some((path) => request.nextUrl.pathname.startsWith(path))
   ) {
     const limit = await ajRateLimited.protect(request)
+    logIfErrored('rate limit', limit)
     if (limit.isDenied()) {
       return NextResponse.json(
         { error: 'Too many requests. Please slow down and try again shortly.' },
