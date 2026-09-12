@@ -30,7 +30,10 @@
     "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
+    "@arcjet/env": "1.12.0",
     "@arcjet/next": "^1.12.0",
+    "@arcjet/protocol": "1.12.0",
+    "@connectrpc/connect-web": "2.1.2",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
     "@react-three/postprocessing": "^3.1.1",

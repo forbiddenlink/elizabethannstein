@@ -1,6 +1,7 @@
 import arcjet, { detectBot, shield, slidingWindow } from '@arcjet/next'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { arcjetClient } from '@/lib/arcjetClient'
 
 const arcjetKey = process.env.ARCJET_KEY
 
@@ -14,7 +15,9 @@ if (!arcjetKey && process.env.NODE_ENV === 'production') {
 }
 
 // WAF shield on every /api/* route. Cheap, and never blocks legit crawlers.
-const ajShield = arcjetKey ? arcjet({ key: arcjetKey, rules: [shield({ mode: 'LIVE' })] }) : null
+const ajShield = arcjetKey
+  ? arcjet({ key: arcjetKey, client: arcjetClient, rules: [shield({ mode: 'LIVE' })] })
+  : null
 
 // Bot detection for API routes — but NOT /api/og. Those routes render Open
 // Graph preview images that are fetched by social / link-preview crawlers
@@ -24,6 +27,7 @@ const ajShield = arcjetKey ? arcjet({ key: arcjetKey, rules: [shield({ mode: 'LI
 const ajBot = arcjetKey
   ? arcjet({
       key: arcjetKey,
+      client: arcjetClient,
       rules: [detectBot({ mode: 'LIVE', allow: ['CATEGORY:SEARCH_ENGINE'] })],
     })
   : null
@@ -34,6 +38,7 @@ const ajBot = arcjetKey
 const ajRateLimited = arcjetKey
   ? arcjet({
       key: arcjetKey,
+      client: arcjetClient,
       rules: [slidingWindow({ mode: 'LIVE', interval: '1m', max: 10 })],
     })
   : null
