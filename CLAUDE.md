@@ -4,7 +4,13 @@ This file provides guidance to agents when working with code in this repository.
 
 ## Project overview
 
-An interactive 3D portfolio built with Next.js 16 (App Router) showcasing 88 projects across 6 galaxies. Projects are visualized as planets in a WebGL/WebGPU 3D scene. Live site: https://elizabethannstein.com
+A portfolio built with Next.js 16 (App Router). Since the 2026-08-18 direction change
+(`.impeccable.md`), the content site (`/`, `/work`, `/about`, `/contact`, `/privacy`) is
+**editorial-primary**: a fine-print-magazine-style design language, not 3D. The dark
+"galaxy" system (88 projects across 6 galaxies, visualized as planets in a WebGL/WebGPU
+3D scene) is retained as an opt-in showcase at `/explore`. A separate `/city` route hosts
+an in-progress bioluminescent-city visualization built from sanitized dev-fleet data (see
+`docs/superpowers/ROADMAP-creative-tracks.md`). Live site: https://elizabethannstein.com
 
 ## Stack
 
@@ -56,16 +62,23 @@ pnpm qa:setup         # preflight + frozen install + playwright install chromium
 
 ## Routes
 
-- `/` - 3D Galaxy homepage (client-side, lazy-loaded)
+- `/` - editorial homepage (`LiveSystemsIndex`), statically rendered; live status fetched
+  client-side from `/api/status` so external pings never block first paint
 - `/work` - SSG project list
 - `/work/[slug]` - SSG case study pages (slug = `project.id`)
-- `/about`, `/contact`, `/privacy` - static pages
+- `/explore` - the 3D galaxy showcase (client-side, lazy-loaded `GalaxyScene.tsx`)
+- `/city` - bioluminescent-city visualization (in progress; see
+  `docs/superpowers/ROADMAP-creative-tracks.md`)
+- `/about`, `/contact`, `/privacy` - static pages, editorial design language
 - `/health` - JSON uptime check (no-cache)
 - `/api/*` - Arcjet shield + bot rules via `src/proxy.ts`
 
 ## Conventions
 
-- The homepage (`src/app/page.tsx`) lazy-loads `GalaxyScene.tsx` to keep the initial bundle under 200KB.
+- Content pages (`/`, `/work`, `/about`, `/contact`, `/privacy`) use `src/styles/editorial.css`
+  (the `.editorial` scope + `--le-*` tokens); the dark galaxy/glassmorphism system applies only
+  to `/explore` and `src/components/3d/*`. See `.impeccable.md`'s 2026-08-18 direction change.
+- `/explore` (`src/app/explore/page.tsx`) lazy-loads `GalaxyScene.tsx` to keep the initial bundle under 200KB.
 - Camera navigation uses animated transitions between view states; galaxy positions are calculated by `getGalaxyCenterPosition()` in `utils.ts`.
 - To add a project, edit `src/lib/galaxyData.ts` and append to the appropriate galaxy's `projects` array:
   ```typescript
