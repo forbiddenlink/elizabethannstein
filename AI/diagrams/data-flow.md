@@ -7,7 +7,7 @@ which renders each project as a star/planet.
 ```mermaid
 flowchart TD
     GD["galaxyData.ts<br/>galaxies[] · projects[]"] --> STORE["useViewStore (zustand)<br/>view · selectedGalaxy · selectedProject"]
-    STORE --> PAGE["app/page.tsx<br/>dynamic import, ssr:false"]
+    STORE --> PAGE["app/explore/page.tsx<br/>dynamic import, ssr:false"]
     PAGE --> SCENE["3d/GalaxyScene.tsx"]
     SCENE --> STARS["EnhancedProjectStars"]
     SCENE --> PLANET["RealisticPlanet (GLSL shaders)"]
@@ -17,7 +17,7 @@ flowchart TD
     TYPES["types.ts<br/>Project · Galaxy · ViewState"] -.types.-> GD
 ```
 
-Key files: `src/app/page.tsx:32` (lazy `GalaxyScene`),
+Key files: `src/app/explore/page.tsx:32` (lazy `GalaxyScene`),
 `src/components/3d/GalaxyScene.tsx:43-45` (imports galaxyData + store + utils).
 Galaxy count / project count live in `galaxyData.ts`; do not duplicate the
 numbers elsewhere.

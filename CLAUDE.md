@@ -1,98 +1,131 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to agents when working with code in this repository.
+
+## Project overview
+
+A portfolio built with Next.js 16 (App Router). Since the 2026-08-18 direction change
+(`.impeccable.md`), the content site (`/`, `/work`, `/about`, `/contact`, `/privacy`) is
+**editorial-primary**: a fine-print-magazine-style design language, not 3D. The dark
+"galaxy" system (88 projects across 6 galaxies, visualized as planets in a WebGL/WebGPU
+3D scene) is retained as an opt-in showcase at `/explore`. A separate `/city` route hosts
+an in-progress bioluminescent-city visualization built from sanitized dev-fleet data (see
+`docs/superpowers/ROADMAP-creative-tracks.md`). Live site: https://elizabethannstein.com
+
+## Stack
+
+- Next.js 16.3.4 (pinned via `pnpm.overrides`, not the `^16.3.3` in `dependencies`), React ^19.2.8, TypeScript 7.0.2
+- pnpm (`pnpm-lock.yaml`)
+- Biome (`biome.json`), ESLint (`eslint.config.mjs`), Prettier (`.prettierrc`)
+- Vitest (unit), Playwright (E2E)
+- Zustand for state
+- Arcjet (`@arcjet/next`) for API shielding/bot rules, Resend for the contact form, `@sentry/nextjs` for error reporting
 
 ## Commands
 
 ```bash
-pnpm dev        # Development server at http://localhost:3000
-pnpm build      # Production build
-pnpm start      # Run production server
-pnpm lint       # TypeScript check (tsc --noEmit)
-pnpm test       # Vitest unit tests (src/__tests__)
-pnpm test:e2e   # Playwright E2E (local dev server)
-pnpm test:e2e:ci # Playwright: smoke + visual + Chromium/Firefox/WebKit/mobile (CI runs `next start` after build)
-pnpm test:e2e:visual # Playwright visual snapshots only (Chrome)
-./scripts/update-visual-snapshots-docker.sh # Regenerate Linux baselines (match GitHub Actions)
-pnpm biome:check # Biome linter/formatter
-pnpm audit      # Dependency vulnerability check
+pnpm dev              # Development server (webpack), http://localhost:3000
+pnpm build            # Production build
+pnpm start            # Run production server
+pnpm lint             # TypeScript check (tsc --noEmit)
+pnpm test             # Vitest unit tests (src/__tests__)
+pnpm test:watch
+pnpm test:coverage
+pnpm test:e2e         # Playwright E2E (local dev server)
+pnpm test:e2e:smoke
+pnpm test:e2e:ui
+pnpm test:e2e:headed
+pnpm test:e2e:ci      # smoke + visual + Chromium/Firefox/WebKit/mobile (CI runs `next start` after build)
+pnpm test:e2e:visual  # Playwright visual snapshots only (Chrome)
+./scripts/update-visual-snapshots-docker.sh   # regenerate Linux baselines (match GitHub Actions)
+pnpm biome:check
+pnpm biome:fix
+pnpm biome:format
+pnpm analyze          # ANALYZE=true next build
+pnpm screenshots      # tsx scripts/capture-screenshots.ts
+pnpm city:snapshot    # tsx scripts/city-snapshot.mts
+pnpm doctor           # npx react-doctor@latest
+pnpm qa:setup         # preflight + frozen install + playwright install chromium
 ```
 
-## Architecture
+## Layout
 
-This is an interactive 3D portfolio built with Next.js 16 (App Router) showcasing 88 projects across 6 galaxies. Projects are visualized as planets in a WebGL/WebGPU 3D scene.
+- `src/lib/galaxyData.ts` - single source of truth for all project data. The `galaxies` array defines 6 galaxies (Enterprise, AI, Full-Stack, DevTools, Design, Experimental), each with an array of `Project` objects.
+- `src/lib/store.ts` - Zustand stores: `useViewStore` (navigation state machine: `universe` → `galaxy` → `project` → `exploration`), `useMotionStore` (reduced motion preferences)
+- `src/lib/types.ts` - core interfaces: `Project` (id, title, description, role, tags, galaxy, size, links, metrics, featured), `Galaxy` (id, name, color, projects[]), `ViewState`
+- `src/components/3d/` - `GalaxyScene.tsx` (main container, orchestrates camera and all 3D elements), `EnhancedProjectStars.tsx` (project star/planet meshes, procedural GLSL shaders with atmospheres), `PlanetSurfaceExplorer.tsx` (first-person exploration, WASD), `WebGPUCanvas.tsx` (WebGPU-ready renderer with WebGL fallback)
+- `src/components/ui/` - `CommandPalette.tsx` (⌘K), `KeyboardNavigation.tsx` (arrows/numbers/ESC), `ProjectModal.tsx`, `GalaxyGuide.tsx` (AI chat assistant, uses `MINMAX_API_KEY`), `Entrance.tsx` (landing overlay)
+- `src/app/` - routes (see Routes below)
+- `src/proxy.ts` - Next.js 16 `proxy` (not `middleware`); Arcjet shield + bot rules for `/api/*`
+- `src/__tests__/` - Vitest unit tests; `e2e/` - Playwright specs
+- `scripts/` - screenshot capture, city snapshot, visual-snapshot regeneration, QA preflight
 
-### Core Data Flow
+## Routes
 
-**Single source of truth**: `src/lib/galaxyData.ts` contains all project data. The `galaxies` array defines 6 galaxies (Enterprise, AI, Full-Stack, DevTools, Creative, Experimental), each containing an array of `Project` objects.
-
-**State management**: `src/lib/store.ts` uses Zustand with two stores:
-- `useViewStore` - Navigation state machine with views: `universe` → `galaxy` → `project` → `exploration`
-- `useMotionStore` - Reduced motion preferences
-
-### 3D Scene Architecture
-
-The homepage (`src/app/page.tsx`) lazy-loads `GalaxyScene.tsx` to keep initial bundle under 200KB.
-
-**Key 3D components** in `src/components/3d/`:
-- `GalaxyScene.tsx` - Main container, orchestrates camera and all 3D elements
-- `EnhancedProjectStars.tsx` - Renders projects as interactive star/planet meshes
-- `RealisticPlanet.tsx` - Procedural planet shaders (GLSL) with atmospheres
-- `PlanetSurfaceExplorer.tsx` - First-person exploration mode (WASD controls)
-- `WebGPUCanvas.tsx` - WebGPU-ready renderer with WebGL fallback
-
-Camera navigation uses animated transitions between view states. Galaxy positions are calculated by `getGalaxyCenterPosition()` in `utils.ts`.
-
-### UI Layer
-
-**Components** in `src/components/ui/`:
-- `CommandPalette.tsx` - CMD+K quick search
-- `KeyboardNavigation.tsx` - Arrow keys, number keys, ESC handling
-- `ProjectModal.tsx` - Project detail overlay
-- `GalaxyGuide.tsx` - AI chat assistant (uses MINMAX_API_KEY)
-- `Entrance.tsx` - Initial landing overlay
-
-### Routes
-
-- `/` - 3D Galaxy homepage (client-side, lazy-loaded)
+- `/` - editorial homepage (`LiveSystemsIndex`), statically rendered; live status fetched
+  client-side from `/api/status` so external pings never block first paint
 - `/work` - SSG project list
-- `/work/[slug]` - SSG case study pages (slug = project.id)
-- `/about`, `/contact`, `/privacy` - Static pages
+- `/work/[slug]` - SSG case study pages (slug = `project.id`)
+- `/explore` - the 3D galaxy showcase (client-side, lazy-loaded `GalaxyScene.tsx`)
+- `/city` - bioluminescent-city visualization (in progress; see
+  `docs/superpowers/ROADMAP-creative-tracks.md`)
+- `/about`, `/contact`, `/privacy` - static pages, editorial design language
 - `/health` - JSON uptime check (no-cache)
-- API routes under `/api/*` — Arcjet shield + bot rules via `src/proxy.ts` (Next.js 16 `proxy`, not `middleware`)
+- `/api/*` - Arcjet shield + bot rules via `src/proxy.ts`
 
-### Types
+## Conventions
 
-Core interfaces in `src/lib/types.ts`:
-- `Project` - id, title, description, role, tags, galaxy, size, links, metrics, featured
-- `Galaxy` - id, name, color, projects[]
-- `ViewState` - 'universe' | 'galaxy' | 'project' | 'exploration'
+- Content pages (`/`, `/work`, `/about`, `/contact`, `/privacy`) use `src/styles/editorial.css`
+  (the `.editorial` scope + `--le-*` tokens); the dark galaxy/glassmorphism system applies only
+  to `/explore` and `src/components/3d/*`. See `.impeccable.md`'s 2026-08-18 direction change.
+- `/explore` (`src/app/explore/page.tsx`) lazy-loads `GalaxyScene.tsx` to keep the initial bundle under 200KB.
+- Camera navigation uses animated transitions between view states; galaxy positions are calculated by `getGalaxyCenterPosition()` in `utils.ts`.
+- To add a project, edit `src/lib/galaxyData.ts` and append to the appropriate galaxy's `projects` array:
+  ```typescript
+  {
+    id: 'slug-for-urls',
+    title: 'Project Name',
+    description: 'Description text',
+    role: 'Developer',
+    tags: ['React', 'TypeScript'],
+    color: '#FF6B35',  // inherited from galaxy
+    brightness: 1.5,   // 0.5-2.0, affects visual size
+    size: 'large',     // small | medium | large | supermassive
+    galaxy: 'ai',      // must match galaxy.id
+    links: { github: '...', live: '...' },
+    featured: true,
+    dateRange: '2024',
+  }
+  ```
 
-### Adding Projects
+## Testing
 
-Edit `src/lib/galaxyData.ts` and add to the appropriate galaxy's `projects` array:
+- Unit: Vitest, tests in `src/__tests__/`. Run with `pnpm test`.
+- E2E: Playwright, specs in `e2e/`. `pnpm test:e2e:ci` runs smoke + visual + Chromium/Firefox/WebKit/mobile projects against a production server (`next start`) - the 7-project matrix runs on demand via `update-snapshots.yml`, not on every PR.
+- Visual regression: `pnpm test:e2e:visual` (Chrome only); regenerate Linux baselines with `./scripts/update-visual-snapshots-docker.sh` to match GitHub Actions.
 
-```typescript
-{
-  id: 'slug-for-urls',
-  title: 'Project Name',
-  description: 'Description text',
-  role: 'Developer',
-  tags: ['React', 'TypeScript'],
-  color: '#FF6B35',  // Inherited from galaxy
-  brightness: 1.5,   // 0.5-2.0, affects visual size
-  size: 'large',     // small | medium | large | supermassive
-  galaxy: 'ai',      // Must match galaxy.id
-  links: { github: '...', live: '...' },
-  featured: true,
-  dateRange: '2024',
-}
-```
+## Env vars
 
-### Environment Variables
+From `.env.example`:
+- `NEXT_PUBLIC_SITE_URL` - canonical links, sitemap, OG metadata
+- `NEXT_PUBLIC_GA_ID` - optional, Google Analytics
+- `NEXT_PUBLIC_SENTRY_DSN` - optional, Sentry error reporting (production only when set)
+- `MINMAX_API_KEY` - server-only, Galaxy Guide AI (MiniMax); never expose to the client
+- `RESEND_API_KEY` - server-only, contact form
+- `CONTACT_FORWARD_TO` - optional override for contact mail delivery destination (defaults in code if unset)
+- `ARCJET_KEY` - abuse protection for `/api/*`, recommended in production
+- `PLAYWRIGHT_PORT`, `BASE_URL` - optional, local E2E/Playwright
+- `ANALYZE` - optional, bundle analysis
 
-```env
-NEXT_PUBLIC_SITE_URL=https://elizabethannstein.com
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX  # Optional
-MINMAX_API_KEY=...              # Optional, for Galaxy Guide AI
-```
+## Gotchas
+
+- `pnpm lint` runs `tsc --noEmit`, not ESLint directly (ESLint config exists but isn't wired to the `lint` script).
+- CI (`e2e-smoke.yml`, on every PR) runs `pnpm build && pnpm test:e2e:smoke` on port 3100; `test:e2e:ci` (full matrix, visual snapshots) only runs via manual dispatch (`update-snapshots.yml`).
+- `GalaxyGuide.tsx` and other AI features require `MINMAX_API_KEY`; keep it server-only.
+
+## Claude Code specific
+
+`pnpm doctor` (`npx react-doctor@latest`) scans for security, performance, correctness,
+accessibility, bundle-size, and architecture issues. It also runs in CI on every PR
+(`.github/workflows/react-doctor.yml`), posting a sticky comment with issues introduced
+relative to the merge base. Run it after React code changes and fix regressions before committing.
