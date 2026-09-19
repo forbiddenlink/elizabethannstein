@@ -58,7 +58,7 @@ flowchart LR
   RF --> G[GalaxyScene · Planets · Camera]
   RF --> TH[Theatre.js cinematics]
   N -->|Server Action| CT[/api/contact -> Resend]
-  N -->|Server Action| AI[/api/galaxy-guide -> MiniMax]
+  N -->|Server Action| AI[/api/chat -> MiniMax]
   CT -.->|guard| AJ[Arcjet]
   AI -.->|guard| AJ
   N --> S[Sentry, Vercel Analytics, Axiom]
@@ -112,7 +112,8 @@ pnpm city:snapshot             # regenerate the /city sanitized data snapshot
 pnpm biome:check               # lint + format
 ```
 
-CI runs the smoke + visual + cross-browser matrix on every PR; weekly Claude PR review and
+CI (`e2e-smoke.yml`) runs `pnpm build` then the smoke project on every PR; the full 7-project
+matrix (`test:e2e:ci`) runs on demand via `update-snapshots.yml`. Weekly Claude PR review and
 maintenance workflows are wired in `.github/workflows/`.
 
 ## Project structure

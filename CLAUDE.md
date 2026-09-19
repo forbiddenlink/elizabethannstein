@@ -14,7 +14,7 @@ an in-progress bioluminescent-city visualization built from sanitized dev-fleet 
 
 ## Stack
 
-- Next.js ^16.3.3, React ^19.2.8, TypeScript 7.0.2
+- Next.js 16.3.4 (pinned via `pnpm.overrides`, not the `^16.3.3` in `dependencies`), React ^19.2.8, TypeScript 7.0.2
 - pnpm (`pnpm-lock.yaml`)
 - Biome (`biome.json`), ESLint (`eslint.config.mjs`), Prettier (`.prettierrc`)
 - Vitest (unit), Playwright (E2E)
@@ -53,7 +53,7 @@ pnpm qa:setup         # preflight + frozen install + playwright install chromium
 - `src/lib/galaxyData.ts` - single source of truth for all project data. The `galaxies` array defines 6 galaxies (Enterprise, AI, Full-Stack, DevTools, Design, Experimental), each with an array of `Project` objects.
 - `src/lib/store.ts` - Zustand stores: `useViewStore` (navigation state machine: `universe` → `galaxy` → `project` → `exploration`), `useMotionStore` (reduced motion preferences)
 - `src/lib/types.ts` - core interfaces: `Project` (id, title, description, role, tags, galaxy, size, links, metrics, featured), `Galaxy` (id, name, color, projects[]), `ViewState`
-- `src/components/3d/` - `GalaxyScene.tsx` (main container, orchestrates camera and all 3D elements), `EnhancedProjectStars.tsx` (project star/planet meshes), `RealisticPlanet.tsx` (procedural GLSL shaders with atmospheres), `PlanetSurfaceExplorer.tsx` (first-person exploration, WASD), `WebGPUCanvas.tsx` (WebGPU-ready renderer with WebGL fallback)
+- `src/components/3d/` - `GalaxyScene.tsx` (main container, orchestrates camera and all 3D elements), `EnhancedProjectStars.tsx` (project star/planet meshes, procedural GLSL shaders with atmospheres), `PlanetSurfaceExplorer.tsx` (first-person exploration, WASD), `WebGPUCanvas.tsx` (WebGPU-ready renderer with WebGL fallback)
 - `src/components/ui/` - `CommandPalette.tsx` (⌘K), `KeyboardNavigation.tsx` (arrows/numbers/ESC), `ProjectModal.tsx`, `GalaxyGuide.tsx` (AI chat assistant, uses `MINMAX_API_KEY`), `Entrance.tsx` (landing overlay)
 - `src/app/` - routes (see Routes below)
 - `src/proxy.ts` - Next.js 16 `proxy` (not `middleware`); Arcjet shield + bot rules for `/api/*`
@@ -101,7 +101,7 @@ pnpm qa:setup         # preflight + frozen install + playwright install chromium
 ## Testing
 
 - Unit: Vitest, tests in `src/__tests__/`. Run with `pnpm test`.
-- E2E: Playwright, specs in `e2e/`. `pnpm test:e2e:ci` runs smoke + visual + Chromium/Firefox/WebKit/mobile projects against a production server (`next start`) built in CI.
+- E2E: Playwright, specs in `e2e/`. `pnpm test:e2e:ci` runs smoke + visual + Chromium/Firefox/WebKit/mobile projects against a production server (`next start`) - the 7-project matrix runs on demand via `update-snapshots.yml`, not on every PR.
 - Visual regression: `pnpm test:e2e:visual` (Chrome only); regenerate Linux baselines with `./scripts/update-visual-snapshots-docker.sh` to match GitHub Actions.
 
 ## Env vars
@@ -120,9 +120,12 @@ From `.env.example`:
 ## Gotchas
 
 - `pnpm lint` runs `tsc --noEmit`, not ESLint directly (ESLint config exists but isn't wired to the `lint` script).
-- CI runs `pnpm build && pnpm test:e2e:ci` (production server on port 3100 for visual snapshots).
+- CI (`e2e-smoke.yml`, on every PR) runs `pnpm build && pnpm test:e2e:smoke` on port 3100; `test:e2e:ci` (full matrix, visual snapshots) only runs via manual dispatch (`update-snapshots.yml`).
 - `GalaxyGuide.tsx` and other AI features require `MINMAX_API_KEY`; keep it server-only.
 
 ## Claude Code specific
 
-Project skill in `.claude/skills/react-doctor/`: run `npx react-doctor@latest --verbose --scope changed` after React code changes and check the health score didn't regress; fix regressions before committing. Type `/doctor` for the full local-triage workflow (fetches the canonical playbook and runs a scan → filter → triage → fix → validate loop on the working tree).
+`pnpm doctor` (`npx react-doctor@latest`) scans for security, performance, correctness,
+accessibility, bundle-size, and architecture issues. It also runs in CI on every PR
+(`.github/workflows/react-doctor.yml`), posting a sticky comment with issues introduced
+relative to the merge base. Run it after React code changes and fix regressions before committing.
