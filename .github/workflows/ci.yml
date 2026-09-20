@@ -38,6 +38,9 @@ jobs:
       - name: Biome
         run: pnpm biome:check
 
+      - name: Anti-slop ratchet
+        run: pnpm lint:slop:ratchet
+
       - name: Test
         run: pnpm test
 

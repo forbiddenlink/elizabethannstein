@@ -27,7 +27,9 @@
     "test:coverage": "vitest run --coverage",
     "screenshots": "tsx scripts/capture-screenshots.ts",
     "city:snapshot": "tsx scripts/city-snapshot.mts",
-    "doctor": "npx react-doctor@latest"
+    "doctor": "npx react-doctor@latest",
+    "lint:slop": "oxlint -f unix src/",
+    "lint:slop:ratchet": "node scripts/slop-ratchet.mjs"
   },
   "dependencies": {
     "@arcjet/env": "1.12.0",
@@ -63,6 +65,7 @@
     "@biomejs/biome": "2.5.12",
     "@eslint/eslintrc": "3.3.7",
     "@next/bundle-analyzer": "16.3.4",
+    "@oxlint/plugins": "1.83.0",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
     "@testing-library/jest-dom": "7.0.1",
@@ -79,6 +82,7 @@
     "jsdom": "30.0.1",
     "leva": "0.10.1",
     "msw": "2.15.0",
+    "oxlint": "1.83.0",
     "postcss": "8.5.28",
     "r3f-perf": "7.2.3",
     "react-doctor": "0.9.13",
