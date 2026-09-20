@@ -28,7 +28,8 @@
     "screenshots": "tsx scripts/capture-screenshots.ts",
     "city:snapshot": "tsx scripts/city-snapshot.mts",
     "doctor": "npx react-doctor@latest",
-    "lint:slop": "oxlint -f unix src/"
+    "lint:slop": "oxlint -f unix src/",
+    "lint:slop:ratchet": "node scripts/slop-ratchet.mjs"
   },
   "dependencies": {
     "@arcjet/env": "1.12.0",
