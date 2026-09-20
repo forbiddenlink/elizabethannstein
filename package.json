@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@argos-ci/playwright": "^7.4.6",
-    "@biomejs/biome": "2.5.12",
+    "@biomejs/biome": "2.5.14",
     "@eslint/eslintrc": "3.3.7",
     "@next/bundle-analyzer": "16.3.4",
     "@oxlint/plugins": "1.83.0",
