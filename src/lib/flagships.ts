@@ -77,8 +77,8 @@ export const FLAGSHIPS: Flagship[] = [
   {
     id: 'rocketpark-craft-ecosystem',
     title: 'Craft CMS Ecosystem',
-    org: 'Rocketpark Agency · Developer',
-    years: '2024-26',
+    org: 'Rocketpark Agency · Software Engineering Intern',
+    years: '2025-26',
     summary:
       'Eleven live client websites on Craft CMS: PHP, Twig, custom MCP server tooling, and a shared component system across the agency portfolio.',
     proof: '11 live sites',

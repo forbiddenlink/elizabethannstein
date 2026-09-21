@@ -125,8 +125,8 @@ export function AskAIAboutMe() {
                     Published npm author: <code>@purplegumdropz/specter</code> with 14 MCP tools.
                   </li>
                   <li>
-                    Concurrent production engineering across Rocketpark, Flo Labs, &amp; personal
-                    SaaS.
+                    Concurrent production engineering across a cybersecurity nonprofit, Rocketpark,
+                    &amp; personal SaaS.
                   </li>
                 </ul>
               </div>

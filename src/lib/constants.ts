@@ -36,7 +36,7 @@ export const SITE = {
   fullTitle: 'Elizabeth Stein | Full-Stack Engineer (Power Platform · Next.js · AI)',
   description: `Full-stack developer and designer. Sole developer on a Dynamics 365 platform live in production, Algolia Agent Studio winner, npm publisher. B.S. Summa Cum Laude. ${totalProjects} projects shipped; the eight that matter are on the front page.`,
   shortDescription:
-    'Full-stack developer and designer shipping production software across three organizations. Dynamics 365 platform in production, $750 Algolia Agent Studio winner, npm publisher, MCP author.',
+    'Full-stack developer and designer shipping production software across two organizations. Dynamics 365 platform in production, $750 Algolia Agent Studio winner, npm publisher, MCP author.',
   /** One-line POV for hero / storytelling surfaces (the /explore galaxy + entrance). */
   narrativeThesis:
     "I design and build software that's actually running in production. Sole developer on a Dynamics 365 platform, Algolia Agent Studio winner, and I ship MCP servers instead of just consuming them.",

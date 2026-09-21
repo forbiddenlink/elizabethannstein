@@ -10,7 +10,7 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
 import styles from './about.module.css'
 
 const aboutDescription =
-  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's security-readiness platform (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at three orgs."
+  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's security-readiness platform (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at two organizations."
 
 export const metadata: Metadata = {
   title: 'About',
@@ -203,11 +203,12 @@ export default function AboutPage() {
           </div>
           <div className={styles.bioText}>
             <p>
-              I&apos;m the sole developer on a cybersecurity nonprofit&apos;s security-readiness
-              platform, a Dynamics 365 / Power Platform / Dataverse system live in production.
-              Concurrently I run Craft CMS work at Rocketpark across a 11-site client portfolio, and
-              from 2024-2026 I led a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi
-              ecosystem.
+              As Director of Software Engineering at a cybersecurity nonprofit, I&apos;m the sole
+              developer on its security-readiness platform, a Dynamics 365 / Power Platform /
+              Dataverse system live in production. Concurrently I&apos;m a Software Engineering
+              Intern at Rocketpark, where I lead development on Rocket Vitals, the agency&apos;s
+              website QA product, and maintain an 11-site Craft CMS portfolio. From 2024-2026 I led
+              a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi ecosystem.
             </p>
             <p>
               Off the clock I publish to npm (Specter: 65 CLI commands, 14 MCP tools), build
@@ -405,8 +406,8 @@ export default function AboutPage() {
             <div className={styles.hlRow}>
               <span className={styles.hlNum}>03</span>
               <p className={styles.hlText}>
-                Software Engineer at Rocketpark agency: Craft CMS upgrades, MCP server wrapper, Twig
-                template architecture across 11 client sites
+                Software Engineering Intern at Rocketpark agency: Craft CMS upgrades, MCP server
+                wrapper, Twig template architecture across 11 client sites
               </p>
             </div>
             <div className={styles.hlRow}>
@@ -433,33 +434,26 @@ export default function AboutPage() {
             <div className={styles.hlRow}>
               <span className={styles.hlNum}>07</span>
               <p className={styles.hlText}>
-                Navigated 64,806-file enterprise codebase (Coulson One) and built monorepo
-                architectures with NestJS, Next.js, and React Native
-              </p>
-            </div>
-            <div className={styles.hlRow}>
-              <span className={styles.hlNum}>08</span>
-              <p className={styles.hlText}>
                 Graduated Summa Cum Laude (3.98 GPA), University Honors Pathway, Dean&apos;s List
                 every quarter, while shipping production projects full-time
               </p>
             </div>
             <div className={styles.hlRow}>
-              <span className={styles.hlNum}>09</span>
+              <span className={styles.hlNum}>08</span>
               <p className={styles.hlText}>
                 Won $750 Algolia Agent Studio Challenge with TimeSlipSearch, &ldquo;conversational
                 time machine&rdquo; exploring 420,000+ pop culture records
               </p>
             </div>
             <div className={styles.hlRow}>
-              <span className={styles.hlNum}>10</span>
+              <span className={styles.hlNum}>09</span>
               <p className={styles.hlText}>
                 Published npm packages (ally-a11y, @purplegumdropz/specter) and built Rust-powered
                 observability tools (Chronicle)
               </p>
             </div>
             <div className={styles.hlRow}>
-              <span className={styles.hlNum}>11</span>
+              <span className={styles.hlNum}>10</span>
               <p className={styles.hlText}>
                 Shipped multiple SaaS products with Stripe billing live: AutomaDocs, HireReady, and
                 Testimoniq

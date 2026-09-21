@@ -47,7 +47,7 @@ export function SiteFooter() {
         <div className={styles.colophon}>
           <span>Set in Fraunces, Space Grotesk &amp; JetBrains Mono.</span>
           <span>
-            Built with Next.js &amp; React. Shipping production code across three organisations.
+            Built with Next.js &amp; React. Shipping production code across two organisations.
           </span>
         </div>
       </div>

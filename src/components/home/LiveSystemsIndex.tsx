@@ -354,7 +354,7 @@ export function LiveSystemsIndex() {
           <div className={styles.fg}>
             <p className={styles.cred}>
               <b>B.S. Information Technology, Software Development</b>, Capella University, Summa
-              Cum Laude (3.98 GPA). Shipping production code across three organisations.
+              Cum Laude (3.98 GPA). Shipping production code across two organisations.
             </p>
             <nav className={styles.links} aria-label="Navigation">
               <Link href="/about">About</Link>
