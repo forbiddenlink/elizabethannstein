@@ -137,7 +137,7 @@ export const galaxies: Galaxy[] = [
         title: 'Security Readiness Platform',
         description:
           'Sole developer on a production cybersecurity-readiness assessment for a nonprofit (client confidential). Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.',
-        role: 'Sole Developer (1099 → full-time)',
+        role: 'Director of Software Engineering',
         company: 'Cybersecurity nonprofit (confidential)',
         tags: [
           'Next.js 16',
@@ -197,8 +197,8 @@ export const galaxies: Galaxy[] = [
         id: 'rocketpark-craft-ecosystem',
         title: 'Rocketpark Agency: Craft CMS Ecosystem',
         description:
-          'Client-side delivery on a 10-site Craft CMS portfolio at a small agency. Twig templating, Composer-managed plugins, project-config workflows, Herd-based local dev, and Bitbucket-hosted source. Sites span service, e-commerce, and content-driven layouts.',
-        role: 'Developer',
+          'Client-side delivery on an 11-site Craft CMS portfolio at a small agency. Twig templating, Composer-managed plugins, project-config workflows, Herd-based local dev, and Bitbucket-hosted source. Sites span service, e-commerce, and content-driven layouts.',
+        role: 'Software Engineering Intern',
         company: 'Rocketpark',
         tags: ['Craft CMS', 'PHP', 'Twig', 'Composer', 'Herd', 'Bitbucket'],
         color: '#FF6B35',
@@ -206,15 +206,15 @@ export const galaxies: Galaxy[] = [
         size: 'large',
         galaxy: 'enterprise',
         featured: true,
-        dateRange: '2024-2026',
+        dateRange: '2025-2026',
         challenge:
-          'Maintain and extend a 10-site Craft CMS portfolio for paying clients while keeping local Herd environments, Composer plugin upgrades, and project-config syncs reliable across handoffs.',
+          'Maintain and extend an 11-site Craft CMS portfolio for paying clients while keeping local Herd environments, Composer plugin upgrades, and project-config syncs reliable across handoffs.',
         solution:
           'Standardized Twig template architecture and content-modeling patterns. Adopted Craft project-config CLI workflow over hand-edited YAML. Used Herd for parity with shared local dev. Tracked QA via the in-house rocket-vitals scanning tool.',
         impact:
           'Client sites remain live and maintainable. Project-config workflow makes content-model changes traceable in version control. Standard patterns reduce per-site ramp-up.',
         impactMetrics: [
-          { label: 'Client Sites', value: '10', icon: 'globe' },
+          { label: 'Client Sites', value: '11', icon: 'globe' },
           { label: 'Stack', value: 'Craft CMS / Twig', icon: 'layers' },
           { label: 'Local Dev', value: 'Herd', icon: 'server' },
         ],
@@ -1460,8 +1460,8 @@ export const galaxies: Galaxy[] = [
         title: 'Rocket Vitals',
         description:
           'Scan-first website QA tool that crawls up to 500 pages and runs 200+ checks across SEO, accessibility, performance, security, links, content, and AI readiness. Delivers prioritized reports with severity scoring, department routing, regression monitoring, and client-ready exports.',
-        role: 'Creator',
-        company: 'Rocket Park',
+        role: 'Lead Developer',
+        company: 'Rocketpark',
         tags: ['Next.js', 'TypeScript', 'Playwright', 'QA', 'SEO', 'Accessibility'],
         color: '#06FFA5',
         brightness: 1.8,
@@ -1477,7 +1477,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built a crawler that processes up to 500 pages per scan, running 200+ checks including 34 SEO, 25+ accessibility (plus 60+ axe-core runtime checks), 24 performance, 21 security, and AI readiness checks. Reports include severity scoring, department routing, regression monitoring with configurable guardrails, and issue workflow management.',
         impact:
-          'Covers 200+ checks in a single scan. Department routing lets teams own their findings. Regression monitoring catches score drops between scans. Built at Rocket Park for production agency use.',
+          'Covers 200+ checks in a single scan. Department routing lets teams own their findings. Regression monitoring catches score drops between scans. Built at Rocketpark for production agency use.',
         impactMetrics: [
           { label: 'QA Checks', value: '200+', icon: 'check' },
           { label: 'Pages per Scan', value: '500', icon: 'globe' },
