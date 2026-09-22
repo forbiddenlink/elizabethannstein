@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.1...v1.5.2) (2026-09-22)
+
+
+### Bug Fixes
+
+* **test:** stop handing real credentials to the app under test ([94a9c4e](https://github.com/forbiddenlink/elizabethannstein/commit/94a9c4e28b56d6f6ae20af3e88c0a08f2abcd8e3))
+
+
+### Performance Improvements
+
+* warm the command palette chunk while the page is idle ([c78df82](https://github.com/forbiddenlink/elizabethannstein/commit/c78df82f03fa25ff8e9bcd72219161d9f3dcda50))
+
 ## [1.5.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.0...v1.5.1) (2026-09-22)
 
 
