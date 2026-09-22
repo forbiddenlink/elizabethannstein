@@ -109,6 +109,7 @@ export function TraceComparison() {
                 <input
                   type="text"
                   placeholder="Filter services..."
+                  aria-label="Example filter input (illustrative preview, not interactive)"
                   readOnly
                   className="flex-1 bg-neutral-800 border border-neutral-700 rounded px-2.5 py-1 text-xs text-gray-300 outline-none"
                 />
