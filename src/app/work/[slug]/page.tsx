@@ -13,6 +13,12 @@ import styles from './page.module.css'
 // ISR: Revalidate project pages every hour for fresh content
 export const revalidate = 3600
 
+// Every slug is known at build time. Without this, an unknown slug is rendered
+// on demand and cached as a 200 with `s-maxage=3600`, so `/work/<anything>`
+// became an unbounded surface of cacheable soft-404s. `false` makes Next return
+// a real 404 for any slug outside generateStaticParams.
+export const dynamicParams = false
+
 export async function generateStaticParams() {
   return allProjects.map((project) => ({
     slug: project.id,
