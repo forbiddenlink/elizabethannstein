@@ -56,9 +56,11 @@ const nextConfig = {
       // (manifest-src, media-src, worker-src, ...) — without this, an unlisted
       // directive falls back to unrestricted rather than 'self'.
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com`,
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ''} https://www.googletagmanager.com`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self'",
+      // data: is needed for the inline SVG noise texture in globals.css and for
+      // next/image blur placeholders; both are first-party, author-written markup.
+      "img-src 'self' data:",
       "font-src 'self'",
       "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://vitals.vercel-insights.com https://*.ingest.sentry.io https://*.ingest.us.sentry.io",
       "object-src 'none'",
