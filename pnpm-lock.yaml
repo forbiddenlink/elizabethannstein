@@ -109,7 +109,7 @@ importers:
         version: 5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0))
     devDependencies:
       '@argos-ci/playwright':
-        specifier: ^7.4.6
+        specifier: 7.6.0
         version: 7.6.0(@types/node@26.5.1)
       '@biomejs/biome':
         specifier: 2.5.14
