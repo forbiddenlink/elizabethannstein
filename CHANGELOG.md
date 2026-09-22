@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.5.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.0...v1.5.1) (2026-09-22)
+
+
+### Bug Fixes
+
+* **a11y:** raise muted text to WCAG AA and unhide the mobile footer links ([f538bbd](https://github.com/forbiddenlink/elizabethannstein/commit/f538bbd27f28d539160facdfd7c93bb0d091fc13))
+* **about:** bring career facts in line with current roles ([#118](https://github.com/forbiddenlink/elizabethannstein/issues/118)) ([ce48905](https://github.com/forbiddenlink/elizabethannstein/commit/ce489056686d9263938328638785318b18123575))
+* drop the dead WillWise link ([32d5b9c](https://github.com/forbiddenlink/elizabethannstein/commit/32d5b9cc0333bc8280fe1c2c18aed4e10c45c9f8))
+* keep project modal URLs on the route hosting the galaxy ([3e98914](https://github.com/forbiddenlink/elizabethannstein/commit/3e989142d411480318db13587c9cac1d2826b45f))
+* point the Trace and PASS links at URLs that actually serve the app ([4deff0f](https://github.com/forbiddenlink/elizabethannstein/commit/4deff0f0b9e9dc22d9d643c3c39bd57906f92469))
+* restore the command palette keyboard surface ([6bafd25](https://github.com/forbiddenlink/elizabethannstein/commit/6bafd257fd1c490cf196d4097377337d8d0b49d1))
+* return a real 404 for unknown project slugs ([e34d122](https://github.com/forbiddenlink/elizabethannstein/commit/e34d1229d43dc05541c5c274baefdcfd835f4b8d))
+* **seo:** correct the sitemap, hide /city, and de-stale site metadata ([9aea36d](https://github.com/forbiddenlink/elizabethannstein/commit/9aea36d3fcfd180e53b900cf0ebdcc8c62b713e0))
+* **test:** repair the Linux visual-baseline pipeline ([6c1917c](https://github.com/forbiddenlink/elizabethannstein/commit/6c1917cc6e8d938588f05b723fa2e9badd733e68))
+* tighten the security policy, pre-build share images, fix contrast and /work rendering ([#120](https://github.com/forbiddenlink/elizabethannstein/issues/120)) ([6e08efe](https://github.com/forbiddenlink/elizabethannstein/commit/6e08efe33a14b6319894bb6d244e0cb070843f4f))
+
+
+### Performance Improvements
+
+* keep the project catalogue out of every page's bundle ([7236f79](https://github.com/forbiddenlink/elizabethannstein/commit/7236f79a570d55fc2b67284a83ce51354206f3fa))
+* resize the profile photo to the size it renders at ([d677cc7](https://github.com/forbiddenlink/elizabethannstein/commit/d677cc718654a202a33249886b3c11d1133e2fc0))
+
 ## [1.5.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.4.3...v1.5.0) (2026-09-20)
 
 
