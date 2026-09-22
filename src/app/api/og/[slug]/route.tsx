@@ -2,7 +2,17 @@ import * as Sentry from '@sentry/nextjs'
 import { ImageResponse } from 'next/og'
 import { galaxies } from '@/lib/galaxyData'
 
-export const runtime = 'edge'
+// Pre-render every project's OG image at build time instead of on first request.
+// RV scan 2026-09-22 timed out fetching /api/og/flo-labs; without generateStaticParams
+// every slug's image was a cold Satori render on first hit (and the Cache-Control
+// header set in next.config.mjs wasn't actually landing — x-vercel-cache: MISS on
+// every request). Next 16 doesn't allow generateStaticParams together with
+// `runtime = 'edge'` (build error), so this dropped edge — Next's own build output
+// already flags the Edge Runtime as deprecated in favor of nodejs. Pre-rendering
+// removes the render-on-request path entirely for known slugs.
+export async function generateStaticParams() {
+  return galaxies.flatMap((g) => g.projects).map((p) => ({ slug: p.id }))
+}
 
 export async function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
