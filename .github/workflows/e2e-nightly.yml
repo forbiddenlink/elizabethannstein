@@ -1,0 +1,66 @@
+name: E2E Nightly
+
+# The 188-test regression suite was disabled on push/PR (see ci.yml) because the
+# 7-project matrix timed out at 45 minutes. Nothing replaced it, so the suite
+# rotted for ~50 days: 20 tests were still asserting UI the 2026-08 editorial
+# redesign deleted, and no one found out. This is the scheduled run that comment
+# promised. Chromium engines only (desktop + Pixel 5) keeps it at ~65 tests.
+
+on:
+  schedule:
+    # 07:00 UTC daily — after the US evening, before the workday.
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+# The suite only reads the repo and uploads its own artifact.
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache Next.js build
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+
+      - name: Build
+        run: pnpm build
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run regression suite
+        run: pnpm test:e2e:nightly
+        env:
+          CI: true
+          PLAYWRIGHT_PORT: '3100'
+
+      - name: Preserve browser results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-nightly
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14

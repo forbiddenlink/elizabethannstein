@@ -56,6 +56,6 @@ jobs:
       - name: Build
         run: pnpm build
 
-      # E2E disabled on push/PR: 206 tests x 7 projects with workers=1 timed out
-      # at 45min every run for 50+ days. Move to scheduled nightly workflow so
-      # type/lint/unit/build stay green on every push.
+      # E2E stays off push/PR: the full suite across 7 browser projects with
+      # workers=1 timed out at 45min every run. PRs get `e2e-smoke.yml`; the
+      # regression suite runs nightly in `e2e-nightly.yml` (Chromium engines only).

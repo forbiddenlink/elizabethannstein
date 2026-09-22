@@ -36,6 +36,7 @@ pnpm test:e2e:smoke
 pnpm test:e2e:ui
 pnpm test:e2e:headed
 pnpm test:e2e:ci      # smoke + visual + Chromium/Firefox/WebKit/mobile (CI runs `next start` after build)
+pnpm test:e2e:nightly # regression suite, Chromium engines only (what e2e-nightly.yml runs)
 pnpm test:e2e:visual  # Playwright visual snapshots only (Chrome)
 ./scripts/update-visual-snapshots-docker.sh   # regenerate Linux baselines (match GitHub Actions)
 pnpm biome:check
@@ -102,6 +103,7 @@ pnpm qa:setup         # preflight + frozen install + playwright install chromium
 
 - Unit: Vitest, tests in `src/__tests__/`. Run with `pnpm test`.
 - E2E: Playwright, specs in `e2e/`. `pnpm test:e2e:ci` runs smoke + visual + Chromium/Firefox/WebKit/mobile projects against a production server (`next start`) - the 7-project matrix runs on demand via `update-snapshots.yml`, not on every PR.
+- The regression suite (`e2e/regression/`) runs nightly at 07:00 UTC via `e2e-nightly.yml` on Chromium engines only (`pnpm test:e2e:nightly`). It is the guard against spec rot: when it was unscheduled, 20 specs spent ~50 days asserting UI the editorial redesign had deleted.
 - Visual regression: `pnpm test:e2e:visual` (Chrome only); regenerate Linux baselines with `./scripts/update-visual-snapshots-docker.sh` to match GitHub Actions.
 
 ## Env vars
@@ -120,7 +122,8 @@ From `.env.example`:
 ## Gotchas
 
 - `pnpm lint` runs `tsc --noEmit`, not ESLint directly (ESLint config exists but isn't wired to the `lint` script).
-- CI (`e2e-smoke.yml`, on every PR) runs `pnpm build && pnpm test:e2e:smoke` on port 3100; `test:e2e:ci` (full matrix, visual snapshots) only runs via manual dispatch (`update-snapshots.yml`).
+- CI (`e2e-smoke.yml`, on every PR) runs `pnpm build && pnpm test:e2e:smoke` on port 3100; the regression suite runs nightly (`e2e-nightly.yml`); `test:e2e:ci` (full matrix, visual snapshots) only runs via manual dispatch (`update-snapshots.yml`).
+- Tests that submit the contact form must stub `**/api/contact` with `page.route()`. Playwright loads `.env.local` when `PLAYWRIGHT_LOAD_ENV=1`, so an unstubbed submission reaches the live Resend send path and mails a real inbox.
 - `GalaxyGuide.tsx` and other AI features require `MINMAX_API_KEY`; keep it server-only.
 
 ## Claude Code specific
