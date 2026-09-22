@@ -5,7 +5,7 @@
   --le-paper-2: #e6e0d2;
   --le-ink: #191510;
   --le-ink-2: #4d473b;
-  --le-muted: #8a8271;
+  --le-muted: #5d574c;
   --le-rule: #cfc7b4;
   --le-rule-strong: #191510;
   --le-accent: #1b34c9;
@@ -31,7 +31,7 @@
     --le-paper-2: #1c1810;
     --le-ink: #f0eadb;
     --le-ink-2: #b6af9c;
-    --le-muted: #7f7864;
+    --le-muted: #908871;
     --le-rule: #2f2a1f;
     --le-rule-strong: #f0eadb;
     --le-accent: #97a6ff;
@@ -46,7 +46,7 @@
   --le-paper-2: #1c1810;
   --le-ink: #f0eadb;
   --le-ink-2: #b6af9c;
-  --le-muted: #7f7864;
+  --le-muted: #908871;
   --le-rule: #2f2a1f;
   --le-rule-strong: #f0eadb;
   --le-accent: #97a6ff;
@@ -61,7 +61,7 @@
   --le-paper-2: #e6e0d2;
   --le-ink: #191510;
   --le-ink-2: #4d473b;
-  --le-muted: #8a8271;
+  --le-muted: #5d574c;
   --le-rule: #cfc7b4;
   --le-rule-strong: #191510;
   --le-accent: #1b34c9;
@@ -686,7 +686,12 @@
 }
 .links {
   display: flex;
-  gap: 1.4rem;
+  /* Eight links on one non-wrapping row measured 551px wide, so on every phone
+     (320-412px) GitHub, LinkedIn and Email sat past the edge, clipped and
+     unreachable — the page does not scroll horizontally, so they were simply
+     gone. `.signoff` below already wraps; this row never did. */
+  flex-wrap: wrap;
+  gap: 0.75rem 1.4rem;
   font-size: 0.76rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;

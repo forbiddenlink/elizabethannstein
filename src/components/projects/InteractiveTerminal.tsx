@@ -269,7 +269,8 @@ export function InteractiveTerminal({
           <span className="font-semibold text-gray-300">{projectName} Terminal Sandbox</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-gray-500 hidden sm:inline">
+          {/* gray-500 on the #16171f chrome measured 3.69:1, under WCAG AA. */}
+          <span className="text-[10px] text-gray-400 hidden sm:inline">
             node v22.22 · mcp ready
           </span>
           <button
@@ -289,22 +290,31 @@ export function InteractiveTerminal({
 
       {/* Terminal Screen */}
       <div className="p-4 overflow-y-auto max-h-[420px] space-y-2 text-xs leading-relaxed">
-        {history.map((item, i) => (
-          <div
-            key={i}
-            className={`${
-              item.type === 'input'
-                ? 'text-cyan-400 font-semibold'
-                : item.type === 'error'
-                  ? 'text-red-400'
-                  : item.type === 'system'
-                    ? 'text-indigo-400 font-bold whitespace-pre overflow-x-auto text-[10px] sm:text-xs'
-                    : 'text-gray-300'
-            }`}
-          >
-            {item.text}
-          </div>
-        ))}
+        {history.map((item, i) => {
+          // The `system` banner scrolls horizontally on narrow screens. A
+          // scrollable region with no focusable content is unreachable by
+          // keyboard, so it gets a tabindex and a name of its own.
+          const scrolls = item.type === 'system'
+          return (
+            <div
+              key={i}
+              className={`${
+                item.type === 'input'
+                  ? 'text-cyan-400 font-semibold'
+                  : item.type === 'error'
+                    ? 'text-red-400'
+                    : scrolls
+                      ? 'text-indigo-400 font-bold whitespace-pre overflow-x-auto text-[10px] sm:text-xs'
+                      : 'text-gray-300'
+              }`}
+              {...(scrolls
+                ? { tabIndex: 0, role: 'region', 'aria-label': 'Terminal banner, scrolls sideways' }
+                : {})}
+            >
+              {item.text}
+            </div>
+          )
+        })}
 
         {/* Active Input Line */}
         <div className="flex items-center gap-2 pt-1 text-emerald-400">

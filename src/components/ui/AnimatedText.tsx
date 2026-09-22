@@ -34,6 +34,11 @@ export function AnimatedText({
     const split = new SplitText(textRef.current, {
       type,
       linesClass: 'split-line',
+      // SplitText's default `aria: 'auto'` puts an `aria-label` on this plain
+      // <div>, which has no role — axe flags it as `aria-prohibited-attr` on
+      // /explore. The split characters are real text inside a real <h1>, so
+      // the heading keeps its accessible name without the extra label.
+      aria: 'none',
     })
 
     // Animate each character/word/line

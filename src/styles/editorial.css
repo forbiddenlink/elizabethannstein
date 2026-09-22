@@ -9,6 +9,12 @@
      --le-mono     JetBrains Mono — spec-sheet data: folios, datelines, key:value
      --le-sans     Space Grotesk — uppercase micro-labels / eyebrows / nav
    Palette: cream paper, near-black ink, cobalt accent. Light + dark, hand-tuned.
+
+   --le-muted carries body-sized text, so it has to clear WCAG AA 4.5:1 against
+   EVERY surface it sits on, including the darkest one (--le-paper-3). It used
+   to be #8a8271 / #7f7864, which measured 2.63-3.18 light and 3.72-4.29 dark:
+   91 axe contrast failures across every content page. The current values clear
+   4.6 on the worst-case surface in both themes. Do not lighten them back.
    ========================================================================== */
 
 .editorial {
@@ -18,7 +24,7 @@
   --le-paper-3: #ddd6c4;
   --le-ink: #191510;
   --le-ink-2: #4d473b;
-  --le-muted: #8a8271;
+  --le-muted: #5d574c;
   --le-rule: #cfc7b4;
   --le-rule-2: #ded7c6;
   --le-rule-strong: #191510;
@@ -72,7 +78,7 @@
     --le-paper-3: #241f15;
     --le-ink: #f0eadb;
     --le-ink-2: #b6af9c;
-    --le-muted: #7f7864;
+    --le-muted: #908871;
     --le-rule: #2f2a1f;
     --le-rule-2: #262117;
     --le-rule-strong: #f0eadb;
@@ -96,7 +102,7 @@
   --le-paper-3: #241f15;
   --le-ink: #f0eadb;
   --le-ink-2: #b6af9c;
-  --le-muted: #7f7864;
+  --le-muted: #908871;
   --le-rule: #2f2a1f;
   --le-rule-2: #262117;
   --le-rule-strong: #f0eadb;
@@ -120,7 +126,7 @@
   --le-paper-3: #ddd6c4;
   --le-ink: #191510;
   --le-ink-2: #4d473b;
-  --le-muted: #8a8271;
+  --le-muted: #5d574c;
   --le-rule: #cfc7b4;
   --le-rule-2: #ded7c6;
   --le-rule-strong: #191510;
