@@ -851,7 +851,6 @@ export const galaxies: Galaxy[] = [
         brightness: 1.6,
         size: 'large',
         galaxy: 'fullstack',
-        links: { live: 'https://willwise-app.vercel.app' },
         featured: false,
         dateRange: '2025',
         challenge:
