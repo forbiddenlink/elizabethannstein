@@ -7,7 +7,7 @@ export interface Project {
   title: string
   description: string
   role: string // "Design Team Lead", "Software Engineer", etc.
-  company?: string // "Flo Labs", "Rocket Park", etc.
+  company?: string // "Flo Labs", "Rocketpark", etc.
   tags: string[] // ["React", "Next.js", "AI", "TypeScript"]
   color: string // Galaxy color (inherited)
   brightness: number // 0.5 - 2.0 for visual hierarchy

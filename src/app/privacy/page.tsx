@@ -4,13 +4,15 @@ import { SiteHeader } from '@/components/ui/SiteHeader'
 import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Elizabeth Stein',
+  title: 'Privacy Policy',
   description:
     'Privacy policy for elizabethannstein.com. Learn how this portfolio site handles your data, including analytics and cookies.',
   alternates: {
     canonical: '/privacy',
   },
   openGraph: {
+    // Open Graph titles do not get the root layout's `%s | Elizabeth Stein`
+    // template, so this one carries the name itself.
     title: 'Privacy Policy | Elizabeth Stein',
     description:
       'Privacy policy for elizabethannstein.com. Learn how this portfolio site handles your data.',
