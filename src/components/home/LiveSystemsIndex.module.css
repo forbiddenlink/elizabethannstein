@@ -5,7 +5,7 @@
   --le-paper-2: #e6e0d2;
   --le-ink: #191510;
   --le-ink-2: #4d473b;
-  --le-muted: #5d574c;
+  --le-muted: #5d574c; /* was #8a8271: 3.18:1 on --le-paper, under WCAG AA. Now 5.97:1. */
   --le-rule: #cfc7b4;
   --le-rule-strong: #191510;
   --le-accent: #1b34c9;
@@ -31,7 +31,7 @@
     --le-paper-2: #1c1810;
     --le-ink: #f0eadb;
     --le-ink-2: #b6af9c;
-    --le-muted: #908871;
+    --le-muted: #908871; /* was #7f7864: 4.29:1 on dark --le-paper, under WCAG AA. Now 5.34:1. */
     --le-rule: #2f2a1f;
     --le-rule-strong: #f0eadb;
     --le-accent: #97a6ff;
@@ -46,7 +46,7 @@
   --le-paper-2: #1c1810;
   --le-ink: #f0eadb;
   --le-ink-2: #b6af9c;
-  --le-muted: #908871;
+  --le-muted: #908871; /* was #7f7864: 4.29:1 on dark --le-paper, under WCAG AA. Now 5.34:1. */
   --le-rule: #2f2a1f;
   --le-rule-strong: #f0eadb;
   --le-accent: #97a6ff;
@@ -61,7 +61,7 @@
   --le-paper-2: #e6e0d2;
   --le-ink: #191510;
   --le-ink-2: #4d473b;
-  --le-muted: #5d574c;
+  --le-muted: #5d574c; /* was #8a8271: 3.18:1 on --le-paper, under WCAG AA. Now 5.97:1. */
   --le-rule: #cfc7b4;
   --le-rule-strong: #191510;
   --le-accent: #1b34c9;

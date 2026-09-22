@@ -326,6 +326,7 @@ export function InteractiveTerminal({
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type 'help', 'specter explain', 'specter tools'..."
+            aria-label={`${projectName} terminal command input`}
             className="flex-1 bg-transparent text-gray-100 outline-none font-mono text-xs placeholder:text-gray-600"
             autoCapitalize="off"
             autoCorrect="off"

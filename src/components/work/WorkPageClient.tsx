@@ -2,7 +2,7 @@
 
 import { Search, X } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
 import { countProofCatalogProjects, isProofCatalogProject } from '@/lib/proofLayer'
@@ -12,6 +12,16 @@ import styles from './WorkPageClient.module.css'
 
 interface WorkPageClientProps {
   galaxies: Galaxy[]
+  /** Raw query-string values read server-side (Page's `searchParams` prop), so the
+   *  initial render — including the crawler-visible static/SSR HTML — reflects the
+   *  requested filter/search/sort instead of bailing out to client-only rendering.
+   *  `useSearchParams()` forces that bailout, so it's used here only for the
+   *  client-only "did the URL already match?" check in the sync effect below. */
+  initialFilterParam: string | null
+  initialQueryParam: string | null
+  initialViewParam: string | null
+  initialTagParam: string | null
+  initialSortParam: string | null
 }
 
 function projectMatchesQuery(project: Project, query: string): boolean {
@@ -96,27 +106,31 @@ function orgLine(project: Project): string {
   return dated ? `${parts.join(' · ')} · ${dated}` : parts.join(' · ')
 }
 
-export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
+export function WorkPageClient({
+  galaxies,
+  initialFilterParam,
+  initialQueryParam,
+  initialViewParam,
+  initialTagParam,
+  initialSortParam,
+}: Readonly<WorkPageClientProps>) {
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
   const initialGalaxyFilter = useMemo(
-    () => normalizeGalaxyFilter(searchParams.get('filter'), galaxies),
-    [galaxies, searchParams]
+    () => normalizeGalaxyFilter(initialFilterParam, galaxies),
+    [galaxies, initialFilterParam]
   )
-  const initialSearchQuery = useMemo(() => searchParams.get('q')?.trim() ?? '', [searchParams])
+  const initialSearchQuery = useMemo(() => initialQueryParam?.trim() ?? '', [initialQueryParam])
   const initialShowProofCatalog = useMemo(() => {
-    const viewMode = searchParams.get('view')
-    if (viewMode === 'all') return false
+    if (initialViewParam === 'all') return false
     return initialGalaxyFilter === null
-  }, [initialGalaxyFilter, searchParams])
+  }, [initialGalaxyFilter, initialViewParam])
 
-  const initialTag = useMemo(() => searchParams.get('tag')?.trim() ?? null, [searchParams])
+  const initialTag = useMemo(() => initialTagParam?.trim() ?? null, [initialTagParam])
   const initialSortOrder = useMemo((): SortOrder => {
-    const param = searchParams.get('sort')
-    if (param === 'newest' || param === 'oldest') return param
+    if (initialSortParam === 'newest' || initialSortParam === 'oldest') return initialSortParam
     return 'featured'
-  }, [searchParams])
+  }, [initialSortParam])
 
   const [selectedGalaxy, setSelectedGalaxy] = useState<string | null>(initialGalaxyFilter)
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
@@ -163,22 +177,17 @@ export function WorkPageClient({ galaxies }: Readonly<WorkPageClientProps>) {
     if (selectedTag) nextParams.set('tag', selectedTag)
     if (sortOrder !== 'featured') nextParams.set('sort', sortOrder)
 
-    const currentQuery = searchParams.toString()
+    // Client-only read (this effect never runs during SSR/SSG) — avoids
+    // useSearchParams(), which would force this whole tree back to
+    // client-only rendering and reintroduce the empty-initial-HTML problem
+    // this component was refactored to avoid.
+    const currentQuery = window.location.search.replace(/^\?/, '')
     const nextQuery = nextParams.toString()
 
     if (currentQuery === nextQuery) return
 
     router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false })
-  }, [
-    pathname,
-    router,
-    searchParams,
-    searchQuery,
-    selectedGalaxy,
-    showProofCatalog,
-    selectedTag,
-    sortOrder,
-  ])
+  }, [pathname, router, searchQuery, selectedGalaxy, showProofCatalog, selectedTag, sortOrder])
 
   const allProjects = useMemo(() => galaxies.flatMap((g) => g.projects), [galaxies])
   const galaxyById = useMemo(() => new Map(galaxies.map((g) => [g.id, g])), [galaxies])

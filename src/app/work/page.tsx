@@ -21,7 +21,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function WorkPage() {
+type SearchParamValue = string | string[] | undefined
+
+function firstParam(value: SearchParamValue): string | null {
+  const raw = Array.isArray(value) ? value[0] : value
+  return raw ?? null
+}
+
+export default async function WorkPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, SearchParamValue>>
+}) {
+  const params = await searchParams
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -53,7 +65,14 @@ export default function WorkPage() {
         </a>
         <SiteHeader />
         <main id="work-content" className="eWrap">
-          <WorkPageClient galaxies={galaxies} />
+          <WorkPageClient
+            galaxies={galaxies}
+            initialFilterParam={firstParam(params.filter)}
+            initialQueryParam={firstParam(params.q)}
+            initialViewParam={firstParam(params.view)}
+            initialTagParam={firstParam(params.tag)}
+            initialSortParam={firstParam(params.sort)}
+          />
         </main>
         <SiteFooter />
       </div>

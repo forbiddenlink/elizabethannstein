@@ -101,6 +101,23 @@ const jsonLd = {
   },
 }
 
+// Standalone top-level Person schema (same @id as the ProfilePage's mainEntity above).
+// Scanners that check brand-entity structured data look for a top-level Organization/
+// LocalBusiness/Person @type and don't all descend into `mainEntity`, so this exists
+// alongside — not instead of — the nested one.
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.url}/#person`,
+  name: SITE.name,
+  url: SITE.url,
+  image: `${SITE.url}/opengraph-image`,
+  jobTitle: SITE.title,
+  description: SITE.shortDescription,
+  knowsAbout: [...SITE.knowsAbout],
+  sameAs: [CONTACT.github, CONTACT.linkedin, 'https://imkindageeky.com'],
+}
+
 // WebSite schema enables rich results + sitelinks in Google
 const webSiteJsonLd = {
   '@context': 'https://schema.org',
@@ -154,6 +171,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
         <script
           type="application/ld+json"
