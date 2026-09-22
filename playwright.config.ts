@@ -20,6 +20,30 @@ const isCI = !!process.env.CI
 /** Exclude visual regression specs from multi-browser runs — snapshots are Chrome-only in `visual` project */
 const ignoreVisualDir = /\/e2e\/visual\//
 
+/**
+ * Real service credentials must never reach the app under test. Next does not
+ * overwrite a variable that is already present in the environment it is handed,
+ * so blanking these here beats whatever `.env.local` holds without touching the
+ * developer's files. The contact route treats an empty `RESEND_API_KEY` as dev
+ * mode and returns `{ ok: true, dev: true }` without sending, which is why a
+ * blank beats a dummy key: a dummy would attempt a real Resend call and 500.
+ *
+ * `PLAYWRIGHT_LOAD_ENV=1` opts back in to the developer's own services. That is
+ * the flag's only job now; it used to be the only way to run Playwright at all,
+ * which made "use my real credentials" the default path.
+ */
+const serverEnv: Record<string, string> =
+  process.env.PLAYWRIGHT_LOAD_ENV === '1'
+    ? {}
+    : {
+        RESEND_API_KEY: '',
+        MINMAX_API_KEY: '',
+        ARCJET_KEY: '',
+        NEXT_PUBLIC_SENTRY_DSN: '',
+        NEXT_PUBLIC_GA_ID: '',
+        CONTACT_FORWARD_TO: 'blackhole@example.invalid',
+      }
+
 export default defineConfig({
   metadata: {
     checkout: realpathSync(process.cwd()),
@@ -128,11 +152,13 @@ export default defineConfig({
           url: baseURL,
           reuseExistingServer: false,
           timeout: 180 * 1000,
+          env: serverEnv,
         }
       : {
           command: `pnpm dev --hostname 127.0.0.1 --port ${e2ePort}`,
           url: baseURL,
           reuseExistingServer: false,
           timeout: 120 * 1000,
+          env: serverEnv,
         },
 })

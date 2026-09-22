@@ -123,7 +123,8 @@ From `.env.example`:
 
 - `pnpm lint` runs `tsc --noEmit`, not ESLint directly (ESLint config exists but isn't wired to the `lint` script).
 - CI (`e2e-smoke.yml`, on every PR) runs `pnpm build && pnpm test:e2e:smoke` on port 3100; the regression suite runs nightly (`e2e-nightly.yml`); `test:e2e:ci` (full matrix, visual snapshots) only runs via manual dispatch (`update-snapshots.yml`).
-- Tests that submit the contact form must stub `**/api/contact` with `page.route()`. `scripts/qa-preflight.mjs` refuses to run Playwright while a `.env` file is present, and its only escape hatch is `PLAYWRIGHT_LOAD_ENV=1` — which does not load anything itself, it just lets the run proceed, after which the Next server Playwright starts reads `.env.local` on its own. An unstubbed submission then reaches the live Resend send path.
+- `playwright.config.ts` blanks `RESEND_API_KEY`, `MINMAX_API_KEY`, `ARCJET_KEY`, the Sentry DSN and the GA id for the server it starts, so a test run cannot reach a real service. Next does not overwrite variables already present in the environment it is handed, so this beats `.env.local` without touching it. `PLAYWRIGHT_LOAD_ENV=1` opts back in to your own credentials and warns that it has.
+- Tests that submit the contact form should still stub `**/api/contact` with `page.route()`. The blanked key makes the route return `{ ok: true, dev: true }` without sending, so a stub is now belt-and-braces rather than the only thing standing between a spec and your inbox.
 - Regenerate Linux visual baselines with `./scripts/update-visual-snapshots-docker.sh`. It copies the repo into the container rather than working in the mount, so a Linux `pnpm install` cannot leave native modules built for the wrong platform in your tree, and so `.env` files stay invisible to the run.
 - The visual project routes `/_next/image**` through `e2e/visual/visual-fixtures.ts`, which asks for WebP. Playwright's Chromium crashes its renderer decoding the AVIF that `next/image` serves; production keeps AVIF because real browsers decode it fine.
 - `GalaxyGuide.tsx` and other AI features require `MINMAX_API_KEY`; keep it server-only.
@@ -134,3 +135,13 @@ From `.env.example`:
 accessibility, bundle-size, and architecture issues. It also runs in CI on every PR
 (`.github/workflows/react-doctor.yml`), posting a sticky comment with issues introduced
 relative to the merge base. Run it after React code changes and fix regressions before committing.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
