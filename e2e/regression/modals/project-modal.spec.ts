@@ -5,10 +5,14 @@
  * Category: Navigation / Deep-linking
  *
  * Validates:
- * - Modal opens via URL query parameter
+ * - Modal opens via URL query parameter on /explore
  * - Modal closes via ESC, X button, backdrop click
  * - Browser history integration
  * - Focus trapping
+ *
+ * Retargeted 2026-09-22 from `/` to `/explore`. The galaxy stopped being the
+ * homepage in the 2026-08 redesign; every test here had been failing since,
+ * unseen, because the regression suite does not run in CI.
  */
 
 import { expect, test } from '../../fixtures/test-fixtures'
@@ -68,8 +72,8 @@ test.describe('Project Modal', () => {
   })
 
   test('browser back button closes modal', async ({ projectModal, page }) => {
-    // Start at homepage
-    await page.goto('/')
+    // Start at the galaxy with no project selected
+    await page.goto('/explore')
     await page.waitForLoadState('domcontentloaded')
 
     // Open modal via URL
@@ -108,24 +112,27 @@ test.describe('Project Modal', () => {
     expect(page.url()).toContain('/work/chronicle')
   })
 
-  test('prevents body scroll when modal is open', async ({ projectModal, page }) => {
+  // These two assert the BEHAVIOUR (the page behind the modal must not move),
+  // not the old implementation detail of an inline `body.style.overflow`
+  // toggle. The modal scrolls in its own container and the galaxy route is a
+  // fixed-height canvas, so that inline style no longer exists.
+  test('the page behind the modal does not scroll', async ({ projectModal, page }) => {
     await projectModal.openViaUrl('chronicle')
 
-    const bodyOverflow = await page.evaluate(() => {
-      return document.body.style.overflow
+    const { before, after } = await page.evaluate(() => {
+      const before = globalThis.scrollY
+      globalThis.scrollTo(0, 800)
+      return { before, after: globalThis.scrollY }
     })
 
-    expect(bodyOverflow).toBe('hidden')
+    expect(after).toBe(before)
   })
 
-  test('restores body scroll when modal closes', async ({ projectModal, page }) => {
+  test('closing the modal leaves the page scrollable again', async ({ projectModal, page }) => {
     await projectModal.openViaUrl('chronicle')
     await projectModal.closeViaEscape()
 
-    const bodyOverflow = await page.evaluate(() => {
-      return document.body.style.overflow
-    })
-
-    expect(bodyOverflow).toBe('')
+    const locked = await page.evaluate(() => document.body.style.overflow === 'hidden')
+    expect(locked).toBe(false)
   })
 })

@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUp, X } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
 import { GenerativeHero } from '@/components/ui/GenerativeHero'
@@ -31,6 +31,10 @@ function getModalTone(color?: string): string {
 
 export function ProjectModal() {
   const router = useRouter()
+  const pathname = usePathname()
+  // The galaxy lives at /explore. Keep the modal's URLs on whatever route is
+  // hosting it rather than assuming the homepage.
+  const galaxyPath = pathname?.startsWith('/explore') ? '/explore' : '/'
   const selectedProject = useViewStore((state) => state.selectedProject)
   const view = useViewStore((state) => state.view)
   const zoomOut = useViewStore((state) => state.zoomOut)
@@ -81,19 +85,44 @@ export function ProjectModal() {
     }
   }, [isOpen])
 
-  // Close handler that properly updates URL
+  // Close handler that properly updates URL.
+  // Both URLs below used to be hardcoded to `/`, from when the galaxy WAS the
+  // homepage. After the 2026-08 redesign `/` became the editorial index, which
+  // hard-redirects any `?p=` to /work/[slug] — so opening a planet on /explore
+  // bounced the visitor straight out of the 3D scene, and closing the modal
+  // dropped them on the homepage. Anchor to the route actually hosting the
+  // galaxy instead.
   const handleClose = useCallback(() => {
     zoomOut()
-    router.push('/', { scroll: false })
-  }, [zoomOut, router])
+    router.push(galaxyPath, { scroll: false })
+  }, [zoomOut, router, galaxyPath])
 
   // Sync URL with selection state (deep-linking)
   useEffect(() => {
     if (selectedProject && isOpen) {
       // Update URL with query param
-      router.replace(`/?p=${selectedProject}`, { scroll: false })
+      router.replace(`${galaxyPath}?p=${selectedProject}`, { scroll: false })
     }
-  }, [selectedProject, isOpen, router])
+  }, [selectedProject, isOpen, router, galaxyPath])
+
+  // Drop `?p=` on EVERY close path, not just the X button. `KeyboardNavigation`
+  // also listens for Escape and closes by calling `zoomOut()` alone, so pressing
+  // Escape used to dismiss the modal while leaving `?p=<slug>` in the address
+  // bar — the URL then claimed a project was open, and sharing or reloading it
+  // reopened the thing the visitor had just dismissed.
+  const wasOpenRef = useRef(false)
+  useEffect(() => {
+    if (isOpen) {
+      wasOpenRef.current = true
+      return
+    }
+    if (!wasOpenRef.current) return
+    wasOpenRef.current = false
+
+    if (new URLSearchParams(globalThis.location.search).has('p')) {
+      router.replace(galaxyPath, { scroll: false })
+    }
+  }, [isOpen, router, galaxyPath])
 
   // Handle browser back/forward
   useEffect(() => {
