@@ -18,6 +18,17 @@
 import { expect, test } from '../../fixtures/test-fixtures'
 
 test.describe('Project Modal', () => {
+  /**
+   * Every test here loads /explore, which mounts the WebGL galaxy: three.js,
+   * the shader material and the whole project catalogue. On a cold build that
+   * first hit can spend most of the default 30s budget before the modal even
+   * exists, and `openViaUrl` then waits up to 30s more for it. The suite was
+   * failing roughly one test per cold run, a different one each time, always
+   * surfacing as "Target page, context or browser has been closed" from a
+   * helper caught in teardown — the symptom of the timeout, not its cause.
+   */
+  test.slow()
+
   test.beforeEach(async ({ page }) => {
     const supportsModalDeepLink = await page.evaluate(() => {
       const canvas = document.createElement('canvas')
