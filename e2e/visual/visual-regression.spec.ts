@@ -1,5 +1,5 @@
 import { argosScreenshot } from '@argos-ci/playwright'
-import { expect, test } from '@playwright/test'
+import { expect, test } from './visual-fixtures'
 
 /**
  * Visual regression tests for static pages

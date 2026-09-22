@@ -123,7 +123,9 @@ From `.env.example`:
 
 - `pnpm lint` runs `tsc --noEmit`, not ESLint directly (ESLint config exists but isn't wired to the `lint` script).
 - CI (`e2e-smoke.yml`, on every PR) runs `pnpm build && pnpm test:e2e:smoke` on port 3100; the regression suite runs nightly (`e2e-nightly.yml`); `test:e2e:ci` (full matrix, visual snapshots) only runs via manual dispatch (`update-snapshots.yml`).
-- Tests that submit the contact form must stub `**/api/contact` with `page.route()`. Playwright loads `.env.local` when `PLAYWRIGHT_LOAD_ENV=1`, so an unstubbed submission reaches the live Resend send path and mails a real inbox.
+- Tests that submit the contact form must stub `**/api/contact` with `page.route()`. `scripts/qa-preflight.mjs` refuses to run Playwright while a `.env` file is present, and its only escape hatch is `PLAYWRIGHT_LOAD_ENV=1` — which does not load anything itself, it just lets the run proceed, after which the Next server Playwright starts reads `.env.local` on its own. An unstubbed submission then reaches the live Resend send path.
+- Regenerate Linux visual baselines with `./scripts/update-visual-snapshots-docker.sh`. It copies the repo into the container rather than working in the mount, so a Linux `pnpm install` cannot leave native modules built for the wrong platform in your tree, and so `.env` files stay invisible to the run.
+- The visual project routes `/_next/image**` through `e2e/visual/visual-fixtures.ts`, which asks for WebP. Playwright's Chromium crashes its renderer decoding the AVIF that `next/image` serves; production keeps AVIF because real browsers decode it fine.
 - `GalaxyGuide.tsx` and other AI features require `MINMAX_API_KEY`; keep it server-only.
 
 ## Claude Code specific
