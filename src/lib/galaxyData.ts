@@ -1087,7 +1087,7 @@ export const galaxies: Galaxy[] = [
         size: 'large',
         galaxy: 'devtools',
         links: {
-          live: 'https://trace-liz.vercel.app',
+          live: 'https://trace-seven-ashen.vercel.app',
           github: 'https://github.com/forbiddenlink/trace',
           contestWin:
             'https://dev.to/liztacular/my-ai-tool-generated-garbage-jsx-so-i-grounded-it-in-shadcnui-and-finally-shipped-it-1i1n',
@@ -2063,7 +2063,7 @@ export const galaxies: Galaxy[] = [
         size: 'medium',
         galaxy: 'experimental',
         links: {
-          live: 'https://pass-game-elizabeth-emersons-projects.vercel.app',
+          live: 'https://pass-game-six.vercel.app',
           github: 'https://github.com/forbiddenlink/pass-game',
         },
         featured: true,
