@@ -7,7 +7,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { AchievementToastManager } from '@/components/ui/AchievementToast'
-import { CommandPalette } from '@/components/ui/CommandPalette'
+import { CommandPaletteLoader } from '@/components/ui/CommandPaletteLoader'
 import { GalaxyChrome } from '@/components/ui/GalaxyChrome'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { CONTACT, SITE } from '@/lib/constants'
@@ -162,7 +162,7 @@ export default function RootLayout({
         <NuqsAdapter>
           <SmoothScroll />
           <AchievementToastManager />
-          <CommandPalette />
+          <CommandPaletteLoader />
           <Analytics />
           <ErrorBoundary>{children}</ErrorBoundary>
           <VercelAnalytics />

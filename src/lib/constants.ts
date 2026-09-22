@@ -1,7 +1,18 @@
 import { FLAGSHIPS } from './flagships'
-import { galaxies } from './galaxyData'
 
-const totalProjects = galaxies.reduce((sum, g) => sum + g.projects.length, 0)
+/**
+ * Pinned rather than derived from `galaxyData`. Importing the catalogue here
+ * dragged all 124 KB of it — every project's challenge/solution/impact prose —
+ * into the client bundle of every page that reads SITE or CONTACT, which is all
+ * of them: /privacy shipped a chunk containing "Coulson One" while rendering
+ * nothing but legal text. Bundlers cannot tree-shake it, because the reduce
+ * below touched the whole array.
+ *
+ * `src/__tests__/copyCounts.test.ts` fails if either number drifts from the
+ * real catalogue, so this cannot go stale silently.
+ */
+const totalProjects = 88
+const totalGalaxies = 6
 
 // Contact and social links - single source of truth
 export const CONTACT = {
@@ -41,6 +52,8 @@ export const SITE = {
   narrativeThesis:
     "I design and build software that's actually running in production. Sole developer on a Dynamics 365 platform, Algolia Agent Studio winner, and I ship MCP servers instead of just consuming them.",
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
+  // These feed JSON-LD and page metadata, so a version number here rots in
+  // public. Name the platform ('OpenAI API'), not the model of the month.
   keywords: [
     'Full-Stack Engineer',
     'Recent Grad 2026',
@@ -57,7 +70,7 @@ export const SITE = {
     'AI Integration',
     'MCP Protocol',
     'Claude',
-    'OpenAI GPT-4',
+    'OpenAI API',
     'RAG',
     'Algolia Agent Studio',
     'Design Systems',
@@ -79,7 +92,7 @@ export const SITE = {
     'AI Integration',
     'MCP Protocol',
     'Claude AI',
-    'OpenAI GPT-4',
+    'OpenAI API',
     'RAG Pipelines',
     'React',
     'Next.js',
@@ -99,7 +112,7 @@ export const SITE = {
 // Portfolio stats — derived from galaxyData so counts never drift
 export const STATS = {
   projectCount: String(totalProjects),
-  galaxyCount: String(galaxies.length),
+  galaxyCount: String(totalGalaxies),
   /** Everything not surfaced as a flagship. Derived so the copy cannot drift. */
   moreCount: String(totalProjects - FLAGSHIPS.length),
   yearsExperience: '3',
