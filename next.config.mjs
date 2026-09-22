@@ -20,8 +20,10 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', '@react-three/drei'],
-    // Native view transitions for route changes (React 19 + Next 16)
-    viewTransition: true,
+    // `experimental.viewTransition` was removed in Next 16 and every build
+    // logged it as an unrecognized key, so the flag never did anything. View
+    // transitions now come from React's own `<ViewTransition>` component, which
+    // Next triggers on navigation with no config. Nothing here uses it yet.
   },
   // Preserve the old case-study URL after the confidentiality rename.
   async redirects() {

@@ -44,6 +44,9 @@ thoughts/
 
 # Screenshots (development/testing artifacts)
 *.png
+# Argos writes `<name>.png.argos.json` sidecars next to its captures. The *.png
+# rule above misses them, so a local smoke run left test output untracked-dirty.
+screenshots/
 # Playwright visual baselines (must be tracked for CI)
 !e2e/visual/visual-regression.spec.ts-snapshots/*.png
 
