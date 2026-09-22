@@ -29,10 +29,15 @@ interface CommandItem {
   action: () => void
 }
 
-export function CommandPalette() {
+/** Ties the combobox input to the results list for `aria-controls`. */
+const RESULTS_ID = 'command-palette-results'
+/** Stable per-option id so `aria-activedescendant` can point at the highlight. */
+const optionId = (commandId: string) => `command-palette-option-${commandId}`
+
+export function CommandPalette({ defaultOpen = false }: { defaultOpen?: boolean } = {}) {
   const router = useRouter()
   const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(defaultOpen)
   const [search, setSearch] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const zoomToProject = useViewStore((state) => state.zoomToProject)
@@ -297,7 +302,12 @@ export function CommandPalette() {
         return
       }
 
-      if (isTypingContext) return
+      // The guard keeps page-level shortcuts from firing while someone types in
+      // an unrelated field. It must not apply once the palette is open: the
+      // palette autofocuses its own search input, so `target` is always an
+      // INPUT and returning here would kill ESC, the arrows, and Enter — the
+      // palette's entire keyboard surface.
+      if (isTypingContext && !isOpen) return
 
       // Close with ESC
       if (e.key === 'Escape' && isOpen) {
@@ -439,6 +449,20 @@ export function CommandPalette() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects, galaxies, actions, or type CMD+K..."
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-lg"
+              // The combobox wiring is what makes arrow-key navigation audible.
+              // Focus stays in this input while the arrows move the highlight,
+              // so without `aria-activedescendant` a screen reader announces
+              // nothing and the selection is carried by background colour alone.
+              aria-label="Search projects, galaxies, and actions"
+              role="combobox"
+              aria-expanded
+              aria-controls={RESULTS_ID}
+              aria-autocomplete="list"
+              aria-activedescendant={
+                filteredCommands[selectedIndex]
+                  ? optionId(filteredCommands[selectedIndex].id)
+                  : undefined
+              }
             />
             <button
               type="button"
@@ -456,49 +480,66 @@ export function CommandPalette() {
           {/* Results */}
           <div className="max-h-[60vh] overflow-y-auto">
             {filteredCommands.length === 0 ? (
-              <div className="px-4 py-12 text-center text-gray-500">
+              <div
+                className="px-4 py-12 text-center text-gray-500"
+                role="status"
+                aria-live="polite"
+              >
                 No results found for &ldquo;{search}&rdquo;
               </div>
             ) : (
-              Object.entries(groupedCommands).map(([category, items]) => (
-                <div key={category} className="py-2">
-                  <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    {getCategoryLabel(category)}
-                  </div>
-                  {items.map((cmd) => {
-                    const globalIdx = filteredCommands.indexOf(cmd)
-                    const isSelected = globalIdx === selectedIndex
+              <div id={RESULTS_ID} role="listbox" aria-label="Command results">
+                {Object.entries(groupedCommands).map(([category, items]) => (
+                  <div
+                    key={category}
+                    className="py-2"
+                    role="group"
+                    aria-labelledby={`command-palette-group-${category}`}
+                  >
+                    <div
+                      id={`command-palette-group-${category}`}
+                      className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    >
+                      {getCategoryLabel(category)}
+                    </div>
+                    {items.map((cmd) => {
+                      const globalIdx = filteredCommands.indexOf(cmd)
+                      const isSelected = globalIdx === selectedIndex
 
-                    return (
-                      <button
-                        key={cmd.id}
-                        onClick={cmd.action}
-                        onMouseEnter={() => setSelectedIndex(globalIdx)}
-                        type="button"
-                        aria-label={`${cmd.title} - ${cmd.subtitle || ''}`}
-                        className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
-                          isSelected
-                            ? 'bg-blue-500/20 text-white border-l-2 border-blue-500'
-                            : 'text-gray-300 hover:bg-white/5'
-                        }`}
-                      >
-                        <div className={`${isSelected ? 'text-blue-400' : 'text-gray-500'}`}>
-                          {cmd.icon}
-                        </div>
-                        <div className="flex-1 text-left">
-                          <div className="font-medium">{cmd.title}</div>
-                          {cmd.subtitle && (
-                            <div className="text-sm text-gray-500">{cmd.subtitle}</div>
+                      return (
+                        <button
+                          key={cmd.id}
+                          id={optionId(cmd.id)}
+                          onClick={cmd.action}
+                          onMouseEnter={() => setSelectedIndex(globalIdx)}
+                          type="button"
+                          role="option"
+                          aria-selected={isSelected}
+                          aria-label={`${cmd.title} - ${cmd.subtitle || ''}`}
+                          className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
+                            isSelected
+                              ? 'bg-blue-500/20 text-white border-l-2 border-blue-500'
+                              : 'text-gray-300 hover:bg-white/5'
+                          }`}
+                        >
+                          <div className={`${isSelected ? 'text-blue-400' : 'text-gray-500'}`}>
+                            {cmd.icon}
+                          </div>
+                          <div className="flex-1 text-left">
+                            <div className="font-medium">{cmd.title}</div>
+                            {cmd.subtitle && (
+                              <div className="text-sm text-gray-500">{cmd.subtitle}</div>
+                            )}
+                          </div>
+                          {isSelected && (
+                            <kbd className="px-2 py-1 text-xs font-mono bg-white/10 rounded">↵</kbd>
                           )}
-                        </div>
-                        {isSelected && (
-                          <kbd className="px-2 py-1 text-xs font-mono bg-white/10 rounded">↵</kbd>
-                        )}
-                      </button>
-                    )
-                  })}
-                </div>
-              ))
+                        </button>
+                      )
+                    })}
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 

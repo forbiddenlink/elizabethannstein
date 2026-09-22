@@ -80,17 +80,34 @@ test.describe('Command Palette', () => {
   test('arrow down navigates to next result', async ({ homePage, page }) => {
     await homePage.openCommandPalette()
 
-    // First item should be selected by default
-    const firstSelected = page.locator('.command-palette-modal button.bg-blue-500\\/20').first()
-    await expect(firstSelected).toBeVisible()
+    const options = page.locator('.command-palette-modal [role="option"]')
+    // Assert the selection MOVED, rather than that some fixed index is
+    // highlighted. The previous version checked `nth(1)` for the highlight
+    // class, which was already true at rest, so it passed for months while
+    // the arrow keys did nothing at all.
+    await expect(options.nth(0)).toHaveAttribute('aria-selected', 'true')
 
-    // Navigate down
     await homePage.navigateResultsDown(1)
 
-    // Selection should have moved
-    const buttons = page.locator('.command-palette-modal button[type="button"]')
-    const secondButton = buttons.nth(1)
-    await expect(secondButton).toHaveClass(/bg-blue-500/)
+    await expect(options.nth(0)).toHaveAttribute('aria-selected', 'false')
+    await expect(options.nth(1)).toHaveAttribute('aria-selected', 'true')
+  })
+
+  test('the highlighted option is exposed to assistive tech', async ({ homePage, page }) => {
+    await homePage.openCommandPalette()
+
+    const input = page.locator('.command-palette-modal input[type="text"]')
+    const firstId = await page
+      .locator('.command-palette-modal [role="option"]')
+      .first()
+      .getAttribute('id')
+
+    // Focus never leaves the input, so aria-activedescendant is the only thing
+    // announcing the highlight.
+    await expect(input).toHaveAttribute('aria-activedescendant', String(firstId))
+
+    await homePage.navigateResultsDown(1)
+    await expect(input).not.toHaveAttribute('aria-activedescendant', String(firstId))
   })
 
   test('enter key selects highlighted item', async ({ homePage, page }) => {
