@@ -14,13 +14,34 @@ import { useEffect, useState } from 'react'
  * the real palette in the first time someone presses the shortcut. The listener
  * hands off `defaultOpen` so that first press still opens it in one go.
  */
-const CommandPalette = dynamic(
-  () => import('@/components/ui/CommandPalette').then((m) => m.CommandPalette),
-  { ssr: false }
-)
+const loadCommandPalette = () =>
+  import('@/components/ui/CommandPalette').then((m) => m.CommandPalette)
+
+const CommandPalette = dynamic(loadCommandPalette, { ssr: false })
 
 export function CommandPaletteLoader() {
   const [loaded, setLoaded] = useState(false)
+
+  /**
+   * Warm the chunk once the page is idle. Without this the first Cmd+K on a
+   * cold load has to wait for a network round trip before anything appears,
+   * which is a visible stall for the person and an intermittent failure for the
+   * palette specs. Prefetching costs nothing on the critical path: the import
+   * still happens after first paint, it is simply no longer on the keypress.
+   */
+  useEffect(() => {
+    if (loaded) return
+    const idle = globalThis.requestIdleCallback
+    const warm = () => {
+      void loadCommandPalette()
+    }
+    if (typeof idle === 'function') {
+      const handle = idle(warm)
+      return () => globalThis.cancelIdleCallback?.(handle)
+    }
+    const timer = globalThis.setTimeout(warm, 2000)
+    return () => globalThis.clearTimeout(timer)
+  }, [loaded])
 
   useEffect(() => {
     if (loaded) return
