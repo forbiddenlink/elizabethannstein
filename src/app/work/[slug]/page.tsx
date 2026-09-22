@@ -59,7 +59,10 @@ export async function generateMetadata({
   const metaDescription = normalizeDescription(project.description, project.tags)
 
   return {
-    title: `${project.title} · Case study`,
+    // No " · Case study" suffix here (the page itself labels it as a case study) —
+    // keeps the rendered <title> ("{title} | Elizabeth Stein") inside the 50-60 char
+    // range SEO scanners expect, across every project title in galaxyData.ts.
+    title: project.title,
     description: metaDescription,
     alternates: {
       canonical: `/work/${project.id}`,
