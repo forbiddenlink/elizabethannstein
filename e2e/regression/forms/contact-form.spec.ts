@@ -7,8 +7,13 @@
  * Validates:
  * - Required field validation
  * - Email format validation
- * - Draft preparation flow
- * - Honest follow-up actions
+ * - The success panel shown after a successful send
+ * - The error alert shown when the send fails
+ *
+ * The send endpoint is stubbed in every test that submits. Rewritten
+ * 2026-09-22: the previous versions asserted a "Message ready to send" mailto
+ * draft flow that no longer exists in src/, and ran against the real
+ * /api/contact, so a run with RESEND_API_KEY in the environment sent live mail.
  */
 
 import { expect, test } from '../../fixtures/test-fixtures'
@@ -72,10 +77,24 @@ test.describe('Contact Form Validation', () => {
     expect(validationMessage).toBeTruthy()
   })
 
-  test('submit button prepares the draft actions after submission', async ({
+  test('shows the success panel after a successful send', async ({ contactPage }) => {
+    await contactPage.stubContactApi()
+    await contactPage.fillForm({
+      name: 'Test User',
+      email: 'test@example.com',
+      message: 'Test message',
+    })
+
+    await contactPage.submitForm()
+
+    await expect(contactPage.successMessage).toBeVisible({ timeout: 5000 })
+  })
+
+  test('the success panel names the address that will be replied to', async ({
     contactPage,
     page,
   }) => {
+    await contactPage.stubContactApi()
     await contactPage.fillForm({
       name: 'Test User',
       email: 'test@example.com',
@@ -84,44 +103,37 @@ test.describe('Contact Form Validation', () => {
 
     await contactPage.submitForm()
 
-    await expect(page.locator('text=Message ready to send')).toBeVisible({ timeout: 5000 })
+    await expect(contactPage.successMessage).toBeVisible({ timeout: 5000 })
+    await expect(page.getByText('test@example.com')).toBeVisible()
   })
 
-  test('shows open email action after submission', async ({ contactPage }) => {
-    await contactPage.fillForm({
-      name: 'Test User',
-      email: 'test@example.com',
-      message: 'Test message',
-    })
-
-    await contactPage.submitForm()
-
-    await expect(contactPage.draftReadyMessage).toBeVisible({ timeout: 5000 })
-    await expect(contactPage.openEmailAppLink).toBeVisible()
-  })
-
-  test('form remains editable after the draft is prepared', async ({ contactPage }) => {
+  test('offers a way back to an empty form', async ({ contactPage }) => {
+    await contactPage.stubContactApi()
     await contactPage.fillForm({
       name: 'Test User',
       email: 'test@example.com',
       message: 'Test message',
     })
     await contactPage.submitForm()
+    await expect(contactPage.successMessage).toBeVisible({ timeout: 5000 })
+
+    await contactPage.sendAnotherButton.click()
 
     await expect(contactPage.nameInput).toBeVisible()
-    await expect(contactPage.nameInput).toHaveValue('Test User')
-    await expect(contactPage.draftReadyMessage).toBeVisible()
+    await expect(contactPage.nameInput).toHaveValue('')
   })
 
-  test('copy button appears in draft-ready state', async ({ contactPage }) => {
+  test('surfaces a server error instead of a false success', async ({ contactPage }) => {
+    await contactPage.stubContactApi({ error: 'Failed to send email' }, 500)
     await contactPage.fillForm({
       name: 'Test User',
       email: 'test@example.com',
       message: 'Test message',
     })
+
     await contactPage.submitForm()
 
-    await expect(contactPage.draftReadyMessage).toBeVisible({ timeout: 5000 })
-    await expect(contactPage.copyButton).toBeVisible()
+    await expect(contactPage.errorAlert).toBeVisible({ timeout: 5000 })
+    await expect(contactPage.successMessage).toBeHidden()
   })
 })

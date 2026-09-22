@@ -93,6 +93,11 @@ test.describe('Mobile Responsive Layout', () => {
 
 test.describe('Mobile Touch Interactions', () => {
   test('buttons respond to tap', async ({ page }) => {
+    // Stub the send so a tap never posts real mail, and so the assertion does
+    // not depend on whether RESEND_API_KEY happens to be in the environment.
+    await page.route('**/api/contact', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    )
     await page.goto('/contact')
     await page.waitForLoadState('domcontentloaded')
     await page.waitForTimeout(200)
@@ -112,8 +117,8 @@ test.describe('Mobile Touch Interactions', () => {
 
     await page.locator('button[type="submit"]').click()
 
-    // Should reveal the follow-up actions
-    await expect(page.locator('text=Message ready to send')).toBeVisible({ timeout: 5000 })
+    // Should swap the form for the success panel
+    await expect(page.getByText('Message received.')).toBeVisible({ timeout: 5000 })
   })
 
   test('links respond to tap', async ({ page }) => {
