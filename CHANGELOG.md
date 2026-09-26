@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.3](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.2...v1.5.3) (2026-09-26)
+
+
+### Bug Fixes
+
+* **lint:** stop the anti-slop ratchet passing on a checkout that cannot load its rules ([#122](https://github.com/forbiddenlink/elizabethannstein/issues/122)) ([8d24a5e](https://github.com/forbiddenlink/elizabethannstein/commit/8d24a5eeec883730e39d5edda0f7af778565d902))
+
 ## [1.5.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.1...v1.5.2) (2026-09-22)
 
 
