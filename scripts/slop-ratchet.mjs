@@ -38,6 +38,15 @@ try {
   }
 }
 
+// A config or plugin load failure prints an error and zero findings, which the
+// count below would read as a perfect score. That is how this gate passed on a
+// clean checkout: the vendored rules were never committed.
+if (/Failed to (parse oxlint configuration|load JS plugin)/.test(stdout)) {
+  console.error('oxlint could not load its anti-slop config; the count would be meaningless.')
+  console.error(stdout.trim())
+  process.exit(1)
+}
+
 const findings = stdout
   .split('\n')
   .filter((line) => /^[^ ]+:\d+:\d+:/.test(line))

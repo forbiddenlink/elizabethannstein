@@ -75,3 +75,7 @@ test-results/
 .continue/
 .goose/
 skills/
+
+# Vendored lint rules the anti-slop ratchet loads. A global `vendor/` ignore
+# hid these once and the ratchet passed without measuring; keep them tracked.
+!tools/oxlint/anti-slop/vendor/
