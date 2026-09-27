@@ -2206,7 +2206,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built unified dashboard aggregating costs across providers. Budget alerts with Slack/email notifications. Per-project cost attribution and optimization suggestions.',
         impact:
-          'Single view of all AI spend. Budget alerts prevent overruns. Optimization tips reduce costs 20-40% for heavy users.',
+          'Single view of all AI spend across providers. Budget alerts prevent overruns. No live deployment or user base yet — a personal tool, not a shipped product.',
       },
     ],
   },
