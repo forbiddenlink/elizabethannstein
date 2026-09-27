@@ -233,7 +233,7 @@ export function LiveSystemsIndex() {
               </div>
             </div>
             <div className={styles.bTile}>
-              <div className={styles.bNum}>86</div>
+              <div className={styles.bNum}>{STATS.projectCount}</div>
               <div className={styles.bLabel}>Projects shipped</div>
               <div className={styles.bSub}>Enterprise · AI · full-stack · dev tools</div>
             </div>
@@ -255,7 +255,7 @@ export function LiveSystemsIndex() {
               headings below) without changing the look of the eyebrow label. */}
           <h2 className="sr-only">Selected work</h2>
           <div className={`${styles.idxHead} ${styles.reveal} ${styles.d3}`}>
-            <span>Selected work · 08 / 86</span>
+            <span>Selected work · 08 / {STATS.projectCount}</span>
             <span>
               <b>click a row</b> to open the case
             </span>
