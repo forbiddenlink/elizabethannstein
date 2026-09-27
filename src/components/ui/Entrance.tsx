@@ -178,7 +178,7 @@ export function Entrance() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex items-center justify-center gap-2"
             >
-              <span className="text-xs tracking-[0.28em] sm:tracking-[0.32em] font-medium uppercase text-white/50">
+              <span className="text-xs tracking-[0.28em] sm:tracking-[0.32em] font-medium uppercase text-white/65">
                 Proof-first · {FAST_TRACK_IDS.length} flags to plant · full catalog on /work
               </span>
             </motion.div>
@@ -244,7 +244,7 @@ export function Entrance() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.9, delay: 1.72 }}
-              className="max-w-md text-[11px] sm:text-xs leading-relaxed text-white/36 italic md:max-w-lg"
+              className="max-w-md text-[11px] sm:text-xs leading-relaxed text-white/50 italic md:max-w-lg"
             >
               {SITE.narrativeThesis}
             </motion.p>
@@ -304,7 +304,7 @@ export function Entrance() {
               transition={{ duration: 0.55, delay: 2.02, ease: [0.22, 1, 0.36, 1] }}
               className="mt-1 text-center w-full"
             >
-              <p className="text-[9px] sm:text-[10px] tracking-[0.22em] sm:tracking-[0.3em] text-white/30 uppercase mb-2">
+              <p className="text-[9px] sm:text-[10px] tracking-[0.22em] sm:tracking-[0.3em] text-white/50 uppercase mb-2">
                 Featured systems
               </p>
               <HeroProjectsQuick />

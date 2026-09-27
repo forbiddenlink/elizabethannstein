@@ -572,7 +572,7 @@
   gap: 1.15rem 2.5rem;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 }
-.cs h4 {
+.cs h3 {
   margin: 0 0 0.35rem;
   font-family: var(--le-sans);
   font-size: 0.66rem;

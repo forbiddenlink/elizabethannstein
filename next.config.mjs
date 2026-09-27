@@ -58,6 +58,10 @@ const nextConfig = {
       "default-src 'self'",
       `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ''} https://www.googletagmanager.com`,
       "style-src 'self' 'unsafe-inline'",
+      // worker-src falls back to script-src, not default-src, when unset - the blob:
+      // workers the /explore WebGL/WebGPU scene spins up (three.js's internal texture
+      // and geometry workers) were silently blocked without this, one-line 2026-09-27 fix.
+      "worker-src 'self' blob:",
       // data: is needed for the inline SVG noise texture in globals.css and for
       // next/image blur placeholders; both are first-party, author-written markup.
       "img-src 'self' data:",
