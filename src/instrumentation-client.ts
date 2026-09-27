@@ -22,6 +22,21 @@ Sentry.init({
     if (event.message?.includes('WebGL context lost')) {
       return null
     }
+
+    // troika-three-text (behind @react-three/drei's <Text>, used by
+    // GalaxyLabels/ScanSystem/PlanetSurfaceExplorer on /explore) falls back to
+    // a Web Worker for glyph SDF generation when its main-thread WebGL path
+    // fails. Mobile Safari can silently fail `importScripts()` on the blob:
+    // URL that worker rehydrates its init function from, so the worker
+    // reports back "not callable" instead of throwing loudly. Nothing in app
+    // code can intercept that internal Promise chain without patching the
+    // dependency, so this is unactionable noise, not a real crash: the rest
+    // of /explore keeps working, only that text label fails to render.
+    const exceptionValue = event.exception?.values?.[0]?.value
+    if (exceptionValue?.includes('did not return a callable function')) {
+      return null
+    }
+
     return event
   },
 
