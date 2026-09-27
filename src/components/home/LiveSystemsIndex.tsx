@@ -251,6 +251,9 @@ export function LiveSystemsIndex() {
         </section>
 
         <section aria-label="Selected work">
+          {/* Visually-hidden: keeps the heading tree at h1 -> h2 -> h3 (the case
+              headings below) without changing the look of the eyebrow label. */}
+          <h2 className="sr-only">Selected work</h2>
           <div className={`${styles.idxHead} ${styles.reveal} ${styles.d3}`}>
             <span>Selected work · 08 / 86</span>
             <span>
@@ -290,7 +293,7 @@ export function LiveSystemsIndex() {
                         <div className={styles.csGrid}>
                           {f.cases.map((c) => (
                             <div key={c.heading}>
-                              <h4>{c.heading}</h4>
+                              <h3>{c.heading}</h3>
                               <p>{c.body}</p>
                             </div>
                           ))}

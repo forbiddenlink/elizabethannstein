@@ -32,7 +32,11 @@ const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  preload: false,
+  // Fraunces is the editorial pages' reading-body font (--le-display in editorial.css),
+  // so it paints on nearly every line of text. Leaving it unpreloaded meant the swap
+  // from the fallback landed late on long pages like /work, producing a large CLS
+  // (0.32, "poor") as dozens of case-study rows reflowed at once.
+  preload: true,
   adjustFontFallback: true,
 })
 
