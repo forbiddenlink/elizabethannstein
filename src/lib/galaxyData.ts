@@ -1429,7 +1429,7 @@ export const galaxies: Galaxy[] = [
         id: 'specter',
         title: 'Specter',
         description:
-          'Published npm CLI that gives your codebase a voice, speaking as it in first person. 65 commands, 14 MCP tools for Claude Desktop integration, and 12 personality modes (mentor, critic, storyteller, and more). Code archaeology, bus factor analysis, dead code detection, complexity hotspots, and impact analysis, all narrated with AI-powered context.',
+          'Published npm CLI that gives your codebase a voice, speaking as it in first person. 72 commands, 14 MCP tools for Claude Desktop integration, and 19 personality modes (mentor, critic, storyteller, and more). Code archaeology, bus factor analysis, dead code detection, complexity hotspots, and impact analysis, all narrated with AI-powered context.',
         role: 'Creator',
         tags: ['CLI', 'npm', 'MCP', 'Node.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1445,11 +1445,11 @@ export const galaxies: Galaxy[] = [
         challenge:
           'Code metrics without context are noise. Developers need their codebase to explain itself, not just spit out numbers.',
         solution:
-          'Built 65 CLI commands for file relationships, complexity hotspots, dead code, impact analysis, and bus factor. 14 MCP tools for Claude Desktop integration so AI assistants can query the codebase directly. 12 personality modes turn raw analysis into actionable narrative.',
+          'Built 72 CLI commands for file relationships, complexity hotspots, dead code, impact analysis, and bus factor. 14 MCP tools for Claude Desktop integration so AI assistants can query the codebase directly. 19 personality modes turn raw analysis into actionable narrative.',
         impact:
-          'Published on npm as @purplegumdropz/specter. 14 MCP tools enable AI-native codebase exploration. 12 personalities from mentor to brutal critic: developers choose their coaching style.',
+          'Published on npm as @purplegumdropz/specter. 14 MCP tools enable AI-native codebase exploration. 19 personalities from mentor to brutal critic: developers choose their coaching style.',
         impactMetrics: [
-          { label: 'CLI Commands', value: '65', icon: 'terminal' },
+          { label: 'CLI Commands', value: '72', icon: 'terminal' },
           { label: 'MCP Tools', value: '14', icon: 'plug' },
           { label: 'Distribution', value: 'npm', icon: 'package' },
         ],
