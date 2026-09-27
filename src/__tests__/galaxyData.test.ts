@@ -63,6 +63,21 @@ describe('galaxyData', () => {
         expect(['small', 'medium', 'large', 'supermassive']).toContain(project.size)
       }
     })
+
+    // Regression guard: these have no live deployment (their old Vercel URLs
+    // 404 and the repos carry no `homepage` worth linking) and must never be
+    // presented as a shipped, in-use product. Catches a "links.live" or
+    // fabricated-usage-stat regression before it ships again.
+    it('unshipped experiments have no live link and no fabricated usage claims', () => {
+      const unshipped = ['ai-spend-tracker', 'codememory', 'lumira', 'willwise']
+      const fabricatedUsagePattern = /\d+%\s+for\s+(heavy\s+)?users/i
+      for (const id of unshipped) {
+        const project = allProjects.find((p) => p.id === id)
+        expect(project, `expected project "${id}" to exist`).toBeDefined()
+        expect(project?.links?.live, `"${id}" should not link a live deployment`).toBeUndefined()
+        expect(project?.impact ?? '').not.toMatch(fabricatedUsagePattern)
+      }
+    })
   })
 
   describe('featuredProjects', () => {
