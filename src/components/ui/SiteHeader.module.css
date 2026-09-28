@@ -1,183 +1,79 @@
-/* Editorial masthead — shared across content pages. Tokens (--le-*) resolve from
-   the .editorial ancestor each page wraps its header/main/footer in. */
+/* One-line masthead. Rule below, no blur, no pills: the page content carries the voice. */
 .bar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background: color-mix(in oklab, var(--le-paper) 88%, transparent);
-  backdrop-filter: saturate(140%) blur(8px);
-  border-bottom: 1.5px solid var(--le-rule-strong);
+  border-bottom: 1px solid var(--le-rule-strong);
+  background: var(--le-paper);
 }
+
 .inner {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0.7rem var(--le-gutter);
+  padding: 0 var(--le-gutter);
+  min-height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.8rem;
-  flex-wrap: wrap;
+  gap: 1rem;
 }
+
 .brand {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.1rem;
-  text-decoration: none;
-  color: var(--le-ink);
-  font-family: var(--le-sans);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-.brand .dot {
-  color: var(--le-accent-ink);
   font-family: var(--le-display);
+  font-size: 1.1rem;
   font-weight: 600;
-  font-size: 1.1em;
-  line-height: 0;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--le-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.9rem 0;
 }
+
 .nav {
   display: flex;
-  align-items: center;
-  gap: 0.35rem 0.2rem;
-  font-family: var(--le-sans);
-  flex-wrap: wrap;
+  gap: clamp(0.25rem, 2vw, 1.75rem);
 }
-.live {
-  display: none;
-  align-items: center;
-  gap: 0.5rem;
-  margin-right: 0.6rem;
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--le-live-ink);
-  font-weight: 600;
-  text-decoration: none;
-}
-@media (min-width: 640px) {
-  .live {
-    display: inline-flex;
-  }
-}
+
 .link {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.5rem;
-  padding: 0 0.65rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--le-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--le-ink-2);
   text-decoration: none;
-  color: var(--le-muted);
+  padding: 1.25rem 0.4rem;
   transition: color 0.2s var(--le-ease);
 }
+
 .link:hover {
-  color: var(--le-accent-ink);
-}
-.linkActive {
   color: var(--le-ink);
 }
-.linkActive::after {
-  content: "";
-  position: absolute;
-  left: 0.65rem;
-  right: 0.65rem;
-  bottom: 0.55rem;
-  height: 1.5px;
-  background: var(--le-accent);
+
+.link[aria-current="page"] {
+  color: var(--le-ink);
+  box-shadow: inset 0 -2px 0 var(--le-accent);
 }
 
-/* 3D Galaxy interactive pill */
-.galaxyPill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.35rem 0.75rem;
-  margin: 0 0.3rem;
-  border-radius: 9999px;
-  background: color-mix(in oklab, var(--le-accent-wash) 65%, transparent);
-  border: 1px solid color-mix(in oklab, var(--le-accent) 40%, transparent);
-  color: var(--le-accent-ink);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.22s var(--le-ease);
-}
-.galaxyPill:hover {
-  background: var(--le-accent-ink);
-  color: var(--le-paper);
-  border-color: var(--le-accent-ink);
-  transform: translateY(-1px);
-}
-.orbitDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--le-accent);
-  position: relative;
-}
-.galaxyPill:hover .orbitDot {
-  background: var(--le-paper);
-}
-.orbitDot::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  border: 1px solid var(--le-accent);
-  opacity: 0.6;
-  animation: orbitPing 2s infinite ease-out;
-}
-@keyframes orbitPing {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.8;
+@media (max-width: 420px) {
+  .brand {
+    font-size: 1rem;
   }
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-.galaxyLabel {
-  font-family: var(--le-sans);
-}
-
-.toggle {
-  font-family: var(--le-sans);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--le-muted);
-  background: none;
-  border: 0;
-  cursor: pointer;
-  padding: 0 0.4rem;
-  min-height: 2.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-.toggle:hover {
-  color: var(--le-accent-ink);
-}
-
-@media (max-width: 480px) {
-  .inner {
-    padding: 0.5rem 1rem;
+  .nav {
+    gap: 0;
   }
   .link {
-    padding: 0 0.4rem;
-    font-size: 0.65rem;
+    padding-inline: 0.45rem;
   }
-  .galaxyPill {
-    padding: 0.25rem 0.55rem;
-    font-size: 0.62rem;
-    margin: 0 0.1rem;
+}
+
+/* 320-359px phones: three links plus the name only fit one line at a smaller size. */
+@media (max-width: 359px) {
+  .inner {
+    gap: 0.5rem;
+  }
+  .brand {
+    font-size: 0.9375rem;
+  }
+  .link {
+    font-size: 0.875rem;
+    padding-inline: 0.3rem;
   }
 }

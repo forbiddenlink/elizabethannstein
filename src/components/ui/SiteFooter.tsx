@@ -1,55 +1,84 @@
 import Link from 'next/link'
 import { AskAIAboutMe } from '@/components/ui/AskAIAboutMe'
-import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { CONTACT } from '@/lib/constants'
 import styles from './SiteFooter.module.css'
 
+const RESUME_HREF = '/resume/elizabeth-stein-resume.pdf'
+
+/**
+ * Colophon footer shared by every content page and the 404. It holds the secondary
+ * destinations the masthead dropped (3D galaxy, privacy, résumé) and the theme switch.
+ */
 export function SiteFooter() {
   const year = new Date().getFullYear()
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <AskAIAboutMe />
-        <div className={styles.hair} aria-hidden="true" />
-        <div className={styles.row}>
-          <div className={styles.left}>
-            <span>
-              &copy; {year} <b>Elizabeth Stein</b>
-            </span>
-            <span className={styles.sep}>·</span>
-            <Link href="/work" className={styles.navlink}>
-              Work
-            </Link>
-            <Link href="/about" className={styles.navlink}>
-              About
-            </Link>
-            <Link href="/contact" className={styles.navlink}>
-              Contact
-            </Link>
-            <Link href="/privacy" className={styles.navlink}>
-              Privacy
-            </Link>
+        <div className={styles.grid}>
+          <div className={styles.about}>
+            <h2 className={styles.heading}>Elizabeth Stein</h2>
+            <p>
+              B.S. Information Technology, Software Development, Capella University. Summa Cum
+              Laude, conferred March 2026.
+            </p>
+            <p>
+              Set in Fraunces, Space Grotesk and JetBrains Mono.{' '}
+              <ThemeToggle className={styles.theme} />
+            </p>
           </div>
-          <div className={styles.right}>
-            <a href={`mailto:${CONTACT.email}`} className={styles.workLink}>
-              Let&apos;s work together &rarr;
-            </a>
-            <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">
-              <GitHubIcon className="w-4 h-4" aria-hidden="true" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">
-              <LinkedInIcon className="w-4 h-4" aria-hidden="true" />
-              <span className="sr-only">LinkedIn</span>
-            </a>
+          <nav aria-labelledby="footer-site">
+            <h2 id="footer-site" className={styles.heading}>
+              Site
+            </h2>
+            <ul className={styles.list}>
+              <li>
+                <Link href="/work">Work</Link>
+              </li>
+              <li>
+                <Link href="/about">About</Link>
+              </li>
+              <li>
+                <Link href="/contact">Contact</Link>
+              </li>
+              <li>
+                <Link href="/explore">3D galaxy</Link>
+              </li>
+              <li>
+                <Link href="/privacy">Privacy</Link>
+              </li>
+            </ul>
+          </nav>
+          <div>
+            <h2 className={styles.heading}>Elsewhere</h2>
+            <ul className={styles.list}>
+              <li>
+                <a href={RESUME_HREF} download="Elizabeth_Stein_Resume.pdf">
+                  Résumé (PDF)
+                </a>
+              </li>
+              <li>
+                <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">
+                  GitHub <span aria-hidden="true">↗</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+              <li>
+                <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">
+                  LinkedIn <span aria-hidden="true">↗</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+              <li>
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </li>
+            </ul>
           </div>
         </div>
-        <div className={styles.colophon}>
-          <span>Set in Fraunces, Space Grotesk &amp; JetBrains Mono.</span>
-          <span>
-            Built with Next.js &amp; React. Shipping production code across two organisations.
-          </span>
+        <div className={styles.ask}>
+          <AskAIAboutMe />
         </div>
+        <p className={styles.copy}>&copy; {year} Elizabeth Stein</p>
       </div>
     </footer>
   )

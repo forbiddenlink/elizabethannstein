@@ -6,7 +6,7 @@ import { FLAGSHIPS } from '@/lib/flagships'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
 /**
- * The home page states the project count in prose. `moreCount` is derived, but the
+ * The home page metadata states the project count in prose. `moreCount` is derived, but the
  * spelled-out total cannot be without a number-to-words helper, so it is pinned here.
  * When the catalogue grows, this fails and names the copy that needs editing.
  */
@@ -22,16 +22,22 @@ describe('home copy counts', () => {
   it('has a spelled-out form for the current project count', () => {
     expect(
       expectedWord,
-      `No spelled-out form for ${STATS.projectCount} projects. Add it to SPELLED_TOTAL, then update the prose in src/app/page.tsx and src/components/home/LiveSystemsIndex.tsx.`
+      `No spelled-out form for ${STATS.projectCount} projects. Add it to SPELLED_TOTAL, then update the prose in src/app/page.tsx.`
     ).toBeDefined()
   })
 
-  it.each([['src/app/page.tsx'], ['src/components/home/LiveSystemsIndex.tsx']])(
-    '%s states the current project total',
-    (file) => {
-      expect(read(file)).toContain(`${expectedWord} things shipped`)
-    }
-  )
+  it('src/app/page.tsx states the current project total', () => {
+    expect(read('src/app/page.tsx')).toContain(`${expectedWord} things shipped`)
+  })
+
+  // Since the 2026-09-27 redesign the home page body renders counts from STATS and
+  // FLAGSHIPS instead of prose, so it can only drift if someone types a literal back in.
+  it('the home page body derives its counts instead of hard-coding them', () => {
+    const source = read('src/components/home/LiveSystemsIndex.tsx')
+    expect(source).toContain('STATS.projectCount')
+    expect(source).toContain('STATS.moreCount')
+    expect(source).not.toMatch(/\b(86|88|80) (more )?projects\b/)
+  })
 
   /**
    * `public/llms.txt` is the AI-readable profile that the "Ask AI about me"

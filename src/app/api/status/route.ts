@@ -10,6 +10,11 @@ export async function GET() {
   const urls = FLAGSHIPS.flatMap((f) => (f.status === 'live' && f.statusUrl ? [f.statusUrl] : []))
   const statuses = await checkMany(urls)
   return NextResponse.json(statuses, {
-    headers: { 'cache-control': 'public, s-maxage=300, stale-while-revalidate=600' },
+    headers: {
+      'cache-control': 'public, s-maxage=300, stale-while-revalidate=600',
+      // When these pings actually ran. The response is cached for up to five minutes, so the
+      // home page shows this time rather than claiming the visitor's page load was the check.
+      'x-checked-at': new Date().toISOString(),
+    },
   })
 }

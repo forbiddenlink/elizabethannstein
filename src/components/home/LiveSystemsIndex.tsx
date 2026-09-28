@@ -1,389 +1,289 @@
 'use client'
 
 import Link from 'next/link'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useGsapReveal } from '@/hooks/useGsapReveal'
-import { useMagnetic } from '@/hooks/useMagnetic'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { SiteFooter } from '@/components/ui/SiteFooter'
+import { SiteHeader } from '@/components/ui/SiteHeader'
 import { CONTACT, STATS } from '@/lib/constants'
+import {
+  hostOf,
+  type LedgerPhase,
+  ledgerSummary,
+  plainLabel,
+  resolvePhase,
+  staticStatus,
+  whoLine,
+} from '@/lib/flagshipDisplay'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import { getProjectById } from '@/lib/galaxyData'
 import type { LiveResult } from '@/lib/liveStatus'
 import styles from './LiveSystemsIndex.module.css'
 
-type StatusPhase = 'checking' | 'live' | 'down' | 'static'
+type Phase = LedgerPhase
 
-function respondingCount(phases: Record<string, StatusPhase>): number {
-  return FLAGSHIPS.reduce((n, f) => n + (phases[f.id] === 'down' ? 0 : 1), 0)
+const LIVE_SYSTEMS = FLAGSHIPS.filter((f) => f.status === 'live' && f.statusUrl)
+const RESUME_HREF = '/resume/elizabeth-stein-resume.pdf'
+
+function initialPhases(): Record<string, Phase> {
+  // Every pinged system starts as "checking" on the server and on first paint: nothing is
+  // shown as live until the probe has actually answered.
+  return Object.fromEntries(LIVE_SYSTEMS.map((f) => [f.id, 'checking' as Phase]))
 }
 
-function StatusCell({
-  flagship,
-  phase,
-  result,
-}: {
-  flagship: Flagship
-  phase: StatusPhase
-  result?: LiveResult
-}) {
-  let cls = styles.status
-  let dot = ''
-  let label = ''
+function formatClock(date: Date): string {
+  return date.toLocaleTimeString('en-GB', { hour12: false })
+}
 
-  if (flagship.status === 'live') {
-    if (phase === 'checking') {
-      cls = `${styles.status} ${styles.checking}`
-      label = 'checking…'
-    } else if (phase === 'live') {
-      cls = `${styles.status} ${styles.live}`
-      label = result?.ms != null ? `live · ${result.ms}ms` : 'live'
-    } else {
-      cls = `${styles.status} ${styles.down}`
-      label = 'offline'
-    }
-    dot = flagship.statusSub
-  } else if (flagship.status === 'npm') {
-    cls = `${styles.status} ${styles.live}`
-    label = 'on npm'
-    dot = flagship.statusSub
-  } else if (flagship.status === 'cli') {
-    cls = `${styles.status} ${styles.live}`
-    label = flagship.proof
-    dot = flagship.statusSub
-  } else {
-    // 'sites'
-    cls = `${styles.status} ${styles.live}`
-    label = flagship.statusSub
-    dot = 'in production'
-  }
-
-  return (
-    <span className={cls}>
-      <span className={styles.statLine}>
-        <span className={styles.sdot} />
-        <span className={styles.statLabel}>{label}</span>
+function LedgerState({ phase, result }: Readonly<{ phase: Phase; result?: LiveResult }>) {
+  if (phase === 'checking') {
+    return (
+      <span className="eState">
+        <span className="eStateDot" aria-hidden="true" />
+        Checking
       </span>
-      <span className={styles.statSub}>{dot}</span>
+    )
+  }
+  if (phase === 'down') {
+    return (
+      <span className="eState">
+        <span className="eStateDot" aria-hidden="true" />
+        Not responding
+        <small>no answer in 4.5 s</small>
+      </span>
+    )
+  }
+  if (phase === 'unknown') {
+    return (
+      <span className="eState">
+        <span className="eStateDot" aria-hidden="true" />
+        Unknown
+        <small>not checked</small>
+      </span>
+    )
+  }
+  return (
+    <span className="eState">
+      <span className="eStateDot" aria-hidden="true" />
+      Live
+      {result?.ms != null && <small>{result.ms} ms</small>}
+    </span>
+  )
+}
+
+function SelectedState({ flagship, phase }: Readonly<{ flagship: Flagship; phase?: Phase }>) {
+  if (flagship.status === 'live' && phase) {
+    const label = {
+      checking: 'Checking',
+      live: 'Live',
+      down: 'Not responding',
+      unknown: 'Status unknown',
+    }[phase]
+    return (
+      <span className="eState" data-state={phase}>
+        <span className="eStateDot" aria-hidden="true" />
+        {label}
+        <small>{plainLabel(flagship.statusSub)}</small>
+      </span>
+    )
+  }
+  const { label, detail } = staticStatus(flagship)
+  return (
+    <span className="eState">
+      {label}
+      <small>{detail}</small>
     </span>
   )
 }
 
 export function LiveSystemsIndex() {
-  const [open, setOpen] = useState<Record<string, boolean>>({})
-  const [statuses, setStatuses] = useState<Record<string, LiveResult>>({})
-  const [isProbing, setIsProbing] = useState(false)
-  const [phases, setPhases] = useState<Record<string, StatusPhase>>(() =>
-    Object.fromEntries(FLAGSHIPS.map((f) => [f.id, f.status === 'live' ? 'live' : 'static']))
-  )
+  const [phases, setPhases] = useState<Record<string, Phase>>(initialPhases)
+  const [results, setResults] = useState<Record<string, LiveResult>>({})
+  const [checkedAt, setCheckedAt] = useState<string | null>(null)
+  const [isProbing, setIsProbing] = useState(true)
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
+  // Legacy deep links (/?p=<id>) from the old 3D homepage go straight to the case study.
   useEffect(() => {
     const projectParam = new URLSearchParams(window.location.search).get('p')
     if (!projectParam || !getProjectById(projectParam)) return
-
     window.location.replace(`/work/${projectParam}`)
   }, [])
 
-  const triggerProbe = useCallback(() => {
+  const probe = useCallback(async () => {
+    for (const t of timers.current) clearTimeout(t)
+    timers.current = []
     setIsProbing(true)
-    // Mark live URLs as checking
-    setPhases((prev) => {
-      const next = { ...prev }
-      FLAGSHIPS.forEach((f) => {
-        if (f.status === 'live') next[f.id] = 'checking'
-      })
-      return next
-    })
+    setPhases(initialPhases())
 
-    fetch('/api/status')
-      .then((r) => (r.ok ? r.json() : {}))
-      .catch(() => ({}))
-      .then((data: Record<string, LiveResult>) => {
-        setStatuses(data)
-        FLAGSHIPS.forEach((f, i) => {
-          if (f.status !== 'live') return
-          const result = f.statusUrl ? data[f.statusUrl] : undefined
-          setTimeout(
-            () => {
-              setPhases((p) => ({ ...p, [f.id]: result?.up ? 'live' : 'down' }))
-              if (i === FLAGSHIPS.length - 1) setIsProbing(false)
-            },
-            150 + i * 180
-          )
-        })
-      })
+    let data: Record<string, LiveResult> = {}
+    let pingedAt: string | null = null
+    try {
+      const res = await fetch('/api/status')
+      if (res.ok) data = (await res.json()) as Record<string, LiveResult>
+      const header = res.headers.get('x-checked-at')
+      if (header && !Number.isNaN(Date.parse(header))) pingedAt = formatClock(new Date(header))
+    } catch {
+      // Network failure: rows resolve to "unknown" below. The sites were never checked, so
+      // saying they are down would be false.
+    }
+    setResults(data)
+
+    // Resolve rows one after another so the check reads as a sequence, not a flash.
+    LIVE_SYSTEMS.forEach((f, i) => {
+      const result = f.statusUrl ? data[f.statusUrl] : undefined
+      timers.current.push(
+        setTimeout(
+          () => {
+            setPhases((p) => ({ ...p, [f.id]: resolvePhase(result) }))
+            if (i === LIVE_SYSTEMS.length - 1) {
+              setIsProbing(false)
+              setCheckedAt(pingedAt)
+            }
+          },
+          150 + i * 180
+        )
+      )
+    })
   }, [])
 
-  // Initial probe on mount
   useEffect(() => {
-    triggerProbe()
-  }, [triggerProbe])
+    void probe()
+    return () => {
+      // probe() replaces the array on every run, so read the live one at unmount.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      for (const t of timers.current) clearTimeout(t)
+    }
+  }, [probe])
 
-  const up = respondingCount(phases)
-
-  // Calculate average latency among live pinged endpoints
-  const avgLatency = useMemo(() => {
-    const latencies = Object.values(statuses)
-      .map((s) => s.ms)
-      .filter((ms): ms is number => typeof ms === 'number' && ms > 0)
-    if (latencies.length === 0) return null
-    return Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
-  }, [statuses])
-
-  const ctaRef = useMagnetic<HTMLAnchorElement>(0.32)
-  const bentoRef = useGsapReveal<HTMLDivElement>({
-    selector: `.${styles.bTile}`,
-    stagger: 0.07,
-    scroll: false,
-  })
+  const summary = ledgerSummary(LIVE_SYSTEMS.map((f) => phases[f.id] ?? 'unknown'))
 
   return (
-    <main id="main-content" tabIndex={-1} className={`editorial ${styles.page} outline-none`}>
-      <div className={styles.wrap}>
-        <div className={`${styles.statusbar} ${styles.reveal}`}>
-          <span className={styles.statusName}>Elizabeth Stein</span>
-          <span className={styles.sys}>
-            <span className={styles.livedot} aria-hidden="true" />
-            <span>
-              <b>{up}</b>/{FLAGSHIPS.length} systems responding
-              {avgLatency !== null && <span className="eMono"> · ~{avgLatency}ms</span>}
-            </span>
-            &nbsp;·&nbsp;
-            <button
-              type="button"
-              className={styles.probeBtn}
-              onClick={triggerProbe}
-              disabled={isProbing}
-              title="Ping all live flagship endpoints"
-            >
-              {isProbing ? '⟳ probing…' : '⟳ re-probe'}
-            </button>
-            &nbsp;·&nbsp;
-            <button
-              className={styles.tt}
-              type="button"
-              onClick={() => {
-                const root = document.documentElement
-                const isDark = matchMedia('(prefers-color-scheme: dark)').matches
-                const cur = root.getAttribute('data-theme') || (isDark ? 'dark' : 'light')
-                root.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark')
-              }}
-            >
-              ◐ theme
-            </button>
-          </span>
+    <div className={`editorial ${styles.page}`}>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded"
+      >
+        Skip to content
+      </a>
+      <SiteHeader />
+      <main id="main-content" tabIndex={-1} className="outline-none">
+        <div className={styles.wrap}>
+          <section className={styles.fold} aria-labelledby="home-claim">
+            <div>
+              <h1 className={styles.claim} id="home-claim">
+                <b>Elizabeth Stein</b> designs and builds software that is running in production
+                right now.
+              </h1>
+              <p className={styles.standfirst}>
+                Sole developer on a Dynamics 365 platform in production for a cybersecurity
+                nonprofit. Winner of the Algolia Agent Studio challenge. Eleven client sites on
+                Craft CMS at Rocketpark. The server checks the live systems in the ledger every five
+                minutes.
+              </p>
+              <div className={styles.actions}>
+                <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>
+                  Email me
+                </a>
+                <a
+                  className="eBtn eBtnGhost"
+                  href={RESUME_HREF}
+                  download="Elizabeth_Stein_Resume.pdf"
+                >
+                  Download résumé (PDF)
+                </a>
+              </div>
+              <p className={styles.avail}>
+                <span className="eStateDot" aria-hidden="true" />
+                Open to contract and full-time roles
+              </p>
+            </div>
+
+            <aside className={styles.ledger} aria-labelledby="ledger-heading">
+              <div className={styles.ledgerHead}>
+                <h2 id="ledger-heading">Live systems</h2>
+                <p aria-live="polite">
+                  {isProbing
+                    ? 'checking now'
+                    : checkedAt
+                      ? `checked ${checkedAt}`
+                      : 'check time unknown'}
+                </p>
+              </div>
+              <ol className={styles.ledgerList}>
+                {LIVE_SYSTEMS.map((f) => (
+                  <li key={f.id} className={styles.ledgerRow} data-state={phases[f.id]}>
+                    <Link className={styles.sys} href={`/work/${f.id}`}>
+                      {f.title}
+                    </Link>
+                    <span className={styles.host}>{hostOf(f.statusUrl)}</span>
+                    <span className={styles.state}>
+                      <LedgerState
+                        phase={phases[f.id] ?? 'checking'}
+                        result={f.statusUrl ? results[f.statusUrl] : undefined}
+                      />
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              <div className={styles.ledgerFoot}>
+                <span>{isProbing ? 'Checking each site now' : summary}</span>
+                <button
+                  type="button"
+                  className={styles.linkBtn}
+                  onClick={() => void probe()}
+                  disabled={isProbing}
+                >
+                  Refresh
+                </button>
+              </div>
+            </aside>
+          </section>
         </div>
 
-        <header className={styles.masthead}>
-          <p className={`${styles.eyebrow} ${styles.reveal}`}>
-            Full-stack developer &amp; designer
-          </p>
-          <h1 className={styles.name} aria-label="Elizabeth Stein">
-            <span className={styles.line}>
-              <span>Elizabeth</span>
-            </span>
-            <span className={styles.line}>
-              <span>
-                Stein<em>.</em>
-              </span>
-            </span>
-          </h1>
-          <p className={`${styles.thesis} ${styles.reveal} ${styles.d1}`}>
-            I design and build software that&rsquo;s actually running in production.{' '}
-            <span className={styles.q}>
-              Eighty-eight things shipped. Here are the eight that matter, live right now.
-            </span>
-          </p>
-          <div className={`${styles.standfirst} ${styles.reveal} ${styles.d2}`}>
-            <span className={styles.avail}>
-              <span className={styles.livedot} aria-hidden="true" />
-              Open to contract work
-            </span>
-            <span>Enterprise · AI · Full-stack · Dev tools</span>
-          </div>
-        </header>
-
-        <div className={`${styles.cta} ${styles.reveal} ${styles.d2}`}>
-          <a ref={ctaRef} className={styles.ctaPrimary} href={`mailto:${CONTACT.email}`}>
-            Get in touch <span aria-hidden="true">→</span>
-          </a>
-          <a
-            className={styles.ctaSecondary}
-            href="/resume/elizabeth-stein-resume.pdf"
-            download="Elizabeth_Stein_Resume.pdf"
-          >
-            Download résumé
-          </a>
-          <Link className={styles.ctaExplore} href="/explore">
-            <span className={styles.orbitMini} aria-hidden="true" />
-            3D Galaxy View →
-          </Link>
-        </div>
-
-        <section aria-label="At a glance">
-          <div className={styles.bento} ref={bentoRef}>
-            <div className={styles.bTile}>
-              <div className={styles.bNum}>
-                {up}
-                <span className={styles.bNumSub}>/{FLAGSHIPS.length}</span>
-              </div>
-              <div className={styles.bLabel}>Live systems responding</div>
-              <div className={styles.bSub}>
-                {avgLatency
-                  ? `Verified ~${avgLatency}ms latency`
-                  : 'Checked in real time, right now'}
-              </div>
+        <section className="eSect" aria-labelledby="selected-heading">
+          <div className={styles.wrap}>
+            <div className="eSectHead">
+              <h2 id="selected-heading">Selected work</h2>
+              <p>
+                {FLAGSHIPS.length} of {STATS.projectCount} projects
+              </p>
             </div>
-            <div className={styles.bTile}>
-              <div className={styles.bNum}>{STATS.projectCount}</div>
-              <div className={styles.bLabel}>Projects shipped</div>
-              <div className={styles.bSub}>Enterprise · AI · full-stack · dev tools</div>
-            </div>
-            <div className={styles.bTile}>
-              <div className={styles.bNum}>3</div>
-              <div className={styles.bLabel}>Organisations</div>
-              <div className={styles.bSub}>Production code, three teams</div>
-            </div>
-            <div className={styles.bTile}>
-              <div className={styles.bNum}>3.98</div>
-              <div className={styles.bLabel}>GPA, Summa Cum Laude</div>
-              <div className={styles.bSub}>B.S. Software Development, Capella</div>
-            </div>
-          </div>
-        </section>
-
-        <section aria-label="Selected work">
-          {/* Visually-hidden: keeps the heading tree at h1 -> h2 -> h3 (the case
-              headings below) without changing the look of the eyebrow label. */}
-          <h2 className="sr-only">Selected work</h2>
-          <div className={`${styles.idxHead} ${styles.reveal} ${styles.d3}`}>
-            <span>Selected work · 08 / {STATS.projectCount}</span>
-            <span>
-              <b>click a row</b> to open the case
-            </span>
-          </div>
-
-          <div>
-            {FLAGSHIPS.map((f, i) => {
-              const isOpen = !!open[f.id]
-              const result = f.statusUrl ? statuses[f.statusUrl] : undefined
-              return (
-                <div key={f.id} className={`${styles.row} ${isOpen ? styles.open : ''}`}>
-                  <button
-                    type="button"
-                    className={styles.rowbtn}
-                    aria-expanded={isOpen}
-                    aria-controls={`cs-${f.id}`}
-                    onClick={() => setOpen((o) => ({ ...o, [f.id]: !o[f.id] }))}
+            <ul className={styles.index}>
+              {FLAGSHIPS.map((f) => (
+                <li key={f.id}>
+                  <Link
+                    href={`/work/${f.id}`}
+                    className={styles.row}
+                    aria-labelledby={`home-${f.id}-title`}
+                    aria-describedby={`home-${f.id}-desc home-${f.id}-status`}
                   >
-                    <span className={styles.num}>{String(i + 1).padStart(2, '0')}</span>
                     <span>
-                      <span className={styles.title}>{f.title}</span>
-                      <span className={styles.org}>
-                        {f.org} · {f.years}
+                      <span id={`home-${f.id}-title`} className={styles.title}>
+                        {f.title}
                       </span>
+                      <span className={styles.who}>{whoLine(f)}</span>
                     </span>
-                    <span className={styles.desc}>
-                      {f.summary} <span className={styles.hint}>▸ open case</span>
+                    <span id={`home-${f.id}-desc`} className={styles.desc}>
+                      {f.summary}
                     </span>
-                    <StatusCell flagship={f} phase={phases[f.id]} result={result} />
-                  </button>
-
-                  <div className={styles.body}>
-                    <div className={styles.bodyInner}>
-                      <div className={styles.cs} id={`cs-${f.id}`}>
-                        <div className={styles.csGrid}>
-                          {f.cases.map((c) => (
-                            <div key={c.heading}>
-                              <h3>{c.heading}</h3>
-                              <p>{c.body}</p>
-                            </div>
-                          ))}
-                        </div>
-                        <div className={styles.metrics}>
-                          {f.metrics.map((m) => (
-                            <div key={m.label}>
-                              <div className={styles.metricV}>{m.value}</div>
-                              <div className={styles.metricL}>{m.label}</div>
-                            </div>
-                          ))}
-                        </div>
-                        {f.links.length > 0 && (
-                          <div className={styles.csLinks}>
-                            {f.links.map((l) =>
-                              l.external ? (
-                                <a
-                                  key={l.label}
-                                  href={l.href}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {l.label} ↗
-                                </a>
-                              ) : (
-                                <Link key={l.label} href={l.href}>
-                                  {l.label} →
-                                </Link>
-                              )
-                            )}
-                            <Link href={`/work/${f.id}`}>Full case study →</Link>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+                    <span id={`home-${f.id}-status`} className={styles.status}>
+                      <SelectedState flagship={f} phase={phases[f.id]} />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className={styles.more}>
+              <span>{STATS.moreCount} more projects: experiments, dev tools, and games.</span>
+              <span>
+                <Link href="/work#archive">Browse the archive</Link> or{' '}
+                <Link href="/explore">explore it as a 3D galaxy</Link>
+              </span>
+            </div>
           </div>
         </section>
-
-        <div className={`${styles.lab} ${styles.reveal}`}>
-          <div className={styles.labBig}>
-            + <b>{STATS.moreCount} more</b>, shipped.
-          </div>
-          <div className={styles.labNote}>
-            Experiments, dev tools, and games: the lab where the eight above got their reps.{' '}
-            <Link className={styles.labLink} href="/work">
-              Browse the full catalogue
-            </Link>
-            , or{' '}
-            <Link className={styles.labLink} href="/explore">
-              explore it as a 3D galaxy
-            </Link>
-            .
-          </div>
-        </div>
-
-        <footer className={styles.footer}>
-          <div className={styles.fg}>
-            <p className={styles.cred}>
-              <b>B.S. Information Technology, Software Development</b>, Capella University, Summa
-              Cum Laude (3.98 GPA). Shipping production code across two organisations.
-            </p>
-            <nav className={styles.links} aria-label="Navigation">
-              <Link href="/about">About</Link>
-              <Link href="/work">Work</Link>
-              <Link href="/contact">Contact</Link>
-              <Link href="/explore">Galaxy 3D</Link>
-              <a href="/resume/elizabeth-stein-resume.pdf" download="Elizabeth_Stein_Resume.pdf">
-                Résumé
-              </a>
-              <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">
-                GitHub
-              </a>
-              <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">
-                LinkedIn
-              </a>
-              <a href={`mailto:${CONTACT.email}`}>Email</a>
-            </nav>
-          </div>
-          <div className={styles.signoff}>
-            <span>Elizabeth Stein · 2026</span>
-            <Link className={styles.labLink} href="/explore">
-              Enter the 3D galaxy →
-            </Link>
-          </div>
-        </footer>
-      </div>
-    </main>
+      </main>
+      <SiteFooter />
+    </div>
   )
 }

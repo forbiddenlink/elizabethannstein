@@ -10,11 +10,9 @@
 }
 .label {
   font-family: var(--le-sans);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--le-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--le-ink-2);
 }
 .input,
 .textarea {
@@ -73,11 +71,17 @@
   align-items: flex-start;
   gap: 0.6rem;
   padding: 0.9rem 1rem;
-  border: 1px solid color-mix(in oklab, var(--le-cat-creative) 45%, var(--le-rule));
-  background: color-mix(in oklab, var(--le-cat-creative) 8%, var(--le-paper));
-  color: var(--le-cat-creative);
+  /* --le-down is the semantic error token; the text stays ink so it clears AA on the tint.
+     It used the "creative" category hue, which failed contrast on the light theme. */
+  border: 1px solid var(--le-down);
+  border-left-width: 3px;
+  background: color-mix(in oklab, var(--le-down) 7%, var(--le-paper));
+  color: var(--le-ink);
   font-family: var(--le-sans);
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
+}
+.error svg {
+  color: var(--le-down);
 }
 .success {
   padding: 2.2rem 1.5rem;
@@ -98,12 +102,17 @@
 .successAgain {
   margin-top: 1.2rem;
   font-family: var(--le-sans);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.9375rem;
+  font-weight: 500;
   color: var(--le-accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  min-height: 2.75rem;
   background: none;
   border: 0;
   cursor: pointer;
   padding: 0;
+}
+.successTitle:focus {
+  outline: none;
 }

@@ -12,11 +12,9 @@
 .heading {
   margin: 0;
   font-family: var(--le-sans);
-  font-size: 0.68rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--le-muted);
+  color: var(--le-ink);
 }
 .list {
   display: flex;
@@ -31,15 +29,14 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  min-height: 2.1rem;
-  padding: 0 0.85rem;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
   border: 1px solid var(--le-rule);
   border-radius: 2px;
   background: var(--le-paper-2);
   font-family: var(--le-sans);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--le-ink);
   text-decoration: none;
   cursor: pointer;
@@ -53,7 +50,6 @@
   background: var(--le-tint);
   color: var(--le-accent-ink);
   border-color: var(--le-accent-ink);
-  transform: translateY(-1px);
 }
 .chipPrimary {
   background: color-mix(in oklab, var(--le-accent-wash) 70%, transparent);

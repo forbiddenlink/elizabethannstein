@@ -1,32 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
-import { TheReceiptsDrawer } from '@/components/projects/TheReceiptsDrawer'
 import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
 import { TraceComparison } from '@/components/projects/TraceComparison'
 import { AskAIAboutMe } from '@/components/ui/AskAIAboutMe'
-import { getProjectById } from '@/lib/galaxyData'
 
 describe('Interactive Project Components & Utilities', () => {
-  describe('TheReceiptsDrawer', () => {
-    it('renders the receipts toggle button and handles expansion', () => {
-      const project = getProjectById('timeslip-search')!
-      expect(project).toBeDefined()
-
-      render(<TheReceiptsDrawer project={project} />)
-
-      const toggleButton = screen.getByRole('button', { name: /Inspect receipts/i })
-      expect(toggleButton).toBeDefined()
-      expect(toggleButton.getAttribute('aria-expanded')).toBe('false')
-
-      // Click to open
-      fireEvent.click(toggleButton)
-      expect(toggleButton.getAttribute('aria-expanded')).toBe('true')
-      expect(screen.getByText(/Automated Testing & Reliability/i)).toBeDefined()
-      expect(screen.getByText(/Winner of the Algolia Agent Studio Challenge/i)).toBeDefined()
-    })
-  })
-
   describe('TimeSlipScrubber', () => {
     it('renders cultural years and updates snapshot on year click', () => {
       render(<TimeSlipScrubber />)

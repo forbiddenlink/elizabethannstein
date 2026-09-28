@@ -35,12 +35,9 @@ export default function ContactPage() {
       <SiteHeader />
 
       <main id="contact-content" className="eWrap">
-        <header className="eHeader">
-          <p className="eEyebrow">Collaborate</p>
-          <h1 className="eTitle">
-            Get in <em>touch.</em>
-          </h1>
-          <p className="eLede" style={{ marginTop: '1.4rem' }}>
+        <header className="ePageHead">
+          <h1>Get in touch</h1>
+          <p>
             I&apos;m actively looking for frontend, UX-engineering, and full-stack roles. If
             you&apos;re hiring, or want to talk through a project, reach out. I read every message.
           </p>
@@ -59,9 +56,7 @@ export default function ContactPage() {
 
           <aside className={styles.side}>
             <div>
-              <p className="eLabel" style={{ marginBottom: '0.9rem' }}>
-                Or reach out directly
-              </p>
+              <h2 className={styles.sideTitle}>Or reach out directly</h2>
               <ul className={styles.directList}>
                 <li>
                   <a href={`mailto:${CONTACT.email}`} className={styles.direct}>
@@ -79,7 +74,9 @@ export default function ContactPage() {
                     <span className={styles.directLabel}>
                       <LinkedInIcon className="w-3.5 h-3.5" aria-hidden="true" /> LinkedIn
                     </span>
-                    <span className={styles.directValue}>Connect professionally &rarr;</span>
+                    <span className={styles.directValue}>
+                      Connect professionally <span aria-hidden="true">↗</span>
+                    </span>
                   </a>
                 </li>
                 <li>
@@ -92,7 +89,9 @@ export default function ContactPage() {
                     <span className={styles.directLabel}>
                       <GitHubIcon className="w-3.5 h-3.5" aria-hidden="true" /> GitHub
                     </span>
-                    <span className={styles.directValue}>View my code &rarr;</span>
+                    <span className={styles.directValue}>
+                      View my code <span aria-hidden="true">↗</span>
+                    </span>
                   </a>
                 </li>
               </ul>
@@ -100,7 +99,7 @@ export default function ContactPage() {
 
             <div className={styles.avail}>
               <p className={styles.availHead}>
-                <span className="eDot" aria-hidden="true" />
+                <span className="eStateDot" aria-hidden="true" />
                 Currently available
               </p>
               <p className={styles.availBody}>

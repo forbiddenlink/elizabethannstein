@@ -3,6 +3,8 @@
 import * as Sentry from '@sentry/nextjs'
 import Link from 'next/link'
 import { useEffect } from 'react'
+import { SiteFooter } from '@/components/ui/SiteFooter'
+import { SiteHeader } from '@/components/ui/SiteHeader'
 
 export default function AppError({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
@@ -11,23 +13,14 @@ export default function AppError({ error, reset }: { error: Error; reset: () => 
 
   return (
     <div className="editorial">
-      <main
-        className="eWrap"
-        style={{
-          minHeight: '80dvh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-        }}
-      >
-        <p className="eEyebrow">Error</p>
-        <h1 className="eTitle" style={{ fontSize: 'clamp(2.6rem, 8vw, 5rem)' }}>
-          Something went wrong<span style={{ color: 'var(--le-accent-ink)' }}>.</span>
-        </h1>
-        <p className="eLede" style={{ marginTop: '1.4rem' }}>
-          An unexpected error occurred. You can try again or head back to the homepage.
-        </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.9rem', marginTop: '2.2rem' }}>
+      <SiteHeader />
+      <main id="main-content" className="eWrap">
+        <header className="ePageHead">
+          <p className="eLabel">Error</p>
+          <h1>Something went wrong.</h1>
+          <p>An unexpected error occurred. You can try again or head back to the homepage.</p>
+        </header>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
           <button type="button" onClick={reset} className="eBtn eBtnPrimary">
             Try again
           </button>
@@ -36,6 +29,7 @@ export default function AppError({ error, reset }: { error: Error; reset: () => 
           </Link>
         </div>
       </main>
+      <SiteFooter />
     </div>
   )
 }

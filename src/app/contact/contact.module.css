@@ -32,10 +32,8 @@
   margin: 0;
 }
 .panelMeta {
-  font-family: var(--le-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--le-sans);
+  font-size: 0.875rem;
   color: var(--le-muted);
 }
 
@@ -57,26 +55,21 @@
   padding: 0.95rem 0.2rem;
   border-bottom: 1px solid var(--le-rule);
   text-decoration: none;
-  transition: padding-left 0.2s var(--le-ease);
-}
-.direct:hover {
-  padding-left: 0.55rem;
 }
 .directLabel {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   font-family: var(--le-sans);
-  font-size: 0.68rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--le-ink);
 }
 .directValue {
-  font-family: var(--le-mono);
-  font-size: 0.82rem;
-  color: var(--le-muted);
+  font-family: var(--le-sans);
+  font-size: 0.9375rem;
+  color: var(--le-ink-2);
+  overflow-wrap: anywhere;
 }
 .direct:hover .directValue {
   color: var(--le-accent-ink);
@@ -93,16 +86,22 @@
   gap: 0.55rem;
   margin: 0 0 0.6rem;
   font-family: var(--le-sans);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--le-live-ink);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--le-ink);
 }
 .availBody {
   margin: 0;
   font-family: var(--le-sans);
-  font-size: 0.86rem;
+  font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--le-ink-2);
+}
+.sideTitle {
+  margin: 0 0 0.9rem;
+  font-family: var(--le-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--le-ink);
 }

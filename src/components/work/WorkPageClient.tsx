@@ -1,13 +1,15 @@
 'use client'
 
-import { Search, X } from 'lucide-react'
+import { X } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
-import { countProofCatalogProjects, isProofCatalogProject } from '@/lib/proofLayer'
+import { hostOf, plainLabel, staticStatus, whoLine, withoutEmoji } from '@/lib/flagshipDisplay'
+import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
+import { getProjectScreenshot } from '@/lib/projectScreenshots'
 import type { Galaxy, Project } from '@/lib/types'
-import { cn, formatDateRange } from '@/lib/utils'
 import styles from './WorkPageClient.module.css'
 
 interface WorkPageClientProps {
@@ -19,6 +21,7 @@ interface WorkPageClientProps {
    *  client-only "did the URL already match?" check in the sync effect below. */
   initialFilterParam: string | null
   initialQueryParam: string | null
+  /** Accepted for old shared links (`?view=all`); the archive now always lists everything. */
   initialViewParam: string | null
   initialTagParam: string | null
   initialSortParam: string | null
@@ -28,6 +31,7 @@ function projectMatchesQuery(project: Project, query: string): boolean {
   return (
     project.title.toLowerCase().includes(query) ||
     project.description.toLowerCase().includes(query) ||
+    (project.company?.toLowerCase().includes(query) ?? false) ||
     project.tags.some((tag) => tag.toLowerCase().includes(query))
   )
 }
@@ -51,6 +55,21 @@ const CATEGORY_DOT: Record<string, string> = {
   experimental: '--le-cat-experimental',
 }
 
+// Plain category names for the content site. The themed galaxy names ("Full-Stack Nebula")
+// belong to the /explore showcase.
+const CATEGORY_LABEL: Record<string, string> = {
+  enterprise: 'Enterprise',
+  ai: 'AI',
+  fullstack: 'Full-stack',
+  devtools: 'Dev tools',
+  design: 'Design',
+  experimental: 'Experiments',
+}
+
+function categoryLabel(galaxy: Galaxy): string {
+  return CATEGORY_LABEL[galaxy.id] ?? galaxy.name
+}
+
 function parseYear(dateRange: string | undefined, position: 'first' | 'last'): number {
   if (!dateRange) return 0
   const years = dateRange.match(/\d{4}/g)
@@ -58,6 +77,16 @@ function parseYear(dateRange: string | undefined, position: 'first' | 'last'): n
   return position === 'last'
     ? Number.parseInt(years[years.length - 1], 10)
     : Number.parseInt(years[0], 10)
+}
+
+/** "2025-2026" reads as "2025-26" in the table's year column. */
+function shortYears(dateRange: string | undefined): string {
+  if (!dateRange) return ''
+  const first = parseYear(dateRange, 'first')
+  const last = parseYear(dateRange, 'last')
+  if (!first) return dateRange
+  if (first === last) return String(first)
+  return `${first}-${String(last).slice(2)}`
 }
 
 function sortProjects(projects: Project[], order: SortOrder): Project[] {
@@ -91,26 +120,74 @@ function normalizeGalaxyFilter(filter: string | null, galaxies: Galaxy[]): strin
   return galaxies.some((galaxy) => galaxy.id === normalized) ? normalized : null
 }
 
-/** Status label + whether it should read as "shipped" (live dot) vs. neutral. */
-function getRowStatus(project: Project): { label: string; tone: 'live' | 'progress' | 'neutral' } {
-  if (project.links?.live) return { label: 'live', tone: 'live' }
-  if (project.tags.includes('npm')) return { label: 'npm', tone: 'live' }
-  if (project.status === 'in-progress') return { label: 'in progress', tone: 'progress' }
-  if (project.status === 'archived') return { label: 'archived', tone: 'neutral' }
-  return { label: 'in production', tone: 'neutral' }
+/** Where the work can be seen, for the typographic plate. */
+function whereLine(flagship: Flagship): string {
+  if (flagship.status === 'live') return hostOf(flagship.statusUrl)
+  if (flagship.status === 'npm') return flagship.statusSub
+  if (flagship.status === 'cli') return 'Private CLI, source on request'
+  if (flagship.id === 'security-readiness-platform') return 'Private: client confidential'
+  return 'Client sites, not shown here'
 }
 
-function orgLine(project: Project): string {
-  const parts = [project.company, project.role].filter(Boolean)
-  const dated = formatDateRange(project.dateRange)
-  return dated ? `${parts.join(' · ')} · ${dated}` : parts.join(' · ')
+function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; project?: Project }>) {
+  const shot = getProjectScreenshot(flagship.id)
+  const status = staticStatus(flagship)
+  const stack = project?.tags.slice(0, 4).join(', ')
+
+  return (
+    <Link
+      href={`/work/${flagship.id}`}
+      className={styles.card}
+      aria-labelledby={`sel-${flagship.id}-title`}
+      aria-describedby={`sel-${flagship.id}-desc`}
+    >
+      <figure className="ePlate">
+        {shot ? (
+          <div className="ePlateImg">
+            <Image
+              src={shot}
+              alt={`${flagship.title} screenshot`}
+              fill
+              sizes="(max-width: 640px) 100vw, 560px"
+            />
+          </div>
+        ) : (
+          <div className="eTypeplate">
+            <span className="eTypeplateBig">{plainLabel(flagship.proof).replace(' · ', ', ')}</span>
+            <dl>
+              {stack && (
+                <>
+                  <dt>stack</dt>
+                  <dd>{stack}</dd>
+                </>
+              )}
+              <dt>status</dt>
+              <dd>{status.label}</dd>
+            </dl>
+          </div>
+        )}
+        <figcaption>
+          <span>{whereLine(flagship)}</span>
+          <span>{flagship.years}</span>
+        </figcaption>
+      </figure>
+      <h3 id={`sel-${flagship.id}-title`} className={styles.cardTitle}>
+        {flagship.title}
+      </h3>
+      <p id={`sel-${flagship.id}-desc`} className={styles.cardDesc}>
+        {flagship.summary}
+      </p>
+      <p className={styles.cardMeta}>
+        {whoLine(flagship)}. {status.label}, {status.detail}
+      </p>
+    </Link>
+  )
 }
 
 export function WorkPageClient({
   galaxies,
   initialFilterParam,
   initialQueryParam,
-  initialViewParam,
   initialTagParam,
   initialSortParam,
 }: Readonly<WorkPageClientProps>) {
@@ -121,12 +198,7 @@ export function WorkPageClient({
     [galaxies, initialFilterParam]
   )
   const initialSearchQuery = useMemo(() => initialQueryParam?.trim() ?? '', [initialQueryParam])
-  const initialShowProofCatalog = useMemo(() => {
-    if (initialViewParam === 'all') return false
-    return initialGalaxyFilter === null
-  }, [initialGalaxyFilter, initialViewParam])
-
-  const initialTag = useMemo(() => initialTagParam?.trim() ?? null, [initialTagParam])
+  const initialTag = useMemo(() => initialTagParam?.trim() || null, [initialTagParam])
   const initialSortOrder = useMemo((): SortOrder => {
     if (initialSortParam === 'newest' || initialSortParam === 'oldest') return initialSortParam
     return 'featured'
@@ -134,7 +206,6 @@ export function WorkPageClient({
 
   const [selectedGalaxy, setSelectedGalaxy] = useState<string | null>(initialGalaxyFilter)
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
-  const [showProofCatalog, setShowProofCatalog] = useState(initialShowProofCatalog)
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag)
   const [sortOrder, setSortOrder] = useState<SortOrder>(initialSortOrder)
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -145,7 +216,8 @@ export function WorkPageClient({
       if (
         e.key === '/' &&
         document.activeElement?.tagName !== 'INPUT' &&
-        document.activeElement?.tagName !== 'TEXTAREA'
+        document.activeElement?.tagName !== 'TEXTAREA' &&
+        document.activeElement?.tagName !== 'SELECT'
       ) {
         e.preventDefault()
         searchInputRef.current?.focus()
@@ -158,22 +230,14 @@ export function WorkPageClient({
   useEffect(() => {
     setSelectedGalaxy(initialGalaxyFilter)
     setSearchQuery(initialSearchQuery)
-    setShowProofCatalog(initialShowProofCatalog)
     setSelectedTag(initialTag)
     setSortOrder(initialSortOrder)
-  }, [
-    initialGalaxyFilter,
-    initialSearchQuery,
-    initialShowProofCatalog,
-    initialTag,
-    initialSortOrder,
-  ])
+  }, [initialGalaxyFilter, initialSearchQuery, initialTag, initialSortOrder])
 
   useEffect(() => {
     const nextParams = new URLSearchParams()
     if (selectedGalaxy) nextParams.set('filter', selectedGalaxy)
     if (searchQuery.trim()) nextParams.set('q', searchQuery.trim())
-    if (!showProofCatalog) nextParams.set('view', 'all')
     if (selectedTag) nextParams.set('tag', selectedTag)
     if (sortOrder !== 'featured') nextParams.set('sort', sortOrder)
 
@@ -187,11 +251,11 @@ export function WorkPageClient({
     if (currentQuery === nextQuery) return
 
     router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false })
-  }, [pathname, router, searchQuery, selectedGalaxy, showProofCatalog, selectedTag, sortOrder])
+  }, [pathname, router, searchQuery, selectedGalaxy, selectedTag, sortOrder])
 
   const allProjects = useMemo(() => galaxies.flatMap((g) => g.projects), [galaxies])
   const galaxyById = useMemo(() => new Map(galaxies.map((g) => [g.id, g])), [galaxies])
-  const proofCatalogCount = useMemo(() => countProofCatalogProjects(allProjects), [allProjects])
+  const projectById = useMemo(() => new Map(allProjects.map((p) => [p.id, p])), [allProjects])
 
   const filteredProjects = useMemo(() => {
     let list = allProjects
@@ -200,13 +264,8 @@ export function WorkPageClient({
       list = list.filter((p) => p.galaxy === selectedGalaxy)
     }
 
-    // Proof catalog: flagship + production tiers (see proofLayer)
-    if (showProofCatalog) {
-      list = list.filter(isProofCatalogProject)
-    }
-
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
+      const query = searchQuery.trim().toLowerCase()
       list = list.filter((project) => projectMatchesQuery(project, query))
     }
 
@@ -215,142 +274,84 @@ export function WorkPageClient({
     }
 
     return sortProjects(list, sortOrder)
-  }, [allProjects, selectedGalaxy, showProofCatalog, searchQuery, selectedTag, sortOrder])
-
-  const missionControl = useMemo(() => {
-    const liveSystems = allProjects.filter((p) => p.links?.live).length
-    const enterpriseSystems = galaxies.find((g) => g.id === 'enterprise')?.projects.length ?? 0
-    const aiSystems = galaxies.find((g) => g.id === 'ai')?.projects.length ?? 0
-    return {
-      liveSystems,
-      enterpriseSystems,
-      aiSystems,
-    }
-  }, [allProjects, galaxies])
-
-  const topTags = useMemo(() => {
-    const counts = new Map<string, number>()
-    allProjects.forEach((p) => {
-      p.tags.forEach((tag) => {
-        counts.set(tag, (counts.get(tag) ?? 0) + 1)
-      })
-    })
-    return [...counts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 12)
-      .map(([tag]) => tag)
-  }, [allProjects])
+  }, [allProjects, selectedGalaxy, searchQuery, selectedTag, sortOrder])
 
   function resetFilters() {
     setSearchQuery('')
     setSelectedGalaxy(null)
-    setShowProofCatalog(false)
     setSelectedTag(null)
+    searchInputRef.current?.focus()
   }
 
   return (
     <>
-      <header className="eHeader">
-        <p className="eEyebrow">Project index</p>
-        <h1 className="eTitle">
-          Work &amp; <em>case studies</em>
-        </h1>
-        <p className="eLede" style={{ marginTop: '1.2rem' }}>
-          {showProofCatalog ? (
-            <>
-              <strong>{filteredProjects.length} proof-tier projects</strong>: flagship work and
-              production systems worth a recruiter&apos;s time.{' '}
-              <button
-                type="button"
-                className={styles.inlineLink}
-                onClick={() => setShowProofCatalog(false)}
-              >
-                Full catalog ({allProjects.length}) &rarr;
-              </button>
-            </>
-          ) : (
-            <>
-              <strong>{filteredProjects.length} projects</strong> spanning enterprise applications,
-              AI integration, full-stack development, and creative experiments.
-            </>
-          )}
+      <header className="ePageHead">
+        <h1>Work</h1>
+        <p>
+          {allProjects.length} projects since 2023. The {FLAGSHIPS.length} below are the strongest;
+          the archive lists every project, each with its own page.
         </p>
-
-        <div className={styles.headerActions}>
-          <RandomProjectButton projects={allProjects} className="eBtnGhost" />
-        </div>
-
-        <div className={styles.glance}>
-          <span className="eLabel">At a glance</span>
-          <span className={styles.glanceItem}>
-            <b className="eMono">{allProjects.length}</b> systems
-          </span>
-          <span className={styles.glanceDivider} aria-hidden="true" />
-          <span className={styles.glanceItem}>
-            <b className="eMono">{missionControl.liveSystems}</b> live
-          </span>
-          <span className={styles.glanceDivider} aria-hidden="true" />
-          <span className={styles.glanceItem}>
-            <b className="eMono">{missionControl.aiSystems}</b> AI
-          </span>
-          <span className={styles.glanceDivider} aria-hidden="true" />
-          <span className={styles.glanceItem}>
-            <b className="eMono">{missionControl.enterpriseSystems}</b> enterprise
-          </span>
-        </div>
       </header>
 
-      <section className={styles.filters} aria-label="Filter and sort projects">
-        <div className={styles.searchWrap}>
-          <Search className={styles.searchIcon} aria-hidden="true" />
-          <input
-            ref={searchInputRef}
-            type="text"
-            placeholder="Search projects, technologies…"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className={styles.searchInput}
-            aria-label="Search projects"
+      <section className="eSect" aria-labelledby="selected-heading">
+        <div className="eSectHead">
+          <h2 id="selected-heading">Selected</h2>
+          <p>{FLAGSHIPS.length} projects</p>
+        </div>
+        <div className={styles.grid}>
+          {FLAGSHIPS.map((f) => (
+            <SelectedCard key={f.id} flagship={f} project={projectById.get(f.id)} />
+          ))}
+        </div>
+      </section>
+
+      <section className="eSect" id="archive" aria-labelledby="archive-heading">
+        <div className="eSectHead">
+          <h2 id="archive-heading">Archive</h2>
+          <RandomProjectButton
+            projects={allProjects}
+            className={`eBtn eBtnGhost ${styles.surprise}`}
           />
-          {searchQuery ? (
-            <button
-              type="button"
-              onClick={() => setSearchQuery('')}
-              className={styles.clearBtn}
-              aria-label="Clear search"
-            >
-              <X className={styles.clearIcon} />
-            </button>
-          ) : (
-            <kbd className={styles.kbd}>/</kbd>
-          )}
         </div>
 
-        <div className={styles.filterRow}>
-          <div className={styles.toggle} role="group" aria-label="Catalog view">
-            <button
-              type="button"
-              aria-pressed={showProofCatalog}
-              className={cn(styles.toggleBtn, showProofCatalog && styles.toggleBtnActive)}
-              onClick={() => setShowProofCatalog(true)}
-            >
-              Proof <span className="eMono">({proofCatalogCount})</span>
-            </button>
-            <button
-              type="button"
-              aria-pressed={!showProofCatalog}
-              className={cn(styles.toggleBtn, !showProofCatalog && styles.toggleBtnActive)}
-              onClick={() => setShowProofCatalog(false)}
-            >
-              Full catalog <span className="eMono">({allProjects.length})</span>
-            </button>
+        <search className={styles.controls} aria-label="Filter and sort projects">
+          <div className={styles.field}>
+            <label htmlFor="work-search">Search</label>
+            <input
+              ref={searchInputRef}
+              id="work-search"
+              type="search"
+              placeholder="Project, stack, or company"
+              autoComplete="off"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search projects"
+              aria-keyshortcuts="/"
+            />
           </div>
-
-          <div className={styles.chips} role="group" aria-label="Filter by category">
+          <div className={styles.field}>
+            <label htmlFor="sort-select">Sort</label>
+            <select
+              id="sort-select"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as SortOrder)}
+            >
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <p className={styles.count} aria-live="polite">
+            {filteredProjects.length} of {allProjects.length} shown
+          </p>
+          <fieldset className={styles.chips}>
+            <legend className="sr-only">Filter by category</legend>
             <button
               type="button"
               aria-pressed={selectedGalaxy === null}
-              className={cn(styles.chip, selectedGalaxy === null && styles.chipActive)}
+              className={styles.chip}
               onClick={() => setSelectedGalaxy(null)}
             >
               All
@@ -360,122 +361,88 @@ export function WorkPageClient({
                 type="button"
                 key={galaxy.id}
                 aria-pressed={selectedGalaxy === galaxy.id}
-                className={cn(styles.chip, selectedGalaxy === galaxy.id && styles.chipActive)}
+                className={styles.chip}
                 onClick={() => setSelectedGalaxy(galaxy.id)}
               >
                 <span
-                  className={styles.chipDot}
+                  className={styles.dot}
                   aria-hidden="true"
                   style={{ background: `var(${CATEGORY_DOT[galaxy.id] ?? '--le-muted'})` }}
                 />
-                {galaxy.name}
+                {categoryLabel(galaxy)}
               </button>
             ))}
-          </div>
-
-          <div className={styles.sortWrap}>
-            <label htmlFor="sort-select" className="sr-only">
-              Sort projects
-            </label>
-            <select
-              id="sort-select"
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value as SortOrder)}
-              className={styles.sortSelect}
-            >
-              {SORT_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {!searchQuery.trim() && topTags.length > 0 && (
-          <div className={styles.tagRow}>
             {selectedTag && (
               <button
                 type="button"
+                className={`${styles.chip} ${styles.tagChip}`}
                 onClick={() => setSelectedTag(null)}
-                className={cn(styles.tag, styles.tagActive)}
               >
+                Tag: {selectedTag}
                 <X className={styles.tagIcon} aria-hidden="true" />
-                {selectedTag}
+                <span className="sr-only">(remove tag filter)</span>
               </button>
             )}
-            {topTags
-              .filter((tag) => tag !== selectedTag)
-              .map((tag) => (
-                <button
-                  type="button"
-                  key={tag}
-                  onClick={() => setSelectedTag(tag)}
-                  className={styles.tag}
-                >
-                  {tag}
-                </button>
-              ))}
+          </fieldset>
+        </search>
+
+        {filteredProjects.length === 0 ? (
+          <div className={styles.empty}>
+            <p>
+              No projects match{searchQuery.trim() ? ` “${searchQuery.trim()}”` : ' these filters'}.
+              Try a technology name, such as “Next.js”, or clear the filters.
+            </p>
+            <button type="button" className="eBtn eBtnGhost" onClick={resetFilters}>
+              Clear filters
+            </button>
           </div>
+        ) : (
+          <table className={styles.archive}>
+            <caption className="sr-only">
+              Project archive: name, years, one-sentence description, and category
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">Year</th>
+                <th scope="col">What it is</th>
+                <th scope="col">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredProjects.map((project) => {
+                const galaxy = galaxyById.get(project.galaxy)
+                return (
+                  <tr key={project.id}>
+                    <td className={styles.name}>
+                      <Link href={`/work/${project.id}`}>{project.title}</Link>
+                      {project.company && <span className={styles.company}>{project.company}</span>}
+                    </td>
+                    <td className={styles.year}>{shortYears(project.dateRange)}</td>
+                    <td className={styles.desc}>
+                      <span className={styles.clamp}>{withoutEmoji(project.description)}</span>
+                    </td>
+                    <td className={styles.cat}>
+                      {galaxy && (
+                        <>
+                          <span
+                            className={styles.dot}
+                            aria-hidden="true"
+                            style={{
+                              background: `var(${CATEGORY_DOT[galaxy.id] ?? '--le-muted'})`,
+                            }}
+                          />
+                          {categoryLabel(galaxy)}
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
         )}
       </section>
-
-      {filteredProjects.length === 0 ? (
-        <div className={styles.empty}>
-          <p className="eLede">
-            No projects match{searchQuery.trim() ? ` “${searchQuery.trim()}”` : ' these filters'}.
-          </p>
-          <button type="button" className="eBtnGhost" onClick={resetFilters}>
-            Reset filters
-          </button>
-        </div>
-      ) : (
-        <div className={styles.list} role="list" aria-label="Projects">
-          {filteredProjects.map((project, idx) => {
-            const galaxy = galaxyById.get(project.galaxy)
-            const status = getRowStatus(project)
-            const revealClass =
-              idx < 5 ? `eReveal eR${idx + 1}` : idx < 8 ? 'eReveal eR5' : undefined
-
-            return (
-              <div key={project.id} role="listitem" className={styles.row}>
-                <Link href={`/work/${project.id}`} className={cn(styles.rowLink, revealClass)}>
-                  <span className={styles.num}>{String(idx + 1).padStart(2, '0')}</span>
-                  <span>
-                    <span className={styles.title}>{project.title}</span>
-                    <span className={styles.org}>{orgLine(project)}</span>
-                  </span>
-                  <span className={styles.desc}>{project.description}</span>
-                  <span className={styles.status}>
-                    <span className={styles.statusLine}>
-                      <span
-                        className={cn(
-                          styles.statusDot,
-                          status.tone === 'live' && styles.statusDotLive,
-                          status.tone === 'progress' && styles.statusDotProgress
-                        )}
-                      />
-                      <span className={styles.statusLabel}>{status.label}</span>
-                    </span>
-                    {galaxy && (
-                      <span className={styles.catLine}>
-                        <span
-                          className={styles.catDot}
-                          aria-hidden="true"
-                          style={{
-                            background: `var(${CATEGORY_DOT[galaxy.id] ?? '--le-muted'})`,
-                          }}
-                        />
-                        {galaxy.name}
-                      </span>
-                    )}
-                  </span>
-                </Link>
-              </div>
-            )
-          })}
-        </div>
-      )}
     </>
   )
 }

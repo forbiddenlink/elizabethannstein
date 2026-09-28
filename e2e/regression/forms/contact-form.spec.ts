@@ -77,7 +77,7 @@ test.describe('Contact Form Validation', () => {
     expect(validationMessage).toBeTruthy()
   })
 
-  test('shows the success panel after a successful send', async ({ contactPage }) => {
+  test('shows the success panel after a successful send', async ({ contactPage, page }) => {
     await contactPage.stubContactApi()
     await contactPage.fillForm({
       name: 'Test User',
@@ -88,6 +88,9 @@ test.describe('Contact Form Validation', () => {
     await contactPage.submitForm()
 
     await expect(contactPage.successMessage).toBeVisible({ timeout: 5000 })
+    // The submit button unmounts with the form; focus must move to the confirmation
+    // rather than dropping to <body>, where keyboard users lose their place.
+    await expect(page.getByRole('heading', { name: 'Message received.' })).toBeFocused()
   })
 
   test('the success panel names the address that will be replied to', async ({
@@ -121,6 +124,7 @@ test.describe('Contact Form Validation', () => {
 
     await expect(contactPage.nameInput).toBeVisible()
     await expect(contactPage.nameInput).toHaveValue('')
+    await expect(contactPage.nameInput).toBeFocused()
   })
 
   test('surfaces a server error instead of a false success', async ({ contactPage }) => {
@@ -135,5 +139,7 @@ test.describe('Contact Form Validation', () => {
 
     await expect(contactPage.errorAlert).toBeVisible({ timeout: 5000 })
     await expect(contactPage.successMessage).toBeHidden()
+    // A failed send must not throw away what the visitor wrote.
+    await expect(contactPage.messageInput).toHaveValue('Test message')
   })
 })

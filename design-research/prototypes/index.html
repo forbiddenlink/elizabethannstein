@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elizabeth Stein, full-stack developer and designer (prototype A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+
+<header class="mast">
+  <div class="wrap">
+    <a class="brand" href="index.html">Elizabeth Stein</a>
+    <nav class="nav" aria-label="Main">
+      <a href="work.html">Work</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <section class="fold" aria-labelledby="claim">
+      <div>
+        <h1 class="claim" id="claim" data-proposed><b>Elizabeth Stein</b> designs and builds software that is running in production right now.</h1>
+        <p class="standfirst" data-proposed>Sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit. Winner of the Algolia Agent Studio challenge. Eleven client sites on Craft CMS at Rocketpark. The four live systems in the ledger are checked when you load the page.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:hello@elizabethannstein.com">Email me</a>
+          <a class="btn" href="#">Download résumé (PDF)</a>
+        </div>
+        <p class="avail"><span class="dot" aria-hidden="true"></span>Open to contract and full-time roles</p>
+      </div>
+
+      <aside class="ledger" aria-labelledby="ledger-h">
+        <div class="ledger-head">
+          <h2 id="ledger-h">Live systems</h2>
+          <p id="checked" aria-live="polite">checked 12:04:31</p>
+        </div>
+        <ol id="ledger">
+          <li data-ms="15"><a class="sys" href="case.html">TimeSlipSearch</a><span class="host">timeslipsearch.vercel.app</span><span class="state"><span class="dot" aria-hidden="true"></span><span class="lbl">Live</span><small class="ms">15 ms</small></span></li>
+          <li data-ms="18"><a class="sys" href="case.html">Trace</a><span class="host">trace-liz.vercel.app</span><span class="state"><span class="dot" aria-hidden="true"></span><span class="lbl">Live</span><small class="ms">18 ms</small></span></li>
+          <li data-ms="16"><a class="sys" href="case.html">AutomaDocs</a><span class="host">automadocs.com</span><span class="state"><span class="dot" aria-hidden="true"></span><span class="lbl">Live</span><small class="ms">16 ms</small></span></li>
+          <li data-ms="20"><a class="sys" href="case.html">HireReady</a><span class="host">imhireready.com</span><span class="state"><span class="dot" aria-hidden="true"></span><span class="lbl">Live</span><small class="ms">20 ms</small></span></li>
+        </ol>
+        <div class="ledger-foot">
+          <span>4 of 4 responding</span>
+          <button class="linkbtn" id="recheck" type="button">Check again</button>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+  <section class="sect" aria-labelledby="sel">
+    <div class="wrap">
+      <div class="sect-head">
+        <h2 id="sel">Selected work</h2>
+        <p>8 of 88 projects</p>
+      </div>
+      <ul class="index">
+        <li><a href="case.html">
+          <span><span class="t">Security Readiness Platform</span><span class="who">Cybersecurity nonprofit, sole developer, 2025-26</span></span>
+          <span class="d">A cybersecurity-readiness assessment platform on Dynamics 365, Dataverse, and Next.js: sole developer, twelve phases, live in production for a nonprofit (client confidential).</span>
+          <span class="s">In production<small>Dynamics 365</small></span>
+        </a></li>
+        <li><a href="case.html">
+          <span><span class="t">Craft CMS Ecosystem</span><span class="who">Rocketpark Agency, software engineering intern, 2025-26</span></span>
+          <span class="d">Eleven live client websites on Craft CMS: PHP, Twig, custom MCP server tooling, and a shared component system across the agency portfolio.</span>
+          <span class="s">In production<small>11 client sites</small></span>
+        </a></li>
+        <li><a href="case.html">
+          <span><span class="t">TimeSlipSearch</span><span class="who">Personal, 2026</span></span>
+          <span class="d">A conversational AI agent searching 420,000 pop-culture records in plain language.</span>
+          <span class="s"><span class="dot" aria-hidden="true"></span>Live<small>Algolia winner</small></span>
+        </a></li>
+        <li><a href="case.html">
+          <span><span class="t">Specter</span><span class="who">Personal, 2025</span></span>
+          <span class="d">A codebase-narrator CLI that explains an unfamiliar repo through 14 MCP tools.</span>
+          <span class="s">Published<small>npm</small></span>
+        </a></li>
+        <li><a href="case.html">
+          <span><span class="t">Trace</span><span class="who">Personal, 2026</span></span>
+          <span class="d">Turns a screenshot into React, grounded against a real component catalogue so the output is usable, not hallucinated.</span>
+          <span class="s"><span class="dot" aria-hidden="true"></span>Live<small>DEV.to winner</small></span>
+        </a></li>
+        <li><a href="case.html">
+          <span><span class="t">AutomaDocs</span><span class="who">Personal, 2024-26</span></span>
+          <span class="d">A documentation SaaS built on retrieval-augmented generation, with tiered Stripe billing.</span>
+          <span class="s"><span class="dot" aria-hidden="true"></span>Live<small>automadocs.com</small></span>
+        </a></li>
+        <li><a href="case.html">
+          <span><span class="t">hq</span><span class="who">Personal, 2026</span></span>
+          <span class="d">The dev-ops CLI I actually run every day: one command across ~90 repos and 10 APIs.</span>
+          <span class="s">Daily use<small>216 tests</small></span>
+        </a></li>
+        <li><a href="case.html">
+          <span><span class="t">HireReady</span><span class="who">Personal, 2026</span></span>
+          <span class="d">Voice-AI interview practice using the OpenAI Realtime API and FSRS-5 spaced repetition.</span>
+          <span class="s"><span class="dot" aria-hidden="true"></span>Live<small>imhireready.com</small></span>
+        </a></li>
+      </ul>
+      <div class="more">
+        <span>80 more projects: experiments, dev tools, and games.</span>
+        <span><a href="work.html#archive">Browse the archive</a> or <a href="#">explore it as a 3D galaxy</a></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <h2>Elizabeth Stein</h2>
+      <p>B.S. Information Technology, Software Development, Capella University, Summa Cum Laude (3.98 GPA), conferred March 2026.</p>
+      <p>Set in Fraunces, Space Grotesk and JetBrains Mono. <button class="linkbtn" id="theme" type="button" aria-pressed="false">Dark theme</button></p>
+    </div>
+    <div>
+      <h2>Site</h2>
+      <ul><li><a href="work.html">Work</a></li><li><a href="#">About</a></li><li><a href="#">Contact</a></li><li><a href="#">3D galaxy</a></li><li><a href="#">Privacy</a></li></ul>
+    </div>
+    <div>
+      <h2>Elsewhere</h2>
+      <ul><li><a href="#">Résumé (PDF)</a></li><li><a class="ext" href="#">GitHub</a></li><li><a class="ext" href="#">LinkedIn</a></li><li><a href="mailto:hello@elizabethannstein.com">hello@elizabethannstein.com</a></li></ul>
+    </div>
+  </div>
+</footer>
+
+<div class="proto" id="proto">
+  <b>Prototype controls</b>
+  <button type="button" data-state="checking">Status: checking</button>
+  <button type="button" data-state="down">Status: one down</button>
+  <button type="button" data-state="live">Status: all live</button>
+  <button type="button" id="prop">Outline proposed copy</button>
+  <span>Latencies are sample values from the 2026-09-27 baseline capture; no network calls.</span>
+</div>
+
+<script src="proto.js"></script>
+</body>
+</html>
