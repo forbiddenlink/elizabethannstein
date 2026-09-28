@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.6.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.2...v1.6.0) (2026-09-28)
+
+
+### Features
+
+* **design:** redesign content pages around a live systems ledger ([#128](https://github.com/forbiddenlink/elizabethannstein/issues/128)) ([f7a9c28](https://github.com/forbiddenlink/elizabethannstein/commit/f7a9c282dd9ececf2cea50d1b741eda7c54d3519))
+
+
+### Bug Fixes
+
+* **content:** correct stale 86-project count on homepage to 88 ([#126](https://github.com/forbiddenlink/elizabethannstein/issues/126)) ([31dc2dc](https://github.com/forbiddenlink/elizabethannstein/commit/31dc2dcff2bf34bd2abdbb76eab815a30cd8a85a))
+* **content:** correct stale Specter numbers, add axe a11y coverage ([#127](https://github.com/forbiddenlink/elizabethannstein/issues/127)) ([533969d](https://github.com/forbiddenlink/elizabethannstein/commit/533969db37cae59b0570bf198f0d5cf5287810fe))
+* correctness, a11y, and CLS issues found in full-product review ([#124](https://github.com/forbiddenlink/elizabethannstein/issues/124)) ([e0192a6](https://github.com/forbiddenlink/elizabethannstein/commit/e0192a6aca1a66ad1a4d5af86027af64ccdfc198))
+* **lint:** stop the anti-slop ratchet passing on a checkout that cannot load its rules ([#122](https://github.com/forbiddenlink/elizabethannstein/issues/122)) ([8d24a5e](https://github.com/forbiddenlink/elizabethannstein/commit/8d24a5eeec883730e39d5edda0f7af778565d902))
+* remove fabricated usage stat from AI Spend Tracker copy ([#125](https://github.com/forbiddenlink/elizabethannstein/issues/125)) ([a7f1f25](https://github.com/forbiddenlink/elizabethannstein/commit/a7f1f25977098d1fee71d8e7d2318820c75a4485))
+* style the explore case study modal and clear redesign follow-ups ([#133](https://github.com/forbiddenlink/elizabethannstein/issues/133)) ([2e309dc](https://github.com/forbiddenlink/elizabethannstein/commit/2e309dc82235d6c64bf5cb0d6c97cb6d31ddd849))
+
 ## [1.5.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.1...v1.5.2) (2026-09-22)
 
 
