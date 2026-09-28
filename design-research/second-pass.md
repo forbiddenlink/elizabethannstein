@@ -32,7 +32,7 @@ pass, `refs/` = references).
 | S8 | Medium | Link names (home rows, /work cards) | Link accessible name included plate text, org line, status and description | Screen readers read a paragraph per link | `aria-labelledby` title, `aria-describedby` summary | ARIA snapshot: `link "Security Readiness Platform"` etc. on both pages |
 | S9 | Medium | Contact copy | "Your Name", "Send Message →", "Send another →", pulsing dot on success | Inconsistent with DESIGN.md sentence case and no-arrow rule | "Name", "Email", "Send message", "Send another message", static dot (ref 06) | Browser and e2e (`/Send another/` selector still matches) |
 | S10 | Medium | Footer on phones | Email wrapped mid-word ("hello@elizabethannst / ein.com") in a two-column footer | Looks broken; harder to copy | Single-column footer at 480px and below | `after-contact-390-check.png` |
-| S11 | Medium, not fixed | No-JS / pre-hydration | Production HTML puts page content in `<div hidden id="S:0">` behind the root `src/app/loading.tsx` Suspense fallback; with JavaScript disabled only the loading bar shows (h1 not visible on /, /work, /contact) | Visitors and tools without JS see nothing; content is still in the HTML source | Needs a decision: remove or rework the route-level loading state. Pre-existing (`loading.tsx` is not in this branch's diff) | Blocked on owner decision; see "Remaining gaps" |
+| S11 | Medium | No-JS / pre-hydration | Production HTML puts page content in `<div hidden id="S:0">` behind the root `src/app/loading.tsx` Suspense fallback; with JavaScript disabled only the loading bar shows (h1 not visible on /, /work, /contact) | Visitors and tools without JS see nothing; content is still in the HTML source | Owner approved removing `src/app/loading.tsx` (pre-existing); its now-unused `shimmer-slide` keyframes removed from `globals.css` | JS disabled, production build: h1 visible and 0 hidden `S:` boundaries on /, /work, a case page, /about, /contact, /privacy, 404 (`after-nojs-home-390.png`); CI smoke 43/43 |
 | S12 | Optional, not fixed | Demo widgets | TimeSlip, Trace, HireReady and terminal demos keep their own dark styling inside paper pages | Visual seam, not a usability problem | Left as is: restyling four widgets is out of proportion to the benefit | n/a |
 
 ## Coverage matrix
@@ -55,7 +55,7 @@ pass, `refs/` = references).
 | Privacy `/privacy` | `src/app/privacy/page.tsx` | Updated, verified | 320/768 | None | None | Verified unchanged |
 | 404 | `src/app/not-found.tsx` | Updated, verified | 320/768 screenshots; e2e error pages | None | None | Verified unchanged |
 | Error boundary | `src/app/error.tsx` | Code only | Not forced | Needs a thrown error to render | None | Partially verified: code review only |
-| Loading | `src/app/loading.tsx` | Unchanged | Causes S11 | See S11 | Flagged | Blocked on owner decision |
+| Loading | `src/app/loading.tsx` | Unchanged | Caused S11 | See S11 | Removed with owner approval | Improved and verified |
 | Global error | `src/app/global-error.tsx` | Unchanged | Code read | None | None | Intentionally excluded (must not depend on layout) |
 | Masthead | `src/components/ui/SiteHeader.tsx` | Updated, verified | 320 probe | S1 | Fixed | Improved and verified |
 | Footer + theme | `SiteFooter.tsx`, `ThemeToggle.tsx`, layout script | Updated, verified | 390 wrap; theme persists (first pass) | S10 | Fixed | Improved and verified |
@@ -75,9 +75,8 @@ S4 came from the earlier, valid run.
 
 ## Remaining gaps
 
-- S11 (no-JS content hidden behind the root loading fallback) is pre-existing and needs your
-  call. Removing `src/app/loading.tsx` would show content without JS but also removes the
-  navigation loading bar.
+- S11 resolved: `src/app/loading.tsx` removed with owner approval. Trade-off: there is no
+  route-level loading bar during client navigation any more.
 - Real email delivery through Resend was not exercised, on purpose.
 - `error.tsx` was not rendered in a browser.
 - Zoom was approximated with a 720px viewport at device scale 2; browser text-only zoom was not
