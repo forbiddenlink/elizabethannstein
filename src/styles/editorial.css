@@ -98,7 +98,10 @@
     --le-cat-experimental: #e6c069;
   }
 }
-:root[data-theme="dark"] .editorial {
+/* .eForceDark: the /explore project modal sits on the dark galaxy, so it keeps the dark
+   set whatever the saved theme. Doubled class so it outranks the light-toggle rule below. */
+:root[data-theme="dark"] .editorial,
+:root .editorial.editorial.eForceDark {
   --le-paper: #141109;
   --le-paper-2: #1c1810;
   --le-paper-3: #241f15;
