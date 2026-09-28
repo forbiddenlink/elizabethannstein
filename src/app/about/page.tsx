@@ -8,7 +8,7 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
 import styles from './about.module.css'
 
 const aboutDescription =
-  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's security-readiness platform (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Concurrent paid work at two organizations."
+  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's security-readiness platform (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Eleven client sites on Craft CMS at Rocketpark."
 
 export const metadata: Metadata = {
   title: 'About',

@@ -272,8 +272,11 @@ export function ProjectModal() {
                   </motion.button>
                 )}
 
-                {/* Reuse the same component used in /work/[slug] */}
-                <ProjectCaseStudy project={project} />
+                {/* Reuse the same component used in /work/[slug]. It is styled by the editorial
+                    tokens, which only exist inside an .editorial scope. */}
+                <div className="editorial eForceDark relative z-20 rounded-t-lg px-6 pt-20 md:px-10">
+                  <ProjectCaseStudy project={project} />
+                </div>
 
                 {/* View full page link */}
                 <div className="px-8 pb-8">
