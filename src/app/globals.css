@@ -467,12 +467,6 @@ img:hover {
   }
 }
 
-@keyframes shimmer-slide {
-  100% {
-    transform: translateX(100%);
-  }
-}
-
 @keyframes twinkle {
   0%,
   100% {

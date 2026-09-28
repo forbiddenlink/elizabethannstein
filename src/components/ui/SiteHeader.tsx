@@ -15,29 +15,26 @@ interface SiteHeaderProps {
   accentGalaxy?: string
 }
 
-function toggleTheme() {
-  const root = document.documentElement
-  const isDark = matchMedia('(prefers-color-scheme: dark)').matches
-  const cur = root.getAttribute('data-theme') || (isDark ? 'dark' : 'light')
-  root.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark')
-}
-
+/**
+ * One-line masthead shared by every content page and the 404. The 3D galaxy link and the
+ * theme switch moved to the footer colophon, so the header carries only the three
+ * destinations a visitor navigates between.
+ */
 export function SiteHeader(_props: Readonly<SiteHeaderProps>) {
   const pathname = usePathname()
 
   return (
     <header className={styles.bar}>
       <div className={styles.inner}>
-        <Link href="/" className={styles.brand} aria-label="Elizabeth Stein — home">
-          Elizabeth Stein<span className={styles.dot}>.</span>
+        <Link
+          href="/"
+          className={styles.brand}
+          aria-current={pathname === '/' ? 'page' : undefined}
+        >
+          Elizabeth Stein
         </Link>
 
-        <nav className={styles.nav} aria-label="Main navigation">
-          <Link href="/contact" className={styles.live} title="Open to contract and full-time work">
-            <span className="eDot" aria-hidden="true" />
-            <span>Open to work</span>
-          </Link>
-
+        <nav className={styles.nav} aria-label="Main">
           {navLinks.map(({ href, label }) => {
             const isActive = pathname === href || pathname.startsWith(`${href}/`)
             return (
@@ -45,30 +42,12 @@ export function SiteHeader(_props: Readonly<SiteHeaderProps>) {
                 key={href}
                 href={href}
                 aria-current={isActive ? 'page' : undefined}
-                className={`${styles.link} ${isActive ? styles.linkActive : ''}`}
+                className={styles.link}
               >
                 {label}
               </Link>
             )
           })}
-
-          <Link
-            href="/explore"
-            className={styles.galaxyPill}
-            title="Launch interactive 3D WebGPU Galaxy view"
-          >
-            <span className={styles.orbitDot} aria-hidden="true" />
-            <span className={styles.galaxyLabel}>3D Galaxy</span>
-          </Link>
-
-          <button
-            type="button"
-            className={styles.toggle}
-            onClick={toggleTheme}
-            aria-label="Toggle light or dark theme"
-          >
-            ◐ Theme
-          </button>
         </nav>
       </div>
     </header>

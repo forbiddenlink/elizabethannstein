@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work, Elizabeth Stein (prototype A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap">
+    <a class="brand" href="index.html">Elizabeth Stein</a>
+    <nav class="nav" aria-label="Main">
+      <a href="work.html" aria-current="page">Work</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <header class="pagehead">
+      <h1>Work</h1>
+      <p data-proposed>88 projects since 2023. Eight are selected below with full case studies; the rest are in the archive, one sentence each.</p>
+    </header>
+  </div>
+
+  <section class="sect" aria-labelledby="sel">
+    <div class="wrap">
+      <div class="sect-head"><h2 id="sel">Selected</h2><p>8 projects</p></div>
+      <div class="grid2">
+        <a class="card" href="case.html">
+          <figure class="plate"><div class="typeplate" role="img" aria-label="Text plate: no public screenshot, client confidential">
+            <span class="big">Security Readiness Platform</span>
+            <dl><dt>system</dt><dd>Dynamics 365, Dataverse, Next.js 16</dd><dt>status</dt><dd>In production</dd><dt>screens</dt><dd>Private: client confidential</dd></dl>
+          </div><figcaption><span>Sole developer</span><span>2025-26</span></figcaption></figure>
+          <h3>Security Readiness Platform</h3>
+          <p>A cybersecurity-readiness assessment platform, live in production for a nonprofit.</p>
+          <p class="meta">Enterprise, In production</p>
+        </a>
+        <a class="card" href="case.html">
+          <figure class="plate"><div class="img"><img src="../../public/screenshots/timeslip-search.webp" alt="TimeSlipSearch home screen with a year scrubber and search box"></div>
+          <figcaption><span>timeslipsearch.vercel.app</span><span>2026</span></figcaption></figure>
+          <h3>TimeSlipSearch</h3>
+          <p>A conversational AI agent searching 420,000 pop-culture records in plain language.</p>
+          <p class="meta"><span class="dot" aria-hidden="true"></span>Live, Algolia Agent Studio winner</p>
+        </a>
+        <a class="card" href="case.html">
+          <figure class="plate"><div class="typeplate" role="img" aria-label="Text plate for Craft CMS Ecosystem">
+            <span class="big">Craft CMS Ecosystem</span>
+            <dl><dt>stack</dt><dd>PHP, Twig, Craft CMS, MCP</dd><dt>scale</dt><dd>11 client sites in production</dd><dt>screens</dt><dd>Client sites, not shown</dd></dl>
+          </div><figcaption><span>Rocketpark Agency</span><span>2025-26</span></figcaption></figure>
+          <h3>Craft CMS Ecosystem</h3>
+          <p>Eleven live client websites with custom MCP tooling and a shared component system.</p>
+          <p class="meta">Enterprise, In production</p>
+        </a>
+        <a class="card" href="case.html">
+          <figure class="plate"><div class="img"><img src="../../public/screenshots/autodocs-ai.webp" alt="AutomaDocs landing page"></div>
+          <figcaption><span>automadocs.com</span><span>2024-26</span></figcaption></figure>
+          <h3>AutomaDocs</h3>
+          <p>A documentation SaaS built on retrieval-augmented generation, with tiered Stripe billing.</p>
+          <p class="meta"><span class="dot" aria-hidden="true"></span>Live</p>
+        </a>
+      </div>
+      <p class="more"><span>4 more selected: Specter, Trace, hq, HireReady.</span><span><a href="#">(prototype shows 4 of 8)</a></span></p>
+    </div>
+  </section>
+
+  <section class="sect" id="archive" aria-labelledby="arch">
+    <div class="wrap">
+      <div class="sect-head"><h2 id="arch">Archive</h2><p>Everything else, newest first</p></div>
+      <form class="controls" role="search" onsubmit="return false">
+        <label class="field">Search
+          <input id="q" type="search" placeholder="Project, stack, or company" autocomplete="off">
+        </label>
+        <label class="field">Category
+          <select id="cat">
+            <option value="">All categories</option>
+            <option value="ai">AI</option>
+            <option value="fullstack">Full-stack</option>
+            <option value="devtools">Dev tools</option>
+            <option value="experimental">Experiments</option>
+          </select>
+        </label>
+        <span class="count" id="count" aria-live="polite">10 of 10 shown</span>
+      </form>
+      <table class="archive">
+        <caption class="sr">Archive of projects: year, name, one-sentence description, category</caption>
+        <thead><tr><th scope="col">Project</th><th scope="col">Year</th><th scope="col">What it is</th><th scope="col">Category</th></tr></thead>
+        <tbody id="rows">
+          <tr data-cat="ai"><td class="n"><a href="case.html">MCP Server Studio</a></td><td class="y">2026</td><td class="x">Visual builder for Model Context Protocol servers on a drag-and-drop React Flow canvas.</td><td class="c"><span class="cat" style="background:var(--cat-ai)"></span>AI</td></tr>
+          <tr data-cat="fullstack"><td class="n"><a href="case.html">UCP Guard</a></td><td class="y">2026</td><td class="x">Uptime monitoring SaaS for emerging commerce-protocol endpoints.</td><td class="c"><span class="cat" style="background:var(--cat-fullstack)"></span>Full-stack</td></tr>
+          <tr data-cat="experimental"><td class="n"><a href="case.html">Critter Vale</a></td><td class="y">2026</td><td class="x">Browser-based 3D creature-collector built with Three.js.</td><td class="c"><span class="cat" style="background:var(--cat-experimental)"></span>Experiments</td></tr>
+          <tr data-cat="ai"><td class="n"><a href="case.html">Chronicle</a></td><td class="y">2025-26</td><td class="x">Local-first AI agent observability platform built in Rust.</td><td class="c"><span class="cat" style="background:var(--cat-ai)"></span>AI</td></tr>
+          <tr data-cat="fullstack"><td class="n"><a href="case.html">Kindred</a></td><td class="y">2025-26</td><td class="x">Premium knowledge workspace with native AI and real-time collaboration via Yjs CRDTs.</td><td class="c"><span class="cat" style="background:var(--cat-fullstack)"></span>Full-stack</td></tr>
+          <tr data-cat="ai"><td class="n"><a href="case.html">ContradictMe</a></td><td class="y">2025-26</td><td class="x">AI-powered debate and critical thinking trainer that fights echo chambers.</td><td class="c"><span class="cat" style="background:var(--cat-ai)"></span>AI</td></tr>
+          <tr data-cat="devtools"><td class="n"><a href="case.html">Rocket Vitals</a></td><td class="y">2025-26</td><td class="x">Scan-first website QA tool that crawls up to 500 pages and runs 200+ checks.</td><td class="c"><span class="cat" style="background:var(--cat-devtools)"></span>Dev tools</td></tr>
+          <tr data-cat="ai"><td class="n"><a href="case.html">Finance Quest</a></td><td class="y">2024-26</td><td class="x">Financial literacy platform with 17 chapters, 30+ calculators, and spaced-repetition learning.</td><td class="c"><span class="cat" style="background:var(--cat-ai)"></span>AI</td></tr>
+          <tr data-cat="ai"><td class="n"><a href="case.html">StanceStream</a></td><td class="y">2024</td><td class="x">AI policy debate platform built for the Redis AI Challenge 2025.</td><td class="c"><span class="cat" style="background:var(--cat-ai)"></span>AI</td></tr>
+          <tr data-cat="devtools"><td class="n"><a href="case.html">MCP Wrapper</a></td><td class="y">2024</td><td class="x">Model Context Protocol tooling built during an engagement with Flo Labs.</td><td class="c"><span class="cat" style="background:var(--cat-devtools)"></span>Dev tools</td></tr>
+        </tbody>
+      </table>
+      <div class="empty" id="empty" hidden>
+        <p>No projects match that search. Try a technology name, such as "Next.js", or clear the filters.</p>
+        <button class="btn" id="reset" type="button">Clear filters</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><h2>Elizabeth Stein</h2><p>B.S. Information Technology, Software Development, Capella University, Summa Cum Laude (3.98 GPA), conferred March 2026.</p><p><button class="linkbtn" id="theme" type="button" aria-pressed="false">Dark theme</button></p></div>
+    <div><h2>Site</h2><ul><li><a href="work.html">Work</a></li><li><a href="#">About</a></li><li><a href="#">Contact</a></li><li><a href="#">3D galaxy</a></li></ul></div>
+    <div><h2>Elsewhere</h2><ul><li><a href="#">Résumé (PDF)</a></li><li><a class="ext" href="#">GitHub</a></li><li><a class="ext" href="#">LinkedIn</a></li></ul></div>
+  </div>
+</footer>
+<div class="proto" id="proto"><b>Prototype controls</b><span>Type "zzz" in Search to see the empty state.</span><button type="button" id="prop">Outline proposed copy</button></div>
+<script src="proto.js"></script>
+</body>
+</html>

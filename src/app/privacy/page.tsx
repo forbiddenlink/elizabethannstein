@@ -34,14 +34,13 @@ export default function PrivacyPage() {
       <SiteHeader />
 
       <main id="privacy-content" className="eWrapNarrow">
-        <header className="eHeader">
-          <p className="eEyebrow">Colophon &middot; Privacy</p>
-          <p className="eDateline">Updated July 13, 2026</p>
-          <h1 className="eTitle">Privacy.</h1>
-          <p className="eLede" style={{ marginTop: '1.4rem' }}>
+        <header className="ePageHead">
+          <h1>Privacy</h1>
+          <p>
             Written to be read: this site uses privacy-friendly analytics and standard hosting. It
             does not collect personal information unless you choose to email me.
           </p>
+          <p className="eLabel">Updated July 13, 2026</p>
         </header>
 
         <div className="eProse">

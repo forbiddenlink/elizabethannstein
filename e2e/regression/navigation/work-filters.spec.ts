@@ -6,12 +6,11 @@
  * - Search input updates URL query state and survives a reload
  * - The catalogue/proof toggle is shareable via URL
  *
- * These assertions were rewritten on 2026-09-22. The originals targeted the
- * pre-2026-08 `/work` page, which grouped projects under `<h2>` galaxy headings
- * and offered "All (n)" / "Featured (n)" buttons. That page is gone: galaxies
- * are now filter chips and the toggle reads "Proof" / "Full catalog". The old
- * assertions had been failing since the redesign without anyone seeing it,
- * because the regression suite does not run in CI.
+ * Rewritten on 2026-09-22 for the chip-based page, then again on 2026-09-27 for the
+ * "Live ledger" redesign (DESIGN.md): the page is now Selected plates plus an Archive
+ * table. Category chips use plain names ("Enterprise", not "Enterprise Missions"), and
+ * the Proof / Full catalog toggle is gone because the archive always lists every
+ * project. Old `?view=all` links still load.
  */
 
 import { expect, test } from '@playwright/test'
@@ -21,7 +20,10 @@ test.describe('Work URL State', () => {
     await page.goto('/work?filter=enterprise')
 
     await expect(page).toHaveURL(/filter=enterprise/)
-    await expect(page.getByRole('button', { name: 'Enterprise Missions' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Enterprise', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
 
     const cards = page.locator('a[href^="/work/"]')
     await expect(cards.first()).toBeVisible()
@@ -51,11 +53,22 @@ test.describe('Work URL State', () => {
     await expect(page.locator('a[href="/work/chronicle"]').first()).toBeVisible()
   })
 
-  test('all-projects URL state is persisted on load', async ({ page }) => {
+  test('legacy view=all links load the full archive', async ({ page }) => {
     await page.goto('/work?view=all')
 
-    await expect(page).toHaveURL(/view=all/)
-    await expect(page.getByRole('button', { name: /^Full catalog \(\d+\)$/ })).toBeVisible()
-    await expect(page.getByRole('button', { name: /^Proof \(\d+\)$/ })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
+    await expect(page.getByText(/^(\d+) of \1 shown$/)).toBeVisible()
+  })
+
+  test('empty search offers a way back', async ({ page }) => {
+    await page.goto('/work?q=zzzz-no-such-project')
+
+    await expect(page.getByText(/No projects match/)).toBeVisible()
+    await page.getByRole('button', { name: 'Clear filters' }).click()
+    await expect(page.locator('input[aria-label="Search projects"]')).toHaveValue('')
+    await expect(page.locator('#archive a[href^="/work/"]').first()).toBeVisible()
   })
 })

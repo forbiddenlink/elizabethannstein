@@ -2,11 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
-import { CaseStudyChapterRail } from '@/components/ui/CaseStudyChapterRail'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
-import { SITE } from '@/lib/constants'
+import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
 import styles from './page.module.css'
 
@@ -182,94 +181,58 @@ export default async function ProjectPage({
         Skip to main content
       </a>
       <ScrollProgress editorial />
-      <CaseStudyChapterRail />
       <SiteHeader />
 
       <main id="project-content" className="eWrap">
         <ProjectCaseStudy project={project} />
 
-        {/* Hiring CTA */}
-        <section className={styles.hiring} aria-labelledby="hiring-heading">
-          <p className="eLabel">Let&apos;s talk</p>
-          <h2 id="hiring-heading" className={styles.hiringTitle}>
-            Tell me what you&apos;re building
-          </h2>
-          <p className={`eLede ${styles.hiringLede}`}>
-            If you need someone who can own UI, systems, and AI integration without losing the plot,
-            I&apos;m listening. Contract, advisory, or full-time: we&apos;ll find the right shape.
-          </p>
-          <div className={styles.hiringActions}>
-            <Link href="/contact" className="eBtn eBtnPrimary">
-              Start a conversation{' '}
-              <span className="arrow" aria-hidden="true">
-                &rarr;
-              </span>
-            </Link>
-            <Link href="/work" className="eBtn eBtnGhost">
-              See more projects
-            </Link>
-          </div>
-        </section>
-
-        {/* Related Projects by Tag Overlap */}
+        {/* Related projects by tag overlap */}
         {relatedProjects.length > 0 && (
-          <section className={styles.related} aria-labelledby="related-heading">
-            <p className="eLabel" id="related-heading" style={{ marginBottom: '0.4rem' }}>
-              Related work
-            </p>
-            <p className={styles.relatedNote}>
-              Signal = how many tags a project shares with this one.
-            </p>
-            <div className="eLedger">
-              {relatedProjects.map(({ project: related, sharedTags, sameGalaxy, score }) => (
-                <Link
-                  key={related.id}
-                  href={`/work/${related.id}`}
-                  className={`eTile ${styles.relatedTile}`}
-                >
-                  <span className={styles.relatedMeta}>
-                    <span>{sameGalaxy ? 'Same cluster' : 'Nearby system'}</span>
-                    <span className="eMono">signal {score}</span>
-                  </span>
-                  <span className={styles.relatedTitle}>{related.title}</span>
-                  <span className={styles.relatedDesc}>{related.description}</span>
-                  <span className={styles.relatedTags}>
-                    {sharedTags.slice(0, 3).map((tag) => (
-                      <span key={tag} className={styles.relatedTag}>
-                        {tag}
-                      </span>
-                    ))}
-                  </span>
-                </Link>
-              ))}
+          <section className="eSect" aria-labelledby="related-heading">
+            <div className="eSectHead">
+              <h2 id="related-heading">Related work</h2>
+              <p>Shares the most stack with this project</p>
             </div>
+            <ul className={styles.related}>
+              {relatedProjects.map(({ project: related, sharedTags }) => (
+                <li key={related.id}>
+                  <Link href={`/work/${related.id}`} className={styles.relatedRow}>
+                    <span className={styles.relatedTitle}>{related.title}</span>
+                    <span className={styles.relatedDesc}>{related.description}</span>
+                    <span className={styles.relatedTags}>{sharedTags.slice(0, 3).join(', ')}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 
-        {/* Prev / next navigation */}
-        <nav className={styles.keepExploring} aria-label="More case studies">
-          <p className="eLabel" style={{ marginBottom: '0.9rem' }}>
-            Keep exploring
-          </p>
-          <div className={styles.navGrid}>
-            <Link href={`/work/${prevProject.id}`} className={styles.navLink}>
-              <span className={styles.navDirection}>
-                <span aria-hidden="true">&larr;</span> Previous project
-              </span>
-              <span className={styles.navTitle}>{prevProject.title}</span>
-              <span className={styles.navDesc}>{prevProject.description}</span>
-            </Link>
-            <Link
-              href={`/work/${nextProject.id}`}
-              className={`${styles.navLink} ${styles.navLinkRight}`}
-            >
-              <span className={styles.navDirection}>
-                Next project <span aria-hidden="true">&rarr;</span>
-              </span>
-              <span className={styles.navTitle}>{nextProject.title}</span>
-              <span className={styles.navDesc}>{nextProject.description}</span>
-            </Link>
+        {/* Hiring CTA */}
+        <section className={styles.hiring} aria-labelledby="hiring-heading">
+          <h2 id="hiring-heading">Hiring for something like this?</h2>
+          <div>
+            <p>Contract, advisory, or full-time. Tell me what you are building.</p>
+            <div className={styles.hiringActions}>
+              <Link href="/contact" className="eBtn eBtnPrimary">
+                Start a conversation
+              </Link>
+              <a href={`mailto:${CONTACT.email}`} className="eLink">
+                {CONTACT.email}
+              </a>
+            </div>
           </div>
+        </section>
+
+        {/* Prev / next navigation */}
+        <nav className={styles.nextcase} aria-label="More case studies">
+          <Link href={`/work/${prevProject.id}`}>
+            <small>Previous</small>
+            <strong>{prevProject.title}</strong>
+          </Link>
+          <Link href={`/work/${nextProject.id}`}>
+            <small>Next</small>
+            <strong>{nextProject.title}</strong>
+          </Link>
         </nav>
       </main>
 

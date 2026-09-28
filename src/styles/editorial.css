@@ -7,7 +7,7 @@
    Three typefaces, each with a job:
      --le-display  Fraunces (variable, opsz axis) — display + reading body
      --le-mono     JetBrains Mono — spec-sheet data: folios, datelines, key:value
-     --le-sans     Space Grotesk — uppercase micro-labels / eyebrows / nav
+     --le-sans     Space Grotesk — sentence-case UI: labels, buttons, nav, spec keys
    Palette: cream paper, near-black ink, cobalt accent. Light + dark, hand-tuned.
 
    --le-muted carries body-sized text, so it has to clear WCAG AA 4.5:1 against
@@ -33,6 +33,7 @@
   --le-accent-wash: #e4e2f0;
   --le-live: #2f7d4f;
   --le-live-ink: #1f5c39;
+  --le-down: #a4321f;
   --le-tint: #e9e3d6;
 
   /* category hues, re-toned for paper — semantic dots, never neon fills */
@@ -87,6 +88,7 @@
     --le-accent-wash: #20233a;
     --le-live: #5fce8e;
     --le-live-ink: #7ed9a3;
+    --le-down: #f08a74;
     --le-tint: #1c1810;
     --le-cat-enterprise: #e8895f;
     --le-cat-ai: #6fc6dd;
@@ -111,6 +113,7 @@
   --le-accent-wash: #20233a;
   --le-live: #5fce8e;
   --le-live-ink: #7ed9a3;
+  --le-down: #f08a74;
   --le-tint: #1c1810;
   --le-cat-enterprise: #e8895f;
   --le-cat-ai: #6fc6dd;
@@ -135,6 +138,7 @@
   --le-accent-wash: #e4e2f0;
   --le-live: #2f7d4f;
   --le-live-ink: #1f5c39;
+  --le-down: #a4321f;
   --le-tint: #e9e3d6;
   --le-cat-enterprise: #b4552a;
   --le-cat-ai: #1f6f86;
@@ -204,12 +208,12 @@
   color: var(--le-accent-ink);
 }
 
-/* uppercase section kicker with trailing rule */
+/* section kicker with trailing rule. Sentence case since the 2026-09-27 redesign
+   (DESIGN.md: quiet chrome); tracked capitals read as template decoration. */
 .eEyebrow {
   font-family: var(--le-sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+  font-size: 0.9375rem;
+  font-weight: 500;
   color: var(--le-accent-ink);
   margin: 0 0 1.4rem;
   display: flex;
@@ -225,10 +229,8 @@
 /* small standalone label */
 .eLabel {
   font-family: var(--le-sans);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--le-muted);
 }
 /* magazine folio, e.g. "No. 03" */
@@ -314,13 +316,11 @@
   align-items: center;
   gap: 0.5rem;
   min-height: 2.75rem;
-  padding: 0 1.5rem;
-  border-radius: 2px;
+  padding: 0 1.25rem;
+  border-radius: 0;
   font-family: var(--le-sans);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.9375rem;
+  font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   will-change: transform;
@@ -338,7 +338,7 @@
 .eBtnPrimary {
   background: var(--le-rule-strong);
   color: var(--le-paper);
-  border: 1.5px solid var(--le-rule-strong);
+  border: 1px solid var(--le-rule-strong);
 }
 .eBtnPrimary:hover {
   background: var(--le-accent-ink);
@@ -348,12 +348,15 @@
 .eBtnGhost {
   background: transparent;
   color: var(--le-ink);
-  border: 1.5px solid var(--le-rule-strong);
+  border: 1px solid var(--le-rule-strong);
 }
 .eBtnGhost:hover {
-  background: var(--le-tint);
-  color: var(--le-accent-ink);
-  border-color: var(--le-accent-ink);
+  background: var(--le-paper-2);
+}
+.eBtn:disabled,
+.eBtn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* --- link with cobalt underline ------------------------------------------- */
@@ -534,6 +537,214 @@
   border-color: var(--le-accent-ink);
 }
 
+/* --- ledger-direction primitives (DESIGN.md, 2026-09-27) ------------------- */
+/* section: strong rule on top, title left, quiet count right */
+.eSect {
+  padding: clamp(2rem, 5vw, 3.5rem) 0;
+  border-top: 1px solid var(--le-rule-strong);
+}
+.eSectHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.25rem;
+}
+.eSectHead h2 {
+  margin: 0;
+  font-family: var(--le-display);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.eSectHead p {
+  margin: 0;
+  font-family: var(--le-sans);
+  font-size: 0.9375rem;
+  color: var(--le-muted);
+}
+
+/* page title block for index pages (/work, /about, /contact, /privacy) */
+.ePageHead {
+  padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+}
+.ePageHead h1 {
+  margin: 0;
+  font-family: var(--le-display);
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variation-settings: "opsz" 144;
+}
+.ePageHead p {
+  margin: 1rem 0 0;
+  max-width: 36em;
+  color: var(--le-ink-2);
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+/* status: always a word plus a dot, never colour alone */
+.eState {
+  font-family: var(--le-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.eState small {
+  display: block;
+  margin-top: 0.15rem;
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--le-muted);
+  font-variant-numeric: tabular-nums;
+}
+.eStateDot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  background: var(--le-live);
+  vertical-align: 0.05em;
+}
+[data-state="checking"] .eStateDot {
+  background: var(--le-muted);
+  animation: eblink 1s steps(2) infinite;
+}
+[data-state="down"] .eStateDot {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--le-down);
+}
+[data-state="down"] .eState {
+  color: var(--le-down);
+}
+[data-state="unknown"] .eStateDot {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--le-muted);
+}
+@keyframes eblink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* plate: framed evidence. Screenshots rest in greyscale and take colour on focus/hover of
+   the link around them, or permanently with .ePlateColor (the case-study page). */
+.ePlate {
+  margin: 0;
+  border: 1px solid var(--le-rule-strong);
+  background: var(--le-paper-3);
+}
+.ePlateImg {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--le-paper-3);
+}
+.ePlateImg img {
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(1) brightness(1.18) contrast(0.92);
+  transition: filter 0.35s var(--le-ease);
+}
+.ePlateColor .ePlateImg img,
+a:hover .ePlateImg img,
+a:focus-visible .ePlateImg img {
+  filter: none;
+}
+.ePlate figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.8rem;
+  border-top: 1px solid var(--le-rule-strong);
+  background: var(--le-paper);
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--le-muted);
+  font-variant-numeric: tabular-nums;
+}
+/* typographic plate: the honest stand-in when there is no screenshot */
+.eTypeplate {
+  aspect-ratio: 16 / 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+  background: var(--le-paper-2);
+}
+.eTypeplateBig {
+  font-family: var(--le-display);
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144;
+  color: var(--le-ink);
+  text-wrap: balance;
+}
+.eTypeplate dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--le-ink-2);
+}
+.eTypeplate dt {
+  color: var(--le-muted);
+}
+.eTypeplate dd {
+  margin: 0;
+}
+
+/* spec table: label / value rows */
+.eSpec {
+  margin: 1.75rem 0 0;
+  border-top: 1px solid var(--le-rule-strong);
+}
+.eSpec > div {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--le-rule);
+}
+.eSpec dt {
+  font-family: var(--le-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--le-muted);
+}
+.eSpec dd {
+  margin: 0;
+  font-family: var(--le-sans);
+  font-size: 0.975rem;
+  line-height: 1.5;
+  color: var(--le-ink);
+}
+
+@media (max-width: 640px) {
+  .eTypeplate {
+    aspect-ratio: auto;
+    min-height: 12rem;
+  }
+  .eSpec > div {
+    grid-template-columns: 6.5rem 1fr;
+  }
+}
+
 /* --- focus + motion + print ------------------------------------------------ */
 .editorial a:focus-visible,
 .editorial button:focus-visible,
@@ -557,6 +768,9 @@
   }
   .eLineMask > span {
     transform: none;
+  }
+  .ePlateImg img {
+    transition: none;
   }
 }
 @media print {

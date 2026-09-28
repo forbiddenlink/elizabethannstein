@@ -1,7 +1,7 @@
 'use client'
 
 import { AlertCircle, Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { analytics } from '@/components/Analytics'
 import { CONTACT } from '@/lib/constants'
 import styles from './ContactForm.module.css'
@@ -19,6 +19,21 @@ export function ContactForm() {
   const [errorMsg, setErrorMsg] = useState('')
   // Honeypot: hidden from real users; only bots fill it.
   const [company, setCompany] = useState('')
+  const successHeadingRef = useRef<HTMLHeadingElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  // Set when the visitor asks to send another message, so focus lands on the first field
+  // instead of falling back to <body> when the success panel unmounts.
+  const focusNameOnReturn = useRef(false)
+
+  useEffect(() => {
+    // Swapping the form for the success panel removes the focused button from the page;
+    // move focus to the confirmation so keyboard and screen-reader users keep their place.
+    if (status === 'success') successHeadingRef.current?.focus()
+    if (status === 'idle' && focusNameOnReturn.current) {
+      focusNameOnReturn.current = false
+      nameInputRef.current?.focus()
+    }
+  }, [status])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -56,16 +71,25 @@ export function ContactForm() {
     return (
       <div role="status" aria-live="polite" className={styles.success}>
         <p className="eLabel" style={{ color: 'var(--le-live-ink)' }}>
-          <span className="eDot" aria-hidden="true" style={{ marginRight: '0.5rem' }} />
+          <span className="eStateDot" aria-hidden="true" />
           Sent
         </p>
-        <h3 className={styles.successTitle}>Message received.</h3>
+        <h3 ref={successHeadingRef} tabIndex={-1} className={styles.successTitle}>
+          Message received.
+        </h3>
         <p className={styles.successText}>
           I&apos;ll reply to <strong style={{ color: 'var(--le-ink)' }}>{sentEmail}</strong> within
           24 hours.
         </p>
-        <button type="button" onClick={() => setStatus('idle')} className={styles.successAgain}>
-          Send another &rarr;
+        <button
+          type="button"
+          onClick={() => {
+            focusNameOnReturn.current = true
+            setStatus('idle')
+          }}
+          className={styles.successAgain}
+        >
+          Send another message
         </button>
       </div>
     )
@@ -86,10 +110,11 @@ export function ContactForm() {
       />
       <div className={styles.field}>
         <label htmlFor="name" className={styles.label}>
-          Your Name
+          Name
         </label>
         <input
           type="text"
+          ref={nameInputRef}
           id="name"
           name="name"
           value={name}
@@ -105,7 +130,7 @@ export function ContactForm() {
 
       <div className={styles.field}>
         <label htmlFor="email" className={styles.label}>
-          Your Email
+          Email
         </label>
         <input
           type="email"
@@ -168,10 +193,7 @@ export function ContactForm() {
             <span>Sending</span>
           </>
         ) : (
-          <>
-            <span>Send Message</span>
-            <span className="arrow">&rarr;</span>
-          </>
+          <span>Send message</span>
         )}
       </button>
 

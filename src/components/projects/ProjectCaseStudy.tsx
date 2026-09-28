@@ -1,379 +1,308 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
 import { InteractiveTerminal } from '@/components/projects/InteractiveTerminal'
-import { TheReceiptsDrawer } from '@/components/projects/TheReceiptsDrawer'
 import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
 import { TraceComparison } from '@/components/projects/TraceComparison'
-import { ProjectPlaceholder } from '@/components/ui/ProjectPlaceholder'
-import { GitHubIcon } from '@/components/ui/SocialIcons'
+import { hostOf, withoutEmoji } from '@/lib/flagshipDisplay'
 import { galaxies } from '@/lib/galaxyData'
 import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
 import styles from './ProjectCaseStudy.module.css'
 
-// Maps a galaxy id to the shared editorial category-hue token (see src/styles/editorial.css).
-// The "design" galaxy reads as "creative" in the editorial palette.
-const CATEGORY_DOT: Record<string, string> = {
-  enterprise: '--le-cat-enterprise',
-  ai: '--le-cat-ai',
-  fullstack: '--le-cat-fullstack',
-  devtools: '--le-cat-devtools',
-  design: '--le-cat-creative',
-  experimental: '--le-cat-experimental',
+// Plain category names for the content site; the themed galaxy names belong to /explore.
+const CATEGORY_LABEL: Record<string, string> = {
+  enterprise: 'Enterprise',
+  ai: 'AI',
+  fullstack: 'Full-stack',
+  devtools: 'Dev tools',
+  design: 'Design',
+  experimental: 'Experiments',
 }
 
-function getProjectGalaxy(project: Project) {
-  return galaxies.find((g) => g.id === project.galaxy) ?? null
+function getCategoryLabel(project: Project): string | null {
+  const galaxy = galaxies.find((g) => g.id === project.galaxy)
+  if (!galaxy) return null
+  return CATEGORY_LABEL[galaxy.id] ?? galaxy.name
 }
 
 function getStatusLabel(project: Project): string {
   if (project.links?.live) return 'Live'
-  if (project.tags.includes('npm')) return 'On npm'
+  if (project.tags.includes('npm')) return 'Published on npm'
   if (project.status === 'in-progress') return 'In progress'
   if (project.status === 'archived') return 'Archived'
   return 'In production'
 }
 
-// ── Helper text generators ──────────────────────────────────────────────────
-function getChallengeText(project: Project): string {
-  if (project.challenge) return project.challenge
-  if (project.metrics?.files) {
-    const teamPart = project.metrics.team
-      ? ` across a team of ${project.metrics.team} developers`
-      : ''
-    return `Building and maintaining a large-scale application with ${project.metrics.files.toLocaleString()} files${teamPart}.`
+/**
+ * Numbers rendered on the page. Only literal values from the data, and only values that are
+ * actually numeric: impact entries such as "Status: In production" already appear in the spec.
+ */
+function getNumbers(project: Project): Array<{ label: string; value: string }> {
+  const numbers = (project.impactMetrics ?? [])
+    .filter((m) => /\d/.test(m.value))
+    .map((m) => ({ label: m.label, value: m.value }))
+  const has = (label: string) => numbers.some((n) => n.label.toLowerCase().includes(label))
+  if (project.metrics?.tests && !has('test')) {
+    numbers.push({ label: 'Automated tests', value: String(project.metrics.tests) })
   }
-  return 'Building a production-ready application that delivers real value while maintaining code quality and user experience.'
+  if (project.metrics?.team && !has('team')) {
+    numbers.push({ label: 'Team size', value: String(project.metrics.team) })
+  }
+  if (project.metrics?.users && !has('user')) {
+    numbers.push({ label: 'Users', value: project.metrics.users })
+  }
+  return numbers
 }
 
-function getSolutionText(project: Project): string {
-  if (project.solution) return project.solution
-  if (project.tags.includes('AI')) {
-    const techStack =
-      project.tags
-        .filter((t) =>
-          ['Next.js', 'React', 'TypeScript', 'Supabase', 'OpenAI', 'Claude'].includes(t)
-        )
-        .join(', ') || 'modern web technologies'
-    return `Built with ${techStack}, integrating AI capabilities for enhanced functionality.`
+function Demo({ project }: Readonly<{ project: Project }>) {
+  // Section ids are kept from the earlier layout so existing deep links still land.
+  if (project.id === 'timeslip-search') {
+    return (
+      <section id="case-timeslip" aria-labelledby="demo-heading" className="eSect">
+        <div className="eSectHead">
+          <h2 id="demo-heading">Try it: pick a year</h2>
+          <p>A sample of the records, running on this page</p>
+        </div>
+        <TimeSlipScrubber />
+      </section>
+    )
   }
-  return `Architected with ${project.tags.slice(0, 3).join(', ')}, focusing on performance, accessibility, and maintainability.`
+  if (project.id === 'trace') {
+    return (
+      <section id="case-trace" aria-labelledby="demo-heading" className="eSect">
+        <div className="eSectHead">
+          <h2 id="demo-heading">Try it: grounded versus ungrounded output</h2>
+          <p>Worked example, running on this page</p>
+        </div>
+        <TraceComparison />
+      </section>
+    )
+  }
+  if (project.id === 'hire-ready') {
+    return (
+      <section id="case-hireready" aria-labelledby="demo-heading" className="eSect">
+        <div className="eSectHead">
+          <h2 id="demo-heading">Try it: an interview round</h2>
+          <p>Simulated on this page; the real app uses your microphone</p>
+        </div>
+        <HireReadySimulator />
+      </section>
+    )
+  }
+  const isCliOrTool =
+    project.id === 'specter' ||
+    project.id === 'hq' ||
+    project.id === 'chronicle' ||
+    project.tags.includes('CLI')
+  if (isCliOrTool) {
+    return (
+      <section id="case-terminal" aria-labelledby="demo-heading" className="eSect">
+        <div className="eSectHead">
+          <h2 id="demo-heading">Try it: a terminal session</h2>
+          <p>Scripted replay, not connected to a real machine</p>
+        </div>
+        <InteractiveTerminal
+          projectName={project.title}
+          initialCommand={project.id === 'specter' ? 'specter explain' : 'help'}
+        />
+      </section>
+    )
+  }
+  return null
 }
 
-function getImpactText(project: Project): string {
-  if (project.impact) return project.impact
-  if (project.metrics?.tests) {
-    const userPart = project.metrics.users
-      ? `Serving ${project.metrics.users}.`
-      : 'Production-ready and deployed.'
-    return `${project.metrics.tests} automated tests ensuring reliability. ${userPart}`
-  }
-  if (project.links?.live) {
-    return 'Successfully deployed to production and actively maintained. Built with modern best practices for performance and accessibility.'
-  }
-  return `Completed as a learning project, demonstrating proficiency in ${project.tags.slice(0, 2).join(' and ')}.`
-}
-
-// ── Ledger tile ─────────────────────────────────────────────────────────────
-function MetricTile({ label, value }: Readonly<{ label: string; value: string }>) {
-  return (
-    <div className="eTile">
-      <div className="eTileNum">{value}</div>
-      <div className="eLabel">{label}</div>
-    </div>
-  )
-}
-
-// ── Main component ─────────────────────────────────────────────────────────
 interface ProjectCaseStudyProps {
   readonly project: Project
 }
 
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const screenshotPath = PROJECT_SCREENSHOTS[project.id]
-  const projectGalaxy = getProjectGalaxy(project)
+  const category = getCategoryLabel(project)
   const statusLabel = getStatusLabel(project)
+  const numbers = getNumbers(project)
+  const liveHost = hostOf(project.links?.live)
 
-  const isCliOrTool =
-    project.id === 'specter' ||
-    project.id === 'hq' ||
-    project.id === 'chronicle' ||
-    project.tags.includes('CLI')
-
-  const isTimeSlip = project.id === 'timeslip-search'
-  const isTrace = project.id === 'trace'
-  const isHireReady = project.id === 'hire-ready'
-
-  const engineMetrics: Array<{ label: string; value: string }> = []
-  if (project.metrics?.files) {
-    engineMetrics.push({ label: 'Files', value: project.metrics.files.toLocaleString() })
-  }
-  if (project.metrics?.tests) {
-    engineMetrics.push({ label: 'Tests', value: project.metrics.tests.toString() })
-  }
-  if (project.metrics?.team) {
-    engineMetrics.push({ label: 'Team size', value: project.metrics.team.toString() })
-  }
-  if (project.metrics?.users) {
-    engineMetrics.push({ label: 'Users', value: project.metrics.users })
-  }
+  const story = [
+    { id: 'brief', heading: 'The brief', body: project.challenge },
+    { id: 'build', heading: 'The build', body: project.solution },
+    { id: 'shipped', heading: 'What shipped', body: project.impact },
+  ].filter((s): s is { id: string; heading: string; body: string } => Boolean(s.body))
 
   return (
-    <div className={styles.caseStudy}>
-      {/* ── Masthead ── */}
-      <header className={`eHeader ${styles.masthead}`}>
-        <div className={styles.mastheadTop}>
-          <p className="eEyebrow" style={{ margin: 0 }}>
-            Case study
-          </p>
-          {projectGalaxy && (
-            <span className={styles.category}>
-              <span
-                className={styles.categoryDot}
-                aria-hidden="true"
-                style={{ background: `var(${CATEGORY_DOT[projectGalaxy.id] ?? '--le-muted'})` }}
-              />
-              {projectGalaxy.name}
-            </span>
-          )}
-        </div>
+    <article className={styles.caseStudy}>
+      <nav className={styles.crumbs} aria-label="Breadcrumb">
+        <Link href="/work">Work</Link>
+        {category && (
+          <>
+            {' / '}
+            <Link href={`/work?filter=${project.galaxy}#archive`}>{category}</Link>
+          </>
+        )}
+      </nav>
 
-        <h1 className="eTitle">{project.title}</h1>
-        <p className="eLede" style={{ marginTop: '1.2rem' }}>
-          {project.description}
-        </p>
-        {projectGalaxy?.narrative && <p className={styles.narrative}>{projectGalaxy.narrative}</p>}
+      <header className={styles.spread}>
+        <div>
+          <h1 className={styles.title}>{project.title}</h1>
+          <p className={styles.lede}>{withoutEmoji(project.description)}</p>
 
-        <dl className={styles.specSheet}>
-          <div className={styles.specRow}>
-            <dt className={styles.specLabel}>Role</dt>
-            <dd className={styles.specValue}>{project.role}</dd>
-          </div>
-          {project.company && (
-            <div className={styles.specRow}>
-              <dt className={styles.specLabel}>Client / org</dt>
-              <dd className={styles.specValue}>{project.company}</dd>
+          <dl className="eSpec">
+            <div>
+              <dt>Role</dt>
+              <dd>{project.role}</dd>
             </div>
-          )}
-          <div className={styles.specRow}>
-            <dt className={styles.specLabel}>Year</dt>
-            <dd className={`${styles.specValue} eMono`}>{project.dateRange}</dd>
-          </div>
-          <div className={styles.specRow}>
-            <dt className={styles.specLabel}>Status</dt>
-            <dd className={styles.specValue}>{statusLabel}</dd>
-          </div>
-          <div className={styles.specRow}>
-            <dt className={styles.specLabel}>Stack</dt>
-            <dd className={`${styles.specValue} eMono`}>{project.tags.join(', ')}</dd>
-          </div>
-        </dl>
-
-        <div className={styles.actions}>
-          {project.links?.live && (
-            <a
-              href={project.links.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="eBtn eBtnPrimary"
-            >
-              View live site{' '}
-              <span className="arrow" aria-hidden="true">
-                &rarr;
-              </span>
-            </a>
-          )}
-          {project.links?.github && (
-            <a
-              href={project.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="eBtn eBtnGhost"
-            >
-              <GitHubIcon className={styles.btnIcon} aria-hidden="true" />
-              Source code
-            </a>
-          )}
-          {project.links?.contestWin && (
-            <a
-              href={project.links.contestWin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="eLink"
-            >
-              Read the writeup &#8599;
-            </a>
-          )}
-        </div>
-      </header>
-
-      {/* ── Interactive Sandbox / Evidence ── */}
-      {isTimeSlip ? (
-        <section id="case-timeslip" aria-label="Interactive Demo" className={styles.section}>
-          <p className="eEyebrow">Interactive Demo · Algolia Winner</p>
-          <h2 className={styles.h2}>Live Multi-Index Time Machine</h2>
-          <TimeSlipScrubber />
-        </section>
-      ) : isTrace ? (
-        <section id="case-trace" aria-label="Interactive Grounding Demo" className={styles.section}>
-          <p className="eEyebrow">Interactive Demo · DEV.to Winner</p>
-          <h2 className={styles.h2}>Screenshot-to-Code Grounding Inspector</h2>
-          <TraceComparison />
-        </section>
-      ) : isHireReady ? (
-        <section id="case-hireready" aria-label="Voice AI Simulator" className={styles.section}>
-          <p className="eEyebrow">Interactive Voice AI Sandbox</p>
-          <h2 className={styles.h2}>Realtime Interview &amp; Spaced Repetition</h2>
-          <HireReadySimulator />
-        </section>
-      ) : isCliOrTool ? (
-        <section id="case-terminal" aria-label="Interactive Terminal" className={styles.section}>
-          <p className="eEyebrow">Live Terminal Simulation</p>
-          <h2 className={styles.h2}>Interactive Engine Sandbox</h2>
-          <InteractiveTerminal
-            projectName={project.title}
-            initialCommand={project.id === 'specter' ? 'specter explain' : 'help'}
-          />
-        </section>
-      ) : (
-        <section id="case-visual" aria-labelledby="case-visual-heading" className={styles.section}>
-          <p className="eEyebrow">Evidence</p>
-          <h2 id="case-visual-heading" className={styles.h2}>
-            {screenshotPath ? 'Interface' : 'System surface'}
-          </h2>
-          <figure className={styles.frame}>
-            <div className={styles.frameInner}>
-              {screenshotPath ? (
-                <Image
-                  src={screenshotPath}
-                  alt={`${project.title} application interface`}
-                  width={1280}
-                  height={800}
-                  priority
-                  className={styles.frameImage}
-                  sizes="(max-width: 900px) 100vw, 1180px"
-                />
-              ) : (
-                <ProjectPlaceholder title={project.title} color={project.color} />
-              )}
-            </div>
-            <figcaption className={styles.caption}>
-              <span>Signature view</span>
-              <span className="eMono">
-                {project.links?.live
-                  ? project.links.live.replace(/^https?:\/\//, '')
-                  : 'spec drawing // verified implementation'}
-              </span>
-            </figcaption>
-          </figure>
-        </section>
-      )}
-
-      {/* ── The Receipts Verification Drawer ── */}
-      <TheReceiptsDrawer project={project} />
-
-      {/* ── Story: brief / build / outcome ── */}
-      <section id="case-arc" aria-label="Story" className={styles.section}>
-        <p className="eEyebrow">Story · how this shipped</p>
-        <div className={`eProse ${styles.prose}`}>
-          <section>
-            <h2>The brief</h2>
-            <p className={styles.dropcap}>{getChallengeText(project)}</p>
-          </section>
-          <section>
-            <h2>The build</h2>
-            <p>{getSolutionText(project)}</p>
-          </section>
-          <section>
-            <h2>What shipped</h2>
-            <p>{getImpactText(project)}</p>
-          </section>
-        </div>
-      </section>
-
-      {/* ── Signals: quantified impact ── */}
-      {project.impactMetrics && project.impactMetrics.length > 0 && (
-        <section
-          id="case-signals"
-          aria-labelledby="case-signals-heading"
-          className={styles.section}
-        >
-          <p className="eEyebrow">Signals</p>
-          <h2 id="case-signals-heading" className={styles.h2}>
-            Scale &amp; impact
-          </h2>
-          <div className="eLedger">
-            {project.impactMetrics.map((m) => (
-              <MetricTile key={m.label} label={m.label} value={m.value} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ── Engine room: files / tests / team / users ── */}
-      {engineMetrics.length > 0 && (
-        <section id="case-engine" aria-labelledby="case-engine-heading" className={styles.section}>
-          <p className="eEyebrow">Engine room</p>
-          <h2 id="case-engine-heading" className={styles.h2}>
-            At a glance
-          </h2>
-          <div className="eLedger">
-            {engineMetrics.map((m) => (
-              <MetricTile key={m.label} label={m.label} value={m.value} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ── Voice: testimonial pull-quote ── */}
-      {project.testimonial && (
-        <section id="case-voice" aria-labelledby="case-voice-heading" className={styles.section}>
-          <p className="eEyebrow">Endorsement</p>
-          <h2 id="case-voice-heading" className={styles.h2}>
-            Voice from the field
-          </h2>
-          <blockquote className={styles.quoteBlock}>
-            <span className={styles.quoteMark} aria-hidden="true">
-              &ldquo;
-            </span>
-            <p className={styles.quoteText}>{project.testimonial.quote}</p>
-            <footer className={styles.quoteFooter}>
+            {project.company && (
               <div>
-                <cite className={styles.quoteCite}>{project.testimonial.author}</cite>
-                <span className={styles.quoteRole}>{project.testimonial.role}</span>
-                {project.testimonial.date && (
-                  <span className={styles.quoteDate}>{project.testimonial.date}</span>
-                )}
+                <dt>Organisation</dt>
+                <dd>{project.company}</dd>
               </div>
-              {project.links?.testimonial && (
+            )}
+            {project.dateRange && (
+              <div>
+                <dt>Years</dt>
+                <dd className="eMono">{project.dateRange}</dd>
+              </div>
+            )}
+            <div>
+              <dt>Status</dt>
+              <dd>{statusLabel}</dd>
+            </div>
+            <div>
+              <dt>Stack</dt>
+              <dd>
+                <ul className={styles.stack}>
+                  {project.tags.map((tag) => (
+                    <li key={tag}>
+                      <Link href={`/work?tag=${encodeURIComponent(tag)}#archive`}>{tag}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          </dl>
+
+          {(project.links?.live || project.links?.github || project.links?.contestWin) && (
+            <div className={styles.actions}>
+              {project.links?.live && (
                 <a
-                  href={project.links.testimonial}
+                  href={project.links.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="eBtn eBtnPrimary"
+                >
+                  Visit {liveHost} <span aria-hidden="true">↗</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              )}
+              {project.links?.github && (
+                <a
+                  href={project.links.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="eBtn eBtnGhost"
                 >
-                  View full letter
+                  Source on GitHub <span aria-hidden="true">↗</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               )}
-            </footer>
-          </blockquote>
+              {project.links?.contestWin && (
+                <a
+                  href={project.links.contestWin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="eLink"
+                >
+                  Read the contest writeup <span aria-hidden="true">↗</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+
+        <figure className={`ePlate ePlateColor ${styles.plate}`}>
+          {screenshotPath ? (
+            <div className="ePlateImg">
+              <Image
+                src={screenshotPath}
+                alt={`${project.title} interface`}
+                fill
+                priority
+                sizes="(max-width: 960px) 100vw, 560px"
+              />
+            </div>
+          ) : (
+            <div className="eTypeplate">
+              <span className="eTypeplateBig">{statusLabel}</span>
+              <dl>
+                {category && (
+                  <>
+                    <dt>category</dt>
+                    <dd>{category}</dd>
+                  </>
+                )}
+                <dt>stack</dt>
+                <dd>{project.tags.slice(0, 4).join(', ')}</dd>
+              </dl>
+            </div>
+          )}
+          <figcaption>
+            <span>{screenshotPath ? liveHost || 'Screenshot' : 'No screenshot published'}</span>
+            {project.dateRange && <span>{project.dateRange}</span>}
+          </figcaption>
+        </figure>
+      </header>
+
+      {numbers.length > 0 && (
+        <section id="case-signals" className={styles.story} aria-labelledby="story-numbers">
+          <h2 id="story-numbers">Numbers</h2>
+          <dl className={styles.nums}>
+            {numbers.map((n) => (
+              <div key={n.label}>
+                <dt>{n.label}</dt>
+                <dd>{n.value}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
       )}
 
-      {/* ── Stack & signals ── */}
-      <section id="case-stack" aria-labelledby="case-stack-heading" className={styles.section}>
-        <p className="eEyebrow">Inventory</p>
-        <h2 id="case-stack-heading" className={styles.h2}>
-          Stack &amp; signals
-        </h2>
-        <div className={styles.tagRow}>
-          {project.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>
-              {tag}
-            </span>
-          ))}
-        </div>
-      </section>
-    </div>
+      <Demo project={project} />
+
+      {story.map((s) => (
+        <section key={s.id} className={styles.story} aria-labelledby={`story-${s.id}`}>
+          <h2 id={`story-${s.id}`}>{s.heading}</h2>
+          <p>{s.body}</p>
+        </section>
+      ))}
+
+      {project.testimonial && (
+        <section id="case-voice" className={styles.story} aria-labelledby="story-voice">
+          <h2 id="story-voice">In their words</h2>
+          <figure className={styles.quote}>
+            <blockquote>
+              <p>{project.testimonial.quote}</p>
+            </blockquote>
+            <figcaption>
+              <cite>{project.testimonial.author}</cite>, {project.testimonial.role}
+              {project.testimonial.date && <>, {project.testimonial.date}</>}
+              {project.links?.testimonial && (
+                <>
+                  {'. '}
+                  <a
+                    href={project.links.testimonial}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="eLink"
+                  >
+                    Read the full letter (PDF)
+                  </a>
+                </>
+              )}
+            </figcaption>
+          </figure>
+        </section>
+      )}
+    </article>
   )
 }

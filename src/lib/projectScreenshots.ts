@@ -3,8 +3,8 @@
  * Both WorkPageClient and ProjectCaseStudy import from here.
  *
  * ONLY list entries whose file actually exists in public/screenshots/.
- * Projects without an entry fall through to the branded ProjectPlaceholder,
- * which looks intentional — a broken <Image> 404 does not. Run
+ * Projects without an entry get a typographic plate (`.eTypeplate`), which
+ * reads as intentional; a broken <Image> 404 does not. Run
  * `pnpm screenshots` to capture more, then add the entry here.
  */
 export const PROJECT_SCREENSHOTS: Record<string, string> = {

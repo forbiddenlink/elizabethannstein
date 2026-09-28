@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Readiness Platform, Elizabeth Stein (prototype A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap">
+    <a class="brand" href="index.html">Elizabeth Stein</a>
+    <nav class="nav" aria-label="Main">
+      <a href="work.html" aria-current="page">Work</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="work.html">Work</a> / Enterprise</nav>
+
+    <article>
+      <header class="spread">
+        <div>
+          <h1>Security Readiness Platform</h1>
+          <p class="lede">Sole developer on a production cybersecurity-readiness assessment for a nonprofit (client confidential). Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app that syncs to the governed Dataverse model.</p>
+          <dl class="spec">
+            <div><dt>Role</dt><dd>Director of Software Engineering, sole developer</dd></div>
+            <div><dt>Organisation</dt><dd>Cybersecurity nonprofit (confidential)</dd></div>
+            <div><dt>Years</dt><dd>2025-2026</dd></div>
+            <div><dt>Status</dt><dd>In production</dd></div>
+            <div><dt>Stack</dt><dd>Next.js 16, React 19, Dataverse, Power Automate, Dynamics 365</dd></div>
+            <div><dt>Links</dt><dd>None public: client confidential</dd></div>
+          </dl>
+        </div>
+        <figure class="plate">
+          <div class="typeplate" role="img" aria-label="Text plate summarising the system; no screenshot because the client is confidential">
+            <span class="big" data-proposed>Dataverse stays the system of record. The assessor UI moved into code.</span>
+            <dl><dt>before</dt><dd>Power Apps Canvas inside Dynamics 365</dd><dt>after</dt><dd>Next.js 16 on Vercel, reading and writing Dataverse</dd><dt>auth</dt><dd>Microsoft Entra ID (MSAL)</dd></dl>
+          </div>
+          <figcaption><span data-proposed>No screenshots: client confidential</span><span>Architecture summary</span></figcaption>
+        </figure>
+      </header>
+
+      <section class="story" aria-labelledby="s1">
+        <h2 id="s1">The brief</h2>
+        <p>A healthcare cybersecurity nonprofit needed a structured MSP-readiness assessment with auditable scoring and multi-stakeholder flows. The original in-CRM Power Apps front-end hit customization limits, so the assessor experience needed to move out of Dynamics without giving up Dataverse as the source of truth.</p>
+      </section>
+      <section class="story" aria-labelledby="s2">
+        <h2 id="s2">The build</h2>
+        <p>Built the platform in two arcs. First, a 12-phase Dynamics 365 / Power Platform implementation: a governed Dataverse data model, Power Automate scoring orchestration, and repeatable cross-environment solution packaging. Then externalized the front-end into a Next.js 16 + React 19 app on Vercel that reads and writes Dataverse directly, replacing the in-CRM Power Apps Canvas UI while keeping Dynamics 365 as the system of record.</p>
+      </section>
+      <section class="story" aria-labelledby="s3">
+        <h2 id="s3">What shipped</h2>
+        <p>Live in production. Externalizing the front-end removed the Power Apps customization ceiling and put the assessor UI fully under version control, while the internal team keeps ownership of the Dataverse platform behind it.</p>
+      </section>
+      <section class="story" aria-labelledby="s4">
+        <h2 id="s4">Numbers</h2>
+        <div class="nums"><div><strong>12</strong><span>implementation phases shipped</span></div><div><strong>1</strong><span>developer, end to end</span></div></div>
+      </section>
+    </article>
+
+    <nav class="nextcase" aria-label="More case studies">
+      <a href="case.html"><small>Previous</small><strong>Hephaestus International</strong></a>
+      <a href="case.html"><small>Next</small><strong>Lead-Gen &amp; Ops Platform</strong></a>
+    </nav>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><h2>Hiring for something like this?</h2><p>Contract, advisory, or full-time. <a href="mailto:hello@elizabethannstein.com">hello@elizabethannstein.com</a></p><p><button class="linkbtn" id="theme" type="button" aria-pressed="false">Dark theme</button></p></div>
+    <div><h2>Site</h2><ul><li><a href="work.html">Work</a></li><li><a href="#">About</a></li><li><a href="#">Contact</a></li><li><a href="#">3D galaxy</a></li></ul></div>
+    <div><h2>Elsewhere</h2><ul><li><a href="#">Résumé (PDF)</a></li><li><a class="ext" href="#">GitHub</a></li><li><a class="ext" href="#">LinkedIn</a></li></ul></div>
+  </div>
+</footer>
+<div class="proto" id="proto"><b>Prototype controls</b><button type="button" id="prop">Outline proposed copy</button><span>All other copy is from galaxyData.ts.</span></div>
+<script src="proto.js"></script>
+</body>
+</html>

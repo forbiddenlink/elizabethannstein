@@ -57,6 +57,17 @@ test.describe('Homepage Smoke Tests', () => {
     expect(criticalErrors).toHaveLength(0)
   })
 
+  test('live ledger lists the pinged systems with links to their case studies', async ({
+    page,
+  }) => {
+    await gotoHomeReady(page)
+
+    const ledger = page.getByRole('complementary', { name: 'Live systems' })
+    await expect(ledger).toBeVisible()
+    await expect(ledger.locator('a[href^="/work/"]').first()).toBeVisible()
+    await expect(ledger.getByRole('button', { name: 'Refresh' })).toBeVisible()
+  })
+
   test('command palette opens with CMD+K', async ({ page }) => {
     await gotoHomeReady(page)
 

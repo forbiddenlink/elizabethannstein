@@ -11,6 +11,7 @@ import { CommandPaletteLoader } from '@/components/ui/CommandPaletteLoader'
 import { GalaxyChrome } from '@/components/ui/GalaxyChrome'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { CONTACT, SITE } from '@/lib/constants'
+import { THEME_STORAGE_KEY } from '@/lib/theme'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -141,6 +142,10 @@ const webSiteJsonLd = {
   },
 }
 
+// Applies a saved theme choice before first paint so a returning dark-theme visitor never
+// sees a light flash. Without a saved choice the editorial CSS follows prefers-color-scheme.
+const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem('${THEME_STORAGE_KEY}');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}`
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -149,6 +154,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static string, no user input */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         {/* Resource hints for faster external requests */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
