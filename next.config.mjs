@@ -9,6 +9,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
+  // Inline the deploy env so the client Sentry init can tell a Vercel production
+  // deploy from a local `next start` (both have NODE_ENV=production).
+  env: { NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV ?? '' },
   allowedDevOrigins: [
     'http://127.0.0.1:3100',
     'http://localhost:3100',
