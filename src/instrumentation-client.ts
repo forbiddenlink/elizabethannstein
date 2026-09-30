@@ -17,8 +17,8 @@ Sentry.init({
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 1.0,
 
-  // Third-party script injected by a visitor's browser extension (not in this repo);
-  // its own network failure is not actionable. ELIZABETHANNSTEIN-5.
+  // Product Fruits script: nothing in this repo loads it, so it is injected on the
+  // visitor's side and its own network failure is not actionable. ELIZABETHANNSTEIN-5.
   ignoreErrors: [/\(my\.productfruits\.com\)/],
 
   // WebGL/Three.js specific settings
