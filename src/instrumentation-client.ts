@@ -6,8 +6,9 @@ import * as Sentry from '@sentry/nextjs'
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-  // Only enable in production
-  enabled: process.env.NODE_ENV === 'production',
+  // Only the real production deploy reports; a local `next start` is also NODE_ENV=production.
+  enabled:
+    process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_VERCEL_ENV === 'production',
 
   // Performance Monitoring
   tracesSampleRate: 0.1, // 10% of transactions
@@ -15,6 +16,10 @@ Sentry.init({
   // Session Replay - capture errors
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 1.0,
+
+  // Third-party script injected by a visitor's browser extension (not in this repo);
+  // its own network failure is not actionable. ELIZABETHANNSTEIN-5.
+  ignoreErrors: [/\(my\.productfruits\.com\)/],
 
   // WebGL/Three.js specific settings
   beforeSend(event) {
