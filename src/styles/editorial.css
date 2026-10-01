@@ -324,6 +324,7 @@
   min-height: 2.75rem;
   padding: 0 1.25rem;
   max-width: 100%;
+  overflow-wrap: anywhere; /* a long host name wraps instead of spilling out of the button */
   border-radius: 0;
   font-family: var(--le-sans);
   font-size: 0.9375rem;

@@ -45,6 +45,23 @@ test.describe('200% text reflow', () => {
             .map((el) => `${el.tagName.toLowerCase()}.${String(el.className).split(' ')[0]}`)
         )
         expect(offenders).toEqual([])
+        // Text can spill out of a control whose own box still fits the viewport.
+        const clipped = await page.evaluate(() =>
+          [...document.querySelectorAll('button, a, input, label')]
+            .filter((el) => {
+              const h = el as HTMLElement
+              const r = h.getBoundingClientRect()
+              // Skip links are visually hidden (1px clip) until focused.
+              if (r.width <= 1 || r.height <= 1) return false
+              return h.scrollWidth > h.clientWidth + 1 && !h.closest('svg, [aria-hidden="true"]')
+            })
+            .slice(0, 5)
+            .map(
+              (el) =>
+                `${el.tagName.toLowerCase()}: ${(el.textContent ?? '').trim().slice(0, 30)} (${(el as HTMLElement).scrollWidth}>${(el as HTMLElement).clientWidth})`
+            )
+        )
+        expect(clipped).toEqual([])
       })
     }
   }
