@@ -80,6 +80,9 @@ export default function ExplorePage() {
   const view = useViewStore((state) => state.view)
   const { isAccessibleMode, toggle: toggleAccessibleMode, autoEnabled } = useAccessibleView()
   const heroVisibility = getVisibilityClasses(isJourneyMode, hasEntered)
+  // On a phone the intro card would cover most of the canvas once the map is open, so keep only
+  // the name and action buttons there. Desktop keeps the full card beside the scene.
+  const mobileCollapse = hasEntered ? 'max-md:hidden' : ''
   const isUniverseView = view === 'universe'
 
   // Global "T" shortcut toggles the text-only accessible view. ScreenReaderAnnouncer
@@ -198,10 +201,14 @@ export default function ExplorePage() {
                 <span>{'Available for hire'}</span>
               </span>
             </div>
-            <p className="mb-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base md:text-lg md:leading-snug">
+            <p
+              className={`mb-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base md:text-lg md:leading-snug ${mobileCollapse}`}
+            >
               {SITE.narrativeThesis}
             </p>
-            <HeroHighlightReel />
+            <div className={mobileCollapse}>
+              <HeroHighlightReel />
+            </div>
             <div className="pointer-events-auto flex flex-wrap items-center gap-2 sm:gap-3">
               <a
                 href="/resume/elizabeth-stein-resume.pdf"
@@ -257,7 +264,7 @@ export default function ExplorePage() {
                 <GitHubIcon className="w-4 h-4" />
               </a>
             </div>
-            <div className="mt-3 md:mt-4 space-y-4">
+            <div className="mt-3 hidden space-y-4 md:mt-4 md:block">
               <StatsBar />
               <AchievementsSection />
             </div>
