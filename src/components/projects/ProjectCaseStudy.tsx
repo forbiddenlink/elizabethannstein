@@ -6,7 +6,7 @@ import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
 import { TraceComparison } from '@/components/projects/TraceComparison'
 import { hostOf, withoutEmoji } from '@/lib/flagshipDisplay'
 import { galaxies } from '@/lib/galaxyData'
-import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
+import { getProjectScreenshotAlt, PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
 import styles from './ProjectCaseStudy.module.css'
 
@@ -225,7 +225,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             <div className="ePlateImg">
               <Image
                 src={screenshotPath}
-                alt={`${project.title} interface`}
+                alt={getProjectScreenshotAlt(project.id, `${project.title} interface`)}
                 fill
                 priority
                 sizes="(max-width: 960px) 100vw, 560px"

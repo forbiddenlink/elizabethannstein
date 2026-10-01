@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
 import { hostOf, plainLabel, staticStatus, whoLine, withoutEmoji } from '@/lib/flagshipDisplay'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
-import { getProjectScreenshot } from '@/lib/projectScreenshots'
+import { getProjectScreenshot, getProjectScreenshotAlt } from '@/lib/projectScreenshots'
 import type { Galaxy, Project } from '@/lib/types'
 import styles from './WorkPageClient.module.css'
 
@@ -146,7 +146,7 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
           <div className="ePlateImg">
             <Image
               src={shot}
-              alt={`${flagship.title} screenshot`}
+              alt={getProjectScreenshotAlt(flagship.id, `${flagship.title} screenshot`)}
               fill
               sizes="(max-width: 640px) 100vw, 560px"
             />
