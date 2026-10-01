@@ -86,7 +86,7 @@ export function InteractiveTerminal({
   const [cmdHistory, setCmdHistory] = useState<string[]>([initialCommand])
   const [historyIndex, setHistoryIndex] = useState<number>(-1)
   const [isExpanded, setIsExpanded] = useState(false)
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const outputRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const executeCommand = useCallback((rawCmd: string) => {
@@ -203,10 +203,14 @@ export function InteractiveTerminal({
     }
   }, [initialCommand, executeCommand])
 
-  // Scroll to bottom on updates
+  // Keep the newest output in view. Scroll the terminal's own box, not the page:
+  // scrollIntoView on mount threw every case-study visitor down to the terminal and
+  // left the skip link behind the keyboard's starting point.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: history is the trigger, not a value read here
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [])
+    const box = outputRef.current
+    if (box) box.scrollTop = box.scrollHeight
+  }, [history])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -265,7 +269,10 @@ export function InteractiveTerminal({
       </div>
 
       {/* Terminal Screen */}
-      <div className="p-4 overflow-y-auto max-h-[420px] space-y-2 text-xs leading-relaxed">
+      <div
+        ref={outputRef}
+        className="p-4 overflow-y-auto max-h-[420px] space-y-2 text-xs leading-relaxed"
+      >
         {history.map((item, i) => {
           // The `system` banner scrolls horizontally on narrow screens. A
           // scrollable region with no focusable content is unreachable by
@@ -309,7 +316,6 @@ export function InteractiveTerminal({
             spellCheck="false"
           />
         </div>
-        <div ref={bottomRef} />
       </div>
     </section>
   )
