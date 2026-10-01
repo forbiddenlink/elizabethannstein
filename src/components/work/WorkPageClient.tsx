@@ -8,8 +8,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
 import { hostOf, plainLabel, staticStatus, whoLine, withoutEmoji } from '@/lib/flagshipDisplay'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
+import { PLATE_ART } from '@/lib/plateArt'
 import { getProjectScreenshot, getProjectScreenshotAlt } from '@/lib/projectScreenshots'
 import type { Galaxy, Project } from '@/lib/types'
+import { PlateArt } from './PlateArt'
 import styles from './WorkPageClient.module.css'
 
 interface WorkPageClientProps {
@@ -131,6 +133,7 @@ function whereLine(flagship: Flagship): string {
 
 function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; project?: Project }>) {
   const shot = getProjectScreenshot(flagship.id)
+  const art = PLATE_ART[flagship.id]
   const status = staticStatus(flagship)
   const stack = project?.tags.slice(0, 4).join(', ')
 
@@ -146,6 +149,8 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
               sizes="(max-width: 640px) 100vw, 560px"
             />
           </div>
+        ) : art ? (
+          <PlateArt art={art} />
         ) : (
           <div className="eTypeplate">
             <span className="eTypeplateBig">{plainLabel(flagship.proof).replace(' · ', ', ')}</span>

@@ -4,8 +4,10 @@ import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
 import { InteractiveTerminal } from '@/components/projects/InteractiveTerminal'
 import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
 import { TraceComparison } from '@/components/projects/TraceComparison'
+import { PlateArt } from '@/components/work/PlateArt'
 import { hostOf, withoutEmoji } from '@/lib/flagshipDisplay'
 import { galaxies } from '@/lib/galaxyData'
+import { PLATE_ART } from '@/lib/plateArt'
 import { getProjectScreenshotAlt, PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
 import styles from './ProjectCaseStudy.module.css'
@@ -231,6 +233,8 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 sizes="(max-width: 960px) 100vw, 560px"
               />
             </div>
+          ) : PLATE_ART[project.id] ? (
+            <PlateArt art={PLATE_ART[project.id]} />
           ) : (
             <div className="eTypeplate">
               <span className="eTypeplateBig">{statusLabel}</span>
