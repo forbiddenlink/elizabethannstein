@@ -340,19 +340,12 @@ export function LiveSystemsIndex() {
             <ul className={styles.index} aria-label="More selected work">
               {REST.map((f) => (
                 <li key={f.id}>
-                  <Link
-                    href={`/work/${f.id}`}
-                    className={styles.row}
-                  >
+                  <Link href={`/work/${f.id}`} className={styles.row}>
                     <span>
-                      <span className={styles.title}>
-                        {f.title}
-                      </span>
+                      <span className={styles.title}>{f.title}</span>
                       <span className={styles.who}>{whoLine(f)}</span>
                     </span>
-                    <span className={styles.desc}>
-                      {f.summary}
-                    </span>
+                    <span className={styles.desc}>{f.summary}</span>
                     <span className={styles.status}>
                       <SelectedState flagship={f} phase={phases[f.id]} />
                     </span>

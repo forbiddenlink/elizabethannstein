@@ -125,17 +125,10 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
   const status = staticStatus(flagship)
 
   return (
-    <Link
-      href={`/work/${flagship.id}`}
-      className={styles.card}
-    >
+    <Link href={`/work/${flagship.id}`} className={styles.card}>
       <ProjectPlate flagship={flagship} project={project} sizes="(max-width: 640px) 100vw, 560px" />
-      <h3 className={styles.cardTitle}>
-        {flagship.title}
-      </h3>
-      <p className={styles.cardDesc}>
-        {flagship.summary}
-      </p>
+      <h3 className={styles.cardTitle}>{flagship.title}</h3>
+      <p className={styles.cardDesc}>{flagship.summary}</p>
       <p className={styles.cardMeta}>
         {whoLine(flagship)}. {status.label}, {status.detail}
       </p>
