@@ -81,6 +81,8 @@ export const PROJECT_SCREENSHOT_ALT: Record<string, string> = {
     'AutomaDocs home page on a dark background: the heading "Code documentation your team can actually trust." beside a product preview showing a documentation map, an Ask the repo answer with cited file paths, and freshness and coverage gauges.',
   'mcp-server-studio':
     'MCP Studio empty builder: a dark canvas with a "Start Building" prompt on the left and an empty Server Manifest panel with Structure, Test and Code tabs on the right.',
+  'hire-ready':
+    'HireReady home page on a dark background: the heading "Interview prep that actually sticks.", a Take a free voice mock button, and a sample feedback card scoring a behavioral answer 3.2 out of 4 with Situation, Task, Action and Result bars.',
   'ucp-guard':
     'UCP Guard home page: the heading "Keep UCP stores reliable for every AI shopping request" beside a live monitor card with store counts, a P95 latency figure and a row of uptime check bars, plus a cookie banner.',
   'portfolio-pro':
