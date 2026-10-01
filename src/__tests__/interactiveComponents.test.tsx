@@ -11,7 +11,7 @@ describe('Interactive Project Components & Utilities', () => {
       render(<TimeSlipScrubber />)
 
       expect(
-        screen.getByText(/TimeSlipSearch — Interactive Cultural Snapshot Engine/i)
+        screen.getByText(/TimeSlipSearch: Interactive Cultural Snapshot Engine/i)
       ).toBeDefined()
       expect(screen.getAllByText(/1985/i).length).toBeGreaterThan(0)
 
@@ -28,7 +28,7 @@ describe('Interactive Project Components & Utilities', () => {
     it('renders tabs and allows switching between preview, inspector, and code', () => {
       render(<TraceComparison />)
 
-      expect(screen.getByText(/Trace — Grounded Screenshot-to-Code Engine/i)).toBeDefined()
+      expect(screen.getByText(/Trace: Grounded Screenshot-to-Code Engine/i)).toBeDefined()
 
       // Switch to inspector tab
       const inspectorTab = screen.getByRole('button', { name: /What AI Sees/i })
@@ -47,7 +47,7 @@ describe('Interactive Project Components & Utilities', () => {
       render(<HireReadySimulator />)
 
       expect(
-        screen.getByText(/HireReady — OpenAI Realtime Voice & FSRS-5 Simulator/i)
+        screen.getByText(/HireReady: OpenAI Realtime Voice & FSRS-5 Simulator/i)
       ).toBeDefined()
       expect(screen.getByText(/Stripe/i)).toBeDefined()
       expect(screen.getByText(/Google/i)).toBeDefined()
