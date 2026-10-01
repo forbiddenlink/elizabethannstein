@@ -80,9 +80,9 @@ export function TimeSlipScrubber() {
     <div className="w-full rounded-lg overflow-hidden border border-neutral-800 bg-[#0e0d16] text-gray-200 font-sans shadow-xl">
       {/* CRT / VHS Header */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-[#161426] border-b border-neutral-800 text-xs">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-amber-400" />
-          <span className="font-bold text-gray-200 tracking-wider uppercase font-mono">
+        <div className="flex min-w-0 items-center gap-2">
+          <Sparkles className="w-4 h-4 shrink-0 text-amber-400" />
+          <span className="font-bold text-gray-200 tracking-wider uppercase font-mono [overflow-wrap:anywhere]">
             TimeSlipSearch: Interactive Cultural Snapshot Engine
           </span>
         </div>

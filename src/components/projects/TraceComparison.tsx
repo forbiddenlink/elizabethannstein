@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge"
 export function DeploymentCard() {
   return (
     <Card className="border-neutral-800 bg-neutral-950/80 backdrop-blur-md">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium">Production Cluster</CardTitle>
         <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">
           Healthy
@@ -19,7 +19,7 @@ export function DeploymentCard() {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-2xl font-bold font-mono">99.98% Uptime</div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Input placeholder="Filter services..." className="h-8 text-xs" />
           <Button size="sm" className="bg-blue-600 hover:bg-blue-500">Deploy</Button>
         </div>
@@ -41,7 +41,7 @@ export function TraceComparison() {
   return (
     <div className="w-full rounded-lg overflow-hidden border border-neutral-800 bg-[#0d0f17] text-gray-200 font-sans shadow-xl">
       {/* Header bar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#151926] border-b border-neutral-800 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 px-4 py-3 bg-[#151926] border-b border-neutral-800 text-xs">
         <div className="flex items-center gap-2">
           <Wand2 className="w-4 h-4 text-emerald-400" />
           <span className="font-bold text-gray-200 tracking-wider uppercase font-mono">
@@ -54,7 +54,7 @@ export function TraceComparison() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-neutral-800 bg-[#111420] text-xs">
+      <div className="flex flex-wrap border-b border-neutral-800 bg-[#111420] text-xs">
         <button
           type="button"
           onClick={() => setActiveTab('preview')}
@@ -98,20 +98,20 @@ export function TraceComparison() {
               Live Sandpack Component Preview:
             </span>
             <div className="w-full max-w-sm p-4 rounded-lg bg-neutral-900 border border-neutral-800 shadow-lg space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center justify-between gap-x-2">
                 <span className="text-xs font-semibold text-white">Production Cluster</span>
                 <span className="text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/40 bg-emerald-500/20 text-emerald-400 font-mono">
                   Healthy
                 </span>
               </div>
               <div className="text-xl font-bold font-mono text-white">99.98% Uptime</div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <input
                   type="text"
                   placeholder="Filter services..."
                   aria-label="Example filter input (illustrative preview, not interactive)"
                   readOnly
-                  className="flex-1 bg-neutral-800 border border-neutral-700 rounded px-2.5 py-1 text-xs text-gray-300 outline-none"
+                  className="min-w-0 flex-1 bg-neutral-800 border border-neutral-700 rounded px-2.5 py-1 text-xs text-gray-300 outline-none"
                 />
                 <button
                   type="button"
@@ -130,19 +130,19 @@ export function TraceComparison() {
               <Sparkles className="w-3.5 h-3.5" /> Per-Element Confidence &amp; Catalog Matching:
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] font-mono">
-              <div className="p-2.5 rounded bg-neutral-900/90 border border-emerald-500/30 flex justify-between items-center">
+              <div className="p-2.5 rounded bg-neutral-900/90 border border-emerald-500/30 flex flex-wrap justify-between items-center gap-x-2">
                 <span>Card container</span>
                 <span className="text-emerald-400 font-bold">99% [grounded]</span>
               </div>
-              <div className="p-2.5 rounded bg-neutral-900/90 border border-emerald-500/30 flex justify-between items-center">
+              <div className="p-2.5 rounded bg-neutral-900/90 border border-emerald-500/30 flex flex-wrap justify-between items-center gap-x-2">
                 <span>Badge / Status Pill</span>
                 <span className="text-emerald-400 font-bold">98% [grounded]</span>
               </div>
-              <div className="p-2.5 rounded bg-neutral-900/90 border border-cyan-500/30 flex justify-between items-center">
+              <div className="p-2.5 rounded bg-neutral-900/90 border border-cyan-500/30 flex flex-wrap justify-between items-center gap-x-2">
                 <span>Input textfield</span>
                 <span className="text-cyan-400 font-bold">96% [grounded]</span>
               </div>
-              <div className="p-2.5 rounded bg-neutral-900/90 border border-emerald-500/30 flex justify-between items-center">
+              <div className="p-2.5 rounded bg-neutral-900/90 border border-emerald-500/30 flex flex-wrap justify-between items-center gap-x-2">
                 <span>Primary Button</span>
                 <span className="text-emerald-400 font-bold">99% [grounded]</span>
               </div>

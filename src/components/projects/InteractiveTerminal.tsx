@@ -262,7 +262,7 @@ export function InteractiveTerminal({
       }`}
     >
       {/* Title bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#16171f] border-b border-neutral-800 text-xs select-none">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 px-4 py-2.5 bg-[#16171f] border-b border-neutral-800 text-xs select-none">
         <div className="flex items-center gap-2">
           <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
           <span className="font-semibold text-gray-300">{projectName} Terminal Sandbox</span>
@@ -326,7 +326,7 @@ export function InteractiveTerminal({
             onKeyDown={handleKeyDown}
             placeholder="Type 'help', 'specter explain', 'specter tools'..."
             aria-label={`${projectName} terminal command input`}
-            className="flex-1 bg-transparent text-gray-100 outline-none font-mono text-xs placeholder:text-gray-600"
+            className="min-w-0 flex-1 bg-transparent text-gray-100 outline-none font-mono text-xs placeholder:text-gray-600"
             autoCapitalize="off"
             autoCorrect="off"
             spellCheck="false"

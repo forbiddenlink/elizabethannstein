@@ -56,7 +56,7 @@ export function HireReadySimulator() {
   return (
     <div className="w-full rounded-lg overflow-hidden border border-neutral-800 bg-[#0c0d16] text-gray-200 font-sans shadow-xl">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#151726] border-b border-neutral-800 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 px-4 py-3 bg-[#151726] border-b border-neutral-800 text-xs">
         <div className="flex items-center gap-2">
           <Mic className="w-4 h-4 text-purple-400" />
           <span className="font-bold text-gray-200 tracking-wider uppercase font-mono">
@@ -70,7 +70,7 @@ export function HireReadySimulator() {
 
       <div className="p-5 space-y-5">
         {/* Track selector */}
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {QUESTIONS.map((q, idx) => (
             <button
               type="button"
@@ -80,7 +80,7 @@ export function HireReadySimulator() {
                 setFeedbackScore(null)
                 setIsPlaying(false)
               }}
-              className={`flex-1 py-1.5 px-2 text-left font-mono text-xs rounded border transition-all ${
+              className={`min-w-0 flex-1 py-1.5 px-2 text-left font-mono text-xs rounded border transition-all ${
                 selectedTrack === idx
                   ? 'bg-purple-950/60 border-purple-400 text-white font-semibold'
                   : 'bg-neutral-900 border-neutral-800 text-gray-400 hover:border-neutral-700'
@@ -94,7 +94,7 @@ export function HireReadySimulator() {
 
         {/* Question card */}
         <div className="p-4 rounded-lg bg-[#121320] border border-neutral-800 space-y-3">
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 text-xs">
             <span className="font-mono text-[11px] uppercase tracking-wider text-purple-400 font-semibold">
               Live Prompt ({current.difficulty})
             </span>
@@ -107,8 +107,8 @@ export function HireReadySimulator() {
           </p>
 
           {/* Voice Waveform Simulator */}
-          <div className="p-3 rounded bg-[#090a10] border border-neutral-800/80 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-1.5 flex-1 h-6">
+          <div className="p-3 rounded bg-[#090a10] border border-neutral-800/80 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-1.5 flex-1 min-w-0 overflow-hidden h-6">
               {Array.from({ length: 24 }).map((_, i) => (
                 <div
                   key={i}
@@ -128,7 +128,7 @@ export function HireReadySimulator() {
               type="button"
               onClick={simulateAnswer}
               disabled={isPlaying}
-              className="px-3 py-1.5 rounded bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors disabled:opacity-50"
+              className="max-w-full text-left px-3 py-1.5 rounded bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors disabled:opacity-50"
             >
               {isPlaying ? (
                 <>
