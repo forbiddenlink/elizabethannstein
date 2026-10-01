@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { allProjects } from '@/lib/galaxyData'
+import { isProofCatalogProject } from '@/lib/proofLayer'
 
 // `lastModified` is deliberately omitted. It used to be `new Date()` on every
 // entry, so all 93 URLs claimed they changed on the day of the last deploy.
@@ -20,11 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/privacy`, changeFrequency: 'yearly', priority: 0.3 },
   ]
 
-  const projectRoutes: MetadataRoute.Sitemap = allProjects.map((project) => ({
-    url: `${baseUrl}/work/${project.id}`,
-    changeFrequency: 'monthly',
-    priority: 0.8,
-  }))
+  // Experiments and archived projects are noindex on their own pages, so they stay out here too.
+  const projectRoutes: MetadataRoute.Sitemap = allProjects
+    .filter(isProofCatalogProject)
+    .map((project) => ({
+      url: `${baseUrl}/work/${project.id}`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    }))
 
   return [...routes, ...projectRoutes]
 }

@@ -9,7 +9,7 @@ import styles from './contact.module.css'
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Email or message Elizabeth Stein about a full-time role, a contract, or a project: full-stack, frontend, or Power Platform.',
+    'Email or message Elizabeth Stein about a full-stack or product engineering role, a contract, or a project.',
   alternates: {
     canonical: '/contact',
   },
@@ -103,8 +103,8 @@ export default function ContactPage() {
                 Open to work
               </p>
               <p className={styles.availBody}>
-                Full-time roles and contracts: full-stack, frontend, or Power Platform and Dynamics
-                365.
+                Full-stack and product engineering roles, remote from Washington, PA (US Eastern).
+                Contracts welcome, including Power Platform and Dynamics 365.
               </p>
             </div>
           </aside>

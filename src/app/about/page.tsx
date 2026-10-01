@@ -107,7 +107,8 @@ export default function AboutPage() {
             </p>
             <p className={styles.avail}>
               <span className="eStateDot" aria-hidden="true" />
-              Open to full-time and contract roles: full-stack, frontend, or Power Platform.
+              Open to full-stack and product engineering roles, remote from Washington, PA (US
+              Eastern). Contracts welcome.
             </p>
             <div className={styles.actions}>
               <a href={RESUME_HREF} download className="eBtn eBtnPrimary">
@@ -130,9 +131,8 @@ export default function AboutPage() {
               twelve implementation phases on it, plus the Next.js app assessors use.
             </p>
             <p>
-              I&apos;m also a software engineering intern at Rocket Park, a Craft CMS agency. I lead
-              development on Rocket Vitals, its website QA scanner, and keep eleven client sites
-              upgraded and running.
+              At Rocket Park, a Craft CMS agency, I lead development on Rocket Vitals, its website
+              QA scanner, and keep eleven client sites upgraded and running.
             </p>
             <p>
               Before that, from 2024 to 2026, I led a team of four developers across Flo Labs&apos;
@@ -246,24 +246,11 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className={styles.row} aria-labelledby="reel-heading">
-          <h2 id="reel-heading">The 30-second version</h2>
+        <section className={styles.row} aria-labelledby="work-heading">
+          <h2 id="work-heading">The work</h2>
           <div>
-            <div className={styles.reelFrame}>
-              {/* biome-ignore lint/a11y/useMediaCaption: silent showreel with no spoken audio; all content is on-screen text. */}
-              <video
-                controls
-                preload="none"
-                playsInline
-                poster="/reel-poster.webp"
-                aria-label="30-second portfolio showreel"
-              >
-                <source src="/reel.webm" type="video/webm" />
-                <source src="/reel.mp4" type="video/mp4" />
-              </video>
-            </div>
             <p className={styles.browse}>
-              Or browse the work:{' '}
+              By area:{' '}
               <Link href="/work?filter=enterprise#archive">enterprise ({enterpriseCount})</Link>,{' '}
               <Link href="/work?filter=ai#archive">AI ({aiCount})</Link>,{' '}
               <Link href="/work?filter=fullstack#archive">full-stack ({fullstackCount})</Link>, or{' '}

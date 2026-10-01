@@ -7,6 +7,7 @@ import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
+import { isProofCatalogProject } from '@/lib/proofLayer'
 import styles from './page.module.css'
 
 // ISR: Revalidate project pages every hour for fresh content
@@ -57,7 +58,7 @@ export async function generateMetadata({
 
   const metaDescription = normalizeDescription(project.description, project.tags)
 
-  return {
+  const metadata: Metadata = {
     // No " · Case study" suffix here (the page itself labels it as a case study) —
     // keeps the rendered <title> ("{title} | Elizabeth Stein") inside the 50-60 char
     // range SEO scanners expect, across every project title in galaxyData.ts.
@@ -86,6 +87,14 @@ export async function generateMetadata({
       images: [`/api/og/${project.id}`],
     },
   }
+
+  // Experiments and archived projects keep their pages (the galaxy and archive
+  // link to them) but stay out of search, so a recruiter's search lands on real work.
+  if (!isProofCatalogProject(project)) {
+    metadata.robots = { index: false, follow: true }
+  }
+
+  return metadata
 }
 
 export default async function ProjectPage({

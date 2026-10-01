@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { AskAIAboutMe } from '@/components/ui/AskAIAboutMe'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { CONTACT } from '@/lib/constants'
 import styles from './SiteFooter.module.css'
@@ -74,9 +73,6 @@ export function SiteFooter() {
               </li>
             </ul>
           </div>
-        </div>
-        <div className={styles.ask}>
-          <AskAIAboutMe />
         </div>
         <p className={styles.copy}>&copy; {year} Elizabeth Stein</p>
       </div>

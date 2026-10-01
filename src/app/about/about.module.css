@@ -145,18 +145,6 @@
   color: var(--le-ink);
 }
 
-.reelFrame {
-  border: 1px solid var(--le-rule-strong);
-  background: var(--le-paper-3);
-  aspect-ratio: 16 / 9;
-}
-
-.reelFrame video {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 .browse {
   margin: 1rem 0 0;
   font-size: 1.0625rem;
