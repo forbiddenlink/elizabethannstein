@@ -23,12 +23,30 @@
   padding: clamp(2.5rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4rem);
 }
 
+.name {
+  margin: 0 0 1rem;
+  font-family: var(--le-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.name span {
+  display: block;
+  margin-top: 0.2rem;
+  font-weight: 400;
+  color: var(--le-ink-2);
+}
+
 .claim {
   margin: 0;
+  max-width: 13em;
   font-family: var(--le-display);
-  font-size: clamp(2.25rem, 4.6vw, 3.9rem);
+  font-size: clamp(2.2rem, 4.4vw, 3.75rem);
   font-weight: 400;
-  line-height: 1.04;
+  line-height: 1.06;
+  text-wrap: balance;
   letter-spacing: -0.025em;
   font-variation-settings:
     "opsz" 144,
@@ -287,4 +305,181 @@
   .ledgerHead {
     flex-direction: column;
   }
+}
+
+/* --- featured work: plate + text, alternating sides ------------------------- */
+.features {
+  list-style: none;
+  margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+  padding: 0;
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+  color: var(--le-ink);
+  text-decoration: none;
+}
+
+.features li:nth-child(even) .feature {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+.features li:nth-child(even) .feature > figure {
+  order: 2;
+}
+
+.featureText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.featureText .who {
+  margin: 0;
+}
+
+.featureTitle {
+  margin: 0;
+  font-family: var(--le-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144;
+  text-wrap: balance;
+}
+
+.feature:hover .featureTitle,
+.feature:focus-visible .featureTitle {
+  color: var(--le-accent-ink);
+}
+
+.featureDesc {
+  margin: 0;
+  max-width: 30em;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--le-ink-2);
+  text-wrap: pretty;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin: 0.25rem 0 0;
+}
+
+.facts div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.facts dt {
+  font-family: var(--le-sans);
+  font-size: 0.8125rem;
+  color: var(--le-muted);
+}
+
+.facts dd {
+  margin: 0;
+  font-family: var(--le-display);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  color: var(--le-accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- client quote + close ---------------------------------------------------- */
+.quoteRow {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+  gap: 1rem 2rem;
+}
+
+.quoteLabel {
+  margin: 0;
+  font-family: var(--le-display);
+  font-size: clamp(1.3rem, 2.1vw, 1.65rem);
+  font-weight: 500;
+}
+
+.quote {
+  margin: 0;
+  max-width: 36em;
+}
+
+.quote blockquote {
+  margin: 0;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--le-accent);
+}
+
+.quote blockquote p {
+  margin: 0;
+  font-family: var(--le-display);
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  line-height: 1.4;
+  font-style: italic;
+  text-wrap: pretty;
+}
+
+.quote figcaption {
+  margin-top: 1rem;
+  font-family: var(--le-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--le-ink-2);
+}
+
+.quote cite {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--le-ink);
+}
+
+.close {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem 2rem;
+  padding-bottom: 0;
+}
+
+.closeTitle {
+  margin: 0;
+  font-family: var(--le-display);
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144;
+}
+
+.close .actions {
+  margin-top: 0;
+}
+
+@media (max-width: 960px) {
+  .feature,
+  .features li:nth-child(even) .feature {
+    grid-template-columns: 1fr;
+  }
+  .features li:nth-child(even) .feature > figure {
+    order: 0;
+  }
+  .quoteRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featureText .status {
+  text-align: left;
 }

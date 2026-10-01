@@ -9,14 +9,14 @@ import styles from './contact.module.css'
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Get in touch with Elizabeth Stein. Open to full-time, freelance, and consulting work: frontend, UX engineering, full-stack, or Power Platform roles.',
+    'Email or message Elizabeth Stein about a full-time role, a contract, or a project: full-stack, frontend, or Power Platform.',
   alternates: {
     canonical: '/contact',
   },
   openGraph: {
     title: 'Contact Elizabeth Stein',
     description:
-      'Get in touch. Open to full-time, freelance, and consulting work: frontend, UX engineering, full-stack, or Power Platform roles.',
+      'Email or message Elizabeth Stein about a full-time role, a contract, or a project.',
     url: '/contact',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
@@ -38,8 +38,8 @@ export default function ContactPage() {
         <header className="ePageHead">
           <h1>Get in touch</h1>
           <p>
-            I&apos;m actively looking for frontend, UX-engineering, and full-stack roles. If
-            you&apos;re hiring, or want to talk through a project, reach out. I read every message.
+            Hiring, or have something you need built? Tell me what it is and when you need it. The
+            form and the email address both come straight to me.
           </p>
         </header>
 
@@ -49,7 +49,7 @@ export default function ContactPage() {
               <h2 id="send-heading" className={styles.panelTitle}>
                 Send a message
               </h2>
-              <span className={styles.panelMeta}>Reply within 24h</span>
+              <span className={styles.panelMeta}>Goes to my inbox</span>
             </div>
             <ContactForm />
           </section>
@@ -75,7 +75,7 @@ export default function ContactPage() {
                       <LinkedInIcon className="w-3.5 h-3.5" aria-hidden="true" /> LinkedIn
                     </span>
                     <span className={styles.directValue}>
-                      Connect professionally <span aria-hidden="true">↗</span>
+                      imkindageeky <span aria-hidden="true">↗</span>
                     </span>
                   </a>
                 </li>
@@ -90,7 +90,7 @@ export default function ContactPage() {
                       <GitHubIcon className="w-3.5 h-3.5" aria-hidden="true" /> GitHub
                     </span>
                     <span className={styles.directValue}>
-                      View my code <span aria-hidden="true">↗</span>
+                      forbiddenlink <span aria-hidden="true">↗</span>
                     </span>
                   </a>
                 </li>
@@ -100,12 +100,11 @@ export default function ContactPage() {
             <div className={styles.avail}>
               <p className={styles.availHead}>
                 <span className="eStateDot" aria-hidden="true" />
-                Currently available
+                Open to work
               </p>
               <p className={styles.availBody}>
-                Open to full-time roles, freelance, and consulting. Looking for frontend, UX
-                engineering, full-stack, or Power Platform / Dynamics 365 positions with a strong
-                product focus. Capella B.S., Summa Cum Laude, conferred March 2026.
+                Full-time roles and contracts: full-stack, frontend, or Power Platform and Dynamics
+                365.
               </p>
             </div>
           </aside>

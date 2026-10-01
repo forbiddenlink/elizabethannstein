@@ -8,7 +8,7 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
 import styles from './about.module.css'
 
 const aboutDescription =
-  "Capella B.S., Summa Cum Laude (3.98 GPA, conferred March 2026). Sole developer on a cybersecurity nonprofit's security-readiness platform (Dynamics 365, in production). Algolia Agent Studio Challenge winner. Eleven client sites on Craft CMS at Rocketpark."
+  "I'm Liz, a full-stack engineer and designer. I'm the sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, I lead development on Rocket Vitals at Rocket Park, and I graduated Summa Cum Laude from Capella in March 2026."
 
 export const metadata: Metadata = {
   title: 'About',
@@ -38,7 +38,7 @@ const STACK: ReadonlyArray<readonly [string, string]> = [
   ['Backend', 'Node.js, Rust (Axum), Python, FastAPI, Java / Spring Boot, Express, REST APIs'],
   [
     'AI and integration',
-    'Claude / Anthropic, OpenAI GPT-4, Algolia Agent Studio, MCP Protocol, RAG pipelines, Langfuse, Hugging Face',
+    'Claude / Anthropic, OpenAI, Algolia Agent Studio, MCP, RAG pipelines, Langfuse, Hugging Face',
   ],
   [
     'Data and auth',
@@ -101,15 +101,13 @@ export default function AboutPage() {
           <div>
             <h1 className={styles.title}>Hi, I&apos;m Liz.</h1>
             <p className={styles.lede}>
-              I design and build software that actually ships, then keep the receipts. Right now
-              that&apos;s a Dynamics 365 platform in production for a cybersecurity nonprofit, Craft
-              CMS sites at Rocketpark, and a stack of side projects, one of which won the Algolia
-              Agent Studio.
+              I&apos;m a full-stack engineer and designer. I like the part of the job where
+              something real goes live and people start using it. Most of what I build is in
+              production somewhere, and the rest is how I learn.
             </p>
             <p className={styles.avail}>
               <span className="eStateDot" aria-hidden="true" />
-              Available now for contract and advisory work: frontend, full-stack, AI integration, or
-              Power Platform.
+              Open to full-time and contract roles: full-stack, frontend, or Power Platform.
             </p>
             <div className={styles.actions}>
               <a href={RESUME_HREF} download className="eBtn eBtnPrimary">
@@ -126,12 +124,19 @@ export default function AboutPage() {
           <h2 id="now-heading">Now</h2>
           <div className={styles.prose}>
             <p>
-              As Director of Software Engineering at a cybersecurity nonprofit, I&apos;m the sole
-              developer on its security-readiness platform, a Dynamics 365 / Power Platform /
-              Dataverse system live in production. Concurrently I&apos;m a Software Engineering
-              Intern at Rocketpark, where I lead development on Rocket Vitals, the agency&apos;s
-              website QA product, and maintain an 11-site Craft CMS portfolio. From 2024-2026 I led
-              a 4-dev team across Flo Labs&apos; 6-site Next.js + Strapi ecosystem.
+              I&apos;m Director of Software Engineering at a cybersecurity nonprofit. Since June
+              2026 I&apos;ve been the only developer on its security-readiness assessment, which
+              runs in production on Dynamics 365, Power Platform, and Dataverse. I&apos;ve shipped
+              twelve implementation phases on it, plus the Next.js app assessors use.
+            </p>
+            <p>
+              I&apos;m also a software engineering intern at Rocket Park, a Craft CMS agency. I lead
+              development on Rocket Vitals, its website QA scanner, and keep eleven client sites
+              upgraded and running.
+            </p>
+            <p>
+              Before that, from 2024 to 2026, I led a team of four developers across Flo Labs&apos;
+              six Next.js and Strapi sites.
             </p>
           </div>
         </section>
@@ -140,15 +145,14 @@ export default function AboutPage() {
           <h2 id="clock-heading">Off the clock</h2>
           <div className={styles.prose}>
             <p>
-              I publish to npm (Specter: 65 CLI commands, 14 MCP tools; ally-a11y), build
-              observability in Rust (Chronicle), and write MCP servers instead of just consuming AI
-              APIs. Won the Algolia Agent Studio Challenge ($750) in March 2026 with TimeSlipSearch,
-              a conversational AI agent over 420k pop-culture records.
+              I build my own products. TimeSlipSearch won the Algolia Agent Studio Challenge in
+              March 2026, and Trace won the DEV GitHub Finish-Up-A-Thon in July. AutomaDocs and
+              HireReady are live with Stripe checkout.
             </p>
             <p>
-              Also shipped: SaaS products with live Stripe billing (AutomaDocs, HireReady,
-              Testimoniq) and two learning platforms, Portfolio-Pro (269 lessons, 144 projects) and
-              Finance Quest (17 chapters, 30+ calculators with SM-2 spaced repetition).
+              I also publish developer tools. Specter is a CLI on npm that explains an unfamiliar
+              codebase, with an MCP server so Claude can ask it questions. hq is the command-line
+              dashboard I open every morning.
             </p>
           </div>
         </section>
@@ -159,32 +163,30 @@ export default function AboutPage() {
             <div>
               <dt>Microsoft Power Platform</dt>
               <dd>
-                Dynamics 365 / Dataverse / Power Apps Canvas / Power Automate. Primary developer on
-                a 12-phase assessment platform now live in production. m365 and pac CLIs are daily
-                drivers.
+                Dynamics 365, Dataverse, Power Apps, and Power Automate, including solution
+                packaging and promotion between environments. I work in the m365 and pac CLIs every
+                day.
               </dd>
             </div>
             <div>
-              <dt>Next.js + React 19 full-stack</dt>
+              <dt>Full-stack Next.js and React</dt>
               <dd>
-                End-to-end features from UI to API and data layer. Better Auth, MSAL, Drizzle, Neon,
-                Supabase. Comfortable with Spring Boot, REST APIs, and production-ready backends.
+                A feature from the database to the screen: schema, API, auth, and UI. Usually
+                Drizzle or Prisma on Postgres, with Better Auth or Microsoft sign-in.
               </dd>
             </div>
             <div>
               <dt>Craft CMS and editor workflows</dt>
               <dd>
-                Twig templates, Composer plugins, project-config CLI, Herd-based local dev. Content
-                modeling and template architecture that makes editors&apos; lives easier across an
-                11-site client portfolio.
+                Twig templates built from Figma, plugin and version upgrades, and content models
+                that editors can actually use.
               </dd>
             </div>
             <div>
               <dt>AI integration and MCP</dt>
               <dd>
-                I write MCP servers, not just consume LLM APIs. Shipped 14 MCP tools on npm
-                (Specter), Rust-backed observability (Chronicle), RAG pipelines, and multi-agent
-                platforms.
+                MCP servers, retrieval pipelines, and agents built on the Claude, OpenAI, and
+                Algolia APIs, with the evaluation and logging to tell when they go wrong.
               </dd>
             </div>
           </dl>
@@ -208,28 +210,23 @@ export default function AboutPage() {
           aria-labelledby="testimonial-heading"
           style={{ scrollMarginTop: '6rem' }}
         >
-          <h2 id="testimonial-heading">In a client&apos;s words</h2>
+          <h2 id="testimonial-heading">From a client</h2>
           <figure className={styles.quote}>
             <blockquote>
               <p>
-                Elizabeth was the backbone of this project. While every team member played a role,
-                it was Elizabeth who carried the technical weight and delivered a product that
-                exceeded expectations. What set Elizabeth apart beyond her technical ability was her
-                communication. A technically brilliant person who cannot communicate is difficult to
-                work with. Elizabeth was both brilliant and a pleasure to collaborate with, and that
+                Elizabeth was the backbone of this project. While every team member played a role in
+                bringing the DAREU Radio website to life, it was Elizabeth who carried the technical
+                weight and delivered a product that exceeded expectations.
+              </p>
+              <p>
+                &hellip; A technically brilliant person who cannot communicate is difficult to work
+                with. Elizabeth was both brilliant and a pleasure to collaborate with, and that
                 combination is genuinely rare.
               </p>
             </blockquote>
             <figcaption>
-              <cite>Brenna Martin</cite>, Founder and Station Director, DareU Radio.{' '}
-              <a
-                href="/testimonials/brenna-martin-dareu-radio.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="eLink"
-              >
-                Read the full letter (PDF)
-              </a>
+              <cite>Brenna Martin</cite>, Founder and Station Director, DareU Radio, on the station
+              website I built through Capella&apos;s Riipen program
             </figcaption>
           </figure>
         </section>
@@ -238,10 +235,13 @@ export default function AboutPage() {
           <h2 id="education-heading">Education</h2>
           <div className={styles.prose}>
             <p>
-              B.S. in Information Technology, Software Development from Capella University
-              (conferred March 2026), Summa Cum Laude, 3.98 GPA, University Honors Pathway,
-              Dean&apos;s List every quarter. I work in small, shippable steps with clear commits
-              and documentation so future me, and teammates, don&apos;t suffer.
+              B.S. in Information Technology, Software Development, from Capella University,
+              conferred March 2026. Summa Cum Laude, 3.98 GPA, University Honors Pathway,
+              Dean&apos;s List every quarter.
+            </p>
+            <p>
+              I work in small, shippable steps with clear commits and documentation so future me,
+              and teammates, don&apos;t suffer.
             </p>
           </div>
         </section>
