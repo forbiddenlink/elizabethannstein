@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { hostOf, plainLabel, staticStatus } from '@/lib/flagshipDisplay'
 import type { Flagship } from '@/lib/flagships'
-import { getProjectScreenshot } from '@/lib/projectScreenshots'
+import { getProjectScreenshot, getProjectScreenshotAlt } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
 import { SecurityPlatformDiagram } from './SecurityPlatformDiagram'
 
@@ -46,7 +46,7 @@ export function ProjectPlate({
         <div className="ePlateImg">
           <Image
             src={shot}
-            alt={`${flagship.title} screenshot`}
+            alt={getProjectScreenshotAlt(flagship.id, `${flagship.title} screenshot`)}
             fill
             sizes={sizes}
             priority={priority}
