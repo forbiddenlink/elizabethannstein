@@ -733,7 +733,7 @@ a:focus-visible .ePlateImg img {
 }
 .eSpec > div {
   display: grid;
-  grid-template-columns: 8rem minmax(0, 1fr);
+  grid-template-columns: min(8rem, 30%) minmax(0, 1fr);
   gap: 1rem;
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--le-rule);
@@ -759,7 +759,7 @@ a:focus-visible .ePlateImg img {
     min-height: 12rem;
   }
   .eSpec > div {
-    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-columns: min(6.5rem, 30%) minmax(0, 1fr);
   }
 }
 
