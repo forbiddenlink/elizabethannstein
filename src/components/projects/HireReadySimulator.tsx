@@ -18,7 +18,7 @@ const QUESTIONS: QuestionTrack[] = [
     question:
       'How do you ensure idempotency across distributed webhook event processing pipelines?',
     difficulty: 'Senior',
-    fsrsInterval: 'Review in 3.4 days',
+    fsrsInterval: 'Spaced review',
   },
   {
     company: 'Google',
@@ -26,7 +26,7 @@ const QUESTIONS: QuestionTrack[] = [
     question:
       'Design a virtualized rendering pipeline for 100,000 streaming data points at 60 FPS.',
     difficulty: 'Senior',
-    fsrsInterval: 'Review in 5.1 days',
+    fsrsInterval: 'Spaced review',
   },
   {
     company: 'Meta',
@@ -34,14 +34,14 @@ const QUESTIONS: QuestionTrack[] = [
     question:
       'Explain how Conflict-Free Replicated Data Types (CRDTs) resolve state divergent edits offline.',
     difficulty: 'Staff',
-    fsrsInterval: 'Review in 8.2 days',
+    fsrsInterval: 'Spaced review',
   },
 ]
 
 export function HireReadySimulator() {
   const [selectedTrack, setSelectedTrack] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [feedbackScore, setFeedbackScore] = useState<number | null>(null)
+  const [showFeedback, setShowFeedback] = useState(false)
 
   const current = QUESTIONS[selectedTrack]
 
@@ -49,7 +49,7 @@ export function HireReadySimulator() {
     setIsPlaying(true)
     setTimeout(() => {
       setIsPlaying(false)
-      setFeedbackScore(94)
+      setShowFeedback(true)
     }, 2400)
   }
 
@@ -64,7 +64,7 @@ export function HireReadySimulator() {
           </span>
         </div>
         <span className="font-mono text-[11px] text-purple-300/80 bg-purple-400/10 px-2 py-0.5 rounded border border-purple-400/20">
-          Live SaaS · 150 Tests
+          Illustrative demo
         </span>
       </div>
 
@@ -77,7 +77,7 @@ export function HireReadySimulator() {
               key={q.company}
               onClick={() => {
                 setSelectedTrack(idx)
-                setFeedbackScore(null)
+                setShowFeedback(false)
                 setIsPlaying(false)
               }}
               className={`min-w-0 grow basis-32 py-1.5 px-2 text-left font-mono text-xs rounded border transition-all ${
@@ -146,16 +146,16 @@ export function HireReadySimulator() {
         </div>
 
         {/* Feedback score if simulated */}
-        {feedbackScore !== null && (
+        {showFeedback && (
           <div className="p-3.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-xs flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Award className="w-4 h-4 text-emerald-400" />
               <span className="text-emerald-300 font-semibold">
-                Realtime Speech Score: {feedbackScore}/100 (High Clarity, Solid Architectural Depth)
+                Sample feedback: clear structure, concrete example (illustrative, not a real score)
               </span>
             </div>
             <span className="font-mono text-[11px] text-emerald-400/90">
-              FSRS Next Interval: +7.2d
+              FSRS schedules the next review
             </span>
           </div>
         )}

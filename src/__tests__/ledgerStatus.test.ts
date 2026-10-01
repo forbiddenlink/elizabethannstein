@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ledgerSummary, resolvePhase } from '@/lib/flagshipDisplay'
+import { classifyProbe, isAuthWallUrl } from '@/lib/probeClassify'
 
 /**
  * The home page ledger claims, in public, whether four production sites are up. These tests
@@ -35,5 +36,36 @@ describe('ledgerSummary', () => {
     expect(ledgerSummary(['live', 'unknown', 'live', 'down'])).toBe(
       '2 of 3 checked responding; 1 not checked'
     )
+  })
+})
+
+describe('private demos', () => {
+  it('flags a redirect to the Vercel SSO or login host as an auth wall', () => {
+    expect(isAuthWallUrl('https://vercel.com/sso-api?url=https%3A%2F%2Ftrace-liz.vercel.app')).toBe(
+      true
+    )
+    expect(isAuthWallUrl('https://vercel.com/login?next=/x')).toBe(true)
+    expect(isAuthWallUrl('https://sso.example.com/start')).toBe(true)
+  })
+
+  it('does not flag an ordinary site', () => {
+    expect(isAuthWallUrl('https://automadocs.com/')).toBe(false)
+    expect(isAuthWallUrl('https://vercel.com/blog')).toBe(false)
+    expect(isAuthWallUrl('not a url')).toBe(false)
+  })
+
+  it('classifies a probe that ended on the login wall as private, not live', () => {
+    const r = classifyProbe(200, 'https://vercel.com/sso-api?url=x', 2)
+    expect(r).toEqual({ up: false, ms: 2, private: true })
+    expect(resolvePhase(r)).toBe('private')
+  })
+
+  it('still reports a normal 200 as live and a 5xx as down', () => {
+    expect(classifyProbe(200, 'https://example.com/', 40).up).toBe(true)
+    expect(classifyProbe(503, 'https://example.com/', 40).up).toBe(false)
+  })
+
+  it('keeps private demos out of the responding count', () => {
+    expect(ledgerSummary(['live', 'live', 'private'])).toBe('2 of 2 responding; 1 private demo')
   })
 })

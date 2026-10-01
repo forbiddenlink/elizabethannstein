@@ -20,7 +20,7 @@ const DEFAULT_BANNER = `
   ╚════██║██╔═══╝ ██╔══╝  ██║        ██║   ██╔══╝  ██╔══██╗
   ███████║██║     ███████╗╚██████╗   ██║   ███████╗██║  ██║
   ╚══════╝╚═╝     ╚══════╝ ╚═════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
-  v1.4.0: Codebase Narrator & MCP Server Engine (@purplegumdropz/specter)
+  Give your codebase a voice. Code-intelligence CLI + MCP server (@purplegumdropz/specter)
   Type "help" to view available commands, or try "specter explain".
 `
 
@@ -63,20 +63,20 @@ export function InteractiveTerminal({
             <div className="space-y-1 text-xs">
               <p className="text-emerald-400 font-bold">Available Commands:</p>
               <p>
-                <span className="text-cyan-300 font-mono">specter explain</span>: Narrates
-                architecture &amp; relationships across connected repo
+                <span className="text-cyan-300 font-mono">specter explain</span>: Sample narration
+                of an architecture summary (illustrative)
               </p>
               <p>
                 <span className="text-cyan-300 font-mono">specter tools</span>: Lists the 14 Model
                 Context Protocol (MCP) server tools
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">specter map</span>: Generates a dependency
-                graph topology map
+                <span className="text-cyan-300 font-mono">specter map</span>: Sketches the layers
+                this site is built from
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">specter stats</span>: Displays test
-                coverage, AST node count, and telemetry
+                <span className="text-cyan-300 font-mono">specter stats</span>: Shows the package
+                name, version, and install state
               </p>
               <p>
                 <span className="text-cyan-300 font-mono">npm install</span>: Shows npm registry
@@ -102,11 +102,11 @@ export function InteractiveTerminal({
               <p className="text-emerald-300 font-semibold">
                 [Specter AST Engine] Analyzing codebase hierarchy...
               </p>
-              <p>✔ Indexed 642 modules across TypeScript AST</p>
-              <p>✔ Resolved 14 MCP tool bindings (stdio + SSE transport)</p>
+              <p>✔ Built a knowledge graph from source relationships and git history</p>
+              <p>✔ Exposed the graph through MCP tools (get_codebase_summary, get_architecture)</p>
               <p className="text-indigo-300">
-                Summary: Enterprise full-stack architecture with App Router, custom R3F 3D renderer,
-                Zustand telemetry store, and Resend contact dispatch.
+                Summary: Illustrative output. Run specter scan on your own repo for a real narration
+                of its architecture and change risk.
               </p>
             </div>
           ),
@@ -122,22 +122,22 @@ export function InteractiveTerminal({
           type: 'output',
           text: (
             <div className="space-y-1 text-xs">
-              <p className="text-emerald-400 font-bold">14 Active MCP Tools on npm:</p>
+              <p className="text-emerald-400 font-bold">14 MCP tools in @purplegumdropz/specter:</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-gray-300">
-                <span>1. explain_module</span>
-                <span>2. map_dependencies</span>
-                <span>3. inspect_ast</span>
-                <span>4. search_symbols</span>
-                <span>5. trace_references</span>
-                <span>6. diff_signatures</span>
-                <span>7. audit_security</span>
-                <span>8. test_coverage</span>
-                <span>9. verify_types</span>
-                <span>10. parse_comments</span>
-                <span>11. detect_dead_code</span>
-                <span>12. summarize_architecture</span>
-                <span>13. generate_flowchart</span>
-                <span>14. telemetry_ping</span>
+                <span>1. get_file_relationships</span>
+                <span>2. get_complexity_hotspots</span>
+                <span>3. get_codebase_summary</span>
+                <span>4. get_file_history</span>
+                <span>5. get_dead_code</span>
+                <span>6. search_symbols</span>
+                <span>7. get_call_chain</span>
+                <span>8. get_architecture</span>
+                <span>9. get_change_coupling</span>
+                <span>10. get_impact_analysis</span>
+                <span>11. get_bus_factor</span>
+                <span>12. get_archaeology</span>
+                <span>13. get_health_trends</span>
+                <span>14. get_risk_score</span>
               </div>
             </div>
           ),
@@ -154,12 +154,9 @@ export function InteractiveTerminal({
           text: (
             <pre className="text-[11px] text-cyan-300 font-mono leading-tight">
               {`
-[Core] ──┬──> (Dataverse / Dynamics 365)
-         ├──> (Next.js App Router)
-         │       └──> [RSC Layout] ──> [Editorial CSS]
-         ├──> (React Three Fiber)
-         │       └──> [WebGPU Canvas] ──> [Procedural Shaders]
-         └──> [MCP Server Layer (14 Tools)]
+[Source + git history] ──> [knowledge graph]
+                              ├──> specter CLI (hotspots, bus-factor, ask)
+                              └──> specter-mcp (14 tools)
 `}
             </pre>
           ),
@@ -180,13 +177,9 @@ export function InteractiveTerminal({
                 (@purplegumdropz/specter)
               </p>
               <p>
-                ✔ Test Suite:{' '}
-                <span className="text-cyan-300 font-semibold">
-                  216 Unit &amp; E2E tests passing
-                </span>{' '}
-                (100% green)
+                ✔ Version: <span className="text-cyan-300 font-semibold">1.2.0</span>
               </p>
-              <p>✔ Engine: TypeScript 5.9 AST walker + Rust core bridge</p>
+              <p>✔ Binaries: specter, specter-mcp</p>
             </div>
           ),
         },
@@ -201,7 +194,7 @@ export function InteractiveTerminal({
           type: 'output',
           text: (
             <div className="text-xs text-emerald-300 font-mono">
-              $ npx @purplegumdropz/specter --explain
+              $ npm install -g @purplegumdropz/specter
             </div>
           ),
         },
