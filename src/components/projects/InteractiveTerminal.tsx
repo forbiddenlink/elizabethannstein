@@ -20,7 +20,7 @@ const DEFAULT_BANNER = `
   ╚════██║██╔═══╝ ██╔══╝  ██║        ██║   ██╔══╝  ██╔══██╗
   ███████║██║     ███████╗╚██████╗   ██║   ███████╗██║  ██║
   ╚══════╝╚═╝     ╚══════╝ ╚═════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
-  v1.4.0 — Codebase Narrator & MCP Server Engine (@purplegumdropz/specter)
+  v1.4.0: Codebase Narrator & MCP Server Engine (@purplegumdropz/specter)
   Type "help" to view available commands, or try "specter explain".
 `
 
@@ -63,27 +63,27 @@ export function InteractiveTerminal({
             <div className="space-y-1 text-xs">
               <p className="text-emerald-400 font-bold">Available Commands:</p>
               <p>
-                <span className="text-cyan-300 font-mono">specter explain</span> &mdash; Narrates
+                <span className="text-cyan-300 font-mono">specter explain</span>: Narrates
                 architecture &amp; relationships across connected repo
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">specter tools</span> &mdash; Lists the 14
+                <span className="text-cyan-300 font-mono">specter tools</span>: Lists the 14
                 Model Context Protocol (MCP) server tools
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">specter map</span> &mdash; Generates a
+                <span className="text-cyan-300 font-mono">specter map</span>: Generates a
                 dependency graph topology map
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">specter stats</span> &mdash; Displays test
+                <span className="text-cyan-300 font-mono">specter stats</span>: Displays test
                 coverage, AST node count, and telemetry
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">npm install</span> &mdash; Shows npm
+                <span className="text-cyan-300 font-mono">npm install</span>: Shows npm
                 registry installation string
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">clear</span> &mdash; Clears the terminal
+                <span className="text-cyan-300 font-mono">clear</span>: Clears the terminal
                 screen
               </p>
             </div>

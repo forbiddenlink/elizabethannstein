@@ -255,7 +255,7 @@ export const galaxies: Galaxy[] = [
         id: 'timeslip-search',
         title: 'TimeSlipSearch',
         description:
-          '🏆 Winner of Algolia Agent Studio Challenge ($750 prize) - "Conversational time machine" exploring 1958-2020 pop culture with 420,000+ records (Billboard, TMDB, FRED, Wikimedia). Featured by DEV Community for making "deep data archives feel accessible and fun."',
+          '🏆 Winner of Algolia Agent Studio Challenge ($750 prize): “Conversational time machine” exploring 1958-2020 pop culture with 420,000+ records (Billboard, TMDB, FRED, Wikimedia). Featured by DEV Community for making “deep data archives feel accessible and fun.”',
         role: 'Creator',
         tags: ['Next.js 16', 'Algolia Agent Studio', 'Chart.js', 'Framer Motion', 'AI'],
         color: '#FFB800',
@@ -2206,7 +2206,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'Built unified dashboard aggregating costs across providers. Budget alerts with Slack/email notifications. Per-project cost attribution and optimization suggestions.',
         impact:
-          'Single view of all AI spend across providers. Budget alerts prevent overruns. No live deployment or user base yet — a personal tool, not a shipped product.',
+          'Single view of all AI spend across providers. Budget alerts prevent overruns. No live deployment or user base yet. A personal tool, not a shipped product.',
       },
     ],
   },

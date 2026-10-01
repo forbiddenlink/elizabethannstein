@@ -79,11 +79,11 @@ export function TimeSlipScrubber() {
   return (
     <div className="w-full rounded-lg overflow-hidden border border-neutral-800 bg-[#0e0d16] text-gray-200 font-sans shadow-xl">
       {/* CRT / VHS Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#161426] border-b border-neutral-800 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-[#161426] border-b border-neutral-800 text-xs">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-amber-400" />
           <span className="font-bold text-gray-200 tracking-wider uppercase font-mono">
-            TimeSlipSearch &mdash; Interactive Cultural Snapshot Engine
+            TimeSlipSearch: Interactive Cultural Snapshot Engine
           </span>
         </div>
         <span className="font-mono text-[11px] text-amber-300/80 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
@@ -95,7 +95,7 @@ export function TimeSlipScrubber() {
       <div className="p-5 space-y-5">
         {/* Year scrubber slider */}
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 mb-2">
             <span className="text-xs uppercase font-mono tracking-wider text-gray-400">
               Scrub Cultural Timeline:
             </span>
@@ -104,13 +104,13 @@ export function TimeSlipScrubber() {
             </span>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {ERAS.map((e, idx) => (
               <button
                 type="button"
                 key={e.year}
                 onClick={() => setSelectedYearIndex(idx)}
-                className={`flex-1 py-1.5 px-1 text-center font-mono text-xs rounded transition-all ${
+                className={`flex-1 min-w-[3.5rem] py-1.5 px-1 text-center font-mono text-xs rounded transition-all ${
                   selectedYearIndex === idx
                     ? 'bg-amber-400 text-black font-bold shadow-md'
                     : 'bg-neutral-800/80 text-gray-300 hover:bg-neutral-700'
