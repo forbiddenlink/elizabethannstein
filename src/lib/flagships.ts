@@ -193,7 +193,7 @@ export const FLAGSHIPS: Flagship[] = [
       'Turns a screenshot into React, grounded against a real component catalogue so the output is usable, not hallucinated.',
     proof: '★ DEV.to winner',
     status: 'live',
-    statusUrl: 'https://trace-liz.vercel.app',
+    statusUrl: 'https://trace-seven-ashen.vercel.app',
     statusSub: '★ DEV.to winner',
     cases: [
       {
@@ -215,6 +215,7 @@ export const FLAGSHIPS: Flagship[] = [
       { value: '100%', label: 'Catalogue grounded' },
     ],
     links: [
+      { label: 'Live demo', href: 'https://trace-seven-ashen.vercel.app', external: true },
       { label: 'GitHub', href: 'https://github.com/forbiddenlink/trace', external: true },
       {
         label: 'Read the write-up',
