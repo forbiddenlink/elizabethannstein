@@ -46,9 +46,7 @@ describe('Interactive Project Components & Utilities', () => {
     it('renders question tracks and voice simulation trigger', () => {
       render(<HireReadySimulator />)
 
-      expect(
-        screen.getByText(/HireReady: OpenAI Realtime Voice & FSRS-5 Simulator/i)
-      ).toBeDefined()
+      expect(screen.getByText(/HireReady: OpenAI Realtime Voice & FSRS-5 Simulator/i)).toBeDefined()
       expect(screen.getByText(/Stripe/i)).toBeDefined()
       expect(screen.getByText(/Google/i)).toBeDefined()
 

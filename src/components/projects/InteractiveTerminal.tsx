@@ -67,24 +67,23 @@ export function InteractiveTerminal({
                 architecture &amp; relationships across connected repo
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">specter tools</span>: Lists the 14
-                Model Context Protocol (MCP) server tools
+                <span className="text-cyan-300 font-mono">specter tools</span>: Lists the 14 Model
+                Context Protocol (MCP) server tools
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">specter map</span>: Generates a
-                dependency graph topology map
+                <span className="text-cyan-300 font-mono">specter map</span>: Generates a dependency
+                graph topology map
               </p>
               <p>
                 <span className="text-cyan-300 font-mono">specter stats</span>: Displays test
                 coverage, AST node count, and telemetry
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">npm install</span>: Shows npm
-                registry installation string
+                <span className="text-cyan-300 font-mono">npm install</span>: Shows npm registry
+                installation string
               </p>
               <p>
-                <span className="text-cyan-300 font-mono">clear</span>: Clears the terminal
-                screen
+                <span className="text-cyan-300 font-mono">clear</span>: Clears the terminal screen
               </p>
             </div>
           ),
