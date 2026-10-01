@@ -78,12 +78,6 @@
   text-decoration: none;
 }
 
-.ask {
-  margin-top: 2rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--le-rule);
-}
-
 .copy {
   margin: 1.25rem 0 0;
   font-size: 0.8125rem;

@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
 import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
 import { TraceComparison } from '@/components/projects/TraceComparison'
-import { AskAIAboutMe } from '@/components/ui/AskAIAboutMe'
 
 describe('Interactive Project Components & Utilities', () => {
   describe('TimeSlipScrubber', () => {
@@ -52,26 +51,6 @@ describe('Interactive Project Components & Utilities', () => {
       const googleBtn = screen.getByRole('button', { name: /Google/i })
       fireEvent.click(googleBtn)
       expect(screen.getByText(/virtualized rendering pipeline/i)).toBeDefined()
-    })
-  })
-
-  describe('AskAIAboutMe', () => {
-    it('renders AI assistant links and opens candidate brief modal', () => {
-      render(<AskAIAboutMe />)
-
-      expect(screen.getByText(/Vetting Liz\? Ask an AI/i)).toBeDefined()
-      expect(screen.getByText(/Claude ↗/i)).toBeDefined()
-      expect(screen.getByText(/ChatGPT ↗/i)).toBeDefined()
-      expect(screen.getByText(/Perplexity ↗/i)).toBeDefined()
-
-      // Open quick brief modal
-      const briefBtn = screen.getByRole('button', { name: /Quick AI Brief/i })
-      fireEvent.click(briefBtn)
-
-      expect(screen.getByText(/Candidate Brief · Elizabeth Stein/i)).toBeDefined()
-      expect(
-        screen.getByText(/Capella University, B\.S\. in Information Technology/i)
-      ).toBeDefined()
     })
   })
 })

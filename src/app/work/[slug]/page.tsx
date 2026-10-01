@@ -7,6 +7,7 @@ import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
+import { isProofCatalogProject } from '@/lib/proofLayer'
 import styles from './page.module.css'
 
 // ISR: Revalidate project pages every hour for fresh content
@@ -63,6 +64,9 @@ export async function generateMetadata({
     // range SEO scanners expect, across every project title in galaxyData.ts.
     title: project.title,
     description: metaDescription,
+    // Experiments and archived projects keep their pages (the galaxy and archive
+    // link to them) but stay out of search, so a recruiter's search lands on real work.
+    ...(isProofCatalogProject(project) ? {} : { robots: { index: false, follow: true } }),
     alternates: {
       canonical: `/work/${project.id}`,
     },

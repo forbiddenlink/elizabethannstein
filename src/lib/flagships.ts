@@ -73,7 +73,7 @@ export const FLAGSHIPS: Flagship[] = [
   {
     id: 'rocketpark-craft-ecosystem',
     title: 'Craft CMS at Rocket Park',
-    org: 'Rocket Park · Software engineering intern',
+    org: 'Rocket Park, Craft CMS agency',
     years: '2025-26',
     summary:
       'I lead development on Rocket Vitals, the agency’s website QA scanner, and keep eleven client sites on Craft CMS upgraded and running.',
