@@ -1,9 +1,7 @@
 import 'server-only'
+import { classifyProbe, type LiveResult } from './probeClassify'
 
-export interface LiveResult {
-  up: boolean
-  ms: number | null
-}
+export type { LiveResult }
 
 /**
  * Ping a production URL server-side to power the "live systems" column on the home
@@ -22,8 +20,9 @@ export async function checkStatus(url: string, timeoutMs = 4500): Promise<LiveRe
       headers: { 'user-agent': 'elizabethannstein.com uptime probe' },
       next: { revalidate: 300 },
     })
-    // Treat anything short of a server error as "up" — auth walls / 3xx still mean it's alive.
-    return { up: res.status < 500, ms: Date.now() - start }
+    // `res.url` is the final URL after redirects, so a deployment-protection redirect to the
+    // Vercel login shows up as "private" instead of "live".
+    return classifyProbe(res.status, res.url, Date.now() - start)
   } catch {
     return { up: false, ms: null }
   } finally {

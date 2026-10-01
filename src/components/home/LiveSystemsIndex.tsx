@@ -81,6 +81,14 @@ function LedgerState({ phase, result }: Readonly<{ phase: Phase; result?: LiveRe
       </span>
     )
   }
+  if (phase === 'private') {
+    return (
+      <span className="eState">
+        Private demo
+        <small>access on request</small>
+      </span>
+    )
+  }
   if (phase === 'unknown') {
     return (
       <span className="eState">
@@ -104,12 +112,13 @@ function SelectedState({ flagship, phase }: Readonly<{ flagship: Flagship; phase
     const label = {
       checking: 'Checking',
       live: 'Live',
+      private: 'Private demo',
       down: 'Not responding',
       unknown: 'Status unknown',
     }[phase]
     return (
       <span className="eState" data-state={phase}>
-        <span className="eStateDot" aria-hidden="true" />
+        {phase !== 'private' && <span className="eStateDot" aria-hidden="true" />}
         {label}
         <small>{plainLabel(flagship.statusSub)}</small>
       </span>

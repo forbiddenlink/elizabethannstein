@@ -52,7 +52,7 @@ export function withoutEmoji(text: string): string {
 }
 
 /** Ledger row state. "unknown" means the status check itself failed, not the site. */
-export type LedgerPhase = 'checking' | 'live' | 'down' | 'unknown'
+export type LedgerPhase = 'checking' | 'live' | 'private' | 'down' | 'unknown'
 
 /**
  * Map one `/api/status` entry to a ledger state. A missing entry means the check did not run
@@ -62,6 +62,7 @@ export type LedgerPhase = 'checking' | 'live' | 'down' | 'unknown'
  */
 export function resolvePhase(result: LiveResult | undefined): LedgerPhase {
   if (!result) return 'unknown'
+  if (result.private) return 'private'
   return result.up ? 'live' : 'down'
 }
 
@@ -71,8 +72,11 @@ export function ledgerSummary(phases: readonly LedgerPhase[]): string {
   const unknown = phases.filter((p) => p === 'unknown').length
   if (total > 0 && unknown === total) return 'The status check failed. Refresh to try again.'
   const live = phases.filter((p) => p === 'live').length
-  const checked = total - unknown
-  return unknown > 0
-    ? `${live} of ${checked} checked responding; ${unknown} not checked`
-    : `${live} of ${total} responding`
+  const priv = phases.filter((p) => p === 'private').length
+  const checked = total - unknown - priv
+  const base =
+    unknown > 0
+      ? `${live} of ${checked} checked responding; ${unknown} not checked`
+      : `${live} of ${checked} responding`
+  return priv > 0 ? `${base}; ${priv} private demo` : base
 }
