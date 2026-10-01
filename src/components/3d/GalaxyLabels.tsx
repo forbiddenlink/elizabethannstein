@@ -8,6 +8,7 @@ import { galaxies } from '@/lib/galaxyData'
 import { isSceneProject } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 import { getGalaxyCenterPosition } from '@/lib/utils'
+import { SCENE_FONT, toSceneText } from './sceneFont'
 
 const FADE_IN_START = 60 // start fading in (far)
 const FADE_IN_END = 28 // fully visible
@@ -87,6 +88,7 @@ function GalaxyLabel({ name, projectCount, position, color, index: _index }: Gal
       {/* Galaxy name */}
       <Text
         ref={nameRef}
+        font={SCENE_FONT}
         fontSize={1.1}
         color={color}
         anchorX="center"
@@ -99,12 +101,13 @@ function GalaxyLabel({ name, projectCount, position, color, index: _index }: Gal
         outlineColor="#000000"
         outlineOpacity={0.6}
       >
-        {name}
+        {toSceneText(name)}
       </Text>
 
       {/* Project count subtitle */}
       <Text
         ref={countRef}
+        font={SCENE_FONT}
         fontSize={0.55}
         color={color}
         anchorX="center"

@@ -6,6 +6,7 @@ import { BallCollider, Physics, RigidBody } from '@react-three/rapier'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import type { Project } from '@/lib/types'
+import { SCENE_FONT, toSceneText } from './sceneFont'
 
 interface PlanetSurfaceExplorerProps {
   project: Project
@@ -236,8 +237,14 @@ export function PlanetSurfaceExplorer({
                 key={tag}
                 position={[Math.sin(angle) * 5, 4 + (i % 2), Math.cos(angle) * 5]}
               >
-                <Text fontSize={0.6} color="#ffffff" outlineWidth={0.05} outlineColor={planetColor}>
-                  {tag}
+                <Text
+                  font={SCENE_FONT}
+                  fontSize={0.6}
+                  color="#ffffff"
+                  outlineWidth={0.05}
+                  outlineColor={planetColor}
+                >
+                  {toSceneText(tag)}
                 </Text>
               </Billboard>
             )
@@ -263,6 +270,7 @@ export function PlanetSurfaceExplorer({
         <group position={[0, 2, -10]}>
           <Billboard>
             <Text
+              font={SCENE_FONT}
               position={[0, 2, 0]}
               fontSize={1}
               color={planetColor}
@@ -271,8 +279,15 @@ export function PlanetSurfaceExplorer({
             >
               PROJECT TRANSMISSION
             </Text>
-            <Text position={[0, 1, 0]} fontSize={0.5} color="white" maxWidth={6} textAlign="center">
-              {project.description}
+            <Text
+              font={SCENE_FONT}
+              position={[0, 1, 0]}
+              fontSize={0.5}
+              color="white"
+              maxWidth={6}
+              textAlign="center"
+            >
+              {toSceneText(project.description)}
             </Text>
           </Billboard>
         </group>
