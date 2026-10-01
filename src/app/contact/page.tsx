@@ -49,7 +49,7 @@ export default function ContactPage() {
               <h2 id="send-heading" className={styles.panelTitle}>
                 Send a message
               </h2>
-              <span className={styles.panelMeta}>Reply within 24h</span>
+              <span className={styles.panelMeta}>Reply within 2 business days</span>
             </div>
             <ContactForm />
           </section>

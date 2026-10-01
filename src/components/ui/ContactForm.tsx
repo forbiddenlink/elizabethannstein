@@ -79,7 +79,7 @@ export function ContactForm() {
         </h3>
         <p className={styles.successText}>
           I&apos;ll reply to <strong style={{ color: 'var(--le-ink)' }}>{sentEmail}</strong> within
-          24 hours.
+          2 business days.
         </p>
         <button
           type="button"
@@ -198,7 +198,7 @@ export function ContactForm() {
       </button>
 
       <p className={styles.note}>
-        I typically respond within 24 hours. Or email me directly at{' '}
+        I typically respond within 2 business days. Or email me directly at{' '}
         <a href={`mailto:${CONTACT.email}`} className="eLink">
           {CONTACT.email}
         </a>
