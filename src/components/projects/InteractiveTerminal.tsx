@@ -256,8 +256,9 @@ export function InteractiveTerminal({
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+            className="-m-1 inline-flex min-h-6 min-w-6 items-center justify-center p-1 text-gray-400 hover:text-white transition-colors cursor-pointer"
             title={isExpanded ? 'Minimize' : 'Maximize'}
+            aria-label={isExpanded ? 'Minimize terminal' : 'Maximize terminal'}
           >
             {isExpanded ? (
               <Minimize2 className="w-3.5 h-3.5" />
