@@ -140,7 +140,7 @@ export default function AboutPage() {
           <h2 id="clock-heading">Off the clock</h2>
           <div className={styles.prose}>
             <p>
-              I publish to npm (Specter: 65 CLI commands, 14 MCP tools; ally-a11y), build
+              I publish to npm (Specter: 72 CLI commands, 14 MCP tools; ally-a11y), build
               observability in Rust (Chronicle), and write MCP servers instead of just consuming AI
               APIs. Won the Algolia Agent Studio Challenge ($750) in March 2026 with TimeSlipSearch,
               a conversational AI agent over 420k pop-culture records.

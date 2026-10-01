@@ -163,12 +163,12 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'Distribution & Tests',
-        body: 'Published on the public npm registry as @purplegumdropz/specter with 65 CLI commands, 216 automated tests, and cross-platform Node.js/Bun support.',
+        body: 'Published on the public npm registry as @purplegumdropz/specter with 72 CLI commands, 216 automated tests, and cross-platform Node.js/Bun support.',
       },
     ],
     metrics: [
       { value: '14', label: 'MCP tools' },
-      { value: '65', label: 'CLI commands' },
+      { value: '72', label: 'CLI commands' },
       { value: 'npm', label: 'Published on npm' },
     ],
     links: [
