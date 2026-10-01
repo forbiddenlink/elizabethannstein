@@ -58,15 +58,12 @@ export async function generateMetadata({
 
   const metaDescription = normalizeDescription(project.description, project.tags)
 
-  return {
+  const metadata: Metadata = {
     // No " · Case study" suffix here (the page itself labels it as a case study) —
     // keeps the rendered <title> ("{title} | Elizabeth Stein") inside the 50-60 char
     // range SEO scanners expect, across every project title in galaxyData.ts.
     title: project.title,
     description: metaDescription,
-    // Experiments and archived projects keep their pages (the galaxy and archive
-    // link to them) but stay out of search, so a recruiter's search lands on real work.
-    ...(isProofCatalogProject(project) ? {} : { robots: { index: false, follow: true } }),
     alternates: {
       canonical: `/work/${project.id}`,
     },
@@ -90,6 +87,14 @@ export async function generateMetadata({
       images: [`/api/og/${project.id}`],
     },
   }
+
+  // Experiments and archived projects keep their pages (the galaxy and archive
+  // link to them) but stay out of search, so a recruiter's search lands on real work.
+  if (!isProofCatalogProject(project)) {
+    metadata.robots = { index: false, follow: true }
+  }
+
+  return metadata
 }
 
 export default async function ProjectPage({
