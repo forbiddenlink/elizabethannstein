@@ -138,8 +138,6 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
     <Link
       href={`/work/${flagship.id}`}
       className={styles.card}
-      aria-labelledby={`sel-${flagship.id}-title`}
-      aria-describedby={`sel-${flagship.id}-desc`}
     >
       <figure className="ePlate">
         {shot ? (
@@ -171,10 +169,10 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
           <span>{flagship.years}</span>
         </figcaption>
       </figure>
-      <h3 id={`sel-${flagship.id}-title`} className={styles.cardTitle}>
+      <h3 className={styles.cardTitle}>
         {flagship.title}
       </h3>
-      <p id={`sel-${flagship.id}-desc`} className={styles.cardDesc}>
+      <p className={styles.cardDesc}>
         {flagship.summary}
       </p>
       <p className={styles.cardMeta}>
