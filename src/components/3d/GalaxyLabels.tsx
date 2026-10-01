@@ -51,7 +51,7 @@ function GalaxyLabel({ name, projectCount, position, color, index: _index }: Gal
     // Hold the label at a readable on-screen size: scale with distance, never below 1.
     if (groupRef.current) {
       const targetPx = size.width >= 768 ? 15 : 13
-      const fov = (camera as THREE.PerspectiveCamera).fov ?? 45
+      const fov = 'fov' in camera ? camera.fov : 45
       const worldPerPx = (2 * Math.tan((fov * Math.PI) / 360) * dist) / size.height
       groupRef.current.scale.setScalar(Math.max(1, (targetPx * worldPerPx) / BASE_FONT))
     }

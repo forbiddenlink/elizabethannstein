@@ -33,7 +33,7 @@ const BANNER = `
 `
 
 // Descriptions are the ones in the published README.
-const SPECTER_COMMANDS: Record<string, string> = {
+const SPECTER_COMMANDS = {
   scan: 'Builds the knowledge graph. Run this first.',
   health: 'Overall codebase health, 0 to 100, with the complexity distribution.',
   hotspots: 'Complexity and churn together, as a refactoring priority.',
@@ -42,7 +42,7 @@ const SPECTER_COMMANDS: Record<string, string> = {
   why: 'Explains why a file exists, from git history, patterns and context. Usage: specter why <file>',
   ask: 'Answers a plain-language question about the codebase. Usage: specter ask "<question>"',
   roast: 'A comedic roast of the codebase.',
-}
+} satisfies Record<string, string>
 
 // The 14 tool names registered by the MCP server in the published package.
 const MCP_TOOLS = [
@@ -172,7 +172,9 @@ export function InteractiveTerminal({
     }
 
     const match = /^specter\s+([a-z-]+)/.exec(cmd)
-    const description = match ? SPECTER_COMMANDS[match[1]] : undefined
+    const description = match
+      ? Object.entries(SPECTER_COMMANDS).find(([name]) => name === match[1])?.[1]
+      : undefined
     if (match && description) {
       reply(
         <div className="space-y-1 text-xs text-gray-200">

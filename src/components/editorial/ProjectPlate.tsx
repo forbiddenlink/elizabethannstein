@@ -6,9 +6,9 @@ import type { Project } from '@/lib/types'
 import { SecurityPlatformDiagram } from './SecurityPlatformDiagram'
 
 // Projects that cannot show a screenshot but can show how the system fits together.
-const DIAGRAMS: Record<string, () => React.JSX.Element> = {
+const DIAGRAMS = {
   'security-readiness-platform': SecurityPlatformDiagram,
-}
+} satisfies Record<string, () => React.JSX.Element>
 
 /** Where the work can be seen, for the plate caption. */
 export function whereLine(flagship: Flagship): string {
@@ -30,7 +30,7 @@ export function ProjectPlate({
   priority = false,
 }: Readonly<{ flagship: Flagship; project?: Project; sizes: string; priority?: boolean }>) {
   const shot = getProjectScreenshot(flagship.id)
-  const Diagram = Object.hasOwn(DIAGRAMS, flagship.id) ? DIAGRAMS[flagship.id] : undefined
+  const Diagram = Object.entries(DIAGRAMS).find(([id]) => id === flagship.id)?.[1]
   const stack = project?.tags.slice(0, 4).join(', ')
 
   return (

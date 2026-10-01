@@ -26,9 +26,7 @@ const LIVE_SYSTEMS = FLAGSHIPS.filter((f) => f.status === 'live' && f.statusUrl)
 const RESUME_HREF = '/resume/elizabeth-stein-resume.pdf'
 // Three get a full plate (the ones with something to look at); the rest stay index rows.
 const FEATURED_IDS = ['security-readiness-platform', 'timeslip-search', 'trace']
-const FEATURED = FEATURED_IDS.map((id) => FLAGSHIPS.find((f) => f.id === id)).filter(
-  (f): f is Flagship => f !== undefined
-)
+const FEATURED = FEATURED_IDS.flatMap((id) => FLAGSHIPS.find((f) => f.id === id) ?? [])
 const REST = FLAGSHIPS.filter((f) => !FEATURED_IDS.includes(f.id))
 
 function initialPhases(): Record<string, Phase> {
