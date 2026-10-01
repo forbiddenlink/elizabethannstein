@@ -49,7 +49,7 @@ export const SITE = {
   shortDescription:
     'Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, lead developer on Rocket Vitals at Rocket Park, Algolia Agent Studio Challenge winner, and npm publisher.',
   /** One-line POV for hero / storytelling surfaces (the /explore galaxy + entrance). */
-  narrativeThesis: "I build software people use, and I can show you it's running.",
+  narrativeThesis: 'I design and build software that ships, from the data model to the last pixel.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
   // These feed JSON-LD and page metadata, so a version number here rots in
   // public. Name the platform ('OpenAI API'), not the model of the month.

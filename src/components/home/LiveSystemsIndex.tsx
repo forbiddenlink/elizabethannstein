@@ -179,7 +179,7 @@ export function LiveSystemsIndex() {
                 Elizabeth Stein <span>Full-stack engineer and designer</span>
               </h1>
               <p className={styles.claim}>
-                I build software people use, and I can show you it&apos;s running.
+                I design and build software that ships, from the data model to the last pixel.
               </p>
               <p className={styles.standfirst}>
                 Right now I&apos;m the sole developer on a Dynamics 365 platform in production for a
