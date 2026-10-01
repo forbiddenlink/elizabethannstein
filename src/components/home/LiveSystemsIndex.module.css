@@ -286,7 +286,7 @@
 
 @media (max-width: 960px) {
   .fold {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .row {
     grid-template-columns: minmax(0, 1fr) auto;

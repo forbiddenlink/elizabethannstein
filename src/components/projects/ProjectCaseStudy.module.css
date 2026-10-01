@@ -204,7 +204,7 @@
 
 @media (max-width: 960px) {
   .spread {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .aside {
     position: static;
@@ -216,7 +216,7 @@
     min-height: 12rem;
   }
   .story {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

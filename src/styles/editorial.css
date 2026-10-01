@@ -156,11 +156,14 @@
   text-wrap: balance;
   letter-spacing: -0.02em;
   font-weight: 500;
+  /* At large text sizes a long word must wrap, not clip at the page edge. */
+  overflow-wrap: break-word;
 }
 .editorial :where(p) {
   text-wrap: pretty;
 }
 .editorial :where(a) {
+  overflow-wrap: break-word;
   color: inherit;
 }
 
@@ -320,6 +323,7 @@
   gap: 0.5rem;
   min-height: 2.75rem;
   padding: 0 1.25rem;
+  max-width: 100%;
   border-radius: 0;
   font-family: var(--le-sans);
   font-size: 0.9375rem;
@@ -364,6 +368,7 @@
 
 /* --- link with cobalt underline ------------------------------------------- */
 .eLink {
+  overflow-wrap: anywhere;
   color: var(--le-accent-ink);
   text-decoration: none;
   border-bottom: 1px solid color-mix(in oklab, var(--le-accent-ink) 45%, transparent);
@@ -661,6 +666,8 @@ a:focus-visible .ePlateImg img {
 }
 .ePlate figcaption {
   display: flex;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
   justify-content: space-between;
   gap: 1rem;
   padding: 0.6rem 0.8rem;
@@ -695,7 +702,7 @@ a:focus-visible .ePlateImg img {
 .eTypeplate dl {
   margin: 0;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   border-top: 1px solid var(--le-rule-strong);
   font-family: var(--le-mono);
   font-size: 0.8125rem;
@@ -726,7 +733,7 @@ a:focus-visible .ePlateImg img {
 }
 .eSpec > div {
   display: grid;
-  grid-template-columns: 8rem 1fr;
+  grid-template-columns: 8rem minmax(0, 1fr);
   gap: 1rem;
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--le-rule);
@@ -752,7 +759,7 @@ a:focus-visible .ePlateImg img {
     min-height: 12rem;
   }
   .eSpec > div {
-    grid-template-columns: 6.5rem 1fr;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
   }
 }
 
