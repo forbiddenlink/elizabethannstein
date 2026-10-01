@@ -3,6 +3,12 @@
 import { Maximize2, Minimize2, Terminal as TerminalIcon } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+/**
+ * A command reference for Specter, styled as a terminal. It does not run Specter and prints no
+ * sample output: each command shows what the published README says it does. Everything here
+ * (version, command names, the 14 MCP tools, the 12 modes) comes from @purplegumdropz/specter 1.1.1.
+ */
+
 interface InteractiveTerminalProps {
   initialCommand?: string
   projectName?: string
@@ -13,24 +19,69 @@ interface CommandOutput {
   text: string | React.ReactNode
 }
 
-const DEFAULT_BANNER = `
-  ███████╗██████╗ ███████╗ ██████╗████████╗███████╗██████╗ 
+const PUBLISHED_VERSION = '1.1.1'
+
+const BANNER = `
+  ███████╗██████╗ ███████╗ ██████╗████████╗███████╗██████╗
   ██╔════╝██╔══██╗██╔════╝██╔════╝╚══██╔══╝██╔════╝██╔══██╗
   ███████╗██████╔╝█████╗  ██║        ██║   █████╗  ██████╔╝
   ╚════██║██╔═══╝ ██╔══╝  ██║        ██║   ██╔══╝  ██╔══██╗
   ███████║██║     ███████╗╚██████╗   ██║   ███████╗██║  ██║
   ╚══════╝╚═╝     ╚══════╝ ╚═════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
-  v1.4.0 — Codebase Narrator & MCP Server Engine (@purplegumdropz/specter)
-  Type "help" to view available commands, or try "specter explain".
+  @purplegumdropz/specter ${PUBLISHED_VERSION} on npm
+  A command reference. Nothing on this page runs Specter. Type "help".
 `
 
+// Descriptions are the ones in the published README.
+const SPECTER_COMMANDS: Record<string, string> = {
+  scan: 'Builds the knowledge graph. Run this first.',
+  health: 'Overall codebase health, 0 to 100, with the complexity distribution.',
+  hotspots: 'Complexity and churn together, as a refactoring priority.',
+  'bus-factor': 'Who owns the critical code, and what breaks if they leave.',
+  cost: 'Tech debt expressed in dollars per year.',
+  why: 'Explains why a file exists, from git history, patterns and context. Usage: specter why <file>',
+  ask: 'Answers a plain-language question about the codebase. Usage: specter ask "<question>"',
+  roast: 'A comedic roast of the codebase.',
+}
+
+// The 14 tool names registered by the MCP server in the published package.
+const MCP_TOOLS = [
+  'get_archaeology',
+  'get_architecture',
+  'get_bus_factor',
+  'get_call_chain',
+  'get_change_coupling',
+  'get_codebase_summary',
+  'get_complexity_hotspots',
+  'get_dead_code',
+  'get_file_history',
+  'get_file_relationships',
+  'get_health_trends',
+  'get_impact_analysis',
+  'get_risk_score',
+  'search_symbols',
+]
+
+const PERSONALITY_MODES = [
+  'default',
+  'mentor',
+  'critic',
+  'historian',
+  'cheerleader',
+  'minimalist',
+  'noir',
+  'therapist',
+  'roast',
+  'dramatic',
+  'ghost',
+  'executive',
+]
+
 export function InteractiveTerminal({
-  initialCommand = 'specter explain',
-  projectName = 'Specter CLI',
+  initialCommand = 'help',
+  projectName = 'Specter',
 }: Readonly<InteractiveTerminalProps>) {
-  const [history, setHistory] = useState<CommandOutput[]>([
-    { type: 'system', text: DEFAULT_BANNER.trim() },
-  ])
+  const [history, setHistory] = useState<CommandOutput[]>([{ type: 'system', text: BANNER.trim() }])
   const [input, setInput] = useState('')
   const [cmdHistory, setCmdHistory] = useState<string[]>([initialCommand])
   const [historyIndex, setHistoryIndex] = useState<number>(-1)
@@ -48,174 +99,97 @@ export function InteractiveTerminal({
     setInput('')
 
     const cmd = trimmed.toLowerCase()
+    const reply = (node: React.ReactNode) =>
+      setHistory((prev) => [...prev, { type: 'output', text: node }])
 
     if (cmd === 'clear') {
       setHistory([])
       return
     }
 
-    if (cmd === 'help') {
-      setHistory((prev) => [
-        ...prev,
-        {
-          type: 'output',
-          text: (
-            <div className="space-y-1 text-xs">
-              <p className="text-emerald-400 font-bold">Available Commands:</p>
-              <p>
-                <span className="text-cyan-300 font-mono">specter explain</span> &mdash; Narrates
-                architecture &amp; relationships across connected repo
-              </p>
-              <p>
-                <span className="text-cyan-300 font-mono">specter tools</span> &mdash; Lists the 14
-                Model Context Protocol (MCP) server tools
-              </p>
-              <p>
-                <span className="text-cyan-300 font-mono">specter map</span> &mdash; Generates a
-                dependency graph topology map
-              </p>
-              <p>
-                <span className="text-cyan-300 font-mono">specter stats</span> &mdash; Displays test
-                coverage, AST node count, and telemetry
-              </p>
-              <p>
-                <span className="text-cyan-300 font-mono">npm install</span> &mdash; Shows npm
-                registry installation string
-              </p>
-              <p>
-                <span className="text-cyan-300 font-mono">clear</span> &mdash; Clears the terminal
-                screen
-              </p>
-            </div>
-          ),
-        },
-      ])
+    if (cmd === 'help' || cmd === 'specter') {
+      reply(
+        <div className="space-y-1 text-xs">
+          <p className="text-emerald-400 font-bold">Commands on this page:</p>
+          {Object.entries(SPECTER_COMMANDS).map(([name, description]) => (
+            <p key={name}>
+              <span className="text-cyan-300 font-mono">specter {name}</span> {description}
+            </p>
+          ))}
+          <p>
+            <span className="text-cyan-300 font-mono">tools</span> Lists the 14 MCP tools
+          </p>
+          <p>
+            <span className="text-cyan-300 font-mono">modes</span> Lists the 12 personality modes
+          </p>
+          <p>
+            <span className="text-cyan-300 font-mono">install</span> Shows how to install it
+          </p>
+          <p>
+            <span className="text-cyan-300 font-mono">clear</span> Clears the screen
+          </p>
+          <p className="text-gray-400">Specter has 65 commands in all. These are a few of them.</p>
+        </div>
+      )
       return
     }
 
-    if (cmd === 'specter explain') {
-      setHistory((prev) => [
-        ...prev,
-        {
-          type: 'output',
-          text: (
-            <div className="space-y-1.5 text-xs text-gray-200">
-              <p className="text-emerald-300 font-semibold">
-                [Specter AST Engine] Analyzing codebase hierarchy...
-              </p>
-              <p>✔ Indexed 642 modules across TypeScript AST</p>
-              <p>✔ Resolved 14 MCP tool bindings (stdio + SSE transport)</p>
-              <p className="text-indigo-300">
-                Summary: Enterprise full-stack architecture with App Router, custom R3F 3D renderer,
-                Zustand telemetry store, and Resend contact dispatch.
-              </p>
-            </div>
-          ),
-        },
-      ])
+    if (cmd === 'tools') {
+      reply(
+        <div className="space-y-1 text-xs">
+          <p className="text-emerald-400 font-bold">14 MCP tools:</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-gray-300">
+            {MCP_TOOLS.map((name, i) => (
+              <span key={name}>
+                {i + 1}. {name}
+              </span>
+            ))}
+          </div>
+        </div>
+      )
       return
     }
 
-    if (cmd === 'specter tools') {
-      setHistory((prev) => [
-        ...prev,
-        {
-          type: 'output',
-          text: (
-            <div className="space-y-1 text-xs">
-              <p className="text-emerald-400 font-bold">14 Active MCP Tools on npm:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-gray-300">
-                <span>1. explain_module</span>
-                <span>2. map_dependencies</span>
-                <span>3. inspect_ast</span>
-                <span>4. search_symbols</span>
-                <span>5. trace_references</span>
-                <span>6. diff_signatures</span>
-                <span>7. audit_security</span>
-                <span>8. test_coverage</span>
-                <span>9. verify_types</span>
-                <span>10. parse_comments</span>
-                <span>11. detect_dead_code</span>
-                <span>12. summarize_architecture</span>
-                <span>13. generate_flowchart</span>
-                <span>14. telemetry_ping</span>
-              </div>
-            </div>
-          ),
-        },
-      ])
+    if (cmd === 'modes') {
+      reply(
+        <div className="space-y-1 text-xs">
+          <p className="text-emerald-400 font-bold">12 personality modes:</p>
+          <p className="text-gray-300">{PERSONALITY_MODES.join(', ')}</p>
+          <p className="text-gray-400">Add --personality &lt;mode&gt; to any command.</p>
+        </div>
+      )
       return
     }
 
-    if (cmd === 'specter map') {
-      setHistory((prev) => [
-        ...prev,
-        {
-          type: 'output',
-          text: (
-            <pre className="text-[11px] text-cyan-300 font-mono leading-tight">
-              {`
-[Core] ──┬──> (Dataverse / Dynamics 365)
-         ├──> (Next.js App Router)
-         │       └──> [RSC Layout] ──> [Editorial CSS]
-         ├──> (React Three Fiber)
-         │       └──> [WebGPU Canvas] ──> [Procedural Shaders]
-         └──> [MCP Server Layer (14 Tools)]
-`}
-            </pre>
-          ),
-        },
-      ])
+    if (cmd === 'install' || cmd.includes('npm')) {
+      reply(
+        <div className="text-xs text-emerald-300 font-mono space-y-1">
+          <p>$ npm install -g @purplegumdropz/specter</p>
+          <p>$ specter scan &amp;&amp; specter health</p>
+        </div>
+      )
       return
     }
 
-    if (cmd === 'specter stats' || cmd === 'stats') {
-      setHistory((prev) => [
-        ...prev,
-        {
-          type: 'output',
-          text: (
-            <div className="text-xs space-y-1 text-gray-200">
-              <p>
-                ✔ Status: <span className="text-emerald-400 font-semibold">Published on npm</span>{' '}
-                (@purplegumdropz/specter)
-              </p>
-              <p>
-                ✔ Test Suite:{' '}
-                <span className="text-cyan-300 font-semibold">
-                  216 Unit &amp; E2E tests passing
-                </span>{' '}
-                (100% green)
-              </p>
-              <p>✔ Engine: TypeScript 5.9 AST walker + Rust core bridge</p>
-            </div>
-          ),
-        },
-      ])
+    const match = /^specter\s+([a-z-]+)/.exec(cmd)
+    const description = match ? SPECTER_COMMANDS[match[1]] : undefined
+    if (match && description) {
+      reply(
+        <div className="space-y-1 text-xs text-gray-200">
+          <p>{description}</p>
+          <p className="text-gray-400">
+            Not run on this page. To try it: npx @purplegumdropz/specter {match[1]}
+          </p>
+        </div>
+      )
       return
     }
 
-    if (cmd.includes('npm')) {
-      setHistory((prev) => [
-        ...prev,
-        {
-          type: 'output',
-          text: (
-            <div className="text-xs text-emerald-300 font-mono">
-              $ npx @purplegumdropz/specter --explain
-            </div>
-          ),
-        },
-      ])
-      return
-    }
-
-    // Default response for unhandled commands
     setHistory((prev) => [
       ...prev,
       {
         type: 'error',
-        text: `command not found: "${trimmed}". Type "help" for a list of available commands.`,
+        text: `command not found: "${trimmed}". Type "help" for the commands on this page.`,
       },
     ])
   }, [])
@@ -257,7 +231,7 @@ export function InteractiveTerminal({
 
   return (
     <section
-      aria-label="Interactive Terminal Simulation"
+      aria-label="Specter command reference"
       className={`relative w-full rounded-lg overflow-hidden border border-neutral-800 bg-[#0c0d12] text-gray-200 font-mono transition-all duration-300 ${
         isExpanded ? 'min-h-[500px]' : 'min-h-[340px]'
       }`}
@@ -266,12 +240,12 @@ export function InteractiveTerminal({
       <div className="flex items-center justify-between px-4 py-2.5 bg-[#16171f] border-b border-neutral-800 text-xs select-none">
         <div className="flex items-center gap-2">
           <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="font-semibold text-gray-300">{projectName} Terminal Sandbox</span>
+          <span className="font-semibold text-gray-300">{projectName} command reference</span>
         </div>
         <div className="flex items-center gap-3">
           {/* gray-500 on the #16171f chrome measured 3.69:1, under WCAG AA. */}
           <span className="text-[10px] text-gray-400 hidden sm:inline">
-            node v22.22 · mcp ready
+            npm {PUBLISHED_VERSION}
           </span>
           <button
             type="button"
@@ -325,8 +299,8 @@ export function InteractiveTerminal({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type 'help', 'specter explain', 'specter tools'..."
-            aria-label={`${projectName} terminal command input`}
+            placeholder="Type 'help', 'specter hotspots', 'tools'..."
+            aria-label={`${projectName} command input`}
             className="flex-1 bg-transparent text-gray-100 outline-none font-mono text-xs placeholder:text-gray-600"
             autoCapitalize="off"
             autoCorrect="off"

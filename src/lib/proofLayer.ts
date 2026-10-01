@@ -69,9 +69,9 @@ const SCENE_SET = new Set<string>(SCENE_PROJECT_IDS)
 const ARCHIVE_SET = new Set<string>(ARCHIVE_PROJECT_IDS)
 
 const PROOF_HOOKS: Record<PrimaryProofId, string> = {
-  'security-readiness-platform': 'Dynamics 365 · in production',
-  'timeslip-search': 'Algolia $750 win · 420k records',
-  specter: 'npm · 65 CLI cmds · 14 MCP tools',
+  'security-readiness-platform': 'Dynamics 365, in production',
+  'timeslip-search': 'Algolia contest win, 420,000+ records',
+  specter: 'On npm: 65 commands, 14 MCP tools',
 }
 
 export type HighlightReelItem = {
