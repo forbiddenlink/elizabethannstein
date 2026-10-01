@@ -32,7 +32,15 @@ export function AccessibleViewToggle({
 
   return (
     <div
-      className={`fixed z-30 flex-col items-end gap-2 transition-all duration-300 ${dockIntoNavZone ? 'hidden' : 'flex bottom-56 left-4 lg:bottom-56 lg:left-auto lg:right-8'}`}
+      className={`fixed flex-col items-end gap-2 transition-all duration-300 ${
+        isAccessibleMode
+          ? // In the list view the toggle sits in the top corner, above the sticky section
+            // heading (which reserves room for it), instead of floating over the list.
+            'z-50 flex top-4 right-4 lg:right-8'
+          : dockIntoNavZone
+            ? 'z-30 hidden'
+            : 'z-30 flex bottom-56 left-4 lg:bottom-56 lg:left-auto lg:right-8'
+      }`}
     >
       <button
         type="button"
@@ -70,10 +78,15 @@ export function AccessibleView() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-black/80 border-b border-white/10">
+      {/* Not sticky: on phones it wraps to three lines, and stacked under the sticky
+          section headings it covered the list. The section heading carries the context. */}
+      <header className="bg-black border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">Elizabeth Stein - Portfolio</h1>
-          <p className="text-white/60">Full-stack developer + design systems + AI integration</p>
+          <h1 className="text-2xl font-bold">Elizabeth Stein</h1>
+          {/* Right padding keeps the text clear of the fixed 3D toggle in the corner. */}
+          <p className="pr-28 text-white/60 sm:pr-40">
+            Full-stack engineer and designer. Every project, as a list.
+          </p>
         </div>
       </header>
 
@@ -135,7 +148,7 @@ export function AccessibleView() {
             className="mb-16"
             aria-labelledby={`${galaxy.id}-heading`}
           >
-            <div className="sticky top-20 z-30 bg-black/80 py-4 mb-6 -mx-4 px-4 border-b border-white/5">
+            <div className="sticky top-0 z-30 bg-black py-4 mb-6 -mx-4 pl-4 pr-36 sm:pr-48 border-b border-white/5">
               <h2
                 id={`${galaxy.id}-heading`}
                 className="text-3xl font-bold flex items-center gap-3"
