@@ -18,6 +18,11 @@ const nextConfig = {
     'http://127.0.0.1:3000',
     'http://localhost:3000',
   ],
+  // Social-card fonts are read from disk at render time (src/lib/og/ogKit.tsx).
+  outputFileTracingIncludes: {
+    '/opengraph-image': ['./src/lib/og/fonts/**'],
+    '/api/og/**': ['./src/lib/og/fonts/**'],
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
   },
