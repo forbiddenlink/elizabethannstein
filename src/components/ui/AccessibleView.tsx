@@ -32,7 +32,7 @@ export function AccessibleViewToggle({
 
   return (
     <div
-      className={`fixed z-30 flex-col items-end gap-2 transition-all duration-300 ${dockIntoNavZone ? 'hidden' : 'flex bottom-56 left-4 lg:bottom-56 lg:left-auto lg:right-8'}`}
+      className={`fixed z-30 flex-col items-end gap-2 transition-all duration-300 ${dockIntoNavZone ? 'hidden' : `flex lg:left-auto lg:right-8 ${isAccessibleMode ? 'bottom-4 right-4 lg:bottom-auto lg:top-4 lg:z-50' : 'bottom-56 left-4 lg:bottom-56'}`}`}
     >
       <button
         type="button"
