@@ -1,8 +1,9 @@
 'use client'
 
 import { useFrame, useThree } from '@react-three/fiber'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { getUniverseCamera } from '@/components/3d/cameraFraming'
 import { galaxies } from '@/lib/galaxyData'
 import { useViewStore } from '@/lib/store'
 import { getGalaxyCenterPosition } from '@/lib/utils'
@@ -19,42 +20,41 @@ interface CameraKeyframe {
   easing?: (t: number) => number
 }
 
-// Cinematic intro sequence - dramatic fly-in from deep space
-const INTRO_SEQUENCE: CameraKeyframe[] = [
-  // Start: Far above and behind, looking down at the galaxies
-  {
-    position: new THREE.Vector3(0, 120, 180),
-    target: new THREE.Vector3(0, 0, 0),
-    fov: 35,
-    duration: 0,
-  },
-  // Sweep down and forward
-  {
-    position: new THREE.Vector3(40, 60, 100),
-    target: new THREE.Vector3(0, 0, 0),
-    fov: 40,
-    duration: 2.5,
-    easing: easeOutCubic,
-  },
-  // Final position - standard overview
-  {
-    position: new THREE.Vector3(0, 20, 60),
-    target: new THREE.Vector3(0, 0, 0),
-    fov: 45,
-    duration: 2,
-    easing: easeInOutQuart,
-  },
-]
+// Cinematic intro sequence: fly in from above and settle on the whole-map framing
+function buildIntroSequence(overview: THREE.Vector3): CameraKeyframe[] {
+  return [
+    {
+      position: new THREE.Vector3(0, overview.y * 2.3, overview.z * 1.8),
+      target: new THREE.Vector3(0, 0, 0),
+      fov: 35,
+      duration: 0,
+    },
+    {
+      position: new THREE.Vector3(overview.z * 0.35, overview.y * 1.2, overview.z * 1.05),
+      target: new THREE.Vector3(0, 0, 0),
+      fov: 40,
+      duration: 2.5,
+      easing: easeOutCubic,
+    },
+    {
+      position: overview.clone(),
+      target: new THREE.Vector3(0, 0, 0),
+      fov: 45,
+      duration: 2,
+      easing: easeInOutQuart,
+    },
+  ]
+}
 
 // Galaxy tour - visit each galaxy with smooth transitions
-function generateGalaxyTourSequence(): CameraKeyframe[] {
+function generateGalaxyTourSequence(overview: THREE.Vector3): CameraKeyframe[] {
   const sequence: CameraKeyframe[] = []
   const cameraHeight = 18
   const cameraDistance = 32
 
   // Start from current overview
   sequence.push({
-    position: new THREE.Vector3(0, 20, 60),
+    position: overview.clone(),
     target: new THREE.Vector3(0, 0, 0),
     fov: 45,
     duration: 0,
@@ -88,7 +88,7 @@ function generateGalaxyTourSequence(): CameraKeyframe[] {
 
   // Return to overview
   sequence.push({
-    position: new THREE.Vector3(0, 25, 65),
+    position: overview.clone(),
     target: new THREE.Vector3(0, 0, 0),
     fov: 45,
     duration: 2,
@@ -110,7 +110,13 @@ interface CinematicState {
  * Automatically plays intro when user first enters, provides tour functionality
  */
 export function CinematicCamera({ controlsRef }: { controlsRef: React.RefObject<any> }) {
-  const { camera } = useThree()
+  const { camera, size } = useThree()
+  const overview = useMemo(
+    () => getUniverseCamera(size.width / size.height),
+    [size.width, size.height]
+  )
+  const overviewRef = useRef(overview)
+  overviewRef.current = overview
   const hasEntered = useViewStore((s) => s.hasEntered)
   const isJourneyMode = useViewStore((s) => s.isJourneyMode)
   const endJourney = useViewStore((s) => s.endJourney)
@@ -167,17 +173,17 @@ export function CinematicCamera({ controlsRef }: { controlsRef: React.RefObject<
     if (hasEntered && !hasPlayedIntro) {
       // Small delay to let entrance animation complete
       const timer = setTimeout(() => {
-        startSequence(INTRO_SEQUENCE)
+        startSequence(buildIntroSequence(overview))
         setHasPlayedIntro(true)
       }, 200)
       return () => clearTimeout(timer)
     }
-  }, [hasEntered, hasPlayedIntro, startSequence])
+  }, [hasEntered, hasPlayedIntro, startSequence, overview])
 
   // Start tour when tour mode is activated
   useEffect(() => {
     if (isJourneyMode) {
-      startSequence(generateGalaxyTourSequence())
+      startSequence(generateGalaxyTourSequence(overviewRef.current))
     }
   }, [isJourneyMode, startSequence])
 
@@ -288,7 +294,7 @@ export function GalaxyTourButton() {
     <button
       type="button"
       onClick={() => startJourney()}
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-medium rounded-full shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/40"
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 hidden md:block min-h-11 px-6 py-3 bg-white/90 hover:bg-white text-black text-sm font-medium rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
     >
       <span className="flex items-center gap-2">
         <svg
@@ -312,7 +318,7 @@ export function GalaxyTourButton() {
             d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        Take the Tour
+        Take the tour
       </span>
     </button>
   )

@@ -46,10 +46,8 @@ export function PostTourCTA() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4 }}
           >
-            <h2 className="mb-2 text-2xl font-light text-white">Tour complete</h2>
-            <p className="mb-6 text-sm text-white/60">
-              You&apos;ve seen the highlights. What&apos;s next?
-            </p>
+            <h2 className="mb-2 text-2xl font-light text-white">Tour finished</h2>
+            <p className="mb-6 text-sm text-white/60">That was the short version. Where to next?</p>
             <div className="flex flex-col gap-3">
               <button
                 ref={firstButtonRef}
@@ -57,7 +55,7 @@ export function PostTourCTA() {
                 onClick={dismiss}
                 className="min-h-[44px] w-full rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/20"
               >
-                Explore the universe
+                Keep exploring the map
               </button>
               <button
                 type="button"
@@ -67,7 +65,7 @@ export function PostTourCTA() {
                 }}
                 className="min-h-[44px] w-full rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/20"
               >
-                Browse all projects
+                See the full project list
               </button>
               <button
                 type="button"
@@ -77,7 +75,7 @@ export function PostTourCTA() {
                 }}
                 className="min-h-[44px] w-full rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/20"
               >
-                Get in touch
+                Contact me
               </button>
             </div>
           </motion.div>

@@ -16,7 +16,7 @@ export class BasePage {
   }
 
   protected async dismissEntranceIfVisible(): Promise<void> {
-    const skipIntroButton = this.page.getByRole('button', { name: /Skip intro/i })
+    const skipIntroButton = this.page.getByRole('button', { name: /Enter the map/i })
     await this.page.waitForTimeout(250)
 
     for (let attempt = 0; attempt < 3; attempt += 1) {

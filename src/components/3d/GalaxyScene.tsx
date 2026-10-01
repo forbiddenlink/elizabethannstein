@@ -11,6 +11,7 @@ import { CinematicCamera, GalaxyTourButton, TourProgress } from '@/components/3d
 import { ClickRipple } from '@/components/3d/ClickRipple'
 import { CosmicComets } from '@/components/3d/CosmicComets'
 import { CursorTrail } from '@/components/3d/CursorTrail'
+import { getUniverseCamera } from '@/components/3d/cameraFraming'
 import { DevToolsPanel, StatsMonitor } from '@/components/3d/DevTools'
 import { EnhancedProjectStars } from '@/components/3d/EnhancedProjectStars'
 import { GalaxyCores } from '@/components/3d/GalaxyCore'
@@ -46,8 +47,13 @@ import { generateProjectPosition, getGalaxyCenterPosition } from '@/lib/utils'
 import type { RendererType } from '@/lib/webgpu'
 
 // Camera fly-to controller for galaxy navigation with spring physics and idle drift
+function getGalaxyDistance(aspect: number): number {
+  return Math.min(110, Math.max(35, 58 / Math.max(aspect, 0.3)))
+}
+
 function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<any> }) {
-  const { camera, mouse } = useThree()
+  const { camera, mouse, size } = useThree()
+  const aspect = size.width / size.height
   const selectedGalaxy = useViewStore((state) => state.selectedGalaxy)
   const selectedProject = useViewStore((state) => state.selectedProject)
   const view = useViewStore((state) => state.view)
@@ -55,6 +61,7 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
 
   // Animation state
   const isAnimating = useRef(false)
+  const initialised = useRef(false)
   const targetPosition = useRef(new THREE.Vector3(0, 20, 60))
   const targetLookAt = useRef(new THREE.Vector3(0, 0, 0))
   const animationProgress = useRef(0)
@@ -117,18 +124,40 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
       const galaxyIndex = galaxies.findIndex((g) => g.id === selectedGalaxy)
       if (galaxyIndex !== -1) {
         const [gx, gy, gz] = getGalaxyCenterPosition(galaxyIndex)
-        const cameraDistance = 35
+        const cameraDistance = getGalaxyDistance(aspect)
         const cameraHeight = 15
         targetLookAt.current.set(gx, gy, gz)
         targetPosition.current.set(gx, gy + cameraHeight, gz + cameraDistance)
         animSpeed.current = prefersReducedMotion ? 8 : 1.5
       }
     } else if (view === 'universe' && !selectedGalaxy) {
-      targetPosition.current.set(0, 20, 60)
+      targetPosition.current.copy(getUniverseCamera(aspect))
       targetLookAt.current.set(0, 0, 0)
       animSpeed.current = prefersReducedMotion ? 8 : 1.2
     }
-  }, [selectedGalaxy, selectedProject, view, camera, controlsRef, prefersReducedMotion])
+
+    // First mount: start at the whole-map framing instead of springing in from the canvas default.
+    if (!initialised.current && view === 'universe' && !selectedGalaxy) {
+      initialised.current = true
+      camera.position.copy(targetPosition.current)
+      if (controlsRef.current) {
+        controlsRef.current.target.copy(targetLookAt.current)
+        controlsRef.current.update()
+      }
+      isAnimating.current = false
+    }
+  }, [selectedGalaxy, selectedProject, view, camera, controlsRef, prefersReducedMotion, aspect])
+
+  // When the user orbits or pans, hold their target instead of pulling it back during idle drift.
+  const driftOffset = useRef(new THREE.Vector3())
+  // biome-ignore lint/correctness/useExhaustiveDependencies: view re-binds after OrbitControls remounts
+  useEffect(() => {
+    const controls = controlsRef.current
+    if (!controls?.addEventListener) return
+    const onEnd = () => targetLookAt.current.copy(controls.target).sub(driftOffset.current)
+    controls.addEventListener('end', onEnd)
+    return () => controls.removeEventListener('end', onEnd)
+  }, [controlsRef, view])
 
   // Animate camera with spring physics and idle drift
   useFrame((_state, delta) => {
@@ -213,7 +242,13 @@ function GalaxyCameraController({ controlsRef }: { controlsRef: React.RefObject<
           mouseDriftOffset.current.y * 0.3,
           0
         )
-        controlsRef.current.target.lerp(new THREE.Vector3(0, 0, 0).add(lookAtOffset), delta * 0.5)
+        // Drift around the current selection, never back to the origin, so a selected
+        // galaxy or project keeps the camera on it.
+        driftOffset.current.copy(lookAtOffset)
+        controlsRef.current.target.lerp(
+          new THREE.Vector3().copy(targetLookAt.current).add(lookAtOffset),
+          delta * 0.5
+        )
         controlsRef.current.update()
       }
     }
@@ -272,7 +307,7 @@ function SceneContent({
     <>
       <color attach="background" args={['#03020c']} />
       {/* Depth fog — cool void; slightly violet-tinted for premium depth (not flat gray) */}
-      <fog attach="fog" args={['#0a0618', 78, 315]} />
+      <fog attach="fog" args={['#0a0618', isMobile ? 260 : 78, isMobile ? 640 : 315]} />
 
       {/* Cinematic Three-Point Lighting */}
       <ambientLight intensity={0.4} color="#0a0815" />
@@ -353,7 +388,7 @@ function SceneContent({
           enablePan={true}
           enableZoom={true}
           minDistance={10}
-          maxDistance={150}
+          maxDistance={380}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI - Math.PI / 4}
           rotateSpeed={0.5}
@@ -408,6 +443,9 @@ export default function GalaxyScene() {
   const perfTier = useCanvasPerformanceStore((s) => s.tier)
   const tierMultiplier = CANVAS_DPR_TIER_MULTIPLIERS[perfTier]
   const effectiveDpr = dpr * tierMultiplier
+  // The project modal covers the scene, so stop the render loop while it is open instead
+  // of drawing frames nobody sees. On software WebGL that loop starved the modal itself.
+  const projectOpen = useViewStore((state) => state.view === 'project' && !!state.selectedProject)
 
   // Refs to track previous values and avoid unnecessary state updates that cause re-renders
   const prevMobileRef = useRef<boolean | null>(null)
@@ -496,6 +534,7 @@ export default function GalaxyScene() {
     <div className="w-full h-dvh relative">
       <WebGPUCanvas
         dpr={effectiveDpr}
+        frameloop={projectOpen ? 'demand' : 'always'}
         className="w-full h-full block"
         rendererConfig={{
           antialias: true,
@@ -505,7 +544,7 @@ export default function GalaxyScene() {
           toneMappingExposure: 1.38,
           outputColorSpace: THREE.SRGBColorSpace,
         }}
-        camera={{ position: [0, 20, 60], fov: 45 }}
+        camera={{ position: [0, 50, 100], fov: 45 }}
         fallback={WebGLFallback}
         loadingFallback={LoadingFallback}
         onRendererReady={handleRendererReady}

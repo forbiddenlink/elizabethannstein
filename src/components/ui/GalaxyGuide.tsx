@@ -28,17 +28,16 @@ export function GalaxyGuide() {
     {
       id: nextId(),
       role: 'assistant',
-      content:
-        "Greetings! I am your Galaxy Guide. How can I assist you in navigating Elizabeth's universe of code today?",
+      content: 'Ask about any project, the stack, or how to reach Liz.',
     },
   ])
   const [showSuggestions, setShowSuggestions] = useState(true)
 
   const suggestedPrompts = [
-    "What are Liz's best AI projects?",
-    'Tell me about her enterprise work',
-    'What technologies does she use?',
-    'Show me full-stack projects',
+    'Which projects use AI?',
+    'What was the enterprise work?',
+    'What stack does Liz use?',
+    'Show the full-stack projects',
   ]
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -121,7 +120,7 @@ export function GalaxyGuide() {
           id: nextId(),
           role: 'assistant',
           content:
-            "I apologize, but I'm encountering some interference in the communication link. Please try again.",
+            "The chat isn't answering right now. Try again, or email hello@elizabethannstein.com.",
         },
       ])
     } finally {

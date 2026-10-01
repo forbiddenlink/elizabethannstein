@@ -31,7 +31,7 @@ export function MinimapNavigator() {
 
   useEffect(() => {
     // Skip effect when hidden
-    if (isJourneyMode || view === 'exploration') return
+    if (isJourneyMode || view === 'exploration' || !hasEntered) return
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -107,8 +107,7 @@ export function MinimapNavigator() {
         ctx.shadowBlur = 15
         ctx.shadowColor = galaxy.color
       } else {
-        ctx.shadowBlur = 5
-        ctx.shadowColor = galaxy.color
+        ctx.shadowBlur = 0
       }
 
       // Draw project dot
@@ -129,7 +128,7 @@ export function MinimapNavigator() {
     ctx.beginPath()
     ctx.arc(offsetX, offsetY, 2, 0, Math.PI * 2)
     ctx.fill()
-  }, [size, selectedProject, hoveredProject, isJourneyMode, view])
+  }, [size, selectedProject, hoveredProject, isJourneyMode, view, hasEntered])
 
   // Hide during journey mode, exploration mode, and before entrance - AFTER all hooks are called
   if (isJourneyMode || view === 'exploration' || !hasEntered) return null
@@ -217,7 +216,7 @@ export function MinimapNavigator() {
         )}
 
         {/* Label */}
-        <div className="absolute -top-8 left-0 text-xs text-white/60 font-mono">MINIMAP</div>
+        <div className="absolute -top-8 left-0 text-xs text-white/60 font-mono">Map</div>
       </div>
     </div>
   )

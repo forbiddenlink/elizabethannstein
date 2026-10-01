@@ -104,7 +104,7 @@ export function HiringFastTrack() {
                   transition={{ delay: 0.05, duration: 0.4 }}
                   className="text-3xl font-light text-white"
                 >
-                  Proof of work
+                  Selected projects
                 </motion.h2>
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
@@ -112,7 +112,7 @@ export function HiringFastTrack() {
                   transition={{ delay: 0.1, duration: 0.4 }}
                   className="mt-2 text-white/50 text-sm"
                 >
-                  Six flagship systems: production D365, contest win, SaaS, enterprise scale
+                  {projects.length} projects to start with. Each links to its case study.
                 </motion.p>
               </div>
               <button
