@@ -144,7 +144,7 @@ describe('galaxyData', () => {
     it('getNarrativeTourById returns correct tour', () => {
       const tour = getNarrativeTourById('ai-journey')
       expect(tour).toBeDefined()
-      expect(tour?.name).toBe('My AI Journey')
+      expect(tour?.name).toBe('AI projects')
     })
   })
 

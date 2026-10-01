@@ -1,14 +1,14 @@
 'use client'
 
 import { X } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { ProjectPlate } from '@/components/editorial/ProjectPlate'
 import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
-import { hostOf, plainLabel, staticStatus, whoLine, withoutEmoji } from '@/lib/flagshipDisplay'
+import { staticStatus, whoLine, withoutEmoji } from '@/lib/flagshipDisplay'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
-import { getProjectScreenshot } from '@/lib/projectScreenshots'
+import { isProofCatalogProject } from '@/lib/proofLayer'
 import type { Galaxy, Project } from '@/lib/types'
 import styles from './WorkPageClient.module.css'
 
@@ -21,7 +21,7 @@ interface WorkPageClientProps {
    *  client-only "did the URL already match?" check in the sync effect below. */
   initialFilterParam: string | null
   initialQueryParam: string | null
-  /** Accepted for old shared links (`?view=all`); the archive now always lists everything. */
+  /** `?view=all` (old shared links) opens the archive with experiments included. */
   initialViewParam: string | null
   initialTagParam: string | null
   initialSortParam: string | null
@@ -120,19 +120,8 @@ function normalizeGalaxyFilter(filter: string | null, galaxies: Galaxy[]): strin
   return galaxies.some((galaxy) => galaxy.id === normalized) ? normalized : null
 }
 
-/** Where the work can be seen, for the typographic plate. */
-function whereLine(flagship: Flagship): string {
-  if (flagship.status === 'live') return hostOf(flagship.statusUrl)
-  if (flagship.status === 'npm') return flagship.statusSub
-  if (flagship.status === 'cli') return 'Private CLI, source on request'
-  if (flagship.id === 'security-readiness-platform') return 'Private: client confidential'
-  return 'Client sites, not shown here'
-}
-
 function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; project?: Project }>) {
-  const shot = getProjectScreenshot(flagship.id)
   const status = staticStatus(flagship)
-  const stack = project?.tags.slice(0, 4).join(', ')
 
   return (
     <Link
@@ -141,36 +130,7 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
       aria-labelledby={`sel-${flagship.id}-title`}
       aria-describedby={`sel-${flagship.id}-desc`}
     >
-      <figure className="ePlate">
-        {shot ? (
-          <div className="ePlateImg">
-            <Image
-              src={shot}
-              alt={`${flagship.title} screenshot`}
-              fill
-              sizes="(max-width: 640px) 100vw, 560px"
-            />
-          </div>
-        ) : (
-          <div className="eTypeplate">
-            <span className="eTypeplateBig">{plainLabel(flagship.proof).replace(' · ', ', ')}</span>
-            <dl>
-              {stack && (
-                <>
-                  <dt>stack</dt>
-                  <dd>{stack}</dd>
-                </>
-              )}
-              <dt>status</dt>
-              <dd>{status.label}</dd>
-            </dl>
-          </div>
-        )}
-        <figcaption>
-          <span>{whereLine(flagship)}</span>
-          <span>{flagship.years}</span>
-        </figcaption>
-      </figure>
+      <ProjectPlate flagship={flagship} project={project} sizes="(max-width: 640px) 100vw, 560px" />
       <h3 id={`sel-${flagship.id}-title`} className={styles.cardTitle}>
         {flagship.title}
       </h3>
@@ -188,6 +148,7 @@ export function WorkPageClient({
   galaxies,
   initialFilterParam,
   initialQueryParam,
+  initialViewParam,
   initialTagParam,
   initialSortParam,
 }: Readonly<WorkPageClientProps>) {
@@ -208,6 +169,9 @@ export function WorkPageClient({
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag)
   const [sortOrder, setSortOrder] = useState<SortOrder>(initialSortOrder)
+  // The archive opens on shipped work; experiments, games and retired projects are one
+  // click away instead of padding the first screen.
+  const [showExperiments, setShowExperiments] = useState(initialViewParam === 'all')
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   // '/' keyboard shortcut focuses the search input
@@ -260,6 +224,11 @@ export function WorkPageClient({
   const filteredProjects = useMemo(() => {
     let list = allProjects
 
+    // A search or a category pick is a deliberate request, so it searches everything.
+    if (!showExperiments && !searchQuery.trim() && !selectedGalaxy && !selectedTag) {
+      list = list.filter(isProofCatalogProject)
+    }
+
     if (selectedGalaxy) {
       list = list.filter((p) => p.galaxy === selectedGalaxy)
     }
@@ -274,7 +243,13 @@ export function WorkPageClient({
     }
 
     return sortProjects(list, sortOrder)
-  }, [allProjects, selectedGalaxy, searchQuery, selectedTag, sortOrder])
+  }, [allProjects, selectedGalaxy, searchQuery, selectedTag, sortOrder, showExperiments])
+
+  const experimentCount = useMemo(
+    () => allProjects.filter((p) => !isProofCatalogProject(p)).length,
+    [allProjects]
+  )
+  const filtersActive = Boolean(searchQuery.trim() || selectedGalaxy || selectedTag)
 
   function resetFilters() {
     setSearchQuery('')
@@ -288,8 +263,8 @@ export function WorkPageClient({
       <header className="ePageHead">
         <h1>Work</h1>
         <p>
-          {allProjects.length} projects since 2023. The {FLAGSHIPS.length} below are the strongest;
-          the archive lists every project, each with its own page.
+          {allProjects.length} projects since 2023. The {FLAGSHIPS.length} selected below are the
+          ones I&apos;d show you first. The archive under them has the rest, each with its own page.
         </p>
       </header>
 
@@ -346,6 +321,16 @@ export function WorkPageClient({
           <p className={styles.count} aria-live="polite">
             {filteredProjects.length} of {allProjects.length} shown
           </p>
+          {!filtersActive && (
+            <label className={styles.toggle}>
+              <input
+                type="checkbox"
+                checked={showExperiments}
+                onChange={(e) => setShowExperiments(e.target.checked)}
+              />
+              Include {experimentCount} experiments and retired projects
+            </label>
+          )}
           <fieldset className={styles.chips}>
             <legend className="sr-only">Filter by category</legend>
             <button

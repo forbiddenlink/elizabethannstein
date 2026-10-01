@@ -32,7 +32,6 @@ export function AnimatedConstellation() {
             p.id.includes('caipo') ||
             p.id.includes('flostudios') ||
             p.id.includes('moodchanger') ||
-            p.id.includes('hephaestus') ||
             p.id.includes('robocollective') ||
             p.id.includes('space-ventures') ||
             p.id.includes('tarrl')

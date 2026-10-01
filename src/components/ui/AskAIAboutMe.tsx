@@ -114,20 +114,19 @@ export function AskAIAboutMe() {
               </p>
               <div className="p-3 rounded bg-[var(--le-paper-2)] border border-[var(--le-rule)] space-y-1 text-xs">
                 <span className="font-bold text-[var(--le-accent-ink)] uppercase font-mono tracking-wider block">
-                  Key Verification Highlights:
+                  What you can check
                 </span>
                 <ul className="list-disc list-inside space-y-1">
                   <li>
-                    Sole developer on production Dynamics 365 / Dataverse platform (12 phases).
+                    Sole developer on a Dynamics 365 / Dataverse platform in production for a
+                    cybersecurity nonprofit (12 implementation phases).
                   </li>
-                  <li>Algolia Agent Studio Challenge Winner ($750 prize, TimeSlipSearch).</li>
+                  <li>One of four winners of the Algolia Agent Studio Challenge, March 2026.</li>
                   <li>
-                    Published npm author: <code>@purplegumdropz/specter</code> with 14 MCP tools.
+                    Publishes <code>@purplegumdropz/specter</code> on npm: 65 commands, 14 MCP
+                    tools.
                   </li>
-                  <li>
-                    Concurrent production engineering across a cybersecurity nonprofit, Rocketpark,
-                    &amp; personal SaaS.
-                  </li>
+                  <li>Lead developer on Rocket Vitals, Rocket Park&apos;s website QA scanner.</li>
                 </ul>
               </div>
             </div>

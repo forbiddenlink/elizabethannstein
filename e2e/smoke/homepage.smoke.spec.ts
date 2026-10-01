@@ -20,7 +20,7 @@ async function gotoHomeReady(page: import('@playwright/test').Page): Promise<voi
   await page.goto('/')
   await page.waitForLoadState('domcontentloaded')
 
-  const skipIntroButton = page.getByRole('button', { name: /Skip intro/i })
+  const skipIntroButton = page.getByRole('button', { name: /Enter the map/i })
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const isVisible = await skipIntroButton.isVisible({ timeout: 250 }).catch(() => false)
     if (!isVisible) break
@@ -62,7 +62,7 @@ test.describe('Homepage Smoke Tests', () => {
   }) => {
     await gotoHomeReady(page)
 
-    const ledger = page.getByRole('complementary', { name: 'Live systems' })
+    const ledger = page.getByRole('complementary', { name: 'Running right now' })
     await expect(ledger).toBeVisible()
     await expect(ledger.locator('a[href^="/work/"]').first()).toBeVisible()
     await expect(ledger.getByRole('button', { name: 'Refresh' })).toBeVisible()

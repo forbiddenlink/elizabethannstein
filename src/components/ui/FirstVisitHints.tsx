@@ -120,7 +120,7 @@ export function FirstVisitHints() {
 
   const hintText =
     activeHint === 1
-      ? `${isMobile ? 'Tap' : 'Click'} any star to explore a project`
+      ? `${isMobile ? 'Tap' : 'Click'} any planet to open a project`
       : 'Use arrow keys to browse, or \u2318K to search'
 
   const initial = reducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }
@@ -141,7 +141,7 @@ export function FirstVisitHints() {
           transition={transition}
           role="status"
           aria-live="polite"
-          className="fixed bottom-24 left-1/2 z-20 -translate-x-1/2 pointer-events-none"
+          className="fixed top-56 left-1/2 z-20 -translate-x-1/2 pointer-events-none lg:top-auto lg:bottom-24"
         >
           <div className="rounded-lg border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-md shadow-lg">
             <p className="text-xs text-white/75 whitespace-nowrap">{hintText}</p>

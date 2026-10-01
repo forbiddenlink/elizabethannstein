@@ -26,11 +26,8 @@ export function ExplorationOverlay() {
       {isLanding && (
         <div className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center">
           <div className="text-center">
-            <div className="text-6xl mb-6 animate-pulse">🚀</div>
-            <div className="text-2xl font-mono text-cyan-400 tracking-wider">
-              APPROACHING PLANET SURFACE
-            </div>
-            <div className="mt-4 text-white/60 font-mono">Prepare for landing...</div>
+            <div className="text-xl font-medium text-white">Approaching the planet</div>
+            <div className="mt-2 text-sm text-white/60">Landing</div>
           </div>
         </div>
       )}
@@ -38,51 +35,46 @@ export function ExplorationOverlay() {
       {/* Exploration Instructions */}
       {!isLanding && showInstructions && (
         <div className="fixed top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none animate-in fade-in slide-in-from-top duration-500">
-          <div
-            className="bg-black/60 border border-cyan-400/30 rounded-lg px-8 py-6 shadow-2xl"
-            style={{
-              boxShadow: '0 0 40px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-            }}
-          >
-            <div className="text-cyan-400 font-mono text-sm mb-4 text-center tracking-wider">
-              PLANET EXPLORATION MODE
+          <div className="bg-black/70 border border-white/15 rounded-lg px-8 py-6">
+            <div className="text-white text-sm font-medium mb-4 text-center">
+              Exploring the planet
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm font-mono">
+            <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="flex items-center gap-3">
                 <kbd className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white">
                   W
                 </kbd>
-                <span className="text-white/80">Move Forward</span>
+                <span className="text-white/80">Forward</span>
               </div>
               <div className="flex items-center gap-3">
                 <kbd className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white">
                   S
                 </kbd>
-                <span className="text-white/80">Move Back</span>
+                <span className="text-white/80">Back</span>
               </div>
               <div className="flex items-center gap-3">
                 <kbd className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white">
                   A
                 </kbd>
-                <span className="text-white/80">Move Left</span>
+                <span className="text-white/80">Left</span>
               </div>
               <div className="flex items-center gap-3">
                 <kbd className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white">
                   D
                 </kbd>
-                <span className="text-white/80">Move Right</span>
+                <span className="text-white/80">Right</span>
               </div>
               <div className="flex items-center gap-3 col-span-2 justify-center">
                 <kbd className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white">
                   ESC
                 </kbd>
-                <span className="text-white/80">Return to Galaxy</span>
+                <span className="text-white/80">Back to the galaxy</span>
               </div>
             </div>
 
-            <div className="mt-6 text-center text-xs text-white/50 font-mono">
-              Click to move camera • Explore to find project details
+            <div className="mt-6 text-center text-xs text-white/60">
+              Click to move the camera. Look around for project details.
             </div>
           </div>
         </div>
@@ -93,9 +85,9 @@ export function ExplorationOverlay() {
         <button
           type="button"
           onClick={() => setShowInstructions(false)}
-          className="fixed bottom-10 right-10 z-50 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white/60 hover:text-white text-sm font-mono transition-all duration-200"
+          className="fixed bottom-10 right-10 z-50 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg min-h-11 text-white/70 hover:text-white text-sm transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/80"
         >
-          Hide Instructions
+          Hide controls
         </button>
       )}
 

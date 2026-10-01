@@ -47,6 +47,6 @@ test.describe('Contact Form Smoke Tests', () => {
     await expect(emailInput).toHaveAttribute('placeholder', 'jane@company.com')
 
     const messageInput = page.locator('textarea#message')
-    await expect(messageInput).toHaveAttribute('placeholder', /project|opportunity/i)
+    await expect(messageInput).toHaveAttribute('placeholder', /working on/i)
   })
 })

@@ -6,9 +6,9 @@ import type { Galaxy } from './types'
 export const galaxies: Galaxy[] = [
   {
     id: 'enterprise',
-    name: 'Enterprise Missions',
-    description: 'Production work at scale - enterprise applications and team leadership',
-    narrative: 'Where I learned to build at scale and lead teams',
+    name: 'Enterprise',
+    description: 'Client and employer work, plus one practice monorepo',
+    narrative: 'Work for clients and employers, plus one practice build.',
     color: '#FF6B35',
     size: 3,
     projects: [
@@ -16,34 +16,25 @@ export const galaxies: Galaxy[] = [
         id: 'coulson-one',
         title: 'Coulson One',
         description:
-          'Enterprise-scale TypeScript/React application with 64,806 files. Led architecture decisions and core feature implementation for aviation resource management.',
-        role: 'Software Engineer',
-        company: 'Coulson Aviation',
-        tags: ['TypeScript', 'React', 'Next.js'],
+          'A practice monorepo from 2025 for oil and gas field operations: a NestJS API on Postgres and Redis, a Next.js dashboard, and an Expo mobile app. It tracks projects, wells and loads, scores vendors, and flags quotes priced above the historical average.',
+        role: 'Creator',
+        tags: ['TypeScript', 'NestJS', 'Next.js', 'Expo'],
         color: '#FF6B35',
         brightness: 2,
         size: 'supermassive',
         galaxy: 'enterprise',
-        metrics: { files: 64806 },
         featured: true,
-        dateRange: '2023-2024',
+        dateRange: '2025',
         challenge:
-          'Navigating a massive 64,806-file enterprise codebase while contributing meaningful features to an aviation resource management platform used in real operations.',
+          'I wanted one product across an API, a web dashboard and a mobile app, with four user roles (admin, dispatcher, carrier manager and driver) and live GPS updates.',
         solution:
-          'Focused on understanding existing patterns before making changes. Contributed to architecture decisions, implemented core features with comprehensive testing, and maintained strict type safety across the monorepo.',
-        impact:
-          'Successfully shipped features to production used by aviation operations teams. Improved codebase maintainability through comprehensive test coverage and documentation.',
-        impactMetrics: [
-          { label: 'Files in Codebase', value: '64,806', icon: 'folder' },
-          { label: 'Production Users', value: 'Live Ops', icon: 'plane' },
-          { label: 'Type Coverage', value: '100%', icon: 'shield' },
-        ],
+          'NestJS 11 with TypeORM, Redis, Socket.io for WebSockets, and JWT auth with refresh tokens. The web app is Next.js 16 and the mobile app is Expo. The cost side has vendor scorecards, regional price benchmarks and overpricing alerts.',
       },
       {
         id: 'flo-labs',
         title: 'Flo Labs International',
         description:
-          'Led a team of 3-4 developers as Design Team Lead, building and maintaining a 6-site client ecosystem. Architected a unified design system, shared component library, and modern Next.js + Strapi CMS stack from the ground up.',
+          'I led the technical side of six Flo Labs sites for AI and robotics ventures, educational programs and research projects. We redesigned them on React and Next.js with one shared design system, with a team of 3 to 4 developers.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
         tags: ['Next.js', 'Strapi', 'CMS', 'Design Systems'],
@@ -54,23 +45,20 @@ export const galaxies: Galaxy[] = [
         // Note: Live sites owned by client
         featured: false,
         dateRange: '2024-2026',
-        challenge:
-          'Led a team of 3-4 developers across 6+ production sites for a client while establishing consistent design patterns and development workflows.',
+        challenge: 'Six production sites, each with its own audience, built by 3 to 4 developers.',
         solution:
-          'Built a unified design system and component library from scratch. Implemented modern Next.js architecture with Strapi CMS, established code review processes, and mentored junior developers on TypeScript and React best practices.',
-        impact:
-          '6 production sites launched and maintained. Shared component library reduced cross-site development time. Mentored junior developers on TypeScript and React patterns.',
+          'A full redesign of flolabs.international, flolabsrd.com, CAIPO.ai, FloStudios.ai, MoodChanger.ai and RoboCollective.ai on React and Next.js with one design system. Strapi CMS and Railway went into the production sites.',
+        impact: 'I mentored three or more developers and designers through code reviews.',
         impactMetrics: [
           { label: 'Production Sites', value: '6', icon: 'globe' },
-          { label: 'Team Size', value: '4 devs', icon: 'users' },
-          { label: 'Stack', value: 'Next.js + Strapi', icon: 'layers' },
+          { label: 'Team Size', value: '3-4 devs', icon: 'users' },
         ],
       },
       {
         id: 'caipo-ai',
         title: 'CAIPO.ai',
         description:
-          'Designed and built an AI-powered platform as part of the Flo Labs 6-site ecosystem. Led frontend architecture, component integration, and UX for complex AI interactions.',
+          'One of the six Flo Labs sites. I led the front-end work on the AI platform, built with Next.js and Strapi on the shared design system.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
         tags: ['React', 'Next.js', 'AI', 'Strapi'],
@@ -81,18 +69,14 @@ export const galaxies: Galaxy[] = [
         // Note: Live site owned by client
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Building a production AI platform that connects cleanly into the Flo Labs ecosystem while maintaining consistent design language.',
         solution:
-          'Used a shared component library and design system. Implemented AI features with careful UX consideration for complex interactions and designed intuitive workflows for non-technical users.',
-        impact:
-          'Launched as part of 6-site ecosystem. Consistent design language reduces user friction across platforms. AI features integrated with zero learning curve.',
+          'The pages use the shared component library and design system from the other Flo Labs sites.',
       },
       {
         id: 'moodchanger-ai',
         title: 'MoodChanger.ai',
         description:
-          'Designed and developed an AI-powered mood tracking and wellness tool. Created calming UI with soft color transitions and built AI features that respond to emotional context with personalized suggestions.',
+          'One of the six Flo Labs sites: a mood tracking and wellness tool that gives AI-generated suggestions. I designed the interface and built it in Next.js with Strapi.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
         tags: ['Next.js', 'Strapi', 'AI'],
@@ -104,49 +88,18 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2024',
         challenge:
-          'Creating a wellness app that feels supportive rather than clinical, with AI that understands emotional context.',
+          'A wellness app should feel supportive, and the AI needs the context of how someone says they feel.',
         solution:
-          'Designed calming UI with soft color transitions and empathetic micro-interactions. Built AI features that respond to mood patterns over time, offering personalized suggestions rather than generic advice.',
-        impact:
-          'Warm design reduces app anxiety. AI personalization improves recommendation relevance. Part of Flo Labs wellness-focused product line.',
-      },
-      {
-        id: 'hephaestus',
-        title: 'Hephaestus International',
-        description:
-          'Built a high-performance corporate website with Next.js and Strapi CMS. Balanced enterprise credibility with modern design, achieving sub-2-second page loads and a CMS workflow enabling non-technical content updates.',
-        role: 'Design Team Lead',
-        company: 'Flo Labs',
-        tags: ['Next.js', 'Strapi', 'Performance'],
-        color: '#FF6B35',
-        brightness: 1.1,
-        size: 'small',
-        galaxy: 'enterprise',
-        // Note: Live site owned by client
-        featured: false,
-        dateRange: '2024',
-        challenge:
-          'Conveying corporate professionalism while maintaining the modern, dynamic feel of the Flo Labs design system.',
-        solution:
-          'Balanced enterprise credibility with contemporary design. Built Strapi CMS integration enabling non-technical team members to update content independently without developer involvement.',
-        impact:
-          'Sub-2-second page loads. Content updates require zero developer involvement. Professional design increases client trust.',
+          'Soft color transitions and small, gentle interactions, with AI suggestions based on the mood a person logs.',
       },
       {
         id: 'security-readiness-platform',
         title: 'Security Readiness Platform',
         description:
-          'Sole developer on a production cybersecurity-readiness assessment for a nonprofit (client confidential). Originally shipped across 12 phases on Dynamics 365 / Power Platform, then externalized the assessor experience into a standalone Next.js 16 + React 19 app that syncs to the governed Dataverse model. Dynamics 365 stays the system of record; the front-end is now fully owned in code.',
+          'A security-readiness assessment in production for a cybersecurity nonprofit (client confidential). It runs on Dynamics 365, Power Platform and Dataverse, with a Next.js front end. I built it in 12 implementation phases and I am the sole developer.',
         role: 'Director of Software Engineering',
         company: 'Cybersecurity nonprofit (confidential)',
-        tags: [
-          'Next.js 16',
-          'React 19',
-          'Dataverse',
-          'Power Automate',
-          'Dynamics 365',
-          'Cybersecurity',
-        ],
+        tags: ['Next.js 16', 'React 19', 'Dataverse', 'Power Automate', 'Dynamics 365'],
         color: '#FF6B35',
         brightness: 2,
         size: 'supermassive',
@@ -155,52 +108,39 @@ export const galaxies: Galaxy[] = [
         status: 'live',
         featured: true,
         dateRange: '2025-2026',
-        challenge:
-          'A healthcare cybersecurity nonprofit needed a structured MSP-readiness assessment with auditable scoring and multi-stakeholder flows. The original in-CRM Power Apps front-end hit customization limits, so the assessor experience needed to move out of Dynamics without giving up Dataverse as the source of truth.',
         solution:
-          'Built the platform in two arcs. First, a 12-phase Dynamics 365 / Power Platform implementation: a governed Dataverse data model, Power Automate scoring orchestration, and repeatable cross-environment solution packaging. Then externalized the front-end into a Next.js 16 + React 19 app on Vercel that reads and writes Dataverse directly, replacing the in-CRM Power Apps Canvas UI while keeping Dynamics 365 as the system of record.',
+          'Twelve implementation phases on Dynamics 365, Power Platform and Dataverse, with a Next.js front end.',
         impact:
-          'Live in production. Externalizing the front-end removed the Power Apps customization ceiling and put the assessor UI fully under version control, while the internal team keeps ownership of the Dataverse platform behind it.',
-        impactMetrics: [
-          { label: 'Status', value: 'In production', icon: 'rocket' },
-          { label: 'Front-end', value: 'Next.js + Dataverse', icon: 'atom' },
-          { label: 'Phases Shipped', value: '12', icon: 'layers' },
-        ],
+          'In production. I have been Director of Software Engineering since September 2025 and the sole developer since June 2026.',
+        impactMetrics: [{ label: 'Phases Shipped', value: '12', icon: 'layers' }],
       },
       {
         id: 'crc-leadgen',
         title: 'Lead-Gen & Ops Platform',
         description:
-          "Sole developer on a production lead-generation and operations platform for a cybersecurity nonprofit. Next.js 16 + React 19 + Drizzle + Neon Postgres + Better Auth + Microsoft Entra ID (MSAL). Unifies multiple public intake pipelines and hands structured data into the organization's Microsoft Power Platform via secure server-to-server callbacks.",
-        role: 'Creator & Developer',
+          'A lead-generation and operations site I built for the same cybersecurity nonprofit (client confidential). Next.js 16, React 19, Drizzle and Neon Postgres, hosted on Vercel.',
+        role: 'Developer',
         company: 'Cybersecurity nonprofit (confidential)',
-        tags: ['Next.js 16', 'Drizzle', 'Neon', 'Better Auth', 'MSAL', 'Azure AD'],
+        tags: ['Next.js 16', 'React 19', 'Drizzle', 'Neon', 'Better Auth'],
         color: '#FF6B35',
         brightness: 1.6,
         size: 'large',
         galaxy: 'enterprise',
+        status: 'live',
         featured: true,
         dateRange: '2025-2026',
-        challenge:
-          "Build a public marketing and lead-capture site that hands structured intake straight into the organization's Microsoft Power Platform behind the assessment system, with enterprise SSO for staff and modern auth for everyone else.",
         solution:
-          'Next.js 16 App Router on Vercel with Drizzle + Neon for persistence. Better Auth for public users; Microsoft Entra ID (MSAL) for staff. A signed server-to-server callback hands the intake into the Power Platform so the CRM stays the source of truth.',
-        impact:
-          'Production deployment on Vercel with enterprise SSO and strict secret hygiene. Multiple public intake pipelines unified into one governed source of truth.',
-        impactMetrics: [
-          { label: 'Form Pipelines', value: '4', icon: 'inbox' },
-          { label: 'Auth', value: 'Better Auth + MSAL', icon: 'shield' },
-          { label: 'DB', value: 'Neon Postgres', icon: 'database' },
-        ],
+          'Next.js 16 App Router on Vercel, with Drizzle and Neon Postgres for data and Better Auth for sign-in.',
+        impact: 'In production on Vercel.',
       },
       {
         id: 'rocketpark-craft-ecosystem',
         title: 'Rocketpark Agency: Craft CMS Ecosystem',
         description:
-          'Client-side delivery on an 11-site Craft CMS portfolio at a small agency. Twig templating, Composer-managed plugins, project-config workflows, Herd-based local dev, and Bitbucket-hosted source. Sites span service, e-commerce, and content-driven layouts.',
+          'At Rocketpark I run Craft CMS version upgrades, plugin updates and infrastructure work across 11 client sites, and turn Figma designs into Twig templates.',
         role: 'Software Engineering Intern',
         company: 'Rocketpark',
-        tags: ['Craft CMS', 'PHP', 'Twig', 'Composer', 'Herd', 'Bitbucket'],
+        tags: ['Craft CMS', 'PHP', 'Twig', 'Composer', 'Herd'],
         color: '#FF6B35',
         brightness: 1.4,
         size: 'large',
@@ -208,22 +148,17 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2025-2026',
         challenge:
-          'Maintain and extend an 11-site Craft CMS portfolio for paying clients while keeping local Herd environments, Composer plugin upgrades, and project-config syncs reliable across handoffs.',
+          'Keeping 11 client sites on current Craft versions and plugins without breaking them.',
         solution:
-          'Standardized Twig template architecture and content-modeling patterns. Adopted Craft project-config CLI workflow over hand-edited YAML. Used Herd for parity with shared local dev. Tracked QA via the in-house rocket-vitals scanning tool.',
-        impact:
-          'Client sites remain live and maintainable. Project-config workflow makes content-model changes traceable in version control. Standard patterns reduce per-site ramp-up.',
-        impactMetrics: [
-          { label: 'Client Sites', value: '11', icon: 'globe' },
-          { label: 'Stack', value: 'Craft CMS / Twig', icon: 'layers' },
-          { label: 'Local Dev', value: 'Herd', icon: 'server' },
-        ],
+          'I standardized the Craft project-config CLI workflow, so content-model changes show up in version control, and I build templates in Twig and Tailwind from Figma designs.',
+        impact: 'Content-model changes on the 11 sites are traceable in version control.',
+        impactMetrics: [{ label: 'Client Sites', value: '11', icon: 'globe' }],
       },
       {
         id: 'robocollective-ai',
         title: 'RoboCollective.ai',
         description:
-          'Designed and built an AI/robotics showcase platform with interactive demos and visualizations that make complex technical concepts accessible. Created Strapi CMS integration for easy content management.',
+          'One of the six Flo Labs sites: an AI and robotics showcase with interactive demos, with content managed in Strapi.',
         role: 'Design Team Lead',
         company: 'Flo Labs',
         tags: ['Next.js', 'Strapi', 'AI'],
@@ -234,20 +169,17 @@ export const galaxies: Galaxy[] = [
         // Note: Live site owned by client
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Showcasing robotics and AI capabilities in an accessible, non-intimidating way for diverse audiences.',
+        challenge: 'Explain robotics and AI to a mixed audience.',
         solution:
-          'Created interactive demos and visualizations that make complex AI/robotics concepts tangible. Built Strapi backend for easy showcase updates by non-technical team members.',
-        impact:
-          'Interactive demos increase visitor engagement. Clear explanations make technical concepts accessible. Integrated with the Flo Labs ecosystem.',
+          'Interactive demos and visualizations on the shared design system, with a Strapi backend so the team can update the showcase.',
       },
     ],
   },
   {
     id: 'ai',
-    name: 'The AI Frontier',
-    description: 'AI/ML projects - from real-time agents to GPT-4 integrations',
-    narrative: 'Exploring the boundaries of artificial intelligence',
+    name: 'AI',
+    description: 'Apps built around language models, search and agents',
+    narrative: 'Apps that use AI models, including the Algolia contest winner.',
     color: '#00D9FF',
     size: 2,
     projects: [
@@ -255,27 +187,27 @@ export const galaxies: Galaxy[] = [
         id: 'timeslip-search',
         title: 'TimeSlipSearch',
         description:
-          '🏆 Winner of Algolia Agent Studio Challenge ($750 prize) - "Conversational time machine" exploring 1958-2020 pop culture with 420,000+ records (Billboard, TMDB, FRED, Wikimedia). Featured by DEV Community for making "deep data archives feel accessible and fun."',
+          'Winner of the Algolia Agent Studio Challenge in March 2026, one of four winners ($750 and a DEV++ membership). A conversational search over 420,000+ pop-culture records from 1958 to 2020: ask for "summer of 69" or a birthday and it returns the number one song, what was in theaters, what gas cost and what made the news.',
         role: 'Creator',
         tags: ['Next.js 16', 'Algolia Agent Studio', 'Chart.js', 'Framer Motion', 'AI'],
         color: '#FFB800',
         brightness: 2,
         size: 'supermassive',
         galaxy: 'ai',
+        metrics: { files: 420000 },
         links: {
           live: 'https://timeslipsearch.vercel.app',
           contestWin:
             'https://dev.to/devteam/congrats-to-the-algolia-agent-studio-challenge-winners-3ocn',
         },
-        metrics: { files: 420000 },
         featured: true,
         dateRange: '2026',
         challenge:
-          'Indexing and searching 420,000+ cultural records spanning 60+ years while making it feel like time travel, not a search engine.',
+          'Search 420,000+ records across 60+ years by exact date, birthday, range or loose phrase.',
         solution:
-          'Built a conversational AI agent with Algolia Agent Studio that "speaks human" about pop culture history. Natural language queries like "what was trending when I was born?" return contextualized results with voice search, achievement system, and personal "Time Capsule Wrapped" analytics.',
+          'An Algolia Agent Studio agent answers in plain language over four indices (Billboard, TMDB, FRED and Wikimedia data). The app parses dates and eras, and adds voice search, achievements and a year-end "Wrapped" recap.',
         impact:
-          'Won $750 USD + DEV++ Membership in Algolia Agent Studio Challenge (March 2026). Featured by DEV Community for making "deep data archives feel accessible and fun." 420,000+ records indexed. Retro CRT interface creates immersive time-travel experience.',
+          'One of four winners of the Algolia Agent Studio Challenge, March 2026, and featured by DEV Community. Live at timeslipsearch.vercel.app.',
         impactMetrics: [
           { label: 'Contest Prize', value: '$750 + DEV++', icon: 'trophy' },
           { label: 'Records Indexed', value: '420K+', icon: 'database' },
@@ -286,7 +218,7 @@ export const galaxies: Galaxy[] = [
         id: 'chronicle',
         title: 'Chronicle',
         description:
-          'Local-first AI agent observability platform built in Rust. Timeline view, DAG visualization, cost tracking, OpenAI proxy with semantic caching, and MCP integration. Privacy-focused alternative to LangSmith.',
+          'A local-first observability tool for AI agents, written in Rust. It records every LLM call and tool use, shows them on a timeline and as a graph, tracks token cost, and includes a caching proxy for OpenAI calls and an MCP server for querying traces.',
         role: 'Creator',
         tags: [
           'Rust',
@@ -302,26 +234,19 @@ export const galaxies: Galaxy[] = [
         brightness: 1.9,
         size: 'large',
         galaxy: 'ai',
-        metrics: { tests: 29 },
         featured: true,
         dateRange: '2025-2026',
         challenge:
-          'Developers building AI agents have zero visibility into execution flow, costs, and errors. Existing tools like LangSmith cost $29-299/mo and send data to external servers.',
+          'When an agent run goes wrong, it is hard to see which call or tool use caused it, or what it cost.',
         solution:
-          'Built local-first observability platform with Rust backend (Axum + SQLite) and React 19 frontend. Implemented semantic caching proxy (30-50% cost reduction), fire-and-forget tracing (zero latency), DAG visualization, and MCP server for AI assistant integration.',
-        impact:
-          '29 tests passing (0.11s runtime). 808KB optimized UI bundle. Zero-cost local-first architecture. Semantic caching reduces LLM costs 30-50%. MCP integration enables natural language trace queries. 9.5/10 documentation score.',
-        impactMetrics: [
-          { label: 'Tests', value: '29 passing', icon: 'check' },
-          { label: 'Stack', value: 'Rust + Axum + SQLite', icon: 'cpu' },
-          { label: 'MCP Tools', value: 'Yes', icon: 'plug' },
-        ],
+          'An Axum and SQLite backend, a React 19 front end, and a Python SDK. Traces stay on your machine.',
+        impact: 'The repository is private and now archived.',
       },
       {
         id: 'stancestream',
         title: 'StanceStream',
         description:
-          'Enterprise-grade AI policy debate platform built for the Redis AI Challenge 2025. GPT-4 agents with persistent personalities, emotional states, and coalition analysis. All 4 Redis data models (JSON/Streams/TimeSeries/Vector), Redis Vector-powered semantic caching, multi-source fact-checking, and business intelligence dashboard with ROI tracking.',
+          'A real-time AI policy debate built for the Redis AI Challenge 2025. Agents debate over WebSockets, with Redis JSON, Streams, TimeSeries and Vector behind it, a semantic cache, and a fact-checking step.',
         role: 'Creator',
         tags: ['AI', 'Redis', 'WebSocket', 'GPT-4', 'React 19', 'Express.js'],
         color: '#00D9FF',
@@ -335,22 +260,17 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2024',
         challenge:
-          'Coordinating multiple AI agents in real-time with persistent memory and coherent debate dynamics while showcasing all Redis data model capabilities.',
+          'Keep several AI agents debating in real time, each with memory, while using all four Redis data models.',
         solution:
-          'Express.js + WebSocket server for real-time concurrent debates. GPT-4 agents with emotional states and coalition tracking. Redis Vector-powered semantic caching. Multi-source fact-checking with cross-validation. Business Intelligence dashboard tracks ROI and cost savings. React 19 + Vite frontend with 4-mode navigation.',
-        impact:
-          'Production-ready Redis AI Challenge entry. Semantic caching layer cuts repeat LLM cost. BI dashboard quantifies ROI in real-time. 47+ Lucide React icons across fully responsive UI.',
-        impactMetrics: [
-          { label: 'AI Agents', value: '4', icon: 'bot' },
-          { label: 'Redis Models', value: '4', icon: 'database' },
-          { label: 'Challenge', value: 'Redis AI', icon: 'trophy' },
-        ],
+          'An Express and WebSocket server, a React 19 and Vite front end, agents with persistent personalities, a Redis Vector semantic cache, and fact-checking against more than one source.',
+        impact: 'Entered in the Redis AI Challenge 2025. Live at stancestream.vercel.app.',
+        impactMetrics: [{ label: 'Redis Data Models', value: '4', icon: 'database' }],
       },
       {
         id: 'codebase-onboarding-tool',
         title: 'CodeCompass',
         description:
-          'AI-powered codebase onboarding platform with interactive architecture diagrams and RAG-based Q&A.',
+          'An AI tool for learning an unfamiliar codebase: architecture diagrams generated from the code, and RAG-based Q&A over it. Archived.',
         role: 'Creator',
         tags: ['TypeScript', 'AI', 'RAG'],
         color: '#00D9FF',
@@ -360,46 +280,38 @@ export const galaxies: Galaxy[] = [
         status: 'archived',
         featured: false,
         dateRange: '2024',
-        challenge:
-          "New developers spend weeks understanding large codebases. Architecture knowledge lives in senior developers' heads, not documentation.",
+        challenge: 'Knowledge of a large codebase often lives in a few senior developers.',
         solution:
-          'Auto-generates interactive architecture diagrams from code analysis. RAG-powered Q&A answers questions by searching through indexed codebase context.',
-        impact:
-          'Aims to cut onboarding from weeks to days. Architecture diagrams update automatically as code changes, and RAG-based Q&A answers questions about how the codebase fits together.',
+          'Diagrams generated from code analysis, and RAG over the indexed code to answer questions.',
       },
       {
         id: 'finance-quest',
         title: 'Finance Quest',
         description:
-          'Advanced financial literacy platform with 17 chapters, 30+ professional calculators, spaced-repetition learning (SM-2 algorithm), AI coaching, and WCAG 2.1 AA compliance. Major refactor removed 43K lines of dead code for a lean, maintainable codebase.',
+          'A financial literacy course with 18 chapters and more than 30 calculators. SM-2 spaced repetition schedules reviews, and an AI coach answers in context, using Claude with GPT-4o-mini as a fallback.',
         role: 'Creator',
         tags: ['Next.js 15', 'React 19', 'AI', 'Zustand', 'Recharts'],
         color: '#00D9FF',
         brightness: 1.8,
         size: 'large',
         galaxy: 'ai',
-        links: {
-          live: 'https://financequest.fyi',
-        },
+        links: { live: 'https://financequest.fyi' },
         featured: true,
         dateRange: '2024-2026',
-        challenge:
-          'Creating an engaging financial education platform that actually helps users retain knowledge long-term, with full WCAG 2.1 AA accessibility compliance.',
+        challenge: 'Make financial concepts stick, on a site built against WCAG 2.1 AA.',
         solution:
-          'Implemented the SM-2 spaced repetition algorithm to schedule review cycles. Built 30+ interactive calculators, AI-powered coaching, and gamification elements. Major refactor removed 43K lines of dead code, consolidated duplicates, and cleaned up types for long-term maintainability.',
-        impact:
-          'SM-2 spaced repetition scheduling for review intervals. WCAG 2.1 AA compliant for full accessibility. 43K-line refactor proves commitment to code quality at scale.',
+          'SM-2 scheduling for review intervals, interactive calculators, and an AI coach with a rule-based fallback when no AI provider is reachable. It is built against WCAG 2.1 AA but has not had an independent audit.',
+        impact: 'Live at financequest.fyi.',
         impactMetrics: [
-          { label: 'Chapters', value: '17', icon: 'book' },
+          { label: 'Chapters', value: '18', icon: 'book' },
           { label: 'Calculators', value: '30+', icon: 'calculator' },
-          { label: 'Dead Code Removed', value: '43K lines', icon: 'scissors' },
         ],
       },
       {
         id: 'explainthiscode',
         title: 'ExplainThisCode.ai',
         description:
-          'Enterprise SaaS code explanation platform with GPT-4, skill-level adaptation, security vulnerability scanning, performance profiling, team collaboration, and Stripe subscriptions. 47 Radix UI components.',
+          'Paste code and get an explanation matched to your role and skill level. Modes cover standard, learning, performance, security and comparative explanations. Stripe handles subscriptions.',
         role: 'Creator',
         tags: ['Next.js 16', 'Supabase', 'OpenAI', 'Stripe', 'Prisma'],
         color: '#00D9FF',
@@ -409,131 +321,101 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://explainthiscode.ai' },
         featured: false,
         dateRange: '2024-2026',
-        challenge:
-          'Building a full SaaS platform from scratch with AI-powered code analysis, subscription billing, and team collaboration features.',
+        challenge: 'A student and a senior engineer need different explanations of the same code.',
         solution:
-          "Integrated GPT-4 with skill-level adaptation to explain code at the user's level. Added security vulnerability scanning, performance profiling, Stripe subscriptions, and built the entire UI with 47 Radix components.",
-        impact:
-          'Full production SaaS with Stripe billing integration. 47 Radix UI components for consistent, accessible UI. Security scanning identifies vulnerabilities in real-time.',
-        impactMetrics: [
-          { label: 'Radix Components', value: '47', icon: 'puzzle' },
-          { label: 'AI Models', value: 'GPT-4', icon: 'bot' },
-          { label: 'Billing Tiers', value: '3', icon: 'card' },
-          { label: 'Status', value: 'Live SaaS', icon: 'rocket' },
-        ],
+          'Next.js 16 with Supabase, role and skill-level settings that shape each explanation, and Stripe billing.',
+        impact: 'Live at explainthiscode.ai.',
       },
       {
         id: 'dev-assistant-pro',
         title: 'Dev Assistant Pro',
         description:
-          'Ultimate AI-powered development assistant with comprehensive CI/CD, testing, and DevOps integration.',
+          'A development assistant built around an MCP server, with a desktop IDE shell (Monaco editor, terminal and file tree). Archived.',
         role: 'Creator',
         tags: ['AI', 'CI/CD', 'Testing', 'DevOps'],
         color: '#00D9FF',
         brightness: 1.2,
         size: 'small',
         galaxy: 'ai',
-        // GitHub repo archived 2026-06
         status: 'archived',
+        // GitHub repo archived 2026-06
         featured: false,
         dateRange: '2024',
-        challenge:
-          'DevOps workflows are complex and context-switching between tools kills productivity. Developers need intelligent assistance across the entire CI/CD pipeline.',
+        challenge: 'Developer tooling is spread across many apps.',
         solution:
-          'Built an AI assistant that understands CI/CD context, suggests test fixes, explains deployment failures, and automates routine DevOps tasks.',
-        impact:
-          'Cuts the manual triage step in CI/CD debugging by surfacing the likely failure cause with proposed fix. Integrates with GitHub Actions, Jenkins, and GitLab CI.',
+          'An MCP server with a tool registry, plus a desktop workspace with an editor, terminal and file tree.',
+        impact: 'The GitHub repository was archived in June 2026.',
       },
       {
         id: 'tubedigest',
         title: 'TubeDigest',
         description:
-          'AI-powered YouTube video summarization with Claude Sonnet 4.5, topic extraction, full-text search, mind map visualization, and GitHub sync.',
+          'Turns long YouTube videos into structured notes: an AI summary, topic tags, a mind map, full-text search, and optional export to GitHub.',
         role: 'Creator',
         tags: ['AI', 'Claude', 'Next.js', 'Supabase', 'YouTube'],
         color: '#00D9FF',
         brightness: 1.9,
         size: 'large',
         galaxy: 'ai',
-        links: {
-          live: 'https://tube-digest-ivory.vercel.app',
-        },
+        links: { live: 'https://tube-digest-ivory.vercel.app' },
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Processing long-form YouTube content into useful, searchable summaries while preserving key insights and enabling knowledge management.',
+        challenge: 'Long videos are hard to search once you have watched them.',
         solution:
-          'Built a pipeline using Claude Sonnet 4.5 for intelligent summarization with topic extraction. Added mind map visualization for exploring connections, full-text search across all summaries, and GitHub sync for backup.',
-        impact:
-          'Claude Sonnet 4.5 integration delivers high-quality summaries. Mind map visualization reveals content connections. GitHub sync ensures knowledge is never lost.',
-        impactMetrics: [
-          { label: 'AI Model', value: 'Claude 4.5', icon: 'brain' },
-          { label: 'Search', value: 'Full-Text', icon: 'search' },
-          { label: 'Visualisation', value: 'Mind Map', icon: 'map' },
-          { label: 'Backup', value: 'GitHub Sync', icon: 'cloud' },
-        ],
+          'An AI summary streams in, topics are extracted, a mind map is built from the summary structure, and everything is indexed for full-text search.',
+        impact: 'Live at tube-digest-ivory.vercel.app.',
       },
       {
         id: 'autodocs-ai',
         title: 'AutomaDocs',
         description:
-          'Production SaaS AI documentation platform. Automatically generates and maintains comprehensive code docs with RAG-powered chat, Tree-sitter parsing, and GitHub webhooks. Stripe-integrated with Pro ($35/mo), Team ($95/mo), and Business ($239/mo) tiers.',
+          'Connects to your GitHub repos, parses the code with Tree-sitter, and generates docs that refresh on every push. A chat answers questions about the code with citations to files and lines. Free, Pro ($49/mo) and Team ($149/mo) plans through Stripe.',
         role: 'Creator',
         tags: ['AI', 'Claude Sonnet', 'Tree-sitter', 'RAG', 'Stripe', 'PostgreSQL', 'Redis'],
         color: '#00D9FF',
         brightness: 2,
         size: 'supermassive',
         galaxy: 'ai',
-        links: {
-          live: 'https://automadocs.com',
-        },
-        metrics: {
-          revenue: true,
-        },
+        links: { live: 'https://automadocs.com' },
         featured: true,
         dateRange: '2024-2026',
-        challenge:
-          'Documentation becomes outdated instantly. Manual maintenance is tedious and skipped. Need auto-sync on every git push plus intelligent Q&A.',
+        challenge: 'Docs go stale as soon as the code changes.',
         solution:
-          'Built AI pipeline with Claude for documentation generation, Tree-sitter for code parsing, RAG (Pinecone + BM25) for intelligent chat, GitHub webhooks for auto-sync, and full Stripe billing with 3 pricing tiers. Multi-language code sample generation.',
-        impact:
-          'Live production SaaS with Stripe billing ($35-239/mo). Documentation auto-updates on git push via GitHub webhooks. RAG chat (Pinecone + BM25) answers questions about the codebase directly.',
+          'Claude writes the docs, Tree-sitter parses the code, and Pinecone retrieval backs the chat. A GitHub webhook regenerates docs on push. There is also an MCP server, a CLI and a GitHub Action.',
+        impact: 'Live at automadocs.com with Stripe checkout.',
         impactMetrics: [
-          { label: 'Pricing', value: '$35-239/mo', icon: 'dollar' },
-          { label: 'Stack', value: 'Claude + RAG', icon: 'bot' },
-          { label: 'Status', value: 'Live SaaS', icon: 'rocket' },
-          { label: 'Sync', value: 'Auto on Push', icon: 'refresh' },
+          { label: 'Pro plan', value: '$49/mo', icon: 'dollar' },
+          { label: 'Team plan', value: '$149/mo', icon: 'dollar' },
         ],
       },
       {
         id: 'mcp-server-studio',
         title: 'MCP Server Studio',
         description:
-          'Visual builder for Model Context Protocol servers. Design tools, resources, and prompts on a drag-and-drop React Flow canvas. Built-in test simulator with parameter validation and batch schema testing. Exports production-ready TypeScript with Docker and Railway deployment bundles. 466 passing tests.',
+          'A visual builder for MCP servers. Design tools, resources and prompts on a drag-and-drop canvas, test them in a built-in simulator, and export TypeScript server code with Docker and Railway deployment bundles.',
         role: 'Creator',
         tags: ['MCP', 'React Flow', 'Monaco Editor', 'Zustand', 'Next.js 15', 'TypeScript'],
         color: '#00D9FF',
         brightness: 2,
         size: 'large',
         galaxy: 'ai',
+        metrics: { tests: 488 },
         links: { live: 'https://mcp-server-studio.vercel.app' },
-        metrics: { tests: 466 },
         featured: false,
         dateRange: '2026',
         challenge:
-          "Model Context Protocol (Anthropic's AI protocol) requires boilerplate code and manual testing. No visual tools existed for rapid prototyping.",
+          'Prototyping an MCP server by hand takes a lot of boilerplate and manual testing.',
         solution:
-          'React Flow canvas for visual tool design, Monaco Editor for live code preview, interactive test inspector with structured results, and a TypeScript code generator that outputs Docker + Railway deployment bundles. 8 pre-built templates for common patterns. Shipped MVP in 4 hours.',
-        impact:
-          '466 passing tests. Complete workflow: design → test → export → deploy in one tool. Docker + Railway bundles eliminate deployment friction. 8 templates cut MCP server setup from hours to minutes.',
+          'A React Flow canvas for tool design, a Monaco editor for live code preview, a test simulator, and a TypeScript code generator. It can also turn OpenAPI operations into MCP tool definitions.',
+        impact: 'Live at mcp-server-studio.vercel.app.',
       },
       {
         id: 'lumira',
         title: 'Lumira (Autonomous AI Artist)',
         description:
-          'Autonomous AI artist built with Rust backend (3-5s generation per image). Features 10 emotional states, episodic + semantic memory, ReAct visible thinking, adaptive learning via multi-armed bandit, and LoRA style training. Kubernetes-ready with PWA frontend.',
+          'An autonomous AI artist with ten emotional states, episodic and semantic memory, and a journal where it writes about what it made. The backend is Python and FastAPI.',
         role: 'Creator',
-        tags: ['Rust', 'PWA', 'Hugging Face', 'Stable Diffusion', 'Memory Systems'],
+        tags: ['Python', 'FastAPI', 'Stable Diffusion', 'Hugging Face', 'Memory Systems'],
         color: '#00D9FF',
         brightness: 1.8,
         size: 'large',
@@ -541,49 +423,37 @@ export const galaxies: Galaxy[] = [
         links: { github: 'https://github.com/forbiddenlink/lumira' },
         featured: false,
         dateRange: '2025-2026',
-        challenge:
-          'Building an AI that creates art with genuine personality rather than just generating images on demand - an agent that has moods, preferences, and learns over time.',
+        challenge: 'I wanted an AI artist with moods and preferences that change over time.',
         solution:
-          'Rust backend for 10x performance boost (3-5s generation). Implemented 10 emotional states, episodic + semantic memory, ReAct-style visible thinking, and multi-armed bandit for adaptive learning. LoRA fine-tuning for style development.',
-        impact:
-          '10x faster generation (3-5s vs 30-50s). AI develops unique artistic style through emotional states and memory. Rust backend is Kubernetes-ready for scale. PWA frontend works offline.',
+          'Ten emotional states that shape each piece, episodic and semantic memory, a ReAct-style journal entry after each image, and a multi-armed bandit that adapts to feedback.',
       },
       {
         id: 'contradictme',
         title: 'ContradictMe',
         description:
-          'AI-powered debate and critical thinking trainer that fights echo chambers. State your position and receive GPT-4 steelman counter-arguments: the strongest possible opposing case, backed by evidence and logical rebuttals. Features AI debate arena, credibility scoring, source verification, and analytics dashboard. 73 passing tests.',
+          'A debate trainer. State a position and it argues the strongest opposing case, with evidence and rebuttals. The chat runs through an Algolia Agent Studio agent.',
         role: 'Creator',
         tags: ['Next.js 15', 'GPT-4', 'OpenAI', 'Framer Motion'],
         color: '#00D9FF',
         brightness: 1.6,
         size: 'large',
         galaxy: 'ai',
+        metrics: { tests: 73 },
         links: {
           live: 'https://contradict-me.vercel.app',
           github: 'https://github.com/forbiddenlink/contradict-me',
         },
-        metrics: { tests: 73 },
         featured: false,
         dateRange: '2025-2026',
-        challenge:
-          'Fighting echo chambers by presenting the strongest opposing viewpoints without bias or strawmanning.',
+        challenge: 'Show people the best version of the other side.',
         solution:
-          'GPT-4 generates steelman arguments: the best possible version of the opposing case. Built credibility scoring, source verification, AI debate arena, and analytics dashboard tracking argument quality over time.',
-        impact:
-          '73 automated tests ensure argument quality. Steelman framing exposes users to the strongest opposing case rather than strawman versions. Live with credibility scoring, source verification, and analytics dashboard.',
-        impactMetrics: [
-          { label: 'Passing Tests', value: '73', icon: 'check' },
-          { label: 'AI Model', value: 'GPT-4', icon: 'bot' },
-          { label: 'Stack', value: 'Next.js 15', icon: 'layers' },
-          { label: 'Status', value: 'Live', icon: 'rocket' },
-        ],
+          'The chat backend proxies to an Algolia Agent Studio endpoint. Conversations are stored in the browser, and Upstash Redis handles rate limiting.',
+        impact: 'Live at contradict-me.vercel.app.',
       },
       {
         id: 'interview-ace',
         title: 'Interview Ace',
-        description:
-          'AI-powered interview preparation platform with mock interviews, real-time feedback analysis, and personalized coaching.',
+        description: 'An AI interview preparation app with mock interviews and feedback. Archived.',
         role: 'Creator',
         tags: ['AI', 'Next.js'],
         color: '#00D9FF',
@@ -593,18 +463,15 @@ export const galaxies: Galaxy[] = [
         status: 'archived',
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Interview practice typically requires expensive coaches or awkward role-play with friends. Feedback is subjective and delayed.',
+        challenge: 'Practicing interviews usually needs a coach or a friend.',
         solution:
-          'AI conducts realistic mock interviews with industry-specific questions. Real-time analysis scores communication clarity, confidence, and answer structure.',
-        impact:
-          'Mock interviews available 24/7 without scheduling. AI feedback identifies weak points in seconds. Personalized coaching adapts to improvement areas.',
+          'AI runs mock interviews with industry-specific questions and scores communication clarity and answer structure.',
       },
       {
         id: 'dev-interviewer',
         title: 'Dev Interviewer',
         description:
-          'Technical interview simulator with AI-driven coding challenges, live code evaluation, and comprehensive skill assessment.',
+          'An earlier technical interview simulator with AI follow-up questions and live code evaluation. Its deployed URL now serves HireReady.',
         role: 'Creator',
         tags: ['AI', 'Code Evaluation'],
         color: '#00D9FF',
@@ -614,18 +481,16 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://dev-interviewer-iota.vercel.app' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Technical interview practice is hard to find outside actual interviews. LeetCode solves algorithms but misses the live coding dynamic.',
+        challenge: 'Algorithm sites do not practice the live back-and-forth of a coding interview.',
         solution:
-          'AI interviewer asks follow-up questions based on your approach, evaluates code in real-time, and adjusts difficulty dynamically.',
-        impact:
-          'Live code evaluation catches bugs as you type. Dynamic follow-ups simulate real interviewer behavior. Skill assessment maps strengths and gaps.',
+          'An AI interviewer that asks follow-up questions about your approach and evaluates your code.',
+        impact: 'The old Dev Interviewer URL serves HireReady today.',
       },
       {
         id: 'storyvision',
         title: 'StoryVision',
         description:
-          'Cinematic AI storytelling platform that transforms books (PDF, EPUB, TXT) into immersive visual experiences. Claude 3.5 Sonnet handles intelligent scene extraction while Hugging Face Flux.1-dev generates 4K-ready neural imagery. Director Memory system (Character Bible + Style Bible) maintains visual continuity across hundreds of generated frames. Supabase + Prisma backend.',
+          'Turns a book (PDF, EPUB or TXT) into a visual story. Claude Sonnet picks out scenes, and a Character Bible and Style Bible for each book keep characters looking the same across generated images.',
         role: 'Creator',
         tags: [
           'Next.js',
@@ -643,20 +508,18 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://storyvision-tawny.vercel.app' },
         featured: false,
         dateRange: '2025-2026',
-        challenge:
-          'Transforming long-form text into cohesive visual narratives while maintaining character and style consistency across hundreds of generated images.',
+        challenge: 'Keep characters and style consistent across hundreds of generated images.',
         solution:
-          'Director Memory system with per-book Character Bible and Style Bible for visual continuity. Claude 3.5 Sonnet extracts cinematic scenes from narrative structure. Flux.1-dev generates consistent 4K-ready imagery. Dark Void aesthetic with glassmorphism and smooth micro-interactions. Migrated from Neon to Supabase for cost-effective persistence.',
-        impact:
-          'Transforms entire books into visual stories with consistent character design. Persistent gallery preserves generated art. Character Bible eliminates the consistency failures that plague most AI image generation.',
+          'Claude Sonnet extracts the scenes, then generation goes to a pool of image and video providers. Imports run as background jobs on Inngest and Trigger.dev so a long novel does not block the UI.',
+        impact: 'Live at storyvision-tawny.vercel.app.',
       },
     ],
   },
   {
     id: 'fullstack',
-    name: 'Full-Stack Nebula',
-    description: 'Complete applications and complex systems',
-    narrative: 'End-to-end solutions from database to deployment',
+    name: 'Full-stack',
+    description: 'Apps with accounts, a database and, in some cases, billing',
+    narrative: 'Apps with sign-in and a database, some with Stripe billing.',
     color: '#9D4EDD',
     size: 2,
     projects: [
@@ -664,58 +527,49 @@ export const galaxies: Galaxy[] = [
         id: 'hire-ready',
         title: 'HireReady',
         description:
-          'AI-powered interview prep SaaS with real-time voice interviews (OpenAI Realtime API), FSRS-5 spaced repetition scheduling, 1,300+ question bank, and company-specific prep tracks for Amazon, Google, Meta, Microsoft, Apple, Netflix, Stripe, and Uber. Gamification, performance analytics, and Stripe subscriptions (monthly, annual, and lifetime tiers).',
+          'Technical interview prep with AI voice interviews on the OpenAI Realtime API, FSRS-5 spaced repetition, timed mock interviews with scorecards, and 1,300+ practice questions. Stripe handles Pro Monthly, Pro Annual and Lifetime plans.',
         role: 'Creator',
         tags: ['Next.js 15', 'Supabase', 'OpenAI Realtime', 'Stripe', 'Voice AI', 'FSRS-5'],
         color: '#9D4EDD',
         brightness: 2,
         size: 'large',
         galaxy: 'fullstack',
-        links: {
-          live: 'https://imhireready.com',
-        },
-        metrics: {
-          tests: 150,
-          revenue: true,
-        },
+        metrics: { tests: 1606 },
+        links: { live: 'https://imhireready.com' },
         featured: false,
         dateRange: '2026',
         challenge:
-          'Building a production SaaS with real-time AI voice interviews and scientifically-optimised spaced repetition while preventing financial losses from unlimited usage.',
+          'Interview prep tends to be a list of problems to grind. I wanted a loop of practice, feedback and scheduled review.',
         solution:
-          'OpenAI Realtime API for natural voice interviews with post-session analysis. FSRS-5 algorithm (same as Anki) drives review scheduling. 1,300+ questions across company-specific tracks. Usage limits per plan prevent cost overruns. Stripe handles monthly, annual, and lifetime billing.',
-        impact:
-          'Live production SaaS. Voice interviews available 24/7 without scheduling. Company-specific prep covers FAANG + Stripe + Uber. FSRS-5 delivers science-backed review scheduling.',
+          'Voice interviews over the OpenAI Realtime API, reviews scheduled with ts-fsrs, timed mock rounds with scorecards, and XP, streaks and badges.',
+        impact: 'Live at imhireready.com with Stripe checkout.',
+        impactMetrics: [{ label: 'Practice Questions', value: '1,300+', icon: 'book' }],
       },
       {
         id: 'ucp-guard',
         title: 'UCP Guard',
         description:
-          'Uptime monitoring SaaS for emerging commerce-protocol endpoints. Scheduled scans, email/Slack alerts, and white-label reports for agencies. Built UCP validator engine, monitoring cron, Stripe checkout, and agency report templates.',
+          "Monitoring for Universal Commerce Protocol endpoints. It checks a store's /.well-known/ucp endpoint against the spec and sends alerts when something breaks. Next.js 16, Supabase, Stripe and Resend.",
         role: 'Creator',
         tags: ['Next.js 16', 'Supabase', 'Vercel Cron', 'UCP Protocol', 'Monitoring'],
         color: '#9D4EDD',
         brightness: 1.9,
         size: 'large',
         galaxy: 'fullstack',
-        links: {
-          live: 'https://ucpguard.com',
-        },
-        featured: false,
+        links: { live: 'https://ucpguard.com' },
         status: 'in-progress',
+        featured: false,
         dateRange: '2026',
-        challenge:
-          'Emerging commerce protocols have no off-the-shelf uptime monitoring. Agencies need to monitor client endpoints without rolling their own infra.',
+        challenge: 'UCP endpoints can break without anyone noticing.',
         solution:
-          'Built UCP validator (10KB engine), store management API, monitoring cron (runs every 5 min), Stripe checkout, and white-label reports. Vercel cron + Stripe automation. All 27 env vars configured.',
-        impact:
-          'Pre-launch. Validator engine + cron + Stripe flow shipped. White-label report templates ready for agency tier. Cron endpoint verified working (200 OK).',
+          'A validator checks each endpoint against the spec, a Vercel cron runs the checks on a schedule, and Resend sends the alerts. Stripe checkout is wired up.',
+        impact: 'In progress. ucpguard.com is live.',
       },
       {
         id: 'carefulship',
         title: 'Carefulship',
         description:
-          'Preview-first website audit SaaS that crawls sites you track, surfaces findings, and exports reports. Inngest background jobs for async crawling, Supabase for persistence, Playwright for dynamic analysis, and Langfuse for AI observability. Optional Slack, email, and Vercel integrations.',
+          'Preview-first website audits. Add a site you track, and it crawls it, lists findings and exports reports. Background crawls run on Inngest, with Supabase for data, Playwright for dynamic checks and Langfuse for tracing the AI parts. Slack, email and Vercel integrations are optional.',
         role: 'Creator',
         tags: ['Next.js 16', 'React 19', 'Supabase', 'Inngest', 'Playwright', 'Sentry', 'Langfuse'],
         color: '#9D4EDD',
@@ -723,26 +577,19 @@ export const galaxies: Galaxy[] = [
         size: 'large',
         galaxy: 'fullstack',
         links: {},
+        status: 'in-progress',
         featured: false,
         dateRange: '2026',
-        status: 'in-progress',
-        challenge:
-          'Agencies and developers need continuous website health monitoring without the complexity of enterprise tools or the limitations of one-off audit scripts.',
+        challenge: 'One-off audit scripts do not watch a site over time.',
         solution:
-          'Built a preview-first SaaS: add a site, schedule crawls, get findings with severity scores. Inngest handles async crawl jobs. Playwright runs dynamic analysis. Langfuse traces AI-powered insights. Supabase stores crawl history and findings with row-level security.',
-        impact:
-          'Background crawls run on schedule without user intervention. Findings exportable for client reporting. Modern stack (Next.js 16, React 19, TypeScript 6).',
-        impactMetrics: [
-          { label: 'Background Jobs', value: 'Inngest', icon: 'refresh' },
-          { label: 'Observability', value: 'Langfuse', icon: 'eye' },
-          { label: 'Crawler', value: 'Playwright', icon: 'spider' },
-        ],
+          'Scheduled crawls, findings with severity scores, and exportable reports, with row-level security on the Supabase tables.',
+        impact: 'In progress.',
       },
       {
         id: 'portfolio-pro',
         title: 'Portfolio-Pro',
         description:
-          'AI development learning platform with 269 lessons, 144 projects, custom MCP servers, Monaco Editor for live coding, subscription tiers with Stripe, and 87% test coverage.',
+          'A learning platform for AI development: 297 lessons in six tracks, a Monaco editor for live coding, custom MCP servers, and Stripe subscriptions.',
         role: 'Creator',
         tags: ['Next.js 15', 'Supabase', 'Stripe', 'OpenAI', 'Radix UI'],
         color: '#9D4EDD',
@@ -750,27 +597,25 @@ export const galaxies: Galaxy[] = [
         size: 'large',
         galaxy: 'fullstack',
         links: { live: 'https://www.portfoliopro.dev' },
-        metrics: { tests: 111 },
         featured: true,
         dateRange: '2023-2026',
         challenge:
-          'Creating a comprehensive AI development learning platform with interactive coding, subscription management, and custom tooling.',
+          'Teaching AI development with real code needs an editor, runnable projects and billing.',
         solution:
-          'Built 269 lessons across 144 projects with Monaco Editor for live coding. Integrated custom MCP servers, Stripe subscriptions with multiple tiers, and achieved 87% test coverage.',
-        impact: '269 lessons, 144 projects, and 87% test coverage on a live production platform.',
+          'Next.js with Supabase, a Monaco editor for live coding, custom MCP servers, and Stripe subscriptions.',
+        impact: 'Live at portfoliopro.dev.',
         impactMetrics: [
-          { label: 'Lessons', value: '269', icon: 'book' },
-          { label: 'Projects', value: '144', icon: 'building' },
-          { label: 'Test Coverage', value: '87%', icon: 'check' },
+          { label: 'Lessons', value: '297', icon: 'book' },
+          { label: 'Tracks', value: '6', icon: 'layers' },
         ],
       },
       {
         id: 'create-surveys',
         title: 'Create Surveys',
         description:
-          'Full-stack survey creation platform with real-time analytics and drag-and-drop builder.',
+          'A survey builder on React, TypeScript, Vite and Firebase, with five templates, several question types, conditional logic and real-time analytics.',
         role: 'Creator',
-        tags: ['TypeScript', 'Next.js'],
+        tags: ['TypeScript', 'React', 'Vite', 'Firebase'],
         color: '#9D4EDD',
         brightness: 1.6,
         size: 'large',
@@ -779,24 +624,18 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2024',
         challenge:
-          'Survey tools are either too simple (Google Forms) or too complex (enterprise solutions). Middle ground with good UX barely exists.',
+          'Google Forms is limited and enterprise survey tools are heavy. I wanted something in between.',
         solution:
-          'Built intuitive drag-and-drop builder with real-time analytics dashboard. Skip logic and conditional branching without complexity.',
-        impact:
-          'Survey creation takes under 5 minutes. Real-time analytics show response patterns as they come in. Conditional logic requires zero coding.',
-        impactMetrics: [
-          { label: 'Setup Time', value: '< 5 min', icon: 'zap' },
-          { label: 'Analytics', value: 'Real-Time', icon: 'chart' },
-          { label: 'Status', value: 'Live', icon: 'globe' },
-        ],
+          'A drag-and-drop builder, templates for customer satisfaction, employee engagement and product feedback, and an analytics dashboard that updates as responses arrive.',
+        impact: 'Live at create-surveys.com.',
       },
       {
         id: 'skill-mapper',
         title: 'Skill Mapper',
         description:
-          'Interactive skills visualization platform with dynamic graphs, proficiency tracking, and career path mapping.',
+          'A gamified skill-tree learning platform with progression tracking, achievements and interactive challenges. The tree is drawn with React Flow.',
         role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'D3.js'],
+        tags: ['Next.js', 'TypeScript', 'React Flow'],
         color: '#9D4EDD',
         brightness: 1.5,
         size: 'medium',
@@ -807,18 +646,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Tracking skill development is abstract. Developers struggle to see progress or identify gaps in their knowledge systematically.',
+        challenge: 'Progress in a skill is hard to see.',
         solution:
-          'Built D3.js-powered skill graphs with proficiency tracking. Career path mapping shows which skills to prioritize for target roles.',
-        impact:
-          'Visual skill maps make abstract progress tangible. Career paths highlight 3-5 skills to focus on next. Proficiency tracking motivates continuous learning.',
+          'A skill tree you move through, with achievements and challenges that mark progress.',
+        impact: 'Live at skill-mapper-six.vercel.app.',
       },
       {
         id: 'reprise',
         title: 'RepRise',
         description:
-          'Premium fitness trainer matching platform that intelligently pairs users with their ideal trainer using a multi-factor weighted scoring algorithm (Jaccard similarity, budget constraints, schedule overlap, personality compatibility, and 0-100 confidence scoring). Demonstrates sophisticated algorithm design and thoughtful UX in a focused portfolio piece.',
+          'A fitness trainer matching app. A weighted score combines goal overlap (Jaccard similarity), budget, schedule overlap and personality fit.',
         role: 'Creator',
         tags: ['Next.js', 'TypeScript'],
         color: '#9D4EDD',
@@ -829,22 +666,16 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025',
         challenge:
-          'Matching people with fitness trainers requires weighing incommensurable factors (schedule, budget, personality, goals) in a way that feels trustworthy rather than arbitrary.',
+          'Schedule, budget, personality and goals do not share a unit, so a match needs a rule for weighing them.',
         solution:
-          'Multi-factor weighted scoring with Jaccard similarity for goal overlap, budget constraint logic as a hard filter, schedule conflict detection, and a 0-100 confidence score driven by profile completeness.',
-        impact:
-          'Matching algorithm handles edge cases gracefully. Confidence scoring gives users a clear signal of match quality. Clean UX makes a complex algorithm feel effortless.',
-        impactMetrics: [
-          { label: 'Algorithm', value: 'Jaccard', icon: 'calculator' },
-          { label: 'Score Range', value: '0-100', icon: 'target' },
-          { label: 'Factors', value: '5+', icon: 'scale' },
-        ],
+          'Weighted scoring with Jaccard similarity for goals, a budget constraint that works as a hard filter, and schedule overlap.',
+        impact: 'Live at reprise-tau.vercel.app.',
       },
       {
         id: 'willwise',
         title: 'WillWise',
         description:
-          'Modern estate planning platform specializing in digital assets, featuring a streamlined 7-step questionnaire and state-specific legal document generation with Stripe payments.',
+          'An estate planning app focused on digital assets such as crypto and cloud accounts. A questionnaire of about 45 minutes produces a will as a PDF, and Stripe takes payment.',
         role: 'Creator',
         tags: ['Next.js', 'TypeScript', 'Clerk', 'Supabase', 'Stripe', 'PDF Generation'],
         color: '#9D4EDD',
@@ -854,40 +685,34 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025',
         challenge:
-          'Traditional estate planning ignores digital assets (crypto, social media, cloud accounts) and requires expensive lawyers for simple wills.',
+          'Estate planning usually leaves out digital assets and needs a lawyer even for a simple will.',
         solution:
-          'Built 7-step questionnaire covering digital and physical assets. State-specific PDF generation for CA, TX, FL, NY, WA with Stripe payments.',
-        impact:
-          'Draft a will in about 45 minutes instead of weeks with lawyers. Digital asset inventory keeps crypto and accounts accounted for. Data export built in.',
+          'A step-by-step questionnaire covering digital and physical assets, state-specific guides, PDF generation and Stripe payments.',
       },
       {
         id: 'aqualog',
         title: 'AquaLog',
         description:
-          'Progressive Web App for aquarium maintenance tracking. Multi-tank management, water parameter logging with trend analysis, predictive AI alerts, maintenance scheduler, livestock manager, and species compatibility checker. Premium tier with cloud sync.',
+          'A free PWA for home aquarium hobbyists: multi-tank logs, water parameter charts, maintenance schedules, species compatibility checks, and AI predictions that warn before a parameter reaches a dangerous level. A paid plan lifts the one-tank limit.',
         role: 'Creator',
         tags: ['Next.js', 'React', 'TypeScript', 'PWA', 'Recharts', 'Supabase', 'AI'],
         color: '#9D4EDD',
         brightness: 1.8,
         size: 'large',
         galaxy: 'fullstack',
-        links: {
-          live: 'https://myaqualog.com',
-        },
+        links: { live: 'https://myaqualog.com' },
         featured: false,
         dateRange: '2025-2026',
-        challenge:
-          'Fishkeepers struggle to maintain consistent water quality and track maintenance across multiple tanks. Existing apps are basic spreadsheet replacements.',
+        challenge: 'Fishkeepers lose track of water tests and maintenance across tanks.',
         solution:
-          'Built PWA with trend visualization for water parameters, AI-powered alerts predicting issues before they happen, species compatibility database, and gamification to encourage consistent maintenance.',
-        impact:
-          'Live at myaqualog.com. PWA works offline for tank-side logging. Predictive alerts catch water quality issues 24-48 hours early. Gamification layer keeps logging cadence consistent.',
+          'One running log for each tank, charts of pH, ammonia, nitrite and nitrate over time, and a maintenance scheduler.',
+        impact: 'Live at myaqualog.com.',
       },
       {
         id: 'dareuradio',
         title: 'DareU Radio',
         description:
-          'Professional-grade digital radio platform for an active media brand with live streaming, show programming, mobile app integration, and Sanity CMS. Built as IT Specialist & Website Architect via Riipen/Capella University partnership.',
+          'A site for DareU Radio, a live digital radio station: a built-in streaming player, show programming pages, app download links and social links, with content managed in Sanity. I built it as IT Specialist and Website Architect through the Riipen program with Capella University.',
         role: 'IT Specialist & Website Architect',
         company: 'DareU Radio (Riipen)',
         tags: [
@@ -902,23 +727,19 @@ export const galaxies: Galaxy[] = [
         brightness: 1.8,
         size: 'large',
         galaxy: 'fullstack',
-        links: {
-          live: 'https://dareuradio.com',
-          testimonial: '/testimonials/brenna-martin-dareu-radio.pdf',
-        },
+        links: { live: 'https://dareuradio.com' },
         featured: false,
         dateRange: '2025-2026',
         challenge:
-          'Building a fully functional, professional-grade website for an active digital media brand with live radio, mobile app presence, and real commercial ambitions, not a classroom exercise, but real-world deliverable work.',
+          'A live station with a growing audience and a mobile app needed a working site, on a remote team with several stakeholders.',
         solution:
-          'Designed and built complete platform with built-in streaming player, show programming architecture, app download integration, social connectivity, and content-ready Sanity CMS. Maintained clear communication in remote, multi-stakeholder environment.',
-        impact:
-          'Received highest possible recommendation from founder Brenna Martin: "Elizabeth was the backbone of this project... she handled it with the skill and composure of a seasoned professional." Full letter of recommendation available.',
+          'A streaming player, show programming pages, app download links, social links and a Sanity CMS the station can fill in itself.',
+        impact: 'The founder, Brenna Martin, wrote me a recommendation letter in March 2026.',
         testimonial: {
           quote:
-            'Elizabeth was the backbone of this project. She carried the technical weight and delivered a product that exceeded expectations... both brilliant and a pleasure to collaborate with.',
+            'Elizabeth was the backbone of this project. While every team member played a role in bringing the DAREU Radio website to life, it was Elizabeth who carried the technical weight and delivered a product that exceeded expectations.',
           author: 'Brenna Martin',
-          role: 'Founder & Station Director, DareU Radio',
+          role: 'Founder & Station Director, DAREU Radio',
           date: 'March 2026',
         },
       },
@@ -926,7 +747,7 @@ export const galaxies: Galaxy[] = [
         id: 'kindred',
         title: 'Kindred',
         description:
-          'Premium knowledge workspace with native AI. Real-time collaboration via Yjs CRDTs, offline-first architecture, block-based editor (BlockNote + Tiptap), and Supertags for intelligent organization.',
+          'A knowledge workspace with AI built in. Pages are blocks (BlockNote and Tiptap), Yjs CRDTs sync edits between people and work offline, and Supertags add properties to pages.',
         role: 'Creator',
         tags: ['Next.js 16', 'React 19', 'TypeScript', 'PostgreSQL', 'Yjs', 'CRDTs', 'AI'],
         color: '#9D4EDD',
@@ -937,75 +758,57 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2025-2026',
         challenge:
-          'Knowledge tools force a choice: offline-first (Obsidian) OR collaboration (Notion). CRDTs enable both but are complex to implement correctly.',
+          'Obsidian works offline and Notion does real-time collaboration. I wanted both in one tool.',
         solution:
-          'Built on Yjs CRDTs for conflict-free real-time sync that works offline. BlockNote + Tiptap editor provides Notion-like blocks. Native AI integration for intelligent queries. Supertags enable flexible organization.',
-        impact:
-          'Offline-first with automatic background sync. Real-time collaboration without conflict resolution headaches. Cinematic Dark Mode with snappy motion UI.',
-        impactMetrics: [
-          { label: 'Sync', value: 'Yjs CRDTs', icon: 'refresh' },
-          { label: 'Editor', value: 'BlockNote + Tiptap', icon: 'edit' },
-          { label: 'Stack', value: 'Next.js 16 + Postgres', icon: 'layers' },
-        ],
+          'Yjs CRDTs for conflict-free sync that also works offline, a BlockNote and Tiptap block editor, Supertags for organizing pages, and built-in AI.',
+        impact: 'Live at quantum-forge-self.vercel.app.',
+        impactMetrics: [{ label: 'Stack', value: 'Next.js 16 + Postgres', icon: 'layers' }],
       },
       {
         id: 'testimoniq',
         title: 'Testimoniq',
         description:
-          'Full SaaS platform for collecting text, video, and image testimonials with AI-powered sentiment analysis, 10 widget layouts, NPS surveys, team collaboration, email/SMS campaigns, and Stripe billing. Includes free, starter, pro, and enterprise tiers.',
+          'A SaaS for collecting customer testimonials as text, video or images and showing them on your site with 11 widget layouts. AI scores sentiment and quality, and there are NPS surveys and SMS requests. Stripe billing has Free, Pro and Agency plans.',
         role: 'Creator',
         tags: ['Next.js', 'React', 'TypeScript', 'Stripe', 'AI'],
         color: '#9D4EDD',
         brightness: 1.6,
         size: 'large',
         galaxy: 'fullstack',
-        links: {
-          live: 'https://testimoniq.com',
-        },
+        links: { live: 'https://testimoniq.com' },
         featured: false,
         dateRange: '2026',
         challenge:
-          'Collecting customer testimonials is fragmented: businesses juggle forms, emails, and manual curation. Existing solutions are expensive and lack AI-driven insights.',
+          'Customer quotes end up scattered across email and Slack, and getting them onto a site takes manual work.',
         solution:
-          'Built a complete SaaS with branded collection forms, video recording, star ratings, and image uploads. AI sentiment analysis scores and categorizes feedback automatically. 10 embeddable widget layouts (grid, masonry, carousel, marquee, and more) with single-line integration. Stripe handles free through enterprise billing tiers.',
-        impact:
-          'Full production SaaS with Stripe billing live at testimoniq.com. 10 widget layouts cover every design need. AI sentiment analysis turns raw testimonials into actionable insights.',
-        impactMetrics: [
-          { label: 'Widget Layouts', value: '10', icon: 'layout' },
-          { label: 'Revenue', value: 'Stripe Live', icon: 'dollar' },
-          { label: 'AI Analysis', value: 'Sentiment', icon: 'brain' },
-        ],
+          'Branded collection forms with video recording and ratings, AI sentiment scoring, and embeddable widgets. Stripe Checkout handles the paid plans.',
+        impact: 'Live at testimoniq.com with Stripe checkout.',
+        impactMetrics: [{ label: 'Widget Layouts', value: '11', icon: 'layout' }],
       },
       {
         id: 'dwello',
         title: 'Dwello',
         description:
-          'Life maintenance tracking app across home, vehicles, equipment, pets, subscriptions, health, and financial domains. PWA with offline support, Stripe one-time purchase for premium, and background job processing via Trigger.dev.',
+          'A maintenance tracker for home, vehicles, equipment, pets, subscriptions, health and finances, built as a PWA.',
         role: 'Creator',
         tags: ['Next.js', 'React', 'TypeScript', 'PWA', 'Stripe', 'Trigger.dev'],
         color: '#9D4EDD',
         brightness: 1.3,
         size: 'medium',
         galaxy: 'fullstack',
-        links: {
-          live: 'https://dwello.vercel.app',
-        },
+        links: { live: 'https://dwello.vercel.app' },
         featured: false,
         dateRange: '2026',
-        challenge:
-          'Home and life maintenance tasks slip through the cracks: people forget oil changes, filter replacements, and subscription renewals until something breaks.',
-        solution:
-          'Built a local-first PWA that tracks maintenance across 7 domains. Free tier includes 10 starter tasks and 3 asset profiles. Premium unlocks unlimited tasks, document storage, cost tracking, and multi-home support. Trigger.dev handles background job scheduling.',
-        impact:
-          'Offline-first PWA works without internet. JSON backup import/export for full data portability. One-time premium purchase, no subscription fatigue.',
+        challenge: 'Oil changes, filter swaps and renewals get forgotten until something breaks.',
+        solution: 'One app that tracks recurring maintenance across seven areas of life.',
       },
     ],
   },
   {
     id: 'devtools',
-    name: 'DevTools Arsenal',
-    description: 'Developer utilities and open-source tools',
-    narrative: 'Building the tools that build the tools',
+    name: 'Developer tools',
+    description: 'Command-line tools, scanners and libraries for developers',
+    narrative: 'CLIs, scanners and a QA product, including the packages on npm.',
     color: '#06FFA5',
     size: 1.5,
     projects: [
@@ -1013,7 +816,7 @@ export const galaxies: Galaxy[] = [
         id: 'accessibility-checker',
         title: 'Precision Contrast Control',
         description:
-          'Cinematic-grade professional accessibility suite for designers and developers. Real-time WCAG 2.1 (AA/AAA) and APCA contrast analysis, AI-driven smart color suggestions, color blindness simulation (Protanopia, Deuteranopia, and more), semantic HTML structure analyzer, keyboard navigation checker, form accessibility validator, and image alt-text auditor.',
+          'Precision Contrast: an accessibility checker for designers and developers. It tests WCAG 2.1 (AA and AAA) and APCA contrast, suggests colors that meet a target ratio, simulates color blindness, and checks semantic structure, keyboard navigation, forms and image alt text.',
         role: 'Creator',
         tags: ['Accessibility', 'TypeScript'],
         color: '#06FFA5',
@@ -1026,39 +829,34 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Most contrast checkers are one-trick utilities. Designers need a full accessibility suite that fits their workflow without switching tools.',
+        challenge: 'Most contrast checkers stop at contrast.',
         solution:
-          'Built real-time WCAG 2.1 and APCA compliance checking with AI palette suggestions that maintain aesthetic intent. Color blindness simulation shows exactly how your design appears to each vision type. Semantic structure and keyboard nav checks surface issues beyond color alone.',
-        impact:
-          'Covers WCAG 2.1 and newer APCA standard in one tool. Color blindness simulation covers 6+ vision deficiency types. AI suggestions fix accessibility issues without destroying the design system.',
+          'Contrast checks for WCAG 2.1 and APCA, color suggestions that keep your target ratio, color blindness simulation, and checks for page structure and keyboard navigation.',
+        impact: 'Live at accessibiliy-checker.vercel.app.',
       },
       {
         id: 'mcp-wrapper',
         title: 'MCP Wrapper',
         description:
-          'Model Context Protocol tooling built during engagement with Flo Labs for streamlining AI integrations.',
-        role: 'Contract Developer',
-        company: 'Flo Labs',
+          "A Craft CMS plugin that exposes a site's content to AI assistants through the Model Context Protocol. I built it at Rocketpark.",
+        role: 'Software Engineering Intern',
+        company: 'Rocketpark',
         tags: ['MCP', 'AI', 'Tooling'],
         color: '#06FFA5',
         brightness: 1,
         size: 'small',
         galaxy: 'devtools',
         featured: false,
-        dateRange: '2024',
-        challenge:
-          'Integrating MCP servers into projects required repetitive boilerplate and error-prone configuration.',
+        dateRange: '2025-2026',
+        challenge: "An AI assistant has no direct way to read a Craft site's content.",
         solution:
-          'Built wrapper utilities that standardize MCP server integration with typed interfaces and automatic error handling.',
-        impact:
-          'Cuts boilerplate when wiring new MCP servers. Type-safe interfaces catch errors at compile time. Deployed across Flo Labs ecosystem.',
+          'An MCP server wrapper, packaged as a Craft plugin, that lets an assistant query and work with the content directly.',
       },
       {
         id: 'codememory',
         title: 'CodeMemory',
         description:
-          'Master web development through spaced repetition using FSRS algorithm with flashcards and coding challenges.',
+          'Flashcards and coding challenges scheduled with FSRS spaced repetition. It has a guest mode and optional GitHub sign-in, and it treats forgetting like a failing test.',
         role: 'Creator',
         tags: ['React'],
         color: '#06FFA5',
@@ -1067,72 +865,61 @@ export const galaxies: Galaxy[] = [
         galaxy: 'devtools',
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Helping developers retain web development concepts long-term through scientifically-proven learning methods.',
+        challenge: 'Web development concepts fade unless you review them on time.',
         solution:
-          'Implemented FSRS (Free Spaced Repetition Scheduler) algorithm for optimal review timing. Combined flashcards with hands-on coding challenges.',
-        impact:
-          'FSRS adaptive scheduling drives review timing based on individual recall. Covers React, TypeScript, and modern CSS. Combines flashcards with coding challenges so practice and recall reinforce each other.',
+          'The FSRS scheduler sets each review, and coding challenges sit next to the flashcards.',
       },
       {
         id: 'trace',
         title: 'Trace',
         description:
-          'Paste a screenshot, get a real runnable React component. Google Gemini recreates the layout grounded in a shadcn-style catalog, renders it live in an editable Sandpack sandbox, and shows which pixels became which component with honest confidence tags. Won the DEV.to GitHub Finish-Up-A-Thon.',
+          'Paste a screenshot and get a React component you can run and edit. Gemini 2.5 Flash recreates the layout from a shadcn-style component catalog, then shows which part of the screenshot became which component, with a confidence tag on each. Won the DEV GitHub Finish-Up-A-Thon.',
         role: 'Creator',
         tags: ['Next.js', 'React 19', 'TypeScript', 'Google Gemini', 'Sandpack', 'axe-core'],
         color: '#06FFA5',
         brightness: 1.8,
         size: 'large',
         galaxy: 'devtools',
+        metrics: { tests: 30 },
         links: {
           live: 'https://trace-seven-ashen.vercel.app',
           github: 'https://github.com/forbiddenlink/trace',
           contestWin:
             'https://dev.to/liztacular/my-ai-tool-generated-garbage-jsx-so-i-grounded-it-in-shadcnui-and-finally-shipped-it-1i1n',
         },
-        metrics: { tests: 38 },
         status: 'live',
         tier: 'flagship',
         featured: true,
         dateRange: '2026',
         challenge:
-          'AI screenshot-to-code tools invent generic markup that ignores your design system, and they hide how they got there. Developers get garbage JSX with no way to trust or steer it.',
+          'Screenshot-to-code output often ignores the design system it has to fit into, and gives you no way to check it.',
         solution:
-          'Grounded generation in a real component catalog via an in-prompt whitelist (no vector DB, no credentials). Added "what the AI sees" inspector with per-element confidence and grounded/inferred/guessed tags, a Sandpack live-editable preview, a compile-check self-repair loop, and an axe-core accessibility score with one-click fixes.',
+          'Generation is limited to a component catalog listed in the prompt, so no vector database is needed. An inspector marks each element as grounded, inferred or guessed. The preview runs in an editable Sandpack sandbox, generated code is compile-checked and re-prompted on failure, and axe-core scores accessibility.',
         impact:
-          'Won the DEV.to GitHub Finish-Up-A-Thon. 38 tests. Reuses real components instead of inventing markup, renders live and editable, and self-repairs both compile errors and accessibility violations on one click.',
-        impactMetrics: [
-          { label: 'Contest', value: 'Winner', icon: 'trophy' },
-          { label: 'Tests', value: '38', icon: 'check' },
-          { label: 'AI', value: 'Gemini + shadcn grounding', icon: 'eye' },
-          { label: 'A11y', value: 'axe-core score + fix', icon: 'shield' },
-        ],
+          'Winner of the DEV GitHub Finish-Up-A-Thon, July 2026. Live at trace-seven-ashen.vercel.app.',
       },
       {
         id: 'hq',
         title: 'hq',
         description:
-          'Personal dev-ops CLI that aggregates live state across ~90 repos and the services behind them (GitHub, Vercel, Sentry, Stripe, Notion, ClickUp, UptimeRobot, Railway, Jira) into work contexts, surfacing only what is broken, blocking, or worth attention. No dashboards, just the next thing to do.',
+          'A command-line tool I use every day to check my work in one place. It pulls from ten services (GitHub, Vercel, Sentry, Stripe, Notion, ClickUp, UptimeRobot, Miniflux, Railway and Jira) across about 90 repos, groups the results by job, and prints only what is broken or blocking.',
         role: 'Creator',
         tags: ['TypeScript', 'Bun', 'CLI', 'Developer Tools', 'DevOps'],
         color: '#06FFA5',
         brightness: 1.6,
         size: 'medium',
         galaxy: 'devtools',
+        metrics: { tests: 966 },
         links: {},
-        metrics: { tests: 216 },
         featured: true,
         dateRange: '2026',
         challenge:
-          'State is scattered across ~90 repos and a dozen services. Checking what is broken or blocking meant opening ten dashboards every morning.',
+          'My work is spread across about 90 repos and ten services, and checking what was broken meant opening each dashboard.',
         solution:
-          'Built a single CLI in TypeScript on Bun that pulls from 10 service APIs, groups everything into CRC / Rocketpark / Personal contexts, and prints only the actionable signal.',
-        impact:
-          'One command replaces a morning of dashboard-hopping. 216 tests. Used daily as the entry point to every work context.',
+          'One CLI in TypeScript on Bun. It calls the ten service APIs, sorts the results into the nonprofit, Rocketpark and personal work, and prints what needs attention.',
+        impact: 'I use it every day. The repository is private.',
         impactMetrics: [
-          { label: 'Tests', value: '216', icon: 'check' },
-          { label: 'Services', value: '10 APIs', icon: 'globe' },
+          { label: 'Services', value: '10', icon: 'globe' },
           { label: 'Repos tracked', value: '~90', icon: 'folder' },
         ],
       },
@@ -1140,51 +927,49 @@ export const galaxies: Galaxy[] = [
         id: 'ccscope',
         title: 'ccscope',
         description:
-          'Attributes Claude Code token cost to individual skills, MCP servers, and plugins, then surfaces the ones not earning their context budget so you can trim them.',
+          'Reads Claude Code session data and shows how many tokens each skill, MCP server and plugin costs, so you can trim the ones you rarely use.',
         role: 'Creator',
         tags: ['TypeScript', 'CLI', 'Claude Code', 'Developer Tools'],
         color: '#06FFA5',
         brightness: 1.3,
         size: 'small',
         galaxy: 'devtools',
-        links: {},
         metrics: { tests: 26 },
+        links: {},
         featured: false,
         dateRange: '2026',
         challenge:
-          'Claude Code loads dozens of skills and MCP servers, each eating context budget, with no visibility into which ones actually pay rent.',
+          'Claude Code loads many skills and MCP servers, and each one costs context. I had no view of which ones were worth it.',
         solution:
-          'Built a CLI that parses session data to attribute token cost per skill, MCP, and plugin, then flags trim candidates.',
-        impact:
-          'Turns an invisible cost into a ranked list. 26 tests. Directly informed cutting unused skills from the setup.',
+          'A CLI that parses session data and ranks skills, MCP servers and plugins by token cost.',
+        impact: 'I used it to cut unused skills from my own setup.',
       },
       {
         id: 'recall',
         title: 'recall',
         description:
-          'Local, privacy-first search engine over your Claude Code transcripts. Find past decisions, approaches, and dead ends across every prior session without anything leaving your machine.',
+          'A local search engine over your Claude Code transcripts. Find past decisions and dead ends without anything leaving your machine.',
         role: 'Creator',
         tags: ['TypeScript', 'CLI', 'Search', 'Local-first'],
         color: '#06FFA5',
         brightness: 1.3,
         size: 'small',
         galaxy: 'devtools',
-        links: {},
         metrics: { tests: 17 },
+        links: {},
         featured: false,
         dateRange: '2026',
         challenge:
-          'Months of Claude Code sessions hold useful reasoning, but it is trapped in plaintext logs with no way to search across them.',
+          'Months of Claude Code sessions hold useful reasoning, locked in plain-text logs.',
         solution:
-          'Built a local search index over the transcript files so past sessions are queryable, entirely on-device with no cloud upload.',
-        impact:
-          'Past reasoning becomes searchable in seconds. 17 tests. Privacy-first: transcripts never leave the machine.',
+          'A local index over the transcript files, so past sessions can be searched on your own machine.',
+        impact: 'Transcripts are never uploaded.',
       },
       {
         id: 'gif-my-code',
         title: 'gif-my-code',
         description:
-          'The only free CLI tool that creates animated code GIFs with line highlighting. 250+ language support via Chroma auto-detection, laser-reveal and typing animations, customisable speed, and full scriptability for CI/CD pipelines. Competes with paid tools like Snappify ($5-30/mo) at zero cost.',
+          'A Go CLI that renders animated GIFs of code with line highlighting. Chroma handles syntax highlighting and language detection, and it has laser-reveal and typing animations.',
         role: 'Creator',
         tags: ['Go', 'CLI', 'Developer Tools'],
         color: '#06FFA5',
@@ -1195,45 +980,35 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2025',
         challenge:
-          'Creating beautiful animated code demos for Twitter, READMEs, and docs required expensive SaaS tools or manual screen recording. No free CLI alternative existed.',
+          'Animated code demos for READMEs and posts usually mean screen recording or a paid tool.',
         solution:
-          'Built Go CLI with Chroma for 250+ language syntax highlighting and auto-detection from file extensions. Laser-reveal and typing animations with configurable speed. Fully scriptable for CI/CD.',
-        impact:
-          'Free alternative to $5-30/mo paid tools. 250+ languages covered. CLI-first design enables automated GIF generation in CI pipelines and documentation workflows.',
+          'Chroma for highlighting, animation speed you can set, and a CLI you can call from CI.',
       },
       {
         id: 'repro-in-a-box',
         title: 'Repro-in-a-Box',
         description:
-          'Autonomous QA agent that finds bugs on your site, captures reproducible evidence (HAR files + screenshots), validates reproducibility, and integrates with Claude Desktop via MCP. 7 built-in detectors: JavaScript errors, network failures, broken assets, WCAG 2.1 accessibility, Core Web Vitals, mixed content, and broken links. 170 tests, 85% coverage.',
+          'A QA agent that crawls a site with Playwright, finds bugs, and saves evidence you can replay: HAR files and screenshots. Detectors cover JavaScript errors, network failures, broken assets and links, mixed content, accessibility, SEO, security, performance and memory leaks. An MCP server lets Claude Desktop query the findings.',
         role: 'Creator',
         tags: ['Node.js', 'TypeScript', 'Playwright', 'MCP', 'Claude', 'QA Automation'],
         color: '#06FFA5',
         brightness: 1.7,
         size: 'large',
         galaxy: 'devtools',
+        metrics: { tests: 385 },
         links: { github: 'https://github.com/forbiddenlink/repro-in-a-box' },
-        metrics: { tests: 170 },
         featured: false,
         dateRange: '2025',
         challenge:
-          'Reproducing bugs reliably is the hardest part of QA. Evidence gets lost, steps get forgotten, and AI assistants have no direct access to QA findings.',
+          'Bugs are hard to reproduce, and an AI assistant cannot see what a crawler found.',
         solution:
-          'Autonomous Playwright-based crawler with 7 parallel detectors. HAR capture freezes the exact network state of a bug. Reproducibility validation confirms the bug before filing. MCP server exposes findings directly to Claude Desktop for AI-powered triage.',
-        impact:
-          '170 tests across 11 files at 85% coverage. MCP integration means Claude can query and reason about bugs directly. HAR replay via Playwright makes every bug reproducible on demand.',
-        impactMetrics: [
-          { label: 'Test Coverage', value: '85%', icon: 'check' },
-          { label: 'Bug Detectors', value: '7', icon: 'search' },
-          { label: 'Tests', value: '170', icon: 'test' },
-          { label: 'Integration', value: 'Claude MCP', icon: 'bot' },
-        ],
+          'A Playwright crawler runs the detectors, bundles a HAR file and screenshots for each bug, and replays the HAR to check the bug reproduces. The MCP server exposes the findings.',
       },
       {
         id: 'imgzen',
         title: 'ImgZen',
         description:
-          'High-performance automatic image optimizer for GitHub Actions built with Rust. Generates AVIF/WebP variants with zero configuration.',
+          'A Rust GitHub Action that optimizes images in CI. It writes AVIF and WebP copies, runs oxipng on PNG and JPEG files, and can generate resized versions and add lazy loading to HTML.',
         role: 'Creator',
         tags: ['Rust', 'GitHub Actions', 'Performance', 'Images'],
         color: '#06FFA5',
@@ -1242,18 +1017,14 @@ export const galaxies: Galaxy[] = [
         galaxy: 'devtools',
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Automating image optimization for web projects without complex configuration or manual intervention.',
-        solution:
-          'Built zero-config GitHub Action in Rust for maximum performance. Generates AVIF and WebP variants automatically on push.',
-        impact:
-          'Generates AVIF/WebP variants automatically on every push with no config to maintain. Built in Rust for fast batch processing in CI.',
+        challenge: 'Image optimization is easy to forget and annoying to configure.',
+        solution: 'A GitHub Action in Rust that needs no configuration to start.',
       },
       {
         id: 'encryption-visualizer',
         title: 'Encryption Visualizer',
         description:
-          'Interactive educational platform for learning cryptographic algorithms through real-time step-by-step visualizations.',
+          'Step-by-step visualizations of AES, RSA and hashing, so you can see what each stage does to the data.',
         role: 'Creator',
         tags: ['Cryptography', 'React'],
         color: '#06FFA5',
@@ -1266,18 +1037,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Making complex cryptographic algorithms understandable through visualization rather than abstract mathematics.',
+        challenge: 'Cryptography is hard to learn from formulas alone.',
         solution:
-          'Built step-by-step animated visualizations showing how AES, RSA, and SHA algorithms transform data. Interactive controls let users see each operation.',
-        impact:
-          'Visualizes 5 major encryption algorithms. Used as educational resource by security-focused developers. Real-time byte-level transformation display.',
+          'Animated walkthroughs of each algorithm, with controls to step through every operation.',
+        impact: 'Live at encryption-visualizer-zeta.vercel.app.',
       },
       {
         id: 'security-trainer',
         title: 'Security Trainer',
         description:
-          'Interactive cybersecurity training platform with hands-on exercises, vulnerability simulations, and progress tracking for developers.',
+          'A hands-on web security course: lessons, in-browser code labs, quizzes and CTF-style challenges across 40+ modules, from SQL injection and XSS to OAuth, JWT and race conditions.',
         role: 'Creator',
         tags: ['Security', 'Next.js'],
         color: '#06FFA5',
@@ -1287,18 +1056,16 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://security-trainer.vercel.app' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Security training is often theoretical and boring. Developers learn best by doing, but vulnerability labs are complex to set up.',
+        challenge: 'Vulnerability labs are hard to set up, so most people only read about them.',
         solution:
-          'Built sandboxed vulnerability simulations developers can exploit safely. Hands-on exercises teach OWASP Top 10 through practice.',
-        impact:
-          'Hands-on exercises build retention better than passive reading. Sandboxed environments eliminate setup friction. Progress tracking surfaces knowledge gaps.',
+          'Labs that run in the browser with a Monaco editor and a terminal simulator, with XP, badges and streaks.',
+        impact: 'Live at security-trainer.vercel.app.',
       },
       {
         id: 'ally-a11y',
         title: 'Ally A11y CLI',
         description:
-          'The only accessibility CLI with real-time auto-fix and impact scoring. Published on npm as ally-a11y with MIT license, GitHub Actions CI/CD, and codecov integration.',
+          'An accessibility CLI that scans pages with axe-core, scores issues by impact, and can apply fixes as you save files (`ally watch --fix-on-save`).',
         role: 'Creator',
         tags: ['CLI', 'Accessibility', 'Node.js', 'TypeScript', 'npm'],
         color: '#06FFA5',
@@ -1311,18 +1078,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025-2026',
-        challenge:
-          'Accessibility testing tools are either too complex (full audit suites) or too simple (basic checkers). Developers need actionable fixes, not just problem lists.',
+        challenge: 'Accessibility reports list problems and leave the fixing to you.',
         solution:
-          'Built CLI that provides real-time auto-fix suggestions with impact scoring. Prioritizes issues by severity and fix difficulty. Published to npm for easy integration into any project.',
-        impact:
-          'Published on npm as ally-a11y. GitHub Actions CI/CD ensures reliability. Impact scoring helps teams prioritize high-value fixes. Auto-fix suggestions cut the manual remediation step on each finding.',
+          'Impact scoring ranks the findings, and watch mode applies fixes it is at least 90% confident about when you save.',
+        impact: 'Published on npm as ally-a11y under the MIT license.',
       },
       {
         id: 'api-watchdog',
         title: 'API Watchdog',
         description:
-          'Self-running breaking change monitor for external APIs. Automatically detects schema changes, deprecations, and breaking updates with zero manual intervention.',
+          'A monitor for breaking changes in the external APIs your app depends on. It polls schemas on a schedule, diffs them, and sends alerts by email, Slack or webhook.',
         role: 'Creator',
         tags: ['Node.js', 'TypeScript', 'Automation'],
         color: '#06FFA5',
@@ -1332,17 +1097,14 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2026',
         challenge:
-          'External API changes break production apps without warning. Manual monitoring is tedious and catches issues after they cause outages.',
-        solution:
-          'Built automated monitoring that detects schema changes, response format differences, and deprecation notices. Runs continuously with alerting.',
-        impact:
-          'Catches breaking changes before they hit production. Zero manual monitoring required. Alerts within minutes of API changes.',
+          'An API can change under you with no warning, and status pages only report uptime.',
+        solution: 'Scheduled schema checks with a diff, and alerts when something changes.',
       },
       {
         id: 'multipersonas',
         title: 'MultiPersonas',
         description:
-          'AI persona-based website testing CLI that simulates diverse user types navigating your site. Each persona (developer, senior citizen, non-native speaker, accessibility user, etc.) reports friction, confusion, and UX issues from their unique perspective.',
+          'A CLI that crawls a site, including pages behind a login, and runs axe-core at every state it reaches. A second command adds LLM personas, such as a first-time visitor or a mobile user on slow 3G, that try to finish a task and report whether they could.',
         role: 'Creator',
         tags: ['TypeScript', 'CLI', 'AI', 'Automation'],
         color: '#06FFA5',
@@ -1352,18 +1114,17 @@ export const galaxies: Galaxy[] = [
         links: {},
         featured: false,
         dateRange: '2026',
-        challenge:
-          'Real user testing is expensive and slow. Developers need fast, diverse feedback on UX without recruiting actual testers for every iteration.',
+        challenge: 'The axe CLI does not crawl and does not hold a login session.',
         solution:
-          'Built CLI that spawns AI personas with distinct backgrounds, abilities, and goals. Each persona navigates the site autonomously and reports issues from their perspective, surfacing problems a single developer would never catch alone.',
+          '`scan` crawls with a saved session and runs axe-core on each state. `run` adds the personas.',
         impact:
-          'Catches accessibility, i18n, and UX friction issues without recruiting testers. Personas provide diverse perspectives in seconds. CLI integrates into CI/CD for continuous UX regression testing.',
+          "In the repo's own head-to-head test, the personas did not find accessibility defects that the crawler missed, so I use them to measure task success.",
       },
       {
         id: 'mcp-token-tracker',
         title: 'MCP Token Tracker',
         description:
-          'Token usage monitoring for Model Context Protocol interactions. Track costs, optimize prompts, and prevent budget overruns.',
+          'Scans MCP configs for Claude Desktop and other AI coding tools and estimates how many tokens each server loads into context, with recommendations for trimming.',
         role: 'Creator',
         tags: ['MCP', 'Monitoring', 'Node.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1373,18 +1134,15 @@ export const galaxies: Galaxy[] = [
         links: { github: 'https://github.com/forbiddenlink/mcp-token-tracker' },
         featured: false,
         dateRange: '2026',
-        challenge:
-          'MCP server interactions consume tokens without visibility. Developers discover cost overruns only after receiving bills.',
+        challenge: 'MCP servers load tool definitions into context, and the cost is easy to miss.',
         solution:
-          'Built real-time token tracking with per-tool breakdowns, cost estimation, and budget alerts. Identifies expensive patterns for optimization.',
-        impact:
-          'Real-time cost visibility prevents budget surprises. Per-tool breakdowns identify optimization opportunities. Budget alerts stop runaway costs.',
+          'Reads the config files, estimates tokens for each server and a monthly cost, and suggests what to cut.',
       },
       {
         id: 'consent-compass',
         title: 'Consent Compass',
         description:
-          'Cookie consent widget built for GDPR/CCPA requirements. Drop-in banner with preference management, granular consent categories, and a consent audit trail.',
+          'Scans a site for its cookie consent banner. It loads the URL in Playwright, takes a full-page screenshot, uses heuristics to find the banner and its accept and reject buttons, and reports findings with a score. An early version.',
         role: 'Creator',
         tags: ['Privacy', 'GDPR', 'CCPA', 'Next.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1397,18 +1155,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Most cookie consent implementations are either dark patterns or ugly banners. Doing it properly requires real preference management and audit trails.',
+        challenge: 'Consent banners are hard to check at scale without opening each site by hand.',
         solution:
-          'Built compliant consent banner with granular categories (necessary, analytics, marketing). Full audit trail for compliance verification. Easy integration.',
-        impact:
-          'Full GDPR/CCPA compliance out of the box. Audit trail satisfies legal requirements. Granular consent respects user privacy.',
+          'A Next.js app with a Playwright scan route that records screenshots and signals as evidence for each finding.',
+        impact: 'Live at consent-compass.vercel.app.',
       },
       {
         id: 'craft-audit',
         title: 'Craft Audit',
         description:
-          'Code quality auditing tool that analyzes repositories for best practices, maintainability, and technical debt indicators.',
+          'An audit tool for Craft CMS projects. It checks Twig templates for N+1 queries, missing eager loading and XSS risks, scans for known Craft and plugin CVEs, and checks security headers.',
         role: 'Creator',
         tags: ['Node.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1419,23 +1175,22 @@ export const galaxies: Galaxy[] = [
         featured: false,
         dateRange: '2026',
         challenge:
-          'Code review catches bugs but misses systematic quality issues. Technical debt accumulates invisibly until refactoring becomes urgent.',
+          'Craft sites pick up slow queries, outdated plugins and security gaps that code review can miss.',
         solution:
-          'Built automated analysis for code complexity, dependency health, test coverage gaps, and maintainability scores. Tracks trends over time.',
-        impact:
-          'Quantifies technical debt for prioritization. Trend tracking shows quality trajectory. Integrates with CI/CD for continuous monitoring.',
+          'Static checks on templates and config, a plugin vulnerability list, an opt-in HTTP security headers check, a CSP generator, and a Craft 4 to 5 migration checker.',
       },
       {
         id: 'specter',
         title: 'Specter',
         description:
-          'Published npm CLI that gives your codebase a voice, speaking as it in first person. 72 commands, 14 MCP tools for Claude Desktop integration, and 19 personality modes (mentor, critic, storyteller, and more). Code archaeology, bus factor analysis, dead code detection, complexity hotspots, and impact analysis, all narrated with AI-powered context.',
+          'A published npm CLI that talks about your codebase in first person. It has 65 commands (hotspots, bus factor, dead code, why a file exists), 14 MCP tools so an AI assistant can query the repo, and 12 personality modes such as mentor, critic and noir.',
         role: 'Creator',
         tags: ['CLI', 'npm', 'MCP', 'Node.js', 'TypeScript'],
         color: '#06FFA5',
         brightness: 1.8,
         size: 'large',
         galaxy: 'devtools',
+        metrics: { tests: 416 },
         links: {
           github: 'https://github.com/forbiddenlink/specter',
           live: 'https://www.npmjs.com/package/@purplegumdropz/specter',
@@ -1443,22 +1198,21 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2025',
         challenge:
-          'Code metrics without context are noise. Developers need their codebase to explain itself, not just spit out numbers.',
+          'Complexity and churn numbers do not say who owns the risky code or why it exists.',
         solution:
-          'Built 72 CLI commands for file relationships, complexity hotspots, dead code, impact analysis, and bus factor. 14 MCP tools for Claude Desktop integration so AI assistants can query the codebase directly. 19 personality modes turn raw analysis into actionable narrative.',
-        impact:
-          'Published on npm as @purplegumdropz/specter. 14 MCP tools enable AI-native codebase exploration. 19 personalities from mentor to brutal critic: developers choose their coaching style.',
+          'Specter builds a knowledge graph of the repo from the source and its git history. The commands read from that graph, and the MCP server gives an AI assistant the same data.',
+        impact: 'On npm as @purplegumdropz/specter, version 1.1.1.',
         impactMetrics: [
-          { label: 'CLI Commands', value: '72', icon: 'terminal' },
+          { label: 'CLI Commands', value: '65', icon: 'terminal' },
           { label: 'MCP Tools', value: '14', icon: 'plug' },
-          { label: 'Distribution', value: 'npm', icon: 'package' },
+          { label: 'Personality Modes', value: '12', icon: 'package' },
         ],
       },
       {
         id: 'rocket-vitals',
         title: 'Rocket Vitals',
         description:
-          'Scan-first website QA tool that crawls up to 500 pages and runs 200+ checks across SEO, accessibility, performance, security, links, content, and AI readiness. Delivers prioritized reports with severity scoring, department routing, regression monitoring, and client-ready exports.',
+          "Rocketpark's website QA product. Enter a URL and it crawls the site and runs more than 200 checks across SEO, accessibility, performance, security, links, content and AI readiness. Reports score findings by severity and include fix guidance and exports.",
         role: 'Lead Developer',
         company: 'Rocketpark',
         tags: ['Next.js', 'TypeScript', 'Playwright', 'QA', 'SEO', 'Accessibility'],
@@ -1466,59 +1220,42 @@ export const galaxies: Galaxy[] = [
         brightness: 1.8,
         size: 'large',
         galaxy: 'devtools',
-        links: {
-          live: 'https://rocketvitals.com',
-        },
+        links: { live: 'https://rocketvitals.com' },
         featured: false,
         dateRange: '2025-2026',
-        challenge:
-          'Website QA tools are either too simple (single-page checks) or too complex (enterprise-only pricing). Agencies need a scan-first tool that crawls entire sites and delivers prioritized, actionable reports their clients can understand.',
+        challenge: 'Agencies need QA reports that a client can act on.',
         solution:
-          'Built a crawler that processes up to 500 pages per scan, running 200+ checks including 34 SEO, 25+ accessibility (plus 60+ axe-core runtime checks), 24 performance, 21 security, and AI readiness checks. Reports include severity scoring, department routing, regression monitoring with configurable guardrails, and issue workflow management.',
-        impact:
-          'Covers 200+ checks in a single scan. Department routing lets teams own their findings. Regression monitoring catches score drops between scans. Built at Rocketpark for production agency use.',
-        impactMetrics: [
-          { label: 'QA Checks', value: '200+', icon: 'check' },
-          { label: 'Pages per Scan', value: '500', icon: 'globe' },
-          { label: 'Check Categories', value: '7', icon: 'layers' },
-        ],
+          'A crawler with checks for each category, severity scoring, and regression monitoring with thresholds you set, so score drops show up between scans.',
+        impact: 'Live at rocketvitals.com. I lead development.',
+        impactMetrics: [{ label: 'QA Checks', value: '200+', icon: 'check' }],
       },
       {
         id: 'site-sheriff',
         title: 'Site Sheriff',
         description:
-          'Drop a URL and get an agency-grade website QA report in under two minutes. Crawls up to 500 pages across 10 levels, running 100+ static checks plus 80+ axe-core accessibility rules on desktop and mobile. Delivers a prioritized, severity-weighted report with fix instructions, effort estimates, and a copy-paste client email.',
+          'A website QA scanner. Enter a URL and it crawls the site and reports SEO, performance, security and accessibility findings (axe-core), ranked by severity, with fix instructions and a summary email for a client. Archived.',
         role: 'Creator',
         tags: ['Next.js', 'TypeScript', 'Tailwind', 'QA', 'SEO', 'Accessibility'],
         color: '#06FFA5',
         brightness: 1.7,
         size: 'large',
         galaxy: 'devtools',
+        links: { github: 'https://github.com/forbiddenlink/site-sheriff' },
         status: 'archived',
-        links: {
-          github: 'https://github.com/forbiddenlink/site-sheriff',
-        },
         featured: false,
         dateRange: '2026',
-        challenge:
-          'Agencies need to prove website quality fast, but QA tooling is either shallow single-page checks or enterprise suites nobody has time to configure. The gap is a scan-first tool that crawls a whole site and returns something a client can act on.',
+        challenge: 'QA tools are either single-page checks or suites that take time to configure.',
         solution:
-          'Built a crawler that walks up to 500 pages and runs 100+ static checks across SEO, security, and performance, plus 80+ axe-core WCAG rules on desktop and mobile viewports. Findings are severity-weighted with fix instructions, effort estimates, and a generated client-ready summary email.',
-        impact:
-          'Turns a raw URL into a prioritized QA report in under two minutes. Covers 180+ total checks in a single pass. The copy-paste client email closes the loop from scan to deliverable.',
-        impactMetrics: [
-          { label: 'Checks', value: '180+', icon: 'check' },
-          { label: 'Pages per Scan', value: '500', icon: 'globe' },
-          { label: 'A11y Rules', value: '80+ axe', icon: 'zap' },
-        ],
+          'A crawler with static checks plus axe-core accessibility rules on desktop and mobile viewports, and severity-weighted findings.',
+        impact: 'The GitHub repository is public and archived.',
       },
     ],
   },
   {
     id: 'design',
-    name: 'Design Universe',
-    description: 'Creative and design-focused projects',
-    narrative: 'Where design meets code and pixels come alive',
+    name: 'Design',
+    description: 'Websites and small UI projects',
+    narrative: 'Websites and small UI projects where the layout and visuals came first.',
     color: '#FF006E',
     size: 1.5,
     projects: [
@@ -1526,7 +1263,7 @@ export const galaxies: Galaxy[] = [
         id: 'codecraft-dev',
         title: 'CodeCraft: Galactic Developer',
         description:
-          'Educational coding game combining real programming with space colony gameplay. Three.js real-time 3D visualization, Monaco editor for live code editing, Redux state management, narrative-driven progression.',
+          'An educational coding game. You write HTML, CSS and JavaScript in a Monaco editor and watch it build a 3D space colony in React Three Fiber, with hints, mastery tracking and daily streaks.',
         role: 'Creator',
         tags: ['Next.js 16', 'Three.js', 'Monaco Editor', 'Redux', 'GSAP'],
         color: '#FF006E',
@@ -1537,18 +1274,16 @@ export const galaxies: Galaxy[] = [
         // Note: GitHub repo is private
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Teaching real programming concepts through engaging gameplay rather than dry tutorials.',
+        challenge: 'Teach front-end code through play.',
         solution:
-          'Combined Three.js 3D colony visualization with Monaco editor for live coding. Narrative progression unlocks new programming concepts as players advance.',
-        impact:
-          'Teaches JavaScript fundamentals through 20+ interactive missions. Real-time 3D feedback makes abstract concepts tangible. GSAP animations create immersive learning experience.',
+          'Challenges with starter templates and validation, and a 3D colony that updates as your code runs.',
+        impact: 'Live at codecraft-dev-one.vercel.app. The repository is private.',
       },
       {
         id: 'color-studio',
         title: 'Color Studio',
         description:
-          'Advanced color manipulation tool for designers with live previews and palette generation.',
+          'A color tool for designers: HEX input, brightness, saturation and hue controls, complementary, analogous and triadic palettes, WCAG AA and AAA badges, and keyboard shortcuts.',
         role: 'Designer & Developer',
         tags: ['React'],
         color: '#FF006E',
@@ -1561,18 +1296,15 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Color tools are either too simple (basic pickers) or too complex (professional design software). Accessible WCAG contrast checking is rare.',
-        solution:
-          'Built intuitive palette generation with WCAG contrast checking built-in. Live previews show colors in UI context, not isolation.',
-        impact:
-          'WCAG contrast checking prevents accessibility issues at design time. Palette generation creates harmonious schemes in seconds. Context previews reduce revision cycles.',
+        challenge: 'Basic color pickers do not check contrast.',
+        solution: 'Palette generation with contrast badges and live previews.',
+        impact: 'Live at color-studio-mu.vercel.app.',
       },
       {
         id: 'space-travel',
         title: 'Space Travel Website',
         description:
-          'Immersive space tourism website showcase with modern animations and parallax effects.',
+          'A space tourism site in vanilla HTML, CSS and JavaScript, with Vite and Three.js. It has pages for destinations (Moon, Mars, Europa and Titan), crew and technology.',
         role: 'Designer & Developer',
         tags: ['HTML/CSS'],
         color: '#FF006E',
@@ -1585,18 +1317,15 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Creating an immersive space tourism experience using only HTML and CSS, no JavaScript frameworks.',
-        solution:
-          'Pure CSS parallax scrolling, keyframe animations for celestial bodies, and responsive design that adapts to any viewport.',
-        impact:
-          'Demonstrates advanced CSS capabilities without JS dependencies. Sub-100KB total page weight. Smooth 60fps animations on all devices.',
+        challenge: 'Build a full multi-page site without a UI framework.',
+        solution: 'Vanilla JavaScript with Vite, and Three.js for the 3D moments.',
+        impact: 'Live at space-travel-website-theta.vercel.app.',
       },
       {
         id: 'scenic-forests',
         title: 'Scenic Forests',
         description:
-          'Modern cabin rental website with nature-inspired design and booking system flow.',
+          'A multi-page cabin rental site in semantic HTML, CSS and a little JavaScript. I redid the visual design, added skip links and keyboard-friendly navigation, lazy-loaded images, and added SEO metadata.',
         role: 'Designer & Developer',
         tags: ['E-commerce'],
         color: '#FF006E',
@@ -1606,17 +1335,15 @@ export const galaxies: Galaxy[] = [
         links: { github: 'https://github.com/forbiddenlink/scenic-forests' },
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Designing a cabin rental site that evokes forest tranquility while maintaining clear booking UX.',
+        challenge: 'A rental site should feel like a forest and still be easy to book.',
         solution:
-          'Nature-inspired color palette with earthy greens and warm browns. Streamlined booking flow with availability calendar and instant confirmation.',
-        impact:
-          'Booking flow completes in 3 clicks. Nature imagery and colors reduce bounce rate. Mobile-first design for on-the-go trip planning.',
+          'Clearer form labels, a keyboard-friendly mobile nav, lazy-loaded images, and removal of the GSAP dependency.',
       },
       {
         id: 'coding-jokes',
         title: 'Coding Jokes',
-        description: 'Fun interactive project featuring 400+ coding jokes with animations.',
+        description:
+          'More than 400 programming jokes with search, category filters, sorting and emoji reactions, in vanilla HTML, CSS and JavaScript.',
         role: 'Creator',
         tags: ['JavaScript'],
         color: '#FF006E',
@@ -1629,18 +1356,15 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2023',
-        challenge:
-          'Creating a fun, shareable experience that developers would actually enjoy and return to.',
-        solution:
-          'Curated 400+ programming jokes with category filtering, favorites system, and playful animations on each reveal.',
-        impact:
-          '400+ jokes across 10 categories. Favorites feature for personal collections. Smooth reveal animations make each joke feel like a gift.',
+        challenge: 'A small project that developers might open for fun.',
+        solution: 'Debounced search, category filtering and sorting.',
+        impact: 'Live at coding-jokes.vercel.app.',
       },
       {
         id: 'goodstuff-foodtruck',
         title: 'Goodstuff Food Truck',
         description:
-          'Vibrant food truck website with online ordering, menu showcase, location tracking, and modern responsive design. Full e-commerce flow.',
+          'A menu and online-ordering demo for a food truck, built with Next.js 16, React 19 and Tailwind v4.',
         role: 'Creator',
         tags: ['Next.js', 'E-commerce'],
         color: '#FF006E',
@@ -1650,41 +1374,35 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://goodstuff-foodtruck.vercel.app' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Food trucks need mobile-first ordering but most templates are bloated desktop-first designs. Real-time location tracking is complex.',
-        solution:
-          'Mobile-first design with thumb-friendly ordering flow. Location tracking shows current position and upcoming scheduled stops.',
-        impact:
-          'Mobile-first design loads in under 2 seconds on 3G. Ordering flow optimized for one-handed use. Location tracking reduces "where are you?" calls.',
+        challenge: 'Food truck customers order from their phones.',
+        solution: 'A mobile-first menu and ordering flow.',
+        impact: 'Live at goodstuff-foodtruck.vercel.app.',
       },
       {
         id: 'studio-furniture',
         title: 'Studio Furniture',
         description:
-          'Elegant furniture studio e-commerce website with product showcase, filtering, cart functionality, and modern minimalist design.',
+          'A furniture store demo on Next.js 16 with a product catalog, filtering and a cart, plus AI features that start with a shopping assistant.',
         role: 'Creator',
         tags: ['E-commerce', 'React'],
         color: '#FF006E',
         brightness: 1.3,
         size: 'medium',
         galaxy: 'design',
-        links: {
-          live: 'https://studio-furniture.vercel.app',
-        },
+        links: { live: 'https://studio-furniture.vercel.app' },
         featured: false,
         dateRange: '2025',
         challenge:
-          'Furniture sites often overwhelm with cluttered grids. Minimalist design must showcase products without feeling empty.',
+          'Furniture sites get cluttered. I wanted a quiet grid that puts the products first.',
         solution:
-          'Clean grid layout with generous whitespace lets furniture speak for itself. Smart filtering narrows 100+ products without page reloads.',
-        impact:
-          'Minimalist grid keeps focus on product photography. Filter system handles 100+ products smoothly without page reloads. Cart persists across sessions.',
+          'A grid with generous spacing, filters that update without a page reload, and a cart.',
+        impact: 'Live at studio-furniture.vercel.app.',
       },
       {
         id: 'spiralsounds',
         title: 'Spiral Sounds',
         description:
-          'Full-stack Progressive Web App for vinyl record enthusiasts. RESTful Express.js API with JWT authentication, role-based access control, SQLite database with migrations, real-time WebSocket updates, debounced search, persistent cart, and wishlist.',
+          'A vinyl record store as a PWA: an Express API with JWT auth and role-based access, SQLite with migrations, WebSocket updates, search, a cart and a wishlist. The front end is vanilla JavaScript.',
         role: 'Creator',
         tags: ['Node.js', 'Express.js', 'SQLite', 'PWA', 'JWT', 'WebSocket', 'Jest'],
         color: '#FF006E',
@@ -1693,18 +1411,15 @@ export const galaxies: Galaxy[] = [
         galaxy: 'design',
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Building a production-grade e-commerce PWA without a modern framework, proving full-stack fundamentals with vanilla JS, a custom Express API, and raw SQL.',
+        challenge: 'Build a full-stack store without a front-end framework.',
         solution:
-          'REST API with JWT auth, role-based access control, SQLite migrations, and relationship modelling (users, products, reviews, wishlists, cart items). Real-time WebSocket integration for live analytics. 300ms debounced search. PWA with app shortcuts and offline support.',
-        impact:
-          'Built with vanilla JS and a custom Express API to prove full-stack fundamentals without a framework. PWA works offline and is installable. Real-time WebSocket updates deliver live inventory changes without polling.',
+          'A REST API with JWT auth and role-based access control, SQLite migrations, a debounced search, and a PWA with offline support.',
       },
       {
         id: 'rivet',
         title: 'Rivet',
         description:
-          'Modern web application framework with component-driven architecture, built-in state management, and developer-first experience.',
+          'A code quality and security scanner with eight analysis engines: smells, bugs, security, performance, architecture, practices, dependencies and flows. It can add GPT-4 explanations and a tech debt estimate, and reports in JSON, SARIF or HTML. An early version.',
         role: 'Creator',
         tags: ['TypeScript'],
         color: '#FF006E',
@@ -1714,20 +1429,17 @@ export const galaxies: Galaxy[] = [
         links: { github: 'https://github.com/forbiddenlink/rivet' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Building a framework that prioritizes developer experience without sacrificing performance or flexibility.',
+        challenge: 'Linters report issues without saying why they matter or how to fix them.',
         solution:
-          'Component-driven architecture with built-in state management, TypeScript-first design, and zero-config development server.',
-        impact:
-          'TypeScript-first design surfaces type errors at compile time. Built-in state management eliminates Redux boilerplate. Zero-config setup gets projects running in seconds.',
+          'Eight analysis engines, an AI layer that explains findings, and a CLI (`rivet scan --ai --tech-debt`).',
       },
     ],
   },
   {
     id: 'experimental',
-    name: 'The Experiment Lab',
-    description: 'Side projects and creative experiments',
-    narrative: 'Where wild ideas take flight and curiosity leads',
+    name: 'Experiments',
+    description: 'Games, simulations and side projects',
+    narrative: 'Games, simulations and one-off ideas.',
     color: '#FFB800',
     size: 1,
     projects: [
@@ -1735,36 +1447,30 @@ export const galaxies: Galaxy[] = [
         id: 'snacktrap',
         title: 'Snacktrap',
         description:
-          "A cozy nocturnal heist built for Reddit's Devvit platform: a raccoon tiptoes across a dark kitchen grid toward a snack while hidden traps lurk. The room signals danger through the raccoon and lighting instead of numbers, and every board is authored by a real player, so playing is authoring.",
+          'A Reddit Devvit game. A raccoon crosses a dark kitchen grid toward a snack while 2 to 4 hidden traps wait. Each safe step gives a calm, warm or ember hint about the nearest trap, and when a run ends you place the traps for the next player.',
         role: 'Creator',
         tags: ['TypeScript', 'Devvit', 'Reddit', 'Game', 'UGC'],
         color: '#FFB800',
         brightness: 1.6,
         size: 'medium',
         galaxy: 'experimental',
+        metrics: { tests: 157 },
         links: {},
-        metrics: { tests: 141 },
         tier: 'production',
         featured: false,
         dateRange: '2026',
-        challenge:
-          'Design a Reddit game where the community is the content engine and no board can be unfair, so every player both plays and builds the next challenge.',
+        challenge: 'Make a game where players create the content and no board is unfair.',
         solution:
-          'Built a proximity-signal heist on Devvit: safe steps telegraph the nearest trap through the raccoon and room lighting, greed mechanics reward pushing deeper, and a server-side solver rejects any layout that would force a guess before it can publish.',
-        impact:
-          'Every run ends with the player authoring the next board, watched live by a ghost of a past solver. 141 tests. Server-validated solvable layouts keep the user-generated loop fair.',
-        impactMetrics: [
-          { label: 'Platform', value: 'Reddit Devvit', icon: 'gamepad' },
-          { label: 'Tests', value: '141', icon: 'check' },
-          { label: 'Loop', value: 'Play = author', icon: 'refresh' },
-        ],
+          'Each safe step gives a hint about the nearest trap. A solver on the server rejects any layout that would force a guess before it can be published.',
+        impact: 'Built for a Devvit hackathon submission.',
       },
       {
         id: 'blackjack',
         title: 'Blackjack Game',
-        description: 'Interactive blackjack game with React, card animations, and betting system.',
+        description:
+          'Blackjack in vanilla HTML, CSS and JavaScript, with a multi-deck shoe, split, double down, insurance and surrender, a strategy-hint mode, and a daily challenge with a seeded shoe.',
         role: 'Creator',
-        tags: ['Game', 'React'],
+        tags: ['Game', 'JavaScript'],
         color: '#FFB800',
         brightness: 1.2,
         size: 'small',
@@ -1772,18 +1478,15 @@ export const galaxies: Galaxy[] = [
         links: { github: 'https://github.com/forbiddenlink/blackjack-game' },
         featured: false,
         dateRange: '2023',
-        challenge:
-          'Implementing casino-accurate blackjack rules while creating satisfying card animations and responsive betting flow.',
+        challenge: 'Get the rules right, including splits, doubles and insurance.',
         solution:
-          'Built complete blackjack logic including splits, doubles, and insurance. CSS card flip animations with sound effects for immersion.',
-        impact:
-          'Casino-accurate rules pass all edge cases. Card animations run at 60fps. Betting system tracks bankroll across sessions.',
+          'A game engine that resolves hands and tracks the shoe, with a seeded daily challenge so runs can be compared.',
       },
       {
         id: 'ocean-simulator',
         title: 'Ocean Ecosystem Simulator',
         description:
-          'Ocean ecosystem simulator with complex food chains, realistic physics, and emergent behaviors, running entirely in the browser.',
+          'A real-time ocean simulation in the browser, built with Three.js and bitECS: hundreds of creatures that school, light shafts through the water, and an 18-second flythrough.',
         role: 'Creator',
         tags: ['WebGL', 'Three.js'],
         color: '#0EA5E9',
@@ -1796,18 +1499,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Creating a realistic ocean ecosystem simulation in the browser that handles hundreds of entities with complex behaviors and interactions.',
+        challenge: 'The first version ran well but looked like a swimming pool.',
         solution:
-          'Implemented spatial partitioning for O(n log n) collision detection, GPU-accelerated particle systems for water effects, and behavior trees for emergent creature AI.',
-        impact:
-          'Simulates 500+ marine entities at 60fps. Complex food chains create emergent ecosystem dynamics. WebGL optimizations achieve AAA-quality visuals in-browser.',
+          'bitECS runs the creature simulation and Three.js draws it. I rebuilt the lighting and fog so it reads as deep water.',
+        impact: 'Live at ocean-simulator-silk.vercel.app.',
       },
       {
         id: 'plant-therapy',
         title: 'Plant Therapy Blog',
         description:
-          'Responsive blog website focused on plant care and mental wellness with modern dark mode and Tailwind CSS.',
+          'A blog about plant care and mental health, built with Tailwind CSS and vanilla JavaScript. It has dark mode that follows your system setting, responsive layouts and smooth scrolling.',
         role: 'Creator',
         tags: ['Tailwind CSS'],
         color: '#84CC16',
@@ -1817,18 +1518,16 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://plant-therapy.vercel.app' },
         featured: false,
         dateRange: '2024',
-        challenge:
-          'Creating a calming blog experience that reflects the wellness theme while maintaining excellent readability.',
+        challenge: 'A calm blog that is easy to read.',
         solution:
-          'Soft green palette with a dark mode toggle. Tailwind CSS for consistent spacing and typography. Optimized images for fast loading.',
-        impact:
-          'Dark mode reduces eye strain for evening readers. Soft color palette reinforces wellness theme. 95+ Lighthouse accessibility score.',
+          'A soft green palette, a dark mode toggle, and Tailwind for consistent spacing and type.',
+        impact: 'Live at plant-therapy.vercel.app.',
       },
       {
         id: 'aegis-audit',
         title: 'AegisAudit',
         description:
-          'Comprehensive security audit tool for web applications with vulnerability scanning and compliance reporting.',
+          "A security scanner with two modes: `scan` checks a deployed site's headers and other passive signals, and `audit` checks a source tree. It gives one score, a CI exit code, and JSON, SARIF or HTML reports.",
         role: 'Creator',
         tags: ['Security', 'TypeScript'],
         color: '#FFB800',
@@ -1838,18 +1537,15 @@ export const galaxies: Galaxy[] = [
         links: { github: 'https://github.com/forbiddenlink/aegis-audit' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Security audits are expensive and infrequent. Developers need continuous security feedback during development, not after deployment.',
+        challenge: 'Security checks usually happen after deployment.',
         solution:
-          'Built automated scanning for OWASP Top 10 vulnerabilities, dependency analysis for known CVEs, and compliance reporting against security frameworks.',
-        impact:
-          'Scans complete in under 60 seconds. Covers OWASP Top 10 detection rules + dependency CVE analysis. Generates compliance reports for SOC2 and OWASP standards.',
+          'A scan mode for live URLs and an audit mode for source, with output meant for CI.',
       },
       {
         id: 'mythos',
         title: 'Mythos',
         description:
-          'Interactive storytelling platform exploring mythology and folklore with rich narrative experiences.',
+          'A mythology and folklore explorer on Next.js with 359 deities, 37 heroes, 162 stories, 103 creatures, 76 artifacts and 184 locations, plus family trees and quiz games.',
         role: 'Creator',
         tags: ['React'],
         color: '#FFB800',
@@ -1862,18 +1558,15 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Mythology is fascinating but often presented in dry, academic formats. Interactive storytelling could bring these tales alive.',
-        solution:
-          'Built branching narrative engine with atmospheric visuals and sound design. Reader choices influence story paths and character fates.',
-        impact:
-          'Branching paths create 10+ unique story experiences per myth. Atmospheric design increases engagement. Choice-driven narrative increases replayability.',
+        challenge: 'Mythology is often presented in dry reference formats.',
+        solution: 'Browse by culture, follow family trees, and take quizzes.',
+        impact: 'Live at mythosatlas.com.',
       },
       {
         id: 'apoc-bnb',
         title: 'Apoc BnB',
         description:
-          'Post-apocalyptic Airbnb parody with Mapbox integration, AI chatbot, dynamic pricing, neobrutal design system with radioactive green theme. Full test coverage with Vitest.',
+          'A post-apocalyptic Airbnb parody on Next.js. Browse bunkers and fallout shelters and filter by shelter type, location rating and zombie proximity.',
         role: 'Creator',
         tags: ['Next.js 16', 'Mapbox', 'Zustand', 'Framer Motion', 'Vitest'],
         color: '#FFB800',
@@ -1886,17 +1579,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Demonstrating full-stack e-commerce patterns while keeping the project entertaining and memorable.',
+        challenge: 'A full-stack rental flow for a joke setting.',
         solution:
-          'Built complete booking platform with Mapbox integration, AI-powered concierge chatbot, dynamic pricing algorithms, and distinctive neobrutal design.',
-        impact:
-          'Full Vitest coverage ensures reliability. Mapbox integration handles location-based search. AI chatbot demonstrates conversational commerce patterns.',
+          'Listings with detail pages and survival ratings, with Mapbox, Zustand and Framer Motion.',
+        impact: 'Live at apoc-bnb.vercel.app.',
       },
       {
         id: 'cereal-tasting',
         title: 'Cereal Tasting',
-        description: 'Fun cereal review and rating app with detailed tasting notes and rankings.',
+        description:
+          "The Sommelier's Spoon: a satirical cereal tasting site that treats breakfast like fine wine. It has 15 vintage cereals, milk pairings, a quiz, printable certificates and a mock tasting flight cart.",
         role: 'Creator',
         tags: ['React', 'Database'],
         color: '#FFB800',
@@ -1906,19 +1598,16 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://cereal-tasting.vercel.app' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Turning a silly idea into a polished app that demonstrates full CRUD operations and rating algorithms.',
+        challenge: 'Turn a silly idea into something polished.',
         solution:
-          'Built complete review system with multi-criteria ratings (crunch, sweetness, milk factor), filtering, and weighted ranking algorithm.',
-        impact:
-          'Fun project that demonstrates serious engineering. Multi-criteria ratings create nuanced rankings. Perfect conversation starter in interviews.',
+          'A React app with a noir-nostalgia look and a lot of commentary from Jacques Flakémont.',
+        impact: 'Live at cereal-tasting.vercel.app.',
       },
-
       {
         id: 'competitor-stalker',
         title: 'Competitor Stalker',
         description:
-          'Competitive analysis tool for tracking competitor websites, features, and market positioning.',
+          'A dashboard for tracking competitors: company dossiers and a draggable positioning map, built with React, TypeScript and Tailwind.',
         role: 'Creator',
         tags: ['Next.js', 'Playwright', 'TypeScript'],
         color: '#FFB800',
@@ -1928,18 +1617,16 @@ export const galaxies: Galaxy[] = [
         links: { live: 'https://competitor-stalker.vercel.app' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Competitive intelligence requires constant manual monitoring. Feature changes, pricing updates, and positioning shifts are easy to miss.',
+        challenge: 'Competitor research ends up scattered across notes.',
         solution:
-          'Built automated monitoring with change detection, pricing tracker, and feature comparison matrix. Weekly digests highlight significant changes.',
-        impact:
-          'Automated monitoring catches changes within 24 hours. Change history shows competitor strategy evolution. Weekly digests replace manual reconnaissance.',
+          'A dashboard with a profile for each competitor and an interactive map of market positioning.',
+        impact: 'Live at competitor-stalker.vercel.app.',
       },
       {
         id: 'pollyglot',
         title: 'Pollyglot',
         description:
-          'AI-powered translation app using GPT-4o-mini for high-quality translations across 20 languages. Features automatic language detection, formality selector (neutral/formal/casual), alternative phrasings, pronunciation guides for non-Latin scripts, text-to-speech, voice input, translation history (last 50), CSV export, and dark mode.',
+          'A translation app using GPT-4o-mini: 20 languages, automatic language detection, a formality selector, alternative phrasings and pronunciation guides.',
         role: 'Creator',
         tags: ['Next.js', 'OpenAI', 'GPT-4o-mini', 'Internationalization'],
         color: '#FFB800',
@@ -1952,41 +1639,36 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Most translation tools are either too basic (single output) or too expensive. Building nuanced translation with cultural context and audio in one clean UI.',
+        challenge: 'Most translation tools give one answer with no sense of tone.',
         solution:
-          'GPT-4o-mini provides alternative phrasings and formality-aware translations. Phonetic pronunciation guides for Arabic, Chinese, Japanese, Korean. Speech-to-text input, text-to-speech playback, auto-save history, CSV export.',
-        impact:
-          'Covers 20 languages with formality awareness. Pronunciation guides make non-Latin scripts accessible. Voice input + TTS creates a full two-way conversation aid.',
+          'A vanilla JavaScript front end and an Express server that calls GPT-4o-mini, with a formality setting and alternative phrasings.',
+        impact: 'Live at pollyglot-topaz.vercel.app.',
       },
       {
         id: 'guts-and-glory',
         title: 'Guts & Glory',
         description:
-          'Bold, irreverent content platform showcasing creative storytelling with distinctive visual design and interactive elements.',
+          'A meal planner for households with mixed dietary restrictions. It uses AI to build plans that work for everyone, with a shared base plus a split, and makes categorized shopping lists you can save and reuse.',
         role: 'Creator',
         tags: ['Next.js'],
         color: '#DC2626',
         brightness: 1.3,
         size: 'medium',
         galaxy: 'experimental',
-        links: {
-          live: 'https://guts-and-glory.vercel.app',
-        },
+        links: { live: 'https://guts-and-glory.vercel.app' },
         featured: false,
         dateRange: '2025',
         challenge:
-          'Breaking away from corporate design trends to create something bold and memorable that still functions well.',
+          'One household can have several diets, such as low FODMAP and no bread, pasta or potatoes.',
         solution:
-          'Unapologetic visual design with aggressive typography, unexpected interactions, and content that matches the aesthetic.',
-        impact:
-          'Bold design stands out in a sea of bland portfolios. Interactive elements reward exploration. Proves design rules can be bent purposefully.',
+          'AI-generated plans built on a shared base with a split for each person, and shopping lists grouped by category.',
+        impact: 'Live at guts-and-glory.vercel.app.',
       },
       {
         id: 'ark-joinsim',
         title: 'Ark JoinSim',
         description:
-          'Smart Python auto-joiner for Ark: Survival Ascended that detects join failures and automatically retries. Computer vision with multi-scale template matching (works at any resolution), auto-finds the ARK window, Bezier curve mouse movement and Gaussian timing distribution for anti-detection, and Discord webhook notifications when you successfully join a full server.',
+          'A Python auto-joiner for Ark: Survival Ascended. It watches the screen for the "Server Full" popup, loading screens and kick-backs, retries the join, and can ping a Discord webhook when you get in.',
         role: 'Creator',
         tags: ['Python', 'Computer Vision', 'Automation', 'OpenCV', 'Discord'],
         color: '#FFB800',
@@ -1996,41 +1678,33 @@ export const galaxies: Galaxy[] = [
         links: { github: 'https://github.com/forbiddenlink/ark-joinsim' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Full servers in Ark reject join attempts with a popup. Players had to manually babysit the screen and retry for hours to get onto popular servers.',
+        challenge: 'Full servers reject join attempts, and you can spend hours clicking retry.',
         solution:
-          'Computer vision detects the "Server Full" popup, loading screens, and kick-back states at any resolution via multi-scale template matching. Bezier curve mouse movement and Gaussian timing mimic human input. Discord webhook fires when you\'re in.',
-        impact:
-          'Fully automated server queue: join attempts continue unattended. Human-mimicking input patterns avoid anti-cheat flags. Discord notification means you can do something else while waiting.',
+          'OpenCV template matching at several scales finds the popups at any resolution, and the script finds the game window on its own.',
       },
       {
         id: 'apeiron-remake',
         title: 'Apeiron Remake',
         description:
-          'Browser remake of the classic 1994 Mac arcade game Apeiron. Deterministic fixed-timestep engine tuned for classic mechanics, procedural pixel-art sprites (zero image files), WebAudio synthesised SFX (zero audio files), mouse-first controls, and a Classic/Enhanced gameplay mode toggle with original scoring rules.',
+          'A remake of the arcade game Apeiron in React and Vite, with no image or audio files: sprites are drawn procedurally and sound is synthesized with WebAudio. Classic mode keeps the original scoring, with an extra life every 20,000 points and up to 8 lives.',
         role: 'Creator',
         tags: ['JavaScript', 'Vite', 'WebAudio', 'Canvas'],
         color: '#FFB800',
         brightness: 1.2,
         size: 'small',
         galaxy: 'experimental',
-        links: {
-          github: 'https://github.com/forbiddenlink/apeiron-remake',
-        },
+        links: { github: 'https://github.com/forbiddenlink/apeiron-remake' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Recreating a 1994 Mac game faithfully in the browser with zero assets: sprites and sounds all generated procedurally in code.',
+        challenge: 'Remake an arcade game without any asset files.',
         solution:
-          'Fixed-timestep game loop for deterministic physics. Procedural pixel-art sprites drawn entirely with Canvas API, no image files. WebAudio API synthesises all SFX from scratch. Classic mode preserves original scoring: extra life every 20,000 pts, up to 8 lives.',
-        impact:
-          'Zero external assets: entire game in pure code. Fixed-timestep ensures identical behaviour across frame rates. Classic mode is accurate to 1994 original. Demonstrates low-level browser graphics and audio APIs.',
+          'A fixed-timestep game loop, sprites drawn with the Canvas API, and sound effects synthesized in WebAudio.',
       },
       {
         id: 'critter-vale',
         title: 'Critter Vale',
         description:
-          'Browser-based 3D creature-collector built with Three.js. Explore a hand-crafted world, discover and befriend critters, and battle in real time, all rendered in WebGL with zero native install.',
+          'A browser creature-collecting RPG in TypeScript and Three.js. Raise a team, battle rival tamers, and generate new critters in the Summon Lab through an image generation API.',
         role: 'Creator',
         tags: ['Three.js', 'JavaScript', 'WebGL', 'Vite'],
         color: '#FFB800',
@@ -2044,17 +1718,16 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2026',
         challenge:
-          '3D creature-collector games are usually native or engine-heavy (Unity/Unreal). Building one that runs entirely in the browser at real-time framerates was the core technical bet.',
+          'Creature-collecting games are usually native or built on a game engine. I wanted one that runs in a browser tab.',
         solution:
-          'Built a full 3D world with Three.js: custom creature models, exploration mechanics, and real-time combat, all in WebGL with no plugins or native install required.',
-        impact:
-          'Playable end-to-end in any modern browser. Demonstrates real-time 3D rendering, game-state management, and physics-driven combat without a game engine dependency.',
+          'Vanilla TypeScript with Three.js and Vite. A serverless function proxies image generation so the API key stays on the server.',
+        impact: 'Live at critter-vale.vercel.app.',
       },
       {
         id: 'pass-game',
         title: 'PASS',
         description:
-          'Alan Turing interrogation tribute built for a game jam. A live Gemini AI writes the questions, judges how human your answers sound, and presses back on weak replies, racing you to convincingly "pass" before the solstice sun sets.',
+          "A Turing tribute made for the June Solstice Game Jam. A Gemini model writes the interrogator's questions and judges how human your answers sound. Without an API key it falls back to an offline question bank and a heuristic judge.",
         role: 'Creator',
         tags: ['Next.js', 'Google Gemini', 'TypeScript', 'Game Jam'],
         color: '#FFB800',
@@ -2067,18 +1740,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: true,
         dateRange: '2026',
-        challenge:
-          'Turing-test style games usually script canned dialogue. Building one where an AI genuinely judges believability in real time, with no fixed answer key to game, raised the design and prompt-engineering bar.',
+        challenge: 'A Turing-test game has no fixed answer key, so the judging has to happen live.',
         solution:
-          'Google Gemini both generates enciphered interrogation questions and judges each reply for how convincingly human it sounds, pressing back on weak answers. Ships with an offline fallback (question bank + heuristic judge) so the game is playable with zero API key.',
-        impact:
-          'Built and shipped for the June Solstice Game Jam. Graceful degrade to offline mode means anyone can play instantly. Demonstrates live LLM-as-judge game design, not scripted branching.',
+          'Gemini writes the questions, judges each reply and presses back on weak answers, and an offline fallback keeps the game playable without a key.',
+        impact: 'Built for the June Solstice Game Jam. Live at pass-game-six.vercel.app.',
       },
       {
         id: 'runwayos',
         title: 'RunwayOS',
         description:
-          'AI-powered financial runway predictor for SaaS founders. Tracks MRR, churn, and burn rate to forecast exactly when money runs out, with scenario modelling for different growth trajectories. Dashboard UI with metric cards and predictive charts.',
+          'A cash runway tracker for SaaS founders, started in March 2026: a dashboard with MRR, runway, churn and customer cards and an MRR trend chart. Archived after day one of a planned seven.',
         role: 'Creator',
         tags: ['Next.js', 'TypeScript', 'AI'],
         color: '#FFB800',
@@ -2088,41 +1759,33 @@ export const galaxies: Galaxy[] = [
         status: 'archived',
         featured: false,
         dateRange: '2026',
-        challenge:
-          'SaaS founders are often surprised by runway: MRR, churn, and burn are tracked in separate spreadsheets with no single predictive view.',
-        solution:
-          'Unified dashboard pulling MRR, customer count, churn rate, and burn into a single AI-powered forecast engine. Scenario modelling lets founders stress-test growth vs burn assumptions.',
-        impact:
-          'Replaces scattered spreadsheets with a single source of truth. AI forecasting surfaces runway risk weeks before it becomes critical. Scenario modelling enables confident fundraising conversations.',
+        challenge: 'Founders track MRR, churn and burn in separate spreadsheets.',
+        solution: 'A dashboard UI with metric cards and a trend chart.',
       },
       {
         id: 'canvas-flow',
         title: 'Canvas Flow',
         description:
-          'Interactive canvas-based workflow and diagramming tool with intuitive drag-and-drop interface and real-time collaboration features.',
+          'A canvas-based design tool with AI image generation and export to HTML and CSS or React components, built with Next.js and Prisma.',
         role: 'Creator',
         tags: ['Canvas'],
         color: '#FFB800',
         brightness: 1.4,
         size: 'medium',
         galaxy: 'experimental',
-        links: {
-          live: 'https://canvas-flow-kappa.vercel.app',
-        },
+        links: { live: 'https://canvas-flow-kappa.vercel.app' },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Workflow tools are either too rigid (flowchart software) or too freeform (whiteboards). Teams need structure with flexibility.',
+        challenge: 'Design tools and code export usually live in separate apps.',
         solution:
-          'Built infinite canvas with snap-to-grid optional, smart connectors that route around obstacles, and real-time collaboration via WebSocket.',
-        impact:
-          'Smart connectors auto-route around obstacles, removing diagram cleanup chore. Real-time collaboration eliminates version conflicts. Infinite canvas scales from small flows to system architectures.',
+          'A canvas editor that exports semantic HTML and CSS, or React components with Tailwind or CSS Modules.',
+        impact: 'Live at canvas-flow-kappa.vercel.app.',
       },
       {
         id: 'constellation-events',
         title: 'Constellation Events',
         description:
-          'Event management platform with calendar integration, RSVPs, attendee tracking, and real-time updates for event coordination.',
+          "A stargazing hub on Next.js: tonight's sky from JPL Horizons, upcoming meteor showers and eclipses with iCal export, and a dark-sky location finder.",
         role: 'Creator',
         tags: ['Real-time', 'Next.js'],
         color: '#FFB800',
@@ -2135,18 +1798,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Event coordination requires real-time updates without overwhelming attendees with notifications.',
+        challenge: 'Planning a night of stargazing means checking several data sources.',
         solution:
-          'WebSocket-powered real-time sync, smart notification batching, calendar integration with major providers, and RSVP tracking dashboard.',
-        impact:
-          'Real-time updates eliminate refresh anxiety. Smart batching reduces notification fatigue. Calendar sync prevents double-booking.',
+          'One app that pulls from JPL Horizons, astronomy-engine, NOAA SWPC, NASA APOD and Celestrak.',
+        impact: 'Live at constellation-events.vercel.app.',
       },
       {
         id: 'nova-particles',
         title: 'Nova Particles',
         description:
-          'GPU particle system rendering 1M+ particles at 60fps using WebGPU compute shaders. Structure of Arrays architecture for maximum GPU cache efficiency. Published on npm as @nova-particles/core.',
+          'A GPU particle system built on WebGPU compute shaders and Three.js TSL. Published on npm as @nova-particles/core.',
         role: 'Creator',
         tags: ['WebGPU', 'Three.js', 'TypeScript', 'Performance'],
         color: '#FF6B6B',
@@ -2157,18 +1818,17 @@ export const galaxies: Galaxy[] = [
         // Note: GitHub repo is private
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Browser particle systems hit CPU bottlenecks at thousands of particles. GPU compute was needed to scale to millions.',
+        challenge: 'Particle systems that run on the CPU slow down at thousands of particles.',
         solution:
-          'Built WebGPU compute shader pipeline using Three.js TSL (Shading Language). Structure of Arrays (SoA) storage buffers maximize GPU cache efficiency. Supports gravity, drag, wind, vortex, and noise forces.',
+          'A WebGPU compute shader pipeline with Structure of Arrays storage buffers, and forces for gravity, drag, wind, vortex and noise.',
         impact:
-          '1M+ particles at 60fps in browser. GPU-first architecture eliminates CPU bottleneck. Flexible emitter system supports Point, Sphere, Box, Cone, and Circle shapes.',
+          'On npm as @nova-particles/core. Live demo at particle-system-web.vercel.app. The GitHub repository is private.',
       },
       {
         id: 'app-idea-miner',
         title: 'App Idea Miner',
         description:
-          'AI-powered opportunity detection platform that collects, clusters, and analyzes "I wish there was an app..." posts. HDBSCAN clustering, sentiment analysis, and real-time monitoring.',
+          'Collects "I wish there was an app" posts, clusters them with HDBSCAN, scores sentiment with VADER, and shows the clusters with evidence links in a React dashboard. The backend is FastAPI.',
         role: 'Creator',
         tags: ['Python', 'FastAPI', 'React', 'HDBSCAN', 'NLP', 'Redis', 'PostgreSQL'],
         color: '#FFB800',
@@ -2181,18 +1841,16 @@ export const galaxies: Galaxy[] = [
         },
         featured: false,
         dateRange: '2025',
-        challenge:
-          'Validating app ideas requires expensive market research. Real user needs are scattered across forums, social media, and reviews.',
+        challenge: 'Real user needs are scattered across forums and social media.',
         solution:
-          'Built intelligent ingestion pipeline with deduplication, NLP-powered idea extraction, VADER sentiment analysis, and HDBSCAN clustering. FastAPI backend with 21+ endpoints, React dashboard with analytics.',
-        impact:
-          'Clusters similar ideas automatically with evidence links. 3.5x performance boost via Redis caching. Security hardened with WCAG 2.2 compliant frontend.',
+          'An ingestion pipeline with deduplication, NLP idea extraction, clustering and a FastAPI backend.',
+        impact: 'Live at app-idea-miner.vercel.app.',
       },
       {
         id: 'ai-spend-tracker',
         title: 'AI Spend Tracker',
         description:
-          'Track and analyze spending across OpenAI, Anthropic, and other AI providers. Budget alerts, usage breakdowns by project, and cost optimization recommendations.',
+          'A dashboard for tracking spend across AI coding tools. It is a personal tool and is not deployed.',
         role: 'Creator',
         tags: ['Next.js', 'TypeScript'],
         color: '#FFB800',
@@ -2201,12 +1859,8 @@ export const galaxies: Galaxy[] = [
         galaxy: 'experimental',
         featured: false,
         dateRange: '2026',
-        challenge:
-          'AI API costs add up invisibly across multiple providers and projects. Developers get surprised by monthly bills.',
-        solution:
-          'Built unified dashboard aggregating costs across providers. Budget alerts with Slack/email notifications. Per-project cost attribution and optimization suggestions.',
-        impact:
-          'Single view of all AI spend across providers. Budget alerts prevent overruns. No live deployment or user base yet — a personal tool, not a shipped product.',
+        challenge: 'AI tool costs add up across several providers.',
+        solution: 'A Next.js dashboard that brings the spend together in one place.',
       },
     ],
   },
@@ -2233,7 +1887,7 @@ export function getGalaxyById(id: string) {
 }
 
 // =============================================================================
-// NARRATIVE TOURS - Themed journeys through related projects
+// NARRATIVE TOURS - Themed groups of related projects
 // =============================================================================
 
 export interface NarrativeTour {
@@ -2250,89 +1904,64 @@ export interface NarrativeTour {
 export const narrativeTours: NarrativeTour[] = [
   {
     id: 'ai-journey',
-    name: 'My AI Journey',
-    tagline: 'From chatbots to autonomous agents',
+    name: 'AI projects',
+    tagline: 'Six projects that use AI models',
     description:
-      'Explore how I evolved from basic AI integrations to building multi-agent systems and autonomous AI artists.',
+      'Six projects that use AI models, from a spaced-repetition course to an AI artist.',
     color: '#00D9FF',
     icon: 'bot',
-    projectIds: [
-      'finance-quest', // Start: AI-assisted learning
-      'tubedigest', // Content summarization
-      'contradictme', // Argument analysis
-      'stancestream', // Multi-agent coordination
-      'trace', // Gemini screenshot-to-component
-      'lumira', // Autonomous AI artist
-    ],
+    projectIds: ['finance-quest', 'tubedigest', 'contradictme', 'stancestream', 'trace', 'lumira'],
     narrativeIntros: {
       'finance-quest':
-        'It started with a question: could AI make learning stick? Finance Quest combined spaced repetition with intelligent feedback.',
+        'A financial literacy course with spaced repetition and an AI coach that uses Claude, with GPT-4o-mini as a fallback.',
       tubedigest:
-        'Then I wondered: what if AI could extract the essence of any content? TubeDigest was born from hours of watching tutorials.',
+        'Turns long YouTube videos into summaries, topic tags and a mind map you can search.',
       contradictme:
-        'Fighting echo chambers became personal. ContradictMe uses AI to find the strongest counterarguments, not strawmen.',
+        'You state a position and it argues the strongest opposing case. The chat runs through an Algolia Agent Studio agent.',
       stancestream:
-        'What if multiple AIs could debate in real-time? StanceStream coordinates AI agents like an orchestra conductor.',
+        'AI agents debate in real time and use all four Redis data models. Built for the Redis AI Challenge 2025.',
       trace:
-        'Vision models opened new doors. Show Trace a screenshot and it returns a real, runnable React component grounded in your design system.',
-      lumira:
-        "The culmination: an AI that doesn't just generate, it creates with personality, mood, and memory. Lumira is an artist with a Rust-powered soul.",
+        'Paste a screenshot and Gemini 2.5 Flash writes a React component from a shadcn-style catalog. It won the DEV GitHub Finish-Up-A-Thon.',
+      lumira: 'An AI artist in Python with ten emotional states and a memory of what it has made.',
     },
   },
   {
     id: 'fullstack-evolution',
-    name: 'Full-Stack Evolution',
-    tagline: 'From first commit to enterprise scale',
+    name: 'Full-stack projects',
+    tagline: 'From a survey builder to a collaborative editor',
     description:
-      'The journey from building my first full-stack app to leading teams on 64,000+ file enterprise codebases.',
+      'Five full-stack projects, from a survey builder to a practice monorepo for field operations.',
     color: '#9D4EDD',
     icon: 'rocket',
-    projectIds: [
-      'create-surveys', // Start: First real SaaS
-      'portfolio-pro', // Comprehensive platform
-      'kindred', // Modern architecture
-      'willwise', // Real-world SaaS
-      'coulson-one', // Enterprise scale
-    ],
+    projectIds: ['create-surveys', 'portfolio-pro', 'kindred', 'willwise', 'coulson-one'],
     narrativeIntros: {
       'create-surveys':
-        'Every full-stack developer remembers their first real SaaS. Create Surveys taught me the full loop: build, ship, iterate.',
+        'A survey builder on React, Vite and Firebase, with templates and real-time analytics.',
       'portfolio-pro':
-        'Portfolio-Pro was ambitious: 269 lessons, Stripe integration, Monaco editor. It proved I could build comprehensive platforms.',
+        'A learning platform for AI development: 297 lessons in six tracks, a Monaco editor and Stripe subscriptions.',
       kindred:
-        'Modern architecture matters. Kindred pairs Next.js 16 and React 19 with Yjs CRDTs for real-time, offline-first collaboration.',
+        'A collaborative editor on Next.js 16 and React 19. Yjs syncs edits between people and keeps working offline.',
       willwise:
-        'WillWise tackled a real-world problem: modernizing estate planning for the digital age. Full SaaS with Stripe, Supabase, and PDF generation.',
+        'An estate planning app for digital assets, with a questionnaire, PDF generation and Stripe payments.',
       'coulson-one':
-        '64,806 files. Enterprise aviation software. Contributing here meant understanding scale, process, and real-world impact.',
+        'A practice monorepo from 2025: a NestJS API, a Next.js dashboard and an Expo app for oil and gas field operations.',
     },
   },
   {
     id: 'devtools-builder',
-    name: 'Building Developer Tools',
-    tagline: 'Tools I wish existed, so I built them',
-    description:
-      "From accessibility checkers to image optimizers, building tools that make other developers' lives easier.",
+    name: 'Developer tools',
+    tagline: 'Five tools for developers',
+    description: 'Five tools for developers, from an accessibility checker to an image optimizer.',
     color: '#06FFA5',
     icon: 'code',
-    projectIds: [
-      'accessibility-checker', // Start: A11y automation
-      'codememory', // Learning tools
-      'trace', // Screenshot to component
-      'imgzen', // Rust performance
-      'encryption-visualizer', // Education
-    ],
+    projectIds: ['accessibility-checker', 'codememory', 'trace', 'imgzen', 'encryption-visualizer'],
     narrativeIntros: {
       'accessibility-checker':
-        "Accessibility shouldn't require expertise. I built a tool that surfaces WCAG 2.1 violations automatically with AI palette fixes.",
-      codememory:
-        'Learning web dev is hard. CodeMemory uses FSRS spaced repetition to schedule reviews so knowledge actually sticks.',
-      trace:
-        "Building UI from a mockup shouldn't mean hand-translating pixels. Screenshot → a real, runnable component you can edit and ship.",
-      imgzen:
-        'Image optimization was always manual. ImgZen automates it in Rust with zero configuration.',
-      'encryption-visualizer':
-        'Cryptography is abstract until you see it. Watch AES transform your data byte by byte.',
+        'Checks contrast against WCAG 2.1 and APCA, suggests colors, and simulates color blindness.',
+      codememory: 'Flashcards and coding challenges scheduled with FSRS spaced repetition.',
+      trace: 'Turns a screenshot into a React component you can edit.',
+      imgzen: 'A Rust GitHub Action that makes AVIF and WebP copies of your images.',
+      'encryption-visualizer': 'Step-by-step visualizations of AES, RSA and hashing.',
     },
   },
 ]

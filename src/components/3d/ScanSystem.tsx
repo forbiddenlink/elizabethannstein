@@ -10,6 +10,7 @@ import { isSceneProject } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 import type { Project } from '@/lib/types'
 import { generateProjectPosition, getSizeMultiplier } from '@/lib/utils'
+import { SCENE_FONT, toSceneText } from './sceneFont'
 
 // =============================================================================
 // SCAN TARGET STORE - Shared state for HUD to read
@@ -221,11 +222,11 @@ function ScannedPlanetData({
             color="#ffffff"
             anchorX="left"
             anchorY="middle"
-            font="/fonts/inter-medium.woff"
+            font={SCENE_FONT}
             outlineWidth={0.02}
             outlineColor="#000000"
           >
-            {project.title}
+            {toSceneText(project.title)}
           </Text>
 
           {/* Tech tags */}
@@ -238,9 +239,9 @@ function ScannedPlanetData({
                 color={project.color}
                 anchorX="left"
                 anchorY="middle"
-                font="/fonts/inter-medium.woff"
+                font={SCENE_FONT}
               >
-                {tag}
+                {toSceneText(tag)}
               </Text>
             ))}
           </group>

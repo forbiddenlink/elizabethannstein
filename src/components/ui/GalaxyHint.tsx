@@ -54,15 +54,14 @@ export function GalaxyHint() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 12, scale: 0.97 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed left-1/2 top-104 z-20 w-[min(calc(100vw-2rem),22rem)] max-w-[calc(100vw-2rem)] -translate-x-1/2 pointer-events-auto sm:max-w-none lg:top-auto lg:bottom-36 lg:max-w-[min(42rem,calc(100vw-4rem))] lg:w-auto"
+          className="fixed left-1/2 top-56 z-20 w-[min(calc(100vw-2rem),22rem)] max-w-[calc(100vw-2rem)] -translate-x-1/2 pointer-events-auto sm:max-w-none lg:top-auto lg:bottom-36 lg:max-w-[min(42rem,calc(100vw-4rem))] lg:w-auto"
           role="status"
           aria-live="polite"
         >
           <div className="flex flex-col items-start gap-2.5 rounded-lg border border-white/15 bg-black/72 px-4 py-3 shadow-2xl sm:flex-row sm:items-center sm:gap-4 sm:px-5">
             {/* Main hint */}
             <span className="text-xs text-white/75">
-              Each star is a project, <span className="text-white/90">open one</span> for the full
-              case study.
+              Each planet is a project. Click one for the case study.
             </span>
             <span className="w-px h-3 bg-white/15 hidden sm:block" aria-hidden="true" />
             {/* Keyboard hints */}

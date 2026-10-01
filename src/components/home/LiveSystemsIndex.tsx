@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { ProjectPlate } from '@/components/editorial/ProjectPlate'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { CONTACT, STATS } from '@/lib/constants'
@@ -23,6 +24,10 @@ type Phase = LedgerPhase
 
 const LIVE_SYSTEMS = FLAGSHIPS.filter((f) => f.status === 'live' && f.statusUrl)
 const RESUME_HREF = '/resume/elizabeth-stein-resume.pdf'
+// Three get a full plate (the ones with something to look at); the rest stay index rows.
+const FEATURED_IDS = ['security-readiness-platform', 'timeslip-search', 'trace']
+const FEATURED = FEATURED_IDS.flatMap((id) => FLAGSHIPS.find((f) => f.id === id) ?? [])
+const REST = FLAGSHIPS.filter((f) => !FEATURED_IDS.includes(f.id))
 
 function initialPhases(): Record<string, Phase> {
   // Every pinged system starts as "checking" on the server and on first paint: nothing is
@@ -170,15 +175,17 @@ export function LiveSystemsIndex() {
         <div className={styles.wrap}>
           <section className={styles.fold} aria-labelledby="home-claim">
             <div>
-              <h1 className={styles.claim} id="home-claim">
-                <b>Elizabeth Stein</b> designs and builds software that is running in production
-                right now.
+              <h1 className={styles.name} id="home-claim">
+                Elizabeth Stein <span>Full-stack engineer and designer</span>
               </h1>
+              <p className={styles.claim}>
+                I build software people use, and I can show you it&apos;s running.
+              </p>
               <p className={styles.standfirst}>
-                Sole developer on a Dynamics 365 platform in production for a cybersecurity
-                nonprofit. Winner of the Algolia Agent Studio challenge. Eleven client sites on
-                Craft CMS at Rocketpark. The server checks the live systems in the ledger every five
-                minutes.
+                Right now I&apos;m the sole developer on a Dynamics 365 platform in production for a
+                cybersecurity nonprofit, and I lead development on Rocket Vitals, a website QA
+                product at Rocket Park. On my own time I won the Algolia Agent Studio challenge and
+                publish developer tools to npm.
               </p>
               <div className={styles.actions}>
                 <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>
@@ -200,7 +207,7 @@ export function LiveSystemsIndex() {
 
             <aside className={styles.ledger} aria-labelledby="ledger-heading">
               <div className={styles.ledgerHead}>
-                <h2 id="ledger-heading">Live systems</h2>
+                <h2 id="ledger-heading">Running right now</h2>
                 <p aria-live="polite">
                   {isProbing
                     ? 'checking now'
@@ -240,16 +247,58 @@ export function LiveSystemsIndex() {
           </section>
         </div>
 
-        <section className="eSect" aria-labelledby="selected-heading">
+        <section className="eSect" aria-labelledby="featured-heading">
           <div className={styles.wrap}>
             <div className="eSectHead">
-              <h2 id="selected-heading">Selected work</h2>
+              <h2 id="featured-heading">Selected work</h2>
               <p>
                 {FLAGSHIPS.length} of {STATS.projectCount} projects
               </p>
             </div>
-            <ul className={styles.index}>
-              {FLAGSHIPS.map((f) => (
+            <ol className={styles.features}>
+              {FEATURED.map((f, i) => (
+                <li key={f.id}>
+                  <Link
+                    href={`/work/${f.id}`}
+                    className={styles.feature}
+                    aria-labelledby={`feat-${f.id}-title`}
+                    aria-describedby={`feat-${f.id}-desc`}
+                  >
+                    <ProjectPlate
+                      flagship={f}
+                      project={getProjectById(f.id)}
+                      sizes="(max-width: 960px) 100vw, 640px"
+                      priority={i === 0}
+                    />
+                    <div className={styles.featureText}>
+                      <p className={styles.who}>{whoLine(f)}</p>
+                      <h3 id={`feat-${f.id}-title`} className={styles.featureTitle}>
+                        {f.title}
+                      </h3>
+                      <p id={`feat-${f.id}-desc`} className={styles.featureDesc}>
+                        {f.summary}
+                      </p>
+                      {f.metrics.length > 0 && (
+                        <dl className={styles.facts}>
+                          {f.metrics.map((m) => (
+                            <div key={m.label}>
+                              <dt>{m.label}</dt>
+                              <dd>{m.value}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      )}
+                      <span className={styles.status}>
+                        <SelectedState flagship={f} phase={phases[f.id]} />
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+
+            <ul className={styles.index} aria-label="More selected work">
+              {REST.map((f) => (
                 <li key={f.id}>
                   <Link
                     href={`/work/${f.id}`}
@@ -274,11 +323,49 @@ export function LiveSystemsIndex() {
               ))}
             </ul>
             <div className={styles.more}>
-              <span>{STATS.moreCount} more projects: experiments, dev tools, and games.</span>
+              <span>
+                {STATS.moreCount} more projects, from client sites to experiments and games.
+              </span>
               <span>
                 <Link href="/work#archive">Browse the archive</Link> or{' '}
-                <Link href="/explore">explore it as a 3D galaxy</Link>
+                <Link href="/explore">fly through it as a 3D galaxy</Link>
               </span>
+            </div>
+          </div>
+        </section>
+
+        <section className="eSect" aria-labelledby="quote-heading">
+          <div className={`${styles.wrap} ${styles.quoteRow}`}>
+            <h2 id="quote-heading" className={styles.quoteLabel}>
+              From a client
+            </h2>
+            <figure className={styles.quote}>
+              <blockquote>
+                <p>
+                  Elizabeth was the backbone of this project. While every team member played a role
+                  in bringing the DAREU Radio website to life, it was Elizabeth who carried the
+                  technical weight and delivered a product that exceeded expectations.
+                </p>
+              </blockquote>
+              <figcaption>
+                <cite>Brenna Martin</cite>, Founder and Station Director, DareU Radio
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section className="eSect" aria-labelledby="close-heading">
+          <div className={`${styles.wrap} ${styles.close}`}>
+            <h2 id="close-heading" className={styles.closeTitle}>
+              Have something that needs to ship?
+            </h2>
+            <div className={styles.actions}>
+              <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>
+                Email me
+              </a>
+              <Link className="eBtn eBtnGhost" href="/contact">
+                Use the contact form
+              </Link>
             </div>
           </div>
         </section>

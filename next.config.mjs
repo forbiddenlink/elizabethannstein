@@ -59,11 +59,17 @@ const nextConfig = {
       // (manifest-src, media-src, worker-src, ...) — without this, an unlisted
       // directive falls back to unrestricted rather than 'self'.
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ''} https://www.googletagmanager.com`,
+      `script-src 'self' 'unsafe-inline' blob:${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ''} https://www.googletagmanager.com`,
       "style-src 'self' 'unsafe-inline'",
       // worker-src falls back to script-src, not default-src, when unset - the blob:
       // workers the /explore WebGL/WebGPU scene spins up (three.js's internal texture
       // and geometry workers) were silently blocked without this, one-line 2026-09-27 fix.
+      // script-src needs blob: too: troika-three-text (drei <Text>) boots a blob: worker, then
+      // that worker importScripts() a blob: URL, which is governed by the inherited script-src,
+      // not worker-src. Without it every <Text> font/SDF module fails with "Worker module
+      // function was called but `init` did not return a callable function" (Sentry
+      // ELIZABETHANNSTEIN-4). 'unsafe-inline' already allows same-origin inline script, so
+      // blob: (same-origin, in-page created) does not widen the real attack surface.
       "worker-src 'self' blob:",
       // data: is needed for the inline SVG noise texture in globals.css and for
       // next/image blur placeholders; both are first-party, author-written markup.

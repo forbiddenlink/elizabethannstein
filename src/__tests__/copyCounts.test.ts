@@ -11,7 +11,7 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
  * When the catalogue grows, this fails and names the copy that needs editing.
  */
 const SPELLED_TOTAL: Record<string, string> = {
-  '88': 'Eighty-eight',
+  '87': 'Eighty-seven',
 }
 
 const read = (p: string) => readFileSync(join(process.cwd(), p), 'utf8')
@@ -27,7 +27,7 @@ describe('home copy counts', () => {
   })
 
   it('src/app/page.tsx states the current project total', () => {
-    expect(read('src/app/page.tsx')).toContain(`${expectedWord} things shipped`)
+    expect(read('src/app/page.tsx')).toContain(`${expectedWord} projects`)
   })
 
   // Since the 2026-09-27 redesign the home page body renders counts from STATS and
@@ -36,7 +36,7 @@ describe('home copy counts', () => {
     const source = read('src/components/home/LiveSystemsIndex.tsx')
     expect(source).toContain('STATS.projectCount')
     expect(source).toContain('STATS.moreCount')
-    expect(source).not.toMatch(/\b(86|88|80) (more )?projects\b/)
+    expect(source).not.toMatch(/\b(86|87|88|80) (more )?projects\b/)
   })
 
   /**
@@ -47,7 +47,7 @@ describe('home copy counts', () => {
    * guarded.
    */
   it('public/llms.txt states the current project total', () => {
-    expect(read('public/llms.txt')).toContain(`${STATS.projectCount} shipped projects`)
+    expect(read('public/llms.txt')).toContain(`lists ${STATS.projectCount} projects`)
   })
 
   /**

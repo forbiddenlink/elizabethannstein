@@ -31,7 +31,10 @@ function getStatusLabel(project: Project): string {
   if (project.tags.includes('npm')) return 'Published on npm'
   if (project.status === 'in-progress') return 'In progress'
   if (project.status === 'archived') return 'Archived'
-  return 'In production'
+  if (project.status === 'live') return 'In production'
+  if (project.company) return 'Employer work'
+  if (project.links?.github) return 'Source on GitHub'
+  return 'Private repository'
 }
 
 /**
@@ -90,22 +93,16 @@ function Demo({ project }: Readonly<{ project: Project }>) {
       </section>
     )
   }
-  const isCliOrTool =
-    project.id === 'specter' ||
-    project.id === 'hq' ||
-    project.id === 'chronicle' ||
-    project.tags.includes('CLI')
-  if (isCliOrTool) {
+  // Only Specter gets a terminal. It is a command reference built from the published README,
+  // so it must not be reused for other CLI projects.
+  if (project.id === 'specter') {
     return (
       <section id="case-terminal" aria-labelledby="demo-heading" className="eSect">
         <div className="eSectHead">
-          <h2 id="demo-heading">Try it: a terminal session</h2>
-          <p>Scripted replay, not connected to a real machine</p>
+          <h2 id="demo-heading">Specter commands</h2>
+          <p>A reference on this page. It does not run Specter.</p>
         </div>
-        <InteractiveTerminal
-          projectName={project.title}
-          initialCommand={project.id === 'specter' ? 'specter explain' : 'help'}
-        />
+        <InteractiveTerminal projectName={project.title} />
       </section>
     )
   }
@@ -286,19 +283,6 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             <figcaption>
               <cite>{project.testimonial.author}</cite>, {project.testimonial.role}
               {project.testimonial.date && <>, {project.testimonial.date}</>}
-              {project.links?.testimonial && (
-                <>
-                  {'. '}
-                  <a
-                    href={project.links.testimonial}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="eLink"
-                  >
-                    Read the full letter (PDF)
-                  </a>
-                </>
-              )}
             </figcaption>
           </figure>
         </section>

@@ -5,16 +5,16 @@ import { WorkPageClient } from '@/components/work/WorkPageClient'
 import { SITE, STATS } from '@/lib/constants'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
-const workDescription = `Full-stack development, AI integration, design systems, and enterprise work across ${STATS.projectCount} projects. Browse the portfolio.`
+const workDescription = `${STATS.projectCount} projects by Elizabeth Stein, from production systems and contest winners to experiments, each with its own page.`
 
 export const metadata: Metadata = {
-  title: 'Projects & Work',
+  title: 'Work',
   description: workDescription,
   alternates: {
     canonical: '/work',
   },
   openGraph: {
-    title: 'Projects & Work - Elizabeth Stein Portfolio',
+    title: 'Work | Elizabeth Stein',
     description: workDescription,
     url: '/work',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
@@ -37,7 +37,7 @@ export default async function WorkPage({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Projects & Work',
+    name: 'Work',
     description: metadata.description,
     url: `${SITE.url}/work`,
     author: {

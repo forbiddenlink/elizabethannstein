@@ -6,7 +6,7 @@ import { CONTACT } from '@/lib/constants'
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    'Privacy policy for elizabethannstein.com. Learn how this portfolio site handles your data, including analytics and cookies.',
+    'What elizabethannstein.com collects: analytics, what you send through the contact form or the 3D galaxy chat, and which services handle it.',
   alternates: {
     canonical: '/privacy',
   },
@@ -14,8 +14,7 @@ export const metadata: Metadata = {
     // Open Graph titles do not get the root layout's `%s | Elizabeth Stein`
     // template, so this one carries the name itself.
     title: 'Privacy Policy | Elizabeth Stein',
-    description:
-      'Privacy policy for elizabethannstein.com. Learn how this portfolio site handles your data.',
+    description: 'What elizabethannstein.com collects, and which services handle it.',
     url: '/privacy',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
@@ -37,19 +36,17 @@ export default function PrivacyPage() {
         <header className="ePageHead">
           <h1>Privacy</h1>
           <p>
-            Written to be read: this site uses privacy-friendly analytics and standard hosting. It
-            does not collect personal information unless you choose to email me.
+            The short version: the site counts visits, and it only gets your name or email address
+            if you send me a message.
           </p>
-          <p className="eLabel">Updated July 13, 2026</p>
+          <p className="eLabel">Updated October 1, 2026</p>
         </header>
 
         <div className="eProse">
           <section>
             <h2>Overview</h2>
             <p>
-              This is a personal portfolio showcasing my work as a software developer. I respect
-              your privacy and am committed to being transparent about any data collected when you
-              visit.
+              This is my personal portfolio. Here is everything it collects and where that goes.
             </p>
           </section>
 
@@ -67,8 +64,17 @@ export default function PrivacyPage() {
               <li>Device type and browser information</li>
             </ul>
             <p>
-              <strong>No personal data.</strong> The site does not collect names, email addresses,
-              or phone numbers unless you voluntarily contact me via the email link.
+              <strong>The contact form.</strong> Your name, email address, and message are sent to
+              my inbox as an email through Resend. The site itself does not store them.
+            </p>
+            <p>
+              <strong>The galaxy chat.</strong> Questions you type into the chat on the 3D galaxy
+              page are sent to the MiniMax AI API to generate an answer. Do not type anything
+              personal there.
+            </p>
+            <p>
+              <strong>Bot protection.</strong> Requests to the site&apos;s API routes pass through
+              Arcjet, which looks at your IP address and request to block bots and abuse.
             </p>
           </section>
 
@@ -102,6 +108,15 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>Sentry:</strong> error monitoring (technical diagnostics, no personal data)
+              </li>
+              <li>
+                <strong>Resend:</strong> delivers contact form messages to my inbox
+              </li>
+              <li>
+                <strong>MiniMax:</strong> answers questions in the 3D galaxy chat
+              </li>
+              <li>
+                <strong>Arcjet:</strong> bot and abuse protection on API routes
               </li>
               <li>
                 <strong>Self-hosted fonts:</strong> Fraunces, Space Grotesk, and JetBrains Mono are

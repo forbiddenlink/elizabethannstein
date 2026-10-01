@@ -60,7 +60,7 @@ export function HireReadySimulator() {
         <div className="flex items-center gap-2">
           <Mic className="w-4 h-4 text-purple-400" />
           <span className="font-bold text-gray-200 tracking-wider uppercase font-mono">
-            HireReady &mdash; OpenAI Realtime Voice &amp; FSRS-5 Simulator
+            HireReady: a sample interview round
           </span>
         </div>
         <span className="font-mono text-[11px] text-purple-300/80 bg-purple-400/10 px-2 py-0.5 rounded border border-purple-400/20">

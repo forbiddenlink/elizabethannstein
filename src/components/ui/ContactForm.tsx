@@ -78,8 +78,8 @@ export function ContactForm() {
           Message received.
         </h3>
         <p className={styles.successText}>
-          I&apos;ll reply to <strong style={{ color: 'var(--le-ink)' }}>{sentEmail}</strong> within
-          24 hours.
+          It&apos;s in my inbox. I&apos;ll reply to{' '}
+          <strong style={{ color: 'var(--le-ink)' }}>{sentEmail}</strong>.
         </p>
         <button
           type="button"
@@ -160,7 +160,7 @@ export function ContactForm() {
           rows={5}
           autoCapitalize="sentences"
           maxLength={MAX_MESSAGE_LENGTH}
-          placeholder="Tell me about your project or opportunity..."
+          placeholder="What are you working on, and when do you need it?"
           className={styles.textarea}
           disabled={status === 'submitting'}
         />
@@ -198,7 +198,7 @@ export function ContactForm() {
       </button>
 
       <p className={styles.note}>
-        I typically respond within 24 hours. Or email me directly at{' '}
+        Prefer email? Write to{' '}
         <a href={`mailto:${CONTACT.email}`} className="eLink">
           {CONTACT.email}
         </a>

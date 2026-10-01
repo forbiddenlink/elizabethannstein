@@ -11,7 +11,7 @@ import { FLAGSHIPS } from './flagships'
  * `src/__tests__/copyCounts.test.ts` fails if either number drifts from the
  * real catalogue, so this cannot go stale silently.
  */
-const totalProjects = 88
+const totalProjects = 87
 const totalGalaxies = 6
 
 // Contact and social links - single source of truth
@@ -31,7 +31,7 @@ export const CONTACT = {
 export const ASK_AI = {
   /** Prefilled prompt; each provider URL appends `encodeURIComponent(prompt)`. */
   prompt:
-    'Tell me about Elizabeth Stein, a full-stack engineer (Power Platform, Next.js, AI). Her portfolio is https://elizabethannstein.com and her AI-readable profile is https://elizabethannstein.com/llms.txt. What are her strongest, most verifiable projects and skills?',
+    'Tell me about Elizabeth Stein, a full-stack engineer and designer (Next.js, Power Platform, AI). Her portfolio is https://elizabethannstein.com and her profile for AI tools is https://elizabethannstein.com/llms.txt. What has she built, and what can I verify?',
   /** `{q}` is replaced with the encoded prompt at render time. */
   providers: [
     { label: 'Claude', href: 'https://claude.ai/new?q={q}' },
@@ -43,20 +43,18 @@ export const ASK_AI = {
 // Site metadata - single source of truth
 export const SITE = {
   name: 'Elizabeth Stein',
-  title: 'Full-Stack Engineer | Power Platform · Next.js · AI',
-  fullTitle: 'Elizabeth Stein | Full-Stack Engineer (Power Platform · Next.js · AI)',
-  description: `Full-stack developer and designer. Sole developer on a Dynamics 365 platform live in production, Algolia Agent Studio winner, npm publisher. B.S. Summa Cum Laude. ${totalProjects} projects shipped; the eight that matter are on the front page.`,
+  title: 'Full-stack engineer and designer',
+  fullTitle: 'Elizabeth Stein, full-stack engineer and designer',
+  description: `Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production, Algolia Agent Studio Challenge winner, npm publisher. ${totalProjects} projects, from production systems to experiments.`,
   shortDescription:
-    'Full-stack developer and designer. Sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, 11 client sites on Craft CMS at Rocketpark, $750 Algolia Agent Studio winner, npm publisher, MCP author.',
+    'Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, lead developer on Rocket Vitals at Rocket Park, Algolia Agent Studio Challenge winner, and npm publisher.',
   /** One-line POV for hero / storytelling surfaces (the /explore galaxy + entrance). */
-  narrativeThesis:
-    "I design and build software that's actually running in production. Sole developer on a Dynamics 365 platform, Algolia Agent Studio winner, and I ship MCP servers instead of just consuming them.",
+  narrativeThesis: "I build software people use, and I can show you it's running.",
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',
   // These feed JSON-LD and page metadata, so a version number here rots in
   // public. Name the platform ('OpenAI API'), not the model of the month.
   keywords: [
     'Full-Stack Engineer',
-    'Recent Grad 2026',
     'Capella',
     'Power Platform',
     'Dynamics 365',
@@ -80,7 +78,6 @@ export const SITE = {
     'Supabase',
     'Rust',
     'Cybersecurity',
-    'Healthcare',
   ],
   knowsAbout: [
     'Full-Stack Development',
@@ -115,6 +112,4 @@ export const STATS = {
   galaxyCount: String(totalGalaxies),
   /** Everything not surfaced as a flagship. Derived so the copy cannot drift. */
   moreCount: String(totalProjects - FLAGSHIPS.length),
-  yearsExperience: '3',
-  yearRange: '2023-2026',
 } as const
