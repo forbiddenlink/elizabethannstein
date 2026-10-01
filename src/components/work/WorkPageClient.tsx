@@ -135,10 +135,7 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
   const stack = project?.tags.slice(0, 4).join(', ')
 
   return (
-    <Link
-      href={`/work/${flagship.id}`}
-      className={styles.card}
-    >
+    <Link href={`/work/${flagship.id}`} className={styles.card}>
       <figure className="ePlate">
         {shot ? (
           <div className="ePlateImg">
@@ -169,12 +166,8 @@ function SelectedCard({ flagship, project }: Readonly<{ flagship: Flagship; proj
           <span>{flagship.years}</span>
         </figcaption>
       </figure>
-      <h3 className={styles.cardTitle}>
-        {flagship.title}
-      </h3>
-      <p className={styles.cardDesc}>
-        {flagship.summary}
-      </p>
+      <h3 className={styles.cardTitle}>{flagship.title}</h3>
+      <p className={styles.cardDesc}>{flagship.summary}</p>
       <p className={styles.cardMeta}>
         {whoLine(flagship)}. {status.label}, {status.detail}
       </p>
