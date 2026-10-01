@@ -343,19 +343,17 @@ export function LiveSystemsIndex() {
                   <Link
                     href={`/work/${f.id}`}
                     className={styles.row}
-                    aria-labelledby={`home-${f.id}-title`}
-                    aria-describedby={`home-${f.id}-desc home-${f.id}-status`}
                   >
                     <span>
-                      <span id={`home-${f.id}-title`} className={styles.title}>
+                      <span className={styles.title}>
                         {f.title}
                       </span>
                       <span className={styles.who}>{whoLine(f)}</span>
                     </span>
-                    <span id={`home-${f.id}-desc`} className={styles.desc}>
+                    <span className={styles.desc}>
                       {f.summary}
                     </span>
-                    <span id={`home-${f.id}-status`} className={styles.status}>
+                    <span className={styles.status}>
                       <SelectedState flagship={f} phase={phases[f.id]} />
                     </span>
                   </Link>
