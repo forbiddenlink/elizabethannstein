@@ -727,6 +727,80 @@ a:focus-visible .ePlateImg img {
   padding-bottom: 0;
 }
 
+/* plate art: terminal excerpt or flow, the stand-in for work with no public screenshot */
+.ePlateArt {
+  aspect-ratio: 16 / 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  background: var(--le-paper-2);
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--le-ink-2);
+}
+.ePlateArtTitle {
+  margin: 0;
+  color: var(--le-muted);
+  letter-spacing: 0.02em;
+}
+.ePlateArtRows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+}
+.ePlateArtRows li {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.ePlateArtKey {
+  color: var(--le-ink);
+  overflow-wrap: anywhere;
+}
+.ePlateArtPrompt .ePlateArtKey::before {
+  content: "$ ";
+  color: var(--le-accent-ink);
+}
+.ePlateArtVal {
+  color: var(--le-ink-2);
+  overflow-wrap: anywhere;
+}
+/* flow: stage name in display type, joined by a left rail */
+.ePlateArtFlow .ePlateArtRows {
+  gap: 0;
+  border-left: 1px solid var(--le-rule-strong);
+}
+.ePlateArtFlow .ePlateArtRows li {
+  position: relative;
+  padding: 0.55rem 0 0.55rem 1rem;
+}
+.ePlateArtFlow .ePlateArtRows li::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 1.05rem;
+  width: 7px;
+  height: 7px;
+  background: var(--le-accent);
+}
+.ePlateArtFlow .ePlateArtKey {
+  font-family: var(--le-display);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.ePlateArtFoot {
+  margin: 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--le-rule);
+  color: var(--le-muted);
+}
+
 /* spec table: label / value rows */
 .eSpec {
   margin: 1.75rem 0 0;
@@ -755,7 +829,8 @@ a:focus-visible .ePlateImg img {
 }
 
 @media (max-width: 640px) {
-  .eTypeplate {
+  .eTypeplate,
+  .ePlateArt {
     aspect-ratio: auto;
     min-height: 12rem;
   }
