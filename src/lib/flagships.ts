@@ -87,7 +87,7 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'Rocket Vitals',
-        body: 'A scanner that crawls a site and reports on 200+ accessibility, performance, SEO, and security checks. I lead its development.',
+        body: 'A scanner that crawls a site and runs 385+ checks across accessibility, performance, SEO, security and more. I lead its development.',
       },
       {
         heading: 'Tooling',
@@ -96,7 +96,7 @@ export const FLAGSHIPS: Flagship[] = [
     ],
     metrics: [
       { value: '11', label: 'Client sites' },
-      { value: '200+', label: 'QA checks in Rocket Vitals' },
+      { value: '385+', label: 'QA checks in Rocket Vitals' },
     ],
     links: [{ label: 'Rocket Vitals', href: 'https://rocketvitals.com', external: true }],
   },

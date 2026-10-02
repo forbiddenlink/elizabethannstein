@@ -126,4 +126,43 @@ export const CASE_STUDIES: ReadonlyMap<string, readonly CaseStudySection[]> = ne
       },
     ],
   ],
+  [
+    'rocket-vitals',
+    [
+      {
+        heading: 'My part',
+        paragraphs: [
+          'I lead its development and have written most of it: 894 of its 930 commits since February 2026.',
+        ],
+      },
+      {
+        heading: 'The number on the homepage is a test',
+        paragraphs: [
+          'A QA product that overstates its own checks has a credibility problem. The “385+ checks” on the marketing site is generated from the check catalog, and a test fails the build if the two drift apart.',
+          'A second test ties every catalog entry to an issue the scanner actually emits, so the site cannot advertise a check that never runs.',
+        ],
+      },
+      {
+        heading: 'Lab numbers and real visitors',
+        paragraphs: [
+          'A lab test shows what a page can do on a simulated device. It does not show what real visitors got. Alongside its own runs, the scanner pulls field data from Google’s Chrome UX Report API, including Interaction to Next Paint, so a report can say both.',
+        ],
+      },
+      {
+        heading: 'Reports belong to whoever ran them',
+        paragraphs: [
+          'A scan of a client’s site can surface things nobody wants public. A report opens only in the browser that ran the scan, for a signed-in owner, or through a shared link.',
+        ],
+      },
+      {
+        heading: 'Decisions I’d make again',
+        paragraphs: [],
+        bullets: [
+          'Generate marketing claims from the code they describe, and test that they match.',
+          'Report field data next to lab data. A page can pass in the lab and still be slow for real visitors.',
+          'Scope reports to their owner by default and make sharing a deliberate act.',
+        ],
+      },
+    ],
+  ],
 ])
