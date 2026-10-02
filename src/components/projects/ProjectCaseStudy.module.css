@@ -70,16 +70,35 @@
   margin-top: 1.75rem;
 }
 
-.plate {
+.aside :global(.eTypeplate) {
+  aspect-ratio: auto;
+  min-height: 14rem;
+}
+
+.aside {
   position: sticky;
   top: 1.5rem;
+}
+
+.numsBlock {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--le-rule-strong);
+}
+
+.numsBlock h2 {
+  margin: 0 0 0.9rem;
+  font-family: var(--le-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--le-muted);
 }
 
 .story {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
   gap: clamp(1rem, 4vw, 4rem);
-  padding: clamp(2rem, 5vw, 3.5rem) 0;
+  padding: clamp(1.5rem, 4vw, 2.75rem) 0;
   border-top: 1px solid var(--le-rule-strong);
 }
 
@@ -122,24 +141,24 @@
 }
 
 .nums {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.75rem 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1.5rem 2rem;
   margin: 0;
 }
 
 .nums div {
   display: flex;
   flex-direction: column-reverse;
-  min-width: 8rem;
-  max-width: 14rem;
+  min-width: 0;
 }
 
 .nums dd {
   margin: 0;
   font-family: var(--le-display);
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-size: clamp(1.8rem, 2.6vw, 2.4rem);
   line-height: 1.05;
+  text-wrap: balance;
   color: var(--le-accent-ink);
   font-variant-numeric: tabular-nums;
 }
@@ -187,16 +206,52 @@
   .spread {
     grid-template-columns: 1fr;
   }
-  .plate {
+  .aside {
     position: static;
   }
   /* Stacked head: a full-width 16:10 text plate becomes a mostly empty block taller than the
      facts above it, so let it size to its text. Screenshots keep their 16:10 well. */
-  .plate :global(.eTypeplate) {
+  .aside :global(.eTypeplate) {
     aspect-ratio: auto;
     min-height: 12rem;
   }
   .story {
     grid-template-columns: 1fr;
   }
+}
+
+/* A text or drawn plate fills the height of the facts beside it instead of leaving a hole.
+   Real screenshots keep their 16:10 well. */
+@media (min-width: 961px) {
+  .spread:has(.aside[data-stretch]) {
+    align-items: stretch;
+  }
+  .aside[data-stretch] {
+    position: static;
+    display: flex;
+    flex-direction: column;
+  }
+  .aside[data-stretch] > figure {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .aside[data-stretch] > figure > :first-child {
+    flex: 1;
+    aspect-ratio: auto;
+  }
+}
+
+.aside :global(.eTypeplateBig) {
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+}
+
+.aside[data-stretch] > figure > :first-child:not(:global(.eTypeplate)) {
+  align-content: space-evenly;
+  grid-template-rows: auto auto auto;
+  row-gap: 1.25rem;
+}
+
+.aside[data-stretch] :global(.eTypeplate) {
+  justify-content: center;
 }

@@ -1,7 +1,7 @@
 'use client'
 
-import { Calendar, Disc, DollarSign, Film, Sparkles } from 'lucide-react'
 import { useState } from 'react'
+import styles from './TimeSlipScrubber.module.css'
 
 interface CulturalEra {
   year: number
@@ -77,95 +77,53 @@ export function TimeSlipScrubber() {
   const era = ERAS[selectedYearIndex]
 
   return (
-    <div className="w-full rounded-lg overflow-hidden border border-neutral-800 bg-[#0e0d16] text-gray-200 font-sans shadow-xl">
-      {/* CRT / VHS Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#161426] border-b border-neutral-800 text-xs">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-amber-400" />
-          <span className="font-bold text-gray-200 tracking-wider uppercase font-mono">
-            TimeSlipSearch: a sample year
-          </span>
-        </div>
-        <span className="font-mono text-[11px] text-amber-300/80 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-          ★ $750 Algolia Grand Prize
-        </span>
+    <div className={styles.sheet}>
+      <div className={styles.head}>
+        <span>TimeSlipSearch: a sample year</span>
+        <span>Algolia challenge, $750 prize</span>
       </div>
 
-      {/* Main Content Area */}
-      <div className="p-5 space-y-5">
-        {/* Year scrubber slider */}
+      <div className={styles.years} role="group" aria-label="Pick a year">
+        {ERAS.map((e, idx) => (
+          <button
+            type="button"
+            key={e.year}
+            aria-pressed={selectedYearIndex === idx}
+            onClick={() => setSelectedYearIndex(idx)}
+          >
+            {e.year}
+          </button>
+        ))}
+      </div>
+
+      <p className={styles.date}>{era.dateLabel}</p>
+
+      <dl className={styles.rows}>
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs uppercase font-mono tracking-wider text-gray-400">
-              Scrub Cultural Timeline:
-            </span>
-            <span className="font-mono text-sm font-bold text-cyan-300">
-              {era.year} &middot; {era.dateLabel}
-            </span>
-          </div>
-
-          <div className="flex gap-2">
-            {ERAS.map((e, idx) => (
-              <button
-                type="button"
-                key={e.year}
-                onClick={() => setSelectedYearIndex(idx)}
-                className={`flex-1 py-1.5 px-1 text-center font-mono text-xs rounded transition-all ${
-                  selectedYearIndex === idx
-                    ? 'bg-amber-400 text-black font-bold shadow-md'
-                    : 'bg-neutral-800/80 text-gray-300 hover:bg-neutral-700'
-                }`}
-              >
-                {e.year}
-              </button>
-            ))}
-          </div>
+          <dt>Billboard #1</dt>
+          <dd>
+            {era.billboard}
+            <span>{era.artist}</span>
+          </dd>
         </div>
-
-        {/* 4-Index Query Simulation Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-          {/* Billboard Index */}
-          <div className="p-3 rounded bg-[#161426]/70 border border-indigo-900/50">
-            <div className="flex items-center gap-1.5 text-pink-400 font-mono font-semibold mb-1 text-[11px]">
-              <Disc className="w-3.5 h-3.5" /> Billboard #1
-            </div>
-            <p className="font-medium text-white">{era.billboard}</p>
-            <p className="text-[11px] text-gray-400">{era.artist}</p>
-          </div>
-
-          {/* TMDB Index */}
-          <div className="p-3 rounded bg-[#161426]/70 border border-indigo-900/50">
-            <div className="flex items-center gap-1.5 text-cyan-400 font-mono font-semibold mb-1 text-[11px]">
-              <Film className="w-3.5 h-3.5" /> Box Office Sensation
-            </div>
-            <p className="font-medium text-white">{era.boxOffice}</p>
-          </div>
-
-          {/* FRED Economic Index */}
-          <div className="p-3 rounded bg-[#161426]/70 border border-indigo-900/50">
-            <div className="flex items-center gap-1.5 text-emerald-400 font-mono font-semibold mb-1 text-[11px]">
-              <DollarSign className="w-3.5 h-3.5" /> Economic Baseline
-            </div>
-            <p className="font-medium text-white">Gas: {era.gasPrice}</p>
-          </div>
-
-          {/* Wikimedia Events */}
-          <div className="p-3 rounded bg-[#161426]/70 border border-indigo-900/50">
-            <div className="flex items-center gap-1.5 text-amber-400 font-mono font-semibold mb-1 text-[11px]">
-              <Calendar className="w-3.5 h-3.5" /> Wikimedia Event
-            </div>
-            <p className="font-medium text-white leading-tight">{era.headline}</p>
-          </div>
+        <div>
+          <dt>Box office</dt>
+          <dd>{era.boxOffice}</dd>
         </div>
-
-        {/* Synthesized Era Narrative */}
-        <div className="p-4 rounded-lg bg-[#12101e] border border-amber-400/20 text-xs sm:text-sm leading-relaxed text-gray-200">
-          <div className="flex items-center gap-2 mb-1.5 font-mono text-[11px] uppercase tracking-wider text-amber-300">
-            <Sparkles className="w-3.5 h-3.5" /> Algolia Agent Studio Narrative Output:
-          </div>
-          <p className="italic text-gray-100">&ldquo;{era.synthesis}&rdquo;</p>
+        <div>
+          <dt>Economic baseline</dt>
+          <dd>Gas: {era.gasPrice}</dd>
         </div>
-      </div>
+        <div>
+          <dt>Wikimedia event</dt>
+          <dd>{era.headline}</dd>
+        </div>
+      </dl>
+
+      <figure className={styles.narrative}>
+        <figcaption>Agent Studio narrative output</figcaption>
+        <blockquote>{era.synthesis}</blockquote>
+      </figure>
     </div>
   )
 }

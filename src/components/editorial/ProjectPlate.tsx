@@ -10,6 +10,11 @@ const DIAGRAMS = {
   'security-readiness-platform': SecurityPlatformDiagram,
 } satisfies Record<string, () => React.JSX.Element>
 
+/** Diagram that stands in for a screenshot, if this project has one. */
+export function getPlateDiagram(id: string): (() => React.JSX.Element) | undefined {
+  return Object.entries(DIAGRAMS).find(([key]) => key === id)?.[1]
+}
+
 /** Where the work can be seen, for the plate caption. */
 export function whereLine(flagship: Flagship): string {
   if (flagship.status === 'live') return hostOf(flagship.statusUrl)
@@ -30,7 +35,7 @@ export function ProjectPlate({
   priority = false,
 }: Readonly<{ flagship: Flagship; project?: Project; sizes: string; priority?: boolean }>) {
   const shot = getProjectScreenshot(flagship.id)
-  const Diagram = Object.entries(DIAGRAMS).find(([id]) => id === flagship.id)?.[1]
+  const Diagram = getPlateDiagram(flagship.id)
   const stack = project?.tags.slice(0, 4).join(', ')
 
   return (
@@ -57,8 +62,16 @@ export function ProjectPlate({
                 <dd>{stack}</dd>
               </>
             )}
+            {project?.role && (
+              <>
+                <dt>role</dt>
+                <dd>{project.role}</dd>
+              </>
+            )}
             <dt>status</dt>
             <dd>{staticStatus(flagship).label}</dd>
+            <dt>years</dt>
+            <dd>{flagship.years}</dd>
           </dl>
         </div>
       )}

@@ -1,0 +1,122 @@
+/* TimeSlip sample, set in the editorial system: flat paper, ink frame, hairline rows. */
+.sheet {
+  border: 1px solid var(--le-rule-strong);
+  background: var(--le-paper-2);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--le-rule-strong);
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  color: var(--le-muted);
+}
+
+.years {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid var(--le-rule);
+}
+
+.years button {
+  min-height: 44px;
+  border: 0;
+  border-right: 1px solid var(--le-rule);
+  background: transparent;
+  color: var(--le-ink);
+  font-family: var(--le-mono);
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.years button:last-child {
+  border-right: 0;
+}
+
+.years button:hover {
+  background: var(--le-paper-3);
+}
+
+.years button[aria-pressed="true"] {
+  background: var(--le-ink);
+  color: var(--le-paper);
+}
+
+.date {
+  margin: 0;
+  padding: 0.9rem 1rem 0;
+  font-family: var(--le-display);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  color: var(--le-accent-ink);
+}
+
+.rows {
+  margin: 0.75rem 0 0;
+}
+
+.rows > div {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  border-top: 1px solid var(--le-rule);
+}
+
+.rows dt {
+  font-family: var(--le-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--le-muted);
+}
+
+.rows dd {
+  margin: 0;
+  font-family: var(--le-sans);
+  font-size: 0.975rem;
+  line-height: 1.45;
+  color: var(--le-ink);
+}
+
+.rows dd span {
+  display: block;
+  color: var(--le-ink-2);
+  font-size: 0.875rem;
+}
+
+.narrative {
+  margin: 0;
+  padding: 1rem;
+  border-top: 1px solid var(--le-rule-strong);
+}
+
+.narrative figcaption {
+  font-family: var(--le-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--le-muted);
+}
+
+.narrative blockquote {
+  margin: 0.5rem 0 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--le-accent);
+  font-size: 1.125rem;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .years button {
+    font-size: 0.8125rem;
+  }
+  .rows > div {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}

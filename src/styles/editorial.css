@@ -523,13 +523,11 @@
   color: var(--le-ink-2);
 }
 .eProse li::before {
-  content: "";
+  content: "\2013";
   position: absolute;
   left: 0.1rem;
-  top: 0.72em;
-  width: 0.5rem;
-  height: 1px;
-  background: var(--le-accent);
+  top: 0;
+  color: var(--le-muted);
 }
 .eProse a:not(.eBtn) {
   color: var(--le-accent-ink);
@@ -698,17 +696,27 @@ a:focus-visible .ePlateImg img {
   margin: 0;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.25rem 1rem;
+  border-top: 1px solid var(--le-rule-strong);
   font-family: var(--le-mono);
   font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--le-ink-2);
 }
+.eTypeplate dt,
+.eTypeplate dd {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--le-rule);
+}
 .eTypeplate dt {
+  padding-right: 1.25rem;
   color: var(--le-muted);
 }
 .eTypeplate dd {
   margin: 0;
+}
+.eTypeplate dl > :nth-last-child(-n + 2) {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* spec table: label / value rows */
@@ -791,4 +799,11 @@ a:focus-visible .ePlateImg img {
     padding: 0 !important;
     max-width: 100% !important;
   }
+}
+
+.ePlate figcaption span:last-child {
+  white-space: nowrap;
+}
+.eSpec dd {
+  overflow-wrap: anywhere;
 }

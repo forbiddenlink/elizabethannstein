@@ -39,7 +39,32 @@ export default function PrivacyPage() {
             The short version: the site counts visits, and it only gets your name or email address
             if you send me a message.
           </p>
-          <p className="eLabel">Updated October 1, 2026</p>
+          <figure className="ePlate" style={{ marginTop: '1.75rem' }}>
+            <dl className="eSpec" style={{ margin: 0, padding: '0 1rem' }}>
+              <div>
+                <dt>Analytics</dt>
+                <dd>Google Analytics, Vercel Analytics, Vercel Speed Insights</dd>
+              </div>
+              <div>
+                <dt>Cookies</dt>
+                <dd>Google Analytics only</dd>
+              </div>
+              <div>
+                <dt>Stored here</dt>
+                <dd>Contact messages are not stored here. They go to my inbox through Resend.</dd>
+              </div>
+              <div>
+                <dt>Questions</dt>
+                <dd>
+                  <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                </dd>
+              </div>
+            </dl>
+            <figcaption>
+              <span>Summary</span>
+              <span>Updated October 1, 2026</span>
+            </figcaption>
+          </figure>
         </header>
 
         <div className="eProse">
