@@ -4,6 +4,7 @@ import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
 import { InteractiveTerminal } from '@/components/projects/InteractiveTerminal'
 import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
 import { TraceComparison } from '@/components/projects/TraceComparison'
+import { CASE_STUDIES } from '@/lib/caseStudies'
 import { hostOf, withoutEmoji } from '@/lib/flagshipDisplay'
 import { galaxies } from '@/lib/galaxyData'
 import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
@@ -120,6 +121,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const numbers = getNumbers(project)
   const liveHost = hostOf(project.links?.live)
 
+  const longform = CASE_STUDIES.get(project.id)
   const story = [
     { id: 'brief', heading: 'The brief', body: project.challenge },
     { id: 'build', heading: 'The build', body: project.solution },
@@ -266,12 +268,30 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
 
       <Demo project={project} />
 
-      {story.map((s) => (
-        <section key={s.id} className={styles.story} aria-labelledby={`story-${s.id}`}>
-          <h2 id={`story-${s.id}`}>{s.heading}</h2>
-          <p>{s.body}</p>
-        </section>
-      ))}
+      {longform
+        ? longform.map((s, i) => (
+            <section key={s.heading} className={styles.story} aria-labelledby={`story-${i}`}>
+              <h2 id={`story-${i}`}>{s.heading}</h2>
+              <div className={styles.prose}>
+                {s.paragraphs.map((para) => (
+                  <p key={para}>{para}</p>
+                ))}
+                {s.bullets && (
+                  <ul>
+                    {s.bullets.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </section>
+          ))
+        : story.map((s) => (
+            <section key={s.id} className={styles.story} aria-labelledby={`story-${s.id}`}>
+              <h2 id={`story-${s.id}`}>{s.heading}</h2>
+              <p>{s.body}</p>
+            </section>
+          ))}
 
       {project.testimonial && (
         <section id="case-voice" className={styles.story} aria-labelledby="story-voice">

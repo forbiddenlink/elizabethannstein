@@ -98,6 +98,29 @@
   line-height: 1.65;
 }
 
+.prose {
+  max-width: 38em;
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+
+.prose > * {
+  margin: 0;
+}
+
+.prose > * + * {
+  margin-top: 1em;
+}
+
+.prose ul {
+  padding-left: 1.25em;
+  list-style: disc;
+}
+
+.prose li + li {
+  margin-top: 0.5em;
+}
+
 .nums {
   display: flex;
   flex-wrap: wrap;
