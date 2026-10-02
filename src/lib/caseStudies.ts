@@ -52,4 +52,44 @@ export const CASE_STUDIES: ReadonlyMap<string, readonly CaseStudySection[]> = ne
       },
     ],
   ],
+  [
+    'flo-labs',
+    [
+      {
+        heading: 'What it was',
+        paragraphs: [
+          'Flo Labs runs AI and robotics ventures, education programs and research. From September 2024 to January 2026 I was its Design Team Lead: I led three to four developers, along with WordPress specialists and SEO interns, across six production sites. Those were flolabs.international, flolabsrd.com, CAIPO.ai, FloStudios.ai, MoodChanger.ai and RoboCollective.ai.',
+        ],
+      },
+      {
+        heading: 'One design system for six sites',
+        paragraphs: [
+          'Six sites built separately drift apart: different buttons, different spacing, six ways of doing the same thing. I built one design system and a shared component library and moved the sites onto Next.js on top of it, so a fix or a new component landed everywhere at once instead of six times.',
+        ],
+      },
+      {
+        heading: 'The migration I had to argue for',
+        paragraphs: [
+          'The sites were on WordPress, and I wanted Strapi and Next.js. Instead of arguing in the abstract, I built a proof of concept and showed the two side by side.',
+          'I also did not ask for a rewrite. New sites went on Strapi and Next.js, and the existing WordPress sites stayed up and maintained. That is the version the client approved, and it let us change direction without putting the live sites at risk.',
+        ],
+      },
+      {
+        heading: 'Turning a prototype into a product',
+        paragraphs: [
+          'I inherited a proof-of-concept AI travel planner: more than 100 files, no tests, no design system, and a team waiting for direction. I wrote a phased plan so the team could keep shipping during the refactor, set up code review, and moved it onto the shared design system.',
+          'Along the way I built its test suite, 270 frontend tests and 12 backend tests, and designed the 22 prompt systems behind its travel features. It went from proof of concept to production.',
+        ],
+      },
+      {
+        heading: 'Decisions I’d make again',
+        paragraphs: [],
+        bullets: [
+          'Propose a migration as a path, not a rewrite. New work on the new stack, old work left alone until it has a reason to move.',
+          'Show a working proof of concept instead of a slide. It ends the argument faster.',
+          'Put tests in while refactoring, so the team can change code without guessing what breaks.',
+        ],
+      },
+    ],
+  ],
 ])
