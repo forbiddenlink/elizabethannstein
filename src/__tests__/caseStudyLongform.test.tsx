@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { ProjectCaseStudy } from '@/components/projects/ProjectCaseStudy'
+import { CASE_STUDIES } from '@/lib/caseStudies'
 import { getProjectById } from '@/lib/galaxyData'
 
 describe('case study long-form story', () => {
@@ -20,5 +21,11 @@ describe('case study long-form story', () => {
     render(<ProjectCaseStudy project={project} />)
 
     expect(screen.getByRole('heading', { name: 'The brief' })).toBeDefined()
+  })
+
+  it('only lists case studies for projects that exist', () => {
+    for (const id of CASE_STUDIES.keys()) {
+      expect(getProjectById(id), id).toBeDefined()
+    }
   })
 })
