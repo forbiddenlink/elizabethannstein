@@ -92,4 +92,38 @@ export const CASE_STUDIES: ReadonlyMap<string, readonly CaseStudySection[]> = ne
       },
     ],
   ],
+  [
+    'timeslip-search',
+    [
+      {
+        heading: 'The hard part was dates, not search',
+        paragraphs: [
+          'Algolia made querying hundreds of thousands of records the easy part. The hard part was turning what people type into something a search can filter on. People write “show me 1985”, “from 1970 to 1980”, “the entire 80s”, a birthday, or two dates to compare.',
+          'So every input becomes a start and an end. I strip the command words, parse what is left with chrono-node, and turn the result into a range that each of the four indices filters on. A single date is a range of one day.',
+        ],
+      },
+      {
+        heading: 'The bug that taught me the most',
+        paragraphs: [
+          'One search for a specific date in 1988 came back empty, and the data was there. The parser attached a time of day to the date, the stored records used a different one, and the gap pushed real records outside the range.',
+          'The fix was to normalize at the boundary: every range now starts at midnight and ends at the last millisecond of its last day, before it touches a query. Since then I treat time zones as input validation, not as a detail for later.',
+        ],
+      },
+      {
+        heading: 'Getting the data in',
+        paragraphs: [
+          'The chart data alone is about 352,000 rows. Each source has its own ingest script, uploading in batches of 1,000 so the import does not hit rate limits. When the Wikimedia endpoint changed and started returning errors, only that script changed and only that index was rebuilt.',
+        ],
+      },
+      {
+        heading: 'Decisions I’d make again',
+        paragraphs: [],
+        bullets: [
+          'Parse every input to a range. It removes a whole class of special cases.',
+          'One ingest script per source, so one broken upstream API never means re-importing everything.',
+          'Explain an empty result. A date outside the data or in the future gets a “no signal” screen that says why, instead of a blank page.',
+        ],
+      },
+    ],
+  ],
 ])
