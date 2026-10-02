@@ -1212,7 +1212,7 @@ export const galaxies: Galaxy[] = [
         id: 'rocket-vitals',
         title: 'Rocket Vitals',
         description:
-          "Rocketpark's website QA product. Enter a URL and it crawls the site and runs more than 200 checks across SEO, accessibility, performance, security, links, content and AI readiness. Reports score findings by severity and include fix guidance and exports.",
+          "Rocketpark's website QA product. Enter a URL and it crawls the site and runs more than 385 checks across SEO, accessibility, performance, security, links, content and AI readiness. Reports score findings by severity and include fix guidance and exports.",
         role: 'Lead Developer',
         company: 'Rocketpark',
         tags: ['Next.js', 'TypeScript', 'Playwright', 'QA', 'SEO', 'Accessibility'],
@@ -1227,7 +1227,7 @@ export const galaxies: Galaxy[] = [
         solution:
           'A crawler with checks for each category, severity scoring, and regression monitoring with thresholds you set, so score drops show up between scans.',
         impact: 'Live at rocketvitals.com. I lead development.',
-        impactMetrics: [{ label: 'QA Checks', value: '200+', icon: 'check' }],
+        impactMetrics: [{ label: 'QA Checks', value: '385+', icon: 'check' }],
       },
       {
         id: 'site-sheriff',
