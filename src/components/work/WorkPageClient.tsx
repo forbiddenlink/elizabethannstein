@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ProjectPlate } from '@/components/editorial/ProjectPlate'
 import { RandomProjectButton } from '@/components/ui/RandomProjectButton'
+import { CONTACT } from '@/lib/constants'
 import { staticStatus, whoLine, withoutEmoji } from '@/lib/flagshipDisplay'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import { isProofCatalogProject } from '@/lib/proofLayer'
@@ -266,6 +267,13 @@ export function WorkPageClient({
           {allProjects.length} projects since 2023. The {FLAGSHIPS.length} selected below are the
           ones I&apos;d show you first. The archive under them has the rest, each with its own page.
         </p>
+        <p className={styles.hire}>
+          Hiring? <a href={`mailto:${CONTACT.email}`}>Email me</a> or{' '}
+          <a href="/resume/elizabeth-stein-resume.pdf" download="Elizabeth_Stein_Resume.pdf">
+            download the résumé
+          </a>
+          .
+        </p>
       </header>
 
       <section className="eSect" aria-labelledby="selected-heading">
@@ -427,6 +435,18 @@ export function WorkPageClient({
             </tbody>
           </table>
         )}
+      </section>
+
+      <section className={styles.close} aria-labelledby="work-close">
+        <h2 id="work-close">Have something that needs to ship?</h2>
+        <div className={styles.closeActions}>
+          <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>
+            Email me
+          </a>
+          <Link className="eBtn eBtnGhost" href="/contact">
+            Use the contact form
+          </Link>
+        </div>
       </section>
     </>
   )

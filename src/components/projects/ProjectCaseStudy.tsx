@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { getPlateDiagram } from '@/components/editorial/ProjectPlate'
 import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
 import { InteractiveTerminal } from '@/components/projects/InteractiveTerminal'
 import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
@@ -57,6 +58,19 @@ function getNumbers(project: Project): Array<{ label: string; value: string }> {
     numbers.push({ label: 'Users', value: project.metrics.users })
   }
   return numbers
+}
+
+export function plateCaption(
+  project: Project,
+  screenshotPath: string | undefined,
+  host: string
+): string {
+  if (screenshotPath) return host || 'Screenshot'
+  if (project.id === 'security-readiness-platform') return 'Private: client confidential'
+  // A project with a live site is public; it just has no screenshot on file.
+  if (project.links?.live) return 'No screenshot published'
+  if (project.company) return 'Not shown publicly'
+  return 'No public view of this one'
 }
 
 function Demo({ project }: Readonly<{ project: Project }>) {
@@ -120,13 +134,22 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const statusLabel = getStatusLabel(project)
   const numbers = getNumbers(project)
   const liveHost = hostOf(project.links?.live)
+  const Diagram = getPlateDiagram(project.id)
 
   const longform = CASE_STUDIES.get(project.id)
+  // A short brief stands in for a missing screenshot, so it is stated once, on the plate.
+  const plateStatement =
+    !screenshotPath && !Diagram && !longform && project.challenge && project.challenge.length <= 140
+      ? project.challenge
+      : null
   const story = [
     { id: 'brief', heading: 'The brief', body: project.challenge },
     { id: 'build', heading: 'The build', body: project.solution },
     { id: 'shipped', heading: 'What shipped', body: project.impact },
-  ].filter((s): s is { id: string; heading: string; body: string } => Boolean(s.body))
+  ].filter(
+    (s): s is { id: string; heading: string; body: string } =>
+      Boolean(s.body) && !(s.id === 'brief' && plateStatement)
+  )
 
   return (
     <article className={styles.caseStudy}>
@@ -166,6 +189,12 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <dt>Status</dt>
               <dd>{statusLabel}</dd>
             </div>
+            {numbers.length === 1 && (
+              <div id="case-signals">
+                <dt>{numbers[0].label}</dt>
+                <dd>{numbers[0].value}</dd>
+              </div>
+            )}
             <div>
               <dt>Stack</dt>
               <dd>
@@ -180,7 +209,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             </div>
           </dl>
 
-          {(project.links?.live || project.links?.github || project.links?.contestWin) && (
+          {project.links?.live || project.links?.github || project.links?.contestWin ? (
             <div className={styles.actions}>
               {project.links?.live && (
                 <a
@@ -216,55 +245,71 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 </a>
               )}
             </div>
+          ) : (
+            <div className={styles.actions}>
+              <Link href="/contact" className="eBtn eBtnGhost">
+                Discuss similar work
+              </Link>
+            </div>
           )}
         </div>
 
-        <figure className={`ePlate ePlateColor ${styles.plate}`}>
-          {screenshotPath ? (
-            <div className="ePlateImg">
-              <Image
-                src={screenshotPath}
-                alt={`${project.title} interface`}
-                fill
-                priority
-                sizes="(max-width: 960px) 100vw, 560px"
-              />
-            </div>
-          ) : (
-            <div className="eTypeplate">
-              <span className="eTypeplateBig">{statusLabel}</span>
-              <dl>
-                {category && (
-                  <>
-                    <dt>category</dt>
-                    <dd>{category}</dd>
-                  </>
-                )}
-                <dt>stack</dt>
-                <dd>{project.tags.slice(0, 4).join(', ')}</dd>
-              </dl>
-            </div>
-          )}
-          <figcaption>
-            <span>{screenshotPath ? liveHost || 'Screenshot' : 'No screenshot published'}</span>
-            {project.dateRange && <span>{project.dateRange}</span>}
-          </figcaption>
-        </figure>
-      </header>
-
-      {numbers.length > 0 && (
-        <section id="case-signals" className={styles.story} aria-labelledby="story-numbers">
-          <h2 id="story-numbers">Numbers</h2>
-          <dl className={styles.nums}>
-            {numbers.map((n) => (
-              <div key={n.label}>
-                <dt>{n.label}</dt>
-                <dd>{n.value}</dd>
+        <div className={styles.aside} data-stretch={Diagram || !screenshotPath ? '' : undefined}>
+          <figure className="ePlate ePlateColor">
+            {Diagram ? (
+              <Diagram />
+            ) : screenshotPath ? (
+              <div className="ePlateImg">
+                <Image
+                  src={screenshotPath}
+                  alt={`${project.title} interface`}
+                  fill
+                  priority
+                  sizes="(max-width: 960px) 100vw, 560px"
+                />
               </div>
-            ))}
-          </dl>
-        </section>
-      )}
+            ) : (
+              <div className="eTypeplate">
+                <span
+                  className="eTypeplateBig"
+                  style={plateStatement ? { fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' } : undefined}
+                >
+                  {plateStatement ?? statusLabel}
+                </span>
+                {!plateStatement && (
+                  <dl>
+                    {category && (
+                      <>
+                        <dt>category</dt>
+                        <dd>{category}</dd>
+                      </>
+                    )}
+                    <dt>stack</dt>
+                    <dd>{project.tags.slice(0, 4).join(', ')}</dd>
+                  </dl>
+                )}
+              </div>
+            )}
+            <figcaption>
+              <span>{plateCaption(project, screenshotPath, liveHost)}</span>
+              {project.dateRange && <span>{project.dateRange}</span>}
+            </figcaption>
+          </figure>
+          {numbers.length > 1 && (
+            <section id="case-signals" className={styles.numsBlock} aria-labelledby="story-numbers">
+              <h2 id="story-numbers">Numbers</h2>
+              <dl className={styles.nums}>
+                {numbers.map((n) => (
+                  <div key={n.label}>
+                    <dt>{n.label}</dt>
+                    <dd>{n.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
+        </div>
+      </header>
 
       <Demo project={project} />
 

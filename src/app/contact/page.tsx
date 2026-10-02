@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { ContactForm } from '@/components/ui/ContactForm'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
-import { GitHubIcon, LinkedInIcon } from '@/components/ui/SocialIcons'
 import { CONTACT } from '@/lib/constants'
 import styles from './contact.module.css'
 
@@ -57,55 +56,49 @@ export default function ContactPage() {
           <aside className={styles.side}>
             <div>
               <h2 className={styles.sideTitle}>Or reach out directly</h2>
-              <ul className={styles.directList}>
-                <li>
-                  <a href={`mailto:${CONTACT.email}`} className={styles.direct}>
-                    <span className={styles.directLabel}>Email</span>
-                    <span className={styles.directValue}>{CONTACT.email}</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={CONTACT.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.direct}
-                  >
-                    <span className={styles.directLabel}>
-                      <LinkedInIcon className="w-3.5 h-3.5" aria-hidden="true" /> LinkedIn
-                    </span>
-                    <span className={styles.directValue}>
+              <dl className="eSpec">
+                <div>
+                  <dt>Email</dt>
+                  <dd className={styles.specValue}>
+                    <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                  </dd>
+                </div>
+                <div>
+                  <dt>LinkedIn</dt>
+                  <dd className={styles.specValue}>
+                    <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">
                       imkindageeky <span aria-hidden="true">↗</span>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={CONTACT.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.direct}
-                  >
-                    <span className={styles.directLabel}>
-                      <GitHubIcon className="w-3.5 h-3.5" aria-hidden="true" /> GitHub
-                    </span>
-                    <span className={styles.directValue}>
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt>GitHub</dt>
+                  <dd className={styles.specValue}>
+                    <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">
                       forbiddenlink <span aria-hidden="true">↗</span>
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className={styles.avail}>
-              <p className={styles.availHead}>
-                <span className="eStateDot" aria-hidden="true" />
-                Open to work
-              </p>
-              <p className={styles.availBody}>
-                Full-stack and product engineering roles, remote from Washington, PA (US Eastern).
-                Contracts welcome, including Power Platform and Dynamics 365.
-              </p>
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Availability</dt>
+                  <dd>
+                    <span className="eStateDot" aria-hidden="true" /> Open to work
+                  </dd>
+                </div>
+                <div>
+                  <dt>Location</dt>
+                  <dd>Washington, PA, remote (US Eastern)</dd>
+                </div>
+                <div>
+                  <dt>Looking for</dt>
+                  <dd>
+                    Full-stack and product engineering roles. Contracts welcome, including Power
+                    Platform and Dynamics 365.
+                  </dd>
+                </div>
+              </dl>
             </div>
           </aside>
         </div>

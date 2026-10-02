@@ -105,3 +105,15 @@
   letter-spacing: 0;
   color: var(--le-ink);
 }
+
+.specValue a {
+  color: var(--le-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--le-rule);
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.specValue a:hover {
+  color: var(--le-accent-ink);
+  text-decoration-color: currentColor;
+}
