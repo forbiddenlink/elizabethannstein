@@ -60,9 +60,15 @@ function getNumbers(project: Project): Array<{ label: string; value: string }> {
   return numbers
 }
 
-function plateCaption(project: Project, screenshotPath: string | undefined, host: string): string {
+export function plateCaption(
+  project: Project,
+  screenshotPath: string | undefined,
+  host: string
+): string {
   if (screenshotPath) return host || 'Screenshot'
   if (project.id === 'security-readiness-platform') return 'Private: client confidential'
+  // A project with a live site is public; it just has no screenshot on file.
+  if (project.links?.live) return 'No screenshot published'
   if (project.company) return 'Not shown publicly'
   return 'No public view of this one'
 }
