@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.7.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.6.0...v1.7.0) (2026-10-02)
+
+
+### Features
+
+* **work:** render long-form case studies and write the Security Readiness one ([#140](https://github.com/forbiddenlink/elizabethannstein/issues/140)) ([387cf86](https://github.com/forbiddenlink/elizabethannstein/commit/387cf860bae79032947ce05c8ed7d138fb9f3bd5))
+* **work:** write the Flo Labs case study ([#142](https://github.com/forbiddenlink/elizabethannstein/issues/142)) ([e42326a](https://github.com/forbiddenlink/elizabethannstein/commit/e42326a776294158a49efae2fcc029dc301410ae))
+* **work:** write the Rocket Vitals case study and correct its check count ([#144](https://github.com/forbiddenlink/elizabethannstein/issues/144)) ([b48d1f1](https://github.com/forbiddenlink/elizabethannstein/commit/b48d1f19dab803f92cc8cab8e6977356f2a028e4))
+* **work:** write the TimeSlipSearch case study ([#143](https://github.com/forbiddenlink/elizabethannstein/issues/143)) ([c9857e3](https://github.com/forbiddenlink/elizabethannstein/commit/c9857e311805a749b523b9ae92daf86920caa198))
+
+
+### Bug Fixes
+
+* **content:** cut the gimmicks and state one role so the work reads first ([#139](https://github.com/forbiddenlink/elizabethannstein/issues/139)) ([db8c8d2](https://github.com/forbiddenlink/elizabethannstein/commit/db8c8d2b24069c479595b923d1de2c8ff962a42e))
+* **copy:** replace the defensive hero line ([#138](https://github.com/forbiddenlink/elizabethannstein/issues/138)) ([202d069](https://github.com/forbiddenlink/elizabethannstein/commit/202d069715d435e3e0dba3bac59569cbbb4f52a7))
+* **deps:** raise override floors past open advisories ([#137](https://github.com/forbiddenlink/elizabethannstein/issues/137)) ([ebbaa4e](https://github.com/forbiddenlink/elizabethannstein/commit/ebbaa4ea5355a0a600810190c81de2dc45168731))
+* **explore:** clean up the phone list view of the galaxy ([#136](https://github.com/forbiddenlink/elizabethannstein/issues/136)) ([9e10648](https://github.com/forbiddenlink/elizabethannstein/commit/9e10648a0823b17aeb8cf3a720ba8c90269316a6))
+* **resume:** state Rocket Vitals' 385+ checks in the downloadable resume ([#146](https://github.com/forbiddenlink/elizabethannstein/issues/146)) ([3314c98](https://github.com/forbiddenlink/elizabethannstein/commit/3314c98172a88e81171daafe7de436f8f6a5f2c6))
+* **sentry:** report only from the real production deploy, ignore Product Fruits ([#134](https://github.com/forbiddenlink/elizabethannstein/issues/134)) ([b449bcf](https://github.com/forbiddenlink/elizabethannstein/commit/b449bcf9fa49d486fc3dafb189a8eb86490f61f1))
+
 ## [1.6.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.5.2...v1.6.0) (2026-09-28)
 
 
