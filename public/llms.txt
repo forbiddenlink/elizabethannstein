@@ -9,7 +9,7 @@ elizabethannstein.com is the portfolio of Elizabeth Stein. It covers Microsoft P
 - Security readiness platform (cybersecurity nonprofit, client confidential): sole developer since June 2026, 12 implementation phases on Dynamics 365 / Power Platform / Dataverse, with a Next.js front end. In production.
 - Rocket Vitals (Rocket Park): website QA scanner with 385+ accessibility, performance, SEO, and security checks. Developer. https://rocketvitals.com
 - TimeSlipSearch: one of four winners of the Algolia Agent Studio Challenge on DEV, March 2026 ($750). Searches 420,000 pop-culture records across four indices. https://timeslipsearch.vercel.app
-- Trace: winner of the DEV GitHub Finish-Up-A-Thon, July 2026. Turns a screenshot into React code limited to real shadcn/ui components, using Gemini 2.5 Flash. https://trace-seven-ashen.vercel.app
+- Trace: winner of the DEV GitHub Finish-Up-A-Thon, July 2026. Turns a screenshot into a self-contained React component, grounded in a shadcn-style component catalog, using Gemini 2.5 Flash. https://trace-seven-ashen.vercel.app
 - Specter: npm package @purplegumdropz/specter (v1.1.1), 65 CLI commands and 14 MCP tools for explaining a codebase.
 - AutomaDocs and HireReady: live products with Stripe checkout. https://automadocs.com, https://imhireready.com
 

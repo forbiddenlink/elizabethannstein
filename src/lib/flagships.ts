@@ -187,7 +187,7 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Personal · Creator',
     years: '2026',
     summary:
-      'Drop in a screenshot and get React code that only uses real shadcn/ui components, so it compiles. It won the DEV GitHub Finish-Up-A-Thon.',
+      'Drop in a screenshot and get a React component that runs on its own. Gemini maps what it sees onto a small shadcn-style catalog and says how sure it was about each part. It won the DEV GitHub Finish-Up-A-Thon.',
     proof: 'DEV contest winner',
     status: 'live',
     statusUrl: 'https://trace-seven-ashen.vercel.app',
@@ -199,7 +199,7 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'The fix',
-        body: 'Gemini 2.5 Flash is limited to a list of real shadcn/ui components. The result renders in a Sandpack editor, gets a compile check and repair pass, and runs through axe-core for accessibility.',
+        body: 'Gemini 2.5 Flash maps each element it detects onto a seven-component, shadcn-style catalog, and the generated file imports only React and lucide-react. The result renders in a Sandpack editor, gets a compile check with up to two repair passes, and runs through axe-core for accessibility.',
       },
       {
         heading: 'Result',
