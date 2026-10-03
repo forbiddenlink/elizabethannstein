@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ProjectPlate } from '@/components/editorial/ProjectPlate'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
+import { AUTOMADOCS_CAPTURE } from '@/lib/automadocsCapture'
 import { CONTACT, STATS } from '@/lib/constants'
 import {
   hostOf,
@@ -18,7 +19,30 @@ import {
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import { getProjectById } from '@/lib/galaxyData'
 import type { LiveResult } from '@/lib/liveStatus'
+import { SPECTER_CAPTURE } from '@/lib/specterCapture'
+import { TRACE_CAPTURES } from '@/lib/traceCapture'
 import styles from './LiveSystemsIndex.module.css'
+import { TimeSlipInspect } from './TimeSlipInspect'
+
+// One line each, computed from the same capture files the case-study panels render, so the
+// strip cannot drift from what the visitor finds on the other side of the link.
+const MORE_DEMOS = [
+  {
+    name: 'Trace',
+    href: '/work/trace#case-trace',
+    result: `${TRACE_CAPTURES[0].detections.length} elements found in a login screenshot`,
+  },
+  {
+    name: 'AutomaDocs',
+    href: '/work/autodocs-ai#case-automadocs',
+    result: `${AUTOMADOCS_CAPTURE.totalDocs.toLocaleString('en-US')} generated pages for ${AUTOMADOCS_CAPTURE.repo.split('/')[1]}`,
+  },
+  {
+    name: 'Specter',
+    href: '/work/specter#case-terminal',
+    result: `the ${SPECTER_CAPTURE.top.length} riskiest files in a ${SPECTER_CAPTURE.totalLines.toLocaleString('en-US')}-line repo`,
+  },
+]
 
 type Phase = LedgerPhase
 
@@ -162,6 +186,44 @@ export function LiveSystemsIndex() {
 
   const summary = ledgerSummary(LIVE_SYSTEMS.map((f) => phases[f.id] ?? 'unknown'))
 
+  const ledger = (
+    <aside className={styles.ledger} aria-labelledby="ledger-heading">
+      <div className={styles.ledgerHead}>
+        <h2 id="ledger-heading">Running right now</h2>
+        <p aria-live="polite">
+          {isProbing ? 'checking now' : checkedAt ? `checked ${checkedAt}` : 'check time unknown'}
+        </p>
+      </div>
+      <ol className={styles.ledgerList}>
+        {LIVE_SYSTEMS.map((f) => (
+          <li key={f.id} className={styles.ledgerRow} data-state={phases[f.id]}>
+            <Link className={styles.sys} href={`/work/${f.id}`}>
+              {f.title}
+            </Link>
+            <span className={styles.host}>{hostOf(f.statusUrl)}</span>
+            <span className={styles.state}>
+              <LedgerState
+                phase={phases[f.id] ?? 'checking'}
+                result={f.statusUrl ? results[f.statusUrl] : undefined}
+              />
+            </span>
+          </li>
+        ))}
+      </ol>
+      <div className={styles.ledgerFoot}>
+        <span>{isProbing ? 'Checking each site now' : summary}</span>
+        <button
+          type="button"
+          className={styles.linkBtn}
+          onClick={() => void probe()}
+          disabled={isProbing}
+        >
+          Refresh
+        </button>
+      </div>
+    </aside>
+  )
+
   return (
     <div className={`editorial ${styles.page}`}>
       <a
@@ -173,7 +235,7 @@ export function LiveSystemsIndex() {
       <SiteHeader />
       <main id="main-content" tabIndex={-1} className="outline-none">
         <div className={styles.wrap}>
-          <section className={styles.fold} aria-labelledby="home-claim">
+          <section className={`${styles.fold} ${styles.foldWide}`} aria-labelledby="home-claim">
             <div>
               <h1 className={styles.name} id="home-claim">
                 Elizabeth Stein <span>Full-stack engineer and designer</span>
@@ -183,9 +245,9 @@ export function LiveSystemsIndex() {
               </p>
               <p className={styles.standfirst}>
                 Right now I&apos;m the sole developer on a Dynamics 365 platform in production for a
-                cybersecurity nonprofit, and I lead development on Rocket Vitals, a website QA
-                product at Rocket Park. On my own time I won the Algolia Agent Studio challenge and
-                publish developer tools to npm.
+                cybersecurity nonprofit, and I work on Rocket Vitals, a website QA product at Rocket
+                Park. On my own time I won the Algolia Agent Studio challenge and publish developer
+                tools to npm.
               </p>
               <div className={styles.actions}>
                 <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>
@@ -205,46 +267,24 @@ export function LiveSystemsIndex() {
               </p>
             </div>
 
-            <aside className={styles.ledger} aria-labelledby="ledger-heading">
-              <div className={styles.ledgerHead}>
-                <h2 id="ledger-heading">Running right now</h2>
-                <p aria-live="polite">
-                  {isProbing
-                    ? 'checking now'
-                    : checkedAt
-                      ? `checked ${checkedAt}`
-                      : 'check time unknown'}
+            <div className={styles.foldDemo}>
+              <TimeSlipInspect />
+              <nav className={styles.moreDemos} aria-label="More working demos">
+                <p className={styles.moreDemosLead}>
+                  The same panel, with real output, on each of these case studies:
                 </p>
-              </div>
-              <ol className={styles.ledgerList}>
-                {LIVE_SYSTEMS.map((f) => (
-                  <li key={f.id} className={styles.ledgerRow} data-state={phases[f.id]}>
-                    <Link className={styles.sys} href={`/work/${f.id}`}>
-                      {f.title}
-                    </Link>
-                    <span className={styles.host}>{hostOf(f.statusUrl)}</span>
-                    <span className={styles.state}>
-                      <LedgerState
-                        phase={phases[f.id] ?? 'checking'}
-                        result={f.statusUrl ? results[f.statusUrl] : undefined}
-                      />
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <div className={styles.ledgerFoot}>
-                <span>{isProbing ? 'Checking each site now' : summary}</span>
-                <button
-                  type="button"
-                  className={styles.linkBtn}
-                  onClick={() => void probe()}
-                  disabled={isProbing}
-                >
-                  Refresh
-                </button>
-              </div>
-            </aside>
+                <ul>
+                  {MORE_DEMOS.map((d) => (
+                    <li key={d.href}>
+                      <Link href={d.href}>{d.name}</Link>
+                      <span>{d.result}</span>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </section>
+          <div className={styles.ledgerBand}>{ledger}</div>
         </div>
 
         <section className="eSect" aria-labelledby="featured-heading">

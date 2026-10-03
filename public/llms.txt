@@ -1,15 +1,15 @@
 # Elizabeth Stein
 
-> Full-stack engineer and designer. Sole developer on a cybersecurity nonprofit's security-readiness assessment, live in production on Dynamics 365 / Power Platform. Lead developer on Rocket Vitals at Rocket Park, a Craft CMS agency. Algolia Agent Studio Challenge winner and npm publisher. B.S. in Information Technology, Software Development, Capella University, Summa Cum Laude (3.98 GPA, conferred March 2026).
+> Full-stack engineer and designer. Sole developer on a cybersecurity nonprofit's security-readiness assessment, live in production on Dynamics 365 / Power Platform. Developer on Rocket Vitals at Rocket Park, a Craft CMS agency. Algolia Agent Studio Challenge winner and npm publisher. B.S. in Information Technology, Software Development, Capella University, Summa Cum Laude (3.98 GPA, conferred March 2026).
 
 ## About
 elizabethannstein.com is the portfolio of Elizabeth Stein. It covers Microsoft Power Platform (Dynamics 365, Dataverse), Next.js, React, TypeScript, Craft CMS, and AI integration (Claude, OpenAI, MCP servers, retrieval). The site lists 87 projects, from production systems to experiments, each with its own page. An optional 3D map of the same projects is at /explore.
 
 ## Work you can verify
 - Security readiness platform (cybersecurity nonprofit, client confidential): sole developer since June 2026, 12 implementation phases on Dynamics 365 / Power Platform / Dataverse, with a Next.js front end. In production.
-- Rocket Vitals (Rocket Park): website QA scanner with 385+ accessibility, performance, SEO, and security checks. Lead developer. https://rocketvitals.com
+- Rocket Vitals (Rocket Park): website QA scanner with 385+ accessibility, performance, SEO, and security checks. Developer. https://rocketvitals.com
 - TimeSlipSearch: one of four winners of the Algolia Agent Studio Challenge on DEV, March 2026 ($750). Searches 420,000 pop-culture records across four indices. https://timeslipsearch.vercel.app
-- Trace: winner of the DEV GitHub Finish-Up-A-Thon, July 2026. Turns a screenshot into React code limited to real shadcn/ui components, using Gemini 2.5 Flash. https://trace-seven-ashen.vercel.app
+- Trace: winner of the DEV GitHub Finish-Up-A-Thon, July 2026. Turns a screenshot into a self-contained React component, grounded in a shadcn-style component catalog, using Gemini 2.5 Flash. https://trace-seven-ashen.vercel.app
 - Specter: npm package @purplegumdropz/specter (v1.1.1), 65 CLI commands and 14 MCP tools for explaining a codebase.
 - AutomaDocs and HireReady: live products with Stripe checkout. https://automadocs.com, https://imhireready.com
 

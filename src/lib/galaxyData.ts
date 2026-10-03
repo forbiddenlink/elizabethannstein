@@ -137,7 +137,7 @@ export const galaxies: Galaxy[] = [
         id: 'rocketpark-craft-ecosystem',
         title: 'Rocketpark Agency: Craft CMS Ecosystem',
         description:
-          'At Rocketpark I run Craft CMS version upgrades, plugin updates and infrastructure work across 11 client sites, and turn Figma designs into Twig templates.',
+          'At Rocketpark I worked on Craft CMS version upgrades, plugin updates and infrastructure across 11 client sites, and turned Figma designs into Twig templates.',
         role: 'Software Engineering Intern',
         company: 'Rocketpark',
         tags: ['Craft CMS', 'PHP', 'Twig', 'Composer', 'Herd'],
@@ -1213,7 +1213,7 @@ export const galaxies: Galaxy[] = [
         title: 'Rocket Vitals',
         description:
           "Rocketpark's website QA product. Enter a URL and it crawls the site and runs more than 385 checks across SEO, accessibility, performance, security, links, content and AI readiness. Reports score findings by severity and include fix guidance and exports.",
-        role: 'Lead Developer',
+        role: 'Developer',
         company: 'Rocketpark',
         tags: ['Next.js', 'TypeScript', 'Playwright', 'QA', 'SEO', 'Accessibility'],
         color: '#06FFA5',
@@ -1226,7 +1226,7 @@ export const galaxies: Galaxy[] = [
         challenge: 'Agencies need QA reports that a client can act on.',
         solution:
           'A crawler with checks for each category, severity scoring, and regression monitoring with thresholds you set, so score drops show up between scans.',
-        impact: 'Live at rocketvitals.com. I lead development.',
+        impact: 'Live at rocketvitals.com. I work on it now.',
         impactMetrics: [{ label: 'QA Checks', value: '385+', icon: 'check' }],
       },
       {

@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import { getPlateDiagram } from '@/components/editorial/ProjectPlate'
-import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
-import { InteractiveTerminal } from '@/components/projects/InteractiveTerminal'
-import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
-import { TraceComparison } from '@/components/projects/TraceComparison'
+import { AutomaDocsInspect } from '@/components/home/AutomaDocsInspect'
+import { SpecterInspect } from '@/components/home/SpecterInspect'
+import { TimeSlipInspect } from '@/components/home/TimeSlipInspect'
+import { TraceInspect } from '@/components/home/TraceInspect'
 import { CASE_STUDIES } from '@/lib/caseStudies'
 import { hostOf, withoutEmoji } from '@/lib/flagshipDisplay'
 import { galaxies } from '@/lib/galaxyData'
@@ -73,55 +74,32 @@ export function plateCaption(
   return 'No public view of this one'
 }
 
+// Each panel shows output captured from the real product, dated on the panel itself. A project
+// without a capture gets no demo rather than a simulated one.
+const DEMOS = {
+  'timeslip-search': { sectionId: 'case-timeslip', panel: <TimeSlipInspect headingLevel={3} /> },
+  trace: { sectionId: 'case-trace', panel: <TraceInspect headingLevel={3} /> },
+  'autodocs-ai': { sectionId: 'case-automadocs', panel: <AutomaDocsInspect headingLevel={3} /> },
+  specter: { sectionId: 'case-terminal', panel: <SpecterInspect headingLevel={3} /> },
+} satisfies Record<string, { sectionId: string; panel: ReactNode }>
+
+function hasDemo(id: string): id is keyof typeof DEMOS {
+  return Object.hasOwn(DEMOS, id)
+}
+
 function Demo({ project }: Readonly<{ project: Project }>) {
+  const demo = hasDemo(project.id) ? DEMOS[project.id] : undefined
+  if (!demo) return null
   // Section ids are kept from the earlier layout so existing deep links still land.
-  if (project.id === 'timeslip-search') {
-    return (
-      <section id="case-timeslip" aria-labelledby="demo-heading" className="eSect">
-        <div className="eSectHead">
-          <h2 id="demo-heading">Try it: pick a year</h2>
-          <p>A sample of the records, running on this page</p>
-        </div>
-        <TimeSlipScrubber />
-      </section>
-    )
-  }
-  if (project.id === 'trace') {
-    return (
-      <section id="case-trace" aria-labelledby="demo-heading" className="eSect">
-        <div className="eSectHead">
-          <h2 id="demo-heading">Try it: grounded versus ungrounded output</h2>
-          <p>Worked example, running on this page</p>
-        </div>
-        <TraceComparison />
-      </section>
-    )
-  }
-  if (project.id === 'hire-ready') {
-    return (
-      <section id="case-hireready" aria-labelledby="demo-heading" className="eSect">
-        <div className="eSectHead">
-          <h2 id="demo-heading">Try it: an interview round</h2>
-          <p>Simulated on this page; the real app uses your microphone</p>
-        </div>
-        <HireReadySimulator />
-      </section>
-    )
-  }
-  // Only Specter gets a terminal. It is a command reference built from the published README,
-  // so it must not be reused for other CLI projects.
-  if (project.id === 'specter') {
-    return (
-      <section id="case-terminal" aria-labelledby="demo-heading" className="eSect">
-        <div className="eSectHead">
-          <h2 id="demo-heading">Specter commands</h2>
-          <p>A reference on this page. It does not run Specter.</p>
-        </div>
-        <InteractiveTerminal projectName={project.title} />
-      </section>
-    )
-  }
-  return null
+  return (
+    <section id={demo.sectionId} aria-labelledby="demo-heading" className="eSect">
+      <div className="eSectHead">
+        <h2 id="demo-heading">See it work</h2>
+        <p>Real output, captured from the product. Open Inspect to see how it got there.</p>
+      </div>
+      {demo.panel}
+    </section>
+  )
 }
 
 interface ProjectCaseStudyProps {

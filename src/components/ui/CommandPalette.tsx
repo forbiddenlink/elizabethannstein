@@ -341,6 +341,8 @@ export function CommandPalette({ defaultOpen = false }: { defaultOpen?: boolean 
   // dialog pattern — matches ProjectModal's focus handling).
   useEffect(() => {
     if (!isOpen) return
+    // Remember what had focus so closing the palette hands it back (WCAG 2.4.3).
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const focusTimer = setTimeout(() => inputRef.current?.focus(), 50)
 
     const handleTab = (e: KeyboardEvent) => {
@@ -365,6 +367,7 @@ export function CommandPalette({ defaultOpen = false }: { defaultOpen?: boolean 
     return () => {
       clearTimeout(focusTimer)
       modal?.removeEventListener('keydown', handleTab)
+      if (opener?.isConnected) opener.focus()
     }
   }, [isOpen])
 

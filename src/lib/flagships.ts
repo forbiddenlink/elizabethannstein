@@ -76,18 +76,18 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Rocket Park, Craft CMS agency',
     years: '2025-26',
     summary:
-      'I lead development on Rocket Vitals, the agency’s website QA scanner, and keep eleven client sites on Craft CMS upgraded and running.',
+      'I work on Rocket Vitals, the agency’s website QA scanner, and have worked on upgrades across eleven of its Craft CMS client sites.',
     proof: '11 client sites',
     status: 'sites',
     statusSub: '11 client sites',
     cases: [
       {
         heading: 'Client sites',
-        body: 'Craft CMS upgrades, plugin updates, and Twig templates built from Figma across eleven client sites, with content-model changes tracked through project config.',
+        body: 'I worked on Craft CMS upgrades, plugin updates, and Twig templates built from Figma across eleven client sites, with content-model changes tracked through project config.',
       },
       {
         heading: 'Rocket Vitals',
-        body: 'A scanner that crawls a site and runs 385+ checks across accessibility, performance, SEO, security and more. I lead its development.',
+        body: 'A scanner that crawls a site and runs 385+ checks across accessibility, performance, SEO, security and more. It is what I work on now.',
       },
       {
         heading: 'Tooling',
@@ -187,7 +187,7 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Personal · Creator',
     years: '2026',
     summary:
-      'Drop in a screenshot and get React code that only uses real shadcn/ui components, so it compiles. It won the DEV GitHub Finish-Up-A-Thon.',
+      'Drop in a screenshot and get a React component that runs on its own. Gemini maps what it sees onto a small shadcn-style catalog and says how sure it was about each part. It won the DEV GitHub Finish-Up-A-Thon.',
     proof: 'DEV contest winner',
     status: 'live',
     statusUrl: 'https://trace-seven-ashen.vercel.app',
@@ -199,7 +199,7 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'The fix',
-        body: 'Gemini 2.5 Flash is limited to a list of real shadcn/ui components. The result renders in a Sandpack editor, gets a compile check and repair pass, and runs through axe-core for accessibility.',
+        body: 'Gemini 2.5 Flash maps each element it detects onto a seven-component, shadcn-style catalog, and the generated file imports only React and lucide-react. The result renders in a Sandpack editor, gets a compile check with up to two repair passes, and runs through axe-core for accessibility.',
       },
       {
         heading: 'Result',

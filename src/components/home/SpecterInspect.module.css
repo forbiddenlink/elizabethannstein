@@ -1,0 +1,122 @@
+/* Specter's interface layer: the two commands and their output, in its terminal palette. */
+.term {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--dv-line);
+  border-radius: 4px;
+  background: var(--dv-bg-2);
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.cmd {
+  margin: 0;
+  color: var(--dv-accent);
+}
+
+.cmd span {
+  color: var(--dv-muted);
+}
+
+.out {
+  margin: 0.15rem 0 0.75rem;
+  color: var(--dv-ink-2);
+}
+
+.out:last-child {
+  margin-bottom: 0;
+}
+
+.table {
+  width: 100%;
+  margin: 0.4rem 0 0.6rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  padding: 0.3rem 0.5rem 0.3rem 0;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table thead th {
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dv-muted);
+  border-bottom: 1px solid var(--dv-line);
+}
+
+.table th:first-child {
+  text-align: left;
+}
+
+.table tbody th {
+  font-weight: 400;
+  color: var(--dv-ink);
+  white-space: normal;
+}
+
+.table td {
+  color: var(--dv-ink-2);
+}
+
+.score {
+  color: var(--dv-ink);
+  font-weight: 600;
+}
+
+.prio {
+  color: var(--dv-accent-2);
+}
+
+.mini {
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  color: var(--dv-accent);
+}
+
+/* Narrow screens: four columns do not fit, so each hotspot becomes two lines, the file on top and
+   its three numbers, labelled, underneath. The header row stays in the accessibility tree. */
+@media (max-width: 520px) {
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .table,
+  .table tbody {
+    display: block;
+  }
+
+  .table tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 1rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--dv-line);
+  }
+
+  .table tbody th {
+    flex-basis: 100%;
+    padding: 0;
+  }
+
+  .table td {
+    padding: 0;
+    text-align: left;
+  }
+
+  .table td::before {
+    content: attr(data-label) " ";
+    color: var(--dv-muted);
+  }
+}

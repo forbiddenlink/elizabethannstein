@@ -132,7 +132,7 @@ export const CASE_STUDIES: ReadonlyMap<string, readonly CaseStudySection[]> = ne
       {
         heading: 'My part',
         paragraphs: [
-          'I lead its development and have written most of it: 894 of its 930 commits since February 2026.',
+          'I have written most of it: 902 of its 938 commits since February 2026 (counted October 3, 2026).',
         ],
       },
       {

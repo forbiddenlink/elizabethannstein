@@ -23,7 +23,16 @@ function sanitize(value: string): string {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    let body: unknown
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    }
+    // Parsed JSON is an object, array or primitive; only a plain object carries the fields.
+    if (!(body instanceof Object) || Array.isArray(body)) {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    }
     const { name, email, message, company } = body as Record<string, unknown>
 
     // Honeypot: real users never fill the hidden "company" field. If it's
