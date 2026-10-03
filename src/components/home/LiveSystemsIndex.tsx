@@ -124,7 +124,7 @@ function SelectedState({ flagship, phase }: Readonly<{ flagship: Flagship; phase
   )
 }
 
-export function LiveSystemsIndex({ variant = 'live' }: Readonly<{ variant?: 'live' | 'lab' }>) {
+export function LiveSystemsIndex() {
   const [phases, setPhases] = useState<Record<string, Phase>>(initialPhases)
   const [results, setResults] = useState<Record<string, LiveResult>>({})
   const [checkedAt, setCheckedAt] = useState<string | null>(null)
@@ -235,10 +235,7 @@ export function LiveSystemsIndex({ variant = 'live' }: Readonly<{ variant?: 'liv
       <SiteHeader />
       <main id="main-content" tabIndex={-1} className="outline-none">
         <div className={styles.wrap}>
-          <section
-            className={variant === 'lab' ? `${styles.fold} ${styles.foldLab}` : styles.fold}
-            aria-labelledby="home-claim"
-          >
+          <section className={`${styles.fold} ${styles.foldWide}`} aria-labelledby="home-claim">
             <div>
               <h1 className={styles.name} id="home-claim">
                 Elizabeth Stein <span>Full-stack engineer and designer</span>
@@ -270,28 +267,24 @@ export function LiveSystemsIndex({ variant = 'live' }: Readonly<{ variant?: 'liv
               </p>
             </div>
 
-            {variant === 'lab' ? (
-              <div className={styles.foldDemo}>
-                <TimeSlipInspect />
-                <nav className={styles.moreDemos} aria-label="More working demos">
-                  <p className={styles.moreDemosLead}>
-                    The same panel, with real output, on each of these case studies:
-                  </p>
-                  <ul>
-                    {MORE_DEMOS.map((d) => (
-                      <li key={d.href}>
-                        <Link href={d.href}>{d.name}</Link>
-                        <span>{d.result}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
-            ) : (
-              ledger
-            )}
+            <div className={styles.foldDemo}>
+              <TimeSlipInspect />
+              <nav className={styles.moreDemos} aria-label="More working demos">
+                <p className={styles.moreDemosLead}>
+                  The same panel, with real output, on each of these case studies:
+                </p>
+                <ul>
+                  {MORE_DEMOS.map((d) => (
+                    <li key={d.href}>
+                      <Link href={d.href}>{d.name}</Link>
+                      <span>{d.result}</span>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </section>
-          {variant === 'lab' && <div className={styles.ledgerBand}>{ledger}</div>}
+          <div className={styles.ledgerBand}>{ledger}</div>
         </div>
 
         <section className="eSect" aria-labelledby="featured-heading">
