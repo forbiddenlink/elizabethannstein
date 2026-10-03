@@ -1,23 +1,25 @@
-/* TimeSlipSearch running in the fold, with an Inspect view that separates it into layers.
-   The panel keeps TimeSlip's own night palette (teal + amber on near-black) so it reads as the
-   product itself sitting on the paper page, not as another editorial card. */
+/* A product demo panel with an Inspect view that separates it into interface, logic and data
+   layers. Each product keeps its own palette (set by data-product below) so the panel reads as
+   the product itself sitting on the paper page, not as another editorial card. The default
+   palette is TimeSlip's night theme (teal + amber on near-black). */
 .device {
-  --ts-bg: #0e0e10;
-  --ts-bg-2: #17171b;
-  --ts-line: #2c2c33;
-  --ts-ink: #efeadf;
-  --ts-ink-2: #c4bfb2;
-  --ts-muted: #9c978a;
-  --ts-teal: #4fd8c9;
-  --ts-amber: #f4c24a;
-  --ts-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dv-bg: #0e0e10;
+  --dv-bg-2: #17171b;
+  --dv-line: #2c2c33;
+  --dv-ink: #efeadf;
+  --dv-ink-2: #c4bfb2;
+  --dv-muted: #9c978a;
+  --dv-accent: #4fd8c9;
+  --dv-accent-2: #f4c24a;
+  --dv-on-accent: #0e0e10;
+  --dv-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   position: relative;
   min-width: 0;
   padding: clamp(1rem, 2.2vw, 1.5rem);
   border-radius: 6px;
-  background: var(--ts-bg);
-  color: var(--ts-ink);
+  background: var(--dv-bg);
+  color: var(--dv-ink);
   font-family: var(--le-sans);
   border: 1px solid transparent;
   box-shadow:
@@ -56,12 +58,12 @@
 }
 
 .brandTime {
-  color: var(--ts-teal);
+  color: var(--dv-accent);
   text-shadow: 0 0 18px rgb(79 216 201 / 0.35);
 }
 
 .brandSlip {
-  color: var(--ts-amber);
+  color: var(--dv-accent-2);
   text-shadow: 0 0 18px rgb(244 194 74 / 0.3);
 }
 
@@ -70,7 +72,7 @@
   font-family: var(--le-mono);
   font-size: 0.75rem;
   letter-spacing: 0.04em;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .presets {
@@ -83,26 +85,26 @@
 .preset {
   min-height: 2.25rem;
   padding: 0.35rem 0.8rem;
-  border: 1px solid var(--ts-line);
+  border: 1px solid var(--dv-line);
   border-radius: 999px;
   background: transparent;
-  color: var(--ts-ink-2);
+  color: var(--dv-ink-2);
   font-family: var(--le-mono);
   font-size: 0.8125rem;
   cursor: pointer;
   transition:
-    border-color 0.2s var(--ts-ease),
-    color 0.2s var(--ts-ease);
+    border-color 0.2s var(--dv-ease),
+    color 0.2s var(--dv-ease);
 }
 
 .preset:hover {
-  border-color: var(--ts-muted);
-  color: var(--ts-ink);
+  border-color: var(--dv-muted);
+  color: var(--dv-ink);
 }
 
 .preset[aria-pressed="true"] {
-  border-color: var(--ts-amber);
-  color: var(--ts-amber);
+  border-color: var(--dv-accent-2);
+  color: var(--dv-accent-2);
 }
 
 .query {
@@ -111,12 +113,12 @@
   font-family: var(--le-display);
   font-size: clamp(1.35rem, 2.3vw, 1.75rem);
   line-height: 1.2;
-  color: var(--ts-ink-2);
+  color: var(--dv-ink-2);
 }
 
 .query b {
   font-weight: 500;
-  color: var(--ts-teal);
+  color: var(--dv-accent);
 }
 
 .caret {
@@ -125,7 +127,7 @@
   height: 0.95em;
   margin-left: 0.08em;
   vertical-align: -0.1em;
-  background: var(--ts-amber);
+  background: var(--dv-accent-2);
   animation: blink 1s steps(1) 4;
 }
 
@@ -137,7 +139,7 @@
 
 /* --- stage: the three layers share one grid cell so the box keeps the UI's height --- */
 .stage {
-  transition: padding 0.75s var(--ts-ease);
+  transition: padding 0.75s var(--dv-ease);
 }
 
 /* Each layer carries the whole tilt itself and shares the parent's perspective, instead of
@@ -158,13 +160,13 @@
   /* same function list as the exploded state, so the tilt interpolates instead of jumping */
   transform: scale(1) rotateX(0deg) rotateZ(0deg) translateZ(0);
   transition:
-    transform 0.75s var(--ts-ease),
-    opacity 0.35s var(--ts-ease),
-    box-shadow 0.35s var(--ts-ease);
+    transform 0.75s var(--dv-ease),
+    opacity 0.35s var(--dv-ease),
+    box-shadow 0.35s var(--dv-ease);
 }
 
 .layerUi {
-  background: var(--ts-bg);
+  background: var(--dv-bg);
 }
 
 .layerLogic,
@@ -174,7 +176,7 @@
   justify-content: flex-end;
   gap: 0.5rem;
   padding: 0.9rem 1rem;
-  border: 1px solid var(--ts-line);
+  border: 1px solid var(--dv-line);
   opacity: 0;
   pointer-events: none;
   font-family: var(--le-mono);
@@ -182,11 +184,11 @@
 }
 
 .layerLogic {
-  background: color-mix(in oklab, var(--ts-bg-2) 92%, var(--ts-teal));
+  background: color-mix(in oklab, var(--dv-bg-2) 92%, var(--dv-accent));
 }
 
 .layerData {
-  background: color-mix(in oklab, var(--ts-bg-2) 92%, var(--ts-amber));
+  background: color-mix(in oklab, var(--dv-bg-2) 92%, var(--dv-accent-2));
 }
 
 .layerTag {
@@ -197,13 +199,13 @@
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
   opacity: 0;
-  transition: opacity 0.3s var(--ts-ease);
+  transition: opacity 0.3s var(--dv-ease);
 }
 
 .miniLogic {
-  color: var(--ts-teal);
+  color: var(--dv-accent);
 }
 
 .miniIdx {
@@ -214,13 +216,13 @@
 
 .miniIdx span {
   padding: 0.15rem 0.5rem;
-  border: 1px solid var(--ts-line);
+  border: 1px solid var(--dv-line);
   border-radius: 3px;
-  color: var(--ts-amber);
+  color: var(--dv-accent-2);
 }
 
 .miniIdx span[data-empty] {
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 /* exploded view (pointer devices with room, motion allowed) */
@@ -246,11 +248,11 @@
   /* the chosen layer lifts and brightens; the others recede */
   .device[data-inspecting]:not([data-reduced]) .stack[data-focus="logic"] .layerLogic,
   .device[data-inspecting]:not([data-reduced]) .stack[data-focus="data"] .layerData {
-    box-shadow: 0 0 0 1px var(--ts-teal);
+    box-shadow: 0 0 0 1px var(--dv-accent);
   }
   .device[data-inspecting]:not([data-reduced]) .stack[data-focus="interface"] .layerUi {
     box-shadow:
-      0 0 0 1px var(--ts-teal),
+      0 0 0 1px var(--dv-accent),
       0 30px 40px -20px rgb(0 0 0 / 0.7);
   }
 }
@@ -265,9 +267,9 @@
 .cell {
   min-width: 0;
   padding: 0.8rem 0.9rem;
-  border: 1px solid var(--ts-line);
+  border: 1px solid var(--dv-line);
   border-radius: 4px;
-  background: var(--ts-bg-2);
+  background: var(--dv-bg-2);
 }
 
 .cell:first-child {
@@ -281,7 +283,7 @@
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ts-amber);
+  color: var(--dv-accent-2);
 }
 
 @keyframes assemble {
@@ -309,7 +311,7 @@
 .pos {
   font-family: var(--le-mono);
   font-size: 0.8125rem;
-  color: var(--ts-teal);
+  color: var(--dv-accent);
   font-variant-numeric: tabular-nums;
 }
 
@@ -318,20 +320,20 @@
   font-family: var(--le-display);
   font-size: 1.02rem;
   line-height: 1.2;
-  color: var(--ts-ink);
+  color: var(--dv-ink);
 }
 
 .artist {
   display: block;
   font-size: 0.8125rem;
   line-height: 1.3;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .week {
   letter-spacing: 0.04em;
   text-transform: none;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .prices {
@@ -348,13 +350,13 @@
 }
 
 .prices dt {
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .prices dd {
   margin: 0;
   font-family: var(--le-mono);
-  color: var(--ts-ink);
+  color: var(--dv-ink);
   font-variant-numeric: tabular-nums;
 }
 
@@ -362,7 +364,7 @@
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.4;
-  color: var(--ts-ink-2);
+  color: var(--dv-ink-2);
 }
 
 .event time {
@@ -370,13 +372,13 @@
   margin-bottom: 0.2rem;
   font-family: var(--le-mono);
   font-size: 0.75rem;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .none {
   margin: 0;
   font-size: 0.8125rem;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .insight {
@@ -385,12 +387,12 @@
   font-family: var(--le-display);
   font-style: italic;
   font-size: 1rem;
-  color: var(--ts-ink-2);
+  color: var(--dv-ink-2);
 }
 
 .device[data-touched] .cell,
 .device[data-touched] .insight {
-  animation: assemble 0.6s var(--ts-ease) both;
+  animation: assemble 0.6s var(--dv-ease) both;
   animation-delay: calc(var(--i) * 90ms);
 }
 
@@ -407,10 +409,10 @@
 .inspectBtn {
   min-height: 2.5rem;
   padding: 0.5rem 1rem;
-  border: 1px solid var(--ts-teal);
+  border: 1px solid var(--dv-accent);
   border-radius: 3px;
   background: transparent;
-  color: var(--ts-teal);
+  color: var(--dv-accent);
   font-family: var(--le-sans);
   font-size: 0.9375rem;
   font-weight: 500;
@@ -418,8 +420,8 @@
 }
 
 .inspectBtn[aria-expanded="true"] {
-  background: var(--ts-teal);
-  color: var(--ts-bg);
+  background: var(--dv-accent);
+  color: var(--dv-on-accent);
 }
 
 .source {
@@ -427,11 +429,11 @@
   max-width: 26em;
   font-size: 0.8125rem;
   line-height: 1.4;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .source a {
-  color: var(--ts-ink);
+  color: var(--dv-ink);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -440,9 +442,9 @@
 /* --- legend: the readable half of Inspect --------------------------------------------- */
 .legend {
   margin-top: 1rem;
-  border-top: 1px solid var(--ts-line);
+  border-top: 1px solid var(--dv-line);
   padding-top: 1rem;
-  animation: assemble 0.45s var(--ts-ease) both;
+  animation: assemble 0.45s var(--dv-ease) both;
 }
 
 .legendTabs {
@@ -458,10 +460,10 @@
   gap: 0.15rem;
   min-height: 2.75rem;
   padding: 0.5rem 0.7rem;
-  border: 1px solid var(--ts-line);
+  border: 1px solid var(--dv-line);
   border-radius: 4px;
   background: transparent;
-  color: var(--ts-ink);
+  color: var(--dv-ink);
   font-family: var(--le-sans);
   font-size: 0.9375rem;
   font-weight: 500;
@@ -472,11 +474,11 @@
 .legendTab small {
   font-size: 0.75rem;
   font-weight: 400;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .legendTab[aria-pressed="true"] {
-  border-color: var(--ts-teal);
+  border-color: var(--dv-accent);
 }
 
 .legendBody {
@@ -488,7 +490,7 @@
   margin: 0;
   font-size: 0.9375rem;
   line-height: 1.5;
-  color: var(--ts-ink-2);
+  color: var(--dv-ink-2);
 }
 
 .steps {
@@ -512,18 +514,18 @@
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
   padding-top: 0.15rem;
 }
 
 .stepVal {
-  color: var(--ts-ink);
+  color: var(--dv-ink);
 }
 
 .stepVal small {
   display: block;
   font-size: 0.8125rem;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .indices {
@@ -539,7 +541,7 @@
   display: grid;
   gap: 0.15rem;
   padding: 0.6rem 0.75rem;
-  border: 1px dashed var(--ts-line);
+  border: 1px dashed var(--dv-line);
   border-radius: 4px;
 }
 
@@ -550,16 +552,16 @@
 .idxHits {
   font-family: var(--le-mono);
   font-size: 0.8125rem;
-  color: var(--ts-amber);
+  color: var(--dv-accent-2);
 }
 
 .indices li[data-empty] .idxHits {
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 .idxNote {
   font-size: 0.8125rem;
-  color: var(--ts-muted);
+  color: var(--dv-muted);
 }
 
 @media (max-width: 480px) {
@@ -584,7 +586,7 @@
 .device .inspectBtn:focus-visible,
 .device .legendTab:focus-visible,
 .device .source a:focus-visible {
-  outline: 2px solid var(--ts-teal);
+  outline: 2px solid var(--dv-accent);
   outline-offset: 2px;
 }
 

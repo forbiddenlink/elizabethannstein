@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   TIMESLIP_CAPTURES,
   TIMESLIP_INDEX_LABEL,
@@ -8,15 +8,7 @@ import {
   type TimeSlipCapture,
   type TimeSlipIndex,
 } from '@/lib/timeslipCapture'
-import styles from './TimeSlipInspect.module.css'
-
-type Layer = 'interface' | 'logic' | 'data'
-
-const LAYERS: { id: Layer; name: string; caption: string }[] = [
-  { id: 'interface', name: 'Interface', caption: 'What the person sees' },
-  { id: 'logic', name: 'Logic', caption: 'What the system decided' },
-  { id: 'data', name: 'Data', caption: 'Where it came from' },
-]
+import { formatDay, InspectFrame, frameStyles as styles, useReducedMotion } from './InspectFrame'
 
 const INDEX_ORDER: TimeSlipIndex[] = ['songs', 'movies', 'prices', 'events']
 
@@ -25,16 +17,6 @@ const INDEX_NOTE: Record<TimeSlipIndex, string> = {
   movies: 'Box office by week',
   prices: 'Monthly gas, wage and ticket prices',
   events: 'Wikimedia events',
-}
-
-function formatDay(iso: string): string {
-  const [y, m, d] = iso.split('-').map(Number)
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'UTC',
-  })
 }
 
 function resultSummary(c: TimeSlipCapture): string {
@@ -69,18 +51,6 @@ function useTyped(text: string, enabled: boolean): string {
     return () => window.clearInterval(id)
   }, [text, enabled])
   return shown
-}
-
-function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReduced(mq.matches)
-    const on = () => setReduced(mq.matches)
-    mq.addEventListener('change', on)
-    return () => mq.removeEventListener('change', on)
-  }, [])
-  return reduced
 }
 
 function InterfaceView({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
@@ -196,140 +166,87 @@ function DataIndices({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
 
 export function TimeSlipInspect() {
   const [selected, setSelected] = useState(TIMESLIP_CAPTURES[0].id)
-  const [inspecting, setInspecting] = useState(false)
-  const [focusLayer, setFocusLayer] = useState<Layer>('logic')
   // First paint is the finished panel: no typing, no fade-in. Motion starts only once the
   // visitor picks a date, so nothing on load waits on an animation (and LCP is not delayed).
   const [touched, setTouched] = useState(false)
   const reduced = useReducedMotion()
   const capture = TIMESLIP_CAPTURES.find((c) => c.id === selected) ?? TIMESLIP_CAPTURES[0]
   const typed = useTyped(capture.query, touched && !reduced)
-  const headingId = useId()
-  const legendId = useId()
 
   return (
-    <section
-      className={styles.device}
-      aria-labelledby={headingId}
-      data-inspecting={inspecting || undefined}
-      data-reduced={reduced || undefined}
-      data-touched={touched || undefined}
-    >
-      <header className={styles.top}>
-        <h2 id={headingId} className={styles.brand}>
+    <InspectFrame
+      product="timeslip"
+      title={
+        <>
           <span className={styles.brandTime}>TimeSlip</span>
           <span className={styles.brandSlip}>Search</span>
-        </h2>
-        <p className={styles.badge}>Algolia Agent Studio winner</p>
-      </header>
-
-      {/* biome-ignore lint/a11y/useSemanticElements: div[role=group] is the correct ARIA pattern for a toggle button group */}
-      <div className={styles.presets} role="group" aria-label="Pick a date to search">
-        {TIMESLIP_CAPTURES.map((c) => (
-          <button
-            key={c.id}
-            type="button"
-            className={styles.preset}
-            aria-pressed={c.id === selected}
-            onClick={() => {
-              setTouched(true)
-              setSelected(c.id)
-            }}
-          >
-            {c.query}
-          </button>
-        ))}
-      </div>
-
-      <p className={styles.query}>
-        <span className="sr-only">Search: {capture.query}</span>
-        <span aria-hidden="true">
-          Show me <b>{typed}</b>
-          <span className={styles.caret} />
+        </>
+      }
+      badge="Algolia Agent Studio winner"
+      touched={touched}
+      controls={
+        <>
+          {/* biome-ignore lint/a11y/useSemanticElements: div[role=group] is the correct ARIA pattern for a toggle button group */}
+          <div className={styles.presets} role="group" aria-label="Pick a date to search">
+            {TIMESLIP_CAPTURES.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                className={styles.preset}
+                aria-pressed={c.id === selected}
+                onClick={() => {
+                  setTouched(true)
+                  setSelected(c.id)
+                }}
+              >
+                {c.query}
+              </button>
+            ))}
+          </div>
+          <p className={styles.query}>
+            <span className="sr-only">Search: {capture.query}</span>
+            <span aria-hidden="true">
+              Show me <b>{typed}</b>
+              <span className={styles.caret} />
+            </span>
+          </p>
+        </>
+      }
+      interfaceView={<InterfaceView capture={capture} />}
+      logicMini={
+        <span className={styles.miniLogic}>
+          &ldquo;{capture.query}&rdquo; &rarr; {capture.window.start} &hellip; {capture.window.end}
         </span>
-      </p>
-
-      <div className={styles.stage}>
-        <div className={styles.stack} data-focus={focusLayer}>
-          <div className={`${styles.layer} ${styles.layerData}`} aria-hidden="true">
-            <span className={styles.layerTag}>Data</span>
-            <div className={styles.miniIdx}>
-              {INDEX_ORDER.map((idx) => (
-                <span key={idx} data-empty={capture.hits[idx] === 0 || undefined}>
-                  {TIMESLIP_INDEX_LABEL[idx]} {capture.hits[idx]}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className={`${styles.layer} ${styles.layerLogic}`} aria-hidden="true">
-            <span className={styles.layerTag}>Logic</span>
-            <span className={styles.miniLogic}>
-              &ldquo;{capture.query}&rdquo; &rarr; {capture.window.start} &hellip;{' '}
-              {capture.window.end}
+      }
+      dataMini={
+        <div className={styles.miniIdx}>
+          {INDEX_ORDER.map((idx) => (
+            <span key={idx} data-empty={capture.hits[idx] === 0 || undefined}>
+              {TIMESLIP_INDEX_LABEL[idx]} {capture.hits[idx]}
             </span>
-          </div>
-          <div className={`${styles.layer} ${styles.layerUi}`}>
-            <span className={styles.layerTag} aria-hidden="true">
-              Interface
-            </span>
-            <InterfaceView capture={capture} />
-          </div>
+          ))}
         </div>
-      </div>
-
-      <div className={styles.bar}>
-        <button
-          type="button"
-          className={styles.inspectBtn}
-          aria-expanded={inspecting}
-          aria-controls={legendId}
-          onClick={() => setInspecting((v) => !v)}
-        >
-          {inspecting ? 'Close inspect' : 'Inspect how it works'}
-        </button>
-        <p className={styles.source}>
+      }
+      legend={{
+        interface: (
+          <p className={styles.legendText}>
+            The product answers with the top songs, a price check, what happened, and one generated
+            insight line. This panel lays out those same fields from the captured response.
+          </p>
+        ),
+        logic: <LogicSteps capture={capture} />,
+        data: <DataIndices capture={capture} />,
+      }}
+      source={
+        <>
           Real output from the live product, captured {formatDay(TIMESLIP_SOURCE.capturedAt)}.{' '}
           <a href="https://timeslipsearch.vercel.app" target="_blank" rel="noreferrer">
             Try any date
           </a>
-        </p>
-      </div>
-
-      {/* Announces each new result in a sentence, including the empty ones, since focus stays on the date button. */}
-      <p className="sr-only" role="status">
-        {touched ? resultSummary(capture) : ''}
-      </p>
-
-      {inspecting && (
-        <div id={legendId} className={styles.legend}>
-          {/* biome-ignore lint/a11y/useSemanticElements: div[role=group] is the correct ARIA pattern for a toggle button group */}
-          <div className={styles.legendTabs} role="group" aria-label="Choose a layer">
-            {LAYERS.map((l) => (
-              <button
-                key={l.id}
-                type="button"
-                aria-pressed={focusLayer === l.id}
-                onClick={() => setFocusLayer(l.id)}
-                className={styles.legendTab}
-              >
-                <span>{l.name}</span>
-                <small>{l.caption}</small>
-              </button>
-            ))}
-          </div>
-          <div className={styles.legendBody} aria-live="polite">
-            {focusLayer === 'interface' && (
-              <p className={styles.legendText}>
-                The product answers with the top songs, a price check, what happened, and one
-                generated insight line. This panel lays out those same fields from the captured
-                response.
-              </p>
-            )}
-            {focusLayer === 'logic' && <LogicSteps capture={capture} />}
-            {focusLayer === 'data' && <DataIndices capture={capture} />}
-          </div>
-        </div>
-      )}
-    </section>
+        </>
+      }
+      // Announces each new result in a sentence, including the empty ones, since focus stays on the date button.
+      status={touched ? resultSummary(capture) : ''}
+    />
   )
 }
