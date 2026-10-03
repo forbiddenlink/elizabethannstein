@@ -518,6 +518,45 @@
   font-size: clamp(1rem, 1.2vw, 1.1rem);
 }
 
+.foldDemo {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+/* the other demos, as a quiet index under the flagship rather than competing tabs */
+.moreDemos p {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--le-ink-2);
+}
+
+.moreDemos ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--le-rule);
+}
+
+.moreDemos li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.75rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--le-rule);
+}
+
+.moreDemos a {
+  font-weight: 600;
+  color: var(--le-ink);
+}
+
+.moreDemos span {
+  font-size: 0.875rem;
+  color: var(--le-ink-2);
+}
+
 @media (max-width: 960px) {
   .foldLab {
     grid-template-columns: 1fr;

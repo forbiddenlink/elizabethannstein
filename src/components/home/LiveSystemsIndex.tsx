@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ProjectPlate } from '@/components/editorial/ProjectPlate'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
+import { AUTOMADOCS_CAPTURE } from '@/lib/automadocsCapture'
 import { CONTACT, STATS } from '@/lib/constants'
 import {
   hostOf,
@@ -18,8 +19,30 @@ import {
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import { getProjectById } from '@/lib/galaxyData'
 import type { LiveResult } from '@/lib/liveStatus'
+import { SPECTER_CAPTURE } from '@/lib/specterCapture'
+import { TRACE_CAPTURES } from '@/lib/traceCapture'
 import styles from './LiveSystemsIndex.module.css'
 import { TimeSlipInspect } from './TimeSlipInspect'
+
+// One line each, computed from the same capture files the case-study panels render, so the
+// strip cannot drift from what the visitor finds on the other side of the link.
+const MORE_DEMOS = [
+  {
+    name: 'Trace',
+    href: '/work/trace#case-trace',
+    result: `${TRACE_CAPTURES[0].detections.length} elements found in a login screenshot`,
+  },
+  {
+    name: 'AutomaDocs',
+    href: '/work/autodocs-ai#case-automadocs',
+    result: `${AUTOMADOCS_CAPTURE.totalDocs.toLocaleString('en-US')} generated pages for ${AUTOMADOCS_CAPTURE.repo.split('/')[1]}`,
+  },
+  {
+    name: 'Specter',
+    href: '/work/specter#case-terminal',
+    result: `the ${SPECTER_CAPTURE.top.length} riskiest files in a ${SPECTER_CAPTURE.totalLines.toLocaleString('en-US')}-line repo`,
+  },
+]
 
 type Phase = LedgerPhase
 
@@ -247,7 +270,24 @@ export function LiveSystemsIndex({ variant = 'live' }: Readonly<{ variant?: 'liv
               </p>
             </div>
 
-            {variant === 'lab' ? <TimeSlipInspect /> : ledger}
+            {variant === 'lab' ? (
+              <div className={styles.foldDemo}>
+                <TimeSlipInspect />
+                <nav className={styles.moreDemos} aria-label="More working demos">
+                  <p>The same panel, with real output, on each of these case studies:</p>
+                  <ul>
+                    {MORE_DEMOS.map((d) => (
+                      <li key={d.href}>
+                        <Link href={d.href}>{d.name}</Link>
+                        <span>{d.result}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            ) : (
+              ledger
+            )}
           </section>
           {variant === 'lab' && <div className={styles.ledgerBand}>{ledger}</div>}
         </div>
