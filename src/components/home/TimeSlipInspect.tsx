@@ -84,17 +84,28 @@ function useReducedMotion(): boolean {
 }
 
 function InterfaceView({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
+  // One shared chart week goes in the heading; several weeks (a season) go on each song, or
+  // "#1, #1, #1" reads like a bug.
+  const oneWeek = capture.songs.every((s) => s.week === capture.songs[0].week)
   return (
     <div className={styles.results} key={capture.id}>
       <section className={styles.cell} style={{ '--i': 0 } as React.CSSProperties}>
-        <h3>Charts</h3>
+        <h3>
+          Charts
+          {oneWeek && (
+            <span className={styles.week}> · week of {formatDay(capture.songs[0].week)}</span>
+          )}
+        </h3>
         <ol className={styles.songs}>
           {capture.songs.map((s) => (
             <li key={`${s.title}-${s.week}`}>
               <span className={styles.pos}>#{s.position}</span>
               <span>
                 <span className={styles.songTitle}>{s.title}</span>
-                <span className={styles.artist}>{s.artist}</span>
+                <span className={styles.artist}>
+                  {s.artist}
+                  {!oneWeek && <> · week of {formatDay(s.week).replace(/, \d{4}$/, '')}</>}
+                </span>
               </span>
             </li>
           ))}

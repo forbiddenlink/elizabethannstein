@@ -328,6 +328,12 @@
   color: var(--ts-muted);
 }
 
+.week {
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--ts-muted);
+}
+
 .prices {
   margin: 0;
   display: grid;
