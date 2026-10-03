@@ -37,6 +37,16 @@ function formatDay(iso: string): string {
   })
 }
 
+function resultSummary(c: TimeSlipCapture): string {
+  const top = c.songs[0]
+  const parts = [`${c.display}: number ${top.position} was ${top.title} by ${top.artist}.`]
+  parts.push(
+    c.price ? `Gas was ${money(c.price.gasPerGallon)} a gallon.` : 'No price row in this window.'
+  )
+  parts.push(c.event ? `${c.event.title}` : 'No event in this window.')
+  return parts.join(' ')
+}
+
 function money(n: number): string {
   return `$${n.toFixed(2)}`
 }
@@ -184,7 +194,7 @@ export function TimeSlipInspect() {
   const capture = TIMESLIP_CAPTURES.find((c) => c.id === selected) ?? TIMESLIP_CAPTURES[0]
   const typed = useTyped(capture.query, touched && !reduced)
   const headingId = useId()
-  const stageId = useId()
+  const legendId = useId()
 
   return (
     <section
@@ -228,7 +238,7 @@ export function TimeSlipInspect() {
         </span>
       </p>
 
-      <div id={stageId} className={styles.stage}>
+      <div className={styles.stage}>
         <div className={styles.stack} data-focus={focusLayer}>
           <div className={`${styles.layer} ${styles.layerData}`} aria-hidden="true">
             <span className={styles.layerTag}>Data</span>
@@ -260,8 +270,8 @@ export function TimeSlipInspect() {
         <button
           type="button"
           className={styles.inspectBtn}
-          aria-pressed={inspecting}
-          aria-controls={stageId}
+          aria-expanded={inspecting}
+          aria-controls={legendId}
           onClick={() => setInspecting((v) => !v)}
         >
           {inspecting ? 'Close inspect' : 'Inspect how it works'}
@@ -274,8 +284,13 @@ export function TimeSlipInspect() {
         </p>
       </div>
 
+      {/* Announces each new result in a sentence, including the empty ones, since focus stays on the date button. */}
+      <p className="sr-only" role="status">
+        {touched ? resultSummary(capture) : ''}
+      </p>
+
       {inspecting && (
-        <div className={styles.legend}>
+        <div id={legendId} className={styles.legend}>
           {/* biome-ignore lint/a11y/useSemanticElements: div[role=group] is the correct ARIA pattern for a toggle button group */}
           <div className={styles.legendTabs} role="group" aria-label="Choose a layer">
             {LAYERS.map((l) => (

@@ -105,14 +105,6 @@
   color: var(--ts-amber);
 }
 
-.preset:focus-visible,
-.inspectBtn:focus-visible,
-.legendTab:focus-visible,
-.source a:focus-visible {
-  outline: 2px solid var(--ts-teal);
-  outline-offset: 2px;
-}
-
 .query {
   margin: 1rem 0 0.9rem;
   min-height: 1.3em;
@@ -145,15 +137,17 @@
 
 /* --- stage: the three layers share one grid cell so the box keeps the UI's height --- */
 .stage {
-  perspective: 1600px;
-  perspective-origin: 50% 30%;
   transition: padding 0.75s var(--ts-ease);
 }
 
+/* Each layer carries the whole tilt itself and shares the parent's perspective, instead of
+   nesting under a preserve-3d parent: WebKit flattened that nesting, so every layer drew on one
+   plane and Logic and Data vanished behind the interface. DOM order (data, logic, interface)
+   keeps the interface painted on top. */
 .stack {
   display: grid;
-  transform-style: preserve-3d;
-  transition: transform 0.75s var(--ts-ease);
+  perspective: 1600px;
+  perspective-origin: 50% 30%;
 }
 
 .layer {
@@ -161,6 +155,8 @@
   position: relative;
   min-width: 0;
   border-radius: 5px;
+  /* same function list as the exploded state, so the tilt interpolates instead of jumping */
+  transform: scale(1) rotateX(0deg) rotateZ(0deg) translateZ(0);
   transition:
     transform 0.75s var(--ts-ease),
     opacity 0.35s var(--ts-ease),
@@ -232,19 +228,16 @@
   .device[data-inspecting]:not([data-reduced]) .stage {
     padding-block: 3.5rem 2.5rem;
   }
-  .device[data-inspecting]:not([data-reduced]) .stack {
-    transform: rotateX(46deg) rotateZ(-22deg) scale(0.78);
-  }
   .device[data-inspecting]:not([data-reduced]) .layerUi {
-    transform: translateZ(120px);
+    transform: scale(0.78) rotateX(46deg) rotateZ(-22deg) translateZ(120px);
     box-shadow: 0 30px 40px -20px rgb(0 0 0 / 0.7);
   }
   .device[data-inspecting]:not([data-reduced]) .layerLogic {
-    transform: translateZ(20px);
+    transform: scale(0.78) rotateX(46deg) rotateZ(-22deg) translateZ(20px);
     opacity: 1;
   }
   .device[data-inspecting]:not([data-reduced]) .layerData {
-    transform: translateZ(-80px);
+    transform: scale(0.78) rotateX(46deg) rotateZ(-22deg) translateZ(-80px);
     opacity: 1;
   }
   .device[data-inspecting]:not([data-reduced]) .layerTag {
@@ -275,12 +268,6 @@
   border: 1px solid var(--ts-line);
   border-radius: 4px;
   background: var(--ts-bg-2);
-}
-
-.device[data-touched] .cell,
-.device[data-touched] .insight {
-  animation: assemble 0.6s var(--ts-ease) both;
-  animation-delay: calc(var(--i) * 90ms);
 }
 
 .cell:first-child {
@@ -395,6 +382,12 @@
   color: var(--ts-ink-2);
 }
 
+.device[data-touched] .cell,
+.device[data-touched] .insight {
+  animation: assemble 0.6s var(--ts-ease) both;
+  animation-delay: calc(var(--i) * 90ms);
+}
+
 /* --- controls ------------------------------------------------------------------------ */
 .bar {
   display: flex;
@@ -418,7 +411,7 @@
   cursor: pointer;
 }
 
-.inspectBtn[aria-pressed="true"] {
+.inspectBtn[aria-expanded="true"] {
   background: var(--ts-teal);
   color: var(--ts-bg);
 }
@@ -578,6 +571,15 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 0.1rem;
   }
+}
+
+/* .device prefix outranks `.editorial button:focus-visible`, whose blue ring is 2.19:1 on this panel */
+.device .preset:focus-visible,
+.device .inspectBtn:focus-visible,
+.device .legendTab:focus-visible,
+.device .source a:focus-visible {
+  outline: 2px solid var(--ts-teal);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
