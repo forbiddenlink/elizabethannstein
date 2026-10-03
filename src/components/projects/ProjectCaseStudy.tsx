@@ -76,15 +76,19 @@ export function plateCaption(
 
 // Each panel shows output captured from the real product, dated on the panel itself. A project
 // without a capture gets no demo rather than a simulated one.
-const DEMOS: Record<string, { sectionId: string; panel: ReactNode }> = {
+const DEMOS = {
   'timeslip-search': { sectionId: 'case-timeslip', panel: <TimeSlipInspect headingLevel={3} /> },
   trace: { sectionId: 'case-trace', panel: <TraceInspect headingLevel={3} /> },
   'autodocs-ai': { sectionId: 'case-automadocs', panel: <AutomaDocsInspect headingLevel={3} /> },
   specter: { sectionId: 'case-terminal', panel: <SpecterInspect headingLevel={3} /> },
+} satisfies Record<string, { sectionId: string; panel: ReactNode }>
+
+function hasDemo(id: string): id is keyof typeof DEMOS {
+  return Object.hasOwn(DEMOS, id)
 }
 
 function Demo({ project }: Readonly<{ project: Project }>) {
-  const demo = DEMOS[project.id]
+  const demo = hasDemo(project.id) ? DEMOS[project.id] : undefined
   if (!demo) return null
   // Section ids are kept from the earlier layout so existing deep links still land.
   return (

@@ -8,7 +8,13 @@ import {
   type TimeSlipCapture,
   type TimeSlipIndex,
 } from '@/lib/timeslipCapture'
-import { formatDay, InspectFrame, frameStyles as styles, useReducedMotion } from './InspectFrame'
+import {
+  cssVars,
+  formatDay,
+  InspectFrame,
+  frameStyles as styles,
+  useReducedMotion,
+} from './InspectFrame'
 
 const INDEX_ORDER: TimeSlipIndex[] = ['songs', 'movies', 'prices', 'events']
 
@@ -59,7 +65,7 @@ function InterfaceView({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
   const oneWeek = capture.songs.every((s) => s.week === capture.songs[0].week)
   return (
     <div className={styles.results} key={capture.id}>
-      <section className={styles.cell} style={{ '--i': 0 } as React.CSSProperties}>
+      <section className={styles.cell} style={cssVars({ '--i': 0 })}>
         <h3>
           Charts
           {oneWeek && (
@@ -81,7 +87,7 @@ function InterfaceView({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
           ))}
         </ol>
       </section>
-      <section className={styles.cell} style={{ '--i': 1 } as React.CSSProperties}>
+      <section className={styles.cell} style={cssVars({ '--i': 1 })}>
         <h3>Prices</h3>
         {capture.price ? (
           <dl className={styles.prices}>
@@ -102,7 +108,7 @@ function InterfaceView({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
           <p className={styles.none}>No price row in this window.</p>
         )}
       </section>
-      <section className={styles.cell} style={{ '--i': 2 } as React.CSSProperties}>
+      <section className={styles.cell} style={cssVars({ '--i': 2 })}>
         <h3>Events</h3>
         {capture.event ? (
           <p className={styles.event}>
@@ -113,7 +119,7 @@ function InterfaceView({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
           <p className={styles.none}>No event in this window.</p>
         )}
       </section>
-      <p className={styles.insight} style={{ '--i': 3 } as React.CSSProperties}>
+      <p className={styles.insight} style={cssVars({ '--i': 3 })}>
         {capture.insight}
       </p>
     </div>

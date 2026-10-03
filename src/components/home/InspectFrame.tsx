@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode, useEffect, useId, useState } from 'react'
+import { type CSSProperties, type ReactNode, useEffect, useId, useState } from 'react'
 import styles from './InspectFrame.module.css'
 
 export type InspectLayer = 'interface' | 'logic' | 'data'
@@ -23,6 +23,13 @@ export function useReducedMotion(): boolean {
     return () => mq.removeEventListener('change', on)
   }, [])
   return reduced
+}
+
+/** Inline custom properties (`--i`, `--ar`) for a style prop. */
+export function cssVars(vars: Record<`--${string}`, string | number>): CSSProperties {
+  // SAFETY: CSSProperties has no index for custom properties, and every key here is a
+  // `--` custom property, which React passes through to the element's style unchanged.
+  return vars as CSSProperties
 }
 
 export function formatDay(iso: string): string {

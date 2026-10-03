@@ -7,7 +7,7 @@ import {
   type TraceCapture,
   type TraceGrounding,
 } from '@/lib/traceCapture'
-import { formatDay, frameStyles, InspectFrame } from './InspectFrame'
+import { cssVars, formatDay, frameStyles, InspectFrame } from './InspectFrame'
 import styles from './TraceInspect.module.css'
 
 // The seven-component whitelist the model maps detections onto (api/generate.ts:80 in Trace).
@@ -32,12 +32,10 @@ function Screenshot({ capture }: Readonly<{ capture: TraceCapture }>) {
     <div className={styles.shotWrap}>
       <figure
         className={styles.shot}
-        style={
-          {
-            aspectRatio: `${capture.width} / ${capture.height}`,
-            '--ar': capture.width / capture.height,
-          } as React.CSSProperties
-        }
+        style={{
+          aspectRatio: `${capture.width} / ${capture.height}`,
+          ...cssVars({ '--ar': capture.width / capture.height }),
+        }}
       >
         {/* biome-ignore lint/performance/noImgElement: fixed-size demo asset; the boxes are positioned against its exact frame */}
         <img

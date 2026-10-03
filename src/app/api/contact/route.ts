@@ -29,7 +29,8 @@ export async function POST(request: Request) {
     } catch {
       return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
     }
-    if (typeof body !== 'object' || body === null || Array.isArray(body)) {
+    // Parsed JSON is an object, array or primitive; only a plain object carries the fields.
+    if (!(body instanceof Object) || Array.isArray(body)) {
       return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
     }
     const { name, email, message, company } = body as Record<string, unknown>
