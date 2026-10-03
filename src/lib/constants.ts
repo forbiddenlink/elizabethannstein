@@ -29,7 +29,7 @@ export const SITE = {
   fullTitle: 'Elizabeth Stein, full-stack engineer and designer',
   description: `Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production, Algolia Agent Studio Challenge winner, npm publisher. ${totalProjects} projects, from production systems to experiments.`,
   shortDescription:
-    'Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, lead developer on Rocket Vitals at Rocket Park, Algolia Agent Studio Challenge winner, and npm publisher.',
+    'Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, developer on Rocket Vitals at Rocket Park, Algolia Agent Studio Challenge winner, and npm publisher.',
   /** One-line POV for hero / storytelling surfaces (the /explore galaxy + entrance). */
   narrativeThesis: 'I design and build software that ships, from the data model to the last pixel.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://elizabethannstein.com',

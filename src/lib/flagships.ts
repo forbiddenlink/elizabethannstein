@@ -76,18 +76,18 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Rocket Park, Craft CMS agency',
     years: '2025-26',
     summary:
-      'I lead development on Rocket Vitals, the agency’s website QA scanner, and keep eleven client sites on Craft CMS upgraded and running.',
+      'I work on Rocket Vitals, the agency’s website QA scanner, and have worked on upgrades across eleven of its Craft CMS client sites.',
     proof: '11 client sites',
     status: 'sites',
     statusSub: '11 client sites',
     cases: [
       {
         heading: 'Client sites',
-        body: 'Craft CMS upgrades, plugin updates, and Twig templates built from Figma across eleven client sites, with content-model changes tracked through project config.',
+        body: 'I worked on Craft CMS upgrades, plugin updates, and Twig templates built from Figma across eleven client sites, with content-model changes tracked through project config.',
       },
       {
         heading: 'Rocket Vitals',
-        body: 'A scanner that crawls a site and runs 385+ checks across accessibility, performance, SEO, security and more. I lead its development.',
+        body: 'A scanner that crawls a site and runs 385+ checks across accessibility, performance, SEO, security and more. It is what I work on now.',
       },
       {
         heading: 'Tooling',

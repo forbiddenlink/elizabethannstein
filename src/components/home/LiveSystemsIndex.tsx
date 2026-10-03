@@ -225,9 +225,9 @@ export function LiveSystemsIndex({ variant = 'live' }: Readonly<{ variant?: 'liv
               </p>
               <p className={styles.standfirst}>
                 Right now I&apos;m the sole developer on a Dynamics 365 platform in production for a
-                cybersecurity nonprofit, and I lead development on Rocket Vitals, a website QA
-                product at Rocket Park. On my own time I won the Algolia Agent Studio challenge and
-                publish developer tools to npm.
+                cybersecurity nonprofit, and I work on Rocket Vitals, a website QA product at Rocket
+                Park. On my own time I won the Algolia Agent Studio challenge and publish developer
+                tools to npm.
               </p>
               <div className={styles.actions}>
                 <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>

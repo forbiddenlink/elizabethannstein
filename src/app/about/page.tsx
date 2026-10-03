@@ -8,7 +8,7 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
 import styles from './about.module.css'
 
 const aboutDescription =
-  "I'm Liz, a full-stack engineer and designer. I'm the sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, I lead development on Rocket Vitals at Rocket Park, and I graduated Summa Cum Laude from Capella in March 2026."
+  "I'm Liz, a full-stack engineer and designer. I'm the sole developer on a Dynamics 365 platform in production for a cybersecurity nonprofit, I work on Rocket Vitals at Rocket Park, and I graduated Summa Cum Laude from Capella in March 2026."
 
 export const metadata: Metadata = {
   title: 'About',
@@ -131,8 +131,8 @@ export default function AboutPage() {
               twelve implementation phases on it, plus the Next.js app assessors use.
             </p>
             <p>
-              At Rocket Park, a Craft CMS agency, I lead development on Rocket Vitals, its website
-              QA scanner, and keep eleven client sites upgraded and running.
+              At Rocket Park, a Craft CMS agency, I work on Rocket Vitals, its website QA scanner.
+              I&apos;ve also worked on upgrades across eleven of its Craft CMS client sites.
             </p>
             <p>
               Before that, from 2024 to 2026, I led a team of four developers across Flo Labs&apos;
