@@ -27,6 +27,26 @@
     0 30px 60px -30px rgb(25 21 16 / 0.55);
 }
 
+/* Trace: its own paper-and-rust palette (bg-base #F4F1EA, accent #C5482E, blueprint #27496D
+   in Trace's CSS), darkened where needed so text and box edges pass AA on the panel. */
+.device[data-product="trace"] {
+  --dv-bg: #f4f1ea;
+  --dv-bg-2: #fbfaf5;
+  --dv-line: #d8d2c4;
+  --dv-ink: #1f2933;
+  --dv-ink-2: #3c4752;
+  --dv-muted: #59636d;
+  --dv-accent: #27496d;
+  --dv-accent-2: #9a4a12;
+  --dv-guess: #b3261e;
+  --dv-on-accent: #fbfaf5;
+  /* a light panel on paper needs an edge in every theme; a ring, so the theme border rules below
+     cannot remove it */
+  box-shadow:
+    0 0 0 1px var(--dv-line),
+    0 30px 60px -30px rgb(25 21 16 / 0.35);
+}
+
 /* on the dark paper the panel needs an edge, or it dissolves into the page */
 @media (prefers-color-scheme: dark) {
   :global(.editorial) .device {
