@@ -483,3 +483,43 @@
 .featureText .status {
   text-align: left;
 }
+
+/* --- lab variant: the ledger as a band under the fold ----------------------------- */
+.ledgerBand {
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.ledgerBand .ledgerList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.ledgerBand .ledgerRow {
+  border-bottom: 0;
+  border-right: 1px solid var(--le-rule);
+}
+
+.ledgerBand .ledgerRow:last-child {
+  border-right: 0;
+}
+
+/* lab fold: the working demo gets the wider column, so the claim steps down a size */
+.foldLab {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  padding-top: clamp(2rem, 5vw, 4.5rem);
+}
+
+.foldLab .claim {
+  font-size: clamp(2rem, 3.4vw, 3rem);
+}
+
+.foldLab .standfirst {
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+}
+
+@media (max-width: 960px) {
+  .foldLab {
+    grid-template-columns: 1fr;
+  }
+}

@@ -19,6 +19,7 @@ import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import { getProjectById } from '@/lib/galaxyData'
 import type { LiveResult } from '@/lib/liveStatus'
 import styles from './LiveSystemsIndex.module.css'
+import { TimeSlipInspect } from './TimeSlipInspect'
 
 type Phase = LedgerPhase
 
@@ -100,7 +101,7 @@ function SelectedState({ flagship, phase }: Readonly<{ flagship: Flagship; phase
   )
 }
 
-export function LiveSystemsIndex() {
+export function LiveSystemsIndex({ variant = 'live' }: Readonly<{ variant?: 'live' | 'lab' }>) {
   const [phases, setPhases] = useState<Record<string, Phase>>(initialPhases)
   const [results, setResults] = useState<Record<string, LiveResult>>({})
   const [checkedAt, setCheckedAt] = useState<string | null>(null)
@@ -162,6 +163,44 @@ export function LiveSystemsIndex() {
 
   const summary = ledgerSummary(LIVE_SYSTEMS.map((f) => phases[f.id] ?? 'unknown'))
 
+  const ledger = (
+    <aside className={styles.ledger} aria-labelledby="ledger-heading">
+      <div className={styles.ledgerHead}>
+        <h2 id="ledger-heading">Running right now</h2>
+        <p aria-live="polite">
+          {isProbing ? 'checking now' : checkedAt ? `checked ${checkedAt}` : 'check time unknown'}
+        </p>
+      </div>
+      <ol className={styles.ledgerList}>
+        {LIVE_SYSTEMS.map((f) => (
+          <li key={f.id} className={styles.ledgerRow} data-state={phases[f.id]}>
+            <Link className={styles.sys} href={`/work/${f.id}`}>
+              {f.title}
+            </Link>
+            <span className={styles.host}>{hostOf(f.statusUrl)}</span>
+            <span className={styles.state}>
+              <LedgerState
+                phase={phases[f.id] ?? 'checking'}
+                result={f.statusUrl ? results[f.statusUrl] : undefined}
+              />
+            </span>
+          </li>
+        ))}
+      </ol>
+      <div className={styles.ledgerFoot}>
+        <span>{isProbing ? 'Checking each site now' : summary}</span>
+        <button
+          type="button"
+          className={styles.linkBtn}
+          onClick={() => void probe()}
+          disabled={isProbing}
+        >
+          Refresh
+        </button>
+      </div>
+    </aside>
+  )
+
   return (
     <div className={`editorial ${styles.page}`}>
       <a
@@ -173,7 +212,10 @@ export function LiveSystemsIndex() {
       <SiteHeader />
       <main id="main-content" tabIndex={-1} className="outline-none">
         <div className={styles.wrap}>
-          <section className={styles.fold} aria-labelledby="home-claim">
+          <section
+            className={variant === 'lab' ? `${styles.fold} ${styles.foldLab}` : styles.fold}
+            aria-labelledby="home-claim"
+          >
             <div>
               <h1 className={styles.name} id="home-claim">
                 Elizabeth Stein <span>Full-stack engineer and designer</span>
@@ -205,46 +247,9 @@ export function LiveSystemsIndex() {
               </p>
             </div>
 
-            <aside className={styles.ledger} aria-labelledby="ledger-heading">
-              <div className={styles.ledgerHead}>
-                <h2 id="ledger-heading">Running right now</h2>
-                <p aria-live="polite">
-                  {isProbing
-                    ? 'checking now'
-                    : checkedAt
-                      ? `checked ${checkedAt}`
-                      : 'check time unknown'}
-                </p>
-              </div>
-              <ol className={styles.ledgerList}>
-                {LIVE_SYSTEMS.map((f) => (
-                  <li key={f.id} className={styles.ledgerRow} data-state={phases[f.id]}>
-                    <Link className={styles.sys} href={`/work/${f.id}`}>
-                      {f.title}
-                    </Link>
-                    <span className={styles.host}>{hostOf(f.statusUrl)}</span>
-                    <span className={styles.state}>
-                      <LedgerState
-                        phase={phases[f.id] ?? 'checking'}
-                        result={f.statusUrl ? results[f.statusUrl] : undefined}
-                      />
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <div className={styles.ledgerFoot}>
-                <span>{isProbing ? 'Checking each site now' : summary}</span>
-                <button
-                  type="button"
-                  className={styles.linkBtn}
-                  onClick={() => void probe()}
-                  disabled={isProbing}
-                >
-                  Refresh
-                </button>
-              </div>
-            </aside>
+            {variant === 'lab' ? <TimeSlipInspect /> : ledger}
           </section>
+          {variant === 'lab' && <div className={styles.ledgerBand}>{ledger}</div>}
         </div>
 
         <section className="eSect" aria-labelledby="featured-heading">
