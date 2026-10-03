@@ -1,56 +1,51 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { HireReadySimulator } from '@/components/projects/HireReadySimulator'
-import { TimeSlipScrubber } from '@/components/projects/TimeSlipScrubber'
-import { TraceComparison } from '@/components/projects/TraceComparison'
+import { AutomaDocsInspect } from '@/components/home/AutomaDocsInspect'
+import { SpecterInspect } from '@/components/home/SpecterInspect'
+import { TimeSlipInspect } from '@/components/home/TimeSlipInspect'
+import { TraceInspect } from '@/components/home/TraceInspect'
 
-describe('Interactive Project Components & Utilities', () => {
-  describe('TimeSlipScrubber', () => {
-    it('renders cultural years and updates snapshot on year click', () => {
-      render(<TimeSlipScrubber />)
+const panels = [
+  { name: 'TimeSlipSearch', Panel: TimeSlipInspect },
+  { name: 'Trace', Panel: TraceInspect },
+  { name: 'AutomaDocs', Panel: AutomaDocsInspect },
+  { name: 'Specter', Panel: SpecterInspect },
+]
 
-      expect(screen.getByText(/TimeSlipSearch: a sample year/i)).toBeDefined()
-      expect(screen.getAllByText(/1985/i).length).toBeGreaterThan(0)
+describe('Inspect demo panels', () => {
+  for (const { name, Panel } of panels) {
+    describe(name, () => {
+      it('renders as a labelled region with a dated source line', () => {
+        render(<Panel />)
+        expect(screen.getByRole('region', { name })).toBeDefined()
+        expect(screen.getByText(/Real output from/i).textContent).toMatch(/\d{4}/)
+      })
 
-      // Click on 1969
-      const year1969Btn = screen.getByRole('button', { name: '1969' })
-      fireEvent.click(year1969Btn)
+      it('opens and closes the inspect legend as a disclosure', () => {
+        render(<Panel />)
+        const toggle = screen.getByRole('button', { name: /Inspect how it works/i })
+        expect(toggle.getAttribute('aria-expanded')).toBe('false')
+        fireEvent.click(toggle)
+        expect(toggle.getAttribute('aria-expanded')).toBe('true')
+        expect(screen.getByRole('group', { name: 'Choose a layer' })).toBeDefined()
+        fireEvent.click(screen.getByRole('button', { name: /^Data/ }))
+        expect(screen.getByRole('button', { name: /^Data/ }).getAttribute('aria-pressed')).toBe(
+          'true'
+        )
+      })
 
-      expect(screen.getByText(/Apollo 11 Lands on the Moon/i)).toBeDefined()
-      expect(screen.getByText(/In the Year 2525/i)).toBeDefined()
+      it('uses an h3 under a section heading when asked', () => {
+        render(<Panel headingLevel={3} />)
+        expect(screen.getByRole('heading', { level: 3, name })).toBeDefined()
+      })
     })
-  })
+  }
 
-  describe('TraceComparison', () => {
-    it('renders tabs and allows switching between preview, inspector, and code', () => {
-      render(<TraceComparison />)
-
-      expect(screen.getByText(/Trace: grounded and ungrounded output/i)).toBeDefined()
-
-      // Switch to inspector tab
-      const inspectorTab = screen.getByRole('button', { name: /What AI Sees/i })
-      fireEvent.click(inspectorTab)
-      expect(screen.getByText(/Per-Element Confidence & Catalog Matching/i)).toBeDefined()
-
-      // Switch to code tab
-      const codeTab = screen.getByRole('button', { name: /Generated TSX/i })
-      fireEvent.click(codeTab)
-      expect(screen.getByText(/Copy TSX/i)).toBeDefined()
-    })
-  })
-
-  describe('HireReadySimulator', () => {
-    it('renders question tracks and voice simulation trigger', () => {
-      render(<HireReadySimulator />)
-
-      expect(screen.getByText(/HireReady: a sample interview round/i)).toBeDefined()
-      expect(screen.getByText(/Stripe/i)).toBeDefined()
-      expect(screen.getByText(/Google/i)).toBeDefined()
-
-      // Click Google track
-      const googleBtn = screen.getByRole('button', { name: /Google/i })
-      fireEvent.click(googleBtn)
-      expect(screen.getByText(/virtualized rendering pipeline/i)).toBeDefined()
-    })
+  it('Trace announces the newly picked example', () => {
+    render(<TraceInspect />)
+    fireEvent.click(screen.getByRole('button', { name: 'Dashboard stat cards' }))
+    expect(screen.getByRole('status').textContent).toMatch(
+      /^Dashboard stat cards: 20 elements found/
+    )
   })
 })

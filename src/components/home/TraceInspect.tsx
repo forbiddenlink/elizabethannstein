@@ -94,7 +94,7 @@ function Detections({ capture }: Readonly<{ capture: TraceCapture }>) {
   )
 }
 
-export function TraceInspect() {
+export function TraceInspect({ headingLevel = 2 }: Readonly<{ headingLevel?: 2 | 3 }> = {}) {
   const [selected, setSelected] = useState(TRACE_CAPTURES[0].id)
   const [touched, setTouched] = useState(false)
   const capture = TRACE_CAPTURES.find((c) => c.id === selected) ?? TRACE_CAPTURES[0]
@@ -102,6 +102,7 @@ export function TraceInspect() {
 
   return (
     <InspectFrame
+      headingLevel={headingLevel}
       product="trace"
       title="Trace"
       badge="Screenshot to React, grounded"

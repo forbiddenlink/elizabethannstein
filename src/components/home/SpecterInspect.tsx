@@ -6,9 +6,10 @@ import styles from './SpecterInspect.module.css'
 
 const n = (v: number) => v.toLocaleString('en-US')
 
-export function SpecterInspect() {
+export function SpecterInspect({ headingLevel = 2 }: Readonly<{ headingLevel?: 2 | 3 }> = {}) {
   return (
     <InspectFrame
+      headingLevel={headingLevel}
       product="specter"
       title="Specter"
       badge="Code health CLI"

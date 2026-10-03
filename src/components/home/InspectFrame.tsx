@@ -53,6 +53,8 @@ interface InspectFrameProps {
   status?: string
   /** Set once the visitor has interacted, so entrance motion never delays first paint. */
   touched?: boolean
+  /** 3 when the panel sits under a section heading (case studies); 2 when it stands alone. */
+  headingLevel?: 2 | 3
 }
 
 export function InspectFrame({
@@ -67,7 +69,9 @@ export function InspectFrame({
   source,
   status = '',
   touched = false,
+  headingLevel = 2,
 }: Readonly<InspectFrameProps>) {
+  const Heading = headingLevel === 3 ? 'h3' : 'h2'
   const [inspecting, setInspecting] = useState(false)
   const [focusLayer, setFocusLayer] = useState<InspectLayer>('logic')
   const reduced = useReducedMotion()
@@ -84,9 +88,9 @@ export function InspectFrame({
       data-touched={touched || undefined}
     >
       <header className={styles.top}>
-        <h2 id={headingId} className={styles.brand}>
+        <Heading id={headingId} className={styles.brand}>
           {title}
-        </h2>
+        </Heading>
         {badge && <p className={styles.badge}>{badge}</p>}
       </header>
 

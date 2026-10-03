@@ -60,9 +60,10 @@ function Markdown({ text }: Readonly<{ text: string }>) {
   return <>{out}</>
 }
 
-export function AutomaDocsInspect() {
+export function AutomaDocsInspect({ headingLevel = 2 }: Readonly<{ headingLevel?: 2 | 3 }> = {}) {
   return (
     <InspectFrame
+      headingLevel={headingLevel}
       product="automadocs"
       title={
         <>

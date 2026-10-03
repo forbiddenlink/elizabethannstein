@@ -164,7 +164,7 @@ function DataIndices({ capture }: Readonly<{ capture: TimeSlipCapture }>) {
   )
 }
 
-export function TimeSlipInspect() {
+export function TimeSlipInspect({ headingLevel = 2 }: Readonly<{ headingLevel?: 2 | 3 }> = {}) {
   const [selected, setSelected] = useState(TIMESLIP_CAPTURES[0].id)
   // First paint is the finished panel: no typing, no fade-in. Motion starts only once the
   // visitor picks a date, so nothing on load waits on an animation (and LCP is not delayed).
@@ -175,6 +175,7 @@ export function TimeSlipInspect() {
 
   return (
     <InspectFrame
+      headingLevel={headingLevel}
       product="timeslip"
       title={
         <>
