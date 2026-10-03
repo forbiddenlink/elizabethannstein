@@ -47,6 +47,32 @@
     0 30px 60px -30px rgb(25 21 16 / 0.35);
 }
 
+/* AutomaDocs: its zinc + emerald dark theme (DESIGN.md: background #0a0c0e, accent #1fa36a). */
+.device[data-product="automadocs"] {
+  --dv-bg: #0a0c0e;
+  --dv-bg-2: #111315;
+  --dv-line: #2e3033;
+  --dv-ink: #fafafa;
+  --dv-ink-2: #d4d4d8;
+  --dv-muted: #a1a1aa;
+  --dv-accent: #1fa36a;
+  --dv-accent-2: #6ee7b7;
+  --dv-on-accent: #0a0c0e;
+}
+
+/* Specter: its terminal theme (purple #a29bfe / #6c5ce7 and orange #ffa500 in its CLI colours). */
+.device[data-product="specter"] {
+  --dv-bg: #0f0e17;
+  --dv-bg-2: #16141f;
+  --dv-line: #2d2a3d;
+  --dv-ink: #f2f0fa;
+  --dv-ink-2: #cdc9de;
+  --dv-muted: #9d98b3;
+  --dv-accent: #a29bfe;
+  --dv-accent-2: #ffb347;
+  --dv-on-accent: #0f0e17;
+}
+
 /* on the dark paper the panel needs an edge, or it dissolves into the page */
 @media (prefers-color-scheme: dark) {
   :global(.editorial) .device {
@@ -247,8 +273,10 @@
 
 /* exploded view (pointer devices with room, motion allowed) */
 @media (min-width: 720px) {
+  /* the bottom pad clears the rotated Data layer: a wide, short interface swings further down
+     than a tall one when rotated, so this is sized for the widest panel (Specter's) */
   .device[data-inspecting]:not([data-reduced]) .stage {
-    padding-block: 3.5rem 2.5rem;
+    padding-block: 3.5rem 4.5rem;
   }
   .device[data-inspecting]:not([data-reduced]) .layerUi {
     transform: scale(0.78) rotateX(46deg) rotateZ(-22deg) translateZ(120px);

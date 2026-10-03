@@ -1,0 +1,123 @@
+/* AutomaDocs' interface layer: the source a function came from, beside the page written for it. */
+.brandDocs {
+  color: var(--dv-accent);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.pane {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--dv-line);
+  border-radius: 4px;
+  background: var(--dv-bg-2);
+  overflow: hidden;
+}
+
+.pane figcaption {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--dv-line);
+  font-family: var(--le-mono);
+  font-size: 0.6875rem;
+  color: var(--dv-muted);
+  overflow-wrap: anywhere;
+}
+
+.pane figcaption span {
+  margin-right: 0.35rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dv-accent-2);
+}
+
+.code {
+  margin: 0;
+  padding: 0.75rem;
+  max-height: 18rem;
+  overflow: auto;
+  font-family: var(--le-mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--dv-ink-2);
+}
+
+.doc {
+  max-height: 18rem;
+  overflow-y: auto;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--dv-ink-2);
+}
+
+.code:focus-visible,
+.doc:focus-visible {
+  outline: 2px solid var(--dv-accent);
+  outline-offset: -2px;
+}
+
+.doc h4 {
+  margin: 0 0 0.5rem;
+  font-family: var(--le-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dv-ink);
+}
+
+.doc h5 {
+  margin: 0.9rem 0 0.3rem;
+  font-family: var(--le-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dv-accent-2);
+}
+
+.doc p {
+  margin: 0 0 0.4rem;
+}
+
+.doc ul {
+  margin: 0 0 0.4rem;
+  padding-left: 1.1rem;
+}
+
+.doc li {
+  margin: 0.15rem 0;
+}
+
+.doc code {
+  font-family: var(--le-mono);
+  font-size: 0.92em;
+  color: var(--dv-ink);
+}
+
+.doc pre {
+  /* wraps instead of scrolling: a second scroll region inside the scrolling doc would need its
+     own keyboard stop */
+  margin: 0.4rem 0;
+  padding: 0.6rem;
+  border-radius: 3px;
+  background: var(--dv-bg);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mini {
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  color: var(--dv-accent);
+}
+
+@media (max-width: 640px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
