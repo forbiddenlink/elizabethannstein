@@ -274,7 +274,9 @@ export function LiveSystemsIndex({ variant = 'live' }: Readonly<{ variant?: 'liv
               <div className={styles.foldDemo}>
                 <TimeSlipInspect />
                 <nav className={styles.moreDemos} aria-label="More working demos">
-                  <p>The same panel, with real output, on each of these case studies:</p>
+                  <p className={styles.moreDemosLead}>
+                    The same panel, with real output, on each of these case studies:
+                  </p>
                   <ul>
                     {MORE_DEMOS.map((d) => (
                       <li key={d.href}>

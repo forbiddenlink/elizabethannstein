@@ -525,7 +525,7 @@
 }
 
 /* the other demos, as a quiet index under the flagship rather than competing tabs */
-.moreDemos p {
+.moreDemosLead {
   margin: 0 0 0.5rem;
   font-size: 0.875rem;
   color: var(--le-ink-2);

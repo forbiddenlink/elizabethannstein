@@ -7,14 +7,11 @@ import { formatDay, frameStyles, InspectFrame } from './InspectFrame'
 
 /** Inline `code` spans only; the captured docs use no other inline markdown. */
 function inline(text: string): ReactNode[] {
-  return text.split(/(`[^`]+`)/g).map((part, i) =>
-    part.startsWith('`') && part.endsWith('`') ? (
-      // biome-ignore lint/suspicious/noArrayIndexKey: static text split, order never changes
-      <code key={i}>{part.slice(1, -1)}</code>
-    ) : (
-      part
+  return text
+    .split(/(`[^`]+`)/g)
+    .map((part, i) =>
+      part.startsWith('`') && part.endsWith('`') ? <code key={i}>{part.slice(1, -1)}</code> : part
     )
-  )
 }
 
 /**
@@ -60,6 +57,26 @@ function Markdown({ text }: Readonly<{ text: string }>) {
   return <>{out}</>
 }
 
+/** A named, focusable scroll box, so keyboard users can scroll it (WCAG 2.1.1). */
+function ScrollRegion({
+  className,
+  label,
+  children,
+}: Readonly<{ className: string; label: string; children: ReactNode }>) {
+  return (
+    // biome-ignore lint/a11y/useSemanticElements: a section here would add a landmark per pane; role=region on a div is what axe's scrollable-region rule asks for
+    <div
+      className={className}
+      role="region"
+      aria-label={label}
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable region must be keyboard reachable (WCAG 2.1.1)
+      tabIndex={0}
+    >
+      {children}
+    </div>
+  )
+}
+
 export function AutomaDocsInspect({ headingLevel = 2 }: Readonly<{ headingLevel?: 2 | 3 }> = {}) {
   return (
     <InspectFrame
@@ -77,24 +94,19 @@ export function AutomaDocsInspect({ headingLevel = 2 }: Readonly<{ headingLevel?
             <figcaption>
               <span>Input</span> {C.repo}/{C.file} · lines {C.lines[0]}-{C.lines[1]}
             </figcaption>
-            {/* biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable region must be keyboard reachable (WCAG 2.1.1) */}
-            <pre className={styles.code} tabIndex={0} aria-label="toydb source code">
-              <code>{C.source}</code>
-            </pre>
+            <ScrollRegion className={styles.code} label="toydb source code">
+              <pre>
+                <code>{C.source}</code>
+              </pre>
+            </ScrollRegion>
           </figure>
           <figure className={styles.pane}>
             <figcaption>
               <span>Output</span> generated {formatDay(C.generatedAt.slice(0, 10))}
             </figcaption>
-            {/* biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable region must be keyboard reachable (WCAG 2.1.1) */}
-            <div
-              className={styles.doc}
-              tabIndex={0}
-              role="region"
-              aria-label="Generated documentation"
-            >
+            <ScrollRegion className={styles.doc} label="Generated documentation">
               <Markdown text={C.doc} />
-            </div>
+            </ScrollRegion>
           </figure>
         </div>
       }
