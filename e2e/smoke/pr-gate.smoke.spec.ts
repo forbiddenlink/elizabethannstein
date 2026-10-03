@@ -83,12 +83,11 @@ test.describe('PR gate: behavior', () => {
     await expect(opener).toBeFocused()
   })
 
-  test('the contact page promises replies within 2 business days, not 24 hours', async ({
-    page,
-  }) => {
+  // The page used to promise a 24 hour reply the inbox could not always keep. Main now makes
+  // no reply-time promise at all ("Goes to my inbox"), so only the broken promise is asserted.
+  test('the contact page makes no 24 hour reply promise', async ({ page }) => {
     await page.goto('/contact', { waitUntil: 'load' })
     const text = await page.locator('main').innerText()
-    expect(text).toMatch(/2 business days/)
     expect(text).not.toMatch(/24\s*(h|hours)\b/i)
   })
 })
