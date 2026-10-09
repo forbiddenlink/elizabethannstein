@@ -62,7 +62,7 @@ export const PROJECT_SCREENSHOTS: Record<string, string> = {
  * Descriptive alt text, written from the committed screenshot in public/screenshots/.
  * Describes what the image shows, nothing beyond it. Keys must match PROJECT_SCREENSHOTS.
  */
-export const PROJECT_SCREENSHOT_ALT: Record<string, string> = {
+const PROJECT_SCREENSHOT_ALT = {
   'caipo-ai':
     'CAIPO landing page on a dark background: the heading "Meet CAIPO", a "Coming Soon" notice, a rendered 3D capsule-shaped device, Join Waitlist and Learn More buttons, and a cookie banner.',
   'robocollective-ai':
@@ -95,7 +95,7 @@ export const PROJECT_SCREENSHOT_ALT: Record<string, string> = {
     'Mythos Atlas home page: the title "Mythos Atlas" in gold serif capitals over a photo of Greek temple columns, with Explore Mythologies and Meet the Gods buttons and a quotation box.',
   'plant-therapy':
     'Plant Therapy home page: the heading "The science of plant-based wellness." over a faded photo of a garden trowel and a ceramic planter, with Read the Research and Browse Articles buttons.',
-}
+} satisfies Record<string, string>
 
 export function getProjectScreenshot(projectId: string): string | undefined {
   return PROJECT_SCREENSHOTS[projectId]
@@ -103,5 +103,5 @@ export function getProjectScreenshot(projectId: string): string | undefined {
 
 /** Alt text for a project screenshot, or `fallback` when none is written. */
 export function getProjectScreenshotAlt(projectId: string, fallback: string): string {
-  return PROJECT_SCREENSHOT_ALT[projectId] ?? fallback
+  return Object.entries(PROJECT_SCREENSHOT_ALT).find(([key]) => key === projectId)?.[1] ?? fallback
 }

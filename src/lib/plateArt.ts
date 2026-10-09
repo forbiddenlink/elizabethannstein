@@ -24,7 +24,7 @@ export interface PlateArtData {
   footer: string
 }
 
-export const PLATE_ART: Record<string, PlateArtData> = {
+const PLATE_ART = {
   'security-readiness-platform': {
     kind: 'flow',
     title: 'Architecture, 12 phases',
@@ -78,4 +78,9 @@ export const PLATE_ART: Record<string, PlateArtData> = {
     ],
     footer: '38 automated tests',
   },
+} satisfies Record<string, PlateArtData>
+
+/** Plate art for a project id, if one is authored. */
+export function getPlateArt(id: string): PlateArtData | undefined {
+  return Object.entries(PLATE_ART).find(([key]) => key === id)?.[1]
 }

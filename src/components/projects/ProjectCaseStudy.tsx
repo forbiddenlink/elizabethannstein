@@ -10,7 +10,7 @@ import { PlateArt } from '@/components/work/PlateArt'
 import { CASE_STUDIES } from '@/lib/caseStudies'
 import { hostOf, withoutEmoji } from '@/lib/flagshipDisplay'
 import { galaxies } from '@/lib/galaxyData'
-import { PLATE_ART } from '@/lib/plateArt'
+import { getPlateArt } from '@/lib/plateArt'
 import { getProjectScreenshotAlt, PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
 import styles from './ProjectCaseStudy.module.css'
@@ -115,7 +115,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const numbers = getNumbers(project)
   const liveHost = hostOf(project.links?.live)
   const Diagram = getPlateDiagram(project.id)
-  const art = PLATE_ART[project.id]
+  const art = getPlateArt(project.id)
 
   const longform = CASE_STUDIES.get(project.id)
   // A short brief stands in for a missing screenshot, so it is stated once, on the plate.
