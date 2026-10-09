@@ -306,6 +306,8 @@
   .desc {
     order: 3;
     flex-basis: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .status {
     order: 2;
@@ -325,6 +327,7 @@
   margin: 0 0 clamp(2rem, 5vw, 3.5rem);
   padding: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(2.5rem, 6vw, 4.5rem);
 }
 
@@ -365,6 +368,7 @@
   letter-spacing: -0.02em;
   font-variation-settings: "opsz" 144;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .feature:hover .featureTitle,
@@ -482,13 +486,13 @@
 @media (max-width: 960px) {
   .feature,
   .features li:nth-child(even) .feature {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .features li:nth-child(even) .feature > figure {
     order: 0;
   }
   .quoteRow {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -503,7 +507,7 @@
 
 .ledgerBand .ledgerList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
 }
 
 .ledgerBand .ledgerRow {

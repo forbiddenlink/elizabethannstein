@@ -92,6 +92,12 @@
     white-space: nowrap;
   }
 
+  .table thead tr,
+  .table thead th {
+    display: block;
+    white-space: normal;
+  }
+
   .table,
   .table tbody {
     display: block;
@@ -108,11 +114,13 @@
   .table tbody th {
     flex-basis: 100%;
     padding: 0;
+    overflow-wrap: anywhere;
   }
 
   .table td {
     padding: 0;
     text-align: left;
+    white-space: normal;
   }
 
   .table td::before {
