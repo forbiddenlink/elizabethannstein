@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.7.0...v1.8.0) (2026-10-09)
+
+
+### Features
+
+* show the work working with real captured demos ([#147](https://github.com/forbiddenlink/elizabethannstein/issues/147)) ([74de6c5](https://github.com/forbiddenlink/elizabethannstein/commit/74de6c584e72f54c5ed40c76fe173a3ef63b72dd))
+
 ## [1.7.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.6.0...v1.7.0) (2026-10-02)
 
 
