@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.8.0...v1.9.0) (2026-10-10)
+
+
+### Features
+
+* **design:** asset pass rebased on main (icons, a11y, 200% text reflow) ([#153](https://github.com/forbiddenlink/elizabethannstein/issues/153)) ([d255c8e](https://github.com/forbiddenlink/elizabethannstein/commit/d255c8e6cdcc2418a916047ad8af7841141fed4a))
+
 ## [1.8.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.7.0...v1.8.0) (2026-10-09)
 
 
