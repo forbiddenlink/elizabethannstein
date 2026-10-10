@@ -156,11 +156,14 @@
   text-wrap: balance;
   letter-spacing: -0.02em;
   font-weight: 500;
+  /* At large text sizes a long word must wrap, not clip at the page edge. */
+  overflow-wrap: break-word;
 }
 .editorial :where(p) {
   text-wrap: pretty;
 }
 .editorial :where(a) {
+  overflow-wrap: break-word;
   color: inherit;
 }
 
@@ -320,6 +323,8 @@
   gap: 0.5rem;
   min-height: 2.75rem;
   padding: 0 1.25rem;
+  max-width: 100%;
+  overflow-wrap: anywhere; /* a long host name wraps instead of spilling out of the button */
   border-radius: 0;
   font-family: var(--le-sans);
   font-size: 0.9375rem;
@@ -364,6 +369,7 @@
 
 /* --- link with cobalt underline ------------------------------------------- */
 .eLink {
+  overflow-wrap: anywhere;
   color: var(--le-accent-ink);
   text-decoration: none;
   border-bottom: 1px solid color-mix(in oklab, var(--le-accent-ink) 45%, transparent);
@@ -661,6 +667,8 @@ a:focus-visible .ePlateImg img {
 }
 .ePlate figcaption {
   display: flex;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
   justify-content: space-between;
   gap: 1rem;
   padding: 0.6rem 0.8rem;
@@ -695,7 +703,7 @@ a:focus-visible .ePlateImg img {
 .eTypeplate dl {
   margin: 0;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   border-top: 1px solid var(--le-rule-strong);
   font-family: var(--le-mono);
   font-size: 0.8125rem;
@@ -719,6 +727,80 @@ a:focus-visible .ePlateImg img {
   padding-bottom: 0;
 }
 
+/* plate art: terminal excerpt or flow, the stand-in for work with no public screenshot */
+.ePlateArt {
+  aspect-ratio: 16 / 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  background: var(--le-paper-2);
+  font-family: var(--le-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--le-ink-2);
+}
+.ePlateArtTitle {
+  margin: 0;
+  color: var(--le-muted);
+  letter-spacing: 0.02em;
+}
+.ePlateArtRows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+}
+.ePlateArtRows li {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.ePlateArtKey {
+  color: var(--le-ink);
+  overflow-wrap: anywhere;
+}
+.ePlateArtPrompt .ePlateArtKey::before {
+  content: "$ ";
+  color: var(--le-accent-ink);
+}
+.ePlateArtVal {
+  color: var(--le-ink-2);
+  overflow-wrap: anywhere;
+}
+/* flow: stage name in display type, joined by a left rail */
+.ePlateArtFlow .ePlateArtRows {
+  gap: 0;
+  border-left: 1px solid var(--le-rule-strong);
+}
+.ePlateArtFlow .ePlateArtRows li {
+  position: relative;
+  padding: 0.55rem 0 0.55rem 1rem;
+}
+.ePlateArtFlow .ePlateArtRows li::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 1.05rem;
+  width: 7px;
+  height: 7px;
+  background: var(--le-accent);
+}
+.ePlateArtFlow .ePlateArtKey {
+  font-family: var(--le-display);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.ePlateArtFoot {
+  margin: 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--le-rule);
+  color: var(--le-muted);
+}
+
 /* spec table: label / value rows */
 .eSpec {
   margin: 1.75rem 0 0;
@@ -726,7 +808,7 @@ a:focus-visible .ePlateImg img {
 }
 .eSpec > div {
   display: grid;
-  grid-template-columns: 8rem 1fr;
+  grid-template-columns: min(8rem, 30%) minmax(0, 1fr);
   gap: 1rem;
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--le-rule);
@@ -747,12 +829,13 @@ a:focus-visible .ePlateImg img {
 }
 
 @media (max-width: 640px) {
-  .eTypeplate {
+  .eTypeplate,
+  .ePlateArt {
     aspect-ratio: auto;
     min-height: 12rem;
   }
   .eSpec > div {
-    grid-template-columns: 6.5rem 1fr;
+    grid-template-columns: min(6.5rem, 30%) minmax(0, 1fr);
   }
 }
 

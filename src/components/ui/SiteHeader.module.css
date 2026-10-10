@@ -10,9 +10,10 @@
   padding: 0 var(--le-gutter);
   min-height: 3.5rem;
   display: flex;
+  flex-wrap: wrap; /* at 200% text the links drop to a second line instead of clipping */
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0 1rem;
 }
 
 .brand {
@@ -29,6 +30,7 @@
 
 .nav {
   display: flex;
+  flex-wrap: wrap;
   gap: clamp(0.25rem, 2vw, 1.75rem);
 }
 

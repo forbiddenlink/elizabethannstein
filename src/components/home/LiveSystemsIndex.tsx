@@ -81,6 +81,14 @@ function LedgerState({ phase, result }: Readonly<{ phase: Phase; result?: LiveRe
       </span>
     )
   }
+  if (phase === 'private') {
+    return (
+      <span className="eState">
+        Private demo
+        <small>access on request</small>
+      </span>
+    )
+  }
   if (phase === 'unknown') {
     return (
       <span className="eState">
@@ -104,12 +112,13 @@ function SelectedState({ flagship, phase }: Readonly<{ flagship: Flagship; phase
     const label = {
       checking: 'Checking',
       live: 'Live',
+      private: 'Private demo',
       down: 'Not responding',
       unknown: 'Status unknown',
     }[phase]
     return (
       <span className="eState" data-state={phase}>
-        <span className="eStateDot" aria-hidden="true" />
+        {phase !== 'private' && <span className="eStateDot" aria-hidden="true" />}
         {label}
         <small>{plainLabel(flagship.statusSub)}</small>
       </span>
@@ -340,22 +349,13 @@ export function LiveSystemsIndex() {
             <ul className={styles.index} aria-label="More selected work">
               {REST.map((f) => (
                 <li key={f.id}>
-                  <Link
-                    href={`/work/${f.id}`}
-                    className={styles.row}
-                    aria-labelledby={`home-${f.id}-title`}
-                    aria-describedby={`home-${f.id}-desc home-${f.id}-status`}
-                  >
+                  <Link href={`/work/${f.id}`} className={styles.row}>
                     <span>
-                      <span id={`home-${f.id}-title`} className={styles.title}>
-                        {f.title}
-                      </span>
+                      <span className={styles.title}>{f.title}</span>
                       <span className={styles.who}>{whoLine(f)}</span>
                     </span>
-                    <span id={`home-${f.id}-desc`} className={styles.desc}>
-                      {f.summary}
-                    </span>
-                    <span id={`home-${f.id}-status`} className={styles.status}>
+                    <span className={styles.desc}>{f.summary}</span>
+                    <span className={styles.status}>
                       <SelectedState flagship={f} phase={phases[f.id]} />
                     </span>
                   </Link>

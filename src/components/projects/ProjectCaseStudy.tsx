@@ -6,10 +6,12 @@ import { AutomaDocsInspect } from '@/components/home/AutomaDocsInspect'
 import { SpecterInspect } from '@/components/home/SpecterInspect'
 import { TimeSlipInspect } from '@/components/home/TimeSlipInspect'
 import { TraceInspect } from '@/components/home/TraceInspect'
+import { PlateArt } from '@/components/work/PlateArt'
 import { CASE_STUDIES } from '@/lib/caseStudies'
 import { hostOf, withoutEmoji } from '@/lib/flagshipDisplay'
 import { galaxies } from '@/lib/galaxyData'
-import { PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
+import { getPlateArt } from '@/lib/plateArt'
+import { getProjectScreenshotAlt, PROJECT_SCREENSHOTS } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
 import styles from './ProjectCaseStudy.module.css'
 
@@ -113,11 +115,17 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   const numbers = getNumbers(project)
   const liveHost = hostOf(project.links?.live)
   const Diagram = getPlateDiagram(project.id)
+  const art = getPlateArt(project.id)
 
   const longform = CASE_STUDIES.get(project.id)
   // A short brief stands in for a missing screenshot, so it is stated once, on the plate.
   const plateStatement =
-    !screenshotPath && !Diagram && !longform && project.challenge && project.challenge.length <= 140
+    !screenshotPath &&
+    !Diagram &&
+    !art &&
+    !longform &&
+    project.challenge &&
+    project.challenge.length <= 140
       ? project.challenge
       : null
   const story = [
@@ -240,12 +248,14 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <div className="ePlateImg">
                 <Image
                   src={screenshotPath}
-                  alt={`${project.title} interface`}
+                  alt={getProjectScreenshotAlt(project.id, `${project.title} interface`)}
                   fill
                   priority
                   sizes="(max-width: 960px) 100vw, 560px"
                 />
               </div>
+            ) : art ? (
+              <PlateArt art={art} />
             ) : (
               <div className="eTypeplate">
                 <span

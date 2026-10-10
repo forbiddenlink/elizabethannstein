@@ -44,7 +44,11 @@ const fraunces = Fraunces({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#000000',
+  // editorial.css --le-paper, light and dark
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#efeadf' },
+    { media: '(prefers-color-scheme: dark)', color: '#141109' },
+  ],
 }
 
 export const metadata: Metadata = {

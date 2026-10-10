@@ -110,7 +110,7 @@
 }
 
 .spec > div {
-  grid-template-columns: 10rem 1fr;
+  grid-template-columns: 10rem minmax(0, 1fr);
 }
 
 .quote {
@@ -158,16 +158,16 @@
 
 @media (max-width: 760px) {
   .head {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .photoFrame {
     width: 112px;
     height: 112px;
   }
   .row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .spec > div {
-    grid-template-columns: 7.5rem 1fr;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
   }
 }

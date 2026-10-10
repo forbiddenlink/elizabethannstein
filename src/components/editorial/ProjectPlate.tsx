@@ -1,7 +1,9 @@
 import Image from 'next/image'
+import { PlateArt } from '@/components/work/PlateArt'
 import { hostOf, plainLabel, staticStatus } from '@/lib/flagshipDisplay'
 import type { Flagship } from '@/lib/flagships'
-import { getProjectScreenshot } from '@/lib/projectScreenshots'
+import { getPlateArt } from '@/lib/plateArt'
+import { getProjectScreenshot, getProjectScreenshotAlt } from '@/lib/projectScreenshots'
 import type { Project } from '@/lib/types'
 import { SecurityPlatformDiagram } from './SecurityPlatformDiagram'
 
@@ -36,6 +38,7 @@ export function ProjectPlate({
 }: Readonly<{ flagship: Flagship; project?: Project; sizes: string; priority?: boolean }>) {
   const shot = getProjectScreenshot(flagship.id)
   const Diagram = getPlateDiagram(flagship.id)
+  const art = getPlateArt(flagship.id)
   const stack = project?.tags.slice(0, 4).join(', ')
 
   return (
@@ -46,12 +49,14 @@ export function ProjectPlate({
         <div className="ePlateImg">
           <Image
             src={shot}
-            alt={`${flagship.title} screenshot`}
+            alt={getProjectScreenshotAlt(flagship.id, `${flagship.title} screenshot`)}
             fill
             sizes={sizes}
             priority={priority}
           />
         </div>
+      ) : art ? (
+        <PlateArt art={art} />
       ) : (
         <div className="eTypeplate">
           <span className="eTypeplateBig">{plainLabel(flagship.proof).replace(' · ', ', ')}</span>

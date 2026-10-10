@@ -122,7 +122,7 @@
 
 .ledgerRow {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
   gap: 0.2rem 1rem;
   padding: 0.8rem 1.1rem;
   border-bottom: 1px solid var(--le-rule);
@@ -177,6 +177,7 @@
 
 .ledgerFoot {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
@@ -237,6 +238,7 @@
 }
 
 .title {
+  overflow-wrap: anywhere;
   font-family: var(--le-display);
   font-size: clamp(1.3rem, 2.1vw, 1.65rem);
   font-weight: 500;
@@ -267,6 +269,7 @@
 
 .status {
   text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .more {
@@ -286,18 +289,29 @@
 
 @media (max-width: 960px) {
   .fold {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
+  /* Flex rather than grid: with large text the status drops below the title
+     instead of squeezing the title column to nothing. */
   .row {
-    grid-template-columns: minmax(0, 1fr) auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+  }
+  .row > :first-child {
+    flex: 1 1 10rem;
+    min-width: 0;
   }
   .desc {
-    grid-column: 1 / -1;
-    grid-row: 2;
+    order: 3;
+    flex-basis: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .status {
-    grid-column: 2;
-    grid-row: 1;
+    order: 2;
+    flex: 0 1 auto;
   }
 }
 
@@ -313,6 +327,7 @@
   margin: 0 0 clamp(2rem, 5vw, 3.5rem);
   padding: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(2.5rem, 6vw, 4.5rem);
 }
 
@@ -353,6 +368,7 @@
   letter-spacing: -0.02em;
   font-variation-settings: "opsz" 144;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .feature:hover .featureTitle,
@@ -470,13 +486,13 @@
 @media (max-width: 960px) {
   .feature,
   .features li:nth-child(even) .feature {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .features li:nth-child(even) .feature > figure {
     order: 0;
   }
   .quoteRow {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -491,7 +507,7 @@
 
 .ledgerBand .ledgerList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
 }
 
 .ledgerBand .ledgerRow {
