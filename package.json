@@ -33,9 +33,9 @@
     "lint:slop:ratchet": "node scripts/slop-ratchet.mjs"
   },
   "dependencies": {
-    "@arcjet/env": "1.13.0",
+    "@arcjet/env": "1.14.1",
     "@arcjet/next": "^1.12.0",
-    "@arcjet/protocol": "1.13.0",
+    "@arcjet/protocol": "1.14.1",
     "@connectrpc/connect-web": "2.2.0",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
