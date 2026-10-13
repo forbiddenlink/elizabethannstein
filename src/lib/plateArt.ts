@@ -55,7 +55,7 @@ const PLATE_ART = {
       { key: 'specter bus-factor', value: 'Who leaves = what breaks' },
       { key: 'specter why src/utils/api.ts', value: 'Git history, patterns, context' },
     ],
-    footer: '72 commands, 14 MCP tools, 19 personalities',
+    footer: '73 commands, 14 MCP tools, 19 personalities',
   },
   hq: {
     kind: 'terminal',

@@ -71,7 +71,7 @@ const ARCHIVE_SET = new Set<string>(ARCHIVE_PROJECT_IDS)
 const PROOF_HOOKS: Record<PrimaryProofId, string> = {
   'security-readiness-platform': 'Dynamics 365, in production',
   'timeslip-search': 'Algolia contest win, 420,000+ records',
-  specter: 'On npm: 65 commands, 14 MCP tools',
+  specter: 'On npm: 73 commands, 14 MCP tools',
 }
 
 export type HighlightReelItem = {

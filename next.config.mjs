@@ -36,6 +36,12 @@ const nextConfig = {
         destination: '/work/security-readiness-platform',
         permanent: true,
       },
+      {
+        // Old applications and profiles link the orphaned /resume.pdf; send them to the current file.
+        source: '/resume.pdf',
+        destination: '/resume/elizabeth-stein-resume.pdf',
+        permanent: true,
+      },
     ]
   },
   // Security headers for production
