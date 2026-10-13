@@ -160,11 +160,11 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'Shipped',
-        body: 'Version 1.1.1 on npm as @purplegumdropz/specter: 65 commands and 12 narrator modes.',
+        body: 'On npm as @purplegumdropz/specter. Release 1.1.1 is published, and the main branch has 73 commands.',
       },
     ],
     metrics: [
-      { value: '65', label: 'CLI commands' },
+      { value: '73', label: 'CLI commands' },
       { value: '14', label: 'MCP tools' },
       { value: '1.1.1', label: 'Version on npm' },
     ],

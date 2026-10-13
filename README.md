@@ -134,7 +134,7 @@ public/
 ├── images/              # Project thumbnails (.webp)
 ├── screenshots/         # Captured site screenshots
 ├── testimonials/
-└── resume.pdf
+└── resume/              # elizabeth-stein-resume.pdf
 ```
 
 ## Roadmap

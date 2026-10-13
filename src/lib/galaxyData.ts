@@ -589,7 +589,7 @@ export const galaxies: Galaxy[] = [
         id: 'portfolio-pro',
         title: 'Portfolio-Pro',
         description:
-          'A learning platform for AI development: 297 lessons in six tracks, a Monaco editor for live coding, custom MCP servers, and Stripe subscriptions.',
+          'Proof of work for developer hiring: a candidate solves one real build in the browser, and the hiring team gets back the code, the tests it passed and how it arrived.',
         role: 'Creator',
         tags: ['Next.js 15', 'Supabase', 'Stripe', 'OpenAI', 'Radix UI'],
         color: '#9D4EDD',
@@ -600,13 +600,14 @@ export const galaxies: Galaxy[] = [
         featured: true,
         dateRange: '2023-2026',
         challenge:
-          'Teaching AI development with real code needs an editor, runnable projects and billing.',
+          'AI can write a resume, but it cannot fake the work. Hiring teams need to see how a candidate actually built something.',
         solution:
-          'Next.js with Supabase, a Monaco editor for live coding, custom MCP servers, and Stripe subscriptions.',
-        impact: 'Live at portfoliopro.dev.',
+          "A browser editor runs the candidate's code against a hidden test suite. The server counts every graded run and records how much code each one added, so the result shows more than a pass or fail. Built on Next.js, Supabase and Stripe.",
+        impact:
+          'Live at portfoliopro.dev, free during early access. The original course catalog sits alongside it as a separate product.',
         impactMetrics: [
-          { label: 'Lessons', value: '297', icon: 'book' },
-          { label: 'Tracks', value: '6', icon: 'layers' },
+          { label: 'Catalog lessons', value: '297+', icon: 'book' },
+          { label: 'Catalog tracks', value: '6', icon: 'layers' },
         ],
       },
       {
@@ -1183,7 +1184,7 @@ export const galaxies: Galaxy[] = [
         id: 'specter',
         title: 'Specter',
         description:
-          'A published npm CLI that talks about your codebase in first person. It has 65 commands (hotspots, bus factor, dead code, why a file exists), 14 MCP tools so an AI assistant can query the repo, and 12 personality modes such as mentor, critic and noir.',
+          'A published npm CLI that talks about your codebase in first person. The repo has 73 commands (hotspots, bus factor, dead code, why a file exists), 14 MCP tools so an AI assistant can query the repo, and 12 personality modes such as mentor, critic and noir.',
         role: 'Creator',
         tags: ['CLI', 'npm', 'MCP', 'Node.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1201,9 +1202,10 @@ export const galaxies: Galaxy[] = [
           'Complexity and churn numbers do not say who owns the risky code or why it exists.',
         solution:
           'Specter builds a knowledge graph of the repo from the source and its git history. The commands read from that graph, and the MCP server gives an AI assistant the same data.',
-        impact: 'On npm as @purplegumdropz/specter, version 1.1.1.',
+        impact:
+          'On npm as @purplegumdropz/specter. Release 1.1.1 is published, and main now has 73 commands.',
         impactMetrics: [
-          { label: 'CLI Commands', value: '65', icon: 'terminal' },
+          { label: 'CLI Commands', value: '73', icon: 'terminal' },
           { label: 'MCP Tools', value: '14', icon: 'plug' },
           { label: 'Personality Modes', value: '12', icon: 'package' },
         ],
@@ -1938,7 +1940,7 @@ export const narrativeTours: NarrativeTour[] = [
       'create-surveys':
         'A survey builder on React, Vite and Firebase, with templates and real-time analytics.',
       'portfolio-pro':
-        'A learning platform for AI development: 297 lessons in six tracks, a Monaco editor and Stripe subscriptions.',
+        'Proof of work for developer hiring: one real build, and the code, tests passed and run history come back.',
       kindred:
         'A collaborative editor on Next.js 16 and React 19. Yjs syncs edits between people and keeps working offline.',
       willwise:
