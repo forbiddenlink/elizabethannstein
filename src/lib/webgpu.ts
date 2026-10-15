@@ -69,6 +69,22 @@ export async function checkWebGPUSupport(): Promise<boolean> {
 }
 
 /**
+ * Check whether this browser can create the WebGL2 context required by Three.js.
+ * The probe runs before mounting a React Three Fiber canvas so unavailable GPU
+ * environments receive the caller's fallback instead of a renderer exception.
+ */
+export function isWebGL2Available(): boolean {
+  if (typeof document === 'undefined') return false
+
+  try {
+    const canvas = document.createElement('canvas')
+    return canvas.getContext('webgl2') !== null
+  } catch {
+    return false
+  }
+}
+
+/**
  * Synchronous check for basic WebGPU API presence.
  * Use this for quick checks, but prefer checkWebGPUSupport() for accurate results.
  */

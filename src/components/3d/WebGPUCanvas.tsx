@@ -3,7 +3,7 @@
 import { Canvas, type CanvasProps, extend } from '@react-three/fiber'
 import { type ReactNode, useCallback, useEffect, useState } from 'react'
 import * as THREE from 'three'
-import { checkWebGPUSupport, type RendererType } from '@/lib/webgpu'
+import { checkWebGPUSupport, isWebGL2Available, type RendererType } from '@/lib/webgpu'
 
 interface RendererConfig {
   antialias?: boolean
@@ -22,7 +22,7 @@ interface WebGPUCanvasProps extends Omit<CanvasProps, 'gl'> {
   showRendererIndicator?: boolean
   /** Renderer configuration options (applied to both WebGPU and WebGL) */
   rendererConfig?: RendererConfig
-  /** Fallback component while checking WebGPU support */
+  /** Fallback component while checking renderer support */
   loadingFallback?: ReactNode
 }
 
@@ -53,20 +53,29 @@ export function WebGPUCanvas({
     outputColorSpace: rendererConfig.outputColorSpace ?? THREE.SRGBColorSpace,
   }
 
-  // Check WebGPU support on mount
+  // Check renderer support before mounting a canvas.
   useEffect(() => {
     let mounted = true
 
     async function checkSupport() {
       const hasWebGPU = await checkWebGPUSupport()
+      const hasWebGL2 = hasWebGPU || isWebGL2Available()
+
       if (mounted) {
-        const type: RendererType = hasWebGPU ? 'webgpu' : 'webgl'
+        const type: RendererType | null = hasWebGPU ? 'webgpu' : hasWebGL2 ? 'webgl' : null
         setRendererType(type)
         setIsChecking(false)
-        onRendererReady?.(type)
+
+        if (type) {
+          onRendererReady?.(type)
+        }
 
         if (process.env.NODE_ENV === 'development') {
-          console.log(`[WebGPUCanvas] Using ${type.toUpperCase()} renderer`)
+          console.log(
+            type
+              ? `[WebGPUCanvas] Using ${type.toUpperCase()} renderer`
+              : '[WebGPUCanvas] No compatible renderer available'
+          )
         }
       }
     }
@@ -136,6 +145,11 @@ export function WebGPUCanvas({
   // Show loading state while checking support
   if (isChecking) {
     return loadingFallback || null
+  }
+
+  // Never mount React Three Fiber when WebGL2 context creation is unavailable.
+  if (!rendererType) {
+    return canvasProps.fallback || null
   }
 
   // Configure gl prop based on renderer type
