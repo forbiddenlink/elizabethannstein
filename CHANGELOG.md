@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.0...v1.9.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **content:** correct resume and site claims ([#160](https://github.com/forbiddenlink/elizabethannstein/issues/160)) ([4832132](https://github.com/forbiddenlink/elizabethannstein/commit/4832132fc40f72b1176f9514e065c905978a467c))
+* **deps:** update prod minor ([#158](https://github.com/forbiddenlink/elizabethannstein/issues/158)) ([7418d91](https://github.com/forbiddenlink/elizabethannstein/commit/7418d91a76e422e869ddf795384524ab37e845fb))
+* **explore:** guard WebGL renderer creation ([#162](https://github.com/forbiddenlink/elizabethannstein/issues/162)) ([1977696](https://github.com/forbiddenlink/elizabethannstein/commit/1977696da4a23df0923031567193aac73f3607c3))
+
 ## [1.9.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.8.0...v1.9.0) (2026-10-10)
 
 
