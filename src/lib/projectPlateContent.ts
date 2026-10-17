@@ -4,9 +4,9 @@ import { hostOf } from "@/lib/flagshipDisplay";
 import type { Flagship } from "@/lib/flagships";
 import type { Project } from "@/lib/types";
 
-const DIAGRAMS = {
+const DIAGRAMS: Record<string, ComponentType> = {
 	"security-readiness-platform": SecurityPlatformDiagram,
-} satisfies Record<string, ComponentType>;
+};
 
 /** Diagram that stands in for a screenshot, if this project has one. */
 export function getPlateDiagram(id: string): ComponentType | undefined {
