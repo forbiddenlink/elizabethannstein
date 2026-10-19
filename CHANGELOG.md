@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.1...v1.9.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* **deps:** clear transitive CVEs with bounded overrides ([#163](https://github.com/forbiddenlink/elizabethannstein/issues/163)) ([0e03dd7](https://github.com/forbiddenlink/elizabethannstein/commit/0e03dd774fc7c429dd8fd6a3d1f2aed215591feb))
+
 ## [1.9.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.0...v1.9.1) (2026-10-15)
 
 
