@@ -4,6 +4,9 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
 const MINMAX_API_URL = 'https://api.minimax.io/v1/text/chatcompletion_v2'
 
 const ALLOWED_MESSAGE_ROLES = new Set(['user', 'assistant', 'system'])
+// Clients may only supply user/assistant turns; any 'system' turn is dropped so a
+// visitor cannot override the guide's persona.
+const CLIENT_ROLES = new Set(['user', 'assistant'])
 
 export async function POST(req: Request) {
   try {
@@ -28,6 +31,11 @@ export async function POST(req: Request) {
       if (msg.content.length > 2000) {
         return NextResponse.json({ error: 'Message too long' }, { status: 400 })
       }
+    }
+
+    const clientMessages = messages.filter((m: { role: string }) => CLIENT_ROLES.has(m.role))
+    if (clientMessages.length === 0) {
+      return NextResponse.json({ error: 'Invalid messages format' }, { status: 400 })
     }
 
     const apiKey = process.env.MINMAX_API_KEY
@@ -91,12 +99,9 @@ export async function POST(req: Request) {
     - Do not make up info not in this context.
     `
 
-    // Prepare messages for MiniMax
-    // MiniMax expects specific format. We'll map standard messages.
-    // Ensure the system prompt is the first message or correctly placed.
-    // MiniMax v2 usually takes 'messages' array.
-
-    const apiMessages = [{ role: 'system', content: systemPrompt }, ...messages]
+    // The system prompt is sent once, via bot_setting below. `messages` carries
+    // only the visitor/assistant turns.
+    const apiMessages: { role: string; content: string }[] = clientMessages
 
     // Add 15s timeout to prevent hanging if external API is slow
     const controller = new AbortController()

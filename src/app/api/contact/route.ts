@@ -69,6 +69,14 @@ export async function POST(request: Request) {
     const safeMessage = sanitize(message)
 
     if (!process.env.RESEND_API_KEY) {
+      if (process.env.NODE_ENV === 'production') {
+        // Never tell a real visitor the message was received when nothing was sent.
+        console.error('[contact] RESEND_API_KEY not set in production; email not sent')
+        return NextResponse.json(
+          { error: 'Email service is temporarily unavailable. Please email me directly.' },
+          { status: 503 }
+        )
+      }
       // Dev / demo mode — avoid logging visitor PII; UI still returns success
       console.warn('[contact] RESEND_API_KEY not set; email not sent (dev mode)')
       return NextResponse.json({ ok: true, dev: true })
