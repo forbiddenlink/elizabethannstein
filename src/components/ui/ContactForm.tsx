@@ -4,11 +4,26 @@ import { AlertCircle, Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { analytics } from '@/components/Analytics'
 import { CONTACT } from '@/lib/constants'
+import { EMAIL_PATTERN } from '@/lib/contactValidation'
 import styles from './ContactForm.module.css'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
 const MAX_MESSAGE_LENGTH = 5000
+
+type Field = 'name' | 'email' | 'message'
+type FieldErrors = Partial<Record<Field, string>>
+const FIELD_ORDER: Field[] = ['name', 'email', 'message']
+
+function validate(name: string, email: string, message: string): FieldErrors {
+  const errors: FieldErrors = {}
+  if (!name.trim()) errors.name = 'Enter your name.'
+  if (!email.trim()) errors.email = 'Enter your email address.'
+  else if (!EMAIL_PATTERN.test(email.trim()))
+    errors.email = 'Enter a valid email address, like jane@company.com.'
+  if (!message.trim()) errors.message = 'Enter a message.'
+  return errors
+}
 
 export function ContactForm() {
   const [name, setName] = useState('')
@@ -17,10 +32,15 @@ export function ContactForm() {
   const [sentEmail, setSentEmail] = useState('')
   const [status, setStatus] = useState<FormStatus>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+  // Announced on every failed submit, so a repeat attempt is read out again.
+  const [summary, setSummary] = useState('')
   // Honeypot: hidden from real users; only bots fill it.
   const [company, setCompany] = useState('')
   const successHeadingRef = useRef<HTMLHeadingElement>(null)
   const nameInputRef = useRef<HTMLInputElement>(null)
+  const emailInputRef = useRef<HTMLInputElement>(null)
+  const messageInputRef = useRef<HTMLTextAreaElement>(null)
   // Set when the visitor asks to send another message, so focus lands on the first field
   // instead of falling back to <body> when the success panel unmounts.
   const focusNameOnReturn = useRef(false)
@@ -35,8 +55,27 @@ export function ContactForm() {
     }
   }, [status])
 
+  const clearError = (field: Field) => {
+    if (fieldErrors[field]) setFieldErrors((prev) => ({ ...prev, [field]: undefined }))
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    // Native constraint bubbles never reach the accessibility tree, so the form opts out
+    // with noValidate and reports errors itself: inline text, aria-invalid, focus, and a summary.
+    const errors = validate(name, email, message)
+    setFieldErrors(errors)
+    const invalid = FIELD_ORDER.filter((f) => errors[f])
+    if (invalid.length > 0) {
+      const count =
+        invalid.length === 1 ? '1 field needs attention' : `${invalid.length} fields need attention`
+      // Toggle so identical text still changes the live region and is re-announced.
+      setSummary((prev) => (prev.endsWith('.') ? `${count}:` : `${count}.`))
+      const refs = { name: nameInputRef, email: emailInputRef, message: messageInputRef }
+      refs[invalid[0]].current?.focus()
+      return
+    }
+    setSummary('')
     setStatus('submitting')
     setErrorMsg('')
 
@@ -55,6 +94,7 @@ export function ContactForm() {
         return
       }
 
+      setFieldErrors({})
       setSentEmail(email)
       setStatus('success')
       analytics.contactSubmit()
@@ -96,7 +136,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit} noValidate className={styles.form}>
       {/* Honeypot field: real users never see or fill this; bots do. */}
       <input
         type="text"
@@ -118,14 +158,20 @@ export function ContactForm() {
           id="name"
           name="name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value)
+            clearError('name')
+          }}
           required
+          aria-invalid={fieldErrors.name ? true : undefined}
+          aria-describedby={fieldErrors.name ? 'name-error' : undefined}
           autoComplete="name"
           autoCapitalize="words"
           placeholder="Jane Smith"
           className={styles.input}
           disabled={status === 'submitting'}
         />
+        <FieldError id="name-error" message={fieldErrors.name} />
       </div>
 
       <div className={styles.field}>
@@ -137,14 +183,21 @@ export function ContactForm() {
           id="email"
           name="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          ref={emailInputRef}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            clearError('email')
+          }}
           required
+          aria-invalid={fieldErrors.email ? true : undefined}
+          aria-describedby={fieldErrors.email ? 'email-error' : undefined}
           autoComplete="email"
           inputMode="email"
           placeholder="jane@company.com"
           className={styles.input}
           disabled={status === 'submitting'}
         />
+        <FieldError id="email-error" message={fieldErrors.email} />
       </div>
 
       <div className={styles.field}>
@@ -155,8 +208,14 @@ export function ContactForm() {
           id="message"
           name="message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          ref={messageInputRef}
+          onChange={(e) => {
+            setMessage(e.target.value)
+            clearError('message')
+          }}
           required
+          aria-invalid={fieldErrors.message ? true : undefined}
+          aria-describedby={fieldErrors.message ? 'message-error' : undefined}
           rows={5}
           autoCapitalize="sentences"
           maxLength={MAX_MESSAGE_LENGTH}
@@ -164,6 +223,7 @@ export function ContactForm() {
           className={styles.textarea}
           disabled={status === 'submitting'}
         />
+        <FieldError id="message-error" message={fieldErrors.message} />
         <div className="flex justify-end mt-1">
           <span
             className={`${styles.count} ${
@@ -174,6 +234,10 @@ export function ContactForm() {
           </span>
         </div>
       </div>
+
+      <p role="status" aria-live="polite" className="sr-only">
+        {summary}
+      </p>
 
       {status === 'error' && (
         <div role="alert" aria-live="assertive" className={styles.error}>
@@ -205,5 +269,15 @@ export function ContactForm() {
         .
       </p>
     </form>
+  )
+}
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null
+  return (
+    <p id={id} className={styles.fieldError}>
+      <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+      <span>{message}</span>
+    </p>
   )
 }

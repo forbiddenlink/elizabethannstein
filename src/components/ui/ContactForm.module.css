@@ -36,6 +36,21 @@
   color: var(--le-muted);
   opacity: 0.7;
 }
+.input[aria-invalid="true"],
+.textarea[aria-invalid="true"] {
+  border-bottom-color: var(--le-down);
+}
+.fieldError {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--le-sans);
+  font-size: 0.85rem;
+  color: var(--le-ink);
+}
+.fieldError svg {
+  color: var(--le-down);
+}
 .input:focus,
 .textarea:focus {
   outline: none;
