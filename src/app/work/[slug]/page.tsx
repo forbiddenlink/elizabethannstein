@@ -8,6 +8,7 @@ import { SiteHeader } from '@/components/ui/SiteHeader'
 import { CONTACT, SITE } from '@/lib/constants'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
 import { isProofCatalogProject } from '@/lib/proofLayer'
+import { projectDateFields } from '@/lib/structuredDates'
 import styles from './page.module.css'
 
 // ISR: Revalidate project pages every hour for fresh content
@@ -141,7 +142,7 @@ export default async function ProjectPage({
       name: SITE.name,
       url: SITE.url,
     },
-    ...(project.dateRange && { dateCreated: project.dateRange }),
+    ...projectDateFields(project.dateRange),
     ...(project.tags && { keywords: project.tags.join(', ') }),
     ...(project.links?.live && { mainEntityOfPage: project.links.live }),
     ...(project.links?.github && { codeRepository: project.links.github }),
