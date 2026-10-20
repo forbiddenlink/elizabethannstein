@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { CONTACT, SITE } from '@/lib/constants'
+import { EMAIL_PATTERN } from '@/lib/contactValidation'
 
 // Set RESEND_API_KEY in your .env.local / Vercel environment variables.
 // Emails will be forwarded to the address set in CONTACT_FORWARD_TO
@@ -59,8 +60,7 @@ export async function POST(request: Request) {
     }
 
     // Basic email format check
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    if (!EMAIL_PATTERN.test(email)) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
     }
 
