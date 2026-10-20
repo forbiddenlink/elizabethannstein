@@ -7,6 +7,9 @@ import { getProjectScreenshot, getProjectScreenshotAlt } from '@/lib/projectScre
 import type { Project } from '@/lib/types'
 import { SecurityPlatformDiagram } from './SecurityPlatformDiagram'
 
+/** The only project fields the plate reads; lets callers pass a slim copy. */
+export type PlateProject = Pick<Project, 'tags' | 'role'>
+
 // Projects that cannot show a screenshot but can show how the system fits together.
 const DIAGRAMS = {
   'security-readiness-platform': SecurityPlatformDiagram,
@@ -35,7 +38,7 @@ export function ProjectPlate({
   project,
   sizes,
   priority = false,
-}: Readonly<{ flagship: Flagship; project?: Project; sizes: string; priority?: boolean }>) {
+}: Readonly<{ flagship: Flagship; project?: PlateProject; sizes: string; priority?: boolean }>) {
   const shot = getProjectScreenshot(flagship.id)
   const Diagram = getPlateDiagram(flagship.id)
   const art = getPlateArt(flagship.id)

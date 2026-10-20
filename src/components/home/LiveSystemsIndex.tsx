@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ProjectPlate } from '@/components/editorial/ProjectPlate'
+import { type PlateProject, ProjectPlate } from '@/components/editorial/ProjectPlate'
 import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { AUTOMADOCS_CAPTURE } from '@/lib/automadocsCapture'
@@ -17,7 +17,6 @@ import {
   whoLine,
 } from '@/lib/flagshipDisplay'
 import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
-import { getProjectById } from '@/lib/galaxyData'
 import type { LiveResult } from '@/lib/liveStatus'
 import { SPECTER_CAPTURE } from '@/lib/specterCapture'
 import { TRACE_CAPTURES } from '@/lib/traceCapture'
@@ -133,7 +132,19 @@ function SelectedState({ flagship, phase }: Readonly<{ flagship: Flagship; phase
   )
 }
 
-export function LiveSystemsIndex() {
+/**
+ * Props are resolved on the server (src/app/page.tsx) so the 89 KB galaxyData
+ * catalogue is not bundled into this client component.
+ */
+export function LiveSystemsIndex({
+  projectIds,
+  featuredProjects,
+}: Readonly<{
+  /** Every valid project id, for the legacy /?p=<id> deep-link check. */
+  projectIds: readonly string[]
+  /** Slim project data for the featured plates, keyed by id. */
+  featuredProjects: Readonly<Record<string, PlateProject>>
+}>) {
   const [phases, setPhases] = useState<Record<string, Phase>>(initialPhases)
   const [results, setResults] = useState<Record<string, LiveResult>>({})
   const [checkedAt, setCheckedAt] = useState<string | null>(null)
@@ -143,9 +154,9 @@ export function LiveSystemsIndex() {
   // Legacy deep links (/?p=<id>) from the old 3D homepage go straight to the case study.
   useEffect(() => {
     const projectParam = new URLSearchParams(window.location.search).get('p')
-    if (!projectParam || !getProjectById(projectParam)) return
+    if (!projectParam || !projectIds.includes(projectParam)) return
     window.location.replace(`/work/${projectParam}`)
-  }, [])
+  }, [projectIds])
 
   const probe = useCallback(async () => {
     for (const t of timers.current) clearTimeout(t)
@@ -315,7 +326,7 @@ export function LiveSystemsIndex() {
                   >
                     <ProjectPlate
                       flagship={f}
-                      project={getProjectById(f.id)}
+                      project={featuredProjects[f.id]}
                       sizes="(max-width: 960px) 100vw, 640px"
                       priority={i === 0}
                     />
