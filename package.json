@@ -9,7 +9,7 @@
   "scripts": {
     "qa:setup": "node scripts/qa-preflight.mjs && pnpm install --frozen-lockfile && pnpm exec playwright install chromium",
     "dev": "next dev --webpack",
-    "build": "next build",
+    "build": "node scripts/build.mjs",
     "start": "next start",
     "lint": "tsc --noEmit",
     "test": "vitest run",
