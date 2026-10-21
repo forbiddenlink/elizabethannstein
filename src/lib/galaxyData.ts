@@ -96,7 +96,7 @@ export const galaxies: Galaxy[] = [
         id: 'security-readiness-platform',
         title: 'Security Readiness Platform',
         description:
-          'A security-readiness assessment in production for a cybersecurity nonprofit (client confidential). It runs on Dynamics 365, Power Platform and Dataverse, with a Next.js front end. I built it in 12 implementation phases and I am the sole developer.',
+          'A security-readiness assessment in production for a cybersecurity nonprofit (client confidential). It runs on Dynamics 365, Power Platform and Dataverse, with a Next.js front end. It was built over 12 implementation phases, and I have been its sole developer since June 2026.',
         role: 'Director of Software Engineering',
         company: 'Cybersecurity nonprofit (confidential)',
         tags: ['Next.js 16', 'React 19', 'Dataverse', 'Power Automate', 'Dynamics 365'],
@@ -135,11 +135,11 @@ export const galaxies: Galaxy[] = [
       },
       {
         id: 'rocketpark-craft-ecosystem',
-        title: 'Rocketpark Agency: Craft CMS Ecosystem',
+        title: 'Rocket Park Agency: Craft CMS Ecosystem',
         description:
-          'At Rocketpark I worked on Craft CMS version upgrades, plugin updates and infrastructure across 11 client sites, and turned Figma designs into Twig templates.',
+          'At Rocket Park I worked on Craft CMS version upgrades, plugin updates and infrastructure across 11 client sites, and turned Figma designs into Twig templates.',
         role: 'Software Engineering Intern',
-        company: 'Rocketpark',
+        company: 'Rocket Park',
         tags: ['Craft CMS', 'PHP', 'Twig', 'Composer', 'Herd'],
         color: '#FF6B35',
         brightness: 1.4,
@@ -197,6 +197,7 @@ export const galaxies: Galaxy[] = [
         metrics: { files: 420000 },
         links: {
           live: 'https://timeslipsearch.vercel.app',
+          github: 'https://github.com/forbiddenlink/time-slip-search',
           contestWin:
             'https://dev.to/devteam/congrats-to-the-algolia-agent-studio-challenge-winners-3ocn',
         },
@@ -240,7 +241,7 @@ export const galaxies: Galaxy[] = [
           'When an agent run goes wrong, it is hard to see which call or tool use caused it, or what it cost.',
         solution:
           'An Axum and SQLite backend, a React 19 front end, and a Python SDK. Traces stay on your machine.',
-        impact: 'The repository is private and now archived.',
+        impact: 'The repository is private.',
       },
       {
         id: 'stancestream',
@@ -258,7 +259,7 @@ export const galaxies: Galaxy[] = [
           github: 'https://github.com/forbiddenlink/stancestream',
         },
         featured: true,
-        dateRange: '2024',
+        dateRange: '2025',
         challenge:
           'Keep several AI agents debating in real time, each with memory, while using all four Redis data models.',
         solution:
@@ -290,7 +291,7 @@ export const galaxies: Galaxy[] = [
         description:
           'A financial literacy course with 18 chapters and more than 30 calculators. SM-2 spaced repetition schedules reviews, and an AI coach answers in context, using Claude with GPT-4o-mini as a fallback.',
         role: 'Creator',
-        tags: ['Next.js 15', 'React 19', 'AI', 'Zustand', 'Recharts'],
+        tags: ['Next.js 16', 'React 19', 'AI', 'Zustand', 'Recharts'],
         color: '#00D9FF',
         brightness: 1.8,
         size: 'large',
@@ -338,13 +339,12 @@ export const galaxies: Galaxy[] = [
         size: 'small',
         galaxy: 'ai',
         status: 'archived',
-        // GitHub repo archived 2026-06
         featured: false,
         dateRange: '2024',
         challenge: 'Developer tooling is spread across many apps.',
         solution:
           'An MCP server with a tool registry, plus a desktop workspace with an editor, terminal and file tree.',
-        impact: 'The GitHub repository was archived in June 2026.',
+        impact: 'No longer in active development. The repository is private.',
       },
       {
         id: 'tubedigest',
@@ -394,7 +394,7 @@ export const galaxies: Galaxy[] = [
         description:
           'A visual builder for MCP servers. Design tools, resources and prompts on a drag-and-drop canvas, test them in a built-in simulator, and export TypeScript server code with Docker and Railway deployment bundles.',
         role: 'Creator',
-        tags: ['MCP', 'React Flow', 'Monaco Editor', 'Zustand', 'Next.js 15', 'TypeScript'],
+        tags: ['MCP', 'React Flow', 'Monaco Editor', 'Zustand', 'Next.js 16', 'TypeScript'],
         color: '#00D9FF',
         brightness: 2,
         size: 'large',
@@ -433,7 +433,7 @@ export const galaxies: Galaxy[] = [
         description:
           'A debate trainer. State a position and it argues the strongest opposing case, with evidence and rebuttals. The chat runs through an Algolia Agent Studio agent.',
         role: 'Creator',
-        tags: ['Next.js 15', 'GPT-4', 'OpenAI', 'Framer Motion'],
+        tags: ['Next.js 16', 'GPT-4', 'OpenAI', 'Framer Motion'],
         color: '#00D9FF',
         brightness: 1.6,
         size: 'large',
@@ -449,6 +449,30 @@ export const galaxies: Galaxy[] = [
         solution:
           'The chat backend proxies to an Algolia Agent Studio endpoint. Conversations are stored in the browser, and Upstash Redis handles rate limiting.',
         impact: 'Live at contradict-me.vercel.app.',
+      },
+      {
+        id: 'stepfree',
+        title: 'StepFree',
+        description:
+          'Step-free trips on the New York City subway. Ask for a trip and an agent returns a candidate route that names the working elevator it depends on at every boarding, transfer and exit, checked against the live MTA outage feed.',
+        role: 'Creator',
+        tags: ['Next.js 16', 'Vercel AI SDK', 'Sanity', 'MCP', 'TypeScript'],
+        color: '#00D9FF',
+        brightness: 1.6,
+        size: 'medium',
+        galaxy: 'ai',
+        links: {
+          live: 'https://stepfree-alpha.vercel.app',
+          github: 'https://github.com/forbiddenlink/stepfree',
+        },
+        status: 'live',
+        featured: false,
+        dateRange: '2026',
+        challenge:
+          'A subway route is only step-free if every elevator it needs is working, and elevators go out all day.',
+        solution:
+          'MTA elevator and accessibility data lives in Sanity, and outages refresh every 15 minutes. The route search only boards, transfers or exits where a working elevator serves that line, and it refuses outage data more than an hour old.',
+        impact: 'Live at stepfree-alpha.vercel.app, no login needed.',
       },
       {
         id: 'interview-ace',
@@ -529,7 +553,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Technical interview prep with AI voice interviews on the OpenAI Realtime API, FSRS-5 spaced repetition, timed mock interviews with scorecards, and 1,300+ practice questions. Stripe handles Pro Monthly, Pro Annual and Lifetime plans.',
         role: 'Creator',
-        tags: ['Next.js 15', 'Supabase', 'OpenAI Realtime', 'Stripe', 'Voice AI', 'FSRS-5'],
+        tags: ['Next.js 16', 'Supabase', 'OpenAI Realtime', 'Stripe', 'Voice AI', 'FSRS-5'],
         color: '#9D4EDD',
         brightness: 2,
         size: 'large',
@@ -591,7 +615,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Proof of work for developer hiring: a candidate solves one real build in the browser, and the hiring team gets back the code, the tests it passed and how it arrived.',
         role: 'Creator',
-        tags: ['Next.js 15', 'Supabase', 'Stripe', 'OpenAI', 'Radix UI'],
+        tags: ['Next.js 16', 'Supabase', 'Stripe', 'OpenAI', 'Radix UI'],
         color: '#9D4EDD',
         brightness: 1.8,
         size: 'large',
@@ -839,9 +863,9 @@ export const galaxies: Galaxy[] = [
         id: 'mcp-wrapper',
         title: 'MCP Wrapper',
         description:
-          "A Craft CMS plugin that exposes a site's content to AI assistants through the Model Context Protocol. I built it at Rocketpark.",
+          "A Craft CMS plugin that exposes a site's content to AI assistants through the Model Context Protocol. I built it at Rocket Park.",
         role: 'Software Engineering Intern',
-        company: 'Rocketpark',
+        company: 'Rocket Park',
         tags: ['MCP', 'AI', 'Tooling'],
         color: '#06FFA5',
         brightness: 1,
@@ -876,7 +900,7 @@ export const galaxies: Galaxy[] = [
         description:
           'Paste a screenshot and get a React component you can run and edit. Gemini 2.5 Flash recreates the layout from a shadcn-style component catalog, then shows which part of the screenshot became which component, with a confidence tag on each. Won the DEV GitHub Finish-Up-A-Thon.',
         role: 'Creator',
-        tags: ['Next.js', 'React 19', 'TypeScript', 'Google Gemini', 'Sandpack', 'axe-core'],
+        tags: ['Vite', 'React 19', 'TypeScript', 'Google Gemini', 'Sandpack', 'axe-core'],
         color: '#06FFA5',
         brightness: 1.8,
         size: 'large',
@@ -903,25 +927,25 @@ export const galaxies: Galaxy[] = [
         id: 'hq',
         title: 'hq',
         description:
-          'A command-line tool I use every day to check my work in one place. It pulls from ten services (GitHub, Vercel, Sentry, Stripe, Notion, ClickUp, UptimeRobot, Miniflux, Railway and Jira) across about 90 repos, groups the results by job, and prints only what is broken or blocking.',
+          'A command-line tool I use every day to check my work in one place. It pulls from ten services (GitHub, Vercel, Sentry, Stripe, Notion, ClickUp, UptimeRobot, Miniflux, Railway and Jira) across about 100 repos, groups the results by job, and prints only what is broken or blocking.',
         role: 'Creator',
         tags: ['TypeScript', 'Bun', 'CLI', 'Developer Tools', 'DevOps'],
         color: '#06FFA5',
         brightness: 1.6,
         size: 'medium',
         galaxy: 'devtools',
-        metrics: { tests: 966 },
+        metrics: { tests: 1126 },
         links: {},
         featured: true,
         dateRange: '2026',
         challenge:
-          'My work is spread across about 90 repos and ten services, and checking what was broken meant opening each dashboard.',
+          'My work is spread across about 100 repos and ten services, and checking what was broken meant opening each dashboard.',
         solution:
-          'One CLI in TypeScript on Bun. It calls the ten service APIs, sorts the results into the nonprofit, Rocketpark and personal work, and prints what needs attention.',
+          'One CLI in TypeScript on Bun. It calls the ten service APIs, sorts the results into the nonprofit, Rocket Park and personal work, and prints what needs attention.',
         impact: 'I use it every day. The repository is private.',
         impactMetrics: [
           { label: 'Services', value: '10', icon: 'globe' },
-          { label: 'Repos tracked', value: '~90', icon: 'folder' },
+          { label: 'Repos tracked', value: '~100', icon: 'folder' },
         ],
       },
       {
@@ -996,7 +1020,7 @@ export const galaxies: Galaxy[] = [
         brightness: 1.7,
         size: 'large',
         galaxy: 'devtools',
-        metrics: { tests: 385 },
+        metrics: { tests: 437 },
         links: { github: 'https://github.com/forbiddenlink/repro-in-a-box' },
         featured: false,
         dateRange: '2025',
@@ -1107,12 +1131,15 @@ export const galaxies: Galaxy[] = [
         description:
           'A CLI that crawls a site, including pages behind a login, and runs axe-core at every state it reaches. A second command adds LLM personas, such as a first-time visitor or a mobile user on slow 3G, that try to finish a task and report whether they could.',
         role: 'Creator',
-        tags: ['TypeScript', 'CLI', 'AI', 'Automation'],
+        tags: ['TypeScript', 'CLI', 'Playwright', 'axe-core', 'npm'],
         color: '#06FFA5',
         brightness: 1.6,
         size: 'medium',
         galaxy: 'devtools',
-        links: {},
+        links: {
+          live: 'https://personaudit.com',
+          github: 'https://github.com/forbiddenlink/multipersonas',
+        },
         featured: false,
         dateRange: '2026',
         challenge: 'The axe CLI does not crawl and does not hold a login session.',
@@ -1120,6 +1147,30 @@ export const galaxies: Galaxy[] = [
           '`scan` crawls with a saved session and runs axe-core on each state. `run` adds the personas.',
         impact:
           "In the repo's own head-to-head test, the personas did not find accessibility defects that the crawler missed, so I use them to measure task success.",
+      },
+      {
+        id: 'design-spine',
+        title: 'Design Spine',
+        description:
+          'Screenshots every route of a Next.js app in every state, width and theme, flags what broke, and puts it all on one contact sheet where a person approves or rejects each screen. Approved screens become baselines, and CI fails when a screen drifts.',
+        role: 'Creator',
+        tags: ['TypeScript', 'Bun', 'Playwright', 'CLI', 'npm'],
+        color: '#06FFA5',
+        brightness: 1.6,
+        size: 'medium',
+        galaxy: 'devtools',
+        links: {
+          github: 'https://github.com/forbiddenlink/design-spine',
+          live: 'https://www.npmjs.com/package/design-spine',
+        },
+        status: 'live',
+        featured: false,
+        dateRange: '2026',
+        challenge:
+          'Most UI gets checked in one state: the happy path, at desktop width, in light mode.',
+        solution:
+          'A local CLI plans the route and state matrix from the app directory, captures each one at 390 and 1280 pixels in light and dark, and checks for console errors, overflow, blank regions, broken images and clipped text. Only a person can approve a screen.',
+        impact: 'Published on npm as design-spine. Runs locally, with no account.',
       },
       {
         id: 'mcp-token-tracker',
@@ -1184,7 +1235,7 @@ export const galaxies: Galaxy[] = [
         id: 'specter',
         title: 'Specter',
         description:
-          'A published npm CLI that talks about your codebase in first person. The repo has 73 commands (hotspots, bus factor, dead code, why a file exists), 14 MCP tools so an AI assistant can query the repo, and 12 personality modes such as mentor, critic and noir.',
+          'A published npm CLI that talks about your codebase in first person. The repo has 73 commands (hotspots, bus factor, dead code, why a file exists), 14 MCP tools so an AI assistant can query the repo, and 19 personality modes such as mentor, critic and noir.',
         role: 'Creator',
         tags: ['CLI', 'npm', 'MCP', 'Node.js', 'TypeScript'],
         color: '#06FFA5',
@@ -1197,7 +1248,7 @@ export const galaxies: Galaxy[] = [
           live: 'https://www.npmjs.com/package/@purplegumdropz/specter',
         },
         featured: true,
-        dateRange: '2025',
+        dateRange: '2026',
         challenge:
           'Complexity and churn numbers do not say who owns the risky code or why it exists.',
         solution:
@@ -1207,16 +1258,16 @@ export const galaxies: Galaxy[] = [
         impactMetrics: [
           { label: 'CLI Commands', value: '73', icon: 'terminal' },
           { label: 'MCP Tools', value: '14', icon: 'plug' },
-          { label: 'Personality Modes', value: '12', icon: 'package' },
+          { label: 'Personality Modes', value: '19', icon: 'package' },
         ],
       },
       {
         id: 'rocket-vitals',
         title: 'Rocket Vitals',
         description:
-          "Rocketpark's website QA product. Enter a URL and it crawls the site and runs more than 385 checks across SEO, accessibility, performance, security, links, content and AI readiness. Reports score findings by severity and include fix guidance and exports.",
+          "Rocket Park's website QA product. Enter a URL and it crawls the site and runs more than 385 checks across SEO, accessibility, performance, security, links, content and AI readiness. Reports score findings by severity and include fix guidance and exports.",
         role: 'Developer',
-        company: 'Rocketpark',
+        company: 'Rocket Park',
         tags: ['Next.js', 'TypeScript', 'Playwright', 'QA', 'SEO', 'Accessibility'],
         color: '#06FFA5',
         brightness: 1.8,

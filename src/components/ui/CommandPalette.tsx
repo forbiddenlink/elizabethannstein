@@ -18,6 +18,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { tryAchievement } from '@/lib/achievements'
 import { galaxies } from '@/lib/galaxyData'
+import { FAST_TRACK_IDS } from '@/lib/proofLayer'
 import { useViewStore } from '@/lib/store'
 
 interface CommandItem {
@@ -170,8 +171,8 @@ export function CommandPalette({ defaultOpen = false }: { defaultOpen?: boolean 
     },
     {
       id: 'fast-track',
-      title: 'Hiring fast track',
-      subtitle: 'Curated view of 6 best projects',
+      title: 'Featured work',
+      subtitle: `The ${FAST_TRACK_IDS.length} projects to see first`,
       category: 'action' as const,
       icon: <Zap className="w-4 h-4" />,
       action: () => {
@@ -371,11 +372,6 @@ export function CommandPalette({ defaultOpen = false }: { defaultOpen?: boolean 
     }
   }, [isOpen])
 
-  // Reset selected index when search changes
-  useEffect(() => {
-    setSelectedIndex(0)
-  }, [])
-
   // Animate in/out
   useEffect(() => {
     if (isOpen) {
@@ -449,7 +445,12 @@ export function CommandPalette({ defaultOpen = false }: { defaultOpen?: boolean 
               ref={inputRef}
               type="text"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value)
+                // A stale index from the previous query can point past the new results,
+                // which makes Enter do nothing (or open the wrong project).
+                setSelectedIndex(0)
+              }}
               placeholder="Search projects, galaxies, actions, or type CMD+K..."
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-lg"
               // The combobox wiring is what makes arrow-key navigation audible.

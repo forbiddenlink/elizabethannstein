@@ -14,8 +14,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Contact Elizabeth Stein',
-    description:
-      'Email or message Elizabeth Stein about a full-time role, a contract, or a project.',
+    description: 'Email or message Elizabeth Stein about a contract or a project.',
     url: '/contact',
     images: [{ url: '/api/og/default', width: 1200, height: 630 }],
   },
@@ -37,8 +36,8 @@ export default function ContactPage() {
         <header className="ePageHead">
           <h1>Get in touch</h1>
           <p>
-            Hiring, or have something you need built? Tell me what it is and when you need it. The
-            form and the email address both come straight to me.
+            Have something you need built? Tell me what it is and when you need it. The form and the
+            email address both come straight to me.
           </p>
         </header>
 
@@ -84,7 +83,7 @@ export default function ContactPage() {
                 <div>
                   <dt>Availability</dt>
                   <dd>
-                    <span className="eStateDot" aria-hidden="true" /> Open to work
+                    <span className="eStateDot" aria-hidden="true" /> Select contract work
                   </dd>
                 </div>
                 <div>
@@ -92,10 +91,10 @@ export default function ContactPage() {
                   <dd>Washington, PA, remote (US Eastern)</dd>
                 </div>
                 <div>
-                  <dt>Looking for</dt>
+                  <dt>Good fit</dt>
                   <dd>
-                    Full-stack and product engineering roles. Contracts welcome, including Power
-                    Platform and Dynamics 365.
+                    Full-stack Next.js and React builds, Power Platform and Dynamics 365, Craft CMS,
+                    and AI integrations.
                   </dd>
                 </div>
               </dl>

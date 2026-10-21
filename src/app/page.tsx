@@ -6,7 +6,7 @@ import { allProjects, getProjectById } from '@/lib/galaxyData'
 export const metadata: Metadata = {
   title: { absolute: 'Elizabeth Stein, full-stack engineer and designer' },
   description:
-    'Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production, Algolia Agent Studio Challenge winner, npm publisher. Eighty-seven projects, from production systems to experiments.',
+    'Full-stack engineer and designer. Sole developer on a Dynamics 365 platform in production, Algolia Agent Studio Challenge winner, npm publisher. Eighty-nine projects, from production systems to experiments.',
   alternates: { canonical: '/' },
 }
 

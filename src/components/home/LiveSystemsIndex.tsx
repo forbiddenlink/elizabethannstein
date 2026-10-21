@@ -283,7 +283,7 @@ export function LiveSystemsIndex({
               </div>
               <p className={styles.avail}>
                 <span className="eStateDot" aria-hidden="true" />
-                Open to contract and full-time roles
+                Taking on select contract work
               </p>
             </div>
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 /**
  * The command palette pulls in GSAP and the whole `galaxyData` catalogue — all
- * 88 projects with their case-study prose. Mounting it from the root layout put
+ * 89 projects with their case-study prose. Mounting it from the root layout put
  * that in the shared bundle of every route: measured in production, /privacy
  * (pure legal text, no project data on screen) still downloaded a 32 KB
  * compressed chunk containing "Coulson One" and the rest of the catalogue.

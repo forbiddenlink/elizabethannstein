@@ -219,9 +219,9 @@ export default async function ProjectPage({
 
         {/* Hiring CTA */}
         <section className={styles.hiring} aria-labelledby="hiring-heading">
-          <h2 id="hiring-heading">Hiring for something like this?</h2>
+          <h2 id="hiring-heading">Need something like this built?</h2>
           <div>
-            <p>Contract, advisory, or full-time. Tell me what you are building.</p>
+            <p>I take on select contract work. Tell me what you are building.</p>
             <div className={styles.hiringActions}>
               <Link href="/contact" className="eBtn eBtnPrimary">
                 Start a conversation

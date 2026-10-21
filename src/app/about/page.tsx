@@ -107,8 +107,8 @@ export default function AboutPage() {
             </p>
             <p className={styles.avail}>
               <span className="eStateDot" aria-hidden="true" />
-              Open to full-stack and product engineering roles, remote from Washington, PA (US
-              Eastern). Contracts welcome.
+              Taking on select contract work, remote from Washington, PA (US Eastern), including
+              Power Platform and Dynamics 365.
             </p>
             <div className={styles.actions}>
               <a href={RESUME_HREF} download className="eBtn eBtnPrimary">
@@ -127,16 +127,17 @@ export default function AboutPage() {
             <p>
               I&apos;m Director of Software Engineering at a cybersecurity nonprofit. Since June
               2026 I&apos;ve been the only developer on its security-readiness assessment, which
-              runs in production on Dynamics 365, Power Platform, and Dataverse. I&apos;ve shipped
-              twelve implementation phases on it, plus the Next.js app assessors use.
+              runs in production on Dynamics 365, Power Platform, and Dataverse. I built the Next.js
+              app assessors use, and I&apos;m now bringing the nonprofit&apos;s separate apps
+              together into one operations portal.
             </p>
             <p>
               At Rocket Park, a Craft CMS agency, I work on Rocket Vitals, its website QA scanner.
               I&apos;ve also worked on upgrades across eleven of its Craft CMS client sites.
             </p>
             <p>
-              Before that, from 2024 to 2026, I led a team of four developers across Flo Labs&apos;
-              six Next.js and Strapi sites.
+              Before that, from 2024 to 2026, I led a team of three to four developers across Flo
+              Labs&apos; six Next.js and Strapi sites.
             </p>
           </div>
         </section>

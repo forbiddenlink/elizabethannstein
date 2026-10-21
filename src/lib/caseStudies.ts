@@ -23,7 +23,7 @@ export const CASE_STUDIES: ReadonlyMap<string, readonly CaseStudySection[]> = ne
       {
         heading: 'Version one lived inside the CRM',
         paragraphs: [
-          'I built it first as a Power Apps form on Dataverse, over twelve implementation phases: the data model, Power Automate orchestration, the assessor front end, and solution packaging so it could move from development to test to production.',
+          'The first version was a Power Apps form on Dataverse, built over twelve implementation phases with a second developer: the data model, Power Automate orchestration, the assessor front end, and solution packaging so it could move from development to test to production.',
           'It worked, but the form kept pushing back. Every new behavior meant another business rule layered onto it, and the CRM put hard limits on branding and layout.',
         ],
       },
@@ -132,7 +132,7 @@ export const CASE_STUDIES: ReadonlyMap<string, readonly CaseStudySection[]> = ne
       {
         heading: 'My part',
         paragraphs: [
-          'I have written most of it: 902 of its 938 commits since February 2026 (counted October 3, 2026).',
+          'I have written most of it: 1,120 of its 1,163 commits since February 2026, not counting merges (counted October 21, 2026).',
         ],
       },
       {

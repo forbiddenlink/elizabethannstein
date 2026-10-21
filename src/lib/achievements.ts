@@ -1,3 +1,5 @@
+import { STATS } from '@/lib/constants'
+
 // Achievement system — localStorage-backed discovery tracker
 
 export interface Achievement {
@@ -17,7 +19,12 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   { id: 'galaxy_hopper', label: 'Galaxy Hopper', icon: 'galaxy', desc: 'Visited all 6 galaxies' },
   { id: 'deep_diver', label: 'Deep Diver', icon: 'telescope', desc: 'Viewed 10 projects' },
-  { id: 'half_done', label: 'Deep Space Traveler', icon: 'rocket', desc: 'Discovered 42 planets' },
+  {
+    id: 'half_done',
+    label: 'Deep Space Traveler',
+    icon: 'rocket',
+    desc: 'Discovered half the planets',
+  },
   { id: 'completionist', label: 'Completionist', icon: 'star', desc: 'All planets discovered' },
   {
     id: 'explorer',
@@ -127,11 +134,11 @@ export function trackPlanetVisit(projectId: string): Achievement[] {
     const a = unlockAchievement('deep_diver')
     if (a) newAchievements.push(a)
   }
-  if (visited.size >= 42) {
+  if (visited.size >= Math.floor(Number(STATS.projectCount) / 2)) {
     const a = unlockAchievement('half_done')
     if (a) newAchievements.push(a)
   }
-  if (visited.size >= 87) {
+  if (visited.size >= Number(STATS.projectCount)) {
     const a = unlockAchievement('completionist')
     if (a) newAchievements.push(a)
   }
