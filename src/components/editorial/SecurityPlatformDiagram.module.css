@@ -1,5 +1,6 @@
 /* Drawn system plate. Same 16:10 well as a screenshot plate so the grid stays even. */
 .diagram {
+  container-type: inline-size;
   aspect-ratio: 16 / 10;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -10,7 +11,7 @@
     "crm  linkC flow";
   align-items: center;
   gap: 0.5rem;
-  padding: clamp(1rem, 3vw, 2rem);
+  padding: clamp(0.75rem, 4cqi, 2rem);
   background:
     linear-gradient(var(--le-rule) 1px, transparent 1px) 0 0 / 24px 24px,
     linear-gradient(90deg, var(--le-rule) 1px, transparent 1px) 0 0 / 24px 24px,
@@ -22,9 +23,9 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   gap: 0.2rem;
-  padding: clamp(0.6rem, 1.4vw, 0.9rem);
+  padding: clamp(0.45rem, 2cqi, 0.9rem);
   border: 1px solid var(--le-rule-strong);
   background: var(--le-paper);
 }
@@ -59,7 +60,7 @@
 
 .name {
   font-family: var(--le-display);
-  font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  font-size: clamp(0.8rem, 3.4cqi, 1.25rem);
   font-weight: 500;
   line-height: 1.15;
   color: var(--le-ink);
