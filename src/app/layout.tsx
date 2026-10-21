@@ -64,6 +64,9 @@ export const metadata: Metadata = {
   keywords: [...SITE.keywords],
   authors: [{ name: SITE.name }],
   creator: SITE.name,
+  verification: {
+    google: 'HkxmTv5ofxlMaIKnCrnbuWszNDB9iTw5o4kWulLt0Ew',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
