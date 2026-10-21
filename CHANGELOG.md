@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.9.3](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.2...v1.9.3) (2026-10-21)
+
+
+### Bug Fixes
+
+* **build:** retry next build on the Google Fonts extensionless-URL flake ([#168](https://github.com/forbiddenlink/elizabethannstein/issues/168)) ([6daa722](https://github.com/forbiddenlink/elizabethannstein/commit/6daa722dbc5fd99a82e476c03fbd19894229c6dc))
+* **contact:** accessible field errors for empty and invalid submits ([#170](https://github.com/forbiddenlink/elizabethannstein/issues/170)) ([4340be9](https://github.com/forbiddenlink/elizabethannstein/commit/4340be900a3da1212a6c680fc118f6cf165abed3))
+* **content:** correct site and resume claims against the repos ([#174](https://github.com/forbiddenlink/elizabethannstein/issues/174)) ([a438af8](https://github.com/forbiddenlink/elizabethannstein/commit/a438af89d49355483ae40a1153ca4106fdb4313e))
+* **deps:** raise vite floor to 8.3.3 to clear high Dependabot alert ([#173](https://github.com/forbiddenlink/elizabethannstein/issues/173)) ([e6da38c](https://github.com/forbiddenlink/elizabethannstein/commit/e6da38cd9cb48b784ed05314842948769b2dc5a7))
+* honest contact result, no forged system turns, drop Google Fonts preconnect ([#172](https://github.com/forbiddenlink/elizabethannstein/issues/172)) ([ee2b10b](https://github.com/forbiddenlink/elizabethannstein/commit/ee2b10b47e4d6bd15b82dc9a272686a088b75d87))
+
 ## [1.9.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.1...v1.9.2) (2026-10-19)
 
 
