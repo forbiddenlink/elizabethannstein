@@ -143,7 +143,7 @@ export const FLAGSHIPS: Flagship[] = [
     id: 'specter',
     title: 'Specter',
     org: 'Personal · Creator',
-    years: '2025',
+    years: '2026',
     summary:
       'A CLI that reads an unfamiliar codebase and talks you through it: structure, dead code, risky files. Published on npm, with an MCP server for Claude.',
     proof: 'Published on npm',
@@ -251,21 +251,21 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Personal · Creator',
     years: '2026',
     summary:
-      'The command-line tool I start every day with. One command tells me what is broken, blocked, or waiting across about 90 repos and the services they run on.',
+      'The command-line tool I start every day with. One command tells me what is broken, blocked, or waiting across about 100 repos and the services they run on.',
     proof: 'Daily driver',
     status: 'cli',
     statusSub: 'personal CLI',
     cases: [
       {
         heading: 'What it reads',
-        body: 'GitHub, Vercel, Sentry, Stripe, Notion, UptimeRobot, Railway, and Jira, queried in parallel. Built with Bun and TypeScript.',
+        body: 'GitHub, Vercel, Sentry, Stripe, Notion, ClickUp, UptimeRobot, Miniflux, Railway, and Jira, queried in parallel. Built with Bun and TypeScript.',
       },
       {
         heading: 'What it shows',
         body: 'Failing builds, new errors, unpushed work, and open reviews, ranked, grouped by work context, with the command to check each one.',
       },
     ],
-    metrics: [{ value: '~90', label: 'Repos it watches' }],
+    metrics: [{ value: '~100', label: 'Repos it watches' }],
     links: [],
   },
   {

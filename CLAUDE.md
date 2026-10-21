@@ -7,7 +7,7 @@ This file provides guidance to agents when working with code in this repository.
 A portfolio built with Next.js 16 (App Router). Since the 2026-08-18 direction change
 (`.impeccable.md`), the content site (`/`, `/work`, `/about`, `/contact`, `/privacy`) is
 **editorial-primary**: a fine-print-magazine-style design language, not 3D. The dark
-"galaxy" system (88 projects across 6 galaxies, visualized as planets in a WebGL/WebGPU
+"galaxy" system (89 projects across 6 galaxies, visualized as planets in a WebGL/WebGPU
 3D scene) is retained as an opt-in showcase at `/explore`. A separate `/city` route hosts
 an in-progress bioluminescent-city visualization built from sanitized dev-fleet data (see
 `docs/superpowers/ROADMAP-creative-tracks.md`). Live site: https://elizabethannstein.com

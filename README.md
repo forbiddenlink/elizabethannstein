@@ -22,7 +22,7 @@ telemetry.
 
 Two opt-in showcase routes carry the 3D work:
 
-- `/explore` - the original galaxy showcase: 88 projects across 6 themed galaxies, rendered
+- `/explore` - the original galaxy showcase: 89 projects across 6 themed galaxies, rendered
   as planets in a WebGL/WebGPU scene you fly through, with cinematic camera moves.
 - `/city` - an in-progress bioluminescent-city visualization grown from sanitized dev-fleet
   data (see `docs/superpowers/ROADMAP-creative-tracks.md` for phase status).

@@ -11,7 +11,7 @@ import { FLAGSHIPS } from './flagships'
  * `src/__tests__/copyCounts.test.ts` fails if either number drifts from the
  * real catalogue, so this cannot go stale silently.
  */
-const totalProjects = 87
+const totalProjects = 89
 const totalGalaxies = 6
 
 // Contact and social links - single source of truth

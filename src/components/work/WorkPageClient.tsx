@@ -259,7 +259,7 @@ export function WorkPageClient({
           ones I&apos;d show you first. The archive under them has the rest, each with its own page.
         </p>
         <p className={styles.hire}>
-          Hiring? <a href={`mailto:${CONTACT.email}`}>Email me</a> or{' '}
+          Want to talk about a project? <a href={`mailto:${CONTACT.email}`}>Email me</a> or{' '}
           <a href="/resume/elizabeth-stein-resume.pdf" download="Elizabeth_Stein_Resume.pdf">
             download the résumé
           </a>

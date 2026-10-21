@@ -66,7 +66,7 @@ const PLATE_ART = {
       { key: 'Repos', value: 'git review deploy security deps' },
       { key: 'Sync', value: 'sync wires notion' },
     ],
-    footer: '~90 repos, 10 APIs, 216 tests',
+    footer: '~100 repos, 10 APIs, 1,126 tests',
   },
   trace: {
     kind: 'flow',
