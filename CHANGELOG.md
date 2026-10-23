@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.4](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.3...v1.9.4) (2026-10-23)
+
+
+### Bug Fixes
+
+* **deps:** bump vitest to 4.1.12 so @vitest/mocker resolves to the patched release ([#178](https://github.com/forbiddenlink/elizabethannstein/issues/178)) ([4b95d29](https://github.com/forbiddenlink/elizabethannstein/commit/4b95d29e7efabb332a22d631107b64e2feb8d092))
+
 ## [1.9.3](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.2...v1.9.3) (2026-10-21)
 
 
