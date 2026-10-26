@@ -98,8 +98,9 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
-  dateCreated: '2024-01-01',
-  dateModified: new Date().toISOString().split('T')[0],
+  // Google's ProfilePage wants a full ISO 8601 DateTime here; a bare date is reported as invalid.
+  dateCreated: '2024-01-01T00:00:00Z',
+  dateModified: new Date().toISOString(),
   mainEntity: {
     '@type': 'Person',
     '@id': `${SITE.url}/#person`,
