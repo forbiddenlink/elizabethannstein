@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.5](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.4...v1.9.5) (2026-10-28)
+
+
+### Bug Fixes
+
+* **ci:** stop passing --output to lychee twice ([#186](https://github.com/forbiddenlink/elizabethannstein/issues/186)) ([89cd780](https://github.com/forbiddenlink/elizabethannstein/commit/89cd7804d9259830b8808d3202f1ce5a5b525b3e))
+* **deps:** raise undici and fast-uri override floors to patched releases ([#180](https://github.com/forbiddenlink/elizabethannstein/issues/180)) ([178515c](https://github.com/forbiddenlink/elizabethannstein/commit/178515c163a76259dac612521b4960ed9b1e887a))
+* **seo:** emit full ISO datetimes on the ProfilePage JSON-LD ([#184](https://github.com/forbiddenlink/elizabethannstein/issues/184)) ([552e5d7](https://github.com/forbiddenlink/elizabethannstein/commit/552e5d7aadc41544289ec488ef73b96128f81e11))
+
 ## [1.9.4](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.3...v1.9.4) (2026-10-23)
 
 
