@@ -84,3 +84,6 @@ skills/
 
 # Wave C research screenshots stay local
 design-research/v2/screens/
+
+# Generated / local artifacts
+design-research/.capture.js
