@@ -17,6 +17,15 @@ export class BasePage {
 
   protected async dismissEntranceIfVisible(): Promise<void> {
     const skipIntroButton = this.page.getByRole('button', { name: /Enter the map/i })
+
+    // goto() seeds `ea-has-visited`, so Entrance calls enter() itself right after
+    // hydration. The server-rendered button is on screen for that brief window,
+    // and clicking it then runs the hyperspace warp the app skips for returning
+    // visitors. Under software WebGL that warp froze the renderer for most of the
+    // 90s test budget (a different modal test each night, always stuck in the
+    // waitForTimeout below). Give the app a chance to dismiss it first; click only
+    // if it is still there.
+    await skipIntroButton.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => undefined)
     await this.page.waitForTimeout(250)
 
     for (let attempt = 0; attempt < 3; attempt += 1) {
