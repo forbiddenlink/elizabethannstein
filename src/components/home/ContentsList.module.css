@@ -24,6 +24,65 @@
   column-gap: clamp(2rem, 5vw, 4rem);
 }
 
+.filters {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+}
+
+.legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.chip {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.75rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--le-ink);
+  background: transparent;
+  border: 1px solid var(--le-rule-strong);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--le-ink);
+}
+
+.chip[aria-pressed="true"] {
+  color: var(--le-paper);
+  background: var(--le-ink);
+  border-color: var(--le-ink);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--le-accent);
+  outline-offset: 2px;
+}
+
+.count {
+  font-family: var(--le-mono);
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.status {
+  margin: 0 0 0.5rem;
+  font-family: var(--le-mono);
+  font-size: 0.75rem;
+  color: var(--le-muted);
+}
+
 .row {
   display: grid;
   grid-template-columns: 2.25rem minmax(0, max-content) minmax(0.75rem, 1fr) max-content;
@@ -34,10 +93,19 @@
   border-bottom: 1px solid var(--le-rule-2);
 }
 
+.row[hidden] {
+  display: none;
+}
+
 .num {
   font-family: var(--le-mono);
   font-size: 0.75rem;
   color: var(--le-muted);
+}
+
+/* numbers describe the full list, so they drop out while a filter is on */
+.list[data-filtered] .num {
+  visibility: hidden;
 }
 
 .name {
