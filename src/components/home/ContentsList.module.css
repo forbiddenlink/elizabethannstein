@@ -26,10 +26,10 @@
 
 .row {
   display: grid;
-  grid-template-columns: 2.25rem auto minmax(1rem, 1fr) auto;
+  grid-template-columns: 2.25rem minmax(0, max-content) minmax(0.75rem, 1fr) max-content;
   align-items: baseline;
   column-gap: 0.5rem;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
   break-inside: avoid;
   border-bottom: 1px solid var(--le-rule-2);
 }
@@ -44,23 +44,29 @@
   min-width: 0;
   font-weight: 600;
   color: var(--le-ink);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
+/* sits on the name's first baseline: an empty box's baseline is its bottom edge */
 .leader {
-  align-self: end;
-  height: 0.45em;
-  margin-bottom: 0.2em;
+  align-self: baseline;
+  height: 0;
   border-bottom: 2px dotted var(--le-rule);
 }
 
+/* one line always; the full URL stays in the href and the accessible name */
 .url {
+  display: block;
   min-width: 0;
+  padding-block: 0.25rem; /* 24px minimum target size */
   font-family: var(--le-mono);
   font-size: 0.8125rem;
+  line-height: 1.5;
   color: var(--le-accent-ink);
   text-align: right;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .name:hover,
@@ -78,7 +84,7 @@
 @media (max-width: 560px) {
   .row {
     grid-template-columns: 2.25rem minmax(0, 1fr);
-    row-gap: 0.1rem;
+    row-gap: 0;
   }
 
   .leader {
@@ -87,6 +93,7 @@
 
   .url {
     grid-column: 2;
+    font-size: 0.75rem;
     text-align: left;
   }
 }

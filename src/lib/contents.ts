@@ -34,18 +34,10 @@ function isWebUrl(url: string): boolean {
  */
 export function buildContents(projects: readonly Project[]): ContentsRow[] {
   return projects
-    .filter(
-      (p) =>
-        p.status !== 'archived' &&
-        isProofCatalogProject(p) &&
-        p.links?.live &&
-        isWebUrl(p.links.live)
-    )
-    .map((p, i) => ({
-      number: i + 1,
-      id: p.id,
-      title: p.title,
-      url: p.links?.live ?? '',
-      host: displayHost(p.links?.live ?? ''),
-    }))
+    .flatMap((p) => {
+      const url = p.links?.live
+      if (p.status === 'archived' || !isProofCatalogProject(p) || !url || !isWebUrl(url)) return []
+      return [{ id: p.id, title: p.title, url, host: displayHost(url) }]
+    })
+    .map((row, i) => ({ ...row, number: i + 1 }))
 }
