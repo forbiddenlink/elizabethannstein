@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { LiveSystemsIndex } from '@/components/home/LiveSystemsIndex'
+import { buildContents } from '@/lib/contents'
 import { FLAGSHIPS } from '@/lib/flagships'
 import { allProjects, getProjectById } from '@/lib/galaxyData'
 
@@ -20,5 +21,11 @@ export default function HomePage() {
       return project ? [[f.id, { tags: project.tags, role: project.role }]] : []
     })
   )
-  return <LiveSystemsIndex projectIds={projectIds} featuredProjects={featuredProjects} />
+  return (
+    <LiveSystemsIndex
+      projectIds={projectIds}
+      featuredProjects={featuredProjects}
+      contents={buildContents(allProjects)}
+    />
+  )
 }

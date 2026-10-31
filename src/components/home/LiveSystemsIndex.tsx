@@ -7,6 +7,7 @@ import { SiteFooter } from '@/components/ui/SiteFooter'
 import { SiteHeader } from '@/components/ui/SiteHeader'
 import { AUTOMADOCS_CAPTURE } from '@/lib/automadocsCapture'
 import { CONTACT, STATS } from '@/lib/constants'
+import type { ContentsRow } from '@/lib/contents'
 import {
   hostOf,
   type LedgerPhase,
@@ -20,6 +21,7 @@ import { FLAGSHIPS, type Flagship } from '@/lib/flagships'
 import type { LiveResult } from '@/lib/liveStatus'
 import { SPECTER_CAPTURE } from '@/lib/specterCapture'
 import { TRACE_CAPTURES } from '@/lib/traceCapture'
+import { ContentsList } from './ContentsList'
 import styles from './LiveSystemsIndex.module.css'
 import { TimeSlipInspect } from './TimeSlipInspect'
 
@@ -139,11 +141,14 @@ function SelectedState({ flagship, phase }: Readonly<{ flagship: Flagship; phase
 export function LiveSystemsIndex({
   projectIds,
   featuredProjects,
+  contents,
 }: Readonly<{
   /** Every valid project id, for the legacy /?p=<id> deep-link check. */
   projectIds: readonly string[]
   /** Slim project data for the featured plates, keyed by id. */
   featuredProjects: Readonly<Record<string, PlateProject>>
+  /** Contents-list rows, built from galaxyData on the server. */
+  contents: readonly ContentsRow[]
 }>) {
   const [phases, setPhases] = useState<Record<string, Phase>>(initialPhases)
   const [results, setResults] = useState<Record<string, LiveResult>>({})
@@ -306,6 +311,8 @@ export function LiveSystemsIndex({
           </section>
           <div className={styles.ledgerBand}>{ledger}</div>
         </div>
+
+        <ContentsList rows={contents} />
 
         <section className="eSect" aria-labelledby="featured-heading">
           <div className={styles.wrap}>
