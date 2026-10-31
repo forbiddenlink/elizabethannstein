@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.5...v1.10.0) (2026-10-31)
+
+
+### Features
+
+* **home:** filter the contents list by galaxy ([#190](https://github.com/forbiddenlink/elizabethannstein/issues/190)) ([d88ffe7](https://github.com/forbiddenlink/elizabethannstein/commit/d88ffe71411ae9db53c1ca9ec73b80a1599235b8))
+* **home:** numbered contents list of shipped projects ([#188](https://github.com/forbiddenlink/elizabethannstein/issues/188)) ([8191d39](https://github.com/forbiddenlink/elizabethannstein/commit/8191d39aa07144ab4b35d86ca9f5ec2d489a865f))
+
 ## [1.9.5](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.4...v1.9.5) (2026-10-28)
 
 
