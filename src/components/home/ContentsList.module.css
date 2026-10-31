@@ -54,7 +54,8 @@
   border-bottom: 2px dotted var(--le-rule);
 }
 
-/* one line always; the full URL stays in the href and the accessible name */
+/* one line in the wide layout (max-content column); in the narrow layout the
+   column is 1fr, so a long URL wraps anywhere instead of widening the page */
 .url {
   display: block;
   min-width: 0;
@@ -64,9 +65,7 @@
   line-height: 1.5;
   color: var(--le-accent-ink);
   text-align: right;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 .name:hover,
