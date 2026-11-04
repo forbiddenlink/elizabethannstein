@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.11.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.10.0...v1.11.0) (2026-11-04)
+
+
+### Features
+
+* **home:** contact-sheet hero, fog/teal palette, Young Serif + Onest ([#193](https://github.com/forbiddenlink/elizabethannstein/issues/193)) ([dad7ab8](https://github.com/forbiddenlink/elizabethannstein/commit/dad7ab83d9e77b5dacf59b24f807ce686f3d3676))
+
+
+### Bug Fixes
+
+* **ci:** start the app in update-snapshots and track Playwright version in docker script ([#195](https://github.com/forbiddenlink/elizabethannstein/issues/195)) ([ac24c40](https://github.com/forbiddenlink/elizabethannstein/commit/ac24c404b682928b8ed1eb5c6b160295fee5de01))
+
 ## [1.10.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.9.5...v1.10.0) (2026-10-31)
 
 
