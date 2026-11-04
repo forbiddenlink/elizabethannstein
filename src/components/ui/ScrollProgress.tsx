@@ -8,7 +8,7 @@ interface ScrollProgressProps {
   target?: HTMLElement | null
   /**
    * Editorial system (/work/[slug]): ignores `color`/tone entirely and renders a thin
-   * cobalt bar in a running head, driven by `--le-*` tokens only (no hardcoded galaxy hex).
+   * teal bar in a running head, driven by `--le-*` tokens only (no hardcoded galaxy hex).
    */
   editorial?: boolean
 }

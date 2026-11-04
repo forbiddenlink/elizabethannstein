@@ -7,7 +7,7 @@ import { buildFilters } from '@/lib/contentsFilter'
 import styles from './ContentsList.module.css'
 
 /**
- * Contents list: one numbered row per shipped project, name left, live URL right. A real
+ * Contents sheet: one numbered tile per shipped project (name, galaxy, live URL). A real
  * ordered list of real links, in reading order. Rows come from galaxyData via buildContents.
  *
  * The server HTML always holds every row. The galaxy filter is progressive enhancement: its
@@ -26,7 +26,7 @@ export function ContentsList({ rows }: Readonly<{ rows: readonly ContentsRow[] }
     ? `Showing ${activeFilter.count} of ${rows.length} projects: ${activeFilter.name}`
     : `Showing all ${rows.length} projects`
   return (
-    <section className="eSect" aria-labelledby="contents-heading">
+    <section className={`eSect ${styles.sheet}`} aria-labelledby="contents-heading">
       <div className={styles.wrap}>
         <div className="eSectHead">
           <h2 id="contents-heading">
@@ -71,15 +71,19 @@ export function ContentsList({ rows }: Readonly<{ rows: readonly ContentsRow[] }
             <li
               key={row.id}
               className={styles.row}
+              data-galaxy={row.galaxy}
               hidden={activeFilter !== undefined && row.galaxy !== activeFilter.id}
             >
-              <span className={styles.num} aria-hidden="true">
-                {String(row.number).padStart(2, '0')}
+              <span className={styles.tag}>
+                <span className={styles.num} aria-hidden="true">
+                  {String(row.number).padStart(2, '0')}
+                </span>
+                <span className={styles.dot} aria-hidden="true" />
+                <span className={styles.galaxyName}>{row.galaxyName}</span>
               </span>
               <Link href={`/work/${row.id}`} className={styles.name}>
                 {row.title}
               </Link>
-              <span className={styles.leader} aria-hidden="true" />
               <a
                 href={row.url}
                 className={styles.url}

@@ -1,17 +1,17 @@
 @import "tailwindcss";
 @import "../styles/editorial.css";
 
-/* Actually render the loaded webfonts. Space Grotesk + JetBrains Mono are loaded in
+/* Actually render the loaded webfonts. Onest + Spline Sans Mono are loaded in
    layout.tsx but were never applied, so text fell back to the system stack. This
    unlayered rule wins over Tailwind's layered `font-sans` utility on <body>. */
 body {
-  font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family: var(--font-onest), ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 code,
 pre,
 kbd,
 samp {
-  font-family: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+  font-family: var(--font-spline-mono), ui-monospace, "SFMono-Regular", monospace;
 }
 
 :root {

@@ -4,27 +4,27 @@ import { ImageResponse } from 'next/og'
 
 /**
  * Shared social card for the home page, the content pages, and every project page. It
- * uses the editorial system (cream paper, ink, cobalt accent, Fraunces + Space Grotesk)
+ * uses the editorial system (fog ground, ink, teal accent, Young Serif + Onest)
  * so a shared link looks like the site it opens.
  */
 
 export const OG_SIZE = { width: 1200, height: 630 } as const
 
-const PAPER = '#efeadf'
-const PAPER_2 = '#e6e0d2'
-const INK = '#191510'
-const INK_2 = '#4d473b'
-const ACCENT = '#1b34c9'
+const PAPER = '#DCDEE1'
+const PAPER_2 = '#D1D4D8'
+const INK = '#101114'
+const INK_2 = '#32363d'
+const ACCENT = '#0C5C5C'
 
 async function loadFonts() {
   const dir = join(process.cwd(), 'src/app/og-fonts')
   const [display, sans] = await Promise.all([
-    readFile(join(dir, 'Fraunces-400.woff')),
-    readFile(join(dir, 'SpaceGrotesk-400.woff')),
+    readFile(join(dir, 'YoungSerif-400.ttf')),
+    readFile(join(dir, 'Onest-400.ttf')),
   ])
   return [
-    { name: 'Fraunces', data: display, style: 'normal' as const, weight: 400 as const },
-    { name: 'Space Grotesk', data: sans, style: 'normal' as const, weight: 400 as const },
+    { name: 'Young Serif', data: display, style: 'normal' as const, weight: 400 as const },
+    { name: 'Onest', data: sans, style: 'normal' as const, weight: 400 as const },
   ]
 }
 
@@ -58,7 +58,7 @@ export async function renderOgCard({
         padding: '64px 72px',
         backgroundColor: PAPER,
         color: INK,
-        fontFamily: 'Space Grotesk',
+        fontFamily: 'Onest',
       }}
     >
       <div
@@ -71,7 +71,7 @@ export async function renderOgCard({
           fontSize: 26,
         }}
       >
-        <span style={{ fontFamily: 'Fraunces', fontSize: 30 }}>Elizabeth Stein</span>
+        <span style={{ fontFamily: 'Young Serif', fontSize: 30 }}>Elizabeth Stein</span>
         <span style={{ color: INK_2 }}>elizabethannstein.com</span>
       </div>
 
@@ -81,7 +81,7 @@ export async function renderOgCard({
         ) : null}
         <span
           style={{
-            fontFamily: 'Fraunces',
+            fontFamily: 'Young Serif',
             fontSize: titleSize,
             lineHeight: 1.02,
             letterSpacing: -2,
@@ -93,7 +93,7 @@ export async function renderOgCard({
         {subtitle ? (
           <span
             style={{
-              fontFamily: 'Fraunces',
+              fontFamily: 'Onest',
               fontSize: 34,
               lineHeight: 1.35,
               color: INK_2,

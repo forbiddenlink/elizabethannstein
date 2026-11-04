@@ -22,7 +22,7 @@ export function SiteFooter() {
               Laude, conferred March 2026.
             </p>
             <p>
-              Set in Fraunces, Space Grotesk and JetBrains Mono.{' '}
+              Set in Young Serif, Onest and Spline Sans Mono.{' '}
               <ThemeToggle className={styles.theme} />
             </p>
           </div>

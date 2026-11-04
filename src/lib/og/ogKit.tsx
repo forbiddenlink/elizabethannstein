@@ -1,13 +1,13 @@
 /**
  * The "E" mark shared by icon.tsx, apple-icon.tsx, public/favicon.svg and the PNG icon
- * generator (scripts/generate-icons.ts). Flat paper on cobalt, same colors as the editorial
+ * generator (scripts/generate-icons.ts). Flat fog on teal, same colors as the editorial
  * system. The social cards use src/lib/ogCard.tsx, not this file.
  */
 
-const PAPER = '#efeadf'
-const ACCENT = '#1b34c9'
+const PAPER = '#DCDEE1'
+const ACCENT = '#127A7A'
 
-/** The "E" mark: three arms on a stem, flat paper on cobalt. Same geometry as public/favicon.svg. */
+/** The "E" mark: three arms on a stem, flat fog on teal. Same geometry as public/favicon.svg. */
 export function Mark({ size }: { size: number }) {
   const u = size / 32
   const bar = (x: number, y: number, w: number, h: number) => (

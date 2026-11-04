@@ -144,7 +144,7 @@ export default function PrivacyPage() {
                 <strong>Arcjet:</strong> bot and abuse protection on API routes
               </li>
               <li>
-                <strong>Self-hosted fonts:</strong> Fraunces, Space Grotesk, and JetBrains Mono are
+                <strong>Self-hosted fonts:</strong> Young Serif, Onest, and Spline Sans Mono are
                 served from this domain, so no third-party font CDN sees your requests
               </li>
             </ul>

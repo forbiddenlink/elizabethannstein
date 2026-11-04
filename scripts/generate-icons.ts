@@ -5,7 +5,7 @@
  * Run: pnpm exec tsx scripts/generate-icons.ts
  *
  * The mark mirrors `Mark` in src/lib/og/ogKit.tsx (used by icon.tsx / apple-icon.tsx):
- * a flat paper "E" on cobalt, tokens from src/styles/editorial.css. Uses sharp, which is
+ * a flat fog "E" on teal, tokens from src/styles/editorial.css. Uses sharp, which is
  * already a dependency. The maskable icon is full-bleed with the glyph inside the 80%
  * safe zone, so any platform mask keeps it intact.
  */
@@ -13,8 +13,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import sharp from 'sharp'
 
-const PAPER = '#efeadf'
-const COBALT = '#1b34c9'
+const PAPER = '#DCDEE1'
+const TEAL = '#127A7A'
 
 // Glyph rects in a 32-unit box: [x, y, width, height]
 const GLYPH: ReadonlyArray<readonly [number, number, number, number]> = [
@@ -30,7 +30,7 @@ function svg(px: number, glyphScale = 1): string {
     ([x, y, w, h]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${PAPER}"/>`
   ).join('')
   const t = glyphScale === 1 ? '' : ` transform="translate(16 16) scale(${glyphScale}) translate(-16 -16)"`
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="0 0 32 32"><rect width="32" height="32" fill="${COBALT}"/><g${t}>${inner}</g></svg>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="0 0 32 32"><rect width="32" height="32" fill="${TEAL}"/><g${t}>${inner}</g></svg>`
 }
 
 async function png(path: string, px: number, glyphScale = 1): Promise<void> {
