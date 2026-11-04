@@ -260,59 +260,63 @@ export function LiveSystemsIndex({
       <SiteHeader />
       <main id="main-content" tabIndex={-1} className="outline-none">
         <div className={styles.wrap}>
-          <section className={`${styles.fold} ${styles.foldWide}`} aria-labelledby="home-claim">
-            <div>
-              <h1 className={styles.name} id="home-claim">
-                Elizabeth Stein <span>Full-stack engineer and designer</span>
-              </h1>
-              <p className={styles.claim}>
-                I design and build software that ships, from the data model to the last pixel.
-              </p>
+          <section className={styles.hero} aria-labelledby="home-claim">
+            <h1 className={styles.name} id="home-claim">
+              Elizabeth Stein <span>Full-stack engineer and designer</span>
+            </h1>
+            <p className={styles.claim}>
+              I design and build software that ships, from the data model to the last pixel.
+            </p>
+            <div className={styles.heroMeta}>
               <p className={styles.standfirst}>
                 Right now I&apos;m the sole developer on a Dynamics 365 platform in production for a
                 cybersecurity nonprofit, and I work on Rocket Vitals, a website QA product at Rocket
                 Park. On my own time I won the Algolia Agent Studio challenge and publish developer
                 tools to npm.
               </p>
-              <div className={styles.actions}>
-                <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>
-                  Email me
-                </a>
-                <a
-                  className="eBtn eBtnGhost"
-                  href={RESUME_HREF}
-                  download="Elizabeth_Stein_Resume.pdf"
-                >
-                  Download résumé (PDF)
-                </a>
-              </div>
-              <p className={styles.avail}>
-                <span className="eStateDot" aria-hidden="true" />
-                Taking on select contract work
-              </p>
-            </div>
-
-            <div className={styles.foldDemo}>
-              <TimeSlipInspect />
-              <nav className={styles.moreDemos} aria-label="More working demos">
-                <p className={styles.moreDemosLead}>
-                  The same panel, with real output, on each of these case studies:
+              <div>
+                <div className={styles.actions}>
+                  <a className="eBtn eBtnPrimary" href={`mailto:${CONTACT.email}`}>
+                    Email me
+                  </a>
+                  <a
+                    className="eBtn eBtnGhost"
+                    href={RESUME_HREF}
+                    download="Elizabeth_Stein_Resume.pdf"
+                  >
+                    Download résumé (PDF)
+                  </a>
+                </div>
+                <p className={styles.avail}>
+                  <span className="eStateDot" aria-hidden="true" />
+                  Taking on select contract work
                 </p>
-                <ul>
-                  {MORE_DEMOS.map((d) => (
-                    <li key={d.href}>
-                      <Link href={d.href}>{d.name}</Link>
-                      <span>{d.result}</span>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              </div>
             </div>
           </section>
-          <div className={styles.ledgerBand}>{ledger}</div>
         </div>
 
         <ContentsList rows={contents} />
+
+        <div className={styles.wrap}>
+          <section className={styles.demoBand} aria-label="Working demos">
+            <TimeSlipInspect />
+            <nav className={styles.moreDemos} aria-label="More working demos">
+              <p className={styles.moreDemosLead}>
+                The same panel, with real output, on each of these case studies:
+              </p>
+              <ul>
+                {MORE_DEMOS.map((d) => (
+                  <li key={d.href}>
+                    <Link href={d.href}>{d.name}</Link>
+                    <span>{d.result}</span>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </section>
+          <div className={styles.ledgerBand}>{ledger}</div>
+        </div>
 
         <section className="eSect" aria-labelledby="featured-heading">
           <div className={styles.wrap}>

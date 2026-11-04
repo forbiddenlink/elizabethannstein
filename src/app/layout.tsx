@@ -2,7 +2,7 @@ import '@/app/globals.css'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
-import { Fraunces, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { Onest, Spline_Sans_Mono, Young_Serif } from 'next/font/google'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
@@ -13,30 +13,29 @@ import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { CONTACT, SITE } from '@/lib/constants'
 import { THEME_STORAGE_KEY } from '@/lib/theme'
 
-const spaceGrotesk = Space_Grotesk({
+const onest = Onest({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-onest',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  preload: true,
+  adjustFontFallback: true,
+})
+
+const splineSansMono = Spline_Sans_Mono({
+  subsets: ['latin'],
+  variable: '--font-spline-mono',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
   preload: false,
 })
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-  preload: false,
-})
-
-const fraunces = Fraunces({
+// Young Serif is the display face (headings, names, numerals). It ships one weight (400).
+const youngSerif = Young_Serif({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  // Fraunces is the editorial pages' reading-body font (--le-display in editorial.css),
-  // so it paints on nearly every line of text. Leaving it unpreloaded meant the swap
-  // from the fallback landed late on long pages like /work, producing a large CLS
-  // (0.32, "poor") as dozens of case-study rows reflowed at once.
+  weight: '400',
   preload: true,
   adjustFontFallback: true,
 })
@@ -46,8 +45,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   // editorial.css --le-paper, light and dark
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#efeadf' },
-    { media: '(prefers-color-scheme: dark)', color: '#141109' },
+    { media: '(prefers-color-scheme: light)', color: '#DCDEE1' },
+    { media: '(prefers-color-scheme: dark)', color: '#101114' },
   ],
 }
 
@@ -180,7 +179,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`bg-black text-white antialiased font-sans ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${fraunces.variable}`}
+        className={`bg-black text-white antialiased font-sans ${onest.variable} ${splineSansMono.variable} ${youngSerif.variable}`}
       >
         {/* Galaxy ambient chrome (grain, cursor, warp) — only on the /explore showcase */}
         <GalaxyChrome />

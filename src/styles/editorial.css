@@ -5,10 +5,10 @@
    dark galaxy base (/explore + src/components/3d/*) is left untouched.
 
    Three typefaces, each with a job:
-     --le-display  Fraunces (variable, opsz axis) — display + reading body
-     --le-mono     JetBrains Mono — spec-sheet data: folios, datelines, key:value
-     --le-sans     Space Grotesk — sentence-case UI: labels, buttons, nav, spec keys
-   Palette: cream paper, near-black ink, cobalt accent. Light + dark, hand-tuned.
+     --le-display  Young Serif (400 only) — display; body reads in Onest
+     --le-mono     Spline Sans Mono — spec-sheet data: folios, datelines, key:value
+     --le-sans     Onest — reading body + UI: labels, buttons, nav, spec keys
+   Palette: fog grey ground, ink, oxide-teal accent. Light + dark, hand-tuned.
 
    --le-muted carries body-sized text, so it has to clear WCAG AA 4.5:1 against
    EVERY surface it sits on, including the darkest one (--le-paper-3). It used
@@ -19,22 +19,22 @@
 
 .editorial {
   /* light (default) */
-  --le-paper: #efeadf;
-  --le-paper-2: #e6e0d2;
-  --le-paper-3: #ddd6c4;
-  --le-ink: #191510;
-  --le-ink-2: #4d473b;
-  --le-muted: #5d574c;
-  --le-rule: #cfc7b4;
-  --le-rule-2: #ded7c6;
-  --le-rule-strong: #191510;
-  --le-accent: #1b34c9;
-  --le-accent-ink: #142699;
-  --le-accent-wash: #e4e2f0;
+  --le-paper: #dcdee1;
+  --le-paper-2: #d1d4d8;
+  --le-paper-3: #c6cace;
+  --le-ink: #101114;
+  --le-ink-2: #32363d;
+  --le-muted: #4b515a;
+  --le-rule: #aab0b7;
+  --le-rule-2: #c2c7cc;
+  --le-rule-strong: #101114;
+  --le-accent: #127a7a;
+  --le-accent-ink: #0c5c5c;
+  --le-accent-wash: #cfe3e3;
   --le-live: #2f7d4f;
   --le-live-ink: #1f5c39;
   --le-down: #a4321f;
-  --le-tint: #e9e3d6;
+  --le-tint: #d5d8dc;
 
   /* category hues, re-toned for paper — semantic dots, never neon fills */
   --le-cat-enterprise: #b4552a;
@@ -42,14 +42,13 @@
   --le-cat-fullstack: #6a4bb0;
   --le-cat-devtools: #1f7a58;
   --le-cat-creative: #b23a6b;
-  --le-cat-experimental: #a8791d;
+  --le-cat-experimental: #8a5f0a;
 
   --le-display:
     var(--font-display), "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --le-sans:
-    var(--font-space-grotesk), "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  --le-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+    var(--font-onest), "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --le-mono: var(--font-spline-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --le-gutter: clamp(1.15rem, 5vw, 3.75rem);
   --le-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -62,10 +61,11 @@
     transparent 65%
   );
   color: var(--le-ink);
-  font-family: var(--le-display);
-  font-size: 18px;
-  line-height: 1.5;
-  font-optical-sizing: auto;
+  font-family: var(--le-sans);
+  font-size: 17px;
+  line-height: 1.55;
+  /* Young Serif ships one weight: never fake a bold, let headings sit at 400. */
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
@@ -74,22 +74,22 @@
 /* dark set — OS-dark default and explicit toggle share it */
 @media (prefers-color-scheme: dark) {
   .editorial {
-    --le-paper: #141109;
-    --le-paper-2: #1c1810;
-    --le-paper-3: #241f15;
-    --le-ink: #f0eadb;
-    --le-ink-2: #b6af9c;
-    --le-muted: #908871;
-    --le-rule: #2f2a1f;
-    --le-rule-2: #262117;
-    --le-rule-strong: #f0eadb;
-    --le-accent: #97a6ff;
-    --le-accent-ink: #b7c2ff;
-    --le-accent-wash: #20233a;
+    --le-paper: #101114;
+    --le-paper-2: #181a1e;
+    --le-paper-3: #202328;
+    --le-ink: #dcdee1;
+    --le-ink-2: #aeb3ba;
+    --le-muted: #9aa0a8;
+    --le-rule: #30343a;
+    --le-rule-2: #262a2f;
+    --le-rule-strong: #dcdee1;
+    --le-accent: #4fc3c3;
+    --le-accent-ink: #7adada;
+    --le-accent-wash: #16302f;
     --le-live: #5fce8e;
     --le-live-ink: #7ed9a3;
     --le-down: #f08a74;
-    --le-tint: #1c1810;
+    --le-tint: #181a1e;
     --le-cat-enterprise: #e8895f;
     --le-cat-ai: #6fc6dd;
     --le-cat-fullstack: #b3a0ee;
@@ -102,22 +102,22 @@
    set whatever the saved theme. Doubled class so it outranks the light-toggle rule below. */
 :root[data-theme="dark"] .editorial,
 :root .editorial.editorial.eForceDark {
-  --le-paper: #141109;
-  --le-paper-2: #1c1810;
-  --le-paper-3: #241f15;
-  --le-ink: #f0eadb;
-  --le-ink-2: #b6af9c;
-  --le-muted: #908871;
-  --le-rule: #2f2a1f;
-  --le-rule-2: #262117;
-  --le-rule-strong: #f0eadb;
-  --le-accent: #97a6ff;
-  --le-accent-ink: #b7c2ff;
-  --le-accent-wash: #20233a;
+  --le-paper: #101114;
+  --le-paper-2: #181a1e;
+  --le-paper-3: #202328;
+  --le-ink: #dcdee1;
+  --le-ink-2: #aeb3ba;
+  --le-muted: #9aa0a8;
+  --le-rule: #30343a;
+  --le-rule-2: #262a2f;
+  --le-rule-strong: #dcdee1;
+  --le-accent: #4fc3c3;
+  --le-accent-ink: #7adada;
+  --le-accent-wash: #16302f;
   --le-live: #5fce8e;
   --le-live-ink: #7ed9a3;
   --le-down: #f08a74;
-  --le-tint: #1c1810;
+  --le-tint: #181a1e;
   --le-cat-enterprise: #e8895f;
   --le-cat-ai: #6fc6dd;
   --le-cat-fullstack: #b3a0ee;
@@ -127,35 +127,35 @@
 }
 /* explicit light toggle wins back over the media query */
 :root[data-theme="light"] .editorial {
-  --le-paper: #efeadf;
-  --le-paper-2: #e6e0d2;
-  --le-paper-3: #ddd6c4;
-  --le-ink: #191510;
-  --le-ink-2: #4d473b;
-  --le-muted: #5d574c;
-  --le-rule: #cfc7b4;
-  --le-rule-2: #ded7c6;
-  --le-rule-strong: #191510;
-  --le-accent: #1b34c9;
-  --le-accent-ink: #142699;
-  --le-accent-wash: #e4e2f0;
+  --le-paper: #dcdee1;
+  --le-paper-2: #d1d4d8;
+  --le-paper-3: #c6cace;
+  --le-ink: #101114;
+  --le-ink-2: #32363d;
+  --le-muted: #4b515a;
+  --le-rule: #aab0b7;
+  --le-rule-2: #c2c7cc;
+  --le-rule-strong: #101114;
+  --le-accent: #127a7a;
+  --le-accent-ink: #0c5c5c;
+  --le-accent-wash: #cfe3e3;
   --le-live: #2f7d4f;
   --le-live-ink: #1f5c39;
   --le-down: #a4321f;
-  --le-tint: #e9e3d6;
+  --le-tint: #d5d8dc;
   --le-cat-enterprise: #b4552a;
   --le-cat-ai: #1f6f86;
   --le-cat-fullstack: #6a4bb0;
   --le-cat-devtools: #1f7a58;
   --le-cat-creative: #b23a6b;
-  --le-cat-experimental: #a8791d;
+  --le-cat-experimental: #8a5f0a;
 }
 
 /* --- reading defaults ------------------------------------------------------ */
 .editorial :where(h1, h2, h3, h4) {
   text-wrap: balance;
-  letter-spacing: -0.02em;
-  font-weight: 500;
+  letter-spacing: -0.015em;
+  font-weight: 400;
   /* At large text sizes a long word must wrap, not clip at the page edge. */
   overflow-wrap: break-word;
 }
@@ -344,13 +344,13 @@
   transform: translateX(4px);
 }
 .eBtnPrimary {
-  background: var(--le-rule-strong);
+  background: var(--le-accent-ink);
   color: var(--le-paper);
-  border: 1px solid var(--le-rule-strong);
+  border: 1px solid var(--le-accent-ink);
 }
 .eBtnPrimary:hover {
-  background: var(--le-accent-ink);
-  border-color: var(--le-accent-ink);
+  background: var(--le-ink);
+  border-color: var(--le-ink);
   color: var(--le-paper);
 }
 .eBtnGhost {
@@ -367,7 +367,7 @@
   cursor: not-allowed;
 }
 
-/* --- link with cobalt underline ------------------------------------------- */
+/* --- link with teal underline ------------------------------------------- */
 .eLink {
   overflow-wrap: anywhere;
   color: var(--le-accent-ink);
@@ -584,7 +584,6 @@
   font-weight: 400;
   line-height: 1;
   letter-spacing: -0.03em;
-  font-variation-settings: "opsz" 144;
 }
 .ePageHead p {
   margin: 1rem 0 0;
@@ -696,7 +695,6 @@ a:focus-visible .ePlateImg img {
   font-weight: 400;
   line-height: 1.02;
   letter-spacing: -0.02em;
-  font-variation-settings: "opsz" 144;
   color: var(--le-ink);
   text-wrap: balance;
 }
