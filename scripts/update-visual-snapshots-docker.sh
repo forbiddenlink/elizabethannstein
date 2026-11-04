@@ -2,13 +2,14 @@
 # Generate Playwright visual baselines on Linux (matches GitHub Actions).
 # Usage: from repo root: ./scripts/update-visual-snapshots-docker.sh
 #
-# The image tag must track @playwright/test in package.json, and the Ubuntu
+# The image tag is derived from @playwright/test in package.json, and the Ubuntu
 # release must track `runs-on: ubuntu-latest` in update-snapshots.yml, which is
 # Noble. A mismatch on either produces baselines that differ from CI's by a few
 # antialiased pixels, which is exactly the failure this script exists to avoid.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-IMAGE="mcr.microsoft.com/playwright:v1.63.0-noble"
+PLAYWRIGHT_VERSION="$(node -p "require('$ROOT/package.json').devDependencies['@playwright/test'].replace(/^[^0-9]*/, '')")"
+IMAGE="mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-noble"
 PNPM_VERSION="$(node -p "require('$ROOT/package.json').packageManager.split('@')[1]")"
 SNAPSHOT_DIR="e2e/visual/visual-regression.spec.ts-snapshots"
 
