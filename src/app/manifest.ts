@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/',
     display: 'standalone',
     // editorial.css --le-paper / --le-ink (light theme)
-    background_color: '#efeadf',
-    theme_color: '#191510',
+    background_color: '#DCDEE1',
+    theme_color: '#101114',
     icons: [
       { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
       { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
