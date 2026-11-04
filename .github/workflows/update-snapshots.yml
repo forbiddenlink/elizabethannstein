@@ -55,7 +55,6 @@ jobs:
         env:
           CI: true
           PLAYWRIGHT_PORT: '3100'
-          BASE_URL: http://127.0.0.1:3100
         continue-on-error: true
 
       - name: Commit updated snapshots
