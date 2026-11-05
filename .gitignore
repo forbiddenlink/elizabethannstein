@@ -87,3 +87,6 @@ design-research/v2/screens/
 
 # Generated / local artifacts
 design-research/.capture.js
+
+# brainstorm companion session state
+.superpowers/
