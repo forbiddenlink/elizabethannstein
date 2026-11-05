@@ -252,7 +252,7 @@ export function ProjectModal() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3, duration: 0.3 }}
                   onClick={handleClose}
-                  className="fixed top-8 right-8 z-60 p-4 rounded-full bg-black/60 hover:bg-black/80 hover:scale-110 hover:rotate-90 transition-all duration-300 border-2 border-white/30 group shadow-2xl"
+                  className="fixed top-8 right-8 z-60 p-4 rounded-full bg-black/60 hover:bg-black/80 hover:scale-110 hover:rotate-90 transition-[background-color,scale,rotate] duration-300 border-2 border-white/30 group shadow-2xl"
                   aria-label="Close modal"
                 >
                   <X className="w-6 h-6 text-white transition-transform group-hover:scale-110" />
@@ -264,7 +264,7 @@ export function ProjectModal() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     onClick={handleJumpToTop}
-                    className="fixed bottom-8 right-8 z-60 inline-flex items-center gap-2 rounded-full bg-black/70 border border-white/20 px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-black/85 transition-all duration-200 shadow-xl"
+                    className="fixed bottom-8 right-8 z-60 inline-flex items-center gap-2 rounded-full bg-black/70 border border-white/20 px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-black/85 transition-colors duration-200 shadow-xl"
                     aria-label="Scroll to top of project details"
                   >
                     <ArrowUp className="w-4 h-4" />
@@ -282,7 +282,7 @@ export function ProjectModal() {
                 <div className="px-8 pb-8">
                   <a
                     href={`/work/${project.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-surface)] hover:bg-white/10 border border-white/20 hover:border-white/30 text-base text-white/70 hover:text-white hover:gap-3 transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-surface)] hover:bg-white/10 border border-white/20 hover:border-white/30 text-base text-white/70 hover:text-white hover:gap-3 transition-[color,background-color,border-color,gap] duration-300"
                   >
                     View full page →
                   </a>

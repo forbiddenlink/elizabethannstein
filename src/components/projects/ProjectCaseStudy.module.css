@@ -28,7 +28,7 @@
   font-size: clamp(2.4rem, 5vw, 4.2rem);
   font-weight: 400;
   line-height: 1.02;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
 }
 
 .lede {

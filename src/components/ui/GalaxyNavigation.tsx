@@ -42,7 +42,7 @@ export function GalaxyNavigation() {
 
         {/* Inner content */}
         <div
-          className="relative rounded-lg shadow-2xl transition-all duration-300"
+          className="relative rounded-lg shadow-2xl transition-shadow duration-300"
           style={{
             background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(10, 5, 30, 0.7) 100%)',
             backdropFilter: 'blur(20px) saturate(180%)',
@@ -81,7 +81,7 @@ export function GalaxyNavigation() {
                   view === 'universe' ? 'animate-pulse' : 'group-hover:scale-125'
                 )}
               />
-              <span className="text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap leading-none">
+              <span className="text-sm font-semibold text-white transition-colors duration-300 whitespace-nowrap leading-none">
                 All Galaxies
               </span>
             </button>
@@ -112,7 +112,7 @@ export function GalaxyNavigation() {
                     boxShadow: `0 0 ${selectedGalaxy === galaxy.id ? 15 : 10}px ${galaxy.color}`,
                   }}
                 />
-                <ScrambleText className="text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap leading-none">
+                <ScrambleText className="text-sm font-semibold text-white transition-colors duration-300 whitespace-nowrap leading-none">
                   {getGalaxyLabel(galaxy)}
                 </ScrambleText>
               </button>
@@ -157,7 +157,7 @@ export function GalaxyNavigation() {
                     />
                   </svg>
                 </div>
-                <span className="text-sm font-semibold text-indigo-300 group-hover:text-indigo-200 transition-all duration-300 whitespace-nowrap leading-none flex-1 text-left">
+                <span className="text-sm font-semibold text-indigo-300 group-hover:text-indigo-200 transition-colors duration-300 whitespace-nowrap leading-none flex-1 text-left">
                   Guided Tours
                 </span>
                 <svg
@@ -194,7 +194,7 @@ export function GalaxyNavigation() {
                       startJourney()
                       setShowTourMenu(false)
                     }}
-                    className="w-full group flex items-center gap-3 py-2.5 px-4 rounded-lg transition-all duration-200 hover:bg-white/10 text-left"
+                    className="w-full group flex items-center gap-3 py-2.5 px-4 rounded-lg transition-colors duration-200 hover:bg-white/10 text-left"
                   >
                     <span className="text-lg">🌌</span>
                     <div className="flex-1 min-w-0">
@@ -214,7 +214,7 @@ export function GalaxyNavigation() {
                         startJourney(tour.id)
                         setShowTourMenu(false)
                       }}
-                      className="w-full group flex items-center gap-3 py-2.5 px-4 rounded-lg transition-all duration-200 hover:bg-white/10 text-left"
+                      className="w-full group flex items-center gap-3 py-2.5 px-4 rounded-lg transition-colors duration-200 hover:bg-white/10 text-left"
                     >
                       <span className="text-lg">{tour.icon}</span>
                       <div className="flex-1 min-w-0">

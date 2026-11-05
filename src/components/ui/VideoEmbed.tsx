@@ -120,7 +120,7 @@ export function VideoEmbed({ url, title, thumbnail, aspectRatio = '16:9' }: Vide
             {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                className="w-20 h-20 rounded-full bg-white/20 border border-white/30 flex items-center justify-center group-hover:bg-white/30 group-hover:scale-110 transition-all duration-300"
+                className="w-20 h-20 rounded-full bg-white/20 border border-white/30 flex items-center justify-center group-hover:bg-white/30 group-hover:scale-110 transition-[background-color,scale] duration-300"
                 whileHover={{ scale: 1.1 }}
               >
                 <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
@@ -153,7 +153,7 @@ export function VideoButton({ url, label = 'Watch Demo' }: { url: string; label?
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-200 text-white"
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-colors duration-200 text-white"
       >
         <Play className="w-4 h-4" />
         <span>{label}</span>

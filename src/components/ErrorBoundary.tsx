@@ -54,7 +54,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               </p>
               <Link
                 href="/work"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 border border-white/30 text-white font-semibold hover:bg-white/25 hover:border-white/40 transition-all duration-300 rounded-xl shadow-2xl hover:shadow-white/20 hover:scale-105"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 border border-white/30 text-white font-semibold hover:bg-white/25 hover:border-white/40 transition-[background-color,border-color,box-shadow,scale] duration-300 rounded-xl shadow-2xl hover:shadow-white/20 hover:scale-105"
               >
                 <span>View Projects</span>
                 <span className="text-2xl">→</span>
@@ -204,7 +204,7 @@ export class Scene3DErrorBoundary extends React.Component<
                 <button
                   type="button"
                   onClick={this.handleManualRetry}
-                  className="inline-flex min-h-11 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 px-6 py-3 text-sm font-medium text-purple-300 transition-all hover:border-purple-500/50 hover:bg-purple-500/20"
+                  className="inline-flex min-h-11 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 px-6 py-3 text-sm font-medium text-purple-300 transition-colors hover:border-purple-500/50 hover:bg-purple-500/20"
                 >
                   Try Again
                 </button>

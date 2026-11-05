@@ -131,7 +131,7 @@ export function ExplorerHUD() {
           {/* Progress bar */}
           <div className="mt-2 h-1 w-32 bg-white/10 rounded-full overflow-hidden">
             <div
-              className="h-full rounded-full transition-all duration-300"
+              className="h-full rounded-full transition-[width,background-color] duration-300"
               style={{
                 width: `${totalPlanetsInGalaxy > 0 ? (scannedInGalaxy / totalPlanetsInGalaxy) * 100 : 0}%`,
                 backgroundColor: currentGalaxy?.color ?? '#ffffff',
