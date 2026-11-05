@@ -291,7 +291,7 @@ export function JourneyOverlay() {
       >
         {/* Top letterbox bar */}
         <div
-          className="absolute top-0 left-0 right-0 transition-all duration-500"
+          className="absolute top-0 left-0 right-0 transition-[height] duration-500"
           style={{
             height: showTitleCard ? '14%' : '0%',
             background: 'linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.7))',
@@ -299,7 +299,7 @@ export function JourneyOverlay() {
         />
         {/* Bottom letterbox bar */}
         <div
-          className="absolute bottom-0 left-0 right-0 transition-all duration-500"
+          className="absolute bottom-0 left-0 right-0 transition-[height] duration-500"
           style={{
             height: showTitleCard ? '14%' : '0%',
             background: 'linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7))',
@@ -341,7 +341,7 @@ export function JourneyOverlay() {
               {currentStop.galaxyName}
             </p>
             {currentStop.narrativeIntro && (
-              <p className="mt-3 text-sm text-white/60 max-w-md mx-auto leading-relaxed">
+              <p className="mt-3 text-sm text-white/70 max-w-md mx-auto leading-relaxed">
                 {currentStop.narrativeIntro}
               </p>
             )}
@@ -365,7 +365,7 @@ export function JourneyOverlay() {
               aria-label={showInfoCard ? 'Collapse info' : 'Expand info'}
             >
               <div
-                className="rounded-lg overflow-hidden transition-all duration-300"
+                className="rounded-lg overflow-hidden transition-[height,box-shadow,border-color] duration-300"
                 style={{
                   background:
                     'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(10, 5, 30, 0.85) 100%)',
@@ -441,7 +441,7 @@ export function JourneyOverlay() {
                       {currentStop.project.tags.slice(0, 3).map((tag: string) => (
                         <span
                           key={tag}
-                          className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60"
+                          className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/70"
                         >
                           {tag}
                         </span>
@@ -482,7 +482,7 @@ export function JourneyOverlay() {
                 </span>
                 <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
                   <div
-                    className="h-full rounded-full transition-all duration-500 ease-out"
+                    className="h-full rounded-full transition-[width,background-color] duration-500 ease-out"
                     style={{
                       width: `${((journeyStep + 1) / tourStops.length) * 100}%`,
                       backgroundColor: currentStop.galaxyColor,
@@ -522,7 +522,7 @@ export function JourneyOverlay() {
                   disabled={journeyStep === 0}
                   className={`flex items-center justify-center p-4 rounded-xl transition-all duration-200 ${TOUCH_TARGET_SIZE} ${
                     journeyStep === 0
-                      ? 'bg-white/5 text-white/20'
+                      ? 'bg-white/5 text-white/30'
                       : 'bg-white/10 text-white active:scale-95 active:bg-white/20'
                   }`}
                   aria-label="Previous stop"
@@ -541,7 +541,7 @@ export function JourneyOverlay() {
                 <button
                   type="button"
                   onClick={toggleJourneyPause}
-                  className="flex items-center justify-center p-5 rounded-lg transition-all duration-200 active:scale-95 min-h-[56px] min-w-[56px]"
+                  className="flex items-center justify-center p-5 rounded-lg transition-[scale,border-color,box-shadow] duration-200 active:scale-95 min-h-[56px] min-w-[56px]"
                   style={{
                     background: `linear-gradient(135deg, ${currentStop.galaxyColor}40 0%, ${currentStop.galaxyColor}20 100%)`,
                     border: `1px solid ${currentStop.galaxyColor}50`,
@@ -612,7 +612,7 @@ export function JourneyOverlay() {
               </div>
 
               {/* Swipe hint for mobile */}
-              <p className="text-center text-xs text-white/40 mt-3">Swipe left/right to navigate</p>
+              <p className="text-center text-xs text-white/50 mt-3">Swipe left/right to navigate</p>
             </div>
           </div>
         </div>
@@ -673,7 +673,7 @@ export function JourneyOverlay() {
                 {currentStop.project.tags.slice(0, 3).map((tag: string) => (
                   <span
                     key={tag}
-                    className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60"
+                    className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/70"
                   >
                     {tag}
                   </span>
@@ -736,7 +736,7 @@ export function JourneyOverlay() {
               <button
                 type="button"
                 onClick={toggleJourneyPause}
-                className="text-white hover:text-white/80 transition-colors"
+                className="text-white hover:text-white/70 transition-colors"
                 aria-label={isJourneyPaused ? 'Resume tour' : 'Pause tour'}
               >
                 {isJourneyPaused ? (

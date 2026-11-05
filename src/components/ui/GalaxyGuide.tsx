@@ -200,7 +200,7 @@ export function GalaxyGuide() {
                         setInputValue(prompt)
                         setShowSuggestions(false)
                       }}
-                      className="px-3 py-1.5 text-xs bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-200/80 hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-all"
+                      className="px-3 py-1.5 text-xs bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-200/80 hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-colors"
                     >
                       {prompt}
                     </button>
@@ -274,7 +274,7 @@ export function GalaxyGuide() {
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Ask about projects..."
                   aria-label="Ask about projects"
-                  className="w-full bg-[var(--color-surface)] border border-white/10 rounded-lg py-3 pl-4 pr-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-all font-light"
+                  className="w-full bg-[var(--color-surface)] border border-white/10 rounded-lg py-3 pl-4 pr-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-[background-color,box-shadow] font-light"
                 />
                 <button
                   type="submit"

@@ -491,7 +491,7 @@ export default function GalaxyScene() {
         }}
       />
       <div className="relative max-w-lg px-8 text-center">
-        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-white/40">
+        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-white/55">
           3D unavailable
         </p>
         <h2 className="mb-3 text-3xl font-bold tracking-tight text-white">
@@ -523,10 +523,10 @@ export default function GalaxyScene() {
       <div className="relative mb-6 h-px w-32 overflow-hidden rounded-full bg-white/10">
         <div className="h-full w-1/2 animate-pulse rounded-full bg-linear-to-r from-indigo-400/80 via-purple-400 to-fuchsia-400/80" />
       </div>
-      <p className="relative text-[11px] font-medium uppercase tracking-[0.35em] text-white/45">
+      <p className="relative text-[11px] font-medium uppercase tracking-[0.35em] text-white/55">
         Calibrating renderer
       </p>
-      <p className="relative mt-2 text-xs text-white/30">WebGL · ACES · high performance</p>
+      <p className="relative mt-2 text-xs text-white/55">WebGL · ACES · high performance</p>
     </div>
   )
 

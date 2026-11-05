@@ -273,7 +273,7 @@ export function GalaxyCursor() {
           /* Normal glowing orb */
           <div className="relative">
             <div
-              className="rounded-full transition-all duration-200"
+              className="rounded-full transition-[width,height,border-color,box-shadow] duration-200"
               style={{
                 width: isHover ? 44 : 28,
                 height: isHover ? 44 : 28,
@@ -307,7 +307,7 @@ export function GalaxyCursor() {
         style={{ transform: 'translate(-50%, -50%)' }}
       >
         <div
-          className="rounded-full transition-all duration-150"
+          className="rounded-full transition-[width,height,background-color,box-shadow] duration-150"
           style={{
             width: isPlanet ? 4 : isHover ? 3 : 4,
             height: isPlanet ? 4 : isHover ? 3 : 4,
@@ -324,7 +324,7 @@ export function GalaxyCursor() {
         style={{ transform: 'translate(-50%, -50%)' }}
       >
         <div
-          className="rounded-full transition-all duration-300"
+          className="rounded-full transition-[width,height,border-width,border-color,opacity] duration-300"
           style={{
             width: isHover ? 64 : 0,
             height: isHover ? 64 : 0,

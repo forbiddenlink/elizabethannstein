@@ -13,7 +13,7 @@ export function GitHubStars({ repo, stars }: GitHubStarsProps) {
       href={`https://github.com/${repo}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-white/70 hover:bg-white/10 hover:text-white transition-all"
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-white/70 hover:bg-white/10 hover:text-white transition-colors"
     >
       <Star className="w-3.5 h-3.5 text-yellow-400" />
       {stars !== undefined ? `${stars} stars` : 'View on GitHub'}

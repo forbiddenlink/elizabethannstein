@@ -45,7 +45,7 @@ export function AccessibleViewToggle({
       <button
         type="button"
         onClick={onToggle}
-        className={`group flex items-center gap-2 rounded-lg border shadow-lg transition-all hover:scale-[1.02] hover:text-white ${dockIntoNavZone ? 'border-white/10 bg-black/44 px-3 py-2 text-sm text-white/68 hover:border-white/22 hover:bg-black/62 lg:border-white/20 lg:bg-black/72 lg:px-4 lg:py-3 lg:text-white/88' : 'border-white/20 bg-black/72 px-3 py-2.5 text-sm text-white/88 hover:border-white/35 hover:bg-black/88 lg:px-4 lg:py-3'}`}
+        className={`group flex items-center gap-2 rounded-lg border shadow-lg transition-all hover:scale-[1.02] hover:text-white ${dockIntoNavZone ? 'border-white/10 bg-black/44 px-3 py-2 text-sm text-white/70 hover:border-white/22 hover:bg-black/62 lg:border-white/20 lg:bg-black/72 lg:px-4 lg:py-3 lg:text-white/88' : 'border-white/20 bg-black/72 px-3 py-2.5 text-sm text-white/88 hover:border-white/35 hover:bg-black/88 lg:px-4 lg:py-3'}`}
         aria-label={
           isAccessibleMode ? 'Switch to 3D galaxy view' : 'Switch to accessible text list view'
         }
@@ -105,7 +105,7 @@ export function AccessibleView() {
               }}
             >
               {galaxy.name}
-              <span className="ml-1 text-white/40">({galaxy.projects.length})</span>
+              <span className="ml-1 text-white/60">({galaxy.projects.length})</span>
             </a>
           ))}
           <Link
@@ -121,7 +121,7 @@ export function AccessibleView() {
         className="max-w-6xl mx-auto px-4 pb-6 border-b border-white/10"
         aria-labelledby="featured-case-studies-heading"
       >
-        <h2 id="featured-case-studies-heading" className="text-sm font-semibold text-white/50 mb-3">
+        <h2 id="featured-case-studies-heading" className="text-sm font-semibold text-white/60 mb-3">
           Featured case studies
         </h2>
         <ul className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-2">
@@ -132,7 +132,7 @@ export function AccessibleView() {
                 className="text-purple-300 hover:text-purple-200 underline-offset-2 transition-colors"
               >
                 <span className="font-medium">{item.title}</span>
-                <span className="text-white/45 text-sm ml-2">{item.hook}</span>
+                <span className="text-white/60 text-sm ml-2">{item.hook}</span>
               </Link>
             </li>
           ))}
@@ -171,7 +171,7 @@ export function AccessibleView() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ delay: index * 0.05 }}
-                  className="group p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all"
+                  className="group p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <h3 className="font-semibold text-lg group-hover:text-white transition-colors">
@@ -196,7 +196,7 @@ export function AccessibleView() {
                       </span>
                     ))}
                     {project.tags.length > 4 && (
-                      <span className="px-2 py-0.5 text-xs text-white/40">
+                      <span className="px-2 py-0.5 text-xs text-white/60">
                         +{project.tags.length - 4}
                       </span>
                     )}
@@ -241,7 +241,7 @@ export function AccessibleView() {
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center text-white/40 text-sm">
+        <div className="max-w-6xl mx-auto px-4 text-center text-white/60 text-sm">
           <p>
             Total: {galaxies.reduce((acc, g) => acc + g.projects.length, 0)} projects across{' '}
             {galaxies.length} categories

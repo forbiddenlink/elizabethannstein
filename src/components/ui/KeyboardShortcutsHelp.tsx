@@ -55,7 +55,7 @@ export function KeyboardShortcutsHelp() {
         <button
           type="button"
           onClick={() => setIsVisible(false)}
-          className="absolute top-4 right-4 p-2 min-w-11 min-h-11 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200"
+          className="absolute top-4 right-4 p-2 min-w-11 min-h-11 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200"
           aria-label="Close"
         >
           <X className="w-5 h-5" />

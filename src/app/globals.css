@@ -820,7 +820,9 @@ img:hover {
   font-size: 0.875rem;
   font-weight: 500;
   border-radius: var(--radius-xl);
-  transition: all 0.2s var(--ease-out-expo);
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: var(--ease-out-expo);
   cursor: pointer;
   text-decoration: none;
   border: none;
@@ -1033,11 +1035,11 @@ img:hover {
 
 /* Width is driven inline by ScrollProgress (avoids 100+ data-attribute rules) */
 .scroll-progress-bar {
-  background: var(--scroll-progress-bg, linear-gradient(to right, #3b82f6, #a855f7, #ec4899));
+  background: var(--scroll-progress-bg, var(--color-accent));
 }
 
 .scroll-progress-glow {
-  background: var(--scroll-progress-glow, linear-gradient(to right, #60a5fa, #c084fc, #f472b6));
+  background: var(--scroll-progress-glow, var(--color-accent));
 }
 
 .scroll-progress-bar[data-tone="enterprise"] {
@@ -1258,7 +1260,12 @@ blockquote {
 }
 
 .mobile-galaxy-nav-border {
-  background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.5) 50%, transparent 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
 }
 
 .mobile-galaxy-nav-dot {
@@ -1341,7 +1348,7 @@ blockquote {
 }
 
 .privacy-hero-glow {
-  background: radial-gradient(circle at top, rgba(34, 211, 238, 0.18), transparent 70%);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 70%);
 }
 
 .privacy-section-card {
@@ -1458,7 +1465,7 @@ blockquote {
 
 .page-hero-title {
   font-weight: 800;
-  letter-spacing: -0.038em;
+  letter-spacing: -0.025em;
   line-height: 1.05;
   color: rgb(255 255 255 / 0.97);
   text-wrap: balance;
@@ -1497,7 +1504,7 @@ blockquote {
 .story-section-title {
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   line-height: 1.15;
   color: rgb(255 255 255 / 0.94);
   margin-bottom: 1.25rem;
@@ -1532,7 +1539,7 @@ blockquote {
 .case-study-hero-title {
   font-size: clamp(2.15rem, 5.2vw, 3.85rem);
   font-weight: 700;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
   line-height: 1.04;
   color: rgb(255 255 255 / 0.98);
   text-wrap: balance;

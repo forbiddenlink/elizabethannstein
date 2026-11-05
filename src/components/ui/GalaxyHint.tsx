@@ -91,7 +91,7 @@ export function GalaxyHint() {
             <button
               type="button"
               onClick={dismiss}
-              className="absolute right-3 top-3 rounded-full p-1 text-white/30 transition-colors hover:bg-white/10 hover:text-white/60 sm:static sm:ml-1"
+              className="absolute right-3 top-3 rounded-full p-1 text-white/50 transition-colors hover:bg-white/10 hover:text-white/75 sm:static sm:ml-1"
               aria-label="Dismiss hint"
             >
               <X className="w-3.5 h-3.5" />
