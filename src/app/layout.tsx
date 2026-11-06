@@ -2,7 +2,7 @@ import '@/app/globals.css'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
-import { Onest, Spline_Sans_Mono, Young_Serif } from 'next/font/google'
+import localFont from 'next/font/local'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Analytics } from '@/components/Analytics'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
@@ -13,31 +13,34 @@ import { SmoothScroll } from '@/components/ui/SmoothScroll'
 import { CONTACT, SITE } from '@/lib/constants'
 import { THEME_STORAGE_KEY } from '@/lib/theme'
 
-const onest = Onest({
-  subsets: ['latin'],
+// Self-hosted (latin subset, variable woff2) so the build never depends on a
+// Google Fonts response. next/font/google started failing every build with
+// "queries have exactly one entry" (vercel/next.js#99114).
+const onest = localFont({
+  src: './fonts/onest-latin.woff2',
   variable: '--font-onest',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: '400 700',
   preload: true,
-  adjustFontFallback: true,
+  adjustFontFallback: 'Arial',
 })
 
-const splineSansMono = Spline_Sans_Mono({
-  subsets: ['latin'],
+const splineSansMono = localFont({
+  src: './fonts/spline-sans-mono-latin.woff2',
   variable: '--font-spline-mono',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: '400 700',
   preload: false,
 })
 
 // Young Serif is the display face (headings, names, numerals). It ships one weight (400).
-const youngSerif = Young_Serif({
-  subsets: ['latin'],
+const youngSerif = localFont({
+  src: './fonts/young-serif-latin.woff2',
   variable: '--font-display',
   display: 'swap',
   weight: '400',
   preload: true,
-  adjustFontFallback: true,
+  adjustFontFallback: 'Times New Roman',
 })
 
 export const viewport: Viewport = {
