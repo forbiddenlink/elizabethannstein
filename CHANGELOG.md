@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.0...v1.11.1) (2026-11-06)
+
+
+### Bug Fixes
+
+* **fonts:** self-host fonts so the production build stops failing on next/font/google ([#198](https://github.com/forbiddenlink/elizabethannstein/issues/198)) ([c9679e6](https://github.com/forbiddenlink/elizabethannstein/commit/c9679e6b820e2b8e2edf39f5bb9f021e8aa01a8a))
+
 ## [1.11.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.10.0...v1.11.0) (2026-11-04)
 
 
