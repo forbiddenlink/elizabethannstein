@@ -1,9 +1,11 @@
 import * as Sentry from '@sentry/nextjs'
+import { sentryCompatibilityOptions } from './lib/sentry-options'
 
 // Next 15+ loads this file on the client. The SDK only injects the legacy
 // sentry.client.config.ts through a webpack entry, so under Turbopack (this
 // app's bundler) that file was never bundled and client errors went nowhere.
 Sentry.init({
+  ...sentryCompatibilityOptions,
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
   // Only the real production deploy reports; a local `next start` is also NODE_ENV=production.
