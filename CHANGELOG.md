@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.1...v1.11.2) (2026-11-07)
+
+
+### Bug Fixes
+
+* **deps:** patch Sentry matcher and Zod vulnerabilities ([#200](https://github.com/forbiddenlink/elizabethannstein/issues/200)) ([5eb2a0b](https://github.com/forbiddenlink/elizabethannstein/commit/5eb2a0b0d7052e7f51066e32be09d5e87e461ec8))
+
 ## [1.11.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.0...v1.11.1) (2026-11-06)
 
 
