@@ -1,48 +1,77 @@
-# elizabethannstein.com — Design System (AI-readable index)
+# elizabethannstein.com - Design System (AI-readable index)
 
 > Machine-readable token + component contract for AI coding agents (Claude, Cursor, v0).
-> Recruiter-facing portfolio. "Arresting + credible." Pure-dark achromatic base; color ONLY via the galaxy palette (6 project categories = 6 semantic colors).
+> Recruiter-facing portfolio. Two live systems: the editorial content site and the dark galaxy showcase.
 > When generating UI: pick ONLY from the named tokens below. Never emit ad-hoc hex/px.
-> Token SoT = src/app/globals.css (:root). Philosophy = .impeccable.md.
+> Token SoT = src/styles/editorial.css (content pages) and src/app/globals.css (galaxy). Philosophy = .impeccable.md (palette and type notes there predate editorial.css; editorial.css wins).
 
 Site: https://elizabethannstein.com
-Stack: Next.js 16.2, React 19.2, Tailwind CSS v4 (zero-config, @import "tailwindcss"; tokens in :root NOT @theme), Three.js + @react-three/fiber (3D galaxy), GSAP, Framer Motion. Source in src/.
-NOT shadcn — buttons/cards are hand-rolled CSS classes in globals.css (.btn, .btn-primary/-secondary/-ghost, .btn-galaxy-*, .glass-card, .glass-panel). No cva/radix.
+Stack: Next.js 16.3, React 19.2, Tailwind CSS v4 (CSS-first, @import "tailwindcss"; no @theme block, so tokens in :root are NOT Tailwind utilities), Three.js + @react-three/fiber (3D galaxy), GSAP, Framer Motion. Source in src/.
+NOT shadcn. No cva/radix. Editorial UI uses .e* classes and CSS modules; galaxy UI uses Tailwind utilities with arbitrary values such as bg-[var(--color-surface)] (src/components/ui/LoadingProgress.tsx:86).
 Colors are hex + RGB triples (no OKLCH/HSL).
 
-## Fonts (next/font/google)
-- Body / sans: Space Grotesk — --font-space-grotesk (weights 300-700)
-- Display / editorial serif: Fraunces — --font-display (variable, preloaded)
-- Code / mono: JetBrains Mono — --font-jetbrains-mono (400-700)
+## Two scopes: which routes use which
+- Editorial (light + dark, fog-grey paper, teal accent): /, /work, /work/[slug], /about, /contact, /privacy, 404 (src/app/not-found.tsx:14) and the error page (src/app/error.tsx:15). Each wraps its page in className="editorial" (e.g. src/app/about/page.tsx:75, src/components/home/LiveSystemsIndex.tsx:253). Tokens are --le-* in src/styles/editorial.css, imported by src/app/globals.css:2.
+- Galaxy (pure dark): /explore, /city and src/components/3d/*. Tokens are the :root set in src/app/globals.css. <body> is bg-black text-white (src/app/layout.tsx:185); GalaxyChrome (grain, cursor, warp) mounts for /explore only (src/app/layout.tsx:188).
+- Crossover: the /explore project modal embeds editorial content as "editorial eForceDark" so it stays dark (src/components/ui/ProjectModal.tsx:277).
+- Do not restyle one scope with the other's tokens.
 
-## Color tokens (closed set — src/app/globals.css)
+## Fonts (local woff2 via next/font/local, src/app/layout.tsx:19-44)
+- Sans / body: Onest, --font-onest (400-700). Editorial: --le-sans (editorial.css:49). Galaxy body: globals.css:8.
+- Mono: Spline Sans Mono, --font-spline-mono (400-700). Editorial: --le-mono (editorial.css:51). Galaxy code/pre/kbd/samp: globals.css:14.
+- Display serif: Young Serif, --font-display (one weight, 400; never fake a bold). Editorial headings, names and numerals: --le-display (editorial.css:47).
+- globals.css:4-9 applies Onest with an unlayered rule on purpose, so it beats Tailwind's layered font-sans on <body>.
+
+## Editorial tokens (.editorial scope, src/styles/editorial.css)
+Light is the default; dark follows prefers-color-scheme, and the saved choice sets data-theme on <html> before first paint (src/app/layout.tsx:156, key in src/lib/theme.ts:6).
+Surfaces: --le-paper (page ground), --le-paper-2 (card or band), --le-paper-3 (pressed or darkest surface, editorial.css:648).
+Text: --le-ink body and headings, --le-ink-2 supporting text, --le-muted captions (must clear AA on --le-paper-3).
+Lines: --le-rule hairline, --le-rule-strong emphasis rule (editorial.css:284).
+Accent: --le-accent fills and focus outline (editorial.css:787,845); --le-accent-ink accent text and links (editorial.css:179); --le-accent-wash soft accent background (editorial.css:60,399).
+Status: --le-live status-OK dot (editorial.css:294), --le-down failure state (editorial.css:628), --le-live-ink text of the contact-form success label (src/components/ui/ContactForm.tsx:113).
+Category dots, not fills: --le-cat-enterprise/-ai/-fullstack/-devtools/-creative/-experimental (src/components/home/ContentsList.module.css:110, src/components/work/WorkPageClient.tsx:51).
+--le-rule-2, --le-tint: unused: do not use; use --le-rule and --le-paper-2 instead.
+Layout: --le-gutter (page side padding), --le-ease (reveal easing). Primitives: .eBtn/.eBtnPrimary/.eBtnGhost, .eLabel, .eWrap, .eSect, .ePlate, .eSpec, .eProse.
+
+## Galaxy color tokens (closed set, src/app/globals.css:17-47, 124-143)
 Base: --background #000000, --color-surface #0a0a0a, --color-elevated #111111
 Text: --color-text-primary #f0f0f0, --color-text-secondary #999999, --color-text-tertiary #666666
-Accent: --color-accent #f0f0f0 (achromatic — accent is NOT a color here)
-Galaxy palette (SEMANTIC LAW — 6 categories, each its own hue + RGB variant, never mix across categories):
+Accent: --color-accent #f0f0f0 (achromatic, accent is NOT a color here)
+Galaxy palette (SEMANTIC LAW: 6 categories, each its own hue + RGB variant, never mix across categories):
   --color-galaxy-enterprise #ff6b35, --color-galaxy-ai #00d9ff, --color-galaxy-fullstack #b47eff,
   --color-galaxy-devtools #06ffa5, --color-galaxy-creative #ff4d94, --color-galaxy-experimental #ffb800
-UI accents (purple/indigo/blue/pink) + semantic success/warning/error/info: RGB triples in :root.
+Use when (grep of src/; paths from repo root):
+- --color-surface: panel ground behind overlay UI (src/components/ui/GalaxyGuide.tsx:140, src/components/ui/ProjectModal.tsx:230). --color-elevated: hover fill one step above surface (src/app/globals.css:846,998, src/components/ui/LoadingProgress.tsx:86). Use surface for the resting panel, elevated only for its hover.
+- --color-text-primary/-secondary/-tertiary: default / supporting / least-important copy (src/components/ui/LoadingProgress.tsx:72,78; tertiary globals.css:917). --color-border: default hairline (globals.css:909). --color-border-subtle: unused: do not use; use --color-border instead.
+- --color-accent / -hover / -text: achromatic fill, its hover, and the label on it (globals.css:833,837,834); --color-accent is also the scroll-progress bar default (globals.css:1038).
+- --color-accent-purple: purple tint on text selection (src/app/globals.css:305). --color-accent-indigo/-blue/-pink: unused: do not use; use --color-accent instead.
+- --color-success/-warning/-error/-info: unused: do not use; there is no status color in the galaxy scope. Use --color-text-primary, or --le-live (OK) and --le-down (failure) inside .editorial.
+- --color-galaxy-<category> and -rgb: tone-keyed CSS on data-tone, e.g. .scroll-progress-bar (globals.css:1053-1057) and .mobile-galaxy-nav-dot (globals.css:1293-1294). 3D project nodes take literal hex from src/lib/galaxyData.ts:12, not the vars. Hex for solid fills, -rgb inside rgba() for opacity.
 
-## Scale tokens
-- Type (1.25 ratio): --text-xs 0.75rem … --text-6xl 3.75rem (+ line-heights, weights)
-- Spacing (4px base): --space-1 … --space-32 (+ section / card-padding aliases)
-- Radius: --radius-sm/md/lg/xl/2xl = 4/8/12/16/24px (xl + 2xl ARE defined)
-- Motion: duration 50-400ms tokens, 7 named eases
-- Z-index: 10-level scale
-- SHADOWS: none — "elevation via color shift + border only" (glass is the only elevation model). Do NOT add shadow-*.
+## Galaxy scale tokens (src/app/globals.css:49-190)
+- Type (1.25 ratio) --text-xs..--text-6xl, spacing --space-*, --section-gap-*, --card-padding-*, opacity, z-index, duration (50-400ms): unused: do not use; use Tailwind's own scales (text-sm, p-4, z-50, duration-200). Only --text-xs has a consumer (.page-hero-kicker, globals.css:1458).
+- Radius: --radius-md input glass (globals.css:910), --radius-lg subtle glass panel (globals.css:809), --radius-xl glass panel and .btn (globals.css:801,822), --radius-2xl highlighted form panel (globals.css:1655). --radius-sm, --radius-full and --btn-radius/--card-radius/--input-radius/--badge-radius: unused: do not use; use --radius-md or --radius-lg. --btn-transition: unused: do not use; use 200ms var(--ease-out-expo).
+- Motion: --ease-out-expo is the default entrance ease (globals.css:825,994,1674); --ease-default for border and fill transitions (globals.css:914,993,995); --ease-image-hover for image hover (globals.css:376-377). --ease-magnetic/-in-out-cubic/-out-quart/-out-quint: unused: do not use; use --ease-out-expo.
+- SHADOWS: none. "Elevation via color shift + border only" (glass is the only elevation model in the galaxy scope). Do NOT add shadow-*.
 
-## Components — src/components/ui/ (hand-rolled, NOT shadcn)
-The stable API is CSS classes, not component names (component set is mid-refactor — verify src/components/ui/ before referencing a specific file):
-- Buttons: .btn / .btn-primary / .btn-secondary / .btn-ghost / .btn-galaxy-<category>
-- Cards / elevation: .glass-card / .glass-panel
+## Galaxy components
+Hand-rolled classes in globals.css (.btn, .btn-primary/-secondary/-ghost, .btn-galaxy-<category>, .glass-card, .border-accent-<category>) have no TSX call sites; only .glass-panel is used (src/components/ui/GalaxyGuide.tsx:164). Build new galaxy UI from Tailwind utilities and the tokens above, and verify src/components/ui/ before referencing a file.
 
 ## Hard rules (.impeccable.md)
-- Named tokens only. Galaxy colors are semantic law — never mixed across categories.
-- Glass is the ONLY elevation model (no shadows). 44px touch targets non-negotiable.
+- Named tokens only. Galaxy colors are semantic law: never mixed across categories.
+- Editorial scope: no glassmorphism, no neon-on-dark, no identical card grids (.impeccable.md:24). Galaxy scope: glass is the only elevation model. 44px touch targets non-negotiable.
 - Anti-references (banned): generic AI-SaaS gradient-blob-on-white templates, gimmicky over-designed noise, "resume-in-a-box."
 
+## Known debt: do not fix
+Each entry has evidence. Leave these alone unless Liz asks.
+- Two design systems coexist by design. Content pages use the light/dark .editorial scope (src/styles/editorial.css:4-5, galaxy base "left untouched"); /explore and /city keep the dark galaxy tokens in globals.css (DESIGN.md:6-7). Do not merge them or restyle one with the other's tokens.
+- --le-muted values are deliberately dark enough for AA; "Do not lighten them back" (src/styles/editorial.css:12-18).
+- .eForceDark keeps the dark set on the /explore modal whatever the saved theme, with a doubled class on purpose (src/styles/editorial.css:101-104).
+- Hard-coded hex is intentional where tokens cannot reach: theme-color meta (src/app/layout.tsx:51-52), OG cards (src/lib/ogCard.tsx:13-14), icon mark (src/lib/og/ogKit.tsx:7-8), 3D star colors (src/components/3d/TwinklingStarfield.tsx:42).
+- DESIGN.md and .impeccable.md still name Fraunces, Space Grotesk and JetBrains Mono, and the older cream/cobalt palette; the shipped fonts and palette are in this file and editorial.css. Do not copy their font or color names.
+
 ## Deep references
-- src/app/globals.css — canonical tokens
-- .impeccable.md — philosophy (NOTE: its "Current System" section wrongly says Tailwind v3 — repo is v4 CSS-first; ignore that stale claim)
-- src/lib/proofLayer.ts — project-curation SoT (which projects surface where) — NOT a design-token file
+- src/styles/editorial.css - editorial tokens and .e* primitives
+- src/app/globals.css - galaxy tokens
+- .impeccable.md - philosophy (NOTE: its "Current System" section wrongly says Tailwind v3 - repo is v4 CSS-first; ignore that stale claim)
+- src/lib/proofLayer.ts - project-curation SoT (which projects surface where) - NOT a design-token file

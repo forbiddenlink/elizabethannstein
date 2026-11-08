@@ -1,5 +1,9 @@
 # DESIGN.md
 
+Snapshot as of 2026-11-08: colour values, fonts and gutter re-checked against
+`src/styles/editorial.css` and `src/app/layout.tsx`. If this file and that CSS disagree, the CSS
+wins.
+
 Design system for the content site (`/`, `/work`, `/work/[slug]`, `/about`, `/contact`,
 `/privacy`, 404). Approved direction: **A, "Live ledger"** (2026-09-27). The prototype lives in
 `design-research/prototypes/`; the research behind each decision is in
@@ -29,14 +33,14 @@ Semantic tokens (light / dark). Both themes are hand-tuned; do not lighten `--le
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--le-paper` | `#efeadf` | `#141109` | page background |
-| `--le-paper-2` | `#e6e0d2` | `#1c1810` | raised surfaces: ledger, plates |
-| `--le-paper-3` | `#ddd6c4` | `#241f15` | image wells |
-| `--le-ink` | `#191510` | `#f0eadb` | primary text, strong rules |
-| `--le-ink-2` | `#4d473b` | `#b6af9c` | secondary text, descriptions |
-| `--le-muted` | `#5d574c` | `#908871` | metadata; AA 4.5:1 on every surface |
-| `--le-rule` / `--le-rule-strong` | `#cfc7b4` / ink | `#2f2a1f` / ink | hairlines / section rules |
-| `--le-accent` / `--le-accent-ink` | `#1b34c9` / `#142699` | `#97a6ff` / `#b7c2ff` | links, focus, active nav, numbers |
+| `--le-paper` | `#dcdee1` | `#101114` | page background |
+| `--le-paper-2` | `#d1d4d8` | `#181a1e` | raised surfaces: ledger, plates |
+| `--le-paper-3` | `#c6cace` | `#202328` | image wells |
+| `--le-ink` | `#101114` | `#dcdee1` | primary text, strong rules |
+| `--le-ink-2` | `#32363d` | `#aeb3ba` | secondary text, descriptions |
+| `--le-muted` | `#4b515a` | `#9aa0a8` | metadata; AA 4.5:1 on every surface |
+| `--le-rule` / `--le-rule-strong` | `#aab0b7` / ink | `#30343a` / ink | hairlines / section rules |
+| `--le-accent` / `--le-accent-ink` | `#127a7a` / `#0c5c5c` | `#4fc3c3` / `#7adada` | links, focus, active nav, numbers |
 | `--le-live` | `#2f7d4f` | `#5fce8e` | live status dot |
 | `--le-down` | `#a4321f` | `#f08a74` | not-responding status |
 | `--le-cat-*` | muted hues | lifted hues | category dots only, always with a text label |
@@ -46,10 +50,14 @@ always a word plus a dot, never colour alone.
 
 ## Typography
 
-- **Fraunces** (`--le-display`): headlines, titles, reading body. Variable `opsz`; large sizes
-  use `opsz 144`.
-- **Space Grotesk** (`--le-sans`): UI (nav, buttons, labels, spec-table keys). Sentence case.
-- **JetBrains Mono** (`--le-mono`): machine data only (hosts, latency, dates, versions).
+- **Young Serif** (`--le-display`, `--font-display`): headlines, titles, names, numerals. One
+  weight (400); hierarchy comes from size, not weight.
+- **Onest** (`--le-sans`, `--font-onest`): body copy and UI (nav, buttons, labels, spec-table
+  keys). Sentence case.
+- **Spline Sans Mono** (`--le-mono`, `--font-spline-mono`): machine data only (hosts, latency,
+  dates, versions).
+
+All three are self-hosted woff2 files loaded in `src/app/layout.tsx`.
 
 Scale (fluid): home claim `clamp(2.25rem, 4.6vw, 3.9rem)/1.04`; page title
 `clamp(2.4rem, 5vw, 4.2rem)/1.02`; section title `clamp(1.5rem, 2.6vw, 2rem)/1.1`; row title
@@ -59,7 +67,7 @@ metadata `0.8125rem`. Line length at most ~38em for prose. `text-wrap: balance` 
 
 ## Space, grid, breakpoints
 
-- Container `max-width: 76rem` (`.eWrap`), gutter `--le-gutter: clamp(1rem, 4.5vw, 3.5rem)`.
+- Container `max-width: 76rem` (`.eWrap`), gutter `--le-gutter: clamp(1.15rem, 5vw, 3.75rem)`.
 - Section rhythm: `clamp(2rem, 5vw, 3.5rem)` between sections, each opened by a strong rule.
 - Home fold: 7fr / 5fr (claim / ledger). Case head: 6fr / 6fr (facts / plate). Story rows:
   3fr / 8fr (label / prose). On a case page the Numbers row comes first, directly under the
@@ -118,6 +126,9 @@ sections and frame plates and the ledger.
 - Tests that assert UI copy live in `e2e/`; update them in the same change as the UI.
 
 ## Changelog
+
+- 2026-11-08: palette moved from cream/cobalt to cool grey/teal and fonts to Young Serif,
+  Onest and Spline Sans Mono in the code earlier; this file now matches.
 
 - 2026-09-27 second pass: unknown ledger state, archive clamp, Numbers first on case pages,
   320px masthead, contact focus handling and sentence-case form copy. Evidence in
