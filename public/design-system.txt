@@ -20,9 +20,9 @@ Colors are hex + RGB triples (no OKLCH/HSL).
 - Sans / body: Onest, --font-onest (400-700). Editorial: --le-sans (editorial.css:49). Galaxy body: globals.css:8.
 - Mono: Spline Sans Mono, --font-spline-mono (400-700). Editorial: --le-mono (editorial.css:51). Galaxy code/pre/kbd/samp: globals.css:14.
 - Display serif: Young Serif, --font-display (one weight, 400; never fake a bold). Editorial headings, names and numerals: --le-display (editorial.css:47).
-- globals.css:4-12 applies Onest with an unlayered rule on purpose, so it beats Tailwind's layered font-sans on <body>.
+- globals.css:4-9 applies Onest with an unlayered rule on purpose, so it beats Tailwind's layered font-sans on <body>.
 
-## Editorial tokens (.editorial scope, src/styles/editorial.css:19-160)
+## Editorial tokens (.editorial scope, src/styles/editorial.css)
 Light is the default; dark follows prefers-color-scheme, and the saved choice sets data-theme on <html> before first paint (src/app/layout.tsx:156, key in src/lib/theme.ts:6).
 Surfaces: --le-paper (page ground), --le-paper-2 (card or band), --le-paper-3 (pressed or darkest surface, editorial.css:648).
 Text: --le-ink body and headings, --le-ink-2 supporting text, --le-muted captions (must clear AA on --le-paper-3).
@@ -64,7 +64,7 @@ Hand-rolled classes in globals.css (.btn, .btn-primary/-secondary/-ghost, .btn-g
 
 ## Known debt: do not fix
 Each entry has evidence. Leave these alone unless Liz asks.
-- Two design systems coexist by design. Content pages use the light/dark .editorial scope (src/styles/editorial.css:1-6, "left untouched" galaxy base); /explore and /city keep the dark galaxy tokens in globals.css (editorial.css:4-5, DESIGN.md:6-7). Do not merge them or restyle one with the other's tokens.
+- Two design systems coexist by design. Content pages use the light/dark .editorial scope (src/styles/editorial.css:4-5, galaxy base "left untouched"); /explore and /city keep the dark galaxy tokens in globals.css (DESIGN.md:6-7). Do not merge them or restyle one with the other's tokens.
 - --le-muted values are deliberately dark enough for AA; "Do not lighten them back" (src/styles/editorial.css:12-18).
 - .eForceDark keeps the dark set on the /explore modal whatever the saved theme, with a doubled class on purpose (src/styles/editorial.css:101-104).
 - Hard-coded hex is intentional where tokens cannot reach: theme-color meta (src/app/layout.tsx:51-52), OG cards (src/lib/ogCard.tsx:13-14), icon mark (src/lib/og/ogKit.tsx:7-8), 3D star colors (src/components/3d/TwinklingStarfield.tsx:42).
