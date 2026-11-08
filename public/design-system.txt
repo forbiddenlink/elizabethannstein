@@ -23,6 +23,13 @@ Galaxy palette (SEMANTIC LAW — 6 categories, each its own hue + RGB variant, n
   --color-galaxy-enterprise #ff6b35, --color-galaxy-ai #00d9ff, --color-galaxy-fullstack #b47eff,
   --color-galaxy-devtools #06ffa5, --color-galaxy-creative #ff4d94, --color-galaxy-experimental #ffb800
 UI accents (purple/indigo/blue/pink) + semantic success/warning/error/info: RGB triples in :root.
+Use when (grep of src/; paths from repo root). Two scopes: the :root tokens above serve /explore and src/components/3d; content pages use the .editorial scope (--le-* in src/styles/editorial.css:19-160, see Known debt).
+- --color-surface: panel behind overlay UI (src/components/ui/GalaxyGuide.tsx:140). --color-elevated: one step lighter than surface, for nested chips (use when: UNCLEAR, ask Liz, 3 uses). Choose surface for the panel, elevated only inside a surface panel.
+- --color-text-primary/-secondary/-tertiary: default / supporting / least-important copy on the dark base (src/components/ui/LoadingProgress.tsx:78). --color-border (default hairline) vs --color-border-subtle (use when: UNCLEAR, ask Liz, no consumer).
+- --color-accent / -hover / -text: the achromatic button fill, its hover, and the label on it (.btn-primary).
+- --color-accent-purple: purple tint on glass hover (src/app/globals.css:305). --color-accent-indigo/-blue/-pink and --color-success/-warning/-error/-info: use when: UNCLEAR, ask Liz (no consumer found in src/).
+- --color-galaxy-<category> and -rgb: .btn-galaxy-<category> (src/app/globals.css:861) and 3D project nodes (src/lib/galaxyData.ts:12). Use the hex form for solid fills and the -rgb form inside rgba() for opacity.
+- Editorial scope (content pages): --le-paper (page ground) / -2 (card or band) / -3 (pressed or darkest surface, editorial.css:648). --le-ink body and headings, --le-ink-2 supporting text, --le-muted captions (must clear AA on --le-paper-3). --le-rule hairline, --le-rule-strong emphasis rule (editorial.css:284). --le-accent fills and focus outline (editorial.css:787,845); --le-accent-ink accent text and links (editorial.css:179); --le-accent-wash soft accent background (editorial.css:60,399). --le-live status-OK dot (editorial.css:294), --le-down failure state (editorial.css:628). --le-cat-* category dots, not fills. --le-rule-2, --le-tint, --le-live-ink: use when: UNCLEAR, ask Liz (no consumer found).
 
 ## Scale tokens
 - Type (1.25 ratio): --text-xs 0.75rem … --text-6xl 3.75rem (+ line-heights, weights)
@@ -31,6 +38,7 @@ UI accents (purple/indigo/blue/pink) + semantic success/warning/error/info: RGB 
 - Motion: duration 50-400ms tokens, 7 named eases
 - Z-index: 10-level scale
 - SHADOWS: none — "elevation via color shift + border only" (glass is the only elevation model). Do NOT add shadow-*.
+Use when: --ease-out-expo (default entrances), --ease-default and --ease-image-hover are the only eases with consumers (src/app/globals.css). Type, spacing, opacity, z-index, duration, --ease-magnetic/-in-out-cubic/-out-quart/-out-quint, --btn-radius/--card-radius/--input-radius/--badge-radius, --btn-transition: use when: UNCLEAR, ask Liz (no var() consumer found in src/). --radius-xl/-2xl/-full have a few consumers.
 
 ## Components — src/components/ui/ (hand-rolled, NOT shadcn)
 The stable API is CSS classes, not component names (component set is mid-refactor — verify src/components/ui/ before referencing a specific file):
@@ -41,6 +49,14 @@ The stable API is CSS classes, not component names (component set is mid-refacto
 - Named tokens only. Galaxy colors are semantic law — never mixed across categories.
 - Glass is the ONLY elevation model (no shadows). 44px touch targets non-negotiable.
 - Anti-references (banned): generic AI-SaaS gradient-blob-on-white templates, gimmicky over-designed noise, "resume-in-a-box."
+
+## Known debt: do not fix
+Each entry has evidence. Leave these alone unless Liz asks.
+- Two design systems coexist by design. Content pages (/, /work, /about, /contact, /privacy, 404) use the light/dark .editorial scope (src/styles/editorial.css:1-6, "left untouched" galaxy base); /explore and /city keep the dark galaxy tokens in globals.css (editorial.css:4-5, DESIGN.md:6-7). Do not merge them or restyle one with the other's tokens.
+- Fonts in this file's Fonts section are not what ships: layout loads Onest (--font-onest, src/app/layout.tsx:21), Spline Sans Mono (--font-spline-mono, :30) and a display serif (--font-display, :39); globals.css:3-12 applies them with an unlayered rule on purpose. Do not switch back to Space Grotesk or Fraunces.
+- --le-muted values are deliberately dark enough for AA; "Do not lighten them back" (src/styles/editorial.css:12-18).
+- .eForceDark keeps the dark set on the /explore modal whatever the saved theme, with a doubled class on purpose (src/styles/editorial.css:101-104).
+- Hard-coded hex is intentional where tokens cannot reach: theme-color meta (src/app/layout.tsx:51-52), OG cards (src/lib/ogCard.tsx:13-14), icon mark (src/lib/og/ogKit.tsx:7-8), 3D star colors (src/components/3d/TwinklingStarfield.tsx:42).
 
 ## Deep references
 - src/app/globals.css — canonical tokens
