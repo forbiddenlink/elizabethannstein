@@ -2,6 +2,10 @@
 
 This file provides guidance to agents when working with code in this repository.
 
+Before generating any UI, read `public/design-system.txt` (machine-readable token + component
+contract) and `DESIGN.md` (full spec). Token source of truth is `src/app/globals.css`; design
+philosophy is `.impeccable.md`.
+
 ## Project overview
 
 A portfolio built with Next.js 16 (App Router). Since the 2026-08-18 direction change
