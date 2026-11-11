@@ -37,6 +37,12 @@ const nextConfig = {
         permanent: true,
       },
       {
+        // WillWise is decommissioned for now; keep old links landing somewhere real.
+        source: '/work/willwise',
+        destination: '/work',
+        permanent: false,
+      },
+      {
         // Old applications and profiles link the orphaned /resume.pdf; send them to the current file.
         source: '/resume.pdf',
         destination: '/resume/elizabeth-stein-resume.pdf',

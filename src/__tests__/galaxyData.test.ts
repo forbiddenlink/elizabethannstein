@@ -69,7 +69,7 @@ describe('galaxyData', () => {
     // presented as a shipped, in-use product. Catches a "links.live" or
     // fabricated-usage-stat regression before it ships again.
     it('unshipped experiments have no live link and no fabricated usage claims', () => {
-      const unshipped = ['ai-spend-tracker', 'codememory', 'lumira', 'willwise']
+      const unshipped = ['ai-spend-tracker', 'codememory', 'lumira']
       const fabricatedUsagePattern = /\d+%\s+for\s+(heavy\s+)?users/i
       for (const id of unshipped) {
         const project = allProjects.find((p) => p.id === id)
