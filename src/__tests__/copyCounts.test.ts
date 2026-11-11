@@ -11,7 +11,7 @@ import { allProjects, galaxies } from '@/lib/galaxyData'
  * When the catalogue grows, this fails and names the copy that needs editing.
  */
 const SPELLED_TOTAL: Record<string, string> = {
-  '89': 'Eighty-nine',
+  '88': 'Eighty-eight',
 }
 
 const read = (p: string) => readFileSync(join(process.cwd(), p), 'utf8')

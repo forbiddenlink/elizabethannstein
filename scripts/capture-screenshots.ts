@@ -26,7 +26,6 @@ const PROJECTS_TO_CAPTURE: { id: string; url: string }[] = [
   { id: 'hire-ready', url: 'https://imhireready.com' },
   { id: 'ucp-guard', url: 'https://ucpguard.com' },
   { id: 'site-sheriff', url: 'https://site-sheriff.vercel.app' },
-  { id: 'willwise', url: 'https://willwise-app.vercel.app' },
   { id: 'aqualog', url: 'https://myaqualog.com' },
   { id: 'dareuradio', url: 'https://dareuradio.com' },
   { id: 'testimoniq', url: 'https://testimoniq.com' },

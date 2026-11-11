@@ -697,24 +697,6 @@ export const galaxies: Galaxy[] = [
         impact: 'Live at reprise-tau.vercel.app.',
       },
       {
-        id: 'willwise',
-        title: 'WillWise',
-        description:
-          'An estate planning app focused on digital assets such as crypto and cloud accounts. A questionnaire of about 45 minutes produces a will as a PDF, and Stripe takes payment.',
-        role: 'Creator',
-        tags: ['Next.js', 'TypeScript', 'Clerk', 'Supabase', 'Stripe', 'PDF Generation'],
-        color: '#9D4EDD',
-        brightness: 1.6,
-        size: 'large',
-        galaxy: 'fullstack',
-        featured: false,
-        dateRange: '2025',
-        challenge:
-          'Estate planning usually leaves out digital assets and needs a lawyer even for a simple will.',
-        solution:
-          'A step-by-step questionnaire covering digital and physical assets, state-specific guides, PDF generation and Stripe payments.',
-      },
-      {
         id: 'aqualog',
         title: 'AquaLog',
         description:
@@ -1983,10 +1965,10 @@ export const narrativeTours: NarrativeTour[] = [
     name: 'Full-stack projects',
     tagline: 'From a survey builder to a collaborative editor',
     description:
-      'Five full-stack projects, from a survey builder to a practice monorepo for field operations.',
+      'Four full-stack projects, from a survey builder to a practice monorepo for field operations.',
     color: '#9D4EDD',
     icon: 'rocket',
-    projectIds: ['create-surveys', 'portfolio-pro', 'kindred', 'willwise', 'coulson-one'],
+    projectIds: ['create-surveys', 'portfolio-pro', 'kindred', 'coulson-one'],
     narrativeIntros: {
       'create-surveys':
         'A survey builder on React, Vite and Firebase, with templates and real-time analytics.',
@@ -1994,8 +1976,6 @@ export const narrativeTours: NarrativeTour[] = [
         'Proof of work for developer hiring: one real build, and the code, tests passed and run history come back.',
       kindred:
         'A collaborative editor on Next.js 16 and React 19. Yjs syncs edits between people and keeps working offline.',
-      willwise:
-        'An estate planning app for digital assets, with a questionnaire, PDF generation and Stripe payments.',
       'coulson-one':
         'A practice monorepo from 2025: a NestJS API, a Next.js dashboard and an Expo app for oil and gas field operations.',
     },
