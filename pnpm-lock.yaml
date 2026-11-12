@@ -10,7 +10,7 @@ overrides:
   flatted: '>=3.4.2 <4'
   lodash-es: '>=4.18.0 <5'
   vite: '>=8.3.3 <9'
-  next: '>=16.3.6 <17'
+  next: '>=16.4.5 <17'
   systeminformation: '>=5.31.6 <6'
   '@protobufjs/utf8': '>=1.1.1 <2'
   basic-ftp: '>=5.3.1 <6'
@@ -79,7 +79,7 @@ importers:
         specifier: ^1.38.0
         version: 1.54.0(@types/react@19.3.0)(react@19.3.0)
       next:
-        specifier: 16.4.5
+        specifier: '>=16.4.5 <17'
         version: 16.4.5(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.64.0)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       next-axiom:
         specifier: ^1.5.0
@@ -255,7 +255,7 @@ packages:
     resolution: {integrity: sha512-KoDGqAnzsgZRoIcAYuO8+ytRK3rEGiJo+0n4e1bJsM8ZJdlMOnuwEj5nmkmx3pMwg64qIkjhKcomsavcOuYHZg==}
     engines: {node: '>=22.21.0 <23 || >=24.5.0'}
     peerDependencies:
-      next: '>=16.3.6 <17'
+      next: '>=16.4.5 <17'
 
   '@arcjet/protocol@1.14.1':
     resolution: {integrity: sha512-SvP37kfeXaSHIFkVU94tUstw5BcgIiQJXLu3QPFnc8e1yxfB1cvyMeTNNdO6ToAyxE4j+ecgg+0y/rTJqkrvkA==}
@@ -2300,7 +2300,7 @@ packages:
     resolution: {integrity: sha512-JbdOylp8K2ImT/zihYwJUiwhfjZ1c1PKpzEy+bT4+meA5+Shzwlkzk3X/BVOr1i4nBl4iYg6VtpVdWa6bxeYTw==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
     peerDependencies:
-      next: '>=16.3.6 <17'
+      next: '>=16.4.5 <17'
 
   '@sentry/node-core@10.76.2':
     resolution: {integrity: sha512-TrgAc/SvU5kQfjw8pz6I8LLIUiblOSf9BPPNkTbS0Dzcqa4yQLVbmsbS3rvGT7ot64m9Vjzn327ZRy63MlI6/w==}
@@ -2922,7 +2922,7 @@ packages:
     peerDependencies:
       '@remix-run/react': ^2
       '@sveltejs/kit': ^1 || ^2
-      next: '>=16.3.6 <17'
+      next: '>=16.4.5 <17'
       nuxt: '>= 3'
       react: ^18 || ^19 || ^19.0.0-rc
       svelte: '>= 4'
@@ -2963,7 +2963,7 @@ packages:
     resolution: {integrity: sha512-jwkNcrTeafWxjmWq4AHBaptSqZiJkYU5adLC9QBSqeim0GcqDMgN5Ievh8OG1rJ6W3A4l1oiP7qr9CWxGuzu3w==}
     peerDependencies:
       '@sveltejs/kit': ^1 || ^2
-      next: '>=16.3.6 <17'
+      next: '>=16.4.5 <17'
       nuxt: '>= 3'
       react: ^18 || ^19 || ^19.0.0-rc
       svelte: '>= 4'
@@ -4580,7 +4580,7 @@ packages:
     engines: {node: '>=18'}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
-      next: '>=16.3.6 <17'
+      next: '>=16.4.5 <17'
       react: '>=18.0.0'
 
   next@16.4.5:
@@ -4621,7 +4621,7 @@ packages:
     peerDependencies:
       '@remix-run/react': '>=2'
       '@tanstack/react-router': ^1
-      next: '>=16.3.6 <17'
+      next: '>=16.4.5 <17'
       react: '>=18.2.0 || ^19.0.0-0'
       react-router: ^5 || ^6 || ^7 || ^8
       react-router-dom: ^5 || ^6 || ^7
