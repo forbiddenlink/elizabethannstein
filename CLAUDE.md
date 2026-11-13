@@ -18,9 +18,9 @@ an in-progress bioluminescent-city visualization built from sanitized dev-fleet 
 
 ## Stack
 
-- Next.js 16.3.4 (pinned via `pnpm.overrides`, not the `^16.3.3` in `dependencies`), React ^19.2.8, TypeScript 7.0.2
+- Next.js 16.4.5 (floor held by `pnpm.overrides`: `>=16.4.5 <17`), React ^19.2.8, TypeScript 7.0.2
 - pnpm (`pnpm-lock.yaml`)
-- Biome (`biome.json`), ESLint (`eslint.config.mjs`), Prettier (`.prettierrc`)
+- Biome (`biome.json`), ESLint (`eslint.config.mjs`)
 - Vitest (unit), Playwright (E2E)
 - Zustand for state
 - Arcjet (`@arcjet/next`) for API shielding/bot rules, Resend for the contact form, `@sentry/nextjs` for error reporting
