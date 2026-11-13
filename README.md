@@ -40,7 +40,7 @@ Two opt-in showcase routes carry the 3D work:
 | Email | Resend (contact form) |
 | AI | MiniMax (Galaxy Guide assistant - server-only key) |
 | Abuse protection | Arcjet (`/api/*`) |
-| Observability | Sentry, Vercel Analytics, Speed Insights, next-axiom |
+| Observability | Sentry, Vercel Analytics, Speed Insights |
 | Testing | Vitest, Playwright (smoke, visual, 7 browser/device projects) |
 | Tooling | Biome, lefthook, lighthouse CI, r3f-perf, stats-gl, Leva (dev controls) |
 | Hosting | Vercel |
@@ -61,7 +61,7 @@ flowchart LR
   N -->|Server Action| AI[/api/chat -> MiniMax]
   CT -.->|guard| AJ[Arcjet]
   AI -.->|guard| AJ
-  N --> S[Sentry, Vercel Analytics, Axiom]
+  N --> S[Sentry, Vercel Analytics]
 ```
 
 3D scene components live in `src/components/3d/` (galaxies, planets, post-processing,

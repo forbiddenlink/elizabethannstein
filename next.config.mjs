@@ -1,6 +1,5 @@
 import bundleAnalyzer from '@next/bundle-analyzer'
 import { withSentryConfig } from '@sentry/nextjs/config'
-import { withAxiom } from 'next-axiom'
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -133,4 +132,4 @@ const sentryConfig = {
   },
 }
 
-export default withSentryConfig(withAxiom(withBundleAnalyzer(nextConfig)), sentryConfig)
+export default withSentryConfig(withBundleAnalyzer(nextConfig), sentryConfig)
