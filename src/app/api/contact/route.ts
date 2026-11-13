@@ -8,18 +8,22 @@ import { EMAIL_PATTERN } from '@/lib/contactValidation'
 // (defaults to purplegumdropz@gmail.com when the env var isn't set).
 const FORWARD_TO = process.env.CONTACT_FORWARD_TO ?? 'purplegumdropz@gmail.com'
 
-// Simple sanitizer: strips HTML tags, then removes control chars and CR/LF
-// so a crafted name/email cannot inject headers into the email subject.
-function sanitize(value: string): string {
-  let out = value
-  let prev: string
-  do {
-    prev = out
-    out = out.replace(/<[^>]*>/g, '')
-  } while (out !== prev)
+// Header-safe single line: removes control chars and CR/LF so a crafted
+// name/email cannot inject headers into the email subject or reply-to.
+function singleLine(value: string): string {
   // biome-ignore lint/suspicious/noControlCharactersInRegex: intentionally stripping control chars
-  out = out.replace(/[\u0000-\u001f\u007f]/g, ' ')
-  return out.trim()
+  return value.replace(/[\u0000-\u001f\u007f]/g, ' ').trim()
+}
+
+// Escape for the HTML body. Escaping (not tag stripping) keeps the visitor's
+// text intact: "x < 5 and y > 3" arrives as written instead of losing " 5 and y ".
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 }
 
 export async function POST(request: Request) {
@@ -64,9 +68,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
     }
 
-    const safeName = sanitize(name)
-    const safeEmail = sanitize(email)
-    const safeMessage = sanitize(message)
+    const safeName = singleLine(name)
+    const safeEmail = singleLine(email)
+    const safeMessage = message.trim()
 
     if (!process.env.RESEND_API_KEY) {
       if (process.env.NODE_ENV === 'production') {
@@ -92,10 +96,10 @@ export async function POST(request: Request) {
       subject: `Portfolio message from ${safeName}`,
       text: `Name: ${safeName}\nEmail: ${safeEmail}\n\n${safeMessage}`,
       html: `
-        <p><strong>Name:</strong> ${safeName}</p>
-        <p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>
+        <p><strong>Name:</strong> ${escapeHtml(safeName)}</p>
+        <p><strong>Email:</strong> <a href="mailto:${escapeHtml(safeEmail)}">${escapeHtml(safeEmail)}</a></p>
         <hr />
-        <p style="white-space:pre-wrap">${safeMessage.replace(/\n/g, '<br />')}</p>
+        <p style="white-space:pre-wrap">${escapeHtml(safeMessage).replace(/\n/g, '<br />')}</p>
         <hr />
         <p style="color:#888;font-size:12px">Sent via ${SITE.url}/contact</p>
       `,

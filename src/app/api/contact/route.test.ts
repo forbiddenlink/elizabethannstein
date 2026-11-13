@@ -1,5 +1,13 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from 'vitest'
+
+const send = vi.hoisted(() => vi.fn())
+vi.mock('resend', () => ({
+  Resend: class {
+    emails = { send }
+  },
+}))
+
 import { POST } from './route'
 
 function post(body: string): Promise<Response> {
@@ -58,5 +66,34 @@ describe('POST /api/contact without RESEND_API_KEY', () => {
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({ ok: true, dev: true })
     warn.mockRestore()
+  })
+})
+
+describe('POST /api/contact message content', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+    send.mockReset()
+  })
+
+  it('keeps text between < and > and escapes it in the HTML body', async () => {
+    vi.stubEnv('RESEND_API_KEY', 'test')
+    send.mockResolvedValue({ error: null })
+    const message = 'if x < 5 and y > 3, call me <b>now</b>'
+    const res = await post(JSON.stringify({ name: 'Ada', email: 'ada@example.com', message }))
+
+    expect(res.status).toBe(200)
+    const sent = send.mock.calls[0][0]
+    expect(sent.text).toContain(message)
+    expect(sent.html).toContain('if x &lt; 5 and y &gt; 3, call me &lt;b&gt;now&lt;/b&gt;')
+    expect(sent.html).not.toContain('<b>now</b>')
+  })
+
+  it('cannot break out of the mailto attribute with a quote in the email', async () => {
+    vi.stubEnv('RESEND_API_KEY', 'test')
+    send.mockResolvedValue({ error: null })
+    const email = 'a"onmouseover="x@example.com'
+    await post(JSON.stringify({ name: 'Ada', email, message: 'hi' }))
+
+    expect(send.mock.calls[0][0].html).toContain('mailto:a&quot;onmouseover=&quot;x@example.com')
   })
 })
