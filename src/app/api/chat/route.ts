@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { CHAT_MAX_CONTENT_LENGTH, CHAT_MAX_MESSAGES } from '@/lib/chatHistory'
 import { allProjects, galaxies } from '@/lib/galaxyData'
 
 const MINMAX_API_URL = 'https://api.minimax.io/v1/text/chatcompletion_v2'
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     const { messages } = body
 
     // Input validation
-    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 50) {
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > CHAT_MAX_MESSAGES) {
       return NextResponse.json({ error: 'Invalid messages format' }, { status: 400 })
     }
 
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
       ) {
         return NextResponse.json({ error: 'Invalid message structure' }, { status: 400 })
       }
-      if (msg.content.length > 2000) {
+      if (msg.content.length > CHAT_MAX_CONTENT_LENGTH) {
         return NextResponse.json({ error: 'Message too long' }, { status: 400 })
       }
     }

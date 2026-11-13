@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Bot, Loader2, Send, Sparkles, User, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { CHAT_MAX_CONTENT_LENGTH, toChatRequestMessages } from '@/lib/chatHistory'
 import { detectNavigationIntent } from '@/lib/chatNavigation'
 import { useViewStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
@@ -81,7 +82,7 @@ export function GalaxyGuide() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [...messages, { role: 'user', content: userMsg }],
+          messages: toChatRequestMessages([...messages, { role: 'user', content: userMsg }]),
         }),
       })
 
@@ -272,6 +273,7 @@ export function GalaxyGuide() {
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
+                  maxLength={CHAT_MAX_CONTENT_LENGTH}
                   placeholder="Ask about projects..."
                   aria-label="Ask about projects"
                   className="w-full bg-[var(--color-surface)] border border-white/10 rounded-lg py-3 pl-4 pr-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-[background-color,box-shadow] font-light"
