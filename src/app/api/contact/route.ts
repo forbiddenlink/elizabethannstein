@@ -5,8 +5,8 @@ import { EMAIL_PATTERN } from '@/lib/contactValidation'
 
 // Set RESEND_API_KEY in your .env.local / Vercel environment variables.
 // Emails will be forwarded to the address set in CONTACT_FORWARD_TO
-// (defaults to purplegumdropz@gmail.com when the env var isn't set).
-const FORWARD_TO = process.env.CONTACT_FORWARD_TO ?? 'purplegumdropz@gmail.com'
+// (defaults to the public domain inbox when the env var isn't set).
+const FORWARD_TO = process.env.CONTACT_FORWARD_TO ?? CONTACT.email
 
 // Header-safe single line: removes control chars and CR/LF so a crafted
 // name/email cannot inject headers into the email subject or reply-to.
