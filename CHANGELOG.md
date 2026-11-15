@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.12.0...v1.12.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* **contact:** 44px targets for the email, LinkedIn and GitHub links ([#218](https://github.com/forbiddenlink/elizabethannstein/issues/218)) ([cdd913e](https://github.com/forbiddenlink/elizabethannstein/commit/cdd913e4e6aeaf1c735e3b9e3ca59828d213dc3f))
+
 ## [1.12.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.4...v1.12.0) (2026-11-15)
 
 
