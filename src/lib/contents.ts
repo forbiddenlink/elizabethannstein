@@ -15,6 +15,8 @@ export interface ContentsRow {
   galaxy: string
   /** Display name from the galaxy data (falls back to the id if the galaxy is unknown). */
   galaxyName: string
+  /** Set only for products owned by an employer, so the list does not read as her own tool. */
+  company?: string
 }
 
 function displayHost(url: string): string {
@@ -50,6 +52,7 @@ export function buildContents(projects: readonly Project[]): ContentsRow[] {
           host: displayHost(url),
           galaxy: p.galaxy,
           galaxyName: getGalaxyById(p.galaxy)?.name ?? p.galaxy,
+          ...(p.company === 'Rocket Park' ? { company: p.company } : {}),
         },
       ]
     })

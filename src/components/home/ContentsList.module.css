@@ -190,3 +190,10 @@
   outline: 2px solid var(--le-accent);
   outline-offset: 2px;
 }
+
+.company {
+  font-family: var(--le-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  color: var(--le-accent-ink);
+}

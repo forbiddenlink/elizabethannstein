@@ -892,7 +892,7 @@ export const galaxies: Galaxy[] = [
           live: 'https://trace-seven-ashen.vercel.app',
           github: 'https://github.com/forbiddenlink/trace',
           contestWin:
-            'https://dev.to/liztacular/my-ai-tool-generated-garbage-jsx-so-i-grounded-it-in-shadcnui-and-finally-shipped-it-1i1n',
+            'https://dev.to/devteam/congrats-to-the-github-finish-up-a-thon-challenge-winners-1k0h',
         },
         status: 'live',
         tier: 'flagship',

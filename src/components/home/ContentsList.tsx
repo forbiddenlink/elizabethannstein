@@ -83,6 +83,7 @@ export function ContentsList({ rows }: Readonly<{ rows: readonly ContentsRow[] }
               </span>
               <Link href={`/work/${row.id}`} className={styles.name}>
                 {row.title}
+                {row.company ? <span className={styles.company}> at {row.company}</span> : null}
               </Link>
               <a
                 href={row.url}

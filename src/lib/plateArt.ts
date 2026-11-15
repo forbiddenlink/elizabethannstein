@@ -33,7 +33,7 @@ const PLATE_ART = {
       { key: 'Power Automate', value: 'Automated scoring orchestration' },
       { key: 'Next.js 16, React 19', value: 'Externalized assessor web app' },
     ],
-    footer: 'Sole developer, in production',
+    footer: 'Sole developer since June 2026, in production',
   },
   'rocketpark-craft-ecosystem': {
     kind: 'flow',

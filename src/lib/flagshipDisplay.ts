@@ -38,6 +38,8 @@ export function staticStatus(flagship: Flagship): { label: string; detail: strin
       return { label: 'Daily use', detail: plainLabel(flagship.proof.split(' · ')[0] ?? '') }
     case 'sites':
       return { label: 'In production', detail: plainLabel(flagship.statusSub) }
+    case 'past':
+      return { label: 'Worked on', detail: plainLabel(flagship.statusSub) }
     default:
       return { label: 'Live', detail: plainLabel(flagship.statusSub) }
   }
