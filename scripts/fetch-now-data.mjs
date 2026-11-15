@@ -6,15 +6,17 @@
 // every line on /now is a merged pull request you can open.
 //
 // Only user-authored, merged PRs in public, non-archived, non-fork forbiddenlink repos are
-// kept. Dependency bumps, release-bot PRs and chores are dropped: the page lists what shipped.
+// kept (feat and perf only; fixes are left out). Dependency bumps, release-bot PRs and chores are dropped: the page lists what shipped.
 // At most 2 entries per repo and 36 overall, newest first.
 import { execFileSync } from 'node:child_process'
 import { writeFileSync } from 'node:fs'
 
 const OWNER = 'forbiddenlink'
 const days = Number(process.argv[2] ?? 45)
-const KEEP_TYPE = /^(feat|fix|perf)(\([^)]*\))?!?: /
-const DROP_SCOPE = /^(feat|fix|perf)\((deps|deps-dev|dependabot|security-deps)\)/
+const KEEP_TYPE = /^(feat|perf)(\([^)]*\))?!?: /
+const DROP_SCOPE = /^(feat|perf)\((deps|deps-dev|dependabot|security-deps)\)/
+// Titles that read as a confession on a public page. Matched case-insensitively.
+const DROP_WORDS = /\b(fake|fabricated|unbacked|claims?|personal email|literally)\b|personal email/i
 
 const gh = (args) => JSON.parse(execFileSync('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }))
 
@@ -36,7 +38,7 @@ const perRepo = new Map()
 
 const entries = prs
   .filter((p) => publicRepos.has(p.repository.name))
-  .filter((p) => KEEP_TYPE.test(p.title) && !DROP_SCOPE.test(p.title))
+  .filter((p) => KEEP_TYPE.test(p.title) && !DROP_SCOPE.test(p.title) && !DROP_WORDS.test(p.title))
   .map((p) => ({
     repo: p.repository.name,
     title: p.title.replace(KEEP_TYPE, '').trim(),

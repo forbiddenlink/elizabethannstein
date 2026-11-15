@@ -35,6 +35,15 @@ describe('validateNowEntries', () => {
     expect(validateNowEntries(nowData.entries as NowEntry[])).toEqual([])
   })
 
+  it('lists features and performance work only, with no confessional wording', () => {
+    for (const e of nowData.entries) {
+      expect(['feat', 'perf']).toContain(e.type)
+      expect(e.title).not.toMatch(
+        /\b(fake|fabricated|unbacked|claims?|literally)\b|personal email/i
+      )
+    }
+  })
+
   it('makes no role, title or employer claims in the committed titles', () => {
     for (const e of nowData.entries) {
       expect(e.title).not.toMatch(
