@@ -5,7 +5,7 @@
 //   - 'cli'   → local tool, shows a static proof pill instead of uptime
 // Case content is authored with verified engineering details and outcomes.
 
-export type FlagshipStatus = 'live' | 'npm' | 'cli' | 'sites'
+export type FlagshipStatus = 'live' | 'npm' | 'cli' | 'sites' | 'past'
 
 export interface FlagshipLink {
   label: string
@@ -49,7 +49,7 @@ export const FLAGSHIPS: Flagship[] = [
     org: 'Cybersecurity nonprofit · Director of software engineering',
     years: '2025-26',
     summary:
-      'A security-readiness assessment that organizations take and assessors score, live in production on Dynamics 365 with a Next.js front end. I am its only developer.',
+      'A security-readiness assessment that organizations take and assessors score, live in production on Dynamics 365 with a Next.js front end. I have been its sole developer since June 2026.',
     proof: 'In production',
     status: 'sites',
     statusSub: 'Dynamics 365',
@@ -60,7 +60,7 @@ export const FLAGSHIPS: Flagship[] = [
       },
       {
         heading: 'What I built',
-        body: 'Twelve implementation phases on Dynamics 365, Power Platform, and Dataverse: the data model, Power Automate scoring, and packaging that moves releases between environments. Then I moved the assessor screens out of Power Apps into a Next.js app that reads and writes the same Dataverse data.',
+        body: 'Twelve implementation phases on Dynamics 365, Power Platform, and Dataverse, delivered with a second developer through June 2026: the data model, Power Automate scoring, and packaging that moves releases between environments. After that I moved the assessor screens out of Power Apps into a Next.js app that reads and writes the same Dataverse data.',
       },
       {
         heading: 'Where it stands',
@@ -78,8 +78,8 @@ export const FLAGSHIPS: Flagship[] = [
     summary:
       'I work on Rocket Vitals, the agency’s website QA scanner, and have worked on upgrades across eleven of its Craft CMS client sites.',
     proof: '11 client sites',
-    status: 'sites',
-    statusSub: '11 client sites',
+    status: 'past',
+    statusSub: '2025-26',
     cases: [
       {
         heading: 'Client sites',
@@ -210,6 +210,11 @@ export const FLAGSHIPS: Flagship[] = [
     links: [
       { label: 'Try it live', href: 'https://trace-seven-ashen.vercel.app', external: true },
       { label: 'Source on GitHub', href: 'https://github.com/forbiddenlink/trace', external: true },
+      {
+        label: 'DEV winners announcement',
+        href: 'https://dev.to/devteam/congrats-to-the-github-finish-up-a-thon-challenge-winners-1k0h',
+        external: true,
+      },
       {
         label: 'Read the write-up',
         href: 'https://dev.to/liztacular/my-ai-tool-generated-garbage-jsx-so-i-grounded-it-in-shadcnui-and-finally-shipped-it-1i1n',
