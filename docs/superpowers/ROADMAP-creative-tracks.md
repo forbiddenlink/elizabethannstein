@@ -1,5 +1,7 @@
 # Creative Tracks Roadmap
 
+> Status as of 2026-11-15: this is a frozen 2026-08-16 snapshot. Since then Phase 1 shipped (sanitizer gate and committed snapshot, `pnpm city:snapshot`) and Phase 3a camera polish landed. See the README roadmap for current state.
+
 **Date:** 2026-08-16 (decision snapshot — freeze; update only on a real priority change)
 **Origin:** open-ended "build something new + cool" brainstorm → research sweeps → multi-agent consensus. Scored on: unique · useful · excellent · visual · wanted · needed · fun.
 

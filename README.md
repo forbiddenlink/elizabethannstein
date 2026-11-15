@@ -34,7 +34,7 @@ Two opt-in showcase routes carry the 3D work:
 | Framework | Next.js ^16.3 (App Router, `src/` layout, `proxy.ts` for `/api/*`), React ^19.2 |
 | Language | TypeScript 7.0 strict |
 | Styling | Tailwind CSS v4; `src/styles/editorial.css` for content pages |
-| 3D / WebGL | three.js ^0.185, React Three Fiber ^9, @react-three/drei, @react-three/postprocessing, @react-three/rapier (physics), postprocessing, WebGPU canvas with WebGL fallback |
+| 3D / WebGL | three.js ^0.186, React Three Fiber ^9, @react-three/drei, @react-three/postprocessing, @react-three/rapier (physics), postprocessing, WebGPU canvas with WebGL fallback |
 | Animation | GSAP ^3.15, Framer Motion ^13, Theatre.js (`@theatre/core`) for `/explore` cinematics |
 | State | Zustand ^5, nuqs (URL state) |
 | Email | Resend (contact form) |
@@ -77,6 +77,8 @@ cp .env.example .env.local       # all vars are optional for local dev
 pnpm dev                          # http://localhost:3000
 ```
 
+Node: `>=20.19 <21`, `>=22.12 <23`, or `>=23.2` (`engines` in `package.json`).
+
 Hardware: WebGL2-capable GPU for `/explore` and `/city`. WebGPU canvas auto-detects support
 and falls back to WebGL. The rest of the site has no GPU requirement.
 
@@ -93,6 +95,7 @@ and falls back to WebGL. The rest of the site has no GPU requirement.
 | `ARCJET_KEY` | Recommended (prod) | Abuse protection on `/api/*` |
 | `PLAYWRIGHT_PORT`, `BASE_URL` | Local E2E | Defaults to `:3100` |
 | `ANALYZE` | Optional | `true` runs the bundle analyzer |
+| `ARGOS_TOKEN` | CI only | Uploads Playwright screenshots to Argos for visual review (`playwright.config.ts`). Lives in GitHub Actions secrets, passed to the smoke job in `e2e-smoke.yml`; when unset, the upload is skipped and CI stays green |
 
 See `.env.example` for inline notes.
 
@@ -110,6 +113,9 @@ pnpm analyze                   # ANALYZE=true next build
 pnpm screenshots               # capture project thumbnails via scripts/capture-screenshots.ts
 pnpm city:snapshot             # regenerate the /city sanitized data snapshot
 pnpm biome:check               # lint + format
+pnpm lint                      # tsc --noEmit
+pnpm lint:slop                 # oxlint anti-slop rules on src/
+pnpm qa:setup                  # preflight, frozen install, Playwright chromium
 ```
 
 CI (`e2e-smoke.yml`) runs `pnpm build` then the smoke project on every PR; the full 7-project
@@ -145,9 +151,10 @@ public/
 - [x] Full Playwright 7-browser CI matrix
 - [x] WebGPU canvas with WebGL fallback
 - [x] Lighthouse CI workflow
-- [x] Bioluminescent city Phase 0 (look spike) and Phase 2 (beauty) - see
-  `docs/superpowers/ROADMAP-creative-tracks.md`
-- [ ] Bioluminescent city Phase 1 (real sanitized data pipeline) - next
+- [x] Bioluminescent city Phase 0 (look spike) and Phase 2 (beauty); the roadmap doc
+  `docs/superpowers/ROADMAP-creative-tracks.md` is a frozen 2026-08-16 snapshot
+- [x] Bioluminescent city Phase 1 (sanitizer gate and committed fleet snapshot, `pnpm city:snapshot`)
+- [ ] Bioluminescent city Phase 3 (interactivity) - camera polish has landed; the rest is open. `/city` stays out of the sitemap while in progress
 - [ ] Deep case studies for flagship projects (CRC, TimeSlip, Specter, HireReady, AutomaDocs)
 - [ ] WebGPU "lite FX" performance mode (postprocessing blocks full WebGPU today)
 
