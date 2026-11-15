@@ -1,0 +1,258 @@
+{
+  "generatedAt": "2026-11-15",
+  "source": "merged pull requests on github.com/forbiddenlink",
+  "entries": [
+    {
+      "repo": "lumira",
+      "title": "add text-only prompt variation preview to the studio",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/lumira/pull/170",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "repro-in-a-box",
+      "title": "add opt-in aggregate summary export; fix dot-prefixed filename check",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/repro-in-a-box/pull/113",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "ally",
+      "title": "make language and filename alt-text guesses review-only",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/ally/pull/116",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "apoc-bnb",
+      "title": "label the booking flow as a demo and fix control names and plurals",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/apoc-bnb/pull/109",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "blackjack-game",
+      "title": "keep the game playable when localStorage is blocked",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/blackjack-game/pull/49",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "cereal-tasting",
+      "title": "spell the year correctly",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/cereal-tasting/pull/98",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "codecraft-dev",
+      "title": "recover from damaged saved progress and unlock villagers without remount",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/codecraft-dev/pull/157",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "coding-jokes",
+      "title": "expose expanded state and action on the punchline button",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/coding-jokes/pull/47",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "color-studio",
+      "title": "never overwrite an unreadable saved-palette library",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/color-studio/pull/108",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "consent-compass",
+      "title": "clean up expired domain cooldowns and honor a zero timestamp",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/consent-compass/pull/136",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "constellation-events",
+      "title": "refresh the date shown after midnight or tab resume",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/constellation-events/pull/137",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "contradict-me",
+      "title": "remove unbacked GPT-4, fake quality score, and stale date",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/contradict-me/pull/150",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "elizabethannstein",
+      "title": "make role and project claims literally accurate",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/elizabethannstein/pull/212",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "fork-parallel-futures",
+      "title": "skip non-object JSON payloads instead of crashing the stream",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/fork-parallel-futures/pull/58",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "gif-my-code",
+      "title": "reject invalid FPS before touching output and bound highlight parsing",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/gif-my-code/pull/32",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "hometown-webpage",
+      "title": "drop the dead washington-pa-guide.vercel.app host from metadata",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/hometown-webpage/pull/60",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "hometown-webpage",
+      "title": "highlight the current page when the URL has a trailing slash",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/hometown-webpage/pull/59",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "img-zen",
+      "title": "fail loudly on invalid input and partial processing failures",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/img-zen/pull/48",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "liz-baseline",
+      "title": "create the Resend client lazily so import works without an API key",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/liz-baseline/pull/92",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "mcp-server-studio",
+      "title": "drop image files from sitemap and add canonical",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/mcp-server-studio/pull/154",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "mcp-server-studio",
+      "title": "report invalid regex patterns and reject infinite numbers",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/mcp-server-studio/pull/153",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "mcp-token-tracker",
+      "title": "validate each server entry and stop echoing config contents in errors",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/mcp-token-tracker/pull/84",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "ocean-simulator",
+      "title": "point canonical, og and sitemap at the live deployment",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/ocean-simulator/pull/107",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "pass-game",
+      "title": "link the public deploy instead of a login-walled URL",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/pass-game/pull/75",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "plant-therapy",
+      "title": "keep the page usable with blocked storage, no IntersectionObserver, or reduced motion",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/plant-therapy/pull/74",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "pollyglot",
+      "title": "drop malformed saved history entries instead of crashing later",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/pollyglot/pull/113",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "stancestream",
+      "title": "stop showing fabricated confidence history",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/stancestream/pull/184",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "stepfree",
+      "title": "do not claim all elevators operational when none are tracked",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/stepfree/pull/37",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "tea-design",
+      "title": "say no mailing list is connected in the newsletter lead",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/tea-design/pull/70",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "time-slip-search",
+      "title": "stop splitDateRange looping forever on the final chunk",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/time-slip-search/pull/141",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "multipersonas",
+      "title": "persona replay with the axe-core scan in its own lane",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/multipersonas/pull/255",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "mythos",
+      "title": "draft Common Core alignment for the worksheets",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/mythos/pull/331",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "mythos",
+      "title": "group every story by Flesch-Kincaid reading level",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/mythos/pull/330",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "stancestream",
+      "title": "numbered debate record with stance tracks (Phase 3 core screen)",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/stancestream/pull/176",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "elizabethannstein",
+      "title": "drop personal email fallback from contact route",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/elizabethannstein/pull/211",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "forbiddenlink",
+      "title": "link contact page instead of personal email",
+      "type": "fix",
+      "url": "https://github.com/forbiddenlink/forbiddenlink/pull/3",
+      "mergedAt": "2026-11-14"
+    }
+  ]
+}

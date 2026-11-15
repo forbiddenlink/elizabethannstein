@@ -1,0 +1,66 @@
+/* /now: month groups of dated rows. Reuses the editorial tokens from globals.css. */
+.meta {
+  font-family: var(--le-sans);
+  font-size: 0.9375rem;
+  color: var(--le-ink-2);
+}
+
+.group {
+  padding: clamp(1.25rem, 3vw, 2rem) 0;
+  border-top: 1px solid var(--le-rule-strong);
+}
+
+.month {
+  margin: 0 0 0.75rem;
+  font-family: var(--le-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 3.5rem 9rem minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--le-rule);
+}
+
+.date {
+  font-family: var(--le-mono, monospace);
+  font-size: 0.875rem;
+  color: var(--le-ink-2);
+}
+
+.repo {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--le-sans);
+  font-size: 0.875rem;
+  color: var(--le-ink-2);
+}
+
+.title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 40rem) {
+  .item {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+  }
+
+  .title {
+    grid-column: 1 / -1;
+    padding: 0.35rem 0;
+  }
+}
