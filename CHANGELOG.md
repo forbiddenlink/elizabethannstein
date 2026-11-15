@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.4...v1.12.0) (2026-11-15)
+
+
+### Features
+
+* **now:** /now page listing recently merged pull requests from public repos ([#215](https://github.com/forbiddenlink/elizabethannstein/issues/215)) ([6ecfe42](https://github.com/forbiddenlink/elizabethannstein/commit/6ecfe425e1ea80dc8d4b0aac9caa88ec6aa68063))
+
 ## [1.11.4](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.3...v1.11.4) (2026-11-15)
 
 
