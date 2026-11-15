@@ -95,6 +95,7 @@ and falls back to WebGL. The rest of the site has no GPU requirement.
 | `ARCJET_KEY` | Recommended (prod) | Abuse protection on `/api/*` |
 | `PLAYWRIGHT_PORT`, `BASE_URL` | Local E2E | Defaults to `:3100` |
 | `ANALYZE` | Optional | `true` runs the bundle analyzer |
+| `ARGOS_TOKEN` | CI only | Uploads Playwright screenshots to Argos for visual review (`playwright.config.ts`). Lives in GitHub Actions secrets, passed to the smoke job in `e2e-smoke.yml`; when unset, the upload is skipped and CI stays green |
 
 See `.env.example` for inline notes.
 
