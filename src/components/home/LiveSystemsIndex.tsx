@@ -332,8 +332,6 @@ export function LiveSystemsIndex({
                   <Link
                     href={`/work/${f.id}`}
                     className={styles.feature}
-                    aria-labelledby={`feat-${f.id}-title`}
-                    aria-describedby={`feat-${f.id}-desc`}
                   >
                     <ProjectPlate
                       flagship={f}
@@ -343,10 +341,10 @@ export function LiveSystemsIndex({
                     />
                     <div className={styles.featureText}>
                       <p className={styles.who}>{whoLine(f)}</p>
-                      <h3 id={`feat-${f.id}-title`} className={styles.featureTitle}>
+                      <h3 className={styles.featureTitle}>
                         {f.title}
                       </h3>
-                      <p id={`feat-${f.id}-desc`} className={styles.featureDesc}>
+                      <p className={styles.featureDesc}>
                         {f.summary}
                       </p>
                       {f.metrics.length > 0 && (
