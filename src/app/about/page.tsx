@@ -139,6 +139,9 @@ export default function AboutPage() {
               Before that, from 2024 to 2026, I led a team of three to four developers across Flo
               Labs&apos; six Next.js and Strapi sites.
             </p>
+            <p>
+              For what I have shipped lately, see <Link href="/now">the /now page</Link>.
+            </p>
           </div>
         </section>
 

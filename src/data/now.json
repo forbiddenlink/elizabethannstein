@@ -1,0 +1,223 @@
+{
+  "generatedAt": "2026-11-15",
+  "source": "merged pull requests on github.com/forbiddenlink",
+  "entries": [
+    {
+      "repo": "lumira",
+      "title": "add text-only prompt variation preview to the studio",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/lumira/pull/170",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "repro-in-a-box",
+      "title": "add opt-in aggregate summary export; fix dot-prefixed filename check",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/repro-in-a-box/pull/113",
+      "mergedAt": "2026-11-15"
+    },
+    {
+      "repo": "multipersonas",
+      "title": "persona replay with the axe-core scan in its own lane",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/multipersonas/pull/255",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "mythos",
+      "title": "draft Common Core alignment for the worksheets",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/mythos/pull/331",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "mythos",
+      "title": "group every story by Flesch-Kincaid reading level",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/mythos/pull/330",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "stancestream",
+      "title": "numbered debate record with stance tracks (Phase 3 core screen)",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/stancestream/pull/176",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "stancestream",
+      "title": "debate record home, live app moves to /arena",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/stancestream/pull/172",
+      "mergedAt": "2026-11-14"
+    },
+    {
+      "repo": "accessibility-checker",
+      "title": "redesign home page and shared chrome around a printed step wedge",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/accessibility-checker/pull/112",
+      "mergedAt": "2026-11-13"
+    },
+    {
+      "repo": "constellation-events",
+      "title": "field-log home page redesign (draft)",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/constellation-events/pull/130",
+      "mergedAt": "2026-11-13"
+    },
+    {
+      "repo": "multipersonas",
+      "title": "render scan_site results as an MCP App panel",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/multipersonas/pull/254",
+      "mergedAt": "2026-11-13"
+    },
+    {
+      "repo": "time-slip-search",
+      "title": "newspaper front page redesign with date-first search",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/time-slip-search/pull/138",
+      "mergedAt": "2026-11-13"
+    },
+    {
+      "repo": "tea-design",
+      "title": "rebuild TeaPlace as a cupping sheet",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/tea-design/pull/68",
+      "mergedAt": "2026-11-12"
+    },
+    {
+      "repo": "lumira",
+      "title": "show comments on the share page with owner delete",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/lumira/pull/159",
+      "mergedAt": "2026-11-09"
+    },
+    {
+      "repo": "renovate-config",
+      "title": "run Renovate monthly and fold pnpm bumps into the non-major group",
+      "type": "perf",
+      "url": "https://github.com/forbiddenlink/renovate-config/pull/11",
+      "mergedAt": "2026-11-07"
+    },
+    {
+      "repo": "design-spine",
+      "title": "read-only spine mcp server (status, list tiles)",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/design-spine/pull/27",
+      "mergedAt": "2026-11-05"
+    },
+    {
+      "repo": "app-idea-miner",
+      "title": "score slip hero, aubergine/apricot identity",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/app-idea-miner/pull/143",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "color-studio",
+      "title": "neutral ink-on-white chrome with a full-bleed live palette hero",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/color-studio/pull/102",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "competitor-stalker",
+      "title": "graphite and magenta identity with a computed change ledger",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/competitor-stalker/pull/115",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "consent-compass",
+      "title": "click-path ledger hero and cobalt/signal-orange system",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/consent-compass/pull/128",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "critter-vale",
+      "title": "element triangle title screen, coral and bubblegum",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/critter-vale/pull/37",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "elizabethannstein",
+      "title": "contact-sheet hero, fog/teal palette, Young Serif + Onest",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/elizabethannstein/pull/193",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "mcp-server-studio",
+      "title": "blueprint light theme with real manifest as signature",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/mcp-server-studio/pull/146",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "particle-system",
+      "title": "graphite and electric-lime identity around the live simulation",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/particle-system/pull/83",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "plant-therapy",
+      "title": "signature hero from the site's own article index",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/plant-therapy/pull/70",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "skill-mapper",
+      "title": "onboarding hero as the real skill graph, violet palette",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/skill-mapper/pull/145",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "stepfree",
+      "title": "wayfinding-sign redesign with a real sample route strip",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/stepfree/pull/34",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "tea-design",
+      "title": "brew bench hero, celadon and terracotta palette",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/tea-design/pull/67",
+      "mergedAt": "2026-11-04"
+    },
+    {
+      "repo": "pollyglot",
+      "title": "route-map hero and restyled page system",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/pollyglot/pull/108",
+      "mergedAt": "2026-11-03"
+    },
+    {
+      "repo": "trace",
+      "title": "tracing-paper identity with a before/after trace plate",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/trace/pull/123",
+      "mergedAt": "2026-11-03"
+    },
+    {
+      "repo": "apoc-bnb",
+      "title": "Will it hold? verdict on the bunker detail page",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/apoc-bnb/pull/98",
+      "mergedAt": "2026-10-31"
+    },
+    {
+      "repo": "repro-in-a-box",
+      "title": "add a share-with-care note to the bundle README",
+      "type": "feat",
+      "url": "https://github.com/forbiddenlink/repro-in-a-box/pull/106",
+      "mergedAt": "2026-10-31"
+    }
+  ]
+}
