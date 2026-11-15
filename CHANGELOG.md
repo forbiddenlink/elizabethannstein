@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.11.3](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.2...v1.11.3) (2026-11-14)
+
+
+### Bug Fixes
+
+* **contact:** keep message text between &lt; and &gt; and escape the email HTML ([#207](https://github.com/forbiddenlink/elizabethannstein/issues/207)) ([d67fb37](https://github.com/forbiddenlink/elizabethannstein/commit/d67fb37012e3301b37c552e600e2aab19df45ebc))
+* **deps:** bump next to 16.4.5 (security) ([#205](https://github.com/forbiddenlink/elizabethannstein/issues/205)) ([f025fa7](https://github.com/forbiddenlink/elizabethannstein/commit/f025fa75be48d0b557b048c3343c3ecc86f85cb7))
+* drop personal email fallback from contact route ([#211](https://github.com/forbiddenlink/elizabethannstein/issues/211)) ([e0395bd](https://github.com/forbiddenlink/elizabethannstein/commit/e0395bd743a1d6b4e70818fdb872a79d08da6c4b))
+* **guide:** keep chat requests within the route's limits ([#208](https://github.com/forbiddenlink/elizabethannstein/issues/208)) ([c4f292d](https://github.com/forbiddenlink/elizabethannstein/commit/c4f292dd2504ab4c4ea1a2090fcfb8b11aa0a6f7))
+
 ## [1.11.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.1...v1.11.2) (2026-11-07)
 
 
