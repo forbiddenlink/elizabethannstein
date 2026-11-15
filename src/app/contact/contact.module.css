@@ -108,6 +108,9 @@
 }
 
 .specValue a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   color: var(--le-ink);
   text-decoration: underline;
   text-decoration-color: var(--le-rule);
