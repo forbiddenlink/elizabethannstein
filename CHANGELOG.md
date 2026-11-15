@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.11.4](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.3...v1.11.4) (2026-11-15)
+
+
+### Bug Fixes
+
+* **a11y,perf:** name featured cards from visible text; no palette prefetch on touch ([#214](https://github.com/forbiddenlink/elizabethannstein/issues/214)) ([691bc98](https://github.com/forbiddenlink/elizabethannstein/commit/691bc98b48c2a554d517f05512f319aafafd9cba))
+* **content:** make role and project claims literally accurate ([#212](https://github.com/forbiddenlink/elizabethannstein/issues/212)) ([6be5c6b](https://github.com/forbiddenlink/elizabethannstein/commit/6be5c6bc5467da3eba9e74a45a79b8df3dafd082))
+
 ## [1.11.3](https://github.com/forbiddenlink/elizabethannstein/compare/v1.11.2...v1.11.3) (2026-11-14)
 
 
