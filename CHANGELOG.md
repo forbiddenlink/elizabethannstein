@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.12.1...v1.12.2) (2026-11-15)
+
+
+### Bug Fixes
+
+* **home:** 44px filter chips on the contents list ([#217](https://github.com/forbiddenlink/elizabethannstein/issues/217)) ([8c4e121](https://github.com/forbiddenlink/elizabethannstein/commit/8c4e121256173ad39d39782c36c92b1cd34356a6))
+
 ## [1.12.1](https://github.com/forbiddenlink/elizabethannstein/compare/v1.12.0...v1.12.1) (2026-11-15)
 
 
