@@ -3,12 +3,14 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 const palette = vi.hoisted(() => ({ loaded: vi.fn() }))
 
+const NoopPalette = () => null
+
 async function renderLoader() {
   vi.resetModules()
   // doMock (not a hoisted mock) so each test gets a fresh factory call to count.
   vi.doMock('@/components/ui/CommandPalette', () => {
     palette.loaded()
-    return { CommandPalette: () => null }
+    return { CommandPalette: NoopPalette }
   })
   const { CommandPaletteLoader } = await import('@/components/ui/CommandPaletteLoader')
   render(<CommandPaletteLoader />)

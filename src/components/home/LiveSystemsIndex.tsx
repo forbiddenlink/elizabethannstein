@@ -329,10 +329,7 @@ export function LiveSystemsIndex({
             <ol className={styles.features}>
               {FEATURED.map((f, i) => (
                 <li key={f.id}>
-                  <Link
-                    href={`/work/${f.id}`}
-                    className={styles.feature}
-                  >
+                  <Link href={`/work/${f.id}`} className={styles.feature}>
                     <ProjectPlate
                       flagship={f}
                       project={featuredProjects[f.id]}
@@ -341,12 +338,8 @@ export function LiveSystemsIndex({
                     />
                     <div className={styles.featureText}>
                       <p className={styles.who}>{whoLine(f)}</p>
-                      <h3 className={styles.featureTitle}>
-                        {f.title}
-                      </h3>
-                      <p className={styles.featureDesc}>
-                        {f.summary}
-                      </p>
+                      <h3 className={styles.featureTitle}>{f.title}</h3>
+                      <p className={styles.featureDesc}>{f.summary}</p>
                       {f.metrics.length > 0 && (
                         <dl className={styles.facts}>
                           {f.metrics.map((m) => (
