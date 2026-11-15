@@ -31,6 +31,11 @@ export function CommandPaletteLoader() {
    */
   useEffect(() => {
     if (loaded) return
+    // The palette opens only from Cmd/Ctrl+K. A touch device has no such key, so
+    // warming it there downloads GSAP and the whole project catalogue that
+    // nothing will ever open (Lighthouse mobile: 610 ms of unused JavaScript on
+    // the home page). Keep the warm-up for pointer-and-keyboard devices.
+    if (!globalThis.matchMedia?.('(hover: hover) and (pointer: fine)').matches) return
     const idle = globalThis.requestIdleCallback
     const warm = () => {
       void loadCommandPalette()
