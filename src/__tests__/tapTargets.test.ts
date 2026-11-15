@@ -14,10 +14,14 @@ function minHeightRem(file: string, selector: string): number {
 
 describe('filter chip tap targets', () => {
   it('home contents chips are at least 44px tall', () => {
-    expect(minHeightRem('src/components/home/ContentsList.module.css', '.chip')).toBeGreaterThanOrEqual(2.75)
+    expect(
+      minHeightRem('src/components/home/ContentsList.module.css', '.chip')
+    ).toBeGreaterThanOrEqual(2.75)
   })
 
   it('work page chips are at least 44px tall', () => {
-    expect(minHeightRem('src/components/work/WorkPageClient.module.css', '.chip')).toBeGreaterThanOrEqual(2.75)
+    expect(
+      minHeightRem('src/components/work/WorkPageClient.module.css', '.chip')
+    ).toBeGreaterThanOrEqual(2.75)
   })
 })
