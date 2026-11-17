@@ -3,14 +3,14 @@ name: Dependabot auto-merge
 # squash-merges patch + minor dependabot PRs. Major updates stay manual.
 # Uses pull_request_target so the GITHUB_TOKEN runs in the base-branch context
 # (required for dependabot/fetch-metadata to read commit metadata without a 403).
-# Safe: gated on github.actor == 'dependabot[bot]'; no PR code is checked out or executed.
+# Safe: gated on the PR author (github.event.pull_request.user.login) being dependabot[bot]; no PR code is checked out or executed.
 on: pull_request_target
 permissions:
   contents: write
   pull-requests: write
 jobs:
   automerge:
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - name: Dependabot metadata
