@@ -71,12 +71,16 @@ test.describe('Homepage Smoke Tests', () => {
   test('command palette opens with CMD+K', async ({ page }) => {
     await gotoHomeReady(page)
 
-    // Open command palette
-    await page.keyboard.press('Meta+k')
-
-    // Should see the search input
-    const searchInput = page.locator('.command-palette-modal input[type="text"]')
-    await expect(searchInput).toBeVisible({ timeout: 5000 })
+    // gotoHomeReady returns at domcontentloaded, which can be before hydration
+    // attaches the Cmd+K listener, and a press sent then is dropped. Press again
+    // only while the palette is not mounted: once it is, another press would
+    // toggle it shut.
+    const palette = page.locator('.command-palette-modal')
+    const searchInput = palette.locator('input[type="text"]')
+    await expect(async () => {
+      if ((await palette.count()) === 0) await page.keyboard.press('Meta+k')
+      await expect(searchInput).toBeVisible({ timeout: 1000 })
+    }).toPass({ timeout: 10_000 })
     await argosScreenshot(page, 'command-palette-open')
   })
 
