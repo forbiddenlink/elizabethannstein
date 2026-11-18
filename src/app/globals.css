@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 @import "../styles/editorial.css";
 
 /* Actually render the loaded webfonts. Onest + Spline Sans Mono are loaded in
