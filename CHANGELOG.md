@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.3](https://github.com/forbiddenlink/elizabethannstein/compare/v1.12.2...v1.12.3) (2026-11-18)
+
+
+### Bug Fixes
+
+* **ui:** load tw-animate-css so animate-in/fade-in/zoom-in classes compile ([#226](https://github.com/forbiddenlink/elizabethannstein/issues/226)) ([421a5c7](https://github.com/forbiddenlink/elizabethannstein/commit/421a5c7e7aa0bef6c09061b11c9b4a0a3f5507ea))
+
 ## [1.12.2](https://github.com/forbiddenlink/elizabethannstein/compare/v1.12.1...v1.12.2) (2026-11-15)
 
 
